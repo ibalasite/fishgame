@@ -11,6 +11,7 @@
 | 版本 | 1.0.0 |
 | 狀態 | IN REVIEW |
 | 作者 | Visual Designer + Brand Designer + Design System Engineer |
+| 審查者 | Art Director（待指定）/ Brand Strategist（待指定）/ Frontend Architect（待指定）|
 | 上游文件 | BRD-FISHGAME-20260424 · PRD-FISHGAME-20260424 · PDD-FISHGAME-20260424 |
 | 建立日期 | 2026-04-25 |
 | 目標平台 | Cocos Creator 3.x · iOS / Android · H5 WebGL |
@@ -74,6 +75,17 @@
 參考象限：[奢華 ↑] × [電玩街機 →]
 ```
 
+### 1.4 Visual Hierarchy Rules
+
+視覺層次透過以下 4 個維度雙重編碼，確保玩家在任何場景下 ≤1 秒內辨識資訊優先級：
+
+| 維度 | 規則 | 說明 |
+|------|------|------|
+| **Scale Contrast（尺寸對比）** | text-h1（32px）≥ text-body（16px）× 2；Jackpot 倍率數字 56px 為全局最高層級 | 核心獎勵資訊以最大字號佔據視覺焦點，輔助資訊逐級縮小，禁止出現相鄰層級尺寸差 < 4px 的情況 |
+| **Weight Contrast（字重對比）** | 核心 CTA 文字使用 `font-weight-700`；輔助說明文字使用 `font-weight-400`；品牌名稱與獎勵倍率數字使用 `font-weight-900` | 字重梯度遵循：900（獎勵爆字）→ 700（行動按鈕 / 面板標題）→ 600（卡片標題）→ 400（正文說明） |
+| **Color Emphasis（色彩強調）** | 主要操作使用 `color-action-primary`（#F5C842）；狀態告知使用 `color-feedback-*` 系列；背景層使用 `color-bg-base`（#051428）| 金色 = 可行動；霓虹青 = 資訊/次要；紅色 = 危急/錯誤；白色 = 內容；深藍 = 容器/背景；同層級禁止同時使用兩種強調色 |
+| **Whitespace Rhythm（留白節奏）** | 卡片內部 padding：`spacing-16`（16px）；卡片之間間距：`spacing-12`（12px）；頁面左右邊距：`spacing-16`（mobile）/ `spacing-24`（tablet） | 留白不應均等分布，應透過疏密對比強化分組感；核心操作區（CTA 按鈕上下）留白應比一般元素多 50% |
+
 ---
 
 ## §2 Art Direction
@@ -102,7 +114,7 @@
 
 #### 參考圖片清單（視覺方向錨定）
 
-> 具體 Figma 連結由設計師建立後補充（deadline: 2026-05-15）。以下為每個方向的具體視覺描述與借鑑要素。
+> 具體 Figma 連結待確認（見 OQ-10）。以下為每個方向的具體視覺描述與借鑑要素。
 
 | # | 視覺方向 | 具體描述 | 重點借鑑元素 |
 |---|---------|---------|------------|
@@ -130,7 +142,7 @@
 |---------|---------|---------|
 | **多巴胺刺激感** | 金色爆字（text-multiplier 56px font-weight-900）+ 霓虹青光暈（--shadow-glow-neon）+ 高飽和金幣粒子爆炸 | 快速緩動 80ms expo-out；擊殺數字 scale 0→1.2→1.0 彈入；金幣粒子初速 600–1200 px/s |
 | **奢華地位感** | 深海藍底（#051428）+ 金色細線邊框（1px rgba(245,200,66,0.3)）+ 磨砂玻璃面板 + 負字距（-0.3 to -0.5px）| 慢速進場 500ms easing-ease-out；VIP 光暈 6s 緩慢旋轉 loop；面板 backdrop-blur 8px |
-| **競技緊張感** | 高對比警示紅（#FF4444）+ Boss 血條危急時變色（#00FF88→#FF4444）+ 計時器等寬字體（font-mono）| Boss 進場全屏震動 2s；計時器後 10 秒紅色脈衝；連擊提示 「COMBO x{n}」600ms 衝屏 |
+| **競技緊張感** | 高對比警示紅（#FF4444）+ Boss 血條危急時變色（#00FF88→#FF4444）+ 計時器等寬字體（font-mono）<br>**視覺參考錨點**：日式格鬥遊戲 HUD（KOF／SF6 血條）的高對比警示設計——紅色緊迫色 + 等寬數字字體 + 邊框閃爍特效；以及彈珠台／柏青哥計時器的倒計時壓迫感（高亮倒數格、分段警示色、快速閃爍節奏） | Boss 進場全屏震動 2s；計時器後 10 秒紅色脈衝；連擊提示 「COMBO x{n}」600ms 衝屏 |
 
 ### 2.5 場景美術規格
 
@@ -180,6 +192,7 @@
 | color-text-secondary | rgba(255,255,255,0.6) | composited #9BA1A9 | 次要文字（6.8:1 AA） |
 | color-text-disabled | rgba(255,255,255,0.35) | composited #6D7178 | 禁用文字（3.5:1 AA） |
 | color-action-primary | color-gold-400 | #F5C842 | CTA 按鈕（7.2:1 AAA） |
+| color-action-primary-active | color-gold-600 | #C99A00 | 按鈕按下（Active Press）狀態 |
 | color-action-secondary | color-neon-blue | #00D4FF | 次要行動（8.9:1 AAA） |
 | color-feedback-success | color-neon-green | #00FF88 | 成功狀態（14.1:1 AAA） |
 | color-feedback-error | color-red-500 | #FF4444 | 失敗/錯誤（4.6:1 AA） |
@@ -381,7 +394,7 @@
 
 #### 圖示按鈕（Icon Button）
 
-**尺寸**：40×40 px，圓角 20 px（圓形），觸控熱區 ≥ 44×44 px
+**尺寸**：40×40 px，圓角 `--radius-icon`（20 px，圓形），觸控熱區 ≥ 44×44 px
 
 #### 危險按鈕（Danger Button）
 
@@ -432,6 +445,22 @@
 | 標籤字級 | text-caption 11px |
 | 選中狀態 | 圖示 #F5C842，標籤 #F5C842，底部 3px #F5C842 高亮條 |
 | 未選中狀態 | 圖示 rgba(255,255,255,0.5)，標籤 rgba(255,255,255,0.5) |
+
+### 5.8 Dropdown 元件規格
+
+Dropdown 用於語言切換、圖形品質選擇、房間篩選等場景。所有值引用 Semantic Token。
+
+#### 狀態視覺矩陣
+
+| 狀態 | 背景 | 邊框 | 文字色 | 說明 |
+|------|------|------|-------|------|
+| Default | `color-bg-surface`（#0A2340） | 1px solid `color-border-default`（rgba(255,255,255,0.45)） | `color-text-primary`（#FFFFFF） | 預設收起狀態 |
+| Hover | `color-bg-elevated`（#0D3360） | 1px solid `color-border-focus`（#F5C842） | `color-text-primary` | 滑鼠懸停 / 觸控長按前 |
+| Open（展開） | `color-bg-elevated`（#0D3360） | 2px solid `color-border-focus`（#F5C842） | `color-text-primary` | Dropdown list 顯示；list container 使用 `shadow-md`（0 8px 32px rgba(0,0,0,0.6)） |
+| Selected（選中項） | `color-action-primary`（#F5C842） | 無 | `color-bg-base`（#051428，深色反白） | List item 已選中行，高亮區分 |
+| Disabled | `color-bg-surface` opacity 40% | 1px solid `color-border-default` opacity 40% | `color-text-disabled` | 不可交互；cursor: not-allowed；pointer-events: none |
+
+**尺寸規格**：高度 48 px，水平 Padding 16 px，圓角 `--radius-md`（16 px）；Dropdown list 最大高度 240 px（超出時啟用 ScrollView）
 
 ---
 
@@ -525,7 +554,7 @@
 --radius-sm:  8px;
 --radius-md:  16px;
 --radius-lg:  24px;
---radius-xl:  20px;
+--radius-icon: 20px;   /* Component-specific：圖示按鈕圓角（視覺圓形，低於 lg=24px 以貼合 40×40px 尺寸比例） */
 --radius-full: 9999px;
 
 /* ── Motion ── */
@@ -1212,6 +1241,7 @@ Y=840  ~ Y=1280: 底部安全區
 | OQ-07 | 是否需要支援 RTL（阿拉伯語等）市場？當前版面全為 LTR 設計。 | Low | Q3 評估 |
 | OQ-08 | Boss 有幾隻？每個場景輪換還是固定？需確認以安排完整 Boss 視覺製作。 | High | Sprint 2 前 |
 | OQ-09 | 主角 Captain Triton 及神話生物（§4.4 NPC-04）設計方向是否確認？包含視覺特徵、配色方案、技能數量。決策人：遊戲設計師，deadline: 2026-05-15 | High | 2026-05-15 |
+| OQ-10 | Figma File URL 及 P0 元件 Frame 連結待確認。決策人：設計師，deadline: 2026-05-15 | Medium | 2026-05-15 |
 
 ---
 
@@ -1227,8 +1257,8 @@ Y=840  ~ Y=1280: 底部安全區
 | Token 交付 | Style Dictionary JSON 格式（提交 `design-tokens/tokens.json`）|
 | 標注工具 | Figma Inspect（內建） |
 | 版本管理 | Figma Branch per Sprint |
-| **Figma File URL** | （待設計師建立，deadline: 2026-05-15）|
-| **P0 元件 Frame 連結** | （待設計師命名並分享後填入）|
+| **Figma File URL** | 見 OQ-10 |
+| **P0 元件 Frame 連結** | 見 OQ-10 |
 | **Auto Layout 使用狀態** | 所有 Component 使用 Auto Layout，Spacing 引用 Token |
 | **Dev Mode 交付方式** | Figma Dev Mode + Handoff 說明文件 |
 
@@ -1251,7 +1281,7 @@ Y=840  ~ Y=1280: 底部安全區
 export const Colors = {
   // Primitive
   goldPrimary: '#F5C842',
-  goldHover:   '#FFD96A',
+  goldHover:   '#C99A00',   // color-gold-600 / color-action-primary-hover
   goldActive:  '#C99A00',
   oceanBase:   '#051428',
   oceanSurface:'#0A2340',
@@ -1390,7 +1420,32 @@ function playJackpotMultiplier(node: Node, multiplier: number) {
 
 ---
 
-## §14 Approval Sign-off
+## §14 Brand Extension Guidelines
+
+> 目前 FishGame 僅有主品牌，尚無子品牌或聯名合作。本章為空白框架，具體規則待 v2.0 補充。
+
+### 14.1 子品牌規範（Sub-brand Framework）
+
+| 項目 | 規則 |
+|------|------|
+| 品牌識別組合 | 副標題 + 主 Logo 並排；副標文字位於主 Logo 右側或下方 |
+| 字型限制 | 副標字型不得修改主品牌字型系統（Noto Sans TC / Oswald / Roboto Mono）；副標可使用 Noto Sans TC 的不同字重 |
+| 色彩使用 | 子品牌強調色可在季節限定範圍內調整（參見 §13.1），但 `--color-ocean-900` / `--color-gold-400` 主色系不可替換 |
+| 具體細則 | 待 v2.0 補充 |
+
+### 14.2 聯名合作規範（Co-branding Framework）
+
+| 項目 | 規則 |
+|------|------|
+| 合作方 Logo 位置 | 置於畫面右側（橫排）或下方（直排），與主 Logo 保持對等視覺重量 |
+| 最小尺寸 | 合作方 Logo 高度 ≥ 主 Logo 高度 × 0.8（不得小於主 Logo） |
+| 間距 | 主 Logo 與合作方 Logo 之間以分隔線（1px，rgba(255,255,255,0.3)）或等寬空白（≥ 主 Logo 高度）區隔 |
+| 禁止用法 | 不得使合作方 Logo 壓過主 Logo；不得在合作版本中移除主品牌金色主色系 |
+| 具體細則 | 待有聯名項目時由品牌設計師補充至 v2.0 |
+
+---
+
+## §15 Approval Sign-off
 
 | 角色 | 姓名 | 簽核日期 | 狀態 | 意見 |
 |------|------|---------|------|------|
