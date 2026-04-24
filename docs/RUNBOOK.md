@@ -1179,8 +1179,9 @@ aws elasticache describe-replication-groups \
 # Expected: Status="available"，記錄 ConfigurationEndpoint
 
 # Step 3: 驗證新 cluster 資料（在更新連線前）
-redis-cli -h <new-config-endpoint> -p 6379 -c KEYS "jackpot*"
-# Expected: 列出 jackpot 相關 keys（確認 snapshot 資料完整性）
+# ⚠️ 警告：不可使用 KEYS 命令（會阻塞 Redis），使用 SCAN 替代
+redis-cli -h <new-config-endpoint> -p 6379 -c --scan --pattern "jackpot*"
+# Expected: 列出 jackpot 相關 keys（確認 snapshot 資料完整性，非阻塞）
 
 # Step 4: 更新應用連線（k8s Secret 更新）
 kubectl patch secret redis-credentials -n fishing-arcade-prod \
