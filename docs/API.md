@@ -1617,7 +1617,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PurchaseRequest'
       responses:
-        '200':
+        '201':
           description: 充值成功
           content:
             application/json:
