@@ -187,16 +187,16 @@ graph TD
     NginxIngress -->|"WSS ws://"| GameSvc
     NginxIngress -->|"HTTP /v1/shop/*"| ShopSvc
     NginxIngress -->|"HTTP /v1/admin/*"| AdminSvc
-    AccountSvc --> MySQL
-    AccountSvc --> Redis
-    GameSvc --> MySQL
-    GameSvc --> Redis
-    ShopSvc --> MySQL
-    ShopSvc --> Redis
-    AdminSvc --> MySQL
-    AccountSvc --> Unleash
-    GameSvc --> Unleash
-    ShopSvc --> Unleash
+    AccountSvc -->|"MySQL TLS :3306 READ/WRITE"| MySQL
+    AccountSvc -->|"Redis TLS :6379 GET/SET/DEL"| Redis
+    GameSvc -->|"MySQL TLS :3306 INSERT fish_kills"| MySQL
+    GameSvc -->|"Redis TLS :6379 INCR/LUA SCRIPT"| Redis
+    ShopSvc -->|"MySQL TLS :3306 READ/WRITE"| MySQL
+    ShopSvc -->|"Redis TLS :6379 GET/SET"| Redis
+    AdminSvc -->|"MySQL TLS :3306 READ/WRITE"| MySQL
+    AccountSvc -->|"HTTP :4242 GET flags"| Unleash
+    GameSvc -->|"HTTP :4242 GET flags"| Unleash
+    ShopSvc -->|"HTTP :4242 GET flags"| Unleash
 ```
 
 ### 3.3 C4 Model — Component（L3 — Game Service 內部）
@@ -338,6 +338,28 @@ State Sync：Colyseus Schema Delta Sync（只傳送變更欄位，減少 40–60
 重連：Colyseus reconnect() API + 30s 窗口（逾時 Bot 取代）
 ```
 
+### 5.4 資料一致性策略
+
+**一致性模型選擇**：Modular Monolith Phase 1–2 採用「跨 BC Eventual Consistency + BC 內 Strong Consistency（ACID）」的混合模型。
+
+| 場景 | 一致性模型 | 實作方式 | 失敗補償 |
+|------|----------|---------|---------|
+| BC 內事務（單 Service DB 寫）| Strong（ACID）| Prisma Transaction + MySQL InnoDB | 自動 Rollback |
+| 跨 BC 事件（Redis Pub/Sub）| Eventual | Domain Event + Consumer 冪等（UUID event_id）| 重試：Consumer 重啟時重消費（注意：Redis Pub/Sub 無持久化）|
+| Jackpot 扣款（原子操作）| Strong（Redis Atomic）| Redis Lua Script（原子鎖 + INCR）| Lua Script 失敗 → 不扣款（fail-safe）|
+| IAP 充值（外部 → 內部）| Eventual + 補償 | ShopSvc 驗證 Receipt → 發 IAPPurchaseCompleted Event | Circuit Breaker + 訂單 PENDING → 異步重試最多 3 次 |
+
+**Redis Pub/Sub 消息丟失緩解方案**（Phase 1–2）：
+
+> Redis Pub/Sub 是 Fire-and-Forget，Consumer 離線期間消息不存儲。緩解措施：
+> 1. **雙寫策略**：GameSvc 在 `fish_kills` 表寫入結算記錄（Strong Consistency）；Commerce BC Consumer 消費事件更新 `users.gold_balance`
+> 2. **對帳機制**：每日 03:00 UTC 執行 `fish_kills` 與 `users.gold_balance` 差異對帳 Job，發現不一致自動補帳並告警
+> 3. **Phase 3 升級觸發**：若消息堆積 Consumer Lag > 1s（Prometheus 監控），評估遷移至 NATS JetStream（持久化 + 消費者組）
+
+**跨 BC 事務邊界劃定（Trade-off 決策）**：
+
+不引入 Saga Orchestration Pattern（Phase 1–2）。理由：3–5 人團隊，Saga Coordinator 引入複雜度過高；Pub/Sub + 冪等 + 對帳足以覆蓋當前業務規模。Phase 3 若引入 Microservices，重新評估 Saga Choreography 或 Transactional Outbox。
+
 ---
 
 ## 6. 資料分層
@@ -365,6 +387,27 @@ State Sync：Colyseus Schema Delta Sync（只傳送變更欄位，減少 40–60
 ### 6.3 讀寫分離策略（Phase 2+）
 
 Phase 1–2 使用 RDS Multi-AZ 單一寫節點。Phase 3 觸發條件：MySQL CPU > 80% 持續 10 分鐘 → 啟用 RDS Read Replica + Prisma 讀寫分離中間件。
+
+### 6.4 CDN 靜態資產架構
+
+**架構**：Cocos Creator 客戶端在啟動時從 CloudFront CDN 拉取遊戲資產（魚貼圖、武器動畫、音效）。
+
+```
+Cocos Client ──HTTPS──> CloudFront Distribution
+                              ↓ Cache Miss
+                          S3 Origin Bucket
+                          (game-assets-prod)
+```
+
+| 項目 | 設定值 | 說明 |
+|------|--------|------|
+| Origin | S3 Bucket: `game-assets-prod` (ap-southeast-1) | 靜態資產來源 |
+| Default Cache TTL | 86,400s（1 天）→ Phase 2 優化為 604,800s（7 天）| 魚貼圖 / 武器動畫不常變動 |
+| Cache-Control 標頭 | `max-age=86400, public` | 客戶端本地快取 |
+| Invalidation 觸發條件 | 遊戲版本發布（CI/CD Pipeline 最後步驟）| `aws cloudfront create-invalidation --paths "/v{VERSION}/*"` |
+| Versioning 策略 | 路徑前綴版本化（`/v1.0.0/fish/carp.png`）| 新版本上傳新路徑，舊 CDN 快取不影響 |
+| HTTPS Only | ViewerProtocolPolicy: redirect-to-https | 強制 HTTPS |
+| Geo 封鎖 | 無（東南亞 + 台灣全開放）| WAF 層處理合規地區封鎖 |
 
 ---
 
@@ -639,7 +682,27 @@ graph TD
 | RTP Circuit Breaker | `circuit_breaker_state{service="rtp-engine"}` | state=closed | state=open 立即 P1 |
 | Jackpot 觸發率 | `rate(jackpot_triggered_total[1h])` | 依設計值 | 異常高於基準 2x → P2 |
 
-### 12.3 Span 命名慣例（OpenTelemetry）
+### 12.3 各服務 Metrics 埋點清單
+
+| 服務 | Metrics 名稱 | 類型 | 標籤 | 說明 |
+|------|------------|------|------|------|
+| Game Service | `colyseus_message_duration_seconds` | Histogram | `room_type`, `operation` | WebSocket 訊息處理延遲（SLO P99 ≤ 100ms）|
+| Game Service | `colyseus_room_count` | Gauge | `status` (active/waiting) | 活躍房間數 |
+| Game Service | `rtp_hit_total` | Counter | `fish_type`, `weapon_type` | 命中次數（RTP 稽核）|
+| Game Service | `jackpot_triggered_total` | Counter | — | Jackpot 觸發次數 |
+| Game Service | `circuit_breaker_state` | Gauge | `service` (rtp-engine/iap) | Circuit Breaker 狀態（0=closed, 1=open）|
+| Account Service | `http_request_duration_seconds` | Histogram | `path`, `method`, `status` | REST API 延遲（SLO P99 ≤ 500ms）|
+| Account Service | `http_requests_total` | Counter | `path`, `status` | 請求總數（Error Rate 計算基礎）|
+| Account Service | `active_sessions_total` | Gauge | — | 活躍 Session 數 |
+| Shop Service | `iap_verification_duration_seconds` | Histogram | `provider` (apple/google) | IAP 驗證延遲 |
+| Shop Service | `iap_verification_total` | Counter | `provider`, `result` (success/fail) | IAP 驗證成功 / 失敗計數 |
+| Admin Service | `http_request_duration_seconds` | Histogram | `path`, `status` | 管理後台 API 延遲 |
+| 所有服務 | `nodejs_heap_used_bytes` | Gauge | — | Node.js Heap 使用量（OOM 預警）|
+| 所有服務 | `process_cpu_seconds_total` | Counter | — | CPU 使用率（HPA 觸發基礎）|
+
+**埋點實作方式**：使用 `prom-client`（Node.js）暴露 `/metrics` endpoint；Prometheus Scrape Config 掃描所有 Pod 的 `:3000/metrics`。
+
+### 12.4 Span 命名慣例（OpenTelemetry）
 
 ```
 <service>.<domain>.<operation>
