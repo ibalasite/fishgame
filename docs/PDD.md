@@ -1564,19 +1564,28 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-black-80` | `rgba(0,0,0,0.8)` |
 | `color-vip-silver` | `#C0C0C0` |
 | `color-vip-gold` | `#FFD700` |
+| `color-vip-platinum` | `#E5E4E2` |
+| `color-vip-ruby` | `#FF1744` |
 | `color-vip-rainbow-start` | `#FF0080`（品牌霓虹粉，取代標準 RGB 彩虹） |
 | `color-vip-rainbow-mid` | `#00D4FF`（品牌霓虹青） |
 | `color-vip-rainbow-end` | `#00FF88`（品牌霓虹綠） |
 | `font-size-12` | `12px` |
 | `font-size-14` | `14px` |
+| `font-size-16` | `16px` |
 | `font-size-18` | `18px` |
+| `font-size-20` | `20px` |
 | `font-size-24` | `24px` |
+| `font-size-28` | `28px` |
+| `font-size-32` | `32px` |
 | `font-size-36` | `36px` |
 | `font-size-48` | `48px` |
+| `font-size-56` | `56px` |
 | `font-family-primary` | `'Noto Sans TC', 'Roboto', sans-serif` |
 | `font-weight-regular` | `400` |
 | `font-weight-medium` | `500` |
+| `font-weight-semibold` | `600` |
 | `font-weight-bold` | `700` |
+| `font-weight-black` | `900` |
 | `line-height-tight` | `1.2` |
 | `line-height-normal` | `1.5` |
 | `line-height-loose` | `1.8` |
