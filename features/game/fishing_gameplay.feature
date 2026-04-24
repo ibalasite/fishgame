@@ -53,7 +53,7 @@ Feature: 捕魚遊戲核心玩法與結算
     Then 玩家獲得保底獎勵 10 金幣
     And 金幣餘額更新為 510
 
-  @p0 @regression @api @TC-E2E-ROOM-001-S
+  @p0 @regression @api @TC-E2E-ROOM-005-S @websocket
   Scenario: 遊戲結束後顯示積分排名，最高分獲得 MVP 標記
     Given 房間 4 位玩家遊戲結束，各自積分為 200、150、180、90
     When 服務端發送 game_ended 事件
@@ -63,14 +63,14 @@ Feature: 捕魚遊戲核心玩法與結算
 
   # ─── 錯誤路徑 ───────────────────────────────────────────
 
-  @p0 @regression @api @contract @TC-INT-FISH-006-B
+  @p0 @regression @api @contract @TC-INT-FISH-006-B @websocket
   Scenario: 遊戲未開始時發送射擊事件被忽略
     Given 房間狀態為 "waiting"（遊戲未開始）
     When 玩家發送 fire WebSocket 事件
     Then 服務端回傳 onMessage "error"，訊息為 "GAME_NOT_STARTED"
     And 金幣餘額不變
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-FISH-007-E @websocket
   Scenario: 射擊目標魚已被其他玩家擊殺時返回魚種不存在
     Given 房間中某條魚 fish_id="fish-001" 已被玩家 B 擊殺
     When 玩家 A 發送 fire 事件，目標 target_id="fish-001"
@@ -79,7 +79,7 @@ Feature: 捕魚遊戲核心玩法與結算
 
   # ─── 邊界條件 ───────────────────────────────────────────
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-FISH-008-B
   Scenario Outline: 不同魚種倍率邊界條件驗證
     Given 房間中出現 <fish_type>（倍率 <multiplier>x）
     And 玩家使用 <weapon>（Weapon Multiplier=<weapon_mult>）命中

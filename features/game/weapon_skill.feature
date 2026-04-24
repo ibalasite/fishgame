@@ -15,7 +15,7 @@ Feature: 武器選擇與技能系統
 
   # ─── 正常路徑 ───────────────────────────────────────────
 
-  @p0 @smoke @regression @api @contract @TC-E2E-WPSK-001-S
+  @p0 @smoke @regression @api @contract @TC-E2E-WPSK-001-S @websocket
   Scenario: 玩家選擇雷射炮後消費對應費用並生效
     Given 房間提供 4 種武器：散彈炮（費用 10）、雷射炮（費用 30）、導彈炮（費用 50）、等離子炮（費用 100）
     When 玩家透過 WebSocket 發送 weapon_select，weapon_id="laser_cannon"
@@ -23,7 +23,7 @@ Feature: 武器選擇與技能系統
     And 服務端廣播玩家武器狀態更新 weapon="laser_cannon"
     And 玩家後續射擊倍率為 3x
 
-  @p0 @regression @api @TC-INT-WPSK-002-S
+  @p0 @regression @api @TC-INT-WPSK-002-S @websocket
   Scenario: 技能冷卻期間無法重複使用同一技能
     Given 玩家已使用冰凍技能（cooldown=3 秒）
     When 玩家在 2 秒後再次嘗試使用冰凍技能
@@ -38,7 +38,7 @@ Feature: 武器選擇與技能系統
     Then 服務端接受技能請求並廣播 skill_activated 事件
     And 房間內所有魚速度降低（frozen_duration=3 秒）
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-WPSK-005-S
   Scenario: 全屏炸彈技能命中所有存活魚並結算獎勵
     Given 房間中有 10 條存活魚，玩家使用全屏炸彈技能（cooldown=5 秒）
     When 玩家發送 skill_activate，skill_id="aoe_bomb"
@@ -48,28 +48,28 @@ Feature: 武器選擇與技能系統
 
   # ─── 錯誤路徑 ───────────────────────────────────────────
 
-  @p0 @regression @api @contract @TC-UNIT-WPSK-004-E
+  @p0 @regression @api @contract @TC-UNIT-WPSK-004-E @websocket
   Scenario: 金幣不足時選擇高費用武器被拒絕
     Given 玩家金幣餘額僅剩 20
     When 玩家嘗試選擇費用為 50 的導彈炮
     Then 服務端回傳 onMessage "error"，訊息為 "INSUFFICIENT_COINS"
     And 玩家武器保持原有設定，金幣不扣除
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-WPSK-006-E @websocket
   Scenario: 非 VIP 玩家嘗試使用 VIP 專屬武器升級被拒絕（US-WPSK-001/AC-4）
     Given 玩家 vip_tier=0（非 VIP）
     When 玩家嘗試裝備 VIP 專屬強化版武器 "laser_cannon_vip"
     Then 服務端回傳 onMessage "error"，訊息為 "VIP_REQUIRED"
     And 武器未升級
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-WPSK-007-S
   Scenario: VIP 玩家可成功裝備 VIP 專屬強化武器（US-WPSK-001/AC-4）
     Given 玩家 vip_tier=1（VIP 月費訂閱有效）
     When 玩家發送 weapon_select，weapon_id="laser_cannon_vip"
     Then 服務端廣播武器升級成功
     And 玩家後續射擊倍率為 5x（VIP 強化）
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-WPSK-008-E
   Scenario: 遊戲未開始時選擇武器被拒絕
     Given 房間狀態為 "waiting"（遊戲未開始）
     When 玩家發送 weapon_select 事件
@@ -77,7 +77,7 @@ Feature: 武器選擇與技能系統
 
   # ─── 邊界條件 ───────────────────────────────────────────
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-WPSK-009-B
   Scenario Outline: 技能冷卻邊界條件
     Given 玩家已使用 <skill>，冷卻時間為 <cooldown> 秒
     When 玩家在 <elapsed> 秒後嘗試再次使用

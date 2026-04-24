@@ -23,14 +23,14 @@ Feature: VIP 月費訂閱系統
     And 玩家 diamond_balance 更新為 70
     And 資料庫 users.vip_tier=1，vip_expires_at 正確設定
 
-  @p1 @regression @api @TC-INT-VIP-002-S
+  @p1 @regression @api @TC-INT-VIP-008-S
   Scenario: VIP 訂閱後可解鎖 VIP 專屬武器升級（US-WPSK-001/AC-4）
     Given 玩家已成功訂閱 VIP，vip_tier=1
     When 玩家在遊戲房間發送 weapon_select，weapon_id="laser_cannon_vip"
     Then 服務端廣播武器升級成功
     And 玩家後續射擊倍率為 VIP 強化值（5x）
 
-  @p1 @regression @api
+  @p1 @regression @api @TC-INT-VIP-002-S
   Scenario: VIP 訂閱後次日補貼 5 鑽石
     Given 玩家已訂閱 VIP，vip_tier=1，當前鑽石餘額 70
     When 24 小時後系統執行每日補貼 Job
@@ -39,7 +39,7 @@ Feature: VIP 月費訂閱系統
 
   # ─── 錯誤路徑 ───────────────────────────────────────────
 
-  @p1 @regression @api @contract @TC-INT-VIP-003-E
+  @p1 @regression @api @contract @TC-INT-VIP-009-E
   Scenario: 鑽石不足 30 顆時訂閱 VIP 被拒絕
     Given 玩家 diamond_balance=20（不足 30）
     When 玩家嘗試發送 POST /v1/vip/subscriptions，plan_id="vip_monthly"
@@ -47,7 +47,7 @@ Feature: VIP 月費訂閱系統
     And 回應錯誤碼為 "INSUFFICIENT_DIAMONDS"
     And 鑽石餘額未扣除，vip_tier 未變更
 
-  @p1 @regression @api @contract
+  @p1 @regression @api @contract @TC-INT-VIP-004-E
   Scenario: 已是活躍 VIP 時重複訂閱返回衝突錯誤
     Given 玩家已訂閱 VIP，vip_expires_at 在未來（訂閱有效）
     When 玩家再次嘗試發送 POST /v1/vip/subscriptions
@@ -55,7 +55,7 @@ Feature: VIP 月費訂閱系統
     And 回應錯誤碼為 "VIP_ALREADY_ACTIVE"
     And 鑽石未扣除
 
-  @p1 @regression @api @contract
+  @p1 @regression @api @contract @TC-INT-VIP-005-E
   Scenario: 重複的 Idempotency-Key 訂閱返回 409 並回傳原始訂閱
     Given Idempotency-Key="vip-idem-001" 已被成功用於建立訂閱 sub_id="SUB-001"
     When 玩家以相同 Idempotency-Key="vip-idem-001" 再次發送訂閱請求
@@ -64,7 +64,7 @@ Feature: VIP 月費訂閱系統
     And 回應包含 original_subscription_id="SUB-001"
     And 鑽石未重複扣除
 
-  @p1 @regression @api
+  @p1 @regression @api @TC-INT-VIP-006-E
   Scenario: 未帶 JWT Token 的訂閱請求被拒絕
     Given 請求未包含 Authorization header
     When 匿名使用者發送 POST /v1/vip/subscriptions
@@ -73,14 +73,14 @@ Feature: VIP 月費訂閱系統
 
   # ─── 邊界條件 ───────────────────────────────────────────
 
-  @p1 @regression @api
+  @p1 @regression @api @TC-INT-VIP-003-E
   Scenario: VIP 到期後 vip_tier 自動重置為 0
     Given 玩家 vip_tier=1，vip_expires_at 為昨日（已到期）
     When 系統執行每日 VIP 到期檢查 Job
     Then 玩家 vip_tier 更新為 0
     And 玩家下次使用 VIP 專屬功能時被拒絕（"VIP_REQUIRED"）
 
-  @p1 @regression @api
+  @p1 @regression @api @TC-INT-VIP-007-B
   Scenario Outline: VIP 訂閱前後鑽石餘額邊界驗證
     Given 玩家 diamond_balance=<initial_diamonds>
     When 玩家嘗試訂閱 VIP 月費方案（費用 30 鑽石）

@@ -39,7 +39,7 @@ Feature: 使用者帳號註冊
     Then API 回應狀態碼 409
     And 回應錯誤碼為 "EMAIL_ALREADY_EXISTS"
 
-  @p0 @regression @api @contract @TC-INT-ACCT-004-E
+  @p0 @regression @api @contract @TC-INT-ACCT-017-E
   Scenario: 未勾選同意條款的帳號申請被拒絕
     Given 使用者備好有效的帳號資料
     When 使用者提交 POST /v1/auth/register 但 agree_terms=false
@@ -100,7 +100,7 @@ Feature: 使用者帳號註冊
       | display_name | x                   |
       | birthdate    | 2000-13-01          |
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-ACCT-016-E
   Scenario: Rate Limit — 同一 IP 單分鐘超過 5 次註冊請求返回 429
     Given 同一 IP 在 1 分鐘內已發送 5 次 POST /v1/auth/register
     When 同一 IP 再次發送第 6 次 POST /v1/auth/register

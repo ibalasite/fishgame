@@ -49,7 +49,7 @@ Feature: IAP 鑽石充值與金幣兌換
 
   # ─── 錯誤路徑 ───────────────────────────────────────────
 
-  @p0 @regression @api @contract @TC-INT-SHOP-005-E
+  @p0 @regression @api @contract @TC-INT-SHOP-003-B
   Scenario: 重複的 Idempotency-Key 返回 409 並回傳原始訂單
     Given Idempotency-Key="idem-key-001" 已被成功使用，對應 order_id="ORD-001"
     When 玩家以相同 Idempotency-Key="idem-key-001" 再次發送 POST /v1/shop/purchases
@@ -58,7 +58,7 @@ Feature: IAP 鑽石充值與金幣兌換
     And 回應包含 original_order_id="ORD-001"
     And 鑽石未重複發放
 
-  @p0 @regression @api @contract @TC-INT-SHOP-006-E
+  @p0 @regression @api @contract @TC-INT-SHOP-010-E
   Scenario: 偽造 IAP 收據返回收據無效錯誤
     Given Apple IAP mock 回應 {status:21002}（收據格式錯誤）
     When 玩家發送 POST /v1/shop/purchases，附上偽造 receipt
@@ -73,7 +73,7 @@ Feature: IAP 鑽石充值與金幣兌換
     Then API 回應狀態碼 401
     And 回應錯誤碼為 "UNAUTHORIZED"
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-SHOP-005-E
   Scenario: IAP Circuit Breaker 觸發後返回服務不可用
     Given Apple IAP 服務連續失敗次數已超過 Circuit Breaker 閾值
     When 玩家發送 POST /v1/shop/purchases
@@ -81,14 +81,14 @@ Feature: IAP 鑽石充值與金幣兌換
     And 回應錯誤碼為 "IAP_SERVICE_UNAVAILABLE"
     And 回應包含 retry_after=30（秒）
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-SHOP-006-E
   Scenario: 退款 webhook 將訂單標記為 REFUNDED
     Given 訂單 "ORD-002" 狀態為 "completed"，已發放 330 鑽石
     When Apple 發送退款 webhook，transaction_id 對應 "ORD-002"
     Then 資料庫 orders.status 更新為 "REFUNDED"
     And 玩家 diamond_balance 相應扣除 330（若仍有足夠餘額）
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-AGE-004-E
   Scenario: 年齡驗證未通過的用戶無法進行充值
     Given 玩家 age_verified=false
     When 玩家嘗試發送 POST /v1/shop/purchases
@@ -97,7 +97,7 @@ Feature: IAP 鑽石充值與金幣兌換
 
   # ─── 邊界條件 ───────────────────────────────────────────
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-SHOP-008-B
   Scenario Outline: 不同充值方案的鑽石數量驗證
     Given Apple IAP mock 回應 product_id="<product_id>" 驗證成功
     When 玩家發送 POST /v1/shop/purchases，product_id="<product_id>"
@@ -110,7 +110,7 @@ Feature: IAP 鑽石充值與金幣兌換
       | diamonds_1680   | 1680     |
       | diamonds_5800   | 5800     |
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-SHOP-009-E
   Scenario: Rate Limit — 同一用戶 1 分鐘內超過 5 次充值請求返回 429
     Given 玩家 1 分鐘內已發送 5 次 POST /v1/shop/purchases
     When 玩家發送第 6 次請求

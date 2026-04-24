@@ -13,7 +13,7 @@ Feature: 使用者帳號登入與 JWT 認證
 
   # ─── 正常路徑 ───────────────────────────────────────────
 
-  @p0 @smoke @regression @api @contract
+  @p0 @smoke @regression @api @contract @TC-INT-ACCT-008-S
   Scenario: 有效憑證成功登入並取得雙 Token
     Given 帳號 "player-login@example.com" 存在且未被鎖定
     When 使用者提交 POST /v1/auth/login，email="player-login@example.com"，password="Valid1234!"
@@ -22,7 +22,7 @@ Feature: 使用者帳號登入與 JWT 認證
     And 回應包含 refresh_token（JWT，到期時間 30 天）
     And 資料庫 users.last_login_at 已更新為當前時間
 
-  @p0 @smoke @regression @api @contract
+  @p0 @smoke @regression @api @contract @TC-INT-ACCT-009-S
   Scenario: 使用 Refresh Token 無縫更換 Access Token
     Given 使用者持有有效的 refresh_token（未過期）
     When 使用者提交 POST /v1/auth/refresh，帶上 refresh_token
@@ -30,7 +30,7 @@ Feature: 使用者帳號登入與 JWT 認證
     And 回應包含新的 access_token（有效期重置為 15 分鐘）
     And 舊的 refresh_token 已作廢（replay attack prevention）
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-ACCT-010-S
   Scenario: 成功登出後 Refresh Token 作廢
     Given 使用者已登入，持有有效的 access_token 和 refresh_token
     When 使用者提交 POST /v1/auth/logout，帶上 access_token
@@ -39,7 +39,7 @@ Feature: 使用者帳號登入與 JWT 認證
 
   # ─── 錯誤路徑 ───────────────────────────────────────────
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-ACCT-011-E
   Scenario: 錯誤密碼登入返回認證失敗
     Given 帳號 "player-login@example.com" 存在
     When 使用者提交 POST /v1/auth/login，password="WrongPass!"
@@ -47,7 +47,7 @@ Feature: 使用者帳號登入與 JWT 認證
     And 回應錯誤碼為 "INVALID_CREDENTIALS"
     And 回應不洩漏帳號是否存在
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-ACCT-012-E
   Scenario: 不存在的 email 登入返回認證失敗
     Given email "ghost@example.com" 在系統中不存在
     When 使用者提交 POST /v1/auth/login，email="ghost@example.com"
@@ -63,14 +63,14 @@ Feature: 使用者帳號登入與 JWT 認證
     And 回應包含 Retry-After header，時間 ≥ 3600 秒
     And 回應錯誤碼為 "RATE_LIMITED"
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-ACCT-013-E
   Scenario: 以撤銷的 Refresh Token 刷新 Token 被拒絕
     Given 使用者的 refresh_token 已被撤銷（已登出或已使用一次）
     When 使用者以該 refresh_token 提交 POST /v1/auth/refresh
     Then API 回應狀態碼 401
     And 回應錯誤碼為 "TOKEN_REVOKED"
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-ACCT-014-E
   Scenario: 無 Token 存取受保護端點被拒絕
     Given 使用者未攜帶任何 Authorization header
     When 使用者發送 GET /v1/users/some-user-id
@@ -79,7 +79,7 @@ Feature: 使用者帳號登入與 JWT 認證
 
   # ─── 邊界條件 ───────────────────────────────────────────
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-ACCT-015-B
   Scenario Outline: JWT Token 有效期邊界條件
     Given 使用者取得了 <token_type>
     And Token 在 <elapsed_time> 後被使用

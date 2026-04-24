@@ -62,7 +62,7 @@ Feature: RTP 引擎與 Jackpot 獎池系統
     And 回應錯誤碼為 "FORBIDDEN"
     And RTP 參數未被修改
 
-  @p0 @regression @api @contract
+  @p0 @regression @api @contract @TC-INT-RTP-007-E
   Scenario: RTP 參數超出有效範圍（< 80% 或 > 99%）被拒絕
     Given Admin 已登入
     When Admin 嘗試設定 base_rtp=0.79（低於最低限制 0.80）
@@ -70,7 +70,7 @@ Feature: RTP 引擎與 Jackpot 獎池系統
     And 回應錯誤碼為 "RTP_OUT_OF_RANGE"
     And 回應說明有效範圍 [0.80, 0.99]
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-RTP-008-B
   Scenario: Jackpot 觸發時 Redis 原子操作確保僅一位玩家獲得獎池
     Given 獎池金額 100,000，同時 100 個房間各有觸發請求
     When Redis GETSET 原子操作執行
@@ -79,7 +79,7 @@ Feature: RTP 引擎與 Jackpot 獎池系統
 
   # ─── 邊界條件 ───────────────────────────────────────────
 
-  @p0 @regression @api
+  @p0 @regression @api @TC-INT-RTP-009-B
   Scenario Outline: RTP 參數邊界值驗證
     Given Admin 已登入
     When Admin 嘗試設定 base_rtp=<value>
