@@ -1564,7 +1564,9 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-black-80` | `rgba(0,0,0,0.8)` |
 | `color-vip-silver` | `#C0C0C0` |
 | `color-vip-gold` | `#FFD700` |
-| `color-vip-rainbow` | `linear-gradient(90deg, #FF0000, #FF7700, #FFFF00, #00FF00, #0000FF, #8B00FF)` |
+| `color-vip-rainbow-start` | `#FF0080`（品牌霓虹粉，取代標準 RGB 彩虹） |
+| `color-vip-rainbow-mid` | `#00D4FF`（品牌霓虹青） |
+| `color-vip-rainbow-end` | `#00FF88`（品牌霓虹綠） |
 | `font-size-12` | `12px` |
 | `font-size-14` | `14px` |
 | `font-size-18` | `18px` |
