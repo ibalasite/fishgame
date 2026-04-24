@@ -4,7 +4,7 @@
   "review_strategy": "standard",
   "max_rounds": 5,
   "stop_condition": "任一輪 finding=0 或第 5 輪 fix 完",
-  "last_updated": "2026-04-24T04:57:20.998659Z",
+  "last_updated": "2026-04-24T04:57:56.594974Z",
   "input_type": "doc_local+codebase_git",
   "input_source": "/Users/tobala/projects/fishing-arcade-game/docs/req/魚機遊戲募資企劃書.md + https://github.com/taishan6868/Fishing-game-source-code.git",
   "req_dir": "docs/req",
@@ -21,9 +21,10 @@
   "research_summary": "## 競品/參考\n- 市場主流捕魚遊戲：強調爆金倍率，依賴RTP控制\n- 參考 Codebase：Lua+Cocos多人捕魚系統，含 FPond/FPondBG/Boss/技能/皮膚UI\n## 技術\n- Client: Cocos Creator, Lua\n- Server: Node.js + Colyseus 高併發\n## 風險\n- 市場競爭激烈\n- 玩家留存需活動驅動",
   "completed_steps": [
     "D01-IDEA",
-    "D02-BRD"
+    "D02-BRD",
+    "handoff"
   ],
-  "handoff": false,
+  "handoff": true,
   "idea_generated": true,
   "idea_path": "docs/IDEA.md",
   "idea_review_passed": true,
@@ -34,5 +35,6 @@
   "brd_generated_at": "2026-04-24T06:00:00.000000Z",
   "brd_review_passed": true,
   "brd_review_rounds": 3,
-  "brd_review_completed_at": "2026-04-24T04:57:20.000000Z"
+  "brd_review_completed_at": "2026-04-24T04:57:20.000000Z",
+  "handoff_source": "gendoc-auto"
 }
