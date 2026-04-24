@@ -564,7 +564,7 @@ flowchart TD
 | AgePanel | cc.Node | Default / Error | 彈窗容器，Scale In 進場動畫 |
 | DatePicker | cc.Node | Idle / Selecting / Confirmed / **Error**（日期格式不合法或未來日期）| 年月日三欄 ScrollView 選擇器；Error 時三欄外框顯示紅色，並顯示 DatePickerErrorLabel |
 | DatePickerErrorLabel | cc.Label | Hidden / Visible | 錯誤提示文字（如「請輸入有效出生日期」），Fade In 200ms |
-| ConfirmCheckbox | cc.Toggle | Unchecked / Checked | 確認聲明勾選框 |
+| ConfirmCheckbox | cc.Toggle | Unchecked / Checked / **Focus**（H5 Tab 鍵聚焦時顯示 2px 金色 focus ring，符合 §8.2 Focus Indicator 規格，對比度 ≥ 3:1）| 確認聲明勾選框 |
 | ConfirmButton | cc.Button | Default / Disabled（未勾選或 DatePicker 未完成）/ **Loading**（API 驗證中）/ Pressed | 確認進入按鈕；Loading 狀態顯示 Spinner，禁止重複點擊 |
 | DemoButton | cc.Button | Default / Hover / Pressed | 進入演示模式 |
 
@@ -1157,6 +1157,60 @@ flowchart TD
 
 ---
 
+### 5.13 新手引導（OnboardingScene）
+
+**用途：** 首次登入玩家完成年齡驗證後，透過三步驟互動式引導了解核心玩法（射擊、技能、充值），降低新手流失（對應 §1.3 設計原則「3 秒可懂」及 Persona C 需求）
+
+**進入方式：** LoginScene 完成後，若伺服器回傳 `is_new_user=true`，自動觸發；不影響已完成引導的老玩家
+
+**Layout 結構：**
+```
+┌──────────────────────────────────────┐
+│  全螢幕半透明黑色遮罩（alpha 0.75）    │
+│  目標元件高亮區域（cc.Graphics 鏤空）  │
+│  ┌──────────────────────────────┐    │
+│  │  說明氣泡（GuideLabel）        │    │
+│  │  「點擊魚群方向即可射擊，試試看！」│    │
+│  └──────────────────────────────┘    │
+│                                      │
+│  [跳過]                     [知道了] │
+│  步驟指示：1 / 3                      │
+└──────────────────────────────────────┘
+```
+
+**引導步驟：**
+
+| 步驟 | 高亮目標 | 說明文字 |
+|------|---------|---------|
+| 1/3 | 砲台射擊區域 | 「點擊魚群方向即可射擊，金幣越多倍率越高！」|
+| 2/3 | 技能按鈕（SkillButton）| 「技能按鈕充能後點擊釋放，對 Boss 傷害加倍！」|
+| 3/3 | HUD 金幣餘額 + 充值入口 | 「金幣不足時可隨時充值，首充雙倍鑽石！」|
+
+**元件清單（OnboardingScene）：**
+
+| 元件 | 類型 | 狀態 | 說明 |
+|------|------|------|------|
+| OverlayMask | cc.Sprite | — | 全螢幕半透明黑色遮罩（`color-black-80`），不可點擊穿透（鏤空區域除外）|
+| HighlightMask | cc.Graphics | — | 以 cc.Graphics 繪製鏤空矩形高亮當前引導目標元件，帶 4px 金色邊框（`color-border-focus`）|
+| GuideLabel | cc.Label | — | 說明氣泡文字，圓角白底黑字，字型 `text-body-md`，最大寬 320px 自動換行 |
+| NextBtn | cc.Button | Default / Pressed | 「知道了」按鈕；點擊前進至下一步，最後一步點擊後完成引導 |
+| SkipBtn | cc.Button | Default / Pressed | 「跳過」按鈕；點擊後立即結束引導並標記 `is_new_user=false` |
+| StepIndicator | cc.Label | — | 步驟指示文字，格式「1 / 3」，`text-caption`，右下角固定位置 |
+
+**互動規格（OnboardingScene）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 引導進場 | OverlayMask + HighlightMask + GuideLabel 同時顯示 | Fade In | 300ms |
+| 點擊 NextBtn（非最後一步）| 高亮區域移至下一目標，GuideLabel 更新說明文字 | HighlightMask 位移 + GuideLabel Fade Refresh | 250ms |
+| 點擊 NextBtn（最後一步）| 結束引導，呼叫 API 標記 `is_new_user=false`，Overlay 退場 | Fade Out 全覆層 | 300ms |
+| 點擊 SkipBtn | 立即結束引導，呼叫 API 標記 `is_new_user=false` | Fade Out | 200ms |
+| 引導完成退場 | 回到大廳（LobbyScene），顯示正常 HUD | 畫面 Fade In | 300ms |
+
+**Figma 連結：** （待確認：設計師建立 OnboardingScene Figma Frame 後更新此連結）
+
+---
+
 ## 6. Interaction Design Specifications
 
 ### 6.1 動畫與過場（Motion Design）
@@ -1247,6 +1301,7 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | 充值成功 | 支付按鈕 Loading→Checkmark | Toast「鑽石已到帳」| HUD 鑽石餘額更新 |
 | IAP 支付等待中（可能 > 5s）| 等待 3s 後按鈕文字更新為「請稍候，正在完成付款...」（Spinner 持續顯示）；等待 30s 後若未收到回調，自動觸發逾時錯誤 Modal（「付款時間較長，請稍候或聯絡客服」）| 按鈕文字 Fade Refresh（150ms）→ 30s 後 Modal Scale In（250ms）| 3s 起文字更新；30s 逾時 Modal |
 | 技能使用 | 技能特效立即播放 | 冷卻計時開始 | — |
+| 遊戲結算計算中（可能 > 3s）| 結算 Overlay 顯示（Fade In 200ms）| 「結算中，請稍候...」+ Spinner 動畫（半透明遮罩防止操作）| 超過 3s 後文字更新為「稍有延遲，結算結果已安全保存」|
 | 連線中斷 | 「重連中...」覆層立即顯示 | 5s 倒數重試 | 失敗後跳出彈窗 |
 
 ### 6.3 空狀態設計（Empty States）
@@ -1261,6 +1316,7 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | 配對超時無玩家 | 「找不到足夠玩家，Bot 補位中...」| 機器人圖示 | 自動補位，無需操作 |
 | ProfileScene 無遊戲記錄 | 「快去打一局吧！你的對戰記錄會在這裡出現」| 魚竿 + 歎號圖示 | 「立即匹配」→ 大廳 |
 | ProfileScene 無訂單記錄 | 「還沒有充值記錄，試試首充雙倍鑽石？」| 空購物袋圖示 | 「前往充值」→ 商城充值 Tab |
+| **伺服器錯誤（5xx）** | 「暫時無法載入，請稍後重試」| 告警三角形圖示（Warning icon）| 「重試」→ 觸發 retry API call（出現時機：API 回傳 5xx 且 retry 次數已達上限）|
 
 ### 6.4 Loading States
 
@@ -1440,9 +1496,10 @@ const safeArea = cc.sys.getSafeAreaRect();
 | WCAG 準則 | 評等 | 要求內容 | 遊戲 UI 實作方式 | 測試方法 | 優先 |
 |----------|:---:|---------|----------------|---------|:---:|
 | 1.1.1 非文字內容 | AA | 所有圖示/圖片有 alt 或 aria-label | H5 端 `<img alt="...">` / `aria-label`；Cocos 端圖示同時搭配文字標籤（技能名稱）| axe-core（H5）| M |
+| 1.3.1 資訊與關係 | AA | 資訊、結構和關係能以非視覺方式傳達（不僅依賴外觀）| H5 端：`cc.Label` 文字以語意化 HTML 輸出（如 `<h1>`/`<h2>` 對應標題層級，`<ul>/<li>` 對應列表），表單欄位以 `<label>` 關聯，排行榜以 `<table>` 結構化輸出；Cocos 端（原生）：透過描述性節點命名與畫面層級結構等效傳達 | axe-core（H5 結構驗證）+ 螢幕閱讀器（VoiceOver / TalkBack）逐畫面朗讀驗證 | M |
 | 1.4.3 對比度（文字）| AA | 正文 ≥ 4.5:1，大字 ≥ 3:1 | HUD 文字使用高對比色（白字黑底描邊），色彩 Token 驗證 | Colour Contrast Analyser | M |
 | 1.4.4 調整文字大小 | AA | 放大至 200% 不遺失功能 | H5 端使用 `rem`/`em`；Cocos 端設計尺寸已考慮小螢幕縮放 | 瀏覽器 200% 縮放測試 | R |
-| 1.4.11 非文字對比度 | AA | 按鈕邊框、技能按鈕邊框 ≥ 3:1 | 所有互動按鈕有明確邊框色 Token 定義 | 手動測試 | M |
+| 1.4.11 非文字對比度 | AA | 按鈕邊框、技能按鈕邊框 ≥ 3:1 | 所有互動按鈕有明確邊框色 Token 定義；`color-border-default` 已從 `rgba(255,255,255,0.3)`（1.8:1，不合規）更新至 `rgba(255,255,255,0.45)`（合成後 `#767E89`，約 3.2:1 ✅）| 手動測試 + Colour Contrast Analyser | M |
 | 2.1.1 鍵盤操作 | AA | 非遊戲畫面可純鍵盤操作 | 登入/商城/設定可 Tab 導覽 + Enter 觸發；遊戲主畫面豁免（需觸控/滑鼠）| 手動測試（無觸控）| M |
 | 2.4.3 焦點順序 | AA | Tab 順序符合視覺閱讀流程 | H5 端 DOM 順序與視覺一致，避免 tabindex > 0 | 手動測試 | M |
 | 2.4.7 焦點可見 | AA | 焦點指示符清晰可見 | H5 端 Focus ring ≥ 2px solid，對比度 ≥ 3:1 | 手動測試 | M |
@@ -1502,6 +1559,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-red-300` | `#FF8080` |
 | `color-white-100` | `#FFFFFF` |
 | `color-white-60` | `rgba(255,255,255,0.6)` |
+| `color-white-45` | `rgba(255,255,255,0.45)` |
 | `color-white-30` | `rgba(255,255,255,0.3)` |
 | `color-black-80` | `rgba(0,0,0,0.8)` |
 | `color-vip-silver` | `#C0C0C0` |
@@ -1563,7 +1621,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-feedback-warning` | `color-red-300` | 警告（金幣不足）|
 | `color-accent-neon` | `color-neon-blue` | 強調色（Jackpot 進度條、技能特效）|
 | `color-vip-identity` | `color-vip-gold` | VIP 標準金色（VIP 5 以下）|
-| `color-border-default` | `color-white-30` | 預設邊框 |
+| `color-border-default` | `color-white-45` | 預設邊框 |
 | `color-border-focus` | `color-gold-400` | 焦點邊框 |
 | `spacing-hud-gap` | `spacing-8` | HUD 元件間距 |
 | `spacing-card-padding` | `spacing-16` | 卡片內距 |
@@ -1609,7 +1667,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | Semantic Token | Dark Mode（主要）| Light Mode（備用/日間）| WCAG 對比度（文字/背景）| 說明 |
 |---------------|:-------------:|:------------------:|:------------------:|------|
 | `color-text-primary` | `#FFFFFF` | `#111827` | Dark: 21:1 ✅ AAA | 主要文字 |
-| `color-text-secondary` | `rgba(255,255,255,0.6)` = 合成後約 `#8FABB5` on `#051428` | `#6B7280` | Dark: 5.1:1 ✅ AA（alpha 合成計算：見下注）| 輔助說明 |
+| `color-text-secondary` | `rgba(255,255,255,0.6)` = 合成後約 `#9BA176` on `#051428` | `#6B7280` | Dark: 6.8:1 ✅ AA（alpha 合成計算：見下注）| 輔助說明 |
 | `color-text-disabled` | `rgba(255,255,255,0.3)` | `#D1D5DB` | N/A — 禁用狀態豁免（WCAG 1.4.3 例外：禁用元件不要求對比度）| 禁用（非內容）|
 | `color-bg-base` | `#051428` | `#F0F4F8` | N/A — 背景色，無文字對比要求（作為底色使用）| 主背景 |
 | `color-bg-surface` | `#0A2340` | `#FFFFFF` | N/A — 背景色，無文字對比要求 | 卡片/面板背景 |
@@ -1620,7 +1678,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-feedback-error` | `#FF4444` | `#D93025` | Dark on bg: 4.6:1 ✅ AA | 錯誤狀態 |
 | `color-feedback-warning` | `#FF8080` | `#E65100` | Dark on bg (#051428): 約 4.52:1 ✅ AA（精確值：#FF8080 相對亮度 0.467 vs #051428 相對亮度 0.009，比值 = (0.467+0.05)/(0.009+0.05) ≈ 8.8:1 ✅ AAA）| 警告 |
 | `color-accent-neon` | `#00D4FF` | `#0088CC` | Dark on bg: 5.8:1 ✅ AA | Jackpot/技能強調 |
-| `color-border-default` | `rgba(255,255,255,0.3)` | `#E5E7EB` | N/A — 裝飾性邊框，適用 WCAG 1.4.11 非文字對比度（≥ 3:1 針對 UI 元件邊界）；alpha 合成後 on `#051428` 約 `#3A4E61`，與背景對比 ~1.8:1，低於 3:1。**設計決策：** 此邊框為純裝飾用途，依 WCAG 1.4.11 「元件邊界對比要求」僅在該邊框是傳達元件邊界所必需時才強制 ≥ 3:1；本設計以填充色差異傳達邊界，邊框可豁免 | 預設邊框 |
+| `color-border-default` | `rgba(255,255,255,0.45)` = 合成後約 `#767E89` on `#051428` | `#E5E7EB` | Dark: 約 3.2:1 ✅（符合 WCAG 1.4.11 非文字對比度 ≥ 3:1；PackageCard / EditBox 邊框屬於 UI 元件邊界，不可豁免）| 預設邊框 |
 | `color-border-focus` | `#F5C842` | `#C99A00` | Dark: 3.2:1 ✅（on bg，符合 WCAG 2.4.7 Focus 可見要求 ≥ 3:1）| 焦點環 |
 | `color-vip-identity` | `#FFD700` | `#B8860B` | Dark on bg: 6.5:1 ✅ AA | VIP 徽章金色 |
 
@@ -1971,6 +2029,7 @@ classDiagram
 | ProfileScene | — | P1 | 待設計 |
 | SettingsPanel | — | P0 | 待設計 |
 | LeaderboardPanel | — | P2 | 待設計 |
+| OnboardingScene | — (is_new_user=true 觸發) | P1 | 待設計 |
 
 ## Appendix C：References
 
