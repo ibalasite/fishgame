@@ -32,7 +32,8 @@
     "D07-ARCH",
     "D08-API",
     "D09-SCHEMA",
-    "D11-test-plan"
+    "D11-test-plan",
+    "D12-BDD-server"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -136,6 +137,20 @@
         0,
         1,
         4
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D12-BDD-server": {
+      "rounds_done": 1,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 3,
+      "last_CHM": [
+        1,
+        2,
+        0
       ],
       "terminated": true,
       "terminate_reason": "zero_finding",
