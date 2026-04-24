@@ -59,9 +59,9 @@
 | PRD REQ-ID | User Story 摘要 | 設計回應 | PDD 章節 |
 |-----------|----------------|---------|---------|
 | US-ACCT-001 | 快速註冊登入，保護遊戲進度 | 遊戲風格登入畫面，3-step 快速帳號流 | §5.1 |
-| US-ROOM-001 | 30 秒內進入 4–6 人競技房間 | 大廳選房 + 快速匹配 UI，倒數配對進度條 | §5.2, §5.3, §5.9 |
+| US-ROOM-001 | 30 秒內進入 4–6 人競技房間 | 大廳選房 + 快速匹配 UI，倒數配對進度條 | §5.3（LobbyScene）, §5.5（CannonSelectScene）, §5.9（MatchmakingScene）|
 | US-FISH-001 | 多種魚類倍率，策略性射擊 | 主遊戲畫面魚群視覺層級、命中動畫 | §5.4 |
-| US-WPSK-001 | 武器技能選擇，差異化遊玩風格 | 砲台選擇介面、技能冷卻 HUD | §5.3, §5.5 |
+| US-WPSK-001 | 武器技能選擇，差異化遊玩風格 | 砲台選擇介面、技能冷卻 HUD | §5.4（GameScene HUD 技能按鈕）, §5.5（CannonSelectScene）|
 | US-RTP-001 | 穩定回報感 + Jackpot 大獎震撼 | Jackpot 進度條、觸發全屏特效設計 | §5.4, §6.5 |
 | US-SHOP-001 | 3 步驟內完成鑽石充值 | 商城彈窗設計，充值轉化漏斗 | §5.6 |
 | US-VIP-001 | VIP 光環彰顯地位 | VIP 等級視覺識別系統，房間內光環 | §5.3, §5.7 |
@@ -1425,7 +1425,7 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 - 所有 H5 非遊戲畫面（登入/商城/設定/個人中心）完整支援 Tab 鍵導覽
 - 互動按鈕在桌面端支援 `Hover` State（CSS `:hover` 觸發，顯示高亮邊框或背景色微調）
 - 遊戲主場景（GameScene）豁免純鍵盤操作要求（需滑鼠/觸控點擊方向射擊）；但技能按鈕、倍率調整在桌面端可使用鍵盤快捷鍵（1/2/3 對應技能，+/- 調整倍率，MVP 開發後規格另行確認）
-- Focus ring 規格：`outline: 2px solid var(--color-border-focus); outline-offset: 2px;` 對比度 ≥ 3:1
+- Focus ring 規格：`outline: 2px solid var(--color-border-focus); outline-offset: 2px;` 對比度 ≥ 3:1（Primary Button 例外：使用 `outline: 2px solid var(--btn-primary-focus-ring); outline-offset: 2px;`，避免金色 focus ring 在金色背景上不可見，詳見 §8.2 及 §9.3）
 
 ### 7.2 安全區域（Safe Area）處理
 
@@ -1474,7 +1474,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | 項目 | 規格 |
 |------|------|
 | Tab 順序 | 登入/商城等非遊戲畫面符合視覺閱讀順序 |
-| Focus Indicator | 明顯的 2px 邊框，對比 ≥ 3:1 |
+| Focus Indicator | 明顯的 2px 邊框，對比 ≥ 3:1。**Primary Button** 使用深色（`btn-primary-focus-ring: #051428`）2px outline（與金色按鈕背景對比約 11.6:1 ✅ AAA）；其他元件使用金色（`color-border-focus: #F5C842`）outline |
 | 互動元件 | 按鈕使用 `<button>` 元素（H5 overlay 層）|
 | 圖片 Alt | 所有 H5 端 `<img>` 有意義的 alt 或 `aria-label` |
 | Modal Focus Trap | 商城/設定彈窗開啟時 Focus 移入，關閉後回到觸發元素 |
@@ -1502,7 +1502,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | 1.4.11 非文字對比度 | AA | 按鈕邊框、技能按鈕邊框 ≥ 3:1 | 所有互動按鈕有明確邊框色 Token 定義；`color-border-default` 已從 `rgba(255,255,255,0.3)`（1.8:1，不合規）更新至 `rgba(255,255,255,0.45)`（合成後 `#767E89`，約 3.2:1 ✅）| 手動測試 + Colour Contrast Analyser | M |
 | 2.1.1 鍵盤操作 | AA | 非遊戲畫面可純鍵盤操作 | 登入/商城/設定可 Tab 導覽 + Enter 觸發；遊戲主畫面豁免（需觸控/滑鼠）| 手動測試（無觸控）| M |
 | 2.4.3 焦點順序 | AA | Tab 順序符合視覺閱讀流程 | H5 端 DOM 順序與視覺一致，避免 tabindex > 0 | 手動測試 | M |
-| 2.4.7 焦點可見 | AA | 焦點指示符清晰可見 | H5 端 Focus ring ≥ 2px solid，對比度 ≥ 3:1 | 手動測試 | M |
+| 2.4.7 焦點可見 | AA | 焦點指示符清晰可見 | H5 端 Focus ring ≥ 2px solid，對比度 ≥ 3:1。**Primary Button** 特別使用深色 focus ring（`btn-primary-focus-ring: #051428`），因金色按鈕背景（`#F5C842`）與通用金色 focus ring 對比度為 1:1（不可見）；改用深色 focus ring 後對比度提升至約 11.6:1 ✅ AAA，符合 WCAG 2.4.7 | 手動測試 | M |
 | 3.1.1 頁面語言 | AA | HTML lang 屬性正確 | `<html lang="zh-TW">` / `lang="en"` 依語言設定 | axe-core | M |
 | 3.3.1 錯誤識別 | AA | 錯誤訊息明確說明問題 | 登入/表單錯誤使用 `aria-describedby` 關聯錯誤訊息 | Screen Reader | M |
 | 3.3.2 標籤或說明 | AA | 表單欄位有明確標籤 | `<label for="id">` 或 `aria-label` 於所有輸入框 | axe-core | M |
@@ -1657,6 +1657,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `vip-badge-bg` | `color-vip-identity` | VIP 徽章背景色 |
 | `card-bg` | `color-bg-surface` | 充值卡片背景 |
 | `card-border` | `color-border-default` | 充值卡片邊框 |
+| `btn-primary-focus-ring` | `color-ocean-900`（`#051428`）| Primary Button 焦點環（深色，與金色背景對比約 11.6:1 ✅ AAA，避免金色 focus ring 在金色按鈕上不可見）|
 | `input-border-focus` | `color-border-focus` | 輸入框焦點邊框 |
 | `input-border-error` | `color-feedback-error` | 輸入框錯誤邊框 |
 
@@ -1667,7 +1668,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | Semantic Token | Dark Mode（主要）| Light Mode（備用/日間）| WCAG 對比度（文字/背景）| 說明 |
 |---------------|:-------------:|:------------------:|:------------------:|------|
 | `color-text-primary` | `#FFFFFF` | `#111827` | Dark: 21:1 ✅ AAA | 主要文字 |
-| `color-text-secondary` | `rgba(255,255,255,0.6)` = 合成後約 `#9BA176` on `#051428` | `#6B7280` | Dark: 6.8:1 ✅ AA（alpha 合成計算：見下注）| 輔助說明 |
+| `color-text-secondary` | `rgba(255,255,255,0.6)` = 合成後約 `#9BA1A9` on `#051428` | `#6B7280` | Dark: 6.8:1 ✅ AA（alpha 合成計算：見下注）| 輔助說明 |
 | `color-text-disabled` | `rgba(255,255,255,0.3)` | `#D1D5DB` | N/A — 禁用狀態豁免（WCAG 1.4.3 例外：禁用元件不要求對比度）| 禁用（非內容）|
 | `color-bg-base` | `#051428` | `#F0F4F8` | N/A — 背景色，無文字對比要求（作為底色使用）| 主背景 |
 | `color-bg-surface` | `#0A2340` | `#FFFFFF` | N/A — 背景色，無文字對比要求 | 卡片/面板背景 |
@@ -1676,13 +1677,13 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-action-primary-hover` | `#C99A00` | `#7A5C00` | N/A — Hover 狀態，對比度隨 Hover 背景計算（非靜態文字色）| CTA Hover |
 | `color-feedback-success` | `#00FF88` | `#00A852` | Dark on bg: 6.8:1 ✅ AA | 成功/命中 |
 | `color-feedback-error` | `#FF4444` | `#D93025` | Dark on bg: 4.6:1 ✅ AA | 錯誤狀態 |
-| `color-feedback-warning` | `#FF8080` | `#E65100` | Dark on bg (#051428): 約 4.52:1 ✅ AA（精確值：#FF8080 相對亮度 0.467 vs #051428 相對亮度 0.009，比值 = (0.467+0.05)/(0.009+0.05) ≈ 8.8:1 ✅ AAA）| 警告 |
+| `color-feedback-warning` | `#FF8080` | `#E65100` | Dark on bg (#051428): 約 7.61:1 ✅ AAA（精確值：#FF8080 相對亮度 0.383 vs #051428 相對亮度 0.007，比值 = (0.383+0.05)/(0.007+0.05) ≈ 7.61:1 ✅ AAA）| 警告 |
 | `color-accent-neon` | `#00D4FF` | `#0088CC` | Dark on bg: 5.8:1 ✅ AA | Jackpot/技能強調 |
 | `color-border-default` | `rgba(255,255,255,0.45)` = 合成後約 `#767E89` on `#051428` | `#E5E7EB` | Dark: 約 3.2:1 ✅（符合 WCAG 1.4.11 非文字對比度 ≥ 3:1；PackageCard / EditBox 邊框屬於 UI 元件邊界，不可豁免）| 預設邊框 |
-| `color-border-focus` | `#F5C842` | `#C99A00` | Dark: 3.2:1 ✅（on bg，符合 WCAG 2.4.7 Focus 可見要求 ≥ 3:1）| 焦點環 |
+| `color-border-focus` | `#F5C842` | `#C99A00` | Dark: 約 8–12:1（依背景層，bg-elevated 最低 7.97:1）✅ AAA（on bg-base `#051428`：11.63:1；on bg-elevated `#0D3360`：7.97:1+；均遠超 WCAG 2.4.7 ≥ 3:1 要求）| 焦點環 |
 | `color-vip-identity` | `#FFD700` | `#B8860B` | Dark on bg: 6.5:1 ✅ AA | VIP 徽章金色 |
 
-> **Alpha 合成計算說明：** rgba Token 的對比度計算需先將 alpha 合成至實際背景色。計算方式：合成色 = alpha × 前景色 + (1-alpha) × 背景色。例如 `rgba(255,255,255,0.6)` on `#051428(RGB: 5,20,40)` 合成後 = R: 0.6×255+0.4×5=155, G: 0.6×255+0.4×20=161, B: 0.6×255+0.4×40=118 → `#9BA176` → 再計算相對亮度與背景對比比。所有 rgba Token 的對比度數值均基於此方法計算。
+> **Alpha 合成計算說明：** rgba Token 的對比度計算需先將 alpha 合成至實際背景色。計算方式：合成色 = alpha × 前景色 + (1-alpha) × 背景色。例如 `rgba(255,255,255,0.6)` on `#051428(RGB: 5,20,40)` 合成後 = R: 0.6×255+0.4×5=155, G: 0.6×255+0.4×20=161, B: 0.6×255+0.4×40=169 → `#9BA1A9` → 再計算相對亮度與背景對比比。所有 rgba Token 的對比度數值均基於此方法計算。
 
 **深色模式切換機制（H5 端）：**
 - 偵測：`@media (prefers-color-scheme: dark)` + 用戶手動切換（設定頁面）
