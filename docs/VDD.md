@@ -9,7 +9,7 @@
 |------|-----|
 | DOC-ID | VDD-FISHGAME-20260425 |
 | 版本 | 1.0.0 |
-| 狀態 | Draft |
+| 狀態 | IN REVIEW |
 | 作者 | Visual Designer + Brand Designer + Design System Engineer |
 | 上游文件 | BRD-FISHGAME-20260424 · PRD-FISHGAME-20260424 · PDD-FISHGAME-20260424 |
 | 建立日期 | 2026-04-25 |
@@ -25,6 +25,30 @@
 ---
 
 ## §1 Design Mission
+
+### 1.0 Brand Positioning
+
+**For**：亞洲 18–45 歲手機休閒遊戲玩家，他們在碎片化時間中尋找即時刺激與社交競技樂趣。
+
+**Who**：希望在 5 分鐘內獲得「打倒 Boss、爆金幣」的爽感，同時享受多人即時排名帶來的勝負張力。
+
+**Is**：一款融合深海主題、多人即時競技與技能深度的捕魚射擊遊戲平台。
+
+**Unlike**：泡泡捕魚（偏休閒、缺乏競技感）、歡樂捕魚王（視覺老舊、缺乏奢華感），FishGame 主打深海奢華黑金美學，以霓虹活力特效強化每一次擊殺瞬間的多巴胺反應。
+
+**品牌承諾**：每局都有捕獲巨額獎勵的期待感。
+
+**視覺主張**：深海奢華黑金美學 + 霓虹活力。
+
+#### 與主要競品視覺差異化對比
+
+| 維度 | 泡泡捕魚 | 歡樂捕魚王 | FishGame（本作） |
+|------|---------|----------|----------------|
+| 主色調 | 水藍 + 亮黃 | 暖橘 + 棕金 | 深海藍 + 皇家金 + 霓虹青 |
+| 視覺風格 | Q 版卡通 | 傳統街機 | Dark Luxury × Casino Arcade |
+| 材質語言 | 平面卡通 | 半寫實 | 磨砂玻璃 + 金屬壓紋 + 水下散射光 |
+| 特效密度 | 低 | 中 | 高（全屏 Jackpot 爆炸、多粒子層疊）|
+| 競技感設計 | 弱 | 中 | 強（四角 HUD + Boss 計時 + 即時排名）|
 
 ### 1.1 設計願景
 
@@ -76,6 +100,18 @@
 | 遊戲機台 | 日本柏青哥燈板 / 拉斯維加斯 Slot Machine | 燈框圓角、高飽和色、閃爍節奏 |
 | 概念藝術 | ArtStation「underwater casino」搜尋結果 | 場景氛圍、色調組合、燈光方向 |
 
+#### 參考圖片清單（視覺方向錨定）
+
+> 具體 Figma 連結由設計師建立後補充（deadline: 2026-05-15）。以下為每個方向的具體視覺描述與借鑑要素。
+
+| # | 視覺方向 | 具體描述 | 重點借鑑元素 |
+|---|---------|---------|------------|
+| 1 | **水下場景光影** | 深海 3000 公尺深度感：頂部藍黑漸層，散射光束從水面折射而下，形成「神光照耀」的垂直柱光；中景氣泡群緩緩上升，近景珊瑚礁輪廓模糊化處理 | 垂直光柱角度 20°、焦散（Caustic）光斑 UV 動畫、冷藍-暖金的色溫對比 |
+| 2 | **玻璃質感 UI 面板** | 磨砂玻璃（Frosted Glass）半透明面板：深藍底色帶 8px backdrop-blur，頂邊有細白高光線（1px rgba(255,255,255,0.15)），底邊有深色壓暗；整體如水下潛艇艙窗般的厚重透明感 | 高光線位置與寬度、blur 強度 vs 內容可讀性平衡、邊框漸層方向 |
+| 3 | **金色裝飾紋樣** | 澳門賭場風格的金色壓花紋路：細線鏤空幾何（龍紋 / 波浪紋 / 魚鱗紋），用於面板邊框、Boss 名稱框、大廳背景底紋；金色需有立體感（高光 + 陰影雙色描邊） | 紋路密度（建議 repeat 8–16px）、金屬高光角度（左上 45°）、壓花深度感 |
+| 4 | **遊戲機台夜燈氛圍** | 拉斯維加斯式 Slot Machine 邊框：高飽和 LED 燈串（暖白 + 金黃 + 橘）以 60fps 閃爍，閃爍節奏為 3 燈一組「跑馬燈」效果；整體暗場景讓燈光成為主體，不依賴環境光 | 燈串間距（建議 12px）、閃爍頻率（3 組 × 12fps）、燈光暈染半徑（glow radius 8–16px）|
+| 5 | **動態粒子效果** | Jackpot 爆炸瞬間：200+ 金幣粒子從中心向外噴射，前 0.3s 高速擴散（easing expo-out），後 0.7s 受重力下墜旋轉；每枚金幣帶自旋 + specular 光點；整體形成「金色爆炸雲」後緩緩落下 | 初速度範圍（600–1200 px/s）、粒子自旋轉速（2–8 rad/s）、重力係數（0.3g）、fade-out 起始時間（0.6s 後開始）|
+
 ### 2.3 材質與光影方向
 
 | 元素 | 材質描述 | 技術實現（Cocos） |
@@ -88,7 +124,15 @@
 | Boss 魚 | 深色鱗片 + 霓虹輪廓光（Outline Shader） | Outline Shader Pass |
 | VIP 光暈 | 依等級由銀→金→紅→彩虹流動漸層，rotatng glow ring | 粒子 + 自訂 Shader |
 
-### 2.4 場景美術規格
+### 2.4 情感色調映射（Emotional Tone Mapping）
+
+| 情感目標 | 視覺語言 | 動效語言 |
+|---------|---------|---------|
+| **多巴胺刺激感** | 金色爆字（text-multiplier 56px font-weight-900）+ 霓虹青光暈（--shadow-glow-neon）+ 高飽和金幣粒子爆炸 | 快速緩動 80ms expo-out；擊殺數字 scale 0→1.2→1.0 彈入；金幣粒子初速 600–1200 px/s |
+| **奢華地位感** | 深海藍底（#051428）+ 金色細線邊框（1px rgba(245,200,66,0.3)）+ 磨砂玻璃面板 + 負字距（-0.3 to -0.5px）| 慢速進場 500ms easing-ease-out；VIP 光暈 6s 緩慢旋轉 loop；面板 backdrop-blur 8px |
+| **競技緊張感** | 高對比警示紅（#FF4444）+ Boss 血條危急時變色（#00FF88→#FF4444）+ 計時器等寬字體（font-mono）| Boss 進場全屏震動 2s；計時器後 10 秒紅色脈衝；連擊提示 「COMBO x{n}」600ms 衝屏 |
+
+### 2.5 場景美術規格
 
 | 場景 | 背景色調 | 主光源方向 | 環境元素 |
 |------|---------|-----------|---------|
@@ -116,7 +160,7 @@
 |-----------|-----|-------|-------------------|------|
 | color-gold-400 | #F5C842 | oklch(82% 0.18 88) | 7.2:1 AAA | 主行動按鈕、金幣、獎勵文字 |
 | color-gold-600 | #C99A00 | oklch(67% 0.17 88) | 4.8:1 AA | 按鈕 Hover 狀態、金框 |
-| color-gold-800 | #7A5C00 | oklch(42% 0.13 88) | 1.9:1 — | 按鈕按下狀態（僅圖形用途） |
+| color-gold-900 | #7A5C00 | oklch(42% 0.13 88) | 1.9:1 — | 按鈕按下狀態（僅圖形用途） |
 | color-ocean-900 | #051428 | oklch(10% 0.04 240) | — (bg) | 主背景底色 |
 | color-ocean-800 | #0A2340 | oklch(15% 0.05 240) | — (surface) | 卡片 / 面板底色 |
 | color-ocean-700 | #0D3360 | oklch(22% 0.07 240) | — | 次級面板、邊框底色 |
@@ -166,6 +210,23 @@
 | 結算面板浮水印 | 96×32 px | 白色 30% 透明 | 16 px 四周 |
 | 禁止用法 | — | 不得在金色背景使用金色 Logo，不得壓縮變形，不得加陰影 | — |
 
+**最小尺寸規格**：
+
+| 平台 | 最小高度 | 說明 |
+|------|---------|------|
+| Digital（APP / H5） | 高度 ≥ 24px（寬度自適應） | 低於此尺寸 Logo 識別度不足，禁止使用 |
+| Print（若適用） | 高度 ≥ 12mm | 印刷品最小可識別尺寸 |
+
+**Safe Zone 統一規則**：Logo 高度 × 0.25 四周留白（適用遊戲啟動頁、大廳左上角、結算面板浮水印三個情境）。
+
+**禁止用法列表**：
+- 不得使用低於最小尺寸（Digital 高度 < 24px）
+- 不得直接放在淺色背景（#FFFFFF 或亮度 > 70% 的背景）上使用金色版本
+- 不得在金色背景使用金色 Logo（背景與 Logo 缺乏對比）
+- 不得壓縮或拉伸變形（須保持原始寬高比）
+- 不得加陰影、描邊、外發光（會破壞 Logo 精緻感）
+- 不得使用低於品牌規定色以外的顏色版本
+
 ### 3.6 圖示規範
 
 | 類型 | 尺寸 | 風格 | 顏色 |
@@ -181,7 +242,7 @@
 
 ## §4 Character & World Design
 
-### 4.1 主角設計——「海神炮手」（Captain Triton）[AI 推斷]
+### 4.1 主角設計——「海神炮手」（Captain Triton）（待 OQ-09 確認後移除此標注）
 
 | 屬性 | 規格 |
 |------|------|
@@ -245,7 +306,7 @@
 | 死亡特效 | 32 幀，全屏金色爆炸 + 倍率數字衝屏（scale 0.5→3.0，fade out 1s），持續 ≥3000ms（Jackpot 規格） |
 | 特殊能力圖示 | Boss 名稱下方 1–3 個技能圖示（32×32 px，霓虹外框） |
 
-#### NPC-04 神話生物（Mythic Creature）[AI 推斷]
+#### NPC-04 神話生物（Mythic Creature）（待 OQ-09 確認後移除此標注）
 
 | 屬性 | 規格 |
 |------|------|
@@ -299,7 +360,7 @@
 | 狀態 | 背景 | 文字色 | 邊框 | 陰影 | 效果 |
 |------|------|-------|------|------|------|
 | Default | #F5C842（金屬漸層：#F5C842→#C99A00） | #0A1A00 | 無 | 0 0 12px rgba(245,200,66,0.8) | — |
-| Hover | #FFD96A | #0A1A00 | 無 | 0 0 20px rgba(245,200,66,0.9) | scale(1.03) |
+| Hover | #C99A00 | #0A1A00 | 無 | 0 0 20px rgba(245,200,66,0.9) | scale(1.03) |
 | Active / Press | #C99A00 | #0A1A00 | 無 | inset 0 2px 4px rgba(0,0,0,0.4) | scale(0.98), translateY(2px) |
 | Focus | #F5C842 | #0A1A00 | 3px solid #051428 + 2px outline #F5C842 | — | Ring 11.63:1 AAA |
 | Disabled | #7A6120 opacity 0.5 | rgba(0,0,0,0.4) | 無 | 無 | cursor: not-allowed |
@@ -388,8 +449,8 @@
 --color-gold-300: #FFD740;   /* oklch(87% 0.17 88) */
 --color-gold-400: #F5C842;   /* oklch(82% 0.18 88) — MAIN */
 --color-gold-600: #C99A00;   /* oklch(67% 0.17 88) */
---color-gold-800: #7A5C00;   /* oklch(42% 0.13 88) */
---color-gold-900: #3D2E00;   /* oklch(22% 0.08 88) */
+--color-gold-900: #7A5C00;   /* oklch(42% 0.13 88) */
+--color-gold-950: #3D2E00;   /* oklch(22% 0.08 88) */
 
 --color-ocean-50:  #E8F4FF;  /* oklch(96% 0.02 240) */
 --color-ocean-100: #B3D4F7;  /* oklch(85% 0.05 240) */
@@ -429,19 +490,22 @@
 --font-size-12: 12px;
 --font-size-14: 14px;
 --font-size-16: 16px;
+--font-size-18: 18px;
 --font-size-20: 20px;
 --font-size-24: 24px;
 --font-size-28: 28px;
 --font-size-32: 32px;
+--font-size-36: 36px;
 --font-size-48: 48px;
 --font-size-56: 56px;
 
 --font-weight-400: 400;
+--font-weight-500: 500;
 --font-weight-600: 600;
 --font-weight-700: 700;
 --font-weight-900: 900;
 
---line-height-tight:  1.15;
+--line-height-tight:  1.2;
 --line-height-normal: 1.5;
 --line-height-loose:  1.75;
 
@@ -458,9 +522,9 @@
 --space-16: 64px;
 
 /* ── Border Radius ── */
---radius-sm:  4px;
---radius-md:  8px;
---radius-lg:  12px;
+--radius-sm:  8px;
+--radius-md:  16px;
+--radius-lg:  24px;
 --radius-xl:  20px;
 --radius-full: 9999px;
 
@@ -474,14 +538,14 @@
 
 --easing-linear:    linear;
 --easing-ease-in:   cubic-bezier(0.4, 0, 1, 1);
---easing-ease-out:  cubic-bezier(0, 0, 0.2, 1);
+--easing-ease-out:  cubic-bezier(0.0, 0, 0.58, 1);
 --easing-expo-out:  cubic-bezier(0.16, 1, 0.3, 1);
 --easing-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
 --easing-bounce:    cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
 /* ── Shadow ── */
 --shadow-glow-gold:  0 0 12px rgba(245,200,66,0.8);
---shadow-glow-blue:  0 0 12px rgba(0,212,255,0.8);
+--shadow-glow-neon:  0 0 8px rgba(0,212,255,0.6);
 --shadow-glow-green: 0 0 12px rgba(0,255,136,0.8);
 --shadow-glow-red:   0 0 12px rgba(255,68,68,0.7);
 --shadow-card:       0 8px 32px rgba(0,0,0,0.6);
@@ -521,7 +585,7 @@
 
 /* ── Action ── */
 --color-action-primary:          var(--color-gold-400);
---color-action-primary-hover:    var(--color-gold-300);
+--color-action-primary-hover:    var(--color-gold-600);
 --color-action-primary-active:   var(--color-gold-600);
 --color-action-secondary:        var(--color-neon-blue);
 --color-action-secondary-hover:  #40DFFF;
@@ -550,7 +614,10 @@
 --color-hp-high:           var(--color-neon-green);
 --color-hp-mid:            #FFEB3B;
 --color-hp-low:            var(--color-red-500);
---color-jackpot-progress:  linear-gradient(90deg, var(--color-neon-blue), var(--color-gold-400));
+/* --color-jackpot-progress: Jackpot 進度條漸層不使用 CSS Custom Property 定義，
+   因為 CSS Custom Property 不支援 gradient 值作為 background 簡寫的部分。
+   請使用 §6.3 的 --jackpot-bar-fill-start 和 --jackpot-bar-fill-end 兩個 Component Token 組成漸層：
+   background: linear-gradient(90deg, var(--jackpot-bar-fill-start), var(--jackpot-bar-fill-end)); */
 ```
 
 ### 6.3 Layer 3 — Component Tokens
@@ -662,7 +729,9 @@
 
 ### 6.4 Dark Mode Token 對應表（含 WCAG 驗證）
 
-| Semantic Token | Dark Mode 值 | Light Mode 值（備用）| 對比比（Dark on bg-base） | WCAG 等級 |
+> **Light Mode 欄說明**：v2.0 預留，v1.0 暫不實作。以下 Light Mode 值僅供未來規劃參考，不進入 v1.0 開發實作。
+
+| Semantic Token | Dark Mode 值 | Light Mode 值（v2.0 預留）| 對比比（Dark on bg-base） | WCAG 等級 |
 |---------------|-------------|---------------------|--------------------------|----------|
 | color-text-primary | #FFFFFF | #111827 | 21:1 | AAA |
 | color-text-secondary | rgba(255,255,255,0.6) ≈ #9BA1A9 | #6B7280 | 6.8:1 | AA |
@@ -1137,11 +1206,12 @@ Y=840  ~ Y=1280: 底部安全區
 | OQ-01 | 角色設計是否需要授權 IP 聯名（如特定神話人物）或原創設計？聯名會影響視覺方向。 | High | Sprint 2 前 |
 | OQ-02 | 遊戲場景是否需要 Landscape 橫版支援？目前規格全為 Portrait 720×1280。 | High | Sprint 1 前 |
 | OQ-03 | Jackpot 全屏特效音效與震動的強度閾值由 PM 還是設計定義？ | Medium | Sprint 2 前 |
-| OQ-04 | Light Mode（非深色主題）是否需要完整支援，或僅作備用？ | Medium | Sprint 3 前 |
+| OQ-04 | Light Mode（非深色主題）是否需要完整支援，或僅作備用？ | Medium | **已決定：v2.0 預留，v1.0 僅支援 Dark Mode** |
 | OQ-05 | VIP 第 10 級「彩虹」光暈特效是否允許使用自訂 Shader，或必須純 Sprite 實現（Cocos 版本限制）？ | High | Sprint 2 前 |
 | OQ-06 | 第三方登入（Google/Facebook/Apple）在 H5 Web 版本的支援情況？ | High | Sprint 1 前 |
 | OQ-07 | 是否需要支援 RTL（阿拉伯語等）市場？當前版面全為 LTR 設計。 | Low | Q3 評估 |
 | OQ-08 | Boss 有幾隻？每個場景輪換還是固定？需確認以安排完整 Boss 視覺製作。 | High | Sprint 2 前 |
+| OQ-09 | 主角 Captain Triton 及神話生物（§4.4 NPC-04）設計方向是否確認？包含視覺特徵、配色方案、技能數量。決策人：遊戲設計師，deadline: 2026-05-15 | High | 2026-05-15 |
 
 ---
 
@@ -1157,6 +1227,10 @@ Y=840  ~ Y=1280: 底部安全區
 | Token 交付 | Style Dictionary JSON 格式（提交 `design-tokens/tokens.json`）|
 | 標注工具 | Figma Inspect（內建） |
 | 版本管理 | Figma Branch per Sprint |
+| **Figma File URL** | （待設計師建立，deadline: 2026-05-15）|
+| **P0 元件 Frame 連結** | （待設計師命名並分享後填入）|
+| **Auto Layout 使用狀態** | 所有 Component 使用 Auto Layout，Spacing 引用 Token |
+| **Dev Mode 交付方式** | Figma Dev Mode + Handoff 說明文件 |
 
 ### 11.2 Cocos Creator 整合
 
@@ -1192,7 +1266,7 @@ export const Colors = {
 export const Motion = {
   durationFast:    80,
   durationNormal:  200,
-  duratiionSlow:   500,
+  durationSlow:    500,
   durationJackpot: 3000,
   easingExpoOut:   [0.16, 1, 0.3, 1] as [number, number, number, number],
   easingSpring:    [0.34, 1.56, 0.64, 1] as [number, number, number, number],
@@ -1291,15 +1365,40 @@ function playJackpotMultiplier(node: Node, multiplier: number) {
 
 ---
 
-## §13 Approval Sign-off
+## §13 Visual Variation Rules
 
-| 角色 | 姓名 | 簽核日期 | 意見 |
-|------|------|---------|------|
-| 視覺設計師 | — | — | 待簽核 |
-| 品牌設計師 | — | — | 待簽核 |
-| 前端工程師 | — | — | 待簽核 |
-| 遊戲設計師 | — | — | 待簽核 |
-| 產品經理 | — | — | 待簽核 |
+本章定義哪些視覺元素可依節日活動、季節限定情境進行主題變體，哪些元素屬於品牌核心不可更動。
+
+### 13.1 可變元素（Seasonal / Event Variants）
+
+| 元素 | 變體範圍 | 範例 |
+|------|---------|------|
+| 節日活動 Banner 主題色 | 可替換 Banner 背景漸層色與邊框色 | 春節：大紅 #E53935 + 金黃 #FFD700；聖誕：墨綠 #1B5E20 + 紅白 |
+| 季節限定 NPC 配色 | 季節限定 Boss / 神話生物的主色與輪廓光顏色 | 春節：鳳凰魚 #FF6D00+#FFEB3B；中秋：玉兔 #F0E68C+#00D4FF |
+| 特效光暈色調 | Jackpot 爆炸粒子色、金幣粒子色可依活動主題調整 | 春節活動 Jackpot：紅金粒子；萬聖節：紫橘粒子 |
+| 大廳背景裝飾元素 | 季節裝飾物（燈籠、雪花、彩蛋等）可疊加至背景層 | 春節：燈籠飄浮動畫；聖誕：雪花飄落粒子 |
+
+### 13.2 不可變元素（Brand Core — 禁止在任何變體中修改）
+
+| 元素 | 說明 |
+|------|------|
+| 主色系 Token（深海藍 / 皇家金） | `--color-ocean-900` / `--color-gold-400` 系列不可替換 |
+| Logo 識別 | Logo 本體、比例、標準色版本不可修改 |
+| 主字體系統 | Noto Sans TC / Oswald / Roboto Mono 三字體族不可替換 |
+| 核心 HUD 佈局 | 四角炮台 HUD、Jackpot 條、Boss HP 條的位置與尺寸不可變動 |
+| 無障礙對比度規範 | 即便在節日主題下，所有文字與 UI 元素須維持 WCAG 2.1 AA 以上對比度 |
+
+---
+
+## §14 Approval Sign-off
+
+| 角色 | 姓名 | 簽核日期 | 狀態 | 意見 |
+|------|------|---------|------|------|
+| 視覺設計師 | （待指定審查人） | — | 審查中 | — |
+| 品牌設計師 | （待指定審查人） | — | 審查中 | — |
+| 前端工程師 | （待指定審查人） | — | 審查中 | — |
+| 遊戲設計師 | （待指定審查人） | — | 審查中 | — |
+| 產品經理 | （待指定審查人） | — | 審查中 | — |
 
 ---
 
