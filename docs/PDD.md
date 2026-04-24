@@ -1673,16 +1673,16 @@ const safeArea = cc.sys.getSafeAreaRect();
 |---------------|:-------------:|:------------------:|:------------------:|------|
 | `color-text-primary` | `#FFFFFF` | `#111827` | Dark: 21:1 ✅ AAA | 主要文字 |
 | `color-text-secondary` | `rgba(255,255,255,0.6)` = 合成後約 `#9BA1A9` on `#051428` | `#6B7280` | Dark: 6.8:1 ✅ AA（alpha 合成計算：見下注）| 輔助說明 |
-| `color-text-disabled` | `rgba(255,255,255,0.3)` | `#D1D5DB` | N/A — 禁用狀態豁免（WCAG 1.4.3 例外：禁用元件不要求對比度）| 禁用（非內容）|
+| `color-text-disabled` | `rgba(255,255,255,0.35)` | `#5C6673` | N/A — 禁用狀態豁免（WCAG 1.4.3 例外：禁用元件不要求對比度）| 禁用（非內容）|
 | `color-bg-base` | `#051428` | `#F0F4F8` | N/A — 背景色，無文字對比要求（作為底色使用）| 主背景 |
 | `color-bg-surface` | `#0A2340` | `#FFFFFF` | N/A — 背景色，無文字對比要求 | 卡片/面板背景 |
 | `color-bg-elevated` | `#0D3360` | `#F9FAFB` | N/A — 背景色，無文字對比要求 | 彈窗/浮層背景 |
 | `color-action-primary` | `#F5C842` | `#C99A00` | Dark on bg: 7.2:1 ✅ AAA | 主要 CTA |
 | `color-action-primary-hover` | `#C99A00` | `#7A5C00` | N/A — Hover 狀態，對比度隨 Hover 背景計算（非靜態文字色）| CTA Hover |
-| `color-feedback-success` | `#00FF88` | `#00A852` | Dark on bg: 6.8:1 ✅ AA | 成功/命中 |
+| `color-feedback-success` | `#00FF88` | `#00A852` | Dark on bg: ~13.8:1 ✅ AAA | 成功/命中 |
 | `color-feedback-error` | `#FF4444` | `#D93025` | Dark on bg: 4.6:1 ✅ AA | 錯誤狀態 |
 | `color-feedback-warning` | `#FF8080` | `#E65100` | Dark on bg (#051428): 約 7.61:1 ✅ AAA（精確值：#FF8080 相對亮度 0.383 vs #051428 相對亮度 0.007，比值 = (0.383+0.05)/(0.007+0.05) ≈ 7.61:1 ✅ AAA）| 警告 |
-| `color-accent-neon` | `#00D4FF` | `#0088CC` | Dark on bg: 5.8:1 ✅ AA | Jackpot/技能強調 |
+| `color-accent-neon` | `#00D4FF` | `#0088CC` | Dark on bg: ~10.4:1 ✅ AAA | Jackpot/技能強調 |
 | `color-border-default` | `rgba(255,255,255,0.45)` = 合成後約 `#767E89` on `#051428` | `#E5E7EB` | Dark: 約 3.2:1 ✅（符合 WCAG 1.4.11 非文字對比度 ≥ 3:1；PackageCard / EditBox 邊框屬於 UI 元件邊界，不可豁免）| 預設邊框 |
 | `color-border-focus` | `#F5C842` | `#C99A00` | Dark: 約 8–12:1（依背景層，bg-elevated 最低 7.97:1）✅ AAA（on bg-base `#051428`：11.63:1；on bg-elevated `#0D3360`：7.97:1+；均遠超 WCAG 2.4.7 ≥ 3:1 要求）| 焦點環 |
 | `color-vip-identity` | `#FFD700` | `#B8860B` | Dark on bg: 6.5:1 ✅ AA | VIP 徽章金色 |
