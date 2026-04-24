@@ -1560,7 +1560,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-white-100` | `#FFFFFF` |
 | `color-white-60` | `rgba(255,255,255,0.6)` |
 | `color-white-45` | `rgba(255,255,255,0.45)` |
-| `color-white-30` | `rgba(255,255,255,0.3)` |
+| `color-white-30` | `rgba(255,255,255,0.35)` |
 | `color-black-80` | `rgba(0,0,0,0.8)` |
 | `color-vip-silver` | `#C0C0C0` |
 | `color-vip-gold` | `#FFD700` |
@@ -1618,6 +1618,8 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-text-disabled` | `color-white-30` | 禁用狀態文字 |
 | `color-action-primary` | `color-gold-400` | 主要 CTA 按鈕（充值、確認）|
 | `color-action-primary-hover` | `color-gold-600` | CTA 懸停態 |
+| `color-action-primary-active` | `color-gold-600` | CTA 按壓態 |
+| `color-action-secondary` | `color-neon-blue` | 次要 CTA（Secondary Button 預設色）|
 | `color-feedback-success` | `color-neon-green` | 成功狀態（命中、充值成功）|
 | `color-feedback-error` | `color-red-500` | 錯誤狀態（連線失敗、年齡驗證失敗）|
 | `color-feedback-warning` | `color-red-300` | 警告（金幣不足）|
