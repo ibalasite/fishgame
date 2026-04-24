@@ -612,7 +612,7 @@ Input（我們可控的行動）
 | **關鍵活動（Key Activities）** | 遊戲開發迭代（功能+數值）、活動運營（每週活動設計）、玩家社群維護、行銷獲客（LINE/Facebook/App Store）、數值持續調校 |
 | **關鍵合作夥伴（Key Partners）** | 雲端服務商（AWS/GCP 東南亞）、支付平台（AppStore IAP / Google Play / 第三方支付）、法務顧問（博彩法規）、美術外包（如需） |
 | **獲客管道（Channels）** | 亞洲社群媒體廣告（LINE / Facebook / Instagram）、遊戲平台 / 應用商店 SEO + ASO、口碑推薦（邀請好友回饋機制）、KOL 直播推廣（東南亞遊戲 KOL）、限時活動病毒傳播 |
-| **單位經濟（Unit Economics）** | CAC 目標：≤ USD 6/用戶（USD 60,000 行銷預算 / 10,000 DAU）；LTV 目標：≥ USD 240/付費用戶（ARPU USD 20/月 × 12 個月）；LTV/CAC 目標：≥ 40（遠高於健康值 > 3，但基於 5% 付費率轉換）|
+| **單位經濟（Unit Economics）** | **CAC（全用戶口徑）**：≤ USD 6/用戶（USD 60,000 行銷預算 / 10,000 DAU）<br>**LTV（付費用戶口徑）**：≥ USD 240/付費用戶（ARPU USD 20/月 × 12 個月）<br>**LTV/CAC（同口徑，付費用戶）**：有效 CAC = USD 6 / 5%（付費率）= USD 120/付費用戶；LTV/CAC = USD 240 / USD 120 = **2.0**（低於業界健康值 3x，需監控）<br>**⚠️ 風險提示**：LTV/CAC = 2.0 偏低，需在 Launch + 3M 確認 ARPU 達 USD 20 且付費率 ≥ 5%；若付費率提升至 8%，有效 CAC = USD 75，LTV/CAC = 3.2，達健康值。|
 
 ### 11.2 商業模式假設與驗證計畫
 
