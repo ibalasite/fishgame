@@ -562,7 +562,7 @@ kubectl exec -n fishing-arcade-local deploy/game-service -- \
 | Key | 說明 |
 |-----|------|
 | `MYSQL_ROOT_PASSWORD` | MySQL root 密碼（僅本機 dev 用）|
-| `MYSQL_PASSWORD` | 應用帳號 app 密碼（預設 `secret`，僅本機用）|
+| `MYSQL_PASSWORD` | 應用帳號 app 密碼（本機可使用任意值，從 secrets.env 設定，禁止沿用至其他環境）|
 
 ### 查看目前 ConfigMap / Secret
 
