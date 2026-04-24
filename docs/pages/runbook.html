@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>運維手冊 — fishing-arcade-game</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
+  <div class="nav-controls">
+    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
+    
+    <div class="search-wrap">
+      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
+      <div class="search-results"></div>
+    </div>
+  </div>
+</nav>
+<div class="doc-page-banner">
+  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › 運維手冊</div>
+  <h1 class="banner-title">運維手冊</h1>
+  <p class="banner-desc">Operations Runbook</p>
+</div>
+<div class="page-wrapper">
+  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 產品創意</a>
+<a class="sidebar__link" href="brd.html">📋 業務需求</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
+<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 設計</a>
+<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
+<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
+<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+</div></nav>
+  <div class="sidebar-resizer" id="sidebarResizer"></div>
+  <main class="doc-content"><h1 id="fishing-arcade-game-—-operations-runbook">Fishing Arcade Game — Operations Runbook</h1>
+<p>
+<!-- DOC-ID: RUNBOOK-FISHING-ARCADE-GAME-20260424 -->
+<!-- Version: 0.1 | Date: 2026-04-24 | Status: DRAFT -->
+<!-- Quality Bar: 凌晨 3 點被叫醒，零前情提要，能直接執行每一個步驟 -->
+<!-- ⚠️  DRAFT WARNING: 此文件為 DRAFT 狀態。§12 聯絡資訊尚未填充，P1 升級路徑目前失效。
+請在轉為 READY 前完成「發布前佔位符填充清單」（見 §0）。-->
+</p>
+<hr>
+<h2 id="§0-document-control">§0 Document Control</h2>
+<table><tr><th>欄位</th><th>值</th></tr><tr><td>DOC-ID</td><td>RUNBOOK-FISHING-ARCADE-GAME-20260424</td></tr><tr><td>Version</td><td>0.1</td></tr><tr><td>Status</td><td><strong>DRAFT — 聯絡資訊待填充（§12 全部為佔位符，P1 升級路徑失效）</strong></td></tr><tr><td>上游文件</td><td>EDD, ARCH, API, SCHEMA, PRD, BRD, test-plan.md</td></tr><tr><td>維護者</td><td>SRE / Platform Eng</td></tr></table>
+<h3 id="發布前佔位符填充清單（draft-→-ready-前必須完成）">發布前佔位符填充清單（DRAFT → READY 前必須完成）</h3>
+<p>
+在將 Status 改為 READY 之前，必須填充以下所有 <code>{{}}</code> 佔位符：
+</p>
+<table><tr><th>位置</th><th>佔位符</th><th>說明</th></tr><tr><td>§4.1 Pre-Deployment Checklist</td><td><code>{{GH_OWNER}}</code></td><td>GitHub 組織/使用者名稱</td></tr><tr><td>§4.2 Standard Deployment</td><td><code>{{GH_OWNER}}</code></td><td>GitHub 組織/使用者名稱（映像路徑）</td></tr><tr><td>§5.1 Key Dashboards</td><td><code>{{DOMAIN}}</code></td><td>Grafana 內部域名</td></tr><tr><td>§6.3 Communication Templates</td><td><code>{{COMPANY_DOMAIN}}</code></td><td>公司 Status Page 域名</td></tr><tr><td>§12 Contacts</td><td><code>{{ON_CALL_NAME}}</code></td><td>On-Call SRE 姓名</td></tr><tr><td>§12 Contacts</td><td><code>{{PAGERDUTY_SERVICE_URL}}</code></td><td>PagerDuty Service URL</td></tr><tr><td>§12 Contacts</td><td><code>{{ENG_LEAD_NAME}}</code></td><td>Engineering Lead 姓名</td></tr><tr><td>§12 Contacts</td><td><code>{{ENG_LEAD_SLACK}}</code></td><td>Engineering Lead Slack handle</td></tr><tr><td>§12 Contacts</td><td><code>{{DBA_NAME}}</code></td><td>DBA 姓名</td></tr><tr><td>§12 Contacts</td><td><code>{{DBA_SLACK}}</code></td><td>DBA Slack handle</td></tr><tr><td>§12 Contacts</td><td><code>{{SECURITY_NAME}}</code></td><td>Security Lead 姓名</td></tr><tr><td>§12 Contacts</td><td><code>{{SECURITY_SLACK}}</code></td><td>Security Lead Slack handle</td></tr><tr><td>§12 Contacts</td><td><code>{{PM_NAME}}</code></td><td>Product Head 姓名</td></tr><tr><td>§12 Contacts</td><td><code>{{PM_SLACK}}</code></td><td>Product Head Slack handle</td></tr><tr><td>§12 Contacts</td><td><code>{{ORG}}</code></td><td>PagerDuty 組織名稱</td></tr><tr><td>§12 Contacts</td><td><code>{{SERVICE_ID}}</code></td><td>PagerDuty Service ID</td></tr><tr><td>§12 Contacts</td><td><code>{{COMPANY_DOMAIN}}</code></td><td>公司 Status Page 域名</td></tr><tr><td>§14 On-Call Handoff</td><td><code>{{DOMAIN}}</code></td><td>Grafana 內部域名</td></tr><tr><td>§14 On-Call Handoff</td><td><code>{{ORG}}</code></td><td>PagerDuty 組織名稱</td></tr><tr><td>§14 On-Call Handoff</td><td><code>{{SERVICE_ID}}</code></td><td>PagerDuty Service ID</td></tr></table>
+<hr>
+<h2 id="§1-system-overview">§1 System Overview</h2>
+<h3 id="§1.1-business-function">§1.1 Business Function</h3>
+<p>
+Fishing Arcade Game 是一款以虛擬幣為媒介的多人即時捕魚競技遊戲平台。玩家透過 IAP（Apple/Google）購買鑽石，兌換成金幣後進入 4–6 人競技房間，即時射擊魚群賺取金幣獎勵，觸發 Jackpot 時一次性獲得累積獎池。系統對外依賴 Apple/Google IAP 收據驗證；對內提供 REST API（帳號/商城）和 Colyseus WebSocket（遊戲）服務。
+</p>
+<p>
+<strong>上游呼叫方</strong>：玩家 Cocos Creator 遊戲用戶端（HTTPS + WSS）
+</p>
+<p>
+<strong>下游消費者</strong>：RDS MySQL（持久化）、ElastiCache Redis（即時狀態 + Jackpot 原子鎖）、Apple/Google IAP 驗證 API
+</p>
+<p>
+<strong>系統下線時的 Blast Radius</strong>：
+</p>
+<ul><li>Account/Shop Service 下線 → 玩家無法登入、充值、查餘額；進行中遊戲房間可繼續（Colyseus 獨立運行）</li><li>Game Service 下線 → 所有進行中遊戲房間中斷；已充值鑽石不受影響</li><li>Redis 下線 → Jackpot 觸發停止；玩家即時金幣更新延遲；WebSocket 廣播降級</li><li>MySQL 下線 → 所有服務不可用；金幣/鑽石餘額讀取失敗</li></ul>
+<h3 id="§1.2-operational-constraints">§1.2 Operational Constraints</h3>
+<table><tr><th>限制項目</th><th>說明</th></tr><tr><td>峰值流量窗口</td><td>平日 20:00–23:00 本地時間（玩家主要活躍時段）；週末全日</td></tr><tr><td>維護窗口</td><td>凌晨 02:00–04:00（peak 時段禁止 rolling restart）</td></tr><tr><td>最大並發</td><td>1,000 名同時在線玩家（Colyseus HPA 3–20 replicas）</td></tr><tr><td>真實金錢交易</td><td>IAP 充值涉及真實貨幣，訂單 status 異常須立即處理（< 15 分鐘）</td></tr><tr><td>年齡合規</td><td>age_verified=false 用戶禁止付費操作；合規日誌必須保留 90 天</td></tr><tr><td>Jackpot 唯一性</td><td>Redis Lua Script 原子鎖確保每次 Jackpot 僅一名玩家得獎；Redis 故障不得觸發重複獎勵</td></tr></table>
+<hr>
+<h2 id="§2-architecture">§2 Architecture</h2>
+<h3 id="§2.1-runtime-topology">§2.1 Runtime Topology</h3>
+<blockquote><strong>NOTE — Namespace 命名說明</strong>：下圖中的 "Game Services" 和 "API Services" 為<strong>邏輯分組</strong>，僅用於說明服務職責。實際 Kubernetes namespace 均為 <code>fishing-arcade-prod</code>（見 §2.2）。圖中未使用 <code>game-ns</code> / <code>api-ns</code> 命名，以避免與實際 namespace 混淆。</blockquote>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
+<p>
+subgraph Internet[&quot;Internet（玩家 HTTPS/WSS）&quot;]
+Client[&quot;Cocos Creator Client&quot;]
+end
+subgraph AWS[&quot;AWS ap-southeast-1&quot;]
+subgraph k8s[&quot;Kubernetes（namespace: fishing-arcade-prod）&quot;]
+Ingress[&quot;Nginx Ingress\nTLS Termination&quot;]
+subgraph GameServices[&quot;Game Services（logical group）&quot;]
+GameSvc[&quot;game-service\n:2567 (Colyseus WSS)\nHPA 3–20 replicas&quot;]
+end
+subgraph ApiServices[&quot;API Services（logical group）&quot;]
+AccountSvc[&quot;account-service\n:3001 (REST)\nHPA 2–10 replicas&quot;]
+ShopSvc[&quot;shop-service\n:3002 (REST)\nHPA 2–10 replicas&quot;]
+end
+end
+subgraph Managed[&quot;Managed Services&quot;]
+RDS[&quot;RDS MySQL 8.0\nmysql.fishing-arcade-prod.svc:3306\nMulti-AZ (fishing_arcade DB)&quot;]
+Redis[&quot;ElastiCache Redis 7\nredis.fishing-arcade-prod.svc:6379\nCluster Mode&quot;]
+end
+IAP[&quot;Apple/Google IAP\nExternal API&quot;]
+end
+</p>
+<p>
+Client --&gt;|HTTPS /api/*| Ingress
+Client --&gt;|WSS /game/*| Ingress
+Ingress --&gt; AccountSvc
+Ingress --&gt; ShopSvc
+Ingress --&gt; GameSvc
+AccountSvc --&gt; RDS
+AccountSvc --&gt; Redis
+ShopSvc --&gt; RDS
+ShopSvc --&gt; Redis
+ShopSvc --&gt; IAP
+GameSvc --&gt; RDS
+GameSvc --&gt; Redis</div></div>
+</p>
+<h3 id="§2.2-component-inventory">§2.2 Component Inventory</h3>
+<table><tr><th>Component</th><th>K8s Namespace</th><th>Deployment</th><th>Port</th><th>HPA</th><th>說明</th></tr><tr><td>Account Service</td><td><code>fishing-arcade-prod</code></td><td><code>account-service</code></td><td>3001</td><td>2–10</td><td>帳號/認證 REST API</td></tr><tr><td>Shop Service</td><td><code>fishing-arcade-prod</code></td><td><code>shop-service</code></td><td>3002</td><td>2–10</td><td>IAP 充值 / 鑽石兌換 REST API</td></tr><tr><td>Game Service</td><td><code>fishing-arcade-prod</code></td><td><code>game-service</code></td><td>2567</td><td>3–20</td><td>Colyseus WebSocket 遊戲伺服器</td></tr><tr><td>MySQL（RDS）</td><td>managed</td><td>—</td><td>3306</td><td>—</td><td>主資料庫 Multi-AZ</td></tr><tr><td>Redis（ElastiCache）</td><td>managed</td><td>—</td><td>6379</td><td>—</td><td>即時狀態 + Jackpot 原子鎖</td></tr><tr><td>Nginx Ingress</td><td><code>ingress-nginx</code></td><td><code>ingress-nginx-controller</code></td><td>80/443</td><td>—</td><td>TLS 終止 + 路由</td></tr></table>
+<h3 id="§2.3-network-and-port-reference">§2.3 Network and Port Reference</h3>
+<table><tr><th>路由規則</th><th>目標 Service</th><th>Port</th></tr><tr><td><code>/api/v1/auth/*</code></td><td>account-service</td><td>3001</td></tr><tr><td><code>/api/v1/users/*</code></td><td>account-service</td><td>3001</td></tr><tr><td><code>/api/v1/shop/*</code></td><td>shop-service</td><td>3002</td></tr><tr><td><code>/api/v1/vip/*</code></td><td>shop-service</td><td>3002</td></tr><tr><td><code>/api/v1/game-configs/*</code></td><td>game-service</td><td>2567</td></tr><tr><td><code>wss://<em>.</em>/game</code></td><td>game-service</td><td>2567</td></tr></table>
+<hr>
+<h2 id="§3-sli-/-slo-/-sla">§3 SLI / SLO / SLA</h2>
+<h3 id="§3.1-slo-定義（來自-edd-§10.5）">§3.1 SLO 定義（來自 EDD §10.5）</h3>
+<table><tr><th>SLO</th><th>目標</th><th>量測窗口</th><th>BRD 依據</th></tr><tr><td>API Availability</td><td>≥ 99.5%</td><td>30 天滾動</td><td>BRD NFR-AVAIL-001</td></tr><tr><td>WebSocket P99 Latency</td><td>≤ 100ms</td><td>7 天</td><td>BRD NFR-PERF-001</td></tr><tr><td>REST API P99 Latency</td><td>≤ 500ms</td><td>7 天</td><td>BRD NFR-PERF-002</td></tr><tr><td>Error Rate（5xx）</td><td>≤ 0.1%</td><td>1 小時</td><td>BRD NFR-REL-001</td></tr></table>
+<h3 id="§3.2-error-budget（月度）">§3.2 Error Budget（月度）</h3>
+<pre><code>Availability SLO = 99.5%
+<p>
+Error Budget = (1 - 0.995) × 30 × 24 × 60 = 216 分鐘 / 月
+</p>
+<p>
+告警閾值：
+50% 消耗 = 108 分鐘 → 限制高風險 Deploy
+75% 消耗 = 162 分鐘 → 僅 Hotfix
+100% 消耗 = 216 分鐘 → 凍結所有非 SLO 相關部署
+</code></pre>
+</p>
+<h3 id="§3.3-customer-sla">§3.3 Customer SLA</h3>
+<table><tr><th>嚴重度</th><th>首次回應時間</th><th>解決目標</th></tr><tr><td>P1（全服不可用 / 金融異常）</td><td>≤ 15 分鐘</td><td>≤ 1 小時</td></tr><tr><td>P2（核心功能降級）</td><td>≤ 30 分鐘</td><td>≤ 4 小時</td></tr><tr><td>P3（非核心功能 Bug）</td><td>≤ 1 工作日</td><td>≤ 3 工作日</td></tr></table>
+<h3 id="§3.4-slo-burn-rate-promql（google-sre-workbook-標準）">§3.4 SLO Burn Rate PromQL（Google SRE Workbook 標準）</h3>
+<pre><code class="language-yaml"># P1 Critical: 14.4x burn rate (1h + 5m multi-window)
+<h1 id="靜態閾值：(1---0.995)-×-14.4-=-0.07200">靜態閾值：(1 - 0.995) × 14.4 = 0.07200</h1>
+<ul><li>alert: fishing_arcade_slo_burn_rate_critical</li></ul>  expr: |
+<p>
+(
+sum(rate(http_requests_total{status=~&quot;5..&quot;,job=&quot;fishing-arcade&quot;}[1h]))
+/ sum(rate(http_requests_total{job=&quot;fishing-arcade&quot;}[1h]))
+) &gt; 0.07200
+AND
+(
+sum(rate(http_requests_total{status=~&quot;5..&quot;,job=&quot;fishing-arcade&quot;}[5m]))
+/ sum(rate(http_requests_total{job=&quot;fishing-arcade&quot;}[5m]))
+) &gt; 0.07200
+for: 2m
+labels:
+severity: critical
+annotations:
+summary: &quot;P1: SLO Burn Rate Critical (&gt;14.4x) → fishing-arcade&quot;
+runbook: &quot;https://runbook.fishing-arcade.internal/docs/RUNBOOK.md#7-troubleshooting&quot;
+</p>
+<h1 id="p2-warning:-6x-burn-rate-(6h-+-30m-multi-window)">P2 Warning: 6x burn rate (6h + 30m multi-window)</h1>
+<h1 id="靜態閾值：(1---0.995)-×-6-=-0.03000">靜態閾值：(1 - 0.995) × 6 = 0.03000</h1>
+<ul><li>alert: fishing_arcade_slo_burn_rate_warning</li></ul>  expr: |
+<p>
+(
+sum(rate(http_requests_total{status=~&quot;5..&quot;,job=&quot;fishing-arcade&quot;}[6h]))
+/ sum(rate(http_requests_total{job=&quot;fishing-arcade&quot;}[6h]))
+) &gt; 0.03000
+AND
+(
+sum(rate(http_requests_total{status=~&quot;5..&quot;,job=&quot;fishing-arcade&quot;}[30m]))
+/ sum(rate(http_requests_total{job=&quot;fishing-arcade&quot;}[30m]))
+) &gt; 0.03000
+for: 5m
+labels:
+severity: warning
+annotations:
+summary: &quot;P2: SLO Burn Rate Warning (&gt;6x) → fishing-arcade&quot;
+</code></pre>
+</p>
+<blockquote><strong>NOTE — PromQL Label 規範</strong>：上方 PromQL 使用 <code>job=&quot;fishing-arcade&quot;</code> 作為聚合標籤（適用於 Prometheus scrape job 層級的聚合）。在 §5.2 及 §7.1 的逐服務查詢中，使用 <code>service=&quot;&lt;service-name&gt;&quot;</code> 標籤（例如 <code>service=&quot;account-service&quot;</code>）。兩者<strong>不應混用</strong>於同一 PromQL 表達式。如需按服務拆分 SLO Burn Rate，請使用以下範例：</blockquote>>
+<blockquote><pre><code class="language-yaml">&gt; # 按 service 拆分的 SLO Burn Rate（P1 Critical）</blockquote>&gt; - alert: fishing_arcade_slo_burn_rate_critical_by_service
+<p>
+&gt;   expr: |
+&gt;     (
+&gt;       sum by(service) (rate(http_requests_total{status=~&quot;5..&quot;,job=&quot;fishing-arcade&quot;}[1h]))
+&gt;       / sum by(service) (rate(http_requests_total{job=&quot;fishing-arcade&quot;}[1h]))
+&gt;     ) &gt; 0.07200
+&gt;     AND
+&gt;     (
+&gt;       sum by(service) (rate(http_requests_total{status=~&quot;5..&quot;,job=&quot;fishing-arcade&quot;}[5m]))
+&gt;       / sum by(service) (rate(http_requests_total{job=&quot;fishing-arcade&quot;}[5m]))
+&gt;     ) &gt; 0.07200
+&gt;   for: 2m
+&gt;   labels:
+&gt;     severity: critical
+&gt; </code></pre>
+>
+</p>
+<blockquote><strong>統一標籤規範</strong>：確認 Prometheus scrape config 中 <code>job</code> label 統一設定為 <code>fishing-arcade</code>，<code>service</code> label 由各服務 metrics endpoint 自行暴露（<code>account-service</code> / <code>shop-service</code> / <code>game-service</code>）。</blockquote>
+<hr>
+<h2 id="§4-deployment-procedures">§4 Deployment Procedures</h2>
+<h3 id="§4.1-pre-deployment-checklist">§4.1 Pre-Deployment Checklist</h3>
+<pre><code>□ CI pipeline green: https://github.com/{{GH_OWNER}}/fishing-arcade-game/actions  &lt;!-- TODO: fill before READY --&gt;
+<p>
+□ Staging smoke test 通過（scripts/smoke-test.sh staging）
+□ DB migration reviewed（prisma migrate status）
+□ 非維護窗口確認（避免 20:00–23:00 peak）
+□ Error Budget 確認（&lt; 75% 消耗）
+□ Rollback plan ready（見 §9）
+□ Grafana dashboard open: https://grafana.{{DOMAIN}}/d/fishing-arcade/service-health  &lt;!-- TODO: fill before READY --&gt;
+</code></pre>
+</p>
+<h3 id="§4.2-standard-deployment（rolling-update）">§4.2 Standard Deployment（Rolling Update）</h3>
+<pre><code class="language-bash"># 1. 確認當前版本
+<p>
+kubectl rollout status deployment/account-service -n fishing-arcade-prod
+kubectl rollout status deployment/shop-service    -n fishing-arcade-prod
+kubectl rollout status deployment/game-service    -n fishing-arcade-prod
+</p>
+<h1 id="2.-更新映像（以-account-service-為例；shop/game-同理）">2. 更新映像（以 account-service 為例；shop/game 同理）</h1>
+<p>
+kubectl set image deployment/account-service \
+account-service=ghcr.io/{{GH_OWNER}}/fishing-arcade-account:${IMAGE_TAG} \
+-n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/account-service-image-updated">Expected: deployment.apps/account-service image updated</h1>
+<h1 id="3.-等待-rollout-完成">3. 等待 rollout 完成</h1>
+<p>
+kubectl rollout status deployment/account-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-&quot;deployment-&quot;account-service&quot;-successfully-rolled-out&quot;">Expected: &quot;deployment &quot;account-service&quot; successfully rolled out&quot;</h1>
+<h1 id="4.-smoke-test">4. Smoke Test</h1>
+<p>
+bash scripts/smoke-test.sh prod
+</p>
+<h1 id="expected:-[ok]-7/7-checks-passed-in-&lt;-5-minutes">Expected: [OK] 7/7 checks passed in &lt; 5 minutes</h1>
+<h1 id="5.-確認-pod-狀態">5. 確認 Pod 狀態</h1>
+<p>
+kubectl get pods -n fishing-arcade-prod -l app=account-service
+</p>
+<h1 id="expected:-所有-pod-status=running，restarts=0">Expected: 所有 pod STATUS=Running，RESTARTS=0</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§4.2.1-game-service-特殊部署步驟（websocket-玩家遷移）">§4.2.1 game-service 特殊部署步驟（WebSocket 玩家遷移）</h4>
+<blockquote>⚠️ <strong>WARNING</strong>：game-service rolling update 會強制斷線活躍玩家（Colyseus room 連線中斷）。<strong>必須</strong>在 rolling update 前評估並執行玩家遷移流程。</blockquote>
+<pre><code class="language-bash"># Step 1: 確認當前活躍房間數
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+node -e &quot;
+const http = require(&#x27;http&#x27;);
+http.get(&#x27;http://localhost:2567/colyseus&#x27;, (res) =&gt; {
+let data = &#x27;&#x27;;
+res.on(&#x27;data&#x27;, chunk =&gt; data += chunk);
+res.on(&#x27;end&#x27;, () =&gt; {
+const rooms = JSON.parse(data);
+console.log(&#x27;Active rooms:&#x27;, rooms.length);
+console.log(&#x27;Total clients:&#x27;, rooms.reduce((s,r) =&gt; s + r.clients, 0));
+});
+});
+&quot;
+</p>
+<h1 id="expected:-顯示活躍房間數和連線玩家數">Expected: 顯示活躍房間數和連線玩家數</h1>
+<h1 id="if-active-rooms-&gt;-0:-執行-step-2；若-rooms-=-0:-可直接跳到-step-4">If active rooms &gt; 0: 執行 Step 2；若 rooms = 0: 可直接跳到 Step 4</h1>
+<h1 id="step-2:-評估是否延遲部署">Step 2: 評估是否延遲部署</h1>
+<h1 id="原則：活躍玩家-&gt;-50-人-→-等待至維護窗口（凌晨-02:00–04:00）">原則：活躍玩家 &gt; 50 人 → 等待至維護窗口（凌晨 02:00–04:00）</h1>
+<h1 id="活躍玩家-&lt;-50-人-→-可在告知後立即執行">活躍玩家 &lt; 50 人 → 可在告知後立即執行</h1>
+<h1 id="step-3:-廣播維護通知（讓玩家完成當前局）">Step 3: 廣播維護通知（讓玩家完成當前局）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+node -e &quot;
+const http = require(&#x27;http&#x27;);
+const data = JSON.stringify({ message: &#x27;系統維護升級將於 5 分鐘後開始，請完成當前遊戲。&#x27; });
+const req = http.request({
+hostname: &#x27;localhost&#x27;, port: 2567, path: &#x27;/broadcast&#x27;, method: &#x27;POST&#x27;,
+headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27; }
+});
+req.write(data);
+req.end();
+console.log(&#x27;Maintenance broadcast sent&#x27;);
+&quot;
+</p>
+<h1 id="expected:-maintenance-broadcast-sent">Expected: Maintenance broadcast sent</h1>
+<h1 id="等待-5-分鐘，讓玩家完成當前局">等待 5 分鐘，讓玩家完成當前局</h1>
+<h1 id="step-4:-確認房間數降低後執行-rolling-update">Step 4: 確認房間數降低後執行 rolling update</h1>
+<p>
+kubectl set image deployment/game-service \
+game-service=ghcr.io/{{GH_OWNER}}/fishing-arcade-game:${IMAGE_TAG} \
+-n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/game-service-image-updated">Expected: deployment.apps/game-service image updated</h1>
+<h1 id="step-5:-等待-rollout-完成">Step 5: 等待 rollout 完成</h1>
+<p>
+kubectl rollout status deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-&quot;deployment-&quot;game-service&quot;-successfully-rolled-out&quot;">Expected: &quot;deployment &quot;game-service&quot; successfully rolled out&quot;</h1>
+<h1 id="step-6:-smoke-test">Step 6: Smoke Test</h1>
+<p>
+bash scripts/smoke-test.sh prod
+</p>
+<h1 id="expected:-[ok]-7/7-checks-passed">Expected: [OK] 7/7 checks passed</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§4.3-database-migration（prisma）">§4.3 Database Migration（Prisma）</h3>
+<pre><code class="language-bash"># 在 migration Job Pod 中執行（不在 app pod 中直接 exec）
+<p>
+kubectl apply -f infra/k8s/migration-job.yaml -n fishing-arcade-prod
+kubectl wait --for=condition=complete job/db-migration -n fishing-arcade-prod --timeout=300s
+</p>
+<h1 id="expected:-job.batch/db-migration-condition-met">Expected: job.batch/db-migration condition met</h1>
+<p>
+kubectl logs job/db-migration -n fishing-arcade-prod
+</p>
+<h1 id="expected:-&quot;all-migrations-have-been-applied&quot;">Expected: &quot;All migrations have been applied&quot;</h1>
+<h1 id="if-this-fails:-kubectl-logs-job/db-migration--n-fishing-arcade-prod-→-檢查-migration-error，回滾見-§9.2">If this fails: kubectl logs job/db-migration -n fishing-arcade-prod → 檢查 migration error，回滾見 §9.2</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§4.4-feature-flag-rollout">§4.4 Feature Flag Rollout</h3>
+<pre><code class="language-bash"># 開啟 feature flag（以 redis pub/sub v2 為例）
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+node -e &quot;require(&#x27;./flagClient&#x27;).set(&#x27;infra.game.use_redis_pub_sub_v2&#x27;, true)&quot;
+</p>
+<h1 id="expected:-&quot;flag-updated:-infra.game.use_redis_pub_sub_v2-=-true&quot;">Expected: &quot;Flag updated: infra.game.use_redis_pub_sub_v2 = true&quot;</h1>
+<p>
+</code></pre>
+</p>
+<hr>
+<h2 id="§5-monitoring-and-alerting">§5 Monitoring and Alerting</h2>
+<h3 id="§5.1-key-dashboards">§5.1 Key Dashboards</h3>
+<table><tr><th>Dashboard</th><th>URL</th><th>用途</th></tr><tr><td>Service Health Overview</td><td><code>https://grafana.{{DOMAIN}}/d/fishing-arcade/service-health</code></td><td>P99、Error Rate、QPS</td></tr><tr><td>WebSocket Connections</td><td><code>https://grafana.{{DOMAIN}}/d/fishing-arcade/websocket</code></td><td>活躍連線數、Colyseus rooms</td></tr><tr><td>RTP / Jackpot</td><td><code>https://grafana.{{DOMAIN}}/d/fishing-arcade/rtp-jackpot</code></td><td>RTP 偏差告警、Jackpot 觸發率</td></tr><tr><td>SLO Error Budget</td><td><code>https://grafana.{{DOMAIN}}/d/fishing-arcade/slo</code></td><td>Error Budget 消耗進度</td></tr></table>
+<h3 id="§5.2-alert-reference-table">§5.2 Alert Reference Table</h3>
+<table><tr><th>Alert 名稱</th><th>嚴重度</th><th>觸發條件</th><th>Runbook Section</th></tr><tr><td><code>fishing_arcade_high_error_rate</code></td><td>P1</td><td>5xx Error Rate > 1%（持續 5 分鐘）</td><td>§7.1</td></tr><tr><td><code>fishing_arcade_availability_breach</code></td><td>P1</td><td>Availability < 99.5%（30 分鐘窗口）</td><td>§7.2</td></tr><tr><td><code>fishing_arcade_slo_burn_rate_critical</code></td><td>P1</td><td>SLO Burn Rate > 14.4x</td><td>§7.1, §7.2</td></tr><tr><td><code>fishing_arcade_p99_latency_high</code></td><td>P2</td><td>REST P99 > 400ms（持續 5 分鐘）</td><td>§7.3</td></tr><tr><td><code>fishing_arcade_websocket_latency_high</code></td><td>P1</td><td>WS P99 > 80ms（持續 5 分鐘）</td><td>§7.3</td></tr><tr><td><code>fishing_arcade_db_connection_pool_exhausted</code></td><td>P1</td><td>DB active connections > 80% pool</td><td>§7.5.1</td></tr><tr><td><code>fishing_arcade_pod_crashloopbackoff</code></td><td>P1</td><td>Pod RESTARTS > 3 in 5 minutes</td><td>§7.6</td></tr><tr><td><code>fishing_arcade_slo_burn_rate_warning</code></td><td>P2</td><td>SLO Burn Rate > 6x</td><td>§7.1</td></tr><tr><td><code>fishing_arcade_rtp_deviation</code></td><td>P2</td><td>短期 RTP 偏差 > ±5%</td><td>§7 (業務告警)</td></tr><tr><td><code>fishing_arcade_queue_depth_high</code></td><td>P2</td><td>Redis Queue depth > 1000（若使用）</td><td>§7.4</td></tr></table>
+<blockquote><strong>Early-Warning 說明</strong>：<code>fishing_arcade_p99_latency_high</code>（REST P99 > 400ms）和 <code>fishing_arcade_websocket_latency_high</code>（WS P99 > 80ms）為 Early-Warning 告警，觸發點設定在對應 SLO 目標的 80%（REST SLO ≤ 500ms × 80% = 400ms；WS SLO ≤ 100ms × 80% = 80ms）。這些告警旨在提前預警，尚未違反 SLO，但需立即調查以防止 SLO 突破。</blockquote>
+<hr>
+<h2 id="§6-incident-response">§6 Incident Response</h2>
+<h3 id="§6.1-severity-classification">§6.1 Severity Classification</h3>
+<table><tr><th>等級</th><th>定義</th><th>回應時間</th><th>解決目標</th><th>範例</th></tr><tr><td>P1</td><td>全服不可用 / IAP 金融交易失敗 / 安全洩漏</td><td>≤ 15 分鐘</td><td>≤ 1 小時</td><td>全部 API 500、帳戶無法登入、鑽石未到帳</td></tr><tr><td>P2</td><td>核心功能降級（部分用戶受影響）</td><td>≤ 30 分鐘</td><td>≤ 4 小時</td><td>WebSocket P99 > 200ms、特定武器無法使用</td></tr><tr><td>P3</td><td>非核心功能 Bug</td><td>≤ 1 工作日</td><td>≤ 3 工作日</td><td>UI 顯示錯誤、非核心頁面 404</td></tr></table>
+<h3 id="§6.2-incident-commander-checklist">§6.2 Incident Commander Checklist</h3>
+<pre><code>T+0:  PagerDuty 告警觸發 → On-call 接收
+<p>
+T+5:  加入 #incidents-fishing-arcade；確認嚴重度
+T+10: 建立 incident doc；通知相關人員
+T+15: 開始 RCA（症狀 → 範圍 → 根因）
+T+30: (P1) 客服通知；Status Page 更新
+T+60: (P1) 解決 or 上報 Engineering Lead
+</code></pre>
+</p>
+<h3 id="§6.3-communication-templates">§6.3 Communication Templates</h3>
+<p>
+<strong>Status Page（初始通知）</strong>：
+</p>
+<pre><code>[INVESTIGATING] 我們正在調查影響 [受影響功能] 的問題。
+<p>
+已知影響：[具體描述，如「部分玩家無法登入」]
+開始時間：[UTC timestamp]
+下次更新：30 分鐘後
+</code></pre>
+</p>
+<p>
+<strong>Slack P1 通知（貼到 #incidents-fishing-arcade）</strong>：
+</p>
+<pre><code>🔴 P1 INCIDENT — fishing-arcade
+<p>
+Alert: [alert 名稱]
+影響：[受影響功能/用戶數]
+開始：[UTC timestamp]
+IC：@[值班工程師]
+Bridge：[Zoom/Meet URL]
+Status Page: https://status.{{COMPANY_DOMAIN}}
+</code></pre>
+</p>
+<h3 id="§6.4-escalation-path">§6.4 Escalation Path</h3>
+<pre><code>On-Call SRE
+<p>
+→ (15 min no resolution) Engineering Lead
+→ (30 min P1 no resolution) CTO + Product Head
+→ (IAP financial issue) Finance + Legal
+</code></pre>
+</p>
+<h3 id="§6.5-iap-financial-incident（特殊流程）">§6.5 IAP Financial Incident（特殊流程）</h3>
+<pre><code>觸發條件：鑽石未到帳 / 重複扣款 / 退款異常 / Jackpot 重複獎勵（見 §7.11）
+<ol><li>立即停止受影響的 IAP 收單（手動強制開啟 circuit breaker，見下方指令）</li><li>查詢受影響 order_id：見 §7.5.2 DB 查詢</li><li>通知 Finance（&lt; 15 分鐘）</li><li>記錄所有受影響 user_id / order_id（用於補償）</li><li>修復後補償操作必須雙人確認</li></ol></code></pre>
+<p>
+<strong>Step 1 — 手動強制開啟 Circuit Breaker（停止收單）：</strong>
+</p>
+<pre><code class="language-bash"># 停止 Apple IAP 收單（EX 3600 = 1 小時後自動過期，避免永久鎖死）
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} SET circuit_breaker:apple_iap OPEN EX 3600
+</p>
+<h1 id="expected:-ok">Expected: OK</h1>
+<h1 id="停止-google-iap-收單">停止 Google IAP 收單</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} SET circuit_breaker:google_iap OPEN EX 3600
+</p>
+<h1 id="expected:-ok">Expected: OK</h1>
+<h1 id="確認狀態">確認狀態</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} GET circuit_breaker:apple_iap
+</p>
+<h1 id="expected:-&quot;open&quot;">Expected: &quot;OPEN&quot;</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} GET circuit_breaker:google_iap
+</p>
+<h1 id="expected:-&quot;open&quot;">Expected: &quot;OPEN&quot;</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§6.6-rollback-decision-matrix">§6.6 Rollback Decision Matrix</h3>
+<table><tr><th>情況</th><th>決定</th><th>動作</th></tr><tr><td>新部署後 error rate > 2%</td><td>立即 Rollback</td><td>§9.1</td></tr><tr><td>新部署後 P99 > 1s</td><td>立即 Rollback</td><td>§9.1</td></tr><tr><td>DB migration 失敗</td><td>立即回滾 migration</td><td>§9.2</td></tr><tr><td>Feature flag 異常</td><td>關閉 flag</td><td>§4.4（設為 false）</td></tr></table>
+<h3 id="§6.7-post-mortem-requirement">§6.7 Post-Mortem Requirement</h3>
+<ul><li>草稿截止：事故結束後 <strong>2 個工作日內</strong></li><li>分發對象：所有事故參與者 + Engineering Lead + Product Head</li><li>格式：5-Why 根因分析 + Timeline + Action Items（每項有 DRI + 截止日）</li><li>30 天 Check-in：確認 Action Items 完成狀態</li></ul>
+<h3 id="§6.8-non-blame-culture">§6.8 Non-Blame Culture</h3>
+<p>
+Post-Mortem 不以懲罰個人為目的。重點在系統和流程改善。
+</p>
+<hr>
+<h2 id="§7-troubleshooting">§7 Troubleshooting</h2>
+<h3 id="§7.1-api-5xx-錯誤">§7.1 API 5xx 錯誤</h3>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">flowchart TD
+<p>
+A[告警: high_error_rate] --&gt; B{哪個 service?}
+B --&gt;|account-service| C[kubectl logs -n fishing-arcade-prod\n-l app=account-service --tail=100]
+B --&gt;|shop-service| D[kubectl logs -n fishing-arcade-prod\n-l app=shop-service --tail=100]
+B --&gt;|game-service| E[kubectl logs -n fishing-arcade-prod\n-l app=game-service --tail=100]
+C --&gt; F{DB 連線錯誤?}
+D --&gt; F
+E --&gt; F
+F --&gt;|Yes| G[§7.5 Database Issues]
+F --&gt;|No| H{OOM / CrashLoop?}
+H --&gt;|Yes| I[§7.6 CrashLoopBackOff]
+H --&gt;|No| J{最近有 Deploy?}
+J --&gt;|Yes| K[§9.1 Rollback]
+J --&gt;|No| L[Jaeger Trace 追蹤具體錯誤]</div></div>
+</p>
+<pre><code class="language-bash"># Step 1: 確認錯誤集中在哪個 Pod
+<p>
+kubectl get pods -n fishing-arcade-prod -l app=account-service
+</p>
+<h1 id="expected:-status=running，restarts=0">Expected: STATUS=Running，RESTARTS=0</h1>
+<h1 id="if-restarts-&gt;-3:-見-§7.6">If RESTARTS &gt; 3: 見 §7.6</h1>
+<h1 id="step-2:-查看最近錯誤日誌">Step 2: 查看最近錯誤日誌</h1>
+<p>
+kubectl logs -n fishing-arcade-prod -l app=account-service \
+--tail=200 --since=10m | grep -i &quot;error\|5[0-9][0-9]&quot;
+</p>
+<h1 id="expected:-應顯示具體錯誤訊息（db-連線-/-auth-失敗-/-業務邏輯錯誤）">Expected: 應顯示具體錯誤訊息（DB 連線 / Auth 失敗 / 業務邏輯錯誤）</h1>
+<h1 id="if-this-fails:-kubectl-logs-&lt;pod-name&gt;--n-fishing-arcade-prod---previous-（查崩潰前日誌）">If this fails: kubectl logs &lt;pod-name&gt; -n fishing-arcade-prod --previous （查崩潰前日誌）</h1>
+<h1 id="step-3:-確認-db-連線">Step 3: 確認 DB 連線</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+wget -q -O- http://localhost:3001/health/ready
+</p>
+<h1 id="expected:-{&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}">Expected: {&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}</h1>
+<h1 id="if-mysql:&quot;error&quot;:-見-§7.5">If mysql:&quot;error&quot;: 見 §7.5</h1>
+<h1 id="step-4:-確認-error-rate（prometheus）">Step 4: 確認 Error Rate（Prometheus）</h1>
+<p>
+kubectl port-forward svc/prometheus 9090:9090 -n monitoring &amp;
+</p>
+<h1 id="在-prometheus-查詢：">在 Prometheus 查詢：</h1>
+<h1 id="sum(rate(http_requests_total{status=~&quot;5..&quot;,service=&quot;account-service&quot;}[5m]))">sum(rate(http_requests_total{status=~&quot;5..&quot;,service=&quot;account-service&quot;}[5m]))</h1>
+<h1 id="--/-sum(rate(http_requests_total{service=&quot;account-service&quot;}[5m]))-<em>-100">  / sum(rate(http_requests_total{service=&quot;account-service&quot;}[5m])) </em> 100</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§7.2-服務完全不可用（502/503）">§7.2 服務完全不可用（502/503）</h3>
+<pre><code class="language-bash"># Step 1: 確認 Ingress
+<p>
+kubectl get ingress -n fishing-arcade-prod
+kubectl describe ingress fishing-arcade-ingress -n fishing-arcade-prod
+</p>
+<h1 id="expected:-所有後端-endpoints-有-ip">Expected: 所有後端 Endpoints 有 IP</h1>
+<h1 id="step-2:-確認-service-endpoints">Step 2: 確認 Service Endpoints</h1>
+<p>
+kubectl get endpoints -n fishing-arcade-prod
+</p>
+<h1 id="expected:-account-service-/-shop-service-/-game-service-有-pod-ip">Expected: account-service / shop-service / game-service 有 Pod IP</h1>
+<h1 id="step-3:-確認-pod-數量">Step 3: 確認 Pod 數量</h1>
+<p>
+kubectl get pods -n fishing-arcade-prod
+</p>
+<h1 id="expected:-account-service-至少-2-個-running，game-service-至少-3-個-running">Expected: account-service 至少 2 個 Running，game-service 至少 3 個 Running</h1>
+<h1 id="if-0-pods:-hpa-問題-→-見下方">If 0 pods: HPA 問題 → 見下方</h1>
+<h1 id="step-4:-檢查-hpa">Step 4: 檢查 HPA</h1>
+<p>
+kubectl get hpa -n fishing-arcade-prod
+</p>
+<h1 id="expected:-minpods/maxpods-顯示，current-&gt;=-min">Expected: MINPODS/MAXPODS 顯示，CURRENT &gt;= MIN</h1>
+<h1 id="if-current=0:-kubectl-describe-hpa-account-service--n-fishing-arcade-prod-→-查看-scaling-event">If CURRENT=0: kubectl describe hpa account-service -n fishing-arcade-prod → 查看 scaling event</h1>
+<h1 id="step-5:-強制重啟（最後手段）">Step 5: 強制重啟（最後手段）</h1>
+<p>
+kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/account-service-restarted">Expected: deployment.apps/account-service restarted</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§7.3-high-latency（p99-超標）">§7.3 High Latency（P99 超標）</h3>
+<blockquote><strong>備用路徑</strong>：§7.3 和 §7.5 中的 <code>node -e</code> 診斷指令依賴 app pod 健康且包含 node.js 環境。若 app pod 不健康或無法 exec，請使用以下備用方法：</blockquote>>
+<blockquote><strong>方法 A — Debug Pod</strong>（app pod 不健康時）：
+<pre><code class="language-bash">&gt; kubectl run debug-pod --image=node:20-alpine --restart=Never \</blockquote>&gt;   --env=&quot;DATABASE_URL=${DATABASE_URL}&quot; \
+<p>
+&gt;   -n fishing-arcade-prod -- sleep 3600
+&gt; kubectl exec -it debug-pod -n fishing-arcade-prod -- node -e &quot;&lt;診斷腳本&gt;&quot;
+&gt; kubectl delete pod debug-pod -n fishing-arcade-prod  # 診斷完成後清理
+&gt; </code></pre>
+>
+</p>
+<blockquote><strong>方法 B — AWS RDS Performance Insights</strong>（DB 層問題診斷）：
+<p>
+前往 AWS Console → RDS → fishing-arcade-prod → Performance Insights
+可直接查看 Top SQL、wait events、活躍連線，無需依賴 app pod。</blockquote>
+</p>
+<pre><code class="language-bash"># Step 1: 確認 REST P99
+<p>
+kubectl exec -n monitoring deployment/prometheus -- \
+promtool query instant \
+&#x27;histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{service=&quot;account-service&quot;}[5m])) by (le)) * 1000&#x27;
+</p>
+<h1 id="expected:-&lt;-500ms">Expected: &lt; 500ms</h1>
+<h1 id="if-&gt;-500ms:-繼續-step-2">If &gt; 500ms: 繼續 Step 2</h1>
+<h1 id="step-2:-確認-db-慢查詢">Step 2: 確認 DB 慢查詢</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+node -e &quot;
+const mysql = require(&#x27;mysql2/promise&#x27;);
+const c = await mysql.createConnection(process.env.DATABASE_URL);
+const [rows] = await c.execute(&#x27;SELECT * FROM information_schema.processlist WHERE time &gt; 1 ORDER BY time DESC LIMIT 10&#x27;);
+console.log(JSON.stringify(rows));
+c.end();
+&quot;
+</p>
+<h1 id="expected:-無長時間執行查詢">Expected: 無長時間執行查詢</h1>
+<h1 id="if-有-time-&gt;-5-的查詢:-記錄-sql，考慮-kill-&lt;process_id&gt;">If 有 time &gt; 5 的查詢: 記錄 SQL，考慮 KILL &lt;process_id&gt;</h1>
+<h1 id="step-3:-確認-redis-延遲">Step 3: 確認 Redis 延遲</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+redis-cli -h ${REDIS_HOST} --latency -i 1 -c 5
+</p>
+<h1 id="expected:-avg-latency-&lt;-1ms">Expected: avg latency &lt; 1ms</h1>
+<h1 id="if-&gt;-5ms:-elasticache-可能-cpu-高-→-查-aws-cloudwatch">If &gt; 5ms: ElastiCache 可能 CPU 高 → 查 AWS CloudWatch</h1>
+<h1 id="step-4:-確認-cache-miss-rate">Step 4: 確認 Cache Miss Rate</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+redis-cli -h ${REDIS_HOST} INFO stats | grep -E &quot;keyspace_hits|keyspace_misses&quot;
+</p>
+<h1 id="expected:-miss-rate-&lt;-20%">Expected: miss rate &lt; 20%</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§7.4-job-queue-backlog（redis-queue）">§7.4 Job Queue Backlog（Redis Queue）</h3>
+<pre><code class="language-bash"># 確認 Queue 深度
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} LLEN vip_daily_bonus_queue
+</p>
+<h1 id="expected:-&lt;-1000">Expected: &lt; 1000</h1>
+<h1 id="if-&gt;-1000:-vip-補貼-job-處理速度跟不上-→-確認-cronjob-狀態">If &gt; 1000: VIP 補貼 Job 處理速度跟不上 → 確認 CronJob 狀態</h1>
+<p>
+kubectl get cronjob -n fishing-arcade-prod
+</p>
+<h1 id="expected:-vip-daily-bonus-schedule-已設定，last-schedule-正常">Expected: vip-daily-bonus SCHEDULE 已設定，LAST SCHEDULE 正常</h1>
+<p>
+kubectl get jobs -n fishing-arcade-prod --sort-by=&#x27;.metadata.creationTimestamp&#x27; | tail -5
+</p>
+<h1 id="expected:-最近-job-completions=1">Expected: 最近 job COMPLETIONS=1</h1>
+<h1 id="if-0/1-incomplete:-kubectl-describe-job-&lt;job-name&gt;--n-fishing-arcade-prod">If 0/1 incomplete: kubectl describe job &lt;job-name&gt; -n fishing-arcade-prod</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§7.5-database-issues">§7.5 Database Issues</h3>
+<h4 id="§7.5.1-連線池耗盡">§7.5.1 連線池耗盡</h4>
+<pre><code class="language-bash"># Step 1: 確認 active connections
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+node -e &quot;
+const mysql = require(&#x27;mysql2/promise&#x27;);
+const c = await mysql.createConnection(process.env.DATABASE_URL);
+const [[{Value}]] = await c.execute(\&quot;SHOW STATUS LIKE &#x27;Threads_connected&#x27;\&quot;);
+console.log(&#x27;Active connections:&#x27;, Value);
+c.end();
+&quot;
+</p>
+<h1 id="expected:-&lt;-80（pool-預設-100）">Expected: &lt; 80（pool 預設 100）</h1>
+<h1 id="if-&gt;=-80:-連線池耗盡-→-繼續-step-2">If &gt;= 80: 連線池耗盡 → 繼續 Step 2</h1>
+<h1 id="step-2:-找出持有連線最多的查詢">Step 2: 找出持有連線最多的查詢</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+node -e &quot;
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_URL);
+const [rows] = await c.execute(&#x27;SELECT user, host, db, command, time, state, info FROM information_schema.processlist ORDER BY time DESC LIMIT 20&#x27;);
+console.table(rows);
+c.end();
+&quot;
+</p>
+<h1 id="expected:-顯示各查詢耗時，無長時間-sleep-連線">Expected: 顯示各查詢耗時，無長時間 SLEEP 連線</h1>
+<h1 id="if-大量-sleep-連線:-這些是洩漏連線-→-查最近部署是否引入連線洩漏">If 大量 SLEEP 連線: 這些是洩漏連線 → 查最近部署是否引入連線洩漏</h1>
+<h1 id="step-3:-緊急擴大連線池（臨時）">Step 3: 緊急擴大連線池（臨時）</h1>
+<p>
+kubectl set env deployment/account-service \
+DATABASE_POOL_MAX=150 \
+-n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/account-service-env-updated">Expected: deployment.apps/account-service env updated</h1>
+<h1 id="⚠️-step-4（事後恢復，24-小時內必須執行）：">⚠️ Step 4（事後恢復，24 小時內必須執行）：</h1>
+<h1 id="原始值為-database_pool_max=100。rds-max_connections-有限制，">原始值為 DATABASE_POOL_MAX=100。RDS max_connections 有限制，</h1>
+<h1 id="長期保持-150-可能在高峰期導致-rds-拒絕連線。">長期保持 150 可能在高峰期導致 RDS 拒絕連線。</h1>
+<h1 id="根因排查修復完成後，執行以下指令恢復：">根因排查修復完成後，執行以下指令恢復：</h1>
+<p>
+kubectl set env deployment/account-service \
+DATABASE_POOL_MAX=100 \
+-n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/account-service-env-updated">Expected: deployment.apps/account-service env updated</h1>
+<h1 id="⚠️-建立追蹤-ticket（linear/jira）記錄此次臨時擴池，">⚠️ 建立追蹤 ticket（Linear/Jira）記錄此次臨時擴池，</h1>
+<h1 id="---並設定-24-小時提醒確認是否已恢復">   並設定 24 小時提醒確認是否已恢復</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§7.5.2-查詢調試（常用指令）">§7.5.2 查詢調試（常用指令）</h4>
+<pre><code class="language-bash"># 查詢異常訂單（IAP 事故用）
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+node -e &quot;
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_URL);
+const [rows] = await c.execute(
+&#x27;SELECT id, user_id, status, created_at FROM orders WHERE status NOT IN (\&quot;completed\&quot;,\&quot;REFUNDED\&quot;,\&quot;failed\&quot;) AND created_at &gt; DATE_SUB(NOW(), INTERVAL 1 HOUR)&#x27;
+);
+console.table(rows);
+c.end();
+&quot;
+</p>
+<h1 id="expected:-正常情況下無-hanging-訂單">Expected: 正常情況下無 hanging 訂單</h1>
+<h1 id="查詢-vip-到期需降級的用戶">查詢 VIP 到期需降級的用戶</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+node -e &quot;
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_URL);
+const [rows] = await c.execute(
+&#x27;SELECT id, vip_tier, vip_expires_at FROM users WHERE vip_tier &gt; 0 AND vip_expires_at &lt; NOW() LIMIT 20&#x27;
+);
+console.table(rows);
+c.end();
+&quot;
+</code></pre>
+</p>
+<h3 id="§7.6-pod-crashloopbackoff">§7.6 Pod CrashLoopBackOff</h3>
+<pre><code class="language-bash"># Step 1: 確認哪個 Pod crash
+<p>
+kubectl get pods -n fishing-arcade-prod | grep -v Running
+</p>
+<h1 id="expected:-所有-running；若有-crashloopbackoff-繼續">Expected: 所有 Running；若有 CrashLoopBackOff 繼續</h1>
+<h1 id="step-2:-查崩潰前日誌">Step 2: 查崩潰前日誌</h1>
+<p>
+kubectl logs &lt;pod-name&gt; -n fishing-arcade-prod --previous
+</p>
+<h1 id="expected:-應顯示啟動失敗原因（db-連線-/-環境變數缺失-/-oom）">Expected: 應顯示啟動失敗原因（DB 連線 / 環境變數缺失 / OOM）</h1>
+<h1 id="if-&quot;error:-mysql_host-is-required&quot;:-k8s-secret-未掛載-→-見-§11">If &quot;Error: MYSQL_HOST is required&quot;: k8s Secret 未掛載 → 見 §11</h1>
+<h1 id="step-3:-確認-oom">Step 3: 確認 OOM</h1>
+<p>
+kubectl describe pod &lt;pod-name&gt; -n fishing-arcade-prod | grep -A5 &quot;OOMKilled\|Last State&quot;
+</p>
+<h1 id="expected:-無-oomkilled">Expected: 無 OOMKilled</h1>
+<h1 id="if-oomkilled:-臨時增加-memory-limit">If OOMKilled: 臨時增加 memory limit</h1>
+<p>
+kubectl patch deployment account-service -n fishing-arcade-prod \
+--type=&#x27;json&#x27; \
+-p=&#x27;[{&quot;op&quot;:&quot;replace&quot;,&quot;path&quot;:&quot;/spec/template/spec/containers/0/resources/limits/memory&quot;,&quot;value&quot;:&quot;1Gi&quot;}]&#x27;
+</p>
+<h1 id="step-4:-強制刪除卡住的-pod（最後手段）">Step 4: 強制刪除卡住的 Pod（最後手段）</h1>
+<p>
+kubectl delete pod &lt;pod-name&gt; -n fishing-arcade-prod
+</p>
+<h1 id="expected:-pod-自動重建">Expected: Pod 自動重建</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§7.7-disk-pressure">§7.7 Disk Pressure</h3>
+<pre><code class="language-bash"># 確認 Node 狀態
+<p>
+kubectl get nodes -o wide
+kubectl describe node &lt;node-name&gt; | grep -A10 &quot;Conditions:&quot;
+</p>
+<h1 id="expected:-diskpressure=false">Expected: DiskPressure=False</h1>
+<h1 id="清理舊日誌（若需要）">清理舊日誌（若需要）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+find /app/logs -name &quot;*.log&quot; -mtime +7 -delete
+</p>
+<h1 id="expected:-舊日誌已刪除">Expected: 舊日誌已刪除</h1>
+<h1 id="確認-pvc-使用率">確認 PVC 使用率</h1>
+<p>
+kubectl get pvc -n fishing-arcade-prod
+kubectl exec -n fishing-arcade-prod &lt;pod&gt; -- df -h /data
+</code></pre>
+</p>
+<h3 id="§7.8-external-dependency-failure（apple/google-iap）">§7.8 External Dependency Failure（Apple/Google IAP）</h3>
+<pre><code class="language-bash"># Step 1: 確認 Circuit Breaker 狀態
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} GET circuit_breaker:apple_iap
+</p>
+<h1 id="expected:-&quot;closed&quot;-或-null">Expected: &quot;CLOSED&quot; 或 null</h1>
+<h1 id="if-&quot;open&quot;:-circuit-breaker-已開啟-→-用戶-iap-返回-503">If &quot;OPEN&quot;: Circuit Breaker 已開啟 → 用戶 IAP 返回 503</h1>
+<h1 id="step-2:-查看-iap-連續失敗次數">Step 2: 查看 IAP 連續失敗次數</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} GET circuit_breaker:apple_iap:failures
+</p>
+<h1 id="expected:-&lt;-5">Expected: &lt; 5</h1>
+<h1 id="step-3:-手動重置-circuit-breaker（iap-恢復後）">Step 3: 手動重置 Circuit Breaker（IAP 恢復後）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} DEL circuit_breaker:apple_iap circuit_breaker:apple_iap:failures
+</p>
+<h1 id="expected:-(integer)-2">Expected: (integer) 2</h1>
+<h1 id="確認-status-page:-https://www.apple.com/support/systemstatus/">確認 status page: https://www.apple.com/support/systemstatus/</h1>
+<h1 id="step-4:-確認-retry_after-對用戶的影響">Step 4: 確認 retry_after 對用戶的影響</h1>
+<h1 id="用戶-post-/v1/shop/purchases-此時返回-503-with-retry_after=30">用戶 POST /v1/shop/purchases 此時返回 503 with retry_after=30</h1>
+<h1 id="→-屬預期行為，無需額外處理（iap-恢復後自動恢復）">→ 屬預期行為，無需額外處理（IAP 恢復後自動恢復）</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§7.8.1-手動強制開啟-circuit-breaker（金融事故緊急停單）">§7.8.1 手動強制開啟 Circuit Breaker（金融事故緊急停單）</h4>
+<blockquote>此步驟用於金融事故（§6.5）中主動停止 IAP 收單，不等 circuit breaker 自動觸發。</blockquote>
+<pre><code class="language-bash"># 強制開啟 Apple IAP Circuit Breaker（1 小時）
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} SET circuit_breaker:apple_iap OPEN EX 3600
+</p>
+<h1 id="expected:-ok">Expected: OK</h1>
+<h1 id="強制開啟-google-iap-circuit-breaker（1-小時）">強制開啟 Google IAP Circuit Breaker（1 小時）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} SET circuit_breaker:google_iap OPEN EX 3600
+</p>
+<h1 id="expected:-ok">Expected: OK</h1>
+<h1 id="延長鎖定時間（若調查超過-1-小時，重新設定-ttl）">延長鎖定時間（若調查超過 1 小時，重新設定 TTL）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} EXPIRE circuit_breaker:apple_iap 7200
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} EXPIRE circuit_breaker:google_iap 7200
+</p>
+<h1 id="expected:-(integer)-1">Expected: (integer) 1</h1>
+<h1 id="恢復收單（確認問題解決後執行）">恢復收單（確認問題解決後執行）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+redis-cli -h ${REDIS_HOST} DEL circuit_breaker:apple_iap circuit_breaker:apple_iap:failures \
+circuit_breaker:google_iap circuit_breaker:google_iap:failures
+</p>
+<h1 id="expected:-(integer)-4">Expected: (integer) 4</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§7.9-backup-failure">§7.9 Backup Failure</h3>
+<pre><code class="language-bash"># 確認最近的備份 Job 狀態
+<p>
+kubectl get jobs -n fishing-arcade-prod -l app=db-backup --sort-by=&#x27;.metadata.creationTimestamp&#x27; | tail -3
+</p>
+<h1 id="expected:-completions=1">Expected: COMPLETIONS=1</h1>
+<h1 id="查看備份-job-日誌">查看備份 Job 日誌</h1>
+<p>
+kubectl logs -n fishing-arcade-prod job/db-backup-&lt;timestamp&gt;
+</p>
+<h1 id="expected:-&quot;backup-completed-successfully,-uploaded-to-s3://fishing-arcade-backups/&quot;">Expected: &quot;Backup completed successfully, uploaded to s3://fishing-arcade-backups/&quot;</h1>
+<h1 id="if-this-fails:-確認-s3-credentials、網路連通性">If this fails: 確認 S3 credentials、網路連通性</h1>
+<h1 id="手動觸發緊急備份（rds-snapshot）">手動觸發緊急備份（RDS Snapshot）</h1>
+<p>
+aws rds create-db-snapshot \
+--db-instance-identifier fishing-arcade-prod \
+--db-snapshot-identifier fishing-arcade-manual-$(date +%Y%m%d%H%M%S)
+</code></pre>
+</p>
+<h3 id="§7.10-cron-job-失敗（vip-補貼-/-vip-到期降級）">§7.10 Cron Job 失敗（VIP 補貼 / VIP 到期降級）</h3>
+<pre><code class="language-bash"># 確認 CronJob 狀態
+<p>
+kubectl get cronjob -n fishing-arcade-prod
+</p>
+<h1 id="expected:-vip-daily-bonus,-vip-expiry-checker-—-suspend=false">Expected: vip-daily-bonus, vip-expiry-checker — SUSPEND=False</h1>
+<h1 id="查詢最近-job-執行日誌">查詢最近 Job 執行日誌</h1>
+<p>
+kubectl logs -n fishing-arcade-prod \
+job/$(kubectl get jobs -n fishing-arcade-prod -l app=vip-daily-bonus \
+--sort-by=&#x27;.metadata.creationTimestamp&#x27; -o jsonpath=&#x27;{.items[-1].metadata.name}&#x27;)
+</p>
+<h1 id="expected:-&quot;vip-bonus-job-completed,-processed-n-users&quot;">Expected: &quot;VIP bonus job completed, processed N users&quot;</h1>
+<h1 id="手動觸發-vip-補貼-job（緊急補發）">手動觸發 VIP 補貼 Job（緊急補發）</h1>
+<p>
+kubectl create job vip-bonus-manual-$(date +%s) \
+--from=cronjob/vip-daily-bonus \
+-n fishing-arcade-prod
+</p>
+<h1 id="expected:-job.batch/vip-bonus-manual-&lt;ts&gt;-created">Expected: job.batch/vip-bonus-manual-&lt;ts&gt; created</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§7.11-jackpot-重複觸發緊急處置">§7.11 Jackpot 重複觸發緊急處置</h3>
+<blockquote><strong>P1 金融事故</strong>：Redis Lua Script 原子鎖失效可能導致多名玩家同時獲得 Jackpot 獎勵。此為最高嚴重度事故，必須立即啟動 §6.5 IAP Financial Incident 流程並同時執行以下步驟。</blockquote>
+<blockquote>⚠️ <strong>Stop-First 原則</strong>：偵測到疑似重複觸發後，<strong>必須先執行 §7.11.2 暫停 Jackpot</strong>，再進行 §7.11.3 MySQL 確認查詢。止損優先於確認，避免在調查期間持續產生新的重複獎勵。</blockquote>
+<h4 id="§7.11.1-偵測">§7.11.1 偵測</h4>
+<pre><code class="language-bash"># Step 1: 確認 Jackpot 鎖狀態
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+redis-cli -h ${REDIS_HOST} GET jackpot_lock
+</p>
+<h1 id="expected:-正常情況為-null（無進行中-jackpot）或-&quot;&lt;player_id&gt;:&lt;timestamp&gt;&quot;（鎖定中）">Expected: 正常情況為 null（無進行中 jackpot）或 &quot;&lt;player_id&gt;:&lt;timestamp&gt;&quot;（鎖定中）</h1>
+<h1 id="if-多個不同值或鎖異常：繼續調查">If 多個不同值或鎖異常：繼續調查</h1>
+<h1 id="step-2:-查詢-redis-jackpot-相關-keys">Step 2: 查詢 Redis Jackpot 相關 Keys</h1>
+<h1 id="⚠️-警告：不可在生產環境使用-keys-命令（會阻塞-redis），請使用-scan-替代">⚠️ 警告：不可在生產環境使用 KEYS 命令（會阻塞 Redis），請使用 SCAN 替代</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+redis-cli -h ${REDIS_HOST} -c --scan --pattern &quot;jackpot*&quot;
+</p>
+<h1 id="expected:-列出所有-jackpot-相關-keys（jackpot_lock,-jackpot_pool,-jackpot_winner_<em>-等）">Expected: 列出所有 jackpot 相關 keys（jackpot_lock, jackpot_pool, jackpot_winner_</em> 等）</h1>
+<h1 id="step-3:-查詢-jackpot-觸發日誌（最近-30-分鐘）">Step 3: 查詢 Jackpot 觸發日誌（最近 30 分鐘）</h1>
+<p>
+kubectl logs -n fishing-arcade-prod -l app=game-service \
+--tail=500 --since=30m | grep -i &quot;jackpot&quot;
+</p>
+<h1 id="expected:-每次-jackpot-僅一條-&quot;jackpot_awarded&quot;-日誌">Expected: 每次 jackpot 僅一條 &quot;jackpot_awarded&quot; 日誌</h1>
+<h1 id="if-多條-jackpot_awarded-日誌時間戳相近（&lt;-5s）：確認為重複觸發">If 多條 jackpot_awarded 日誌時間戳相近（&lt; 5s）：確認為重複觸發</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§7.11.2-暫停-jackpot（feature-flag）">§7.11.2 暫停 Jackpot（Feature Flag）</h4>
+<pre><code class="language-bash"># 立即關閉 Jackpot 功能，防止後續重複觸發
+<p>
+kubectl set env deployment/game-service \
+FEATURE_JACKPOT_ENABLED=false \
+-n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/game-service-env-updated">Expected: deployment.apps/game-service env updated</h1>
+<h1 id="確認所有-game-service-pod-已更新環境變數">確認所有 game-service pod 已更新環境變數</h1>
+<p>
+kubectl rollout status deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-&quot;successfully-rolled-out&quot;">Expected: &quot;successfully rolled out&quot;</h1>
+<h1 id="驗證-feature-flag-生效">驗證 feature flag 生效</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+node -e &quot;console.log(&#x27;JACKPOT_ENABLED:&#x27;, process.env.FEATURE_JACKPOT_ENABLED)&quot;
+</p>
+<h1 id="expected:-jackpot_enabled:-false">Expected: JACKPOT_ENABLED: false</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§7.11.3-確認（查詢-mysql-jackpot_winners-表）">§7.11.3 確認（查詢 MySQL jackpot_winners 表）</h4>
+<pre><code class="language-bash">kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+<p>
+node -e &quot;
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_URL);
+const [rows] = await c.execute(
+&#x27;SELECT id, user_id, amount, created_at FROM jackpot_winners WHERE created_at &gt; DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY created_at DESC&#x27;
+);
+console.table(rows);
+c.end();
+&quot;
+</p>
+<h1 id="expected:-1-小時內最多-1-筆-jackpot_winners-記錄">Expected: 1 小時內最多 1 筆 jackpot_winners 記錄</h1>
+<h1 id="if-多筆記錄且-created_at-時間差-&lt;-5s：確認為重複觸發事故">If 多筆記錄且 created_at 時間差 &lt; 5s：確認為重複觸發事故</h1>
+<h1 id="記錄所有受影響的-user_id-和-amount，用於後續補償">記錄所有受影響的 user_id 和 amount，用於後續補償</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§7.11.4-補償（雙人確認原則）">§7.11.4 補償（雙人確認原則）</h4>
+<blockquote>⚠️ <strong>強制雙人確認</strong>：補償操作涉及真實金幣，必須由兩名工程師（1 執行 + 1 確認）共同完成，並在 Incident Doc 中記錄兩人姓名和操作時間。</blockquote>
+<pre><code class="language-bash"># 1. 確認多餘獎勵的 user_id 和 amount（從 §7.11.3 查詢結果）
+<h1 id="2.-由第二人確認金額和-user_id-正確">2. 由第二人確認金額和 user_id 正確</h1>
+<h1 id="3.-執行扣除（需-dba-協助操作，不在此自動化）">3. 執行扣除（需 DBA 協助操作，不在此自動化）</h1>
+<h1 id="執行人：&lt;engineer_1_name&gt;--確認人：&lt;engineer_2_name&gt;">執行人：&lt;ENGINEER_1_NAME&gt;  確認人：&lt;ENGINEER_2_NAME&gt;</h1>
+<h1 id="在-incident-doc-記錄：操作時間、受影響-user_id、補償金額">在 Incident Doc 記錄：操作時間、受影響 user_id、補償金額</h1>
+<h1 id="通知-finance（&lt;-15-分鐘）——-見-§6.5">通知 Finance（&lt; 15 分鐘）—— 見 §6.5</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§7.11.5-恢復">§7.11.5 恢復</h4>
+<pre><code class="language-bash"># Step 1: 清除 Jackpot 鎖（確保下次 Jackpot 可正常觸發）
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+redis-cli -h ${REDIS_HOST} DEL jackpot_lock
+</p>
+<h1 id="expected:-(integer)-1">Expected: (integer) 1</h1>
+<h1 id="step-2:-驗證鎖已清除">Step 2: 驗證鎖已清除</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+redis-cli -h ${REDIS_HOST} GET jackpot_lock
+</p>
+<h1 id="expected:-(nil)">Expected: (nil)</h1>
+<h1 id="step-3:-確認-jackpot-pool-餘額正確">Step 3: 確認 Jackpot Pool 餘額正確</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+redis-cli -h ${REDIS_HOST} GET jackpot_pool
+</p>
+<h1 id="expected:-合理的金幣數值（對照-mysql-jackpot_pool-表確認）">Expected: 合理的金幣數值（對照 MySQL jackpot_pool 表確認）</h1>
+<h1 id="step-4:-重新啟用-jackpot（根因修復後）">Step 4: 重新啟用 Jackpot（根因修復後）</h1>
+<p>
+kubectl set env deployment/game-service \
+FEATURE_JACKPOT_ENABLED=true \
+-n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/game-service-env-updated">Expected: deployment.apps/game-service env updated</h1>
+<h1 id="step-5:-監控-jackpot-觸發（觀察-30-分鐘）">Step 5: 監控 Jackpot 觸發（觀察 30 分鐘）</h1>
+<p>
+kubectl logs -n fishing-arcade-prod -l app=game-service \
+--follow --since=1m | grep -i &quot;jackpot&quot;
+</p>
+<h1 id="確認後續-jackpot_awarded-每次只出現一條記錄">確認後續 jackpot_awarded 每次只出現一條記錄</h1>
+<p>
+</code></pre>
+</p>
+<hr>
+<h2 id="§8-capacity-planning">§8 Capacity Planning</h2>
+<h3 id="§8.1-peak-load-parameters">§8.1 Peak Load Parameters</h3>
+<table><tr><th>指標</th><th>當前基準</th><th>峰值上限（HPA max）</th></tr><tr><td>並發玩家</td><td>1,000</td><td>20,000（HPA 上限）</td></tr><tr><td>REST QPS</td><td>500</td><td>5,000</td></tr><tr><td>WebSocket 事件/s</td><td>6,000</td><td>60,000</td></tr><tr><td>Colyseus 房間數</td><td>250</td><td>5,000</td></tr></table>
+<h3 id="§8.2-scaling-triggers">§8.2 Scaling Triggers</h3>
+<h4 id="pre-scale-決策表">Pre-Scale 決策表</h4>
+<table><tr><th>觸發時機</th><th>目標 Replicas</th><th>計算依據</th><th>執行者</th><th>恢復時機</th></tr><tr><td>預期活動 / 節日促銷（提前 2 小時）</td><td>game-service: 15, account/shop: 8</td><td>預估 CCU × 0.015 = replicas</td><td>On-Call SRE + Engineering Lead 確認</td><td>活動結束後 2 小時，HPA 自動縮容</td></tr><tr><td>HPA 觸發但縮放滯後（CPU > 70%）</td><td>當前 replicas + 3</td><td>立即追加緩衝</td><td>On-Call SRE 獨立決策</td><td>HPA 自動恢復（通常 10–15 分鐘後）</td></tr><tr><td>監控到 WebSocket 連線數 > 800（接近 1000 上限）</td><td>game-service: 10</td><td>預防式擴容</td><td>On-Call SRE 獨立決策</td><td>連線數回落至 < 400 後可縮容</td></tr><tr><td>Error Budget 消耗 > 50%（月度）</td><td>限制新部署，不擴容</td><td>風險管理</td><td>Engineering Lead 決策</td><td>Error Budget 回升後解除</td></tr></table>
+<pre><code class="language-bash"># 查看 HPA 狀態
+<p>
+kubectl get hpa -n fishing-arcade-prod -w
+</p>
+<h1 id="確認-game-service-在峰值前手動-pre-scale（以促銷活動為例）">確認 game-service 在峰值前手動 pre-scale（以促銷活動為例）</h1>
+<p>
+kubectl scale deployment/game-service --replicas=15 -n fishing-arcade-prod
+kubectl scale deployment/account-service --replicas=8 -n fishing-arcade-prod
+kubectl scale deployment/shop-service --replicas=8 -n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/&lt;service&gt;-scaled">Expected: deployment.apps/&lt;service&gt; scaled</h1>
+<h1 id="確認-scale-生效">確認 scale 生效</h1>
+<p>
+kubectl get pods -n fishing-arcade-prod
+</p>
+<h1 id="expected:-game-service-15-個-running，account/shop-各-8-個-running">Expected: game-service 15 個 Running，account/shop 各 8 個 Running</h1>
+<p>
+</code></pre>
+</p>
+<hr>
+<h2 id="§9-rollback-procedures">§9 Rollback Procedures</h2>
+<h3 id="§9.1-application-rollback（最近-1-次部署）">§9.1 Application Rollback（最近 1 次部署）</h3>
+<pre><code class="language-bash"># account-service
+<p>
+kubectl rollout undo deployment/account-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/account-service-rolled-back">Expected: deployment.apps/account-service rolled back</h1>
+<p>
+kubectl rollout status deployment/account-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-&quot;successfully-rolled-out&quot;">Expected: &quot;successfully rolled out&quot;</h1>
+<h1 id="shop-service">shop-service</h1>
+<p>
+kubectl rollout undo deployment/shop-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/shop-service-rolled-back">Expected: deployment.apps/shop-service rolled back</h1>
+<p>
+kubectl rollout status deployment/shop-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-&quot;successfully-rolled-out&quot;">Expected: &quot;successfully rolled out&quot;</h1>
+<h1 id="game-service">game-service</h1>
+<p>
+kubectl rollout undo deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-deployment.apps/game-service-rolled-back">Expected: deployment.apps/game-service rolled back</h1>
+<p>
+kubectl rollout status deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-&quot;successfully-rolled-out&quot;">Expected: &quot;successfully rolled out&quot;</h1>
+<h1 id="回滾後立即執行-smoke-test">回滾後立即執行 smoke test</h1>
+<p>
+bash scripts/smoke-test.sh prod
+</p>
+<h1 id="expected:-[ok]-7/7-checks-passed">Expected: [OK] 7/7 checks passed</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§9.2-database-migration-rollback">§9.2 Database Migration Rollback</h3>
+<blockquote>⚠️ <strong>重要說明</strong>：Prisma <strong>不支援自動 down migration</strong>。<code>prisma migrate resolve --rolled-back</code> 只更新 <code>_prisma_migrations</code> 元數據表（將 migration 標記為 rolled back 狀態），<strong>不執行任何 schema DDL</strong>。必須手動執行 Step 3 的 down migration SQL 才能實際回復資料庫結構。</blockquote>
+<pre><code class="language-bash"># Step 1: 確認當前 migration 狀態
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+npx prisma migrate status
+</p>
+<h1 id="expected:-顯示最後一次-applied-migration-名稱（如-20260424120000_add_jackpot_winners）">Expected: 顯示最後一次 applied migration 名稱（如 20260424120000_add_jackpot_winners）</h1>
+<h1 id="step-2:-標記-migration-為-rolled-back（僅更新元數據，不執行-ddl）">Step 2: 標記 migration 為 rolled back（僅更新元數據，不執行 DDL）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+npx prisma migrate resolve --rolled-back &lt;migration_name&gt;
+</p>
+<h1 id="expected:-&quot;migration-&lt;name&gt;-marked-as-rolled-back&quot;">Expected: &quot;Migration &lt;name&gt; marked as rolled back&quot;</h1>
+<h1 id="⚠️-此步驟僅更新-_prisma_migrations-表，資料庫-schema-尚未變更">⚠️ 此步驟僅更新 _prisma_migrations 表，資料庫 schema 尚未變更</h1>
+<h1 id="step-3:-手動執行-down-migration-ddl（實際回復-schema）">Step 3: 手動執行 Down Migration DDL（實際回復 schema）</h1>
+<h1 id="從-git-取得-down-sql：">從 Git 取得 down SQL：</h1>
+<h1 id="--git-show-head:prisma/migrations/&lt;migration_name&gt;/migration.sql">  git show HEAD:prisma/migrations/&lt;migration_name&gt;/migration.sql</h1>
+<h1 id="根據-migration-內容，手動撰寫反向操作，例如：">根據 migration 內容，手動撰寫反向操作，例如：</h1>
+<h1 id="----migration-新增了-column-→-down-=-alter-table-&lt;table&gt;-drop-column-&lt;column&gt;">  - migration 新增了 column → DOWN = ALTER TABLE &lt;table&gt; DROP COLUMN &lt;column&gt;</h1>
+<h1 id="----migration-新增了-table--→-down-=-drop-table-if-exists-&lt;table&gt;">  - migration 新增了 table  → DOWN = DROP TABLE IF EXISTS &lt;table&gt;</h1>
+<h1 id="----migration-新增了-index--→-down-=-drop-index-&lt;index_name&gt;-on-&lt;table&gt;">  - migration 新增了 index  → DOWN = DROP INDEX &lt;index_name&gt; ON &lt;table&gt;</h1>
+<p>
+#
+</p>
+<h1 id="在-account-service-pod-中執行-down-ddl：">在 account-service pod 中執行 down DDL：</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+node -e &quot;
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_URL);
+// 貼上 down DDL SQL（由兩人確認後執行）
+await c.execute(&#x27;ALTER TABLE &lt;table&gt; DROP COLUMN &lt;column&gt;&#x27;);
+console.log(&#x27;Down migration DDL executed successfully&#x27;);
+c.end();
+&quot;
+</p>
+<h1 id="expected:-down-migration-ddl-executed-successfully">Expected: Down migration DDL executed successfully</h1>
+<h1 id="⚠️-此操作必須雙人確認（1-執行-+-1-確認-sql-正確）">⚠️ 此操作必須雙人確認（1 執行 + 1 確認 SQL 正確）</h1>
+<h1 id="step-4:-回滾後驗證">Step 4: 回滾後驗證</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+npx prisma migrate status
+</p>
+<h1 id="expected:-migration-狀態顯示為-&quot;rolled-back&quot;，無-pending-migration">Expected: migration 狀態顯示為 &quot;rolled back&quot;，無 pending migration</h1>
+<h1 id="確認應用能正常連線（驗證-schema-與程式碼相容）">確認應用能正常連線（驗證 schema 與程式碼相容）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+wget -q -O- http://localhost:3001/health/ready
+</p>
+<h1 id="expected:-{&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}">Expected: {&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}</h1>
+<h1 id="執行-smoke-test">執行 Smoke Test</h1>
+<p>
+bash scripts/smoke-test.sh prod
+</p>
+<h1 id="expected:-[ok]-7/7-checks-passed">Expected: [OK] 7/7 checks passed</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§9.3-regional-failover（rds-multi-az）">§9.3 Regional Failover（RDS Multi-AZ）</h3>
+<pre><code class="language-bash"># ⚠️ WARNING: 執行前確認 replication lag
+<p>
+aws rds describe-db-instances \
+--db-instance-identifier fishing-arcade-prod \
+--query &#x27;DBInstances[0].{Status:DBInstanceStatus,MultiAZ:MultiAZ,Endpoint:Endpoint}&#x27;
+</p>
+<h1 id="expected:-status=&quot;available&quot;,-multiaz=true">Expected: Status=&quot;available&quot;, MultiAZ=true</h1>
+<h1 id="確認-read-replica-延遲（若有）">確認 Read Replica 延遲（若有）</h1>
+<p>
+aws rds describe-db-instances \
+--db-instance-identifier fishing-arcade-prod-replica \
+--query &#x27;DBInstances[0].ReadReplicaDBInstanceIdentifiers&#x27;
+</p>
+<h1 id="若-replication-lag-&gt;-60s:-⚠️-failover-會導致最多-60s-資料丟失">若 replication lag &gt; 60s: ⚠️ Failover 會導致最多 60s 資料丟失</h1>
+<h1 id="手動觸發-failover">手動觸發 Failover</h1>
+<p>
+aws rds reboot-db-instance \
+--db-instance-identifier fishing-arcade-prod \
+--force-failover
+</p>
+<h1 id="expected:-db-在-30–60-秒內切換到-standby">Expected: DB 在 30–60 秒內切換到 Standby</h1>
+<h1 id="確認應用重連">確認應用重連</h1>
+<p>
+kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+kubectl rollout restart deployment/shop-service -n fishing-arcade-prod
+kubectl rollout restart deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-所有-pod-重啟後恢復-running，health-check-ok">Expected: 所有 Pod 重啟後恢復 Running，health check OK</h1>
+<p>
+</code></pre>
+</p>
+<hr>
+<h2 id="§10-backup-and-restore">§10 Backup and Restore</h2>
+<h3 id="§10.1-backup-strategy（來自-edd-§13.5）">§10.1 Backup Strategy（來自 EDD §13.5）</h3>
+<table><tr><th>備份類型</th><th>頻率</th><th>工具</th><th>保留期</th></tr><tr><td>MySQL Full</td><td>每日（凌晨 01:00）</td><td>RDS Automated Backup</td><td>7 天</td></tr><tr><td>MySQL Incremental（binlog）</td><td>每小時</td><td>RDS binlog</td><td>7 天</td></tr><tr><td>Redis Snapshot</td><td>每 6 小時</td><td>ElastiCache RDB</td><td>3 天</td></tr></table>
+<p>
+<strong>RTO ≤ 30 分鐘 / RPO ≤ 5 分鐘</strong>（來自 EDD §13.5）
+</p>
+<h3 id="§10.2-database-restore">§10.2 Database Restore</h3>
+<pre><code class="language-bash"># Step 1: 確認可用的 RDS 快照
+<p>
+aws rds describe-db-snapshots \
+--db-instance-identifier fishing-arcade-prod \
+--query &#x27;DBSnapshots[?Status==<code>available</code>].{ID:DBSnapshotIdentifier,Created:SnapshotCreateTime}&#x27; \
+--output table
+</p>
+<h1 id="step-2:-從快照還原（到新-instance）">Step 2: 從快照還原（到新 instance）</h1>
+<p>
+aws rds restore-db-instance-from-db-snapshot \
+--db-instance-identifier fishing-arcade-restore-$(date +%Y%m%d) \
+--db-snapshot-identifier &lt;snapshot-id&gt; \
+--db-instance-class db.r6g.xlarge \
+--no-multi-az
+</p>
+<h1 id="expected:-db-instance-在-15–20-分鐘內變為-available">Expected: DB instance 在 15–20 分鐘內變為 available</h1>
+<h1 id="step-3:-驗證資料完整性">Step 3: 驗證資料完整性</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+node -e &quot;
+// 使用還原後的連線字串（從 k8s Secret 讀取，不在此處硬編碼）
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_RESTORE_URL);
+const [[{cnt}]] = await c.execute(&#x27;SELECT COUNT(*) cnt FROM users&#x27;);
+console.log(&#x27;User count:&#x27;, cnt);
+c.end();
+&quot;
+</p>
+<h1 id="expected:-顯示合理的-user-count">Expected: 顯示合理的 user count</h1>
+<h1 id="step-4:-切換應用連線（更新-k8s-secret）">Step 4: 切換應用連線（更新 k8s Secret）</h1>
+<p>
+kubectl create secret generic mysql-credentials \
+--from-literal=host=&lt;restore-endpoint&gt; \
+--from-literal=port=3306 \
+--from-literal=database=fishing_arcade \
+--dry-run=client -o yaml | kubectl apply -f -
+kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+</code></pre>
+</p>
+<h3 id="§10.3-redis-restore">§10.3 Redis Restore</h3>
+<blockquote>⚠️ <strong>重要</strong>：系統使用 ElastiCache <strong>Cluster Mode</strong>（見 §2.1）。不可使用 <code>create-cache-cluster</code>（單節點模式），必須使用 <code>create-replication-group</code> 並啟用 Cluster Mode。</blockquote>
+<pre><code class="language-bash"># ElastiCache 無法直接 restore 到現有 cluster；需建新 replication group 並切換
+<h1 id="step-1:-從-rdb-snapshot-建新-elasticache-replication-group（cluster-mode）">Step 1: 從 RDB snapshot 建新 ElastiCache Replication Group（Cluster Mode）</h1>
+<p>
+aws elasticache create-replication-group \
+--replication-group-id fishing-arcade-redis-restore \
+--replication-group-description &quot;Restore from snapshot $(date +%Y%m%d)&quot; \
+--snapshot-name &lt;snapshot-name&gt; \
+--cache-node-type cache.r6g.large \
+--num-node-groups 3 \
+--replicas-per-node-group 1 \
+--automatic-failover-enabled \
+--multi-az-enabled \
+--cluster-mode enabled \
+--cache-parameter-group default.redis7.cluster.on
+</p>
+<h1 id="expected:-replication-group-建立中（狀態-&quot;creating&quot;，約-10–15-分鐘）">Expected: replication group 建立中（狀態 &quot;creating&quot;，約 10–15 分鐘）</h1>
+<h1 id="step-2:-等待-replication-group-可用">Step 2: 等待 Replication Group 可用</h1>
+<p>
+aws elasticache describe-replication-groups \
+--replication-group-id fishing-arcade-redis-restore \
+--query &#x27;ReplicationGroups[0].{Status:Status,Endpoint:ConfigurationEndpoint}&#x27;
+</p>
+<h1 id="expected:-status=&quot;available&quot;，記錄-configurationendpoint">Expected: Status=&quot;available&quot;，記錄 ConfigurationEndpoint</h1>
+<h1 id="step-3:-驗證新-cluster-資料（在更新連線前）">Step 3: 驗證新 cluster 資料（在更新連線前）</h1>
+<h1 id="⚠️-警告：不可使用-keys-命令（會阻塞-redis），使用-scan-替代">⚠️ 警告：不可使用 KEYS 命令（會阻塞 Redis），使用 SCAN 替代</h1>
+<p>
+redis-cli -h &lt;new-config-endpoint&gt; -p 6379 -c --scan --pattern &quot;jackpot*&quot;
+</p>
+<h1 id="expected:-列出-jackpot-相關-keys（確認-snapshot-資料完整性，非阻塞）">Expected: 列出 jackpot 相關 keys（確認 snapshot 資料完整性，非阻塞）</h1>
+<h1 id="step-4:-更新應用連線（k8s-secret-更新）">Step 4: 更新應用連線（k8s Secret 更新）</h1>
+<p>
+kubectl patch secret redis-credentials -n fishing-arcade-prod \
+--type=&#x27;json&#x27; \
+-p=&#x27;[{&quot;op&quot;:&quot;replace&quot;,&quot;path&quot;:&quot;/data/host&quot;,&quot;value&quot;:&quot;&#x27;$(echo -n &lt;new-config-endpoint&gt; | base64)&#x27;&quot;}]&#x27;
+kubectl rollout restart deployment/game-service -n fishing-arcade-prod
+kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+kubectl rollout restart deployment/shop-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-所有服務重啟完成">Expected: 所有服務重啟完成</h1>
+<h1 id="step-5:-驗證連線正常">Step 5: 驗證連線正常</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+redis-cli -h ${REDIS_HOST} PING
+</p>
+<h1 id="expected:-pong">Expected: PONG</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+wget -q -O- http://localhost:3001/health/ready
+</p>
+<h1 id="expected:-{&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}">Expected: {&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}</h1>
+<p>
+</code></pre>
+</p>
+<hr>
+<h2 id="§11-security-procedures">§11 Security Procedures</h2>
+<h3 id="§11.1-secret-rotation（正確順序，順序錯誤會導致服務中斷）">§11.1 Secret Rotation（正確順序，順序錯誤會導致服務中斷）</h3>
+<pre><code class="language-bash"># ⚠️ 必須依序執行：先改 DB → 再改 K8s Secret → 最後 Rolling Restart
+<h1 id="step-1:-先在-mysql-更新密碼">Step 1: 先在 MySQL 更新密碼</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+node -e &quot;
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_URL);
+await c.execute(&quot;ALTER USER &#x27;app_user&#x27;@&#x27;%&#x27; IDENTIFIED BY ?&quot;, [process.env.NEW_DB_PASSWORD]);
+console.log(&#x27;DB password updated&#x27;);
+c.end();
+&quot;
+</p>
+<h1 id="expected:-db-password-updated">Expected: DB password updated</h1>
+<h1 id="step-2:-更新-k8s-secret（使用新密碼）">Step 2: 更新 K8s Secret（使用新密碼）</h1>
+<p>
+kubectl create secret generic mysql-credentials \
+--from-literal=password=${NEW_DB_PASSWORD} \
+--namespace=fishing-arcade-prod \
+--dry-run=client -o yaml | kubectl apply -f -
+</p>
+<h1 id="expected:-secret/mysql-credentials-configured">Expected: secret/mysql-credentials configured</h1>
+<h1 id="step-3:-rolling-restart（讓-pod-讀取新-secret）">Step 3: Rolling Restart（讓 Pod 讀取新 Secret）</h1>
+<p>
+kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+kubectl rollout restart deployment/shop-service -n fishing-arcade-prod
+kubectl rollout restart deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-所有-pod-重啟完成，health-check-ok">Expected: 所有 Pod 重啟完成，health check OK</h1>
+<h1 id="step-4:-驗證所有-pod-使用新密碼連線正常">Step 4: 驗證所有 Pod 使用新密碼連線正常</h1>
+<p>
+kubectl rollout status deployment/account-service -n fishing-arcade-prod
+kubectl rollout status deployment/shop-service -n fishing-arcade-prod
+kubectl rollout status deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-所有-deployment-&quot;successfully-rolled-out&quot;">Expected: 所有 deployment &quot;successfully rolled out&quot;</h1>
+<h1 id="確認每個服務-health-check-顯示-mysql:-ok">確認每個服務 health check 顯示 mysql: ok</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+wget -q -O- http://localhost:3001/health/ready
+kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
+wget -q -O- http://localhost:3002/health/ready
+</p>
+<h1 id="expected:-{&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}">Expected: {&quot;status&quot;:&quot;ok&quot;,&quot;checks&quot;:{&quot;mysql&quot;:&quot;ok&quot;,&quot;redis&quot;:&quot;ok&quot;}}</h1>
+<h1 id="⚠️-若任一-pod-出現-crashloopbackoff（mysql-連線失敗）→-立即執行緊急恢復（見下方）">⚠️ 若任一 Pod 出現 CrashLoopBackOff（mysql 連線失敗）→ 立即執行緊急恢復（見下方）</h1>
+<p>
+</code></pre>
+</p>
+<h4 id="§11.1.1-secret-rotation-緊急恢復（crashloop-時）">§11.1.1 Secret Rotation 緊急恢復（CrashLoop 時）</h4>
+<blockquote><strong>競態條件風險</strong>：ALTER USER（Step 1）到 Rolling Restart 完成（Step 3）之間存在混合密碼狀態（舊 Pod 用舊密碼、新 Pod 用新密碼）。若 Step 1 中 MySQL 密碼更新失敗但 K8s Secret 已更新，或密碼值不一致，新 Pod 會因 DB 連線失敗進入 CrashLoop。</blockquote>
+<pre><code class="language-bash"># 緊急恢復：回滾到舊密碼
+<h1 id="step-1:-在-mysql-恢復舊密碼（若還有存活的舊-pod-可-exec）">Step 1: 在 MySQL 恢復舊密碼（若還有存活的舊 Pod 可 exec）</h1>
+<p>
+kubectl exec -n fishing-arcade-prod deployment/account-service -- \
+node -e &quot;
+const c = await require(&#x27;mysql2/promise&#x27;).createConnection(process.env.DATABASE_URL);
+await c.execute(&quot;ALTER USER &#x27;app_user&#x27;@&#x27;%&#x27; IDENTIFIED BY ?&quot;, [process.env.OLD_DB_PASSWORD]);
+console.log(&#x27;Password rolled back to old&#x27;);
+c.end();
+&quot;
+</p>
+<h1 id="⚠️-若所有-pod-都已-crashloop，改用-dba-直接連線-rds-執行-alter-user">⚠️ 若所有 Pod 都已 CrashLoop，改用 DBA 直接連線 RDS 執行 ALTER USER</h1>
+<h1 id="step-2:-恢復-k8s-secret-為舊密碼">Step 2: 恢復 K8s Secret 為舊密碼</h1>
+<p>
+kubectl create secret generic mysql-credentials \
+--from-literal=password=${OLD_DB_PASSWORD} \
+--namespace=fishing-arcade-prod \
+--dry-run=client -o yaml | kubectl apply -f -
+</p>
+<h1 id="step-3:-rolling-restart-讓-pod-讀取舊-secret">Step 3: Rolling Restart 讓 Pod 讀取舊 Secret</h1>
+<p>
+kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+kubectl rollout restart deployment/shop-service -n fishing-arcade-prod
+kubectl rollout restart deployment/game-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-服務恢復正常後，建立-ticket-分析輪換失敗原因後再次執行輪換">Expected: 服務恢復正常後，建立 ticket 分析輪換失敗原因後再次執行輪換</h1>
+<p>
+</code></pre>
+</p>
+<h3 id="§11.2-jwt-secret-rotation">§11.2 JWT Secret Rotation</h3>
+<pre><code class="language-bash"># Step 1: 確認當前 JWT_SECRET 版本
+<p>
+kubectl get secret jwt-credentials -n fishing-arcade-prod \
+-o jsonpath=&#x27;{.metadata.annotations.rotation-date}&#x27;
+</p>
+<h1 id="step-2:-更新-k8s-secret（雙-secret：舊的繼續驗證-30-分鐘）">Step 2: 更新 K8s Secret（雙 Secret：舊的繼續驗證 30 分鐘）</h1>
+<p>
+kubectl create secret generic jwt-credentials \
+--from-literal=current_secret=${NEW_JWT_SECRET} \
+--from-literal=previous_secret=${OLD_JWT_SECRET} \
+--namespace=fishing-arcade-prod \
+--dry-run=client -o yaml | kubectl apply -f -
+</p>
+<h1 id="step-3:-rolling-restart">Step 3: Rolling Restart</h1>
+<p>
+kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+</p>
+<h1 id="expected:-新-pod-使用新-secret-簽發-jwt；舊-jwt（30-分鐘內）仍可驗證">Expected: 新 Pod 使用新 secret 簽發 JWT；舊 JWT（30 分鐘內）仍可驗證</h1>
+<h1 id="step-4:-30-分鐘後清除-previous_secret">Step 4: 30 分鐘後清除 previous_secret</h1>
+<p>
+kubectl patch secret jwt-credentials -n fishing-arcade-prod \
+--type=&#x27;json&#x27; \
+-p=&#x27;[{&quot;op&quot;:&quot;remove&quot;,&quot;path&quot;:&quot;/data/previous_secret&quot;}]&#x27;
+</code></pre>
+</p>
+<h3 id="§11.3-compromised-credentials（15-分鐘撤銷-sla）">§11.3 Compromised Credentials（15 分鐘撤銷 SLA）</h3>
+<pre><code>T+0:  發現 credentials 洩漏 → 立即通知 Security Lead
+<p>
+T+3:  kubectl delete secret &lt;secret-name&gt; -n fishing-arcade-prod
+T+5:  重建 secret：kubectl create secret generic &lt;name&gt; --from-literal=... -n fishing-arcade-prod
+T+8:  kubectl rollout restart deployment/account-service -n fishing-arcade-prod
+T+10: kubectl rollout restart deployment/shop-service -n fishing-arcade-prod
+T+12: kubectl rollout restart deployment/game-service -n fishing-arcade-prod
+T+15: 確認所有 Pod 正常運行（smoke test）
+T+20: 建立 Security Incident ticket（含洩漏時間窗口、可能受影響範圍）
+</code></pre>
+</p>
+<hr>
+<h2 id="§12-contacts-and-escalation">§12 Contacts and Escalation</h2>
+<blockquote>⚠️ <strong>DRAFT WARNING — 以下所有聯絡資訊均為佔位符，P1 升級路徑目前失效。</strong>
+<p>
+在將文件狀態改為 READY 之前，必須填充所有 <code>{{}}</code> 佔位符（見 §0 發布前填充清單）。</blockquote>
+</p>
+<table><tr><th>角色</th><th>姓名</th><th>聯絡方式</th><th>可用時間</th></tr><tr><td>On-Call SRE</td><td>{{ON_CALL_NAME}} <!-- TODO: fill before READY --></td><td>PagerDuty: {{PAGERDUTY_SERVICE_URL}} <!-- TODO: fill before READY --></td><td>24/7</td></tr><tr><td>Engineering Lead</td><td>{{ENG_LEAD_NAME}} <!-- TODO: fill before READY --></td><td>Slack: @{{ENG_LEAD_SLACK}} <!-- TODO: fill before READY --></td><td>工作時間 / P1 24h</td></tr><tr><td>Database Admin</td><td>{{DBA_NAME}} <!-- TODO: fill before READY --></td><td>Slack: @{{DBA_SLACK}} <!-- TODO: fill before READY --></td><td>工作時間</td></tr><tr><td>Security Lead</td><td>{{SECURITY_NAME}} <!-- TODO: fill before READY --></td><td>Slack: @{{SECURITY_SLACK}} <!-- TODO: fill before READY --></td><td>工作時間 / Breach 24h</td></tr><tr><td>Product Head</td><td>{{PM_NAME}} <!-- TODO: fill before READY --></td><td>Slack: @{{PM_SLACK}} <!-- TODO: fill before READY --></td><td>工作時間 / P1</td></tr></table>
+<p>
+<strong>Incident Slack Channel</strong>: <code>#incidents-fishing-arcade</code>
+</p>
+<p>
+<strong>PagerDuty</strong>: <code>https://{{ORG}}.pagerduty.com/services/{{SERVICE_ID}}</code> <!-- TODO: fill before READY -->
+</p>
+<p>
+<strong>Status Page</strong>: <code>https://status.{{COMPANY_DOMAIN}}</code> <!-- TODO: fill before READY -->
+</p>
+<hr>
+<h2 id="§13-change-log">§13 Change Log</h2>
+<table><tr><th>Version</th><th>Date</th><th>Author</th><th>說明</th></tr><tr><td>0.1</td><td>2026-04-24</td><td>gendoc-auto</td><td>Initial DRAFT — generated from EDD/ARCH/PRD</td></tr></table>
+<hr>
+<h2 id="§14-on-call-handoff">§14 On-Call Handoff</h2>
+<p>
+<strong>貼到 #incidents-fishing-arcade 的交班訊息範本：</strong>
+</p>
+<pre><code>[ON-CALL HANDOFF] Fishing Arcade Game
+<p>
+日期：YYYY-MM-DD HH:00 UTC
+值班接手：@&lt;INCOMING_ENGINEER&gt;
+值班交班：@&lt;OUTGOING_ENGINEER&gt;
+</p>
+<p>
+目前狀態：GREEN / DEGRADED / INCIDENT
+Error Budget 本月消耗：___% ( ___ / 216 分鐘)
+</p>
+<p>
+進行中事項：&lt;DESCRIPTION or 無&gt;
+需注意：&lt;DESCRIPTION or 無&gt;
+待處理 ticket：&lt;Linear URL or 無&gt;
+</p>
+<p>
+Dashboards:
+Health: https://grafana.{{DOMAIN}}/d/fishing-arcade/service-health
+SLO:    https://grafana.{{DOMAIN}}/d/fishing-arcade/slo
+RTP:    https://grafana.{{DOMAIN}}/d/fishing-arcade/rtp-jackpot
+</p>
+<p>
+Runbook: docs/RUNBOOK.md
+PagerDuty: https://{{ORG}}.pagerduty.com/services/{{SERVICE_ID}}
+</code></pre>
+</p>
+<hr>
+<h2 id="§15-runbook-validation-procedure">§15 Runbook Validation Procedure</h2>
+<h3 id="§15.1-monthly-drill-—-db-connection-pool-exhaustion">§15.1 Monthly Drill — DB Connection Pool Exhaustion</h3>
+<p>
+<strong>場景</strong>：模擬 §7.5.1 連線池耗盡
+</p>
+<pre><code>1. 在 Staging 環境，使用 k6 模擬 200 VU 並發請求
+<ol><li>確認告警 fishing_arcade_db_connection_pool_exhausted 在 2 分鐘內觸發</li><li>執行 §7.5.1 Step 1–3 診斷流程</li><li>確認 kubectl exec 命令正常執行（exit 0）</li></ol></code></pre>
+<p>
+<strong>通過標準</strong>：
+</p>
+<ul><li>從接到告警到完成 §7.5.1 Step 3 臨時擴池，整體 ≤ 10 分鐘</li><li>所有 kubectl 命令執行成功（exit 0）</li></ul>
+<h3 id="§15.2-quarterly-dr-drill-—-regional-failover">§15.2 Quarterly DR Drill — Regional Failover</h3>
+<p>
+<strong>場景</strong>：在 Staging 執行 §9.3 Regional Failover
+</p>
+<pre><code>1. 確認 Staging RDS Multi-AZ 已啟用
+<ol><li>執行 §9.3 aws rds reboot-db-instance --force-failover</li><li>記錄從 failover 觸發到應用完全恢復的時間</li><li>對比 RTO 目標（≤ 30 分鐘）</li></ol></code></pre>
+<p>
+<strong>通過標準</strong>：
+</p>
+<ul><li>實際 RTO ≤ 30 分鐘</li><li>實際 RPO ≤ 5 分鐘（最後一筆成功寫入 vs 恢復後資料）</li><li>輸出 DR 測試報告（含實測 RTO/RPO 數字）</li></ul>
+<h3 id="§15.3-new-on-call-onboarding-—-standard-deployment">§15.3 New On-Call Onboarding — Standard Deployment</h3>
+<p>
+<strong>場景</strong>：新工程師獨立執行 §4.2 Standard Deployment
+</p>
+<pre><code>1. 新工程師在 Staging 獨立執行 §4.2 所有步驟（不求助）
+<ol><li>從 kubectl set image 到 smoke test 通過</li><li>記錄耗時</li></ol></code></pre>
+<p>
+<strong>通過標準</strong>：
+</p>
+<ul><li>從開始到 smoke test [OK] 7/7 ≤ 15 分鐘</li><li>無需任何口頭指導</li><li>所有 kubectl 命令執行成功（exit 0）</li></ul>
+<h3 id="§15.4-semi-annual-iap-financial-incident-tabletop-exercise（半年度桌面演練）">§15.4 Semi-Annual IAP Financial Incident Tabletop Exercise（半年度桌面演練）</h3>
+<p>
+<strong>頻率</strong>：每半年一次（建議 1 月和 7 月）
+</p>
+<p>
+<strong>場景</strong>：IAP 重複扣款事故（模擬 §6.5 IAP Financial Incident 流程）
+</p>
+<pre><code>情景描述：
+<p>
+- 監控告警：orders 表在 5 分鐘內出現 20 筆 status=&quot;pending&quot; 但未完成的訂單
+- Apple IAP 驗證 API 回傳異常（503 重試導致重複扣款）
+- 2 名玩家回報鑽石未到帳，3 名玩家回報被重複扣款
+</p>
+<p>
+演練目標：
+1. 確認值班工程師能在 5 分鐘內識別事故等級（P1）
+2. 確認能正確執行 §7.8.1 手動強制開啟 Circuit Breaker
+3. 確認能在 15 分鐘內通知 Finance
+4. 確認補償操作雙人確認流程是否清晰
+5. 確認 §6.5 各步驟負責人是否明確
+</code></pre>
+</p>
+<p>
+<strong>演練步驟</strong>：
+</p>
+<pre><code>1. IC 宣佈演練開始，提供情景描述（不提供任何提示）
+<ol><li>參與者翻閱 RUNBOOK，執行 §6.5 + §7.8.1 流程（Staging 環境）</li><li>記錄每個步驟的實際耗時</li><li>演練結束後復盤：哪些步驟不清晰？哪些指令執行失敗？</li><li>更新 Runbook（若有任何步驟需修正）</li></ol></code></pre>
+<p>
+<strong>通過標準</strong>：
+</p>
+<ul><li>從接到告警到完成停止收單（Circuit Breaker OPEN）≤ 10 分鐘</li><li>Finance 通知時間 ≤ 15 分鐘</li><li>補償確認雙人簽名流程完整</li><li>演練後 2 個工作日內完成 Runbook 修正（若有）</li></ul>
+<h3 id="§15.5-semi-annual-compromised-credentials-drill（半年度憑證洩漏演練）">§15.5 Semi-Annual Compromised Credentials Drill（半年度憑證洩漏演練）</h3>
+<p>
+<strong>頻率</strong>：每半年一次（建議 3 月和 9 月，與 §15.4 錯開）
+</p>
+<p>
+<strong>場景</strong>：生產環境 DB 密碼疑似洩漏
+</p>
+<pre><code>情景描述：
+<p>
+- Security 工具告警：GitHub secret scanning 偵測到 mysql-credentials 疑似出現在 public repo
+- 需要在 15 分鐘 SLA 內完成撤銷並恢復服務
+- 同時需評估：洩漏時間窗口、可能受影響的資料範圍
+</p>
+<p>
+演練目標：
+1. 確認值班工程師熟悉 §11.1 Secret Rotation 完整流程
+2. 確認了解競態條件風險（§11.1.1）
+3. 確認能在 CrashLoop 時執行緊急恢復
+4. 確認安全事故 ticket 格式正確（含洩漏時間窗口）
+5. 驗證 15 分鐘撤銷 SLA（§11.3）是否可達成
+</code></pre>
+</p>
+<p>
+<strong>演練步驟</strong>：
+</p>
+<pre><code>1. Security Lead 宣佈演練開始，提供情景描述
+<ol><li>參與者在 Staging 執行 §11.3 Compromised Credentials 流程（T+0 到 T+20）</li><li>IC 在 T+8 注入故障：模擬新密碼與 MySQL 實際密碼不一致 → Pod CrashLoop</li><li>參與者執行 §11.1.1 緊急恢復流程</li><li>記錄實際耗時 vs SLA 目標</li><li>復盤：哪個環節最容易出錯？是否需要增加自動化？</li></ol></code></pre>
+<p>
+<strong>通過標準</strong>：
+</p>
+<ul><li>T+15 內完成憑證撤銷並服務恢復正常</li><li>CrashLoop 緊急恢復在 5 分鐘內完成</li><li>Security Incident ticket 含完整資訊（洩漏時間窗口 + 受影響範圍評估）</li><li>演練後更新 Runbook 和 Incident Response Checklist（若有缺漏）</li></ul></main>
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

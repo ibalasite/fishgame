@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>資料庫 Schema — fishing-arcade-game</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
+  <div class="nav-controls">
+    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
+    
+    <div class="search-wrap">
+      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
+      <div class="search-results"></div>
+    </div>
+  </div>
+</nav>
+<div class="doc-page-banner">
+  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › 資料庫 Schema</div>
+  <h1 class="banner-title">資料庫 Schema</h1>
+  <p class="banner-desc">Database Design</p>
+</div>
+<div class="page-wrapper">
+  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 產品創意</a>
+<a class="sidebar__link" href="brd.html">📋 業務需求</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
+<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 設計</a>
+<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
+<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
+<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+</div></nav>
+  <div class="sidebar-resizer" id="sidebarResizer"></div>
+  <main class="doc-content"><h1 id="schema-—-資料庫-schema-設計文件">SCHEMA — 資料庫 Schema 設計文件</h1>
+<h2 id="document-control">Document Control</h2>
+<table><tr><th>欄位</th><th>值</th></tr><tr><td><strong>DOC-ID</strong></td><td>SCHEMA-FISHGAME-20260424</td></tr><tr><td><strong>版本</strong></td><td>v1.0</td></tr><tr><td><strong>狀態</strong></td><td>DRAFT</td></tr><tr><td><strong>作者</strong></td><td>AI Generated (gendoc-gen-schema)</td></tr><tr><td><strong>日期</strong></td><td>2026-04-24</td></tr><tr><td><strong>資料庫</strong></td><td>MySQL 8.0.36（InnoDB）</td></tr><tr><td><strong>ORM</strong></td><td>Prisma 5.x（TypeScript）</td></tr><tr><td><strong>上游 EDD</strong></td><td><a href="EDD.md">EDD.md</a>（EDD-FISHGAME-20260424）§5.5</td></tr><tr><td><strong>上游 ARCH</strong></td><td><a href="ARCH.md">ARCH.md</a></td></tr><tr><td><strong>上游 API</strong></td><td><a href="API.md">API.md</a></td></tr><tr><td><strong>Source of Truth</strong></td><td>所有 Migration 必須對照本文件審查後才能合併</td></tr></table>
+<h2 id="change-log">Change Log</h2>
+<table><tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr><tr><td>v1.0</td><td>2026-04-24</td><td>AI Generated</td><td>初稿 — 11 張資料表設計（含 data_access_logs）</td></tr><tr><td>v1.1</td><td>2026-04-24</td><td>Review R1 Fix</td><td>Fix F-01~F-08：ER Diagram、軟刪除例外文件化、session_players FK+audit、vip unique constraint、索引順序、CHECK 約束 DDL</td></tr></table>
+<hr>
+<h2 id="目錄">目錄</h2>
+<ol><li>概述</li><li>通用欄位規範（命名規則 / ID 策略 / Soft Delete）</li><li>資料表定義（11 張表）</li><li>正規化規則</li><li>索引策略</li><li>稽核與合規資料表</li><li>效能設計</li><li>Migration 策略</li><li>資料完整性約束</li><li>分區策略（<code>fish_kills</code>）</li><li>備份與復原</li><li>關聯圖（ER Diagram）</li><li>資料量估算</li><li>敏感資料清單</li><li>Multi-Tenancy 策略</li><li>Schema 審查檢查清單</li><li>Data Retention & GDPR Lifecycle Policy</li><li>Database Observability & Health Monitoring</li></ol>
+<hr>
+<h2 id="1.-概述">1. 概述</h2>
+<table><tr><th>項目</th><th>值</th></tr><tr><td>資料庫引擎</td><td>MySQL 8.0.36 InnoDB</td></tr><tr><td>字元集</td><td><code>utf8mb4</code>（完整 Unicode 支援，含 emoji）</td></tr><tr><td>排序規則</td><td><code>utf8mb4_unicode_ci</code></td></tr><tr><td>時區</td><td>所有 DATETIME 儲存 UTC；應用層負責顯示時區轉換</td></tr><tr><td>Schema 命名空間</td><td><code>fishgame</code>（production）/ <code>fishgame_staging</code></td></tr><tr><td>ORM</td><td>Prisma 5.x（TypeScript），生成 migration SQL</td></tr><tr><td>最大連線數</td><td>依 §7.3 連線池公式計算（Production: ProxySQL 連線池管理）</td></tr></table>
+<p>
+<strong>主要 Entity 清單（依 EDD §5.5）</strong>
+</p>
+<table><tr><th>Entity</th><th>預估峰值規模</th><th>說明</th></tr><tr><td><code>users</code></td><td>10 萬+</td><td>玩家帳號（含 PII）</td></tr><tr><td><code>game_sessions</code></td><td>每日 1,000 局</td><td>遊戲局記錄</td></tr><tr><td><code>session_players</code></td><td>每日 5,000 行</td><td>局-玩家關聯表</td></tr><tr><td><code>fish_kills</code></td><td>每日 200 萬行</td><td>捕魚事件（高寫入，月分區）</td></tr><tr><td><code>jackpot_events</code></td><td>極少（每日 < 10）</td><td>Jackpot 觸發記錄</td></tr><tr><td><code>orders</code></td><td>每日 1,000 筆</td><td>IAP 充值訂單（冪等 UUID）</td></tr><tr><td><code>vip_subscriptions</code></td><td>10 萬+ 行</td><td>VIP 訂閱狀態</td></tr><tr><td><code>game_configs</code></td><td>1 行</td><td>遊戲設定（RTP/Jackpot）</td></tr><tr><td><code>audit_logs</code></td><td>每日 1 萬+ 行</td><td>管理員操作稽核（Append-only）</td></tr><tr><td><code>products</code></td><td>~20 行</td><td>商城商品目錄（讀多寫少）</td></tr><tr><td><code>data_access_logs</code></td><td>每日 N 行</td><td>敏感欄位存取稽核（Append-only）</td></tr></table>
+<hr>
+<h2 id="2.-通用欄位規範">2. 通用欄位規範</h2>
+<h3 id="2.1-命名慣例">2.1 命名慣例</h3>
+<table><tr><th>類別</th><th>規則</th><th>範例</th></tr><tr><td>資料表名稱</td><td><code>snake_case</code>，<strong>複數</strong>，小寫（Prisma 慣例）</td><td><code>users</code>, <code>game_sessions</code></td></tr><tr><td>欄位名稱</td><td><code>snake_case</code>，小寫</td><td><code>display_name</code>, <code>created_at</code></td></tr><tr><td>Boolean 欄位</td><td>以 <code>is_</code>、<code>has_</code>、<code>can_</code> 為前綴</td><td><code>is_mvp</code>, <code>is_active</code>（例外：<code>age_verified</code> 為 API 契約既有命名，不重命名）</td></tr><tr><td>Enum 欄位（MySQL）</td><td>ALL_CAPS 字串，<code>ENUM(...)</code></td><td><code>&#x27;active&#x27;,&#x27;suspended&#x27;,&#x27;banned&#x27;</code></td></tr><tr><td>外鍵欄位</td><td>參照表名稱單數 + <code>_id</code></td><td><code>user_id</code>, <code>session_id</code></td></tr><tr><td>索引名稱</td><td><code>idx_{table}_{columns}</code></td><td><code>idx_users_email</code></td></tr><tr><td>唯一索引</td><td><code>uq_{table}_{columns}</code></td><td><code>uq_users_email</code></td></tr><tr><td>外鍵約束</td><td><code>fk_{table}_{ref_table}_{col}</code></td><td><code>fk_orders_users_user_id</code></td></tr></table>
+<p>
+<strong>禁止</strong>：保留字作欄位名（<code>order</code>、<code>name</code>、<code>type</code>）；前綴 <code>tbl_</code>；縮寫不一致。
+</p>
+<h3 id="2.2-主鍵-id-策略">2.2 主鍵 ID 策略</h3>
+<table><tr><th>Entity</th><th>PK 類型</th><th>選擇理由</th></tr><tr><td><code>users</code></td><td><code>CHAR(26)</code> CUID2</td><td>外部暴露（API），不可猜測；前綴 <code>usr_</code></td></tr><tr><td><code>game_sessions</code></td><td><code>BIGINT UNSIGNED AUTO_INCREMENT</code></td><td>高寫入，內部 JOIN，無需外部暴露 PK</td></tr><tr><td><code>session_players</code></td><td><code>BIGINT UNSIGNED AUTO_INCREMENT</code></td><td>純內部關聯表</td></tr><tr><td><code>fish_kills</code></td><td><code>BIGINT UNSIGNED AUTO_INCREMENT</code></td><td>超高寫入（200 萬/日），順序插入性能最佳</td></tr><tr><td><code>jackpot_events</code></td><td><code>CHAR(36)</code> UUID v4</td><td>外部 Webhook 事件 ID</td></tr><tr><td><code>orders</code></td><td><code>CHAR(36)</code> UUID v4</td><td>EDD §5.5 明確要求冪等 UUID；外部暴露</td></tr><tr><td><code>vip_subscriptions</code></td><td><code>CHAR(36)</code> UUID v4</td><td>外部暴露（API response）</td></tr><tr><td><code>game_configs</code></td><td><code>TINYINT UNSIGNED</code> 固定 = 1</td><td>單行配置表</td></tr><tr><td><code>audit_logs</code></td><td><code>BIGINT UNSIGNED AUTO_INCREMENT</code></td><td>高寫入 Append-only</td></tr><tr><td><code>products</code></td><td><code>VARCHAR(50)</code> business key</td><td><code>diamonds_330</code> 等業務 ID</td></tr></table>
+<blockquote><strong>API ID 格式</strong>：對外 API 回傳 <code>usr_01HX...</code> 格式，由應用層在 Prisma 查詢結果後補前綴，DB 儲存原始 CUID/UUID。</blockquote>
+<h3 id="2.3-軟刪除模式（soft-delete）">2.3 軟刪除模式（Soft Delete）</h3>
+<pre><code class="language-sql">-- 所有業務資料表均加入軟刪除欄位
+<p>
+deleted_at  DATETIME(3) NULL DEFAULT NULL
+</p>
+<p>
+-- 所有業務查詢必須加此條件（透過 Prisma 中間層自動注入）
+WHERE deleted_at IS NULL
+</p>
+<p>
+-- Soft Delete 時只設定 deleted_at，不物理刪除
+UPDATE users SET deleted_at = NOW(3) WHERE id = ?
+</p>
+<p>
+-- UNIQUE 約束必須排除已刪除記錄（使用 Partial Index）
+-- MySQL 8.0 不支援 Partial Unique Index — 改用 Unique Composite Index + NULL 設計
+-- 技巧：使用 UNIQUE(email, deleted_at) + deleted_at 設計為欄位預設 NULL
+-- 補充：透過 Prisma softDeleteMiddleware 在應用層強制過濾
+</code></pre>
+</p>
+<blockquote><strong>軟刪除例外表（不加 <code>deleted_at</code>）：</strong>
+<ul><li><code>audit_logs</code>：Append-only 日誌，永久保留，不刪除</li><li><code>game_configs</code>：單行設定，使用（管理員直接覆寫）</li><li><code>products</code>：商品目錄，使用 <code>is_active</code> 標記上下架，保留歷史記錄</li><li><code>game_sessions</code>、<code>session_players</code>：遊戲事件記錄，不可撤銷（發生即永久）；透過 <code>status</code> 欄位標記生命週期</li><li><code>fish_kills</code>、<code>jackpot_events</code>：事件日誌（Append-only），不需要軟刪除</li><li><code>data_access_logs</code>：Append-only 稽核日誌，永久保留</blockquote></li></ul><h3 id="2.4-共用-trigger-function（updated_at-自動更新）">2.4 共用 Trigger Function（updated_at 自動更新）</h3>
+<pre><code class="language-sql">-- 所有業務表的 updated_at 觸發器（每張表需個別建立）
+<p>
+-- 範例：users 表
+CREATE TRIGGER trg_users_updated_at
+BEFORE UPDATE ON users
+FOR EACH ROW SET NEW.updated_at = NOW(3);
+</code></pre>
+</p>
+<hr>
+<h2 id="3.-資料表定義">3. 資料表定義</h2>
+<h3 id="3.1-<code>users</code>">3.1 <code>users</code></h3>
+<p>
+<strong>說明</strong>：玩家帳號。儲存認證資訊、餘額、VIP 狀態。PII 欄位依 §14 保護。
+</p>
+<pre><code class="language-sql">-- ============================================================
+<p>
+-- Table: users
+-- Purpose: 玩家帳號（含 PII 欄位）
+-- ============================================================
+CREATE TABLE users (
+id                   CHAR(26)         NOT NULL,
+email                VARCHAR(254)     NOT NULL                        COMMENT &#x27;PII — RFC 5321 格式；lowercase 儲存&#x27;,
+password_hash        VARCHAR(255)     NOT NULL                        COMMENT &#x27;bcrypt cost=12；永不儲存明文&#x27;,
+display_name         VARCHAR(30)      NOT NULL                        COMMENT &#x27;顯示名稱，2-30 字元&#x27;,
+avatar_url           VARCHAR(512)     NULL     DEFAULT NULL           COMMENT &#x27;S3 公開 URL&#x27;,
+role                 ENUM(
+&#x27;player&#x27;,
+&#x27;operator&#x27;,
+&#x27;superadmin&#x27;
+)                NOT NULL DEFAULT &#x27;player&#x27;,
+age_verified         TINYINT(1)       NOT NULL DEFAULT 0              COMMENT &#x27;1=已驗證年齡 &gt;= 18&#x27;,
+status               ENUM(
+&#x27;active&#x27;,
+&#x27;suspended&#x27;,
+&#x27;banned&#x27;
+)                NOT NULL DEFAULT &#x27;active&#x27;,
+suspend_reason       VARCHAR(512)     NULL     DEFAULT NULL,
+vip_tier             TINYINT UNSIGNED NOT NULL DEFAULT 0              COMMENT &#x27;0=無 VIP，1=月費，2=季費，3=年費&#x27;,
+vip_expires_at       DATETIME(3)      NULL     DEFAULT NULL,
+gold_balance         BIGINT UNSIGNED  NOT NULL DEFAULT 0              COMMENT &#x27;遊戲金幣；單位：coin&#x27;,
+diamond_balance      INT UNSIGNED     NOT NULL DEFAULT 0              COMMENT &#x27;鑽石（充值貨幣）&#x27;,
+failed_login_count   TINYINT UNSIGNED NOT NULL DEFAULT 0              COMMENT &#x27;連續登入失敗次數&#x27;,
+locked_at            DATETIME(3)      NULL     DEFAULT NULL           COMMENT &#x27;帳號鎖定時間（失敗 10 次）&#x27;,
+last_login_at        DATETIME(3)      NULL     DEFAULT NULL,
+created_at           DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+updated_at           DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+deleted_at           DATETIME(3)      NULL     DEFAULT NULL,
+</p>
+<p>
+CONSTRAINT pk_users PRIMARY KEY (id),
+CONSTRAINT chk_users_gold CHECK (gold_balance &gt;= 0),
+CONSTRAINT chk_users_diamond CHECK (diamond_balance &gt;= 0),
+CONSTRAINT chk_users_vip_tier CHECK (vip_tier BETWEEN 0 AND 3),
+CONSTRAINT chk_users_failed_login CHECK (failed_login_count BETWEEN 0 AND 255)
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci
+COMMENT=&#x27;玩家帳號表&#x27;;
+</p>
+<p>
+-- 索引
+-- email 查詢（登入高頻）— LOWER() 確保大小寫不敏感唯一性
+CREATE UNIQUE INDEX uq_users_email_lower
+ON users ((LOWER(email)));                   -- MySQL 8.0 函數型索引
+</p>
+<p>
+-- active 玩家快速過濾
+CREATE INDEX idx_users_status_created
+ON users (status, created_at)
+COMMENT &#x27;管理後台列表查詢&#x27;;
+</p>
+<p>
+-- 軟刪除過濾
+CREATE INDEX idx_users_deleted_at
+ON users (deleted_at)
+COMMENT &#x27;活躍用戶過濾&#x27;;
+</p>
+<p>
+-- 管理後台排序（last_login_at / gold_balance）
+CREATE INDEX idx_users_last_login
+ON users (last_login_at DESC);
+CREATE INDEX idx_users_gold_balance
+ON users (gold_balance DESC);
+</p>
+<p>
+-- Trigger
+CREATE TRIGGER trg_users_updated_at
+BEFORE UPDATE ON users
+FOR EACH ROW SET NEW.updated_at = NOW(3);
+</code></pre>
+</p>
+<p>
+<strong>欄位說明：</strong>
+</p>
+<table><tr><th>欄位</th><th>類型</th><th>Nullable</th><th>預設</th><th>說明</th></tr><tr><td>id</td><td>CHAR(26)</td><td>NO</td><td>—</td><td>CUID2 主鍵</td></tr><tr><td>email</td><td>VARCHAR(254)</td><td>NO</td><td>—</td><td><strong>PII</strong>；lowercase 儲存；函數型唯一索引</td></tr><tr><td>password_hash</td><td>VARCHAR(255)</td><td>NO</td><td>—</td><td>bcrypt cost=12；<strong>永不儲存明文</strong></td></tr><tr><td>display_name</td><td>VARCHAR(30)</td><td>NO</td><td>—</td><td>2–30 字元，無特殊符號</td></tr><tr><td>avatar_url</td><td>VARCHAR(512)</td><td>YES</td><td>NULL</td><td>S3 公開 URL；ClamAV 掃描後才設定</td></tr><tr><td>role</td><td>ENUM</td><td>NO</td><td>'player'</td><td>RBAC 角色</td></tr><tr><td>age_verified</td><td>TINYINT(1)</td><td>NO</td><td>0</td><td>是否通過年齡驗證（18+）</td></tr><tr><td>status</td><td>ENUM</td><td>NO</td><td>'active'</td><td>帳號狀態</td></tr><tr><td>vip_tier</td><td>TINYINT</td><td>NO</td><td>0</td><td>VIP 等級 0–3</td></tr><tr><td>vip_expires_at</td><td>DATETIME(3)</td><td>YES</td><td>NULL</td><td>VIP 到期時間</td></tr><tr><td>gold_balance</td><td>BIGINT</td><td>NO</td><td>0</td><td>遊戲金幣；非 DECIMAL（整數操作）</td></tr><tr><td>diamond_balance</td><td>INT</td><td>NO</td><td>0</td><td>鑽石餘額</td></tr><tr><td>failed_login_count</td><td>TINYINT</td><td>NO</td><td>0</td><td>暴力破解防護</td></tr><tr><td>locked_at</td><td>DATETIME(3)</td><td>YES</td><td>NULL</td><td>鎖定時間；NULL=未鎖定</td></tr></table>
+<p>
+<strong>安全注意</strong>：
+</p>
+<ul><li><code>email</code> 屬 PII，依 §14 加密查詢保護</li><li><code>password_hash</code> 使用 bcrypt cost=12；永不在 Response 回傳此欄位</li></ul>
+<hr>
+<h3 id="3.2-<code>game_sessions</code>">3.2 <code>game_sessions</code></h3>
+<p>
+<strong>說明</strong>：遊戲局記錄。由 Colyseus Room 生命週期事件觸發寫入。
+</p>
+<pre><code class="language-sql">CREATE TABLE game_sessions (
+<p>
+id               BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+room_id          VARCHAR(36)      NOT NULL                    COMMENT &#x27;Colyseus Room ID&#x27;,
+status           ENUM(
+&#x27;WAITING&#x27;,
+&#x27;IN_PROGRESS&#x27;,
+&#x27;COMPLETED&#x27;,
+&#x27;ABANDONED&#x27;
+)                NOT NULL DEFAULT &#x27;WAITING&#x27;,
+player_count     TINYINT UNSIGNED NOT NULL DEFAULT 0,
+jackpot_pool     BIGINT UNSIGNED  NOT NULL DEFAULT 0          COMMENT &#x27;當前 Jackpot 池金額（coin）&#x27;,
+rtp_actual       DECIMAL(5,4)     NULL     DEFAULT NULL       COMMENT &#x27;結算後實際 RTP（0.0000–1.9999）&#x27;,
+started_at       DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+ended_at         DATETIME(3)      NULL     DEFAULT NULL,
+created_at       DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+updated_at       DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_game_sessions PRIMARY KEY (id),
+CONSTRAINT uq_game_sessions_room_id UNIQUE (room_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;遊戲局記錄&#x27;;
+</p>
+<p>
+CREATE INDEX idx_game_sessions_status_started
+ON game_sessions (status, started_at DESC)
+COMMENT &#x27;房間列表查詢（待加入 / 進行中）&#x27;;
+</p>
+<p>
+CREATE TRIGGER trg_game_sessions_updated_at
+BEFORE UPDATE ON game_sessions
+FOR EACH ROW SET NEW.updated_at = NOW(3);
+</code></pre>
+</p>
+<hr>
+<h3 id="3.3-<code>session_players</code>">3.3 <code>session_players</code></h3>
+<p>
+<strong>說明</strong>：遊戲局-玩家關聯表（1:N — 一局 4–6 個玩家）。
+</p>
+<pre><code class="language-sql">CREATE TABLE session_players (
+<p>
+id            BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+session_id    BIGINT UNSIGNED  NOT NULL,
+user_id       CHAR(26)         NULL                   COMMENT &#x27;NULL = GDPR 匿名化後（ON DELETE SET NULL）&#x27;,
+final_gold    BIGINT           NOT NULL DEFAULT 0     COMMENT &#x27;結算後淨金幣（可為負）&#x27;,
+gold_spent    BIGINT UNSIGNED  NOT NULL DEFAULT 0     COMMENT &#x27;本局消耗金幣&#x27;,
+gold_earned   BIGINT UNSIGNED  NOT NULL DEFAULT 0     COMMENT &#x27;本局獲得金幣&#x27;,
+is_mvp        TINYINT(1)       NOT NULL DEFAULT 0,
+joined_at     DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+left_at       DATETIME(3)      NULL     DEFAULT NULL,
+updated_at    DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_session_players PRIMARY KEY (id),
+CONSTRAINT fk_sp_sessions FOREIGN KEY (session_id)
+REFERENCES game_sessions(id) ON DELETE CASCADE,
+CONSTRAINT fk_sp_users FOREIGN KEY (user_id)
+REFERENCES users(id) ON DELETE SET NULL,     -- GDPR 硬刪除時自動匿名化（user_id → NULL）
+CONSTRAINT uq_sp_session_user UNIQUE (session_id, user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;遊戲局-玩家關聯表&#x27;;
+</p>
+<p>
+CREATE INDEX idx_sp_user_joined
+ON session_players (user_id, joined_at DESC)
+COMMENT &#x27;玩家遊戲歷史查詢（GET /game/history）&#x27;;
+</p>
+<p>
+CREATE INDEX idx_sp_session_id
+ON session_players (session_id)
+COMMENT &#x27;結算時批量查詢局內玩家&#x27;;
+</p>
+<p>
+CREATE TRIGGER trg_session_players_updated_at
+BEFORE UPDATE ON session_players
+FOR EACH ROW SET NEW.updated_at = NOW(3);
+</code></pre>
+</p>
+<hr>
+<h3 id="3.4-<code>fish_kills</code>">3.4 <code>fish_kills</code></h3>
+<p>
+<strong>說明</strong>：捕魚事件日誌（超高寫入）。每日 ~200 萬行；按月 RANGE 分區。
+</p>
+<pre><code class="language-sql">-- 主表（分區表）
+<p>
+CREATE TABLE fish_kills (
+id            BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+session_id    BIGINT UNSIGNED  NOT NULL,
+killer_id     CHAR(26)         NOT NULL                 COMMENT &#x27;users.id（冗餘儲存，避免 JOIN）&#x27;,
+fish_type     VARCHAR(50)      NOT NULL                 COMMENT &#x27;NORMAL / ELITE / BOSS / JACKPOT_FISH&#x27;,
+coins_awarded BIGINT UNSIGNED  NOT NULL DEFAULT 0,
+rtp_snapshot  DECIMAL(5,4)     NULL     DEFAULT NULL   COMMENT &#x27;擊殺時的即時 RTP&#x27;,
+killed_at     DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_fish_kills PRIMARY KEY (id, killed_at)   -- 分區鍵必須包含在 PK 中
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;捕魚事件日誌（月分區）&#x27;
+PARTITION BY RANGE (TO_DAYS(killed_at)) (
+PARTITION p202604 VALUES LESS THAN (TO_DAYS(&#x27;2026-05-01&#x27;)),
+PARTITION p202605 VALUES LESS THAN (TO_DAYS(&#x27;2026-06-01&#x27;)),
+PARTITION p202606 VALUES LESS THAN (TO_DAYS(&#x27;2026-07-01&#x27;)),
+PARTITION p_future VALUES LESS THAN MAXVALUE
+);
+</p>
+<p>
+-- 注意：MySQL 分區表上無法直接建 FK；killer_id 關聯在應用層保證
+CREATE INDEX idx_fish_kills_session
+ON fish_kills (session_id, killed_at)
+COMMENT &#x27;結算計算：一局的所有擊殺記錄&#x27;;
+</p>
+<p>
+CREATE INDEX idx_fish_kills_killer
+ON fish_kills (killer_id, killed_at DESC)
+COMMENT &#x27;玩家個人捕魚統計&#x27;;
+</code></pre>
+</p>
+<p>
+<strong>月分區管理 SQL：</strong>
+</p>
+<pre><code class="language-sql">-- 每月初新增下月分區（定時任務）
+<p>
+ALTER TABLE fish_kills
+REORGANIZE PARTITION p_future INTO (
+PARTITION p202607 VALUES LESS THAN (TO_DAYS(&#x27;2026-08-01&#x27;)),
+PARTITION p_future VALUES LESS THAN MAXVALUE
+);
+</p>
+<p>
+-- 刪除 6 個月前的分區（直接刪除，不鎖主表）
+ALTER TABLE fish_kills DROP PARTITION p202601;
+</code></pre>
+</p>
+<hr>
+<h3 id="3.5-<code>jackpot_events</code>">3.5 <code>jackpot_events</code></h3>
+<p>
+<strong>說明</strong>：Jackpot 觸發事件（由 Redis Lua Script 原子操作確保唯一觸發 — EDD §10.8）。
+</p>
+<pre><code class="language-sql">CREATE TABLE jackpot_events (
+<p>
+id              CHAR(36)        NOT NULL                   COMMENT &#x27;UUID v4，Webhook event_id&#x27;,
+session_id      BIGINT UNSIGNED NOT NULL,
+winner_user_id  CHAR(26)        NOT NULL,
+amount          BIGINT UNSIGNED NOT NULL                   COMMENT &#x27;中獎金額（coin）&#x27;,
+room_id         VARCHAR(36)     NOT NULL,
+triggered_at    DATETIME(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_jackpot_events PRIMARY KEY (id),
+CONSTRAINT fk_je_sessions FOREIGN KEY (session_id)
+REFERENCES game_sessions(id),
+CONSTRAINT fk_je_users FOREIGN KEY (winner_user_id)
+REFERENCES users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;Jackpot 觸發記錄&#x27;;
+</p>
+<p>
+CREATE INDEX idx_jackpot_events_user
+ON jackpot_events (winner_user_id, triggered_at DESC);
+CREATE INDEX idx_jackpot_events_session
+ON jackpot_events (session_id);
+</code></pre>
+</p>
+<hr>
+<h3 id="3.6-<code>orders</code>">3.6 <code>orders</code></h3>
+<p>
+<strong>說明</strong>：IAP 充值訂單。<code>id</code> 使用 UUID v4（冪等 idempotency_key — EDD §5.5）。
+</p>
+<pre><code class="language-sql">CREATE TABLE orders (
+<p>
+id                CHAR(36)         NOT NULL                   COMMENT &#x27;UUID v4 — 冪等主鍵（order_id）&#x27;,
+user_id           CHAR(26)         NOT NULL,
+product_id        VARCHAR(50)      NOT NULL                   COMMENT &#x27;diamonds_60 / diamonds_330 等&#x27;,
+platform          ENUM(&#x27;apple&#x27;,&#x27;google&#x27;) NOT NULL,
+status            ENUM(
+&#x27;pending&#x27;,
+&#x27;completed&#x27;,
+&#x27;failed&#x27;,
+&#x27;refunded&#x27;
+)                NOT NULL DEFAULT &#x27;pending&#x27;,
+diamonds_credited INT UNSIGNED     NOT NULL DEFAULT 0,
+amount_usd        DECIMAL(10,2)    NOT NULL,
+transaction_id    VARCHAR(255)     NULL     DEFAULT NULL      COMMENT &#x27;Apple/Google 交易 ID&#x27;,
+receipt_hash      VARCHAR(64)      NULL     DEFAULT NULL      COMMENT &#x27;SHA-256(receipt)，防 receipt 重用&#x27;,
+idempotency_key   CHAR(36)         NOT NULL                   COMMENT &#x27;Client 傳入的 UUID v4&#x27;,
+created_at        DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+completed_at      DATETIME(3)      NULL     DEFAULT NULL,
+updated_at        DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_orders PRIMARY KEY (id),
+CONSTRAINT fk_orders_users FOREIGN KEY (user_id)
+REFERENCES users(id),
+CONSTRAINT uq_orders_idempotency UNIQUE (idempotency_key),
+CONSTRAINT uq_orders_receipt_hash UNIQUE (receipt_hash),
+CONSTRAINT chk_orders_diamonds CHECK (diamonds_credited &gt;= 0),
+CONSTRAINT chk_orders_amount CHECK (amount_usd &gt;= 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;IAP 充值訂單（UUID 冪等）&#x27;;
+</p>
+<p>
+CREATE INDEX idx_orders_user_created
+ON orders (user_id, created_at DESC)
+COMMENT &#x27;GET /shop/orders — 玩家訂單列表&#x27;;
+</p>
+<p>
+CREATE INDEX idx_orders_status_created
+ON orders (status, created_at)
+COMMENT &#x27;掃描 PENDING 訂單（異步重試任務）&#x27;;
+</p>
+<p>
+CREATE TRIGGER trg_orders_updated_at
+BEFORE UPDATE ON orders
+FOR EACH ROW SET NEW.updated_at = NOW(3);
+</code></pre>
+</p>
+<hr>
+<h3 id="3.7-<code>vip_subscriptions</code>">3.7 <code>vip_subscriptions</code></h3>
+<p>
+<strong>說明</strong>：VIP 訂閱狀態。每個玩家最多 1 筆活躍訂閱（user_id UNIQUE）。
+</p>
+<pre><code class="language-sql">CREATE TABLE vip_subscriptions (
+<p>
+id                 CHAR(36)         NOT NULL              COMMENT &#x27;UUID v4（subscription_id）&#x27;,
+user_id            CHAR(26)         NOT NULL,
+plan_id            VARCHAR(50)      NOT NULL              COMMENT &#x27;vip_monthly / vip_quarterly&#x27;,
+vip_tier           TINYINT UNSIGNED NOT NULL,
+diamonds_deducted  INT UNSIGNED     NOT NULL DEFAULT 0,
+status             ENUM(
+&#x27;active&#x27;,
+&#x27;expired&#x27;,
+&#x27;cancelled&#x27;
+)                NOT NULL DEFAULT &#x27;active&#x27;,
+idempotency_key    CHAR(36)         NOT NULL              COMMENT &#x27;Idempotency-Key Header 值&#x27;,
+activated_at       DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+expires_at         DATETIME(3)      NOT NULL,
+cancelled_at       DATETIME(3)      NULL     DEFAULT NULL,
+created_at         DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+updated_at         DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_vip_subscriptions PRIMARY KEY (id),
+CONSTRAINT fk_vip_users FOREIGN KEY (user_id)
+REFERENCES users(id),
+CONSTRAINT uq_vip_idempotency UNIQUE (idempotency_key),
+CONSTRAINT chk_vip_diamonds CHECK (diamonds_deducted &gt;= 0),
+CONSTRAINT chk_vip_tier CHECK (vip_tier BETWEEN 1 AND 3),
+CONSTRAINT chk_vip_expires CHECK (expires_at &gt; activated_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;VIP 訂閱記錄&#x27;;
+</p>
+<p>
+-- 玩家 VIP 訂閱查詢（支援多筆歷史記錄，唯一活躍訂閱由 trg_vip_one_active 保障）
+CREATE INDEX idx_vip_user_status
+ON vip_subscriptions (user_id, status)
+COMMENT &#x27;查詢用戶 VIP 狀態（WHERE user_id=? AND status=&#x27;&#x27;active&#x27;&#x27;）；唯一活躍限制由觸發器保障&#x27;;
+</p>
+<p>
+-- 到期掃描：等值條件 status 在前，範圍條件 expires_at 在後
+CREATE INDEX idx_vip_expires_status
+ON vip_subscriptions (status, expires_at)
+COMMENT &#x27;掃描即將到期活躍訂閱（WHERE status=&#x27;&#x27;active&#x27;&#x27; AND expires_at &lt; ?）&#x27;;
+</p>
+<p>
+-- 確保每個用戶最多一個 active 訂閱（MySQL 不支援 Partial Unique Index）
+DELIMITER $$
+CREATE TRIGGER trg_vip_one_active
+BEFORE INSERT ON vip_subscriptions
+FOR EACH ROW
+BEGIN
+IF NEW.status = &#x27;active&#x27; THEN
+IF EXISTS (
+SELECT 1 FROM vip_subscriptions
+WHERE user_id = NEW.user_id AND status = &#x27;active&#x27;
+) THEN
+SIGNAL SQLSTATE &#x27;45000&#x27;
+SET MESSAGE_TEXT = &#x27;User already has an active VIP subscription&#x27;;
+END IF;
+END IF;
+END$$
+DELIMITER ;
+</p>
+<p>
+CREATE TRIGGER trg_vip_updated_at
+BEFORE UPDATE ON vip_subscriptions
+FOR EACH ROW SET NEW.updated_at = NOW(3);
+</code></pre>
+</p>
+<hr>
+<h3 id="3.8-<code>game_configs</code>">3.8 <code>game_configs</code></h3>
+<p>
+<strong>說明</strong>：遊戲全局設定（單行設計）。RTP 目標、Jackpot 機率由此表控制，透過 Unleash Feature Flag 生效。
+</p>
+<pre><code class="language-sql">CREATE TABLE game_configs (
+<p>
+id                           TINYINT UNSIGNED NOT NULL DEFAULT 1    COMMENT &#x27;固定 = 1（單行設計）&#x27;,
+rtp_target_min               DECIMAL(5,4)     NOT NULL DEFAULT 0.8500,
+rtp_target_max               DECIMAL(5,4)     NOT NULL DEFAULT 0.9500,
+jackpot_trigger_probability  DECIMAL(8,6)     NOT NULL DEFAULT 0.000100,
+jackpot_min_pool             BIGINT UNSIGNED  NOT NULL DEFAULT 10000,
+fish_spawn_rate              DECIMAL(4,2)     NOT NULL DEFAULT 1.00   COMMENT &#x27;魚群生成倍率（0.5–2.0）&#x27;,
+max_players_per_room         TINYINT UNSIGNED NOT NULL DEFAULT 6,
+session_timeout_seconds      INT UNSIGNED     NOT NULL DEFAULT 1800,
+updated_at                   DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+updated_by                   CHAR(26)         NULL     DEFAULT NULL   COMMENT &#x27;最後更新的管理員 user_id&#x27;,
+</p>
+<p>
+CONSTRAINT pk_game_configs PRIMARY KEY (id),
+CONSTRAINT chk_rtp_min CHECK (rtp_target_min BETWEEN 0.80 AND 0.95),
+CONSTRAINT chk_rtp_max CHECK (rtp_target_max BETWEEN rtp_target_min AND 0.98),
+CONSTRAINT chk_jackpot_prob CHECK (jackpot_trigger_probability BETWEEN 0.00001 AND 0.001),
+CONSTRAINT chk_spawn_rate CHECK (fish_spawn_rate BETWEEN 0.5 AND 2.0),
+CONSTRAINT chk_single_row CHECK (id = 1)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;遊戲全局設定（單行）&#x27;;
+</p>
+<p>
+-- 初始化記錄（部署時插入）
+INSERT INTO game_configs (id) VALUES (1)
+ON DUPLICATE KEY UPDATE id = 1;
+</code></pre>
+</p>
+<hr>
+<h3 id="3.9-<code>audit_logs</code>">3.9 <code>audit_logs</code></h3>
+<p>
+<strong>說明</strong>：管理員操作稽核日誌（Append-only，依 EDD §5.5）。不加 <code>updated_at</code>/<code>deleted_at</code>。
+</p>
+<pre><code class="language-sql">CREATE TABLE audit_logs (
+<p>
+id              BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+event_type      VARCHAR(100)     NOT NULL             COMMENT &#x27;USER_SUSPEND / BALANCE_ADJUST / CONFIG_UPDATE 等&#x27;,
+actor_user_id   CHAR(26)         NULL                 COMMENT &#x27;操作者（NULL = 系統）&#x27;,
+resource_type   VARCHAR(50)      NOT NULL             COMMENT &#x27;操作對象類型：users / orders / game_configs&#x27;,
+resource_id     VARCHAR(36)      NOT NULL             COMMENT &#x27;操作對象 PK&#x27;,
+before_json     JSON             NULL,
+after_json      JSON             NULL,
+outcome         ENUM(
+&#x27;SUCCESS&#x27;,
+&#x27;FAILURE&#x27;,
+&#x27;PARTIAL&#x27;
+)                NOT NULL DEFAULT &#x27;SUCCESS&#x27;,
+x_admin_reason  VARCHAR(256)     NULL                 COMMENT &#x27;X-Admin-Reason Header 值（敏感操作）&#x27;,
+ip_hash         VARCHAR(64)      NULL                 COMMENT &#x27;SHA-256(IP)，GDPR 合規匿名化&#x27;,
+request_id      VARCHAR(26)      NULL                 COMMENT &#x27;分散式追蹤 request_id&#x27;,
+created_at      DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_audit_logs PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;管理員操作稽核日誌（Append-only）&#x27;;
+</p>
+<p>
+CREATE INDEX idx_audit_actor_created
+ON audit_logs (actor_user_id, created_at DESC)
+COMMENT &#x27;查詢特定管理員操作記錄&#x27;;
+</p>
+<p>
+CREATE INDEX idx_audit_resource
+ON audit_logs (resource_type, resource_id, created_at DESC)
+COMMENT &#x27;查詢特定資源的操作歷史&#x27;;
+</p>
+<p>
+CREATE INDEX idx_audit_event_created
+ON audit_logs (event_type, created_at)
+COMMENT &#x27;稽核報表查詢&#x27;;
+</p>
+<p>
+-- BRIN 等效（MySQL）：按月分區（可選，若日誌量大）
+-- 依業務需求決定是否分區
+</code></pre>
+</p>
+<hr>
+<h3 id="3.10-<code>products</code>">3.10 <code>products</code></h3>
+<p>
+<strong>說明</strong>：商城商品目錄（讀多寫少）。商品上架/下架由 SuperAdmin 操作。
+</p>
+<pre><code class="language-sql">CREATE TABLE products (
+<p>
+product_id        VARCHAR(50)      NOT NULL              COMMENT &#x27;業務 ID：diamonds_60 / diamonds_330&#x27;,
+name              VARCHAR(100)     NOT NULL,
+diamonds          INT UNSIGNED     NOT NULL              COMMENT &#x27;基礎鑽石數量&#x27;,
+bonus_diamonds    INT UNSIGNED     NOT NULL DEFAULT 0    COMMENT &#x27;贈品鑽石&#x27;,
+price_usd         DECIMAL(10,2)    NOT NULL,
+apple_product_id  VARCHAR(100)     NULL     DEFAULT NULL,
+google_product_id VARCHAR(100)     NULL     DEFAULT NULL,
+is_active         TINYINT(1)       NOT NULL DEFAULT 1,
+badge             VARCHAR(50)      NULL     DEFAULT NULL COMMENT &#x27;BEST_VALUE / HOT / NEW 等行銷標籤&#x27;,
+sort_order        INT UNSIGNED     NOT NULL DEFAULT 0,
+created_at        DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+updated_at        DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_products PRIMARY KEY (product_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;商城商品目錄&#x27;;
+</p>
+<p>
+CREATE INDEX idx_products_active_sort
+ON products (is_active, sort_order)
+COMMENT &#x27;GET /shop/products 列表查詢&#x27;;
+</p>
+<p>
+CREATE TRIGGER trg_products_updated_at
+BEFORE UPDATE ON products
+FOR EACH ROW SET NEW.updated_at = NOW(3);
+</code></pre>
+</p>
+<hr>
+<h2 id="4.-正規化規則">4. 正規化規則</h2>
+<h3 id="4.1-正規化形式確認">4.1 正規化形式確認</h3>
+<table><tr><th>資料表</th><th>正規化級別</th><th>說明</th></tr><tr><td><code>users</code></td><td>3NF</td><td>所有欄位完全依賴主鍵；無遞移依賴</td></tr><tr><td><code>game_sessions</code></td><td>3NF</td><td>—</td></tr><tr><td><code>session_players</code></td><td>3NF</td><td><code>final_gold</code>/<code>gold_spent</code>/<code>gold_earned</code> 依賴 (session_id, user_id) 複合鍵</td></tr><tr><td><code>fish_kills</code></td><td>3NF</td><td><code>killer_id</code> 冗餘儲存（反正規化，見 §4.2）</td></tr><tr><td><code>orders</code></td><td>3NF</td><td>—</td></tr><tr><td><code>vip_subscriptions</code></td><td>3NF</td><td>—</td></tr></table>
+<h3 id="4.2-刻意反正規化">4.2 刻意反正規化</h3>
+<table><tr><th>表</th><th>欄位</th><th>反正規化理由</th></tr><tr><td><code>fish_kills.killer_id</code></td><td>冗餘 user_id</td><td>避免 JOIN <code>session_players</code> 計算捕魚統計；高頻查詢（200萬/日）</td></tr><tr><td><code>fish_kills.killer_id</code></td><td>不設 FK 約束</td><td>MySQL 分區表限制（分區鍵需包含在 PK 中，FK 不支援）</td></tr><tr><td><code>session_players.gold_earned/gold_spent</code></td><td>冗餘計算</td><td>結算後快取，避免重複 SUM(fish_kills)；不影響資料一致性（一局結算後不再更新）</td></tr></table>
+<blockquote><strong>規則</strong>：以上反正規化均有量測依據（EDD §5.5b 高頻查詢說明），已文件化同步策略。</blockquote>
+<hr>
+<h2 id="5.-索引策略">5. 索引策略</h2>
+<h3 id="5.1-索引類型選用（mysql-8.0）">5.1 索引類型選用（MySQL 8.0）</h3>
+<table><tr><th>索引類型</th><th>適用情境</th><th>本專案應用</th></tr><tr><td>B-tree（預設）</td><td>等值、範圍、排序</td><td>所有索引預設類型</td></tr><tr><td>FULLTEXT</td><td>全文搜尋</td><td><code>GET /admin/users?search=</code> 若需精確搜尋可啟用</td></tr><tr><td>HASH（Memory）</td><td>純等值，Memory 引擎</td><td>不用（InnoDB 不支援 Hash 建立）</td></tr><tr><td>函數型索引</td><td>LOWER() 等表達式</td><td><code>uq_users_email_lower</code></td></tr><tr><td>Prefix Index</td><td>TEXT 欄位</td><td>不適用（VARCHAR 欄位長度可控）</td></tr></table>
+<h3 id="5.2-高頻查詢索引覆蓋驗證">5.2 高頻查詢索引覆蓋驗證</h3>
+<table><tr><th>查詢</th><th>對應 API</th><th>使用索引</th><th>預期 P95</th></tr><tr><td><code>WHERE email=? AND deleted_at IS NULL</code></td><td>POST /auth/login</td><td><code>uq_users_email_lower</code></td><td>< 2ms</td></tr><tr><td><code>WHERE user_id=? ORDER BY created_at DESC LIMIT 20</code></td><td>GET /shop/orders</td><td><code>idx_orders_user_created</code></td><td>< 5ms</td></tr><tr><td><code>WHERE status=&#x27;WAITING&#x27; ORDER BY started_at DESC LIMIT 20</code></td><td>GET /game/rooms</td><td><code>idx_game_sessions_status_started</code></td><td>< 5ms</td></tr><tr><td><code>WHERE user_id=? AND status=&#x27;active&#x27;</code></td><td>GET /users/me（VIP 狀態）</td><td><code>idx_vip_user_status</code></td><td>< 2ms</td></tr><tr><td><code>WHERE killer_id=? ORDER BY killed_at DESC LIMIT 100</code></td><td>GET /game/history（統計）</td><td><code>idx_fish_kills_killer</code></td><td>< 10ms（分區裁剪）</td></tr></table>
+<h3 id="5.3-複合索引欄位順序原則">5.3 複合索引欄位順序原則</h3>
+<pre><code>(等值條件欄位) → (高選擇性欄位) → (範圍條件欄位) → (排序欄位)
+<p>
+</code></pre>
+</p>
+<p>
+範例：
+</p>
+<pre><code class="language-sql">-- 查詢：WHERE user_id=? ORDER BY created_at DESC → (user_id, created_at DESC)
+<p>
+-- 查詢：WHERE status=? AND created_at BETWEEN ? → (status, created_at)
+</code></pre>
+</p>
+<hr>
+<h2 id="6.-稽核與合規資料表">6. 稽核與合規資料表</h2>
+<p>
+見 §3.9 <code>audit_logs</code>。
+</p>
+<p>
+<strong>Audit Log 事件類型標準值（event_type enum 慣例）：</strong>
+</p>
+<table><tr><th>event_type</th><th>觸發時機</th><th>敏感程度</th></tr><tr><td><code>USER_SUSPEND</code></td><td>PATCH /admin/users/:id — status=suspended</td><td>HIGH（需 X-Admin-Reason）</td></tr><tr><td><code>USER_BAN</code></td><td>PATCH /admin/users/:id — status=banned</td><td>HIGH</td></tr><tr><td><code>USER_ACTIVATE</code></td><td>PATCH /admin/users/:id — status=active</td><td>MEDIUM</td></tr><tr><td><code>BALANCE_ADJUST</code></td><td>PATCH /admin/users/:id — gold_adjustment</td><td>HIGH（需 X-Admin-Reason）</td></tr><tr><td><code>CONFIG_UPDATE</code></td><td>PATCH /admin/game-config</td><td>HIGH</td></tr><tr><td><code>IAP_PURCHASE</code></td><td>POST /shop/purchases — status=completed</td><td>MEDIUM</td></tr><tr><td><code>VIP_SUBSCRIBE</code></td><td>POST /vip/subscriptions</td><td>MEDIUM</td></tr><tr><td><code>GDPR_ERASE</code></td><td>用戶被遺忘權請求</td><td>HIGH</td></tr></table>
+<hr>
+<h2 id="7.-效能設計">7. 效能設計</h2>
+<h3 id="7.1-查詢效能基準表">7.1 查詢效能基準表</h3>
+<table><tr><th>查詢描述</th><th>對應 API</th><th>預期 P95</th><th>使用索引</th></tr><tr><td>登入查詢（email 查找）</td><td>POST /auth/login</td><td>< 2ms</td><td><code>uq_users_email_lower</code></td></tr><tr><td>玩家資料查詢（PK）</td><td>GET /users/me</td><td>< 1ms</td><td>PRIMARY KEY</td></tr><tr><td>訂單列表（20 筆）</td><td>GET /shop/orders</td><td>< 5ms</td><td><code>idx_orders_user_created</code></td></tr><tr><td>房間列表（Cursor）</td><td>GET /game/rooms</td><td>< 5ms</td><td><code>idx_game_sessions_status_started</code></td></tr><tr><td>Jackpot 觸發 RTP 計算</td><td>結算批次</td><td>< 50ms</td><td><code>idx_fish_kills_session</code></td></tr><tr><td>KPI 報表（當日 DAU）</td><td>GET /admin/stats/kpi</td><td>< 500ms（可接受）</td><td>背景預計算/快取</td></tr></table>
+<h3 id="7.2-n+1-查詢防護">7.2 N+1 查詢防護</h3>
+<p>
+<strong>高風險場景</strong>：<code>GET /game/history</code> 若後端逐筆查詢 fish_kills 統計。
+</p>
+<pre><code class="language-sql">-- 正確做法：JOIN session_players + 聚合 fish_kills
+<p>
+SELECT
+sp.session_id,
+gs.started_at,
+gs.ended_at,
+sp.gold_earned,
+sp.gold_spent,
+COUNT(fk.id) AS fish_killed,
+sp.gold_earned - sp.gold_spent AS net_gold
+FROM session_players sp
+JOIN game_sessions gs ON gs.id = sp.session_id
+LEFT JOIN fish_kills fk ON fk.session_id = sp.session_id
+AND fk.killer_id = sp.user_id
+WHERE sp.user_id = ?
+AND sp.joined_at &gt;= ?
+GROUP BY sp.session_id, gs.started_at, gs.ended_at, sp.gold_earned, sp.gold_spent
+ORDER BY sp.joined_at DESC
+LIMIT 20;
+</code></pre>
+</p>
+<h3 id="7.3-連線池設定（proxysql）">7.3 連線池設定（ProxySQL）</h3>
+<pre><code>MySQL Production（16 核心 VM）：
+<p>
+max_connections = 500（MySQL 設定）
+ProxySQL hostgroup_0 (read/write) pool = 50
+ProxySQL hostgroup_1 (read-only replica) pool = 100
+</p>
+<p>
+建議：
+高峰期保留 20% buffer（不超過 400 active）
+Prisma connection_limit = 20（每個服務實例）
+</code></pre>
+</p>
+<h3 id="7.4-redis-快取策略（補充）">7.4 Redis 快取策略（補充）</h3>
+<table><tr><th>資料</th><th>TTL</th><th>快取 Key</th><th>更新觸發</th></tr><tr><td><code>users.vip_tier</code></td><td>5min</td><td><code>user:vip:{user_id}</code></td><td>VIP 訂閱建立/到期</td></tr><tr><td><code>users.gold_balance</code></td><td>30s</td><td><code>user:balance:{user_id}</code></td><td>任何金幣變動</td></tr><tr><td><code>game_configs</code></td><td>1min</td><td><code>game:config</code></td><td>PATCH /admin/game-config</td></tr><tr><td>Leaderboard（daily）</td><td>10min</td><td><code>leaderboard:daily</code></td><td>每 10 分鐘重算</td></tr></table>
+<hr>
+<h2 id="8.-migration-策略">8. Migration 策略</h2>
+<h3 id="8.1-工具與命名規範">8.1 工具與命名規範</h3>
+<table><tr><th>工具</th><th>Prisma Migrate（<code>prisma migrate deploy</code>）</th></tr><tr><td>底層 SQL</td><td>自動生成 + 手動補充索引</td></tr><tr><td>Migration 目錄</td><td><code>prisma/migrations/</code></td></tr><tr><td>命名格式</td><td><code>{timestamp}_{description}/migration.sql</code></td></tr></table>
+<p>
+<strong>命名規則：</strong>
+</p>
+<ul><li>描述使用 <code>snake_case</code></li><li>動詞優先：<code>create_</code>, <code>add_</code>, <code>drop_</code>, <code>rename_</code></li><li>每個 Migration 只做一件邏輯上的事</li></ul>
+<h3 id="8.2-零停機-migration（expand-contract-pattern）">8.2 零停機 Migration（Expand-Contract Pattern）</h3>
+<pre><code>Phase 1 (Expand)   → 新增欄位（NULL，無 DEFAULT）；部署舊應用繼續正常
+<p>
+Phase 2 (Migrate)  → 部署新應用，新舊欄位並寫
+Phase 3 (Contract) → 舊欄位確認無流量後移除
+</code></pre>
+</p>
+<p>
+<strong>大表新增欄位（fish_kills — 7 億行）：</strong>
+</p>
+<pre><code class="language-sql">-- Step 1：新增 NULL 欄位（瞬間完成，MySQL 8.0 即時 DDL）
+<p>
+ALTER TABLE fish_kills ADD COLUMN weapon_type VARCHAR(30) NULL;
+</p>
+<p>
+-- Step 2：批次 backfill（分批，每批 10,000 — 避免長事務）
+UPDATE fish_kills
+SET weapon_type = &#x27;CANNON&#x27;
+WHERE weapon_type IS NULL AND killed_at &gt;= &#x27;2026-04-01&#x27;
+LIMIT 10000;
+-- 重複執行直到 rows_updated = 0
+</p>
+<p>
+-- Step 3：加約束（確認 backfill 完成後）
+ALTER TABLE fish_kills MODIFY weapon_type VARCHAR(30) NOT NULL DEFAULT &#x27;CANNON&#x27;;
+</code></pre>
+</p>
+<h3 id="8.3-migration-測試清單">8.3 Migration 測試清單</h3>
+<ul><li>[ ] UP migration 在乾淨 DB 執行成功</li><li>[ ] <code>prisma migrate status</code> 顯示 Applied</li><li>[ ] Staging 環境含生產量級資料測試通過</li><li>[ ] 不持有超過 3 秒 table lock（<code>SHOW PROCESSLIST</code> 觀察）</li><li>[ ] EXPLAIN ANALYZE 新查詢確認使用正確索引</li></ul>
+<hr>
+<h2 id="9.-資料完整性約束">9. 資料完整性約束</h2>
+<h3 id="9.1-外鍵-on-delete-行為">9.1 外鍵 ON DELETE 行為</h3>
+<table><tr><th>表</th><th>FK</th><th>ON DELETE 行為</th><th>理由</th></tr><tr><td><code>session_players.session_id</code></td><td>game_sessions</td><td>CASCADE</td><td>局刪除時同步清除玩家記錄</td></tr><tr><td><code>session_players.user_id</code></td><td>users</td><td>SET NULL</td><td>GDPR 硬刪除時保留遊戲歷史，user_id 設為 NULL（匿名化）</td></tr><tr><td><code>jackpot_events.session_id</code></td><td>game_sessions</td><td>RESTRICT</td><td>有 Jackpot 的局不可刪除</td></tr><tr><td><code>jackpot_events.winner_user_id</code></td><td>users</td><td>RESTRICT</td><td>中獎記錄保留（稅務合規）</td></tr><tr><td><code>orders.user_id</code></td><td>users</td><td>RESTRICT</td><td>訂單需保留 7 年（稅務法規）</td></tr><tr><td><code>vip_subscriptions.user_id</code></td><td>users</td><td>RESTRICT</td><td>訂閱記錄需保留</td></tr></table>
+<h3 id="9.2-check-約束">9.2 CHECK 約束</h3>
+<pre><code class="language-sql">-- users
+<p>
+CHECK (gold_balance &gt;= 0),
+CHECK (diamond_balance &gt;= 0),
+CHECK (failed_login_count BETWEEN 0 AND 255),
+CHECK (vip_tier BETWEEN 0 AND 3)
+</p>
+<p>
+-- orders
+CHECK (diamonds_credited &gt;= 0),
+CHECK (amount_usd &gt;= 0)
+</p>
+<p>
+-- game_configs（見 §3.8）
+CHECK (rtp_target_min BETWEEN 0.80 AND 0.95),
+CHECK (rtp_target_max &gt;= rtp_target_min)
+</p>
+<p>
+-- vip_subscriptions
+CHECK (diamonds_deducted &gt;= 0),
+CHECK (expires_at &gt; activated_at)
+</code></pre>
+</p>
+<hr>
+<h2 id="10.-分區策略（<code>fish_kills</code>）">10. 分區策略（<code>fish_kills</code>）</h2>
+<p>
+依 EDD §5.5b：<code>fish_kills</code> 預計每日 200 萬行，1 年累積 7 億行。
+</p>
+<p>
+<strong>策略：MySQL RANGE 分區（按月 <code>killed_at</code>）</strong>
+</p>
+<table><tr><th>優點</th><th>說明</th></tr><tr><td>清理效率</td><td>直接 <code>DROP PARTITION</code>，不掃描主表</td></tr><tr><td>查詢剪裁</td><td>WHERE killed_at 範圍自動剪裁分區</td></tr><tr><td>寫入分散</td><td>當月數據集中在當月分區，Hot Spot 明確</td></tr></table>
+<p>
+<strong>維護計劃：</strong>
+</p>
+<ul><li>每月 1 日 00:00 UTC 自動新增下月分區（cron job）</li><li>保留最近 6 個月分區；超過 6 個月的分區歸檔至冷存儲後刪除</li><li>分區 DROP 操作前備份分區資料到 S3 Parquet（BI 分析用）</li></ul>
+<hr>
+<h2 id="11.-備份與復原">11. 備份與復原</h2>
+<h3 id="11.1-備份策略">11.1 備份策略</h3>
+<table><tr><th>類型</th><th>頻率</th><th>保留</th><th>工具</th><th>位置</th></tr><tr><td>Full Backup</td><td>每日 02:00 UTC</td><td>30 天</td><td><code>mysqldump</code> / Percona XtraBackup</td><td>S3 us-east-1</td></tr><tr><td>Binlog 備份（PITR 基礎）</td><td>持續（每 5 分鐘推送）</td><td>7 天</td><td>MySQL Binlog → S3</td><td>S3</td></tr><tr><td>特定表邏輯備份（orders/audit_logs）</td><td>每週</td><td>7 年</td><td><code>mysqldump --tables</code></td><td>S3 Glacier</td></tr><tr><td>Read Replica（同步延遲 < 1s）</td><td>持續</td><td>—</td><td>MySQL Replication</td><td>同 Region</td></tr></table>
+<h3 id="11.2-rto-/-rpo-目標">11.2 RTO / RPO 目標</h3>
+<table><tr><th>指標</th><th>目標</th><th>說明</th></tr><tr><td>RTO（Recovery Time）</td><td>< 4 小時</td><td>Full restore from backup</td></tr><tr><td>RPO（Recovery Point）</td><td>< 5 分鐘</td><td>Binlog PITR</td></tr></table>
+<h3 id="11.3-每月備份驗證">11.3 每月備份驗證</h3>
+<ol><li>從 S3 下載最新 Full Backup</li><li>在隔離環境還原</li><li>執行 <code>SELECT COUNT(*) FROM users</code> / <code>orders</code> 驗證數量合理</li><li>執行 Prisma Schema Integrity Check</li><li>記錄 RTO 實測值</li></ol>
+<hr>
+<h2 id="12.-關聯圖（er-diagram）">12. 關聯圖（ER Diagram）</h2>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">erDiagram
+<p>
+users {
+char26 id PK
+varchar254 email UK &quot;PII&quot;
+varchar255 password_hash &quot;NOT NULL&quot;
+varchar30 display_name &quot;NOT NULL&quot;
+varchar512 avatar_url
+enum role &quot;player/operator/superadmin&quot;
+tinyint age_verified &quot;NOT NULL&quot;
+enum status &quot;active/suspended/banned&quot;
+tinyint_unsigned vip_tier &quot;DEFAULT 0&quot;
+datetime3 vip_expires_at
+bigint_unsigned gold_balance &quot;DEFAULT 0&quot;
+int_unsigned diamond_balance &quot;DEFAULT 0&quot;
+datetime3 last_login_at
+datetime3 created_at &quot;NOT NULL&quot;
+datetime3 deleted_at
+}
+</p>
+<p>
+game_sessions {
+bigint_unsigned id PK
+varchar36 room_id UK &quot;Colyseus Room ID&quot;
+enum status &quot;WAITING/IN_PROGRESS/COMPLETED&quot;
+tinyint_unsigned player_count
+bigint_unsigned jackpot_pool
+decimal5_4 rtp_actual
+datetime3 started_at &quot;NOT NULL&quot;
+datetime3 ended_at
+}
+</p>
+<p>
+session_players {
+bigint_unsigned id PK
+bigint_unsigned session_id FK &quot;NOT NULL&quot;
+char26 user_id FK &quot;NOT NULL&quot;
+bigint final_gold
+bigint_unsigned gold_earned
+bigint_unsigned gold_spent
+tinyint1 is_mvp
+datetime3 joined_at &quot;NOT NULL&quot;
+}
+</p>
+<p>
+fish_kills {
+bigint_unsigned id PK
+bigint_unsigned session_id FK &quot;NOT NULL&quot;
+char26 killer_id &quot;NOT NULL (denorm)&quot;
+varchar50 fish_type &quot;NOT NULL&quot;
+bigint_unsigned coins_awarded
+decimal5_4 rtp_snapshot
+datetime3 killed_at PK &quot;NOT NULL (分區鍵)&quot;
+}
+</p>
+<p>
+jackpot_events {
+char36 id PK &quot;UUID v4&quot;
+bigint_unsigned session_id FK &quot;NOT NULL&quot;
+char26 winner_user_id FK &quot;NOT NULL&quot;
+bigint_unsigned amount &quot;NOT NULL&quot;
+varchar36 room_id &quot;NOT NULL&quot;
+datetime3 triggered_at &quot;NOT NULL&quot;
+}
+</p>
+<p>
+orders {
+char36 id PK &quot;UUID v4 (order_id)&quot;
+char26 user_id FK &quot;NOT NULL&quot;
+varchar50 product_id &quot;NOT NULL&quot;
+enum platform &quot;apple/google&quot;
+enum status &quot;pending/completed/failed&quot;
+int_unsigned diamonds_credited
+decimal10_2 amount_usd &quot;NOT NULL&quot;
+varchar255 transaction_id
+varchar64 receipt_hash UK
+char36 idempotency_key UK &quot;NOT NULL&quot;
+datetime3 created_at &quot;NOT NULL&quot;
+datetime3 completed_at
+}
+</p>
+<p>
+vip_subscriptions {
+char36 id PK &quot;UUID v4&quot;
+char26 user_id FK &quot;NOT NULL&quot;
+varchar50 plan_id &quot;NOT NULL&quot;
+tinyint_unsigned vip_tier &quot;NOT NULL&quot;
+int_unsigned diamonds_deducted
+enum status &quot;active/expired/cancelled&quot;
+char36 idempotency_key UK &quot;NOT NULL&quot;
+datetime3 activated_at &quot;NOT NULL&quot;
+datetime3 expires_at &quot;NOT NULL&quot;
+}
+</p>
+<p>
+game_configs {
+tinyint_unsigned id PK &quot;固定=1&quot;
+decimal5_4 rtp_target_min &quot;NOT NULL&quot;
+decimal5_4 rtp_target_max &quot;NOT NULL&quot;
+decimal8_6 jackpot_trigger_probability &quot;NOT NULL&quot;
+char26 updated_by
+datetime3 updated_at &quot;NOT NULL&quot;
+}
+</p>
+<p>
+audit_logs {
+bigint_unsigned id PK
+varchar100 event_type &quot;NOT NULL&quot;
+char26 actor_user_id
+varchar50 resource_type &quot;NOT NULL&quot;
+varchar36 resource_id &quot;NOT NULL&quot;
+json before_json
+json after_json
+enum outcome &quot;SUCCESS/FAILURE&quot;
+varchar256 x_admin_reason
+datetime3 created_at &quot;NOT NULL&quot;
+}
+</p>
+<p>
+products {
+varchar50 product_id PK
+varchar100 name &quot;NOT NULL&quot;
+int_unsigned diamonds &quot;NOT NULL&quot;
+decimal10_2 price_usd &quot;NOT NULL&quot;
+tinyint1 is_active &quot;DEFAULT 1&quot;
+datetime3 updated_at &quot;NOT NULL&quot;
+}
+</p>
+<p>
+data_access_logs {
+bigint_unsigned id PK
+varchar100 table_name &quot;NOT NULL&quot;
+varchar36 record_id &quot;NOT NULL&quot;
+varchar100 field_name
+enum action &quot;SELECT/UPDATE/DELETE&quot;
+char26 actor_id
+varchar50 actor_type
+text reason
+varchar64 ip_hash &quot;SHA-256(IP)&quot;
+datetime3 accessed_at &quot;NOT NULL&quot;
+}
+</p>
+<p>
+users ||--o{ session_players : &quot;參與&quot;
+users ||--o{ orders : &quot;產生&quot;
+users ||--o{ vip_subscriptions : &quot;擁有&quot;
+users ||--o{ audit_logs : &quot;觸發（actor）&quot;
+users ||--o{ jackpot_events : &quot;獲獎&quot;
+game_sessions ||--o{ session_players : &quot;包含&quot;
+game_sessions ||--o{ fish_kills : &quot;記錄&quot;
+game_sessions ||--o{ jackpot_events : &quot;觸發&quot;</div></div>
+</p>
+<hr>
+<h2 id="13.-資料量估算">13. 資料量估算</h2>
+<table><tr><th>資料表</th><th>初始量</th><th>年增量</th><th>5 年預估</th><th>分區/歸檔</th></tr><tr><td><code>users</code></td><td>1,000</td><td>+50,000</td><td>251,000</td><td>不需要</td></tr><tr><td><code>game_sessions</code></td><td>0</td><td>+365,000</td><td>1,825,000</td><td>考慮按年歸檔</td></tr><tr><td><code>session_players</code></td><td>0</td><td>+1,825,000</td><td>9,125,000</td><td>考慮按年歸檔</td></tr><tr><td><code>fish_kills</code></td><td>0</td><td><strong>+730,000,000</strong></td><td>>30 億</td><td><strong>月 RANGE 分區 + 6 個月滾動清理</strong></td></tr><tr><td><code>jackpot_events</code></td><td>0</td><td>+3,650</td><td>18,250</td><td>不需要</td></tr><tr><td><code>orders</code></td><td>0</td><td>+365,000</td><td>1,825,000</td><td>考慮按年歸檔（稅務保留 7 年）</td></tr><tr><td><code>vip_subscriptions</code></td><td>0</td><td>+100,000</td><td>500,000</td><td>不需要</td></tr><tr><td><code>audit_logs</code></td><td>0</td><td>+3,650,000</td><td>>1,800 萬</td><td>考慮按月分區或歸檔至冷存儲</td></tr></table>
+<hr>
+<h2 id="14.-敏感資料清單">14. 敏感資料清單</h2>
+<table><tr><th>資料表</th><th>欄位</th><th>PII 分類</th><th>保護方式</th><th>保留期限</th></tr><tr><td><code>users</code></td><td><code>email</code></td><td>識別資料</td><td>應用層加密（AES-256-GCM）查詢</td><td>帳號刪除後 30 天</td></tr><tr><td><code>users</code></td><td><code>password_hash</code></td><td>認證憑證</td><td>bcrypt cost=12；永不回傳</td><td>帳號刪除時立即清空</td></tr><tr><td><code>users</code></td><td><code>display_name</code></td><td>識別資料</td><td>HTTPS only</td><td>帳號刪除後 30 天</td></tr><tr><td><code>users</code></td><td><code>avatar_url</code></td><td>識別資料</td><td>HTTPS + S3 private bucket</td><td>帳號刪除後 30 天</td></tr><tr><td><code>audit_logs</code></td><td><code>ip_hash</code></td><td>網路識別</td><td>SHA-256(IP)（GDPR 匿名化）</td><td>90 天</td></tr><tr><td><code>orders</code></td><td><code>receipt_hash</code></td><td>交易資料</td><td>SHA-256(receipt)；不儲存原始收據</td><td>7 年（稅務法規）</td></tr></table>
+<hr>
+<h2 id="15.-multi-tenancy-策略">15. Multi-Tenancy 策略</h2>
+<p>
+<strong>本產品決策：不適用（Single-Tenant 架構）</strong>
+</p>
+<p>
+<strong>決策依據：</strong>
+</p>
+<ul><li>捕魚街機遊戲平台為單一運營商（B2C），非 SaaS 多租戶產品</li><li>所有玩家共享同一個 MySQL Schema（<code>fishgame</code>）</li><li>未來若擴展為白標授權給多個運營商，評估 Schema-per-Tenant 策略</li></ul>
+<p>
+<strong>現行隔離保護（替代 Multi-Tenancy）：</strong>
+</p>
+<ul><li>RBAC 角色隔離（player / operator / superadmin — API §2.5）</li><li>Row-Level Security 由應用層實作（Prisma WHERE user_id = current_user_id）</li><li>Audit Log 記錄所有跨用戶操作</li></ul>
+<hr>
+<h2 id="16.-schema-審查檢查清單">16. Schema 審查檢查清單</h2>
+<h3 id="命名與結構">命名與結構</h3>
+<ul><li>[x] 所有資料表名稱為 <code>snake_case</code> 複數形式（MySQL 慣例）</li><li>[x] Boolean 欄位有 <code>is_</code>、<code>has_</code> 前綴（<code>is_mvp</code>, <code>is_active</code>, <code>age_verified</code>）</li><li>[x] Enum 欄位使用 MySQL ENUM 類型</li><li>[x] 外鍵欄位命名為 <code>{referenced_table_singular}_id</code></li><li>[x] 索引、約束名稱遵循命名規範</li></ul>
+<h3 id="正規化與完整性">正規化與完整性</h3>
+<ul><li>[x] 無重複欄位組（1NF）</li><li>[x] 所有非主鍵欄位完全依賴主鍵（2NF）</li><li>[x] 反正規化已文件化（<code>fish_kills.killer_id</code>）</li><li>[x] CHECK 約束涵蓋主要業務規則（餘額 >= 0, RTP 範圍）</li><li>[x] 外鍵 ON DELETE 行為已明確選擇並有理由</li></ul>
+<h3 id="索引">索引</h3>
+<ul><li>[x] 所有外鍵欄位有對應索引</li><li>[x] 高頻查詢覆蓋索引已驗證（§5.2 基準表）</li><li>[x] 複合索引欄位順序正確（等值在前，排序在後）</li><li>[x] <code>fish_kills</code> 月分區 + 對應查詢使用分區裁剪</li></ul>
+<h3 id="安全與合規">安全與合規</h3>
+<ul><li>[x] PII 欄位已列入 §14 敏感資料清單</li><li>[x] <code>password_hash</code> 僅儲存 bcrypt hash，無明文</li><li>[x] <code>audit_logs</code> 記錄所有 PATCH /admin/* 操作</li><li>[x] GDPR 被遺忘權實作路徑已定義（§17.2）</li></ul>
+<h3 id="效能">效能</h3>
+<ul><li>[x] <code>fish_kills</code> 超過預估 7 億筆，已規劃月分區策略</li><li>[x] 連線池設定依公式計算（§7.3）</li><li>[x] N+1 查詢風險已識別並提供正確 JOIN SQL（§7.2）</li></ul>
+<h3 id="migration">Migration</h3>
+<ul><li>[x] Prisma Migrate 作為主要工具</li><li>[x] 大表零停機 Migration 步驟（Expand-Contract，§8.2）</li><li>[x] <code>fish_kills</code> 分區管理 SQL 已提供（§3.4）</li></ul>
+<hr>
+<h2 id="17.-data-retention-&-gdpr-lifecycle-policy">17. Data Retention & GDPR Lifecycle Policy</h2>
+<h3 id="17.1-資料保留政策">17.1 資料保留政策</h3>
+<table><tr><th>資料類別</th><th>資料表</th><th>保留期限</th><th>法規依據</th><th>刪除方式</th></tr><tr><td>玩家帳號</td><td><code>users</code></td><td>帳號刪除後 30 天</td><td>服務條款 §8</td><td>軟刪除 → 30 天後 GDPR 硬刪除</td></tr><tr><td>交易訂單</td><td><code>orders</code></td><td>7 年</td><td>稅務法規（ROC Business Tax Act）</td><td>7 年後歸檔刪除</td></tr><tr><td>遊戲局記錄</td><td><code>game_sessions</code> / <code>session_players</code></td><td>3 年</td><td>遊戲營運 / 監管需求</td><td>3 年後歸檔至冷存儲</td></tr><tr><td>捕魚事件</td><td><code>fish_kills</code></td><td>6 個月（滾動）</td><td>效能設計（分區清理）</td><td>DROP PARTITION 後 S3 Parquet 歸檔</td></tr><tr><td>Jackpot 記錄</td><td><code>jackpot_events</code></td><td>7 年</td><td>稅務 + 監管</td><td>歸檔保留</td></tr><tr><td>VIP 訂閱</td><td><code>vip_subscriptions</code></td><td>帳號存續期 + 3 年</td><td>商業記錄</td><td>軟刪除 + 歸檔</td></tr><tr><td>稽核日誌</td><td><code>audit_logs</code></td><td>2 年</td><td>合規稽核</td><td>2 年後歸檔至 S3 Glacier</td></tr><tr><td>會話（Redis）</td><td>Redis sessions</td><td>1 小時（JWT TTL）</td><td>安全需求</td><td>TTL 自動過期</td></tr></table>
+<h3 id="17.2-gdpr-right-to-erasure（被遺忘權）">17.2 GDPR Right to Erasure（被遺忘權）</h3>
+<pre><code class="language-sql">-- ============================================================
+<p>
+-- GDPR Art.17 — 玩家資料刪除程序（fishgame）
+-- 執行時機：玩家申請帳號刪除後立即執行
+-- ============================================================
+</p>
+<p>
+-- Step 1：立即軟刪除 + 匿名化 PII（在應用層 Transaction 中執行）
+UPDATE users SET
+email         = CONCAT(&#x27;deleted_&#x27;, id, &#x27;@gdpr.invalid&#x27;),
+password_hash = &#x27;$2b$12$DELETED_ACCOUNT_HASH_PLACEHOLDER&#x27;,
+display_name  = &#x27;Deleted User&#x27;,
+avatar_url    = NULL,
+status        = &#x27;banned&#x27;,
+deleted_at    = NOW(3)
+WHERE id = ? AND deleted_at IS NULL;
+</p>
+<p>
+-- Step 2：清除 Redis 中的 JWT Session（應用層）
+-- KEYS session:{user_id}:* → DEL
+</p>
+<p>
+-- Step 3：保留訂單（稅務）但移除用戶關聯（改為匿名 ID）
+-- 注意：orders.user_id 設計為 RESTRICT，需確認法規義務後決定是否留存
+</p>
+<p>
+-- Step 4：記錄刪除請求
+INSERT INTO audit_logs (
+event_type, actor_user_id, resource_type, resource_id,
+outcome, after_json
+) VALUES (
+&#x27;GDPR_ERASE&#x27;, NULL, &#x27;users&#x27;, ?,
+&#x27;SUCCESS&#x27;, JSON_OBJECT(&#x27;erased_at&#x27;, NOW(3))
+);
+</code></pre>
+</p>
+<p>
+<strong>非同步硬刪除任務（30 天後）：</strong>
+</p>
+<pre><code class="language-typescript">// tasks/gdprHardDelete.ts（Prisma）
+<p>
+async function runGdprHardDelete() {
+const cutoff = new Date(Date.now() - 30 <em> 24 </em> 60 <em> 60 </em> 1000);
+</p>
+<p>
+const deletedUsers = await prisma.users.findMany({
+where: {
+deletedAt: { lt: cutoff },
+status: &#x27;banned&#x27;,
+email: { endsWith: &#x27;@gdpr.invalid&#x27; },
+},
+select: { id: true },
+});
+</p>
+<p>
+for (const { id } of deletedUsers) {
+await prisma.$transaction([
+// 刪除有 RESTRICT FK 的子記錄
+prisma.vipSubscriptions.deleteMany({ where: { userId: id } }),
+// session_players.user_id ON DELETE SET NULL — FK 自動處理（保留遊戲歷史，匿名化）
+// 不需要手動 updateMany
+prisma.users.delete({ where: { id } }),
+]);
+}
+</p>
+<p>
+logger.info(<code>GDPR hard delete: ${deletedUsers.length} users removed</code>);
+}
+</code></pre>
+</p>
+<h3 id="17.3-data-access-audit（<code>data_access_logs</code>）">17.3 Data Access Audit（<code>data_access_logs</code>）</h3>
+<pre><code class="language-sql">-- 存取敏感欄位（email / diamond_balance）時記錄
+<p>
+CREATE TABLE data_access_logs (
+id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+table_name  VARCHAR(100)    NOT NULL,
+record_id   VARCHAR(36)     NOT NULL,
+field_name  VARCHAR(100)    NULL,
+action      ENUM(&#x27;SELECT&#x27;,&#x27;UPDATE&#x27;,&#x27;DELETE&#x27;) NOT NULL,
+actor_id    CHAR(26)        NULL,
+actor_type  VARCHAR(50)     NULL,
+reason      TEXT            NULL,
+ip_hash     VARCHAR(64)     NULL,
+accessed_at DATETIME(3)     NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+</p>
+<p>
+CONSTRAINT pk_dal PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT=&#x27;敏感資料存取稽核&#x27;;
+</p>
+<p>
+CREATE INDEX idx_dal_record ON data_access_logs (table_name, record_id);
+CREATE INDEX idx_dal_actor  ON data_access_logs (actor_id, accessed_at);
+</code></pre>
+</p>
+<hr>
+<h2 id="18.-database-observability-&-health-monitoring">18. Database Observability & Health Monitoring</h2>
+<h3 id="18.1-關鍵監控-sql">18.1 關鍵監控 SQL</h3>
+<pre><code class="language-sql">-- 連線數監控
+<p>
+SELECT
+COUNT(*)     AS total_connections,
+SUM(COMMAND = &#x27;Query&#x27;)  AS active_queries,
+SUM(COMMAND = &#x27;Sleep&#x27;)  AS idle_connections
+FROM information_schema.PROCESSLIST;
+</p>
+<p>
+-- 慢查詢識別（需啟用 slow_query_log）
+SELECT
+start_time, query_time, rows_examined, sql_text
+FROM mysql.slow_log
+WHERE query_time &gt; 1  -- 超過 1 秒
+ORDER BY start_time DESC
+LIMIT 20;
+</p>
+<p>
+-- 表格行數 + 大小
+SELECT
+TABLE_NAME,
+TABLE_ROWS,
+ROUND(DATA_LENGTH / 1024 / 1024, 2)  AS data_mb,
+ROUND(INDEX_LENGTH / 1024 / 1024, 2) AS index_mb
+FROM information_schema.TABLES
+WHERE TABLE_SCHEMA = &#x27;fishgame&#x27;
+ORDER BY DATA_LENGTH DESC;
+</p>
+<p>
+-- Replication 延遲
+SHOW SLAVE STATUS\G  -- Seconds_Behind_Master 欄位
+</p>
+<p>
+-- 鎖等待
+SELECT * FROM information_schema.INNODB_TRX
+WHERE trx_wait_started IS NOT NULL;
+</code></pre>
+</p>
+<h3 id="18.2-alerting-規則（prometheus-+-grafana）">18.2 Alerting 規則（Prometheus + Grafana）</h3>
+<table><tr><th>指標</th><th>警告閾值</th><th>緊急閾值</th><th>通知方式</th></tr><tr><td>MySQL 連線數使用率</td><td>> 70% max_connections</td><td>> 90%</td><td>Slack #sre-alerts / PagerDuty</td></tr><tr><td>Replication Lag</td><td>> 10s</td><td>> 60s</td><td>PagerDuty</td></tr><tr><td>長事務（Seconds）</td><td>> 60s</td><td>> 300s</td><td>Slack #sre-alerts</td></tr><tr><td>慢查詢 QPS</td><td>> 10/min</td><td>> 50/min</td><td>Slack #sre-alerts</td></tr><tr><td>Disk Usage</td><td>> 70%</td><td>> 85%</td><td>PagerDuty</td></tr><tr><td>fish_kills 分區計數</td><td>> 7 個月</td><td>> 8 個月</td><td>Slack（提示刪除舊分區）</td></tr></table>
+<h3 id="18.3-例行維護排程">18.3 例行維護排程</h3>
+<table><tr><th>任務</th><th>頻率</th><th>工具</th></tr><tr><td>ANALYZE TABLE（統計資訊更新）</td><td>每週日 03:00 UTC</td><td>定時任務</td></tr><tr><td>新增下月 fish_kills 分區</td><td>每月 1 日 00:00 UTC</td><td>定時任務</td></tr><tr><td>刪除 6 個月前 fish_kills 分區</td><td>每月 1 日 01:00 UTC</td><td>定時任務</td></tr><tr><td>Full Backup</td><td>每日 02:00 UTC</td><td>mysqldump / XtraBackup</td></tr><tr><td>GDPR Hard Delete</td><td>每日 04:00 UTC</td><td>tasks/gdprHardDelete.ts</td></tr><tr><td>VIP 到期降級</td><td>每 10 分鐘</td><td>tasks/vipExpiry.ts</td></tr></table>
+<hr>
+<h2 id="19.-approval-sign-off">19. Approval Sign-off</h2>
+<table><tr><th>角色</th><th>姓名</th><th>審核日期</th><th>狀態</th></tr><tr><td>Database Architect</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Backend Lead</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Security Engineer</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr></table></main>
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

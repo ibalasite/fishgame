@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>架構設計 — fishing-arcade-game</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+<nav class="top-nav">
+  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
+  <div class="nav-controls">
+    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
+    
+    <div class="search-wrap">
+      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
+      <div class="search-results"></div>
+    </div>
+  </div>
+</nav>
+<div class="doc-page-banner">
+  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › 架構設計</div>
+  <h1 class="banner-title">架構設計</h1>
+  <p class="banner-desc">System Architecture</p>
+</div>
+<div class="page-wrapper">
+  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 產品創意</a>
+<a class="sidebar__link" href="brd.html">📋 業務需求</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
+<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 設計</a>
+<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
+<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
+<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+</div></nav>
+  <div class="sidebar-resizer" id="sidebarResizer"></div>
+  <main class="doc-content"><h1 id="arch-—-架構設計文件（architecture-design）">ARCH — 架構設計文件（Architecture Design）</h1>
+<p>
+<!-- 上游 EDD 回答「怎麼實作」；本文件回答「系統整體架構如何組織、演進、保障品質」 -->
+</p>
+<hr>
+<h2 id="document-control">Document Control</h2>
+<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>DOC-ID</strong></td><td>ARCH-FISHGAME-20260424</td></tr><tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr><tr><td><strong>Project Slug</strong></td><td><code>fishing-arcade-game</code></td></tr><tr><td><strong>文件版本</strong></td><td>v1.0</td></tr><tr><td><strong>狀態</strong></td><td>DRAFT</td></tr><tr><td><strong>作者（Tech Lead / Architect）</strong></td><td>AI Generated (gendoc-gen-arch)</td></tr><tr><td><strong>日期</strong></td><td>2026-04-24</td></tr><tr><td><strong>上游 EDD</strong></td><td><a href="EDD.md">EDD.md</a>（EDD-FISHGAME-20260424）</td></tr><tr><td><strong>上游 PRD</strong></td><td><a href="PRD.md">PRD.md</a>（PRD-FISHGAME-20260424）</td></tr><tr><td><strong>上游 BRD</strong></td><td><a href="BRD.md">BRD.md</a></td></tr><tr><td><strong>上游 IDEA</strong></td><td><a href="IDEA.md">IDEA.md</a></td></tr><tr><td><strong>審閱者</strong></td><td>System Architect, DevOps/SRE Lead, Security Engineer</td></tr><tr><td><strong>核准者</strong></td><td>CTO / Engineering Lead</td></tr></table>
+<hr>
+<h2 id="change-log">Change Log</h2>
+<table><tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr><tr><td>v1.0</td><td>2026-04-24</td><td>AI Generated (gendoc-gen-arch)</td><td>初稿</td></tr></table>
+<hr>
+<h2 id="目錄">目錄</h2>
+<ol><li>架構目標</li><li>架構模式選擇</li><li>系統元件圖（C4 L1/L2/L3）</li><li>服務邊界</li><li>通訊模式</li><li>資料分層</li><li>高可用設計</li><li>災難恢復（DR）</li><li>安全架構</li><li>擴展策略</li><li>技術棧全覽</li><li>Observability 架構</li><li>外部依賴地圖</li><li>Architecture Decision Records（完整）</li><li>架構審查檢查清單</li><li>FinOps 成本優化</li><li>API Gateway & Service Mesh</li></ol>
+<hr>
+<h2 id="1.-架構目標">1. 架構目標</h2>
+<h3 id="1.1-品質屬性需求（quality-attribute-requirements）">1.1 品質屬性需求（Quality Attribute Requirements）</h3>
+<blockquote>來源：BRD §5.4 NFR + EDD §10.5 SLO</blockquote>
+<table><tr><th>屬性</th><th>目標值</th><th>測量方式</th><th>優先級</th></tr><tr><td>可用性（Availability）</td><td>≥ 99.5%（BRD NFR-AVAIL-001）</td><td>Prometheus Uptime Probe（30 天滾動）</td><td>P0</td></tr><tr><td>WebSocket 延遲（Latency）</td><td>P99 ≤ 100ms（BRD NFR-PERF-001）</td><td>k6 WebSocket Session Duration histogram</td><td>P0</td></tr><tr><td>REST 延遲（Latency）</td><td>P99 ≤ 500ms（BRD NFR-PERF-002）</td><td>APM Trace + Prometheus http_request_duration</td><td>P0</td></tr><tr><td>錯誤率（Error Rate）</td><td>≤ 0.1%（BRD NFR-REL-001）</td><td>Prometheus <code>rate(http_requests_total{status=~&quot;5..&quot;}[1m])</code></td><td>P0</td></tr><tr><td>峰值吞吐量</td><td>6,000 WS events/s + 500 REST QPS</td><td>k6 Load Test（§7.2 門檻）</td><td>P0</td></tr><tr><td>峰值並發</td><td>1,000 concurrent players / 200 rooms</td><td>HPA 自動擴縮驗證</td><td>P1</td></tr><tr><td>可擴展性</td><td>水平擴展至 Game Service 20 副本</td><td>k8s HPA 觸發測試</td><td>P1</td></tr><tr><td>可觀測性</td><td>Tracing Coverage > 90%（關鍵路徑）</td><td>Jaeger Sampling Rate 配置驗證</td><td>P1</td></tr><tr><td>安全性</td><td>Zero-trust + OWASP A01–A10 覆蓋</td><td>滲透測試 + SAST（Snyk）</td><td>P0</td></tr></table>
+<p>
+<strong>約束條件（Constraints）：</strong>
+</p>
+<ul><li>預算：Phase 1–2 月費 USD 800–3,000（AWS ap-southeast-1）</li><li>法規遵循：東南亞博彩法規（RTP 稽核）、GDPR（PII 保護）、Apple/Google IAP 規範</li><li>既有限制：BRD §8.3 技術約束 — 客戶端 Cocos Creator 3.x（Lua/TypeScript）、伺服器 Colyseus 0.15</li><li>團隊：初期 3–5 人工程團隊；Phase 3 前維持 Modular Monolith</li></ul>
+<hr>
+<h3 id="1.2-architecture-decision-record（adr）索引">1.2 Architecture Decision Record（ADR）索引</h3>
+<table><tr><th>ADR-ID</th><th>決策標題</th><th>狀態</th><th>決策日期</th><th>影響範圍</th></tr><tr><td>ADR-001</td><td>選用 Colyseus 0.15 作為即時通訊框架</td><td>Accepted</td><td>2026-04-24</td><td>Game BC / WebSocket 層</td></tr><tr><td>ADR-002</td><td>選用 MySQL 8.0 作為主要持久化層</td><td>Accepted</td><td>2026-04-24</td><td>所有 BC 資料層</td></tr><tr><td>ADR-003</td><td>Server-Authoritative RTP（伺服器端命中計算）</td><td>Accepted</td><td>2026-04-24</td><td>Game BC / 防作弊</td></tr><tr><td>ADR-004</td><td>Modular Monolith（非 Microservices）架構模式</td><td>Accepted</td><td>2026-04-24</td><td>全系統部署策略</td></tr><tr><td>ADR-005</td><td>Unleash 自建 Feature Flag 系統</td><td>Accepted</td><td>2026-04-24</td><td>所有 Feature Release</td></tr><tr><td>ADR-006</td><td>Prisma 5.x ORM（TypeScript-first）</td><td>Accepted</td><td>2026-04-24</td><td>所有 Repository 層</td></tr></table>
+<p>
+詳細 ADR 見 §14。
+</p>
+<hr>
+<h2 id="2.-架構模式選擇">2. 架構模式選擇</h2>
+<h3 id="2.1-高層架構模式：modular-monolith">2.1 高層架構模式：Modular Monolith</h3>
+<p>
+<strong>選型決策</strong>：Modular Monolith（非 Microservices）
+</p>
+<p>
+詳細選型理由見 EDD §3.1。此處摘要架構影響：
+</p>
+<table><tr><th>決策維度</th><th>說明</th></tr><tr><td><strong>部署單元</strong></td><td>4 個獨立 k8s Deployment（Account/Game/Shop/Admin Service），共享 MySQL 和 Redis</td></tr><tr><td><strong>服務間通訊</strong></td><td>同進程：直接函式呼叫；跨 Deployment：Redis Pub/Sub Domain Event</td></tr><tr><td><strong>擴展粒度</strong></td><td>各 Deployment 可獨立 HPA（Game Service 可擴展至 20 副本，不影響 API Service）</td></tr><tr><td><strong>Phase 3 觸發</strong></td><td>Game Service 峰值 QPS > 10,000 events/s → 沿現有 Bounded Context 邊界拆出為獨立 Microservice</td></tr></table>
+<h3 id="2.2-分層架構模式">2.2 分層架構模式</h3>
+<pre><code>┌─────────────────────────────────────────────┐
+<p>
+│  Presentation Layer                          │
+│  Express Controller / Colyseus Room Handler  │
+│  → 輸入驗證（Zod）、路由、Auth Middleware     │
+│  → 不含業務邏輯；呼叫 Application Layer      │
+├─────────────────────────────────────────────┤
+│  Application Layer                           │
+│  Use Case / Service（AccountSvc/GameSvc/…）  │
+│  → 業務流程協調、事務邊界、Domain Event 發布  │
+│  → 依賴 Domain Layer Interface，不依賴 DB 具體實作 │
+├─────────────────────────────────────────────┤
+│  Domain Layer                                │
+│  Entity + Domain Service + Interface         │
+│  → 純業務語意（RTP 計算、Jackpot 規則）      │
+│  → 不依賴任何 Infrastructure（零 DB import） │
+├─────────────────────────────────────────────┤
+│  Infrastructure Layer                        │
+│  Repository（Prisma/MySQL）/ Cache（Redis）   │
+│  / IAP Client / Analytics SDK               │
+│  → 實作 Domain Interface                    │
+└─────────────────────────────────────────────┘
+</p>
+<p>
+依賴方向：Controller → Application → Domain → Infrastructure
+禁止：Repository 呼叫 Service
+禁止：Controller 直接存取 DB / Redis
+禁止：Domain Entity import Prisma / ORM annotation
+</code></pre>
+</p>
+<hr>
+<h2 id="3.-系統元件圖">3. 系統元件圖</h2>
+<h3 id="3.1-c4-model-—-system-context（l1）">3.1 C4 Model — System Context（L1）</h3>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
+<p>
+Player[&quot;👤 休閒付費玩家\n台灣/東南亞 18–45 歲&quot;]
+Operator[&quot;👤 運營管理員&quot;]
+FishGame[&quot;🎮 fishing-arcade-game\n多人即時競技捕魚平台\n(Node.js + Colyseus + MySQL + Redis)&quot;]
+IAP[&quot;💳 IAP 平台\nAppStore / Google Play&quot;]
+Analytics[&quot;📊 Analytics\nMixpanel / Amplitude&quot;]
+PushNotif[&quot;🔔 Push Notification\nFirebase FCM&quot;]
+AWS[&quot;☁️ AWS ap-southeast-1\nEKS + RDS + ElastiCache&quot;]
+</p>
+<p>
+Player --&gt;|&quot;HTTPS + WSS&quot;| FishGame
+Operator --&gt;|&quot;HTTPS 管理後台&quot;| FishGame
+FishGame --&gt;|&quot;IAP Receipt 驗證&quot;| IAP
+FishGame --&gt;|&quot;業務事件埋點&quot;| Analytics
+FishGame --&gt;|&quot;推送通知&quot;| PushNotif
+FishGame --&gt;|&quot;部署執行&quot;| AWS</div></div>
+</p>
+<h3 id="3.2-c4-model-—-container（l2）">3.2 C4 Model — Container（L2）</h3>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
+<p>
+CocosClient[&quot;Cocos Creator 客戶端\nLua / TypeScript\n(iOS / Android / Web)&quot;]
+</p>
+<p>
+subgraph FishGameSystem[&quot;fishing-arcade-game System (AWS EKS)&quot;]
+NginxIngress[&quot;Nginx Ingress Controller\nTLS 終止 / Rate Limit / 路由\n(Public Subnet)&quot;]
+AccountSvc[&quot;Account Service\n帳號/認證/VIP/年齡驗證\n(Node.js + Express, :3001)&quot;]
+GameSvc[&quot;Game Service\nColyseus Room Server\n即時對戰/RTP/Jackpot\n(Node.js + Colyseus, :2567)&quot;]
+ShopSvc[&quot;Shop Service\n商城/IAP/訂單/鑽石\n(Node.js + Express, :3002)&quot;]
+AdminSvc[&quot;Admin Service\n後台管理/活動設定/KPI\n(Node.js + Express, :3003)&quot;]
+MySQL[(&quot;MySQL 8.0 (RDS Multi-AZ)\n玩家帳號/訂單/遊戲歷史\n(Data Subnet)&quot;)]
+Redis[(&quot;Redis 7 (ElastiCache Cluster)\n即時遊戲狀態/Jackpot/Session/Cache\n(Private Subnet)&quot;)]
+Unleash[&quot;Unleash\nFeature Flag Server\n(Private Subnet)&quot;]
+end
+</p>
+<p>
+CocosClient --&gt;|&quot;HTTPS REST /v1/&quot;| NginxIngress
+CocosClient --&gt;|&quot;WSS Colyseus :2567&quot;| NginxIngress
+NginxIngress --&gt;|&quot;HTTP /v1/auth/<em> /v1/users/</em>&quot;| AccountSvc
+NginxIngress --&gt;|&quot;WSS ws://&quot;| GameSvc
+NginxIngress --&gt;|&quot;HTTP /v1/shop/*&quot;| ShopSvc
+NginxIngress --&gt;|&quot;HTTP /v1/admin/*&quot;| AdminSvc
+AccountSvc --&gt;|&quot;MySQL TLS :3306 READ/WRITE&quot;| MySQL
+AccountSvc --&gt;|&quot;Redis TLS :6379 GET/SET/DEL&quot;| Redis
+GameSvc --&gt;|&quot;MySQL TLS :3306 INSERT fish_kills&quot;| MySQL
+GameSvc --&gt;|&quot;Redis TLS :6379 INCR/LUA SCRIPT&quot;| Redis
+ShopSvc --&gt;|&quot;MySQL TLS :3306 READ/WRITE&quot;| MySQL
+ShopSvc --&gt;|&quot;Redis TLS :6379 GET/SET&quot;| Redis
+AdminSvc --&gt;|&quot;MySQL TLS :3306 READ/WRITE&quot;| MySQL
+AccountSvc --&gt;|&quot;HTTP :4242 GET flags&quot;| Unleash
+GameSvc --&gt;|&quot;HTTP :4242 GET flags&quot;| Unleash
+ShopSvc --&gt;|&quot;HTTP :4242 GET flags&quot;| Unleash</div></div>
+</p>
+<h3 id="3.3-c4-model-—-component（l3-—-game-service-內部）">3.3 C4 Model — Component（L3 — Game Service 內部）</h3>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
+<p>
+subgraph GameServiceContainer[&quot;Game Service（Node.js + Colyseus）&quot;]
+ColyseusMonitor[&quot;Colyseus Room Monitor\n房間生命週期管理&quot;]
+FishPoolRoom[&quot;FishPoolRoom\n(Colyseus Room)\n遊戲主房間&quot;]
+RTPEngine[&quot;RTP Engine\n(IRTPEngine Interface)\n伺服器端命中計算&quot;]
+FishSpawner[&quot;Fish Spawner\n(IFishSpawner Interface)\n魚群生成調度&quot;]
+JackpotService[&quot;Jackpot Service\nRedis Lua 原子鎖&quot;]
+DomainEventBus[&quot;Domain Event Bus\n(Redis Pub/Sub)\n事件廣播&quot;]
+GameRepo[&quot;Game Repository\n(IGameRepository)\nMySQL 讀寫&quot;]
+end
+</p>
+<p>
+ColyseusMonitor --&gt; FishPoolRoom
+FishPoolRoom --&gt; RTPEngine
+FishPoolRoom --&gt; FishSpawner
+FishPoolRoom --&gt; JackpotService
+FishPoolRoom --&gt; DomainEventBus
+FishPoolRoom --&gt; GameRepo
+RTPEngine --&gt;|&quot;RTP State&quot;| Redis_ext[&quot;Redis&quot;]
+JackpotService --&gt;|&quot;Lua Script&quot;| Redis_ext
+GameRepo --&gt; MySQL_ext[&quot;MySQL&quot;]</div></div>
+</p>
+<h3 id="3.4-data-flow-diagram（write-path-—-捕魚結算）">3.4 Data Flow Diagram（Write Path — 捕魚結算）</h3>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">sequenceDiagram
+<p>
+participant Client as Cocos Client
+participant Ingress as Nginx Ingress
+participant Game as Game Service
+participant RTP as RTP Engine
+participant Redis as Redis
+participant MySQL as MySQL
+participant EventBus as Domain Event Bus
+</p>
+<p>
+Client-&gt;&gt;Ingress: WSS shootFish(fish_id, weapon_type)
+Ingress-&gt;&gt;Game: 路由至 FishPoolRoom
+Game-&gt;&gt;RTP: calculateHit(user_id, fish_id)
+RTP-&gt;&gt;Redis: GET rtp_state:{user_id}
+Redis--&gt;&gt;RTP: {current_rtp: 87%}
+RTP--&gt;&gt;Game: HIT {coins: 50}
+Game-&gt;&gt;Redis: INCR jackpot_pool:global (by 5)
+Game-&gt;&gt;MySQL: INSERT fish_kills (session_id, killer_id, coins=50, rtp_snapshot=87%)
+Game-&gt;&gt;EventBus: PUBLISH FishKilled {session_id, killer_id, coins=50}
+EventBus--&gt;&gt;Commerce: 異步消費 → UPDATE users.gold_balance += 50
+Game--&gt;&gt;Client: FishKilledEvent {winner_id, coins=50, animation=&quot;EXPLODE&quot;}</div></div>
+</p>
+<p>
+<strong>PII 敏感資料流向表</strong>
+</p>
+<table><tr><th>PII 資料類型</th><th>流經元件</th><th>儲存位置</th><th>Masking 規則</th><th>加密措施</th></tr><tr><td>Email</td><td>Registration → AccountSvc → MySQL</td><td>MySQL users.email</td><td>Log 中遮罩：<code>t<strong><em>@</em></strong>.com</code></td><td>AES-256-GCM（PII_AES_KEY）</td></tr><tr><td>Birthdate</td><td>Registration → AccountSvc → MySQL</td><td>MySQL users.birthdate</td><td>不在 Log 中記錄</td><td>AES-256-GCM（PII_AES_KEY）</td></tr><tr><td>IP Address</td><td>Nginx Ingress → All Services</td><td>Log（hash 後）</td><td>SHA256(ip_addr) → ip_hash</td><td>不存明文</td></tr><tr><td>IAP Receipt</td><td>Client → ShopSvc → IAP Platform</td><td>MySQL orders.iap_receipt_hash</td><td>僅存 Hash</td><td>SHA256 Hash</td></tr></table>
+<hr>
+<h2 id="4.-服務邊界">4. 服務邊界</h2>
+<h3 id="4.1-bounded-context-與-context-map">4.1 Bounded Context 與 Context Map</h3>
+<blockquote>依據 EDD §3.4 DDD Bounded Context。</blockquote>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">graph LR
+<p>
+subgraph BC_Account[&quot;Account BC\n帳號/認證/VIP/年齡驗證&quot;]
+UserAgg[&quot;User Aggregate\nemail, password_hash, age_status, vip_tier, balances&quot;]
+VipSub[&quot;VipSubscription Aggregate\nactivated_at, expires_at, status&quot;]
+end
+</p>
+<p>
+subgraph BC_Game[&quot;Game BC\n遊戲邏輯/RTP/Jackpot/Fish&quot;]
+RoomAgg[&quot;GameRoom Aggregate\nstatus, player_count, jackpot_pool&quot;]
+FishAgg[&quot;Fish Aggregate\ntype, base_value, hit_points&quot;]
+WeaponVO[&quot;Weapon Value Object\ntype, damage, cooldown&quot;]
+end
+</p>
+<p>
+subgraph BC_Commerce[&quot;Commerce BC\n商城/IAP/訂單/鑽石&quot;]
+OrderAgg[&quot;Order Aggregate\norder_id(UUID), status, amount_usd&quot;]
+ProductVO[&quot;Product Value Object\nproduct_id, diamonds, price_usd&quot;]
+end
+</p>
+<p>
+subgraph BC_IAP[&quot;IAP Platform（外部）\nAppStore / Google Play&quot;]
+Receipt[&quot;Receipt Validation API&quot;]
+end
+</p>
+<p>
+BC_Account --&gt;|&quot;Customer/Supplier\nGame 消費 Account JWT User ID\nAccount 保證 Token API 穩定&quot;| BC_Game
+BC_Game --&gt;|&quot;Published Language\nDomain Event（FishKilled/JackpotTriggered）\n通知 Commerce 更新金幣餘額&quot;| BC_Commerce
+BC_Commerce --&gt;|&quot;Conformist\n遵從 IAP Platform Receipt 格式\n無法修改外部 API 契約&quot;| BC_IAP</div></div>
+</p>
+<h3 id="4.2-anti-corruption-layer（acl）設計">4.2 Anti-Corruption Layer（ACL）設計</h3>
+<table><tr><th>外部系統</th><th>ACL 位置</th><th>轉換邏輯</th></tr><tr><td>Apple AppStore Receipt</td><td><code>ShopSvc/infrastructure/iap/AppleIAPClient.ts</code></td><td>將 Apple 格式回應（<code>status: 0</code>）轉換為內部 <code>IAPVerifyResult</code></td></tr><tr><td>Google Play Receipt</td><td><code>ShopSvc/infrastructure/iap/GoogleIAPClient.ts</code></td><td>將 Google <code>purchaseState: 0</code> 轉換為 <code>IAPVerifyResult</code></td></tr><tr><td>Mixpanel/Amplitude</td><td><code>shared/infrastructure/analytics/AnalyticsClient.ts</code></td><td>將內部 DomainEvent 轉換為平台特定事件格式</td></tr></table>
+<hr>
+<h2 id="5.-通訊模式">5. 通訊模式</h2>
+<h3 id="5.1-同步-/-非同步通訊矩陣">5.1 同步 / 非同步通訊矩陣</h3>
+<table><tr><th>通訊方向</th><th>類型</th><th>實作方式</th><th>使用場景</th></tr><tr><td>Client → API Services</td><td>同步 HTTP</td><td>REST JSON <code>/v1/</code> + Authorization: Bearer JWT</td><td>帳號、商城、VIP 操作</td></tr><tr><td>Client → Game Service</td><td>同步 WebSocket</td><td>Colyseus Schema State Sync（WSS）</td><td>即時遊戲對戰</td></tr><tr><td>API Gateway → Service</td><td>同步 HTTP</td><td>Nginx Proxy Pass（Pod Service）</td><td>所有 REST API 路由</td></tr><tr><td>Game BC → Commerce BC</td><td>非同步 Event</td><td>Redis Pub/Sub（Domain Event）</td><td>FishKilled / JackpotTriggered 結算</td></tr><tr><td>Game BC → Analytics</td><td>非同步 Event</td><td>Redis Pub/Sub + Analytics Buffer</td><td>遊戲事件埋點</td></tr><tr><td>Account BC → Commerce BC</td><td>非同步 Event</td><td>Redis Pub/Sub</td><td>VipActivated / IAPPurchaseCompleted 更新餘額</td></tr><tr><td>Colyseus Room → Admin</td><td>非同步 Event</td><td>Redis Pub/Sub</td><td>管理後台實時 KPI 更新</td></tr></table>
+<h3 id="5.2-domain-event-清單">5.2 Domain Event 清單</h3>
+<table><tr><th>事件名稱</th><th>Publisher BC</th><th>Subscriber BC</th><th>Redis Channel</th><th>冪等保證</th></tr><tr><td><code>user.registered</code></td><td>Account BC</td><td>Analytics</td><td><code>events:account</code></td><td>UUID event_id</td></tr><tr><td><code>game.fish_killed</code></td><td>Game BC</td><td>Commerce BC, Analytics</td><td><code>events:game</code></td><td>UUID event_id</td></tr><tr><td><code>game.jackpot_triggered</code></td><td>Game BC</td><td>Commerce BC, Analytics, Push</td><td><code>events:game</code></td><td>Redis Lua 原子確保</td></tr><tr><td><code>game.session_ended</code></td><td>Game BC</td><td>Commerce BC, Analytics</td><td><code>events:game</code></td><td>UUID event_id</td></tr><tr><td><code>commerce.iap_purchase_completed</code></td><td>Commerce BC</td><td>Account BC</td><td><code>events:commerce</code></td><td>order_id 冪等</td></tr><tr><td><code>commerce.vip_activated</code></td><td>Commerce BC</td><td>Account BC, Analytics</td><td><code>events:commerce</code></td><td>UUID event_id</td></tr></table>
+<h3 id="5.3-websocket（colyseus）通訊規範">5.3 WebSocket（Colyseus）通訊規範</h3>
+<pre><code>連線建立：WSS → Nginx Ingress → Game Service（Colyseus :2567）
+<p>
+認證：Colyseus onAuth() 驗證 JWT（Bearer Token 作為 options 傳入）
+State Sync：Colyseus Schema Delta Sync（只傳送變更欄位，減少 40–60% 帶寬）
+心跳：Colyseus 內建 heartbeat（30s 超時 → 標記 DISCONNECTED）
+重連：Colyseus reconnect() API + 30s 窗口（逾時 Bot 取代）
+</code></pre>
+</p>
+<h3 id="5.4-資料一致性策略">5.4 資料一致性策略</h3>
+<p>
+<strong>一致性模型選擇</strong>：Modular Monolith Phase 1–2 採用「跨 BC Eventual Consistency + BC 內 Strong Consistency（ACID）」的混合模型。
+</p>
+<table><tr><th>場景</th><th>一致性模型</th><th>實作方式</th><th>失敗補償</th></tr><tr><td>BC 內事務（單 Service DB 寫）</td><td>Strong（ACID）</td><td>Prisma Transaction + MySQL InnoDB</td><td>自動 Rollback</td></tr><tr><td>跨 BC 事件（Redis Pub/Sub）</td><td>Eventual</td><td>Domain Event + Consumer 冪等（UUID event_id）</td><td>重試：Consumer 重啟時重消費（注意：Redis Pub/Sub 無持久化）</td></tr><tr><td>Jackpot 扣款（原子操作）</td><td>Strong（Redis Atomic）</td><td>Redis Lua Script（原子鎖 + INCR）</td><td>Lua Script 失敗 → 不扣款（fail-safe）</td></tr><tr><td>IAP 充值（外部 → 內部）</td><td>Eventual + 補償</td><td>ShopSvc 驗證 Receipt → 發 IAPPurchaseCompleted Event</td><td>Circuit Breaker + 訂單 PENDING → 異步重試最多 3 次</td></tr></table>
+<p>
+<strong>Redis Pub/Sub 消息丟失緩解方案</strong>（Phase 1–2）：
+</p>
+<blockquote>Redis Pub/Sub 是 Fire-and-Forget，Consumer 離線期間消息不存儲。緩解措施：
+<ol><li><strong>雙寫策略</strong>：GameSvc 在 <code>fish_kills</code> 表寫入結算記錄（Strong Consistency）；Commerce BC Consumer 消費事件更新 <code>users.gold_balance</code></li><li><strong>對帳機制</strong>：每日 03:00 UTC 執行 <code>fish_kills</code> 與 <code>users.gold_balance</code> 差異對帳 Job，發現不一致自動補帳並告警</li><li><strong>Phase 3 升級觸發</strong>：若消息堆積 Consumer Lag > 1s（Prometheus 監控），評估遷移至 NATS JetStream（持久化 + 消費者組）</blockquote></li></ol><strong>跨 BC 事務邊界劃定（Trade-off 決策）</strong>：
+<p>
+不引入 Saga Orchestration Pattern（Phase 1–2）。理由：3–5 人團隊，Saga Coordinator 引入複雜度過高；Pub/Sub + 冪等 + 對帳足以覆蓋當前業務規模。Phase 3 若引入 Microservices，重新評估 Saga Choreography 或 Transactional Outbox。
+</p>
+<hr>
+<h2 id="6.-資料分層">6. 資料分層</h2>
+<h3 id="6.1-儲存技術選型">6.1 儲存技術選型</h3>
+<table><tr><th>儲存層</th><th>技術</th><th>用途</th><th>一致性要求</th></tr><tr><td>主資料庫</td><td>MySQL 8.0 (RDS Multi-AZ)</td><td>玩家帳號/訂單/遊戲歷史</td><td>強一致性（ACID）</td></tr><tr><td>快取 / 即時狀態</td><td>Redis 7 (ElastiCache Cluster)</td><td>RTP 狀態/Jackpot 池/Session/排行榜</td><td>最終一致性（可容忍短暫丟失）</td></tr><tr><td>靜態資產</td><td>AWS S3 + CloudFront CDN</td><td>遊戲素材/圖片（魚/武器貼圖）</td><td>不適用（靜態）</td></tr><tr><td>稽核日誌歸檔</td><td>S3 Object Lock（WORM）</td><td>Append-only Audit Log（7 年保留）</td><td>不可修改</td></tr></table>
+<h3 id="6.2-資料訪問模式">6.2 資料訪問模式</h3>
+<table><tr><th>Entity</th><th>主要讀模式</th><th>主要寫模式</th><th>快取策略</th></tr><tr><td><code>users</code></td><td>登入驗證（高頻）</td><td>餘額更新（遊戲結算）</td><td>Redis Session Cache（TTL 1h）</td></tr><tr><td><code>game_sessions</code></td><td>房間配對查詢</td><td>局內狀態更新（高頻）</td><td>Colyseus In-Memory Schema</td></tr><tr><td><code>fish_kills</code></td><td>個人戰績查詢</td><td>每次命中 INSERT（最高頻）</td><td>不快取（追加型數據）</td></tr><tr><td><code>orders</code></td><td>訂單狀態查詢</td><td>購買/驗證（低頻）</td><td>不快取</td></tr><tr><td>Jackpot 池</td><td>每次命中貢獻（高頻讀）</td><td>原子 INCR（高頻寫）</td><td>Redis 主存，MySQL 定期快照</td></tr><tr><td>RTP 狀態</td><td>每次射擊（極高頻）</td><td>每次命中更新</td><td>Redis 主存（不落庫）</td></tr></table>
+<h3 id="6.3-讀寫分離策略（phase-2+）">6.3 讀寫分離策略（Phase 2+）</h3>
+<p>
+Phase 1–2 使用 RDS Multi-AZ 單一寫節點。Phase 3 觸發條件：MySQL CPU > 80% 持續 10 分鐘 → 啟用 RDS Read Replica + Prisma 讀寫分離中間件。
+</p>
+<h3 id="6.4-cdn-靜態資產架構">6.4 CDN 靜態資產架構</h3>
+<p>
+<strong>架構</strong>：Cocos Creator 客戶端在啟動時從 CloudFront CDN 拉取遊戲資產（魚貼圖、武器動畫、音效）。
+</p>
+<pre><code>Cocos Client ──HTTPS──&gt; CloudFront Distribution
+<p>
+↓ Cache Miss
+S3 Origin Bucket
+(game-assets-prod)
+</code></pre>
+</p>
+<table><tr><th>項目</th><th>設定值</th><th>說明</th></tr><tr><td>Origin</td><td>S3 Bucket: <code>game-assets-prod</code> (ap-southeast-1)</td><td>靜態資產來源</td></tr><tr><td>Default Cache TTL</td><td>86,400s（1 天）→ Phase 2 優化為 604,800s（7 天）</td><td>魚貼圖 / 武器動畫不常變動</td></tr><tr><td>Cache-Control 標頭</td><td><code>max-age=86400, public</code></td><td>客戶端本地快取</td></tr><tr><td>Invalidation 觸發條件</td><td>遊戲版本發布（CI/CD Pipeline 最後步驟）</td><td><code>aws cloudfront create-invalidation --paths &quot;/v{VERSION}/*&quot;</code></td></tr><tr><td>Versioning 策略</td><td>路徑前綴版本化（<code>/v1.0.0/fish/carp.png</code>）</td><td>新版本上傳新路徑，舊 CDN 快取不影響</td></tr><tr><td>HTTPS Only</td><td>ViewerProtocolPolicy: redirect-to-https</td><td>強制 HTTPS</td></tr><tr><td>Geo 封鎖</td><td>無（東南亞 + 台灣全開放）</td><td>WAF 層處理合規地區封鎖</td></tr></table>
+<hr>
+<h2 id="7.-高可用設計">7. 高可用設計</h2>
+<h3 id="7.1-ha-策略：active-active（多副本負載均衡）">7.1 HA 策略：Active-Active（多副本負載均衡）</h3>
+<p>
+所有服務採用 Active-Active 水平多副本部署（非 Active-Standby），配合 k8s HPA 自動擴縮：
+</p>
+<table><tr><th>服務</th><th>最小副本</th><th>最大副本</th><th>HA 策略</th><th>備註</th></tr><tr><td>Game Service（Colyseus）</td><td>3</td><td>20</td><td>Active-Active + PDB minAvailable:2</td><td>滾動更新時至少 2 副本在線</td></tr><tr><td>Account Service</td><td>2</td><td>10</td><td>Active-Active + PDB maxUnavailable:1</td><td>無狀態 REST</td></tr><tr><td>Shop Service</td><td>2</td><td>10</td><td>Active-Active + PDB maxUnavailable:1</td><td>無狀態 REST</td></tr><tr><td>Admin Service</td><td>1</td><td>3</td><td>Active-Active</td><td>低流量，可容忍短暫單副本</td></tr><tr><td>MySQL</td><td>Multi-AZ（2 AZ）</td><td>—</td><td>Active-Standby（RDS 自動 Failover）</td><td>Failover < 60s</td></tr><tr><td>Redis</td><td>Cluster Mode（3 Shard × 2）</td><td>—</td><td>Active-Active Cluster</td><td>分片+主從複製</td></tr></table>
+<h3 id="7.2-健康檢查設計">7.2 健康檢查設計</h3>
+<pre><code class="language-yaml">livenessProbe:
+<p>
+httpGet: { path: /health, port: 3000 }
+initialDelaySeconds: 15
+periodSeconds: 10
+failureThreshold: 3
+</p>
+<p>
+readinessProbe:
+httpGet: { path: /health/ready, port: 3000 }
+initialDelaySeconds: 10
+periodSeconds: 5
+failureThreshold: 3
+</code></pre>
+</p>
+<p>
+<code>/health/ready</code> 回應需驗證 MySQL + Redis + Colyseus 連線均正常，任一失敗則回傳 503（Pod 從 Service Endpoint 摘除）。
+</p>
+<h3 id="7.3-colyseus-room-cross-pod-路由">7.3 Colyseus Room Cross-Pod 路由</h3>
+<p>
+Colyseus Rooms 綁定到特定 Pod（Stateful Connection）。跨 Pod 房間路由策略：
+</p>
+<ul><li>Phase 1–2：使用 Colyseus Built-in Room Discovery（Single Cluster 共享 Redis）</li><li>Phase 3：若 Game Service 獨立部署，評估 <code>@colyseus/loadbalancer</code> + Redis Pub/Sub Room Registry</li></ul>
+<hr>
+<h2 id="8.-災難恢復（dr）">8. 災難恢復（DR）</h2>
+<blockquote>詳見 EDD §13.5。摘要如下：</blockquote>
+<table><tr><th>指標</th><th>目標</th><th>DR 策略</th></tr><tr><td>RTO（Recovery Time Objective）</td><td>≤ 30 分鐘</td><td>RDS Multi-AZ 自動 Failover + k8s Pod 重建</td></tr><tr><td>RPO（Recovery Point Objective）</td><td>≤ 5 分鐘</td><td>RDS 每小時增量備份 + Redis AOF 持久化</td></tr><tr><td>MTTR</td><td>≤ 2 小時</td><td>Runbook + PagerDuty On-Call</td></tr></table>
+<p>
+<strong>DR 演練計劃</strong>：每季在 Staging 執行完整 Failover 演練（MySQL 主節點重啟 + Colyseus Pod Kill），記錄 RTO/RPO 達成率。
+</p>
+<hr>
+<h2 id="9.-安全架構">9. 安全架構</h2>
+<h3 id="9.1-縱深防禦層次圖（defense-in-depth）">9.1 縱深防禦層次圖（Defense in Depth）</h3>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
+<p>
+subgraph Layer1[&quot;Layer 1: 網路邊界（WAF + CDN）&quot;]
+CloudFront[&quot;AWS CloudFront + WAF\nDDoS 防護 / Geo 封鎖 / Bot 過濾&quot;]
+end
+</p>
+<p>
+subgraph Layer2[&quot;Layer 2: API Gateway（Nginx Ingress）&quot;]
+Nginx[&quot;Nginx Ingress\nTLS 終止 / Rate Limit（IP 層）/ Ingress 規則&quot;]
+end
+</p>
+<p>
+subgraph Layer3[&quot;Layer 3: 應用層（JWT + RBAC）&quot;]
+AuthMW[&quot;Auth Middleware\nJWT RS256 驗證 / RBAC 角色判斷 / BOLA 保護&quot;]
+ZodValidation[&quot;Zod Schema Validation\n所有輸入強制驗證&quot;]
+RateLimit[&quot;Express Rate Limit Middleware\nPer User / Per IP（Redis 計數）&quot;]
+end
+</p>
+<p>
+subgraph Layer4[&quot;Layer 4: 業務層（Server-Authoritative）&quot;]
+RTPServer[&quot;Server-Authoritative RTP\n所有命中計算在伺服器端，客戶端無法篡改&quot;]
+IdempotentWrite[&quot;Idempotent Writes\norder_id / event_id UUID 防重放&quot;]
+end
+</p>
+<p>
+subgraph Layer5[&quot;Layer 5: 資料層（加密 + 稽核）&quot;]
+Encryption[&quot;PII 加密（AES-256-GCM）\nemail / birthdate 加密存儲&quot;]
+AuditLog[&quot;Append-Only Audit Log\nS3 WORM 保留 7 年&quot;]
+PrismaORM[&quot;Prisma Parameterized Query\n防 SQL Injection&quot;]
+end
+</p>
+<p>
+CloudFront --&gt; Nginx --&gt; AuthMW --&gt; RTPServer --&gt; Encryption
+AuthMW --&gt; ZodValidation
+AuthMW --&gt; RateLimit
+RTPServer --&gt; IdempotentWrite
+Encryption --&gt; AuditLog
+Encryption --&gt; PrismaORM</div></div>
+</p>
+<h3 id="9.2-zero-trust-網路策略">9.2 Zero-Trust 網路策略</h3>
+<p>
+<strong>原則</strong>：任何服務都不因位於同一 VPC 而天然信任。每個服務間通訊都需驗證。
+</p>
+<table><tr><th>通訊路徑</th><th>信任機制</th><th>加密方式</th></tr><tr><td>Client → Nginx Ingress</td><td>DNS + TLS 憑證</td><td>TLS 1.3+</td></tr><tr><td>Nginx → Service</td><td>k8s Service（Cluster-internal）+ JWT 轉發</td><td>明文（VPC Private Subnet 隔離）→ Phase 3 考慮 mTLS</td></tr><tr><td>Service → MySQL</td><td>VPC Security Group（SG-App → SG-DB:3306）</td><td>TLS（RDS 強制 SSL）</td></tr><tr><td>Service → Redis</td><td>VPC Security Group（SG-App → SG-Cache:6379）</td><td>TLS（ElastiCache In-Transit 加密）</td></tr><tr><td>Service → Unleash</td><td>VPC Internal</td><td>HTTP（同 Cluster）→ 考慮 mTLS</td></tr></table>
+<p>
+<strong>Phase 3 mTLS 計劃</strong>：若拆分為 Microservices，引入 Istio Service Mesh 實施全面 mTLS。
+</p>
+<h3 id="9.3-secret-輪換策略">9.3 Secret 輪換策略</h3>
+<blockquote>詳見 EDD §4.2。</blockquote>
+<table><tr><th>Secret 類型</th><th>存放工具</th><th>輪替頻率</th><th>輪替方式</th><th>到期前告警</th></tr><tr><td>MySQL 密碼（MYSQL_PASSWORD）</td><td>k8s Secret + AWS Secrets Manager</td><td>每 180 天</td><td>手動 + External Secrets Operator 同步</td><td>到期前 30 天</td></tr><tr><td>Redis 密碼（REDIS_PASSWORD）</td><td>k8s Secret</td><td>每 180 天</td><td>手動輪換 + Pod 滾動重啟</td><td>到期前 30 天</td></tr><tr><td>JWT 私鑰（JWT_PRIVATE_KEY）</td><td>k8s Secret</td><td>每 90 天</td><td>手動生成新 RSA Key Pair + 灰度驗證</td><td>到期前 14 天</td></tr><tr><td>Apple IAP Key</td><td>AWS Secrets Manager</td><td>依 Apple 要求（通常 1 年）</td><td>自動 Rotation 配置</td><td>到期前 30 天</td></tr><tr><td>Google IAP Service Account Key</td><td>AWS Secrets Manager</td><td>每 90 天</td><td>自動 Rotation 配置</td><td>到期前 14 天</td></tr><tr><td>PII AES 加密主金鑰</td><td>AWS Secrets Manager</td><td>每 365 天</td><td>KMS Key Rotation</td><td>到期前 60 天</td></tr></table>
+<h3 id="9.4-network-architecture（vpc-拓撲）">9.4 Network Architecture（VPC 拓撲）</h3>
+<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
+<p>
+Internet[&quot;🌐 Internet&quot;]
+</p>
+<p>
+subgraph VPC[&quot;VPC: 10.0.0.0/16 (AWS ap-southeast-1)&quot;]
+subgraph PublicSubnet[&quot;Public Subnet: 10.0.0.0/24 + 10.0.1.0/24 (Multi-AZ)&quot;]
+CloudFrontWAF[&quot;CloudFront + WAF&quot;]
+NatGW[&quot;NAT Gateway (Outbound)&quot;]
+ALB[&quot;ALB (Application Load Balancer)&quot;]
+end
+</p>
+<p>
+subgraph PrivateSubnet[&quot;Private Subnet: 10.0.10.0/23 + 10.0.12.0/23 (Multi-AZ)&quot;]
+EKSNodes[&quot;EKS Worker Nodes\n(Game/Account/Shop/Admin Service Pods)&quot;]
+UnleashPod[&quot;Unleash Pod\n(Feature Flag Server)&quot;]
+end
+</p>
+<p>
+subgraph DataSubnet[&quot;Data Subnet: 10.0.20.0/24 + 10.0.21.0/24 (Multi-AZ)&quot;]
+RDS[&quot;RDS MySQL 8.0\n(Multi-AZ: Primary + Standby)&quot;]
+ElastiCache[&quot;ElastiCache Redis 7\n(Cluster Mode, 3 Shards)&quot;]
+end
+</p>
+<p>
+Bastion[&quot;Bastion Host (SSH Jump)\n(Public Subnet, Single)&quot;]
+end
+</p>
+<p>
+Internet --&gt;|&quot;HTTPS/WSS&quot;| CloudFrontWAF
+CloudFrontWAF --&gt; ALB
+ALB --&gt; EKSNodes
+EKSNodes --&gt; RDS
+EKSNodes --&gt; ElastiCache
+EKSNodes --&gt; UnleashPod
+EKSNodes --&gt; NatGW
+NatGW --&gt;|&quot;Apple/Google IAP API\nMixpanel/Amplitude&quot;| Internet
+Bastion --&gt;|&quot;SSH&quot;| EKSNodes</div></div>
+</p>
+<p>
+<strong>Security Group 規則表</strong>
+</p>
+<table><tr><th>Security Group</th><th>允許 Inbound</th><th>允許 Outbound</th><th>備註</th></tr><tr><td><code>SG-ALB</code></td><td>0.0.0.0/0 TCP:443</td><td><code>SG-EKS</code> TCP:80</td><td>CloudFront WAF 前置</td></tr><tr><td><code>SG-EKS</code></td><td><code>SG-ALB</code> TCP:80</td><td><code>SG-RDS</code> TCP:3306, <code>SG-Redis</code> TCP:6379, 0.0.0.0/0 TCP:443（via NAT）</td><td>EKS Worker Node</td></tr><tr><td><code>SG-RDS</code></td><td><code>SG-EKS</code> TCP:3306</td><td>—</td><td>MySQL 8.0 RDS</td></tr><tr><td><code>SG-Redis</code></td><td><code>SG-EKS</code> TCP:6379</td><td>—</td><td>ElastiCache Redis</td></tr><tr><td><code>SG-Bastion</code></td><td>管理員 IP/32 TCP:22</td><td><code>SG-EKS</code> TCP:22</td><td>跳板機</td></tr></table>
+<p>
+<strong>AZ 配置</strong>：ap-southeast-1a + ap-southeast-1b（雙 AZ 高可用）
+</p>
+<h3 id="9.5-compliance-architecture-mapping">9.5 Compliance Architecture Mapping</h3>
+<table><tr><th>法規 / 合規要求</th><th>相關元件</th><th>資料類型</th><th>技術措施</th><th>稽核日誌</th></tr><tr><td>GDPR（PII 保護）</td><td>AccountSvc, MySQL</td><td>email, birthdate, IP</td><td>AES-256-GCM 加密 + Log 遮罩</td><td>Audit Log → S3 WORM</td></tr><tr><td>東南亞博彩法規（RTP 稽核）</td><td>Game Service, RTP Engine</td><td>RTP 計算記錄</td><td>Server-Authoritative + rtp_snapshot 儲存</td><td>fish_kills 表 + 不可修改稽核</td></tr><tr><td>Apple / Google IAP（收款合規）</td><td>ShopSvc, IAP ACL</td><td>Receipt, 交易金額</td><td>HTTPS Receipt 驗證 + Hash 存儲</td><td>orders 表 + Audit Log</td></tr><tr><td>Anti-Money Laundering（AML）</td><td>ShopSvc, OrderAgg</td><td>充值金額 / 頻率</td><td>單日充值上限（設定可調）</td><td>orders 表 + Alert</td></tr></table>
+<hr>
+<h2 id="10.-擴展策略">10. 擴展策略</h2>
+<h3 id="10.1-水平擴展（hpa）配置">10.1 水平擴展（HPA）配置</h3>
+<table><tr><th>服務</th><th>HPA Min</th><th>HPA Max</th><th>觸發條件</th><th>Cooldown</th></tr><tr><td>Game Service</td><td>3</td><td>20</td><td>CPU > 70% 持續 3 分鐘</td><td>Scale-up: 0s, Scale-down: 300s</td></tr><tr><td>Account Service</td><td>2</td><td>10</td><td>CPU > 70% 持續 3 分鐘</td><td>Scale-up: 0s, Scale-down: 300s</td></tr><tr><td>Shop Service</td><td>2</td><td>10</td><td>CPU > 70% 持續 3 分鐘</td><td>Scale-up: 0s, Scale-down: 300s</td></tr></table>
+<p>
+<strong>Scheduled HPA（預排）：</strong> 每日 18:00–22:00 UTC+8（晚間高峰）預先擴展 Game Service 至 min:5，避免冷啟動延遲。
+</p>
+<h3 id="10.2-scalability-ceiling-analysis（瓶頸上限表）">10.2 Scalability Ceiling Analysis（瓶頸上限表）</h3>
+<table><tr><th>瓶頸點</th><th>當前預估上限</th><th>達到上限症狀</th><th>解決方案</th><th>觸發 Phase</th></tr><tr><td>MySQL 連線池（Prisma）</td><td>~200 總連線（3×20 + 2×30 + 2×20）</td><td>連線等待 > 100ms；Prisma timeout</td><td>PgBouncer 連線池 / RDS Proxy</td><td>Phase 3</td></tr><tr><td>Colyseus Room 數（單 Pod）</td><td>~100 rooms/pod（記憶體限 2Gi）</td><td>Memory OOM；P99 > 100ms</td><td>HPA Scale-Out（3→20 pods）</td><td>Phase 2（已配置）</td></tr><tr><td>Redis Pub/Sub 訊息堆積</td><td>~50,000 msg/s（單 Cluster）</td><td>Consumer Lag > 1s</td><td>遷移至 NATS / Kafka</td><td>Phase 3</td></tr><tr><td>fish_kills 表寫入</td><td>~2,000 rows/s（無分區時慢）</td><td>INSERT P99 > 10ms；Replication Lag</td><td>MySQL RANGE 分區（按月）+ Buffer + Batch</td><td>Phase 2（已設計）</td></tr><tr><td>API Gateway（Nginx）</td><td>~10,000 RPS（單 Pod）</td><td>CPU 100%；Connection Drop</td><td>Nginx HPA + TCP/UDP Load Balancing</td><td>Phase 3</td></tr></table>
+<p>
+<strong>架構演進 4 Phase 路線</strong>
+</p>
+<table><tr><th>Phase</th><th>觸發條件</th><th>主要架構變更</th><th>預計時間</th></tr><tr><td>Phase 1（MVP）</td><td>DAU < 1,000</td><td>Modular Monolith + MySQL Single AZ + Redis Standalone</td><td>M1–M4</td></tr><tr><td>Phase 2（成長）</td><td>DAU 1,000–10,000</td><td>MySQL Multi-AZ + Redis Cluster + fish_kills 分區 + HPA 配置</td><td>M5–M6</td></tr><tr><td>Phase 3（拆分）</td><td>Game Service QPS > 10,000 events/s</td><td>Game Service 獨立部署 + Redis Cluster 獨立分片 + NATS 替換 Pub/Sub</td><td>Phase 3+</td></tr><tr><td>Phase 4（規模）</td><td>DAU > 100,000</td><td>CQRS（fish_kills 獨立 Read DB）+ Event Sourcing（Jackpot 歷史）</td><td>Future</td></tr></table>
+<hr>
+<h2 id="11.-技術棧全覽">11. 技術棧全覽</h2>
+<blockquote>依據 EDD §3.3。</blockquote>
+<table><tr><th>層次</th><th>技術</th><th>版本</th><th>架構角色</th></tr><tr><td>客戶端</td><td>Cocos Creator</td><td>3.8</td><td>遊戲渲染（BRD 硬性約束）</td></tr><tr><td>客戶端語言</td><td>TypeScript / Lua</td><td>—</td><td>Cocos 腳本（依模組而異）</td></tr><tr><td>後端 Runtime</td><td>Node.js</td><td>20 LTS</td><td>所有 Service 執行環境</td></tr><tr><td>後端語言</td><td>TypeScript</td><td>5.4</td><td>全棧 Type Safety</td></tr><tr><td>即時框架</td><td>Colyseus</td><td>0.15</td><td>Game Service WebSocket Room 管理</td></tr><tr><td>REST Framework</td><td>Express.js</td><td>4.x</td><td>Account / Shop / Admin Service</td></tr><tr><td>ORM</td><td>Prisma</td><td>5.x</td><td>所有 Service 資料庫訪問層</td></tr><tr><td>資料驗證</td><td>Zod</td><td>3.x</td><td>所有 Controller 輸入驗證</td></tr><tr><td>認證</td><td>jsonwebtoken (RS256)</td><td>9.x</td><td>JWT 簽章與驗證</td></tr><tr><td>主資料庫</td><td>MySQL</td><td>8.0</td><td>持久化（PII / 訂單 / 遊戲歷史）</td></tr><tr><td>快取 / 即時狀態</td><td>Redis</td><td>7.x</td><td>RTP 狀態 / Jackpot / Session / Event Bus</td></tr><tr><td>Feature Flag</td><td>Unleash</td><td>5.x</td><td>功能開關（自建，保留 RTP 敏感值控制權）</td></tr><tr><td>Circuit Breaker</td><td>opossum</td><td>8.x</td><td>RTP / IAP 依賴降級</td></tr><tr><td>容器</td><td>Docker（multi-stage）</td><td>26.x</td><td>標準化映像</td></tr><tr><td>容器編排</td><td>Kubernetes（EKS）</td><td>1.29</td><td>生產部署</td></tr><tr><td>API Gateway</td><td>Nginx Ingress</td><td>1.10</td><td>TLS 終止 / Rate Limit / 路由</td></tr><tr><td>CI/CD</td><td>GitHub Actions</td><td>—</td><td>自動化 Build/Test/Deploy</td></tr><tr><td>測試（單元）</td><td>Jest + ts-jest</td><td>29.x</td><td>業務邏輯單元測試</td></tr><tr><td>測試（整合）</td><td>Supertest + Testcontainers</td><td>—</td><td>真實 DB/Redis 整合測試</td></tr><tr><td>負載測試</td><td>k6</td><td>—</td><td>WebSocket + REST 壓測</td></tr><tr><td>日誌</td><td>Loki + Grafana</td><td>—</td><td>結構化 JSON 日誌聚合</td></tr><tr><td>指標</td><td>Prometheus + Grafana</td><td>—</td><td>SLO / HPA 指標</td></tr><tr><td>追蹤</td><td>OpenTelemetry + Jaeger</td><td>—</td><td>分散式追蹤</td></tr><tr><td>Secret 管理</td><td>k8s Secret + AWS Secrets Manager</td><td>—</td><td>應用 Secret + 高敏感 Secret</td></tr><tr><td>IaC</td><td>Terraform / Helm</td><td>—</td><td>k8s Manifest + AWS 資源</td></tr></table>
+<hr>
+<h2 id="12.-observability-架構">12. Observability 架構</h2>
+<h3 id="12.1-可觀測性三支柱">12.1 可觀測性三支柱</h3>
+<table><tr><th>支柱</th><th>工具</th><th>覆蓋範圍</th><th>關鍵指標</th></tr><tr><td>日誌（Logging）</td><td>Loki + Grafana</td><td>所有 Service JSON 日誌</td><td>Error Rate / 異常模式</td></tr><tr><td>指標（Metrics）</td><td>Prometheus + Grafana</td><td>WebSocket P99 / RTP 延遲 / Jackpot 觸發率 / DAU</td><td>SLO Dashboard</td></tr><tr><td>追蹤（Tracing）</td><td>OpenTelemetry + Jaeger</td><td>跨 Service 請求鏈（Account→Game→Commerce）</td><td>P99 Latency Breakdown</td></tr></table>
+<h3 id="12.2-關鍵-dashboard-指標">12.2 關鍵 Dashboard 指標</h3>
+<p>
+<strong>SLO Dashboard（每 5 分鐘刷新）</strong>
+</p>
+<table><tr><th>指標</th><th>Prometheus Query</th><th>SLO 閾值</th><th>告警條件</th></tr><tr><td>API Availability</td><td><code>rate(http_requests_total{status!~&quot;5..&quot;}[5m]) / rate(http_requests_total[5m])</code></td><td>≥ 99.5%</td><td>< 99.75% 持續 30 分鐘</td></tr><tr><td>WebSocket P99</td><td><code>histogram_quantile(0.99, colyseus_message_duration_seconds_bucket)</code></td><td>≤ 100ms</td><td>> 80ms 持續 5 分鐘</td></tr><tr><td>REST P99</td><td><code>histogram_quantile(0.99, http_request_duration_seconds_bucket)</code></td><td>≤ 500ms</td><td>> 400ms 持續 5 分鐘</td></tr><tr><td>Error Rate</td><td><code>rate(http_requests_total{status=~&quot;5..&quot;}[1m])</code></td><td>≤ 0.1%</td><td>> 0.05% 持續 10 分鐘</td></tr><tr><td>RTP Circuit Breaker</td><td><code>circuit_breaker_state{service=&quot;rtp-engine&quot;}</code></td><td>state=closed</td><td>state=open 立即 P1</td></tr><tr><td>Jackpot 觸發率</td><td><code>rate(jackpot_triggered_total[1h])</code></td><td>依設計值</td><td>異常高於基準 2x → P2</td></tr></table>
+<h3 id="12.3-各服務-metrics-埋點清單">12.3 各服務 Metrics 埋點清單</h3>
+<table><tr><th>服務</th><th>Metrics 名稱</th><th>類型</th><th>標籤</th><th>說明</th></tr><tr><td>Game Service</td><td><code>colyseus_message_duration_seconds</code></td><td>Histogram</td><td><code>room_type</code>, <code>operation</code></td><td>WebSocket 訊息處理延遲（SLO P99 ≤ 100ms）</td></tr><tr><td>Game Service</td><td><code>colyseus_room_count</code></td><td>Gauge</td><td><code>status</code> (active/waiting)</td><td>活躍房間數</td></tr><tr><td>Game Service</td><td><code>rtp_hit_total</code></td><td>Counter</td><td><code>fish_type</code>, <code>weapon_type</code></td><td>命中次數（RTP 稽核）</td></tr><tr><td>Game Service</td><td><code>jackpot_triggered_total</code></td><td>Counter</td><td>—</td><td>Jackpot 觸發次數</td></tr><tr><td>Game Service</td><td><code>circuit_breaker_state</code></td><td>Gauge</td><td><code>service</code> (rtp-engine/iap)</td><td>Circuit Breaker 狀態（0=closed, 1=open）</td></tr><tr><td>Account Service</td><td><code>http_request_duration_seconds</code></td><td>Histogram</td><td><code>path</code>, <code>method</code>, <code>status</code></td><td>REST API 延遲（SLO P99 ≤ 500ms）</td></tr><tr><td>Account Service</td><td><code>http_requests_total</code></td><td>Counter</td><td><code>path</code>, <code>status</code></td><td>請求總數（Error Rate 計算基礎）</td></tr><tr><td>Account Service</td><td><code>active_sessions_total</code></td><td>Gauge</td><td>—</td><td>活躍 Session 數</td></tr><tr><td>Shop Service</td><td><code>iap_verification_duration_seconds</code></td><td>Histogram</td><td><code>provider</code> (apple/google)</td><td>IAP 驗證延遲</td></tr><tr><td>Shop Service</td><td><code>iap_verification_total</code></td><td>Counter</td><td><code>provider</code>, <code>result</code> (success/fail)</td><td>IAP 驗證成功 / 失敗計數</td></tr><tr><td>Admin Service</td><td><code>http_request_duration_seconds</code></td><td>Histogram</td><td><code>path</code>, <code>status</code></td><td>管理後台 API 延遲</td></tr><tr><td>所有服務</td><td><code>nodejs_heap_used_bytes</code></td><td>Gauge</td><td>—</td><td>Node.js Heap 使用量（OOM 預警）</td></tr><tr><td>所有服務</td><td><code>process_cpu_seconds_total</code></td><td>Counter</td><td>—</td><td>CPU 使用率（HPA 觸發基礎）</td></tr></table>
+<p>
+<strong>埋點實作方式</strong>：使用 <code>prom-client</code>（Node.js）暴露 <code>/metrics</code> endpoint；Prometheus Scrape Config 掃描所有 Pod 的 <code>:3000/metrics</code>。
+</p>
+<h3 id="12.4-span-命名慣例（opentelemetry）">12.4 Span 命名慣例（OpenTelemetry）</h3>
+<pre><code>&lt;service&gt;.&lt;domain&gt;.&lt;operation&gt;
+<p>
+範例：
+game-service.rtp.calculate_hit
+game-service.jackpot.check_and_trigger
+account-service.auth.verify_jwt
+shop-service.iap.verify_receipt
+game-service.room.on_join
+</code></pre>
+</p>
+<p>
+Sampling Rate：
+</p>
+<ul><li>Production 一般路徑：10%（<code>parentbased_traceidratio=0.1</code>）</li><li>Production 關鍵路徑（Jackpot/IAP）：100% 強制</li><li>Staging/Dev：100%</li></ul>
+<hr>
+<h2 id="13.-外部依賴地圖">13. 外部依賴地圖</h2>
+<table><tr><th>外部服務</th><th>連線方式</th><th>依賴方</th><th>SLA 要求</th><th>降級策略</th></tr><tr><td>Apple AppStore IAP</td><td>HTTPS POST sandbox.itunes.apple.com / buy.itunes.apple.com</td><td>Shop Service</td><td>99.9%（Apple 保證）</td><td>Circuit Breaker → 訂單標記 PENDING 異步重試</td></tr><tr><td>Google Play IAP</td><td>HTTPS POST googleapis.com/androidpublisher</td><td>Shop Service</td><td>99.9%（Google 保證）</td><td>同上</td></tr><tr><td>Mixpanel / Amplitude</td><td>HTTPS POST api.mixpanel.com / api.amplitude.com</td><td>All Services（Analytics）</td><td>99.5%（Best-effort）</td><td>Buffer 最多 10,000 事件後丟棄舊事件</td></tr><tr><td>Firebase FCM（Push）</td><td>HTTPS POST fcm.googleapis.com</td><td>Admin Service</td><td>99.5%（Google 保證）</td><td>降級為無推送（不影響核心遊戲）</td></tr><tr><td>AWS S3（靜態資產）</td><td>HTTPS + CloudFront CDN</td><td>Cocos Client</td><td>99.99%（AWS 保證）</td><td>CloudFront 快取（1 天 TTL）</td></tr><tr><td>Unleash Feature Flag</td><td>HTTP（VPC 內部）</td><td>All Services</td><td>99.9%（自建 k8s）</td><td>Toggle 快取（本地副本，10 分鐘 TTL）</td></tr></table>
+<hr>
+<h2 id="14.-architecture-decision-records（完整）">14. Architecture Decision Records（完整）</h2>
+<h3 id="adr-001：選用-colyseus-0.15-作為即時通訊框架">ADR-001：選用 Colyseus 0.15 作為即時通訊框架</h3>
+<p>
+<strong>狀態</strong>：已接受
+</p>
+<p>
+<strong>背景（Context）</strong>：
+系統需要支援 4–6 人同場即時 WebSocket 對戰，玩家狀態需要廣播同步（魚群位置、命中結果、Jackpot 動畫）。評估了 Colyseus 和 Socket.io 兩個選項。BRD §8.3 已將 Colyseus 列為技術約束。
+</p>
+<p>
+<strong>決策（Decision）</strong>：
+選用 Colyseus 0.15，理由：Delta State Sync 節省 40–60% WebSocket 帶寬；Room 生命週期管理（onCreate/onJoin/onLeave/onAuth）開箱即用；Matchmaking API 減少自建工時。
+</p>
+<p>
+<strong>後果（Consequences）</strong>：
+</p>
+<ul><li>正面：節省 ~2 週 WebSocket 狀態同步開發工時；Room 管理健壯；schema-based state 易於測試</li><li>負面：Colyseus 生態較小（社群相對 Socket.io 小）；版本升級需人工追蹤；跨 Pod Room 路由需額外設計</li></ul>
+<hr>
+<h3 id="adr-002：選用-mysql-8.0-作為主要持久化層">ADR-002：選用 MySQL 8.0 作為主要持久化層</h3>
+<p>
+<strong>狀態</strong>：已接受
+</p>
+<p>
+<strong>背景（Context）</strong>：
+PRD §1 明確指定 MySQL。評估選項：MySQL 8.0（成熟，亞洲遊戲業標準）vs PostgreSQL 16（更強 JSON/JSONB，地理索引）。
+</p>
+<p>
+<strong>決策（Decision）</strong>：
+選用 MySQL 8.0。理由：PRD 硬性約束；亞洲遊戲業 DBA 技術棧以 MySQL 為主，降低招聘成本；Row-level locking 對遊戲結算適合；亞洲遊戲公司（騰訊、網易）大量 MySQL 生產案例。
+</p>
+<p>
+<strong>後果（Consequences）</strong>：
+</p>
+<ul><li>正面：符合 PRD 約束；DBA 社群豐富；AWS RDS Multi-AZ 成熟</li><li>負面：複雜 JSON 查詢需用 JSON_EXTRACT（比 JSONB 繁瑣）；未來如需高並發 OLAP 查詢需評估 TiDB 或 ClickHouse</li></ul>
+<hr>
+<h3 id="adr-003：server-authoritative-rtp（伺服器端命中計算）">ADR-003：Server-Authoritative RTP（伺服器端命中計算）</h3>
+<p>
+<strong>狀態</strong>：已接受
+</p>
+<p>
+<strong>背景（Context）</strong>：
+RTP 85–95% 命中率必須在伺服器端控制，防止客戶端作弊（修改射擊成功率）。
+</p>
+<p>
+<strong>決策（Decision）</strong>：
+所有命中判定和 RTP 狀態計算 100% 在伺服器端執行，客戶端只接收結果。RTP 狀態存於 Redis，不在 WebSocket 封包中暴露。
+</p>
+<p>
+<strong>後果（Consequences）</strong>：
+</p>
+<ul><li>正面：完全防作弊；RTP 合規稽核可行；Jackpot 公平性可保障</li><li>負面：每次射擊需 WebSocket round-trip；P99 < 100ms 目標依賴 Colyseus Room 與 Redis 在同一 AZ</li></ul>
+<hr>
+<h3 id="adr-004：modular-monolith（非-microservices）">ADR-004：Modular Monolith（非 Microservices）</h3>
+<p>
+<strong>狀態</strong>：已接受
+</p>
+<p>
+<strong>背景（Context）</strong>：
+初期 3–5 人工程團隊，需要在 6 個月內交付 MVP。評估 Microservices 和 Modular Monolith 兩個選項。
+</p>
+<p>
+<strong>決策（Decision）</strong>：
+Phase 1–2 採用 Modular Monolith：4 個獨立 k8s Deployment（Account/Game/Shop/Admin），共享 MySQL/Redis，服務間透過 Redis Pub/Sub 傳遞 Domain Event。保留 DDD Bounded Context 邊界，Phase 3 可沿邊界拆分。
+</p>
+<p>
+<strong>後果（Consequences）</strong>：
+</p>
+<ul><li>正面：開發效率高（無分散式事務、無 Network Hop 開銷）；部署簡單；測試方便</li><li>負面：共享 MySQL/Redis 可能成為瓶頸；服務間 Pub/Sub 有消息堆積風險；需嚴格維護模組邊界</li></ul>
+<hr>
+<h3 id="adr-005：unleash-自建-feature-flag-系統">ADR-005：Unleash 自建 Feature Flag 系統</h3>
+<p>
+<strong>狀態</strong>：已接受
+</p>
+<p>
+<strong>背景（Context）</strong>：
+RTP 目標值和 Jackpot 觸發機率屬高敏感商業數值，不應上傳至第三方 SaaS（如 LaunchDarkly）。
+</p>
+<p>
+<strong>決策（Decision）</strong>：
+選用 Unleash（MIT 開源），自建部署於 k8s 同 Cluster。理由：完全控制 RTP/Jackpot 相關設定；TypeScript SDK；支援 A/B 實驗類型。
+</p>
+<p>
+<strong>後果（Consequences）</strong>：
+</p>
+<ul><li>正面：敏感數值安全；無月費 SaaS 成本</li><li>負面：需自行維護 Unleash 服務；SRE 負擔略增</li></ul>
+<hr>
+<h3 id="adr-006：prisma-5.x-orm（typescript-first）">ADR-006：Prisma 5.x ORM（TypeScript-first）</h3>
+<p>
+<strong>狀態</strong>：已接受
+</p>
+<p>
+<strong>背景（Context）</strong>：
+需要 TypeScript-first 的 ORM，支援 Migration 管理和 Type-safe 查詢。評估 Prisma vs TypeORM vs Drizzle ORM。
+</p>
+<p>
+<strong>決策（Decision）</strong>：
+選用 Prisma 5.x。理由：最佳 TypeScript 類型推導；Prisma Studio 方便 DBA 查詢；Migration 管理成熟；社群最大。
+</p>
+<p>
+<strong>後果（Consequences）</strong>：
+</p>
+<ul><li>正面：強型別查詢杜絕 SQL 拼接；Migration 版本控制明確</li><li>負面：Prisma 生成層有輕微性能開銷（高並發批次寫入需考慮 raw query）；不支援某些複雜 MySQL 特性（需 <code>$queryRaw</code>）</li></ul>
+<hr>
+<h2 id="15.-架構審查檢查清單">15. 架構審查檢查清單</h2>
+<table><tr><th>#</th><th>Non-Functional Requirement</th><th>目標值</th><th>驗證方式</th><th>對應章節</th><th>狀態</th></tr><tr><td>1</td><td>可用性 ≥ 99.5%</td><td>30 天滾動 ≥ 99.5%</td><td>SLO Dashboard（Prometheus）</td><td>§1.1 / §12.2</td><td>✅ 已設計</td></tr><tr><td>2</td><td>WebSocket P99 ≤ 100ms</td><td>k6 Load Test + Prod Trace</td><td>Prometheus histogram_quantile</td><td>§1.1 / §7.1</td><td>✅ 已設計</td></tr><tr><td>3</td><td>水平擴展（HPA）</td><td>Game: 3–20 pods；API: 2–10 pods</td><td>k8s HPA 觸發壓測</td><td>§10.1</td><td>✅ 已設計</td></tr><tr><td>4</td><td>零停機部署</td><td>Canary 5%→25%→100%；Blue-Green 重大版本</td><td>部署驗證 + Error Budget</td><td>§2.1（Canary）</td><td>✅ 已設計</td></tr><tr><td>5</td><td>資料加密（at-rest + in-transit）</td><td>PII AES-256-GCM；TLS 1.3+</td><td>稽核 + 自動掃描</td><td>§9.1 / §9.3</td><td>✅ 已設計</td></tr><tr><td>6</td><td>RBAC 存取控制</td><td>3 角色 × 21 Endpoint 矩陣</td><td>滲透測試 + BOLA 測試</td><td>§9.1（Layer 3）</td><td>✅ 已設計（EDD §4.1）</td></tr><tr><td>7</td><td>稽核日誌完整性</td><td>Append-only + S3 WORM 7 年</td><td>Audit Log 驗證 + 不可修改測試</td><td>§9.5</td><td>✅ 已設計</td></tr><tr><td>8</td><td>RTO ≤ 30 分鐘 / RPO ≤ 5 分鐘</td><td>DR 演練每季執行</td><td>DR 測試報告</td><td>§8</td><td>✅ 已設計</td></tr><tr><td>9</td><td>可觀測性（Metrics/Tracing/Logging）</td><td>Trace Coverage > 90% 關鍵路徑</td><td>Jaeger Dashboard</td><td>§12</td><td>✅ 已設計</td></tr><tr><td>10</td><td>依賴服務降級（Circuit Breaker）</td><td>RTP/IAP 降級後服務可繼續</td><td>Chaos Engineering Test</td><td>§13（降級矩陣）</td><td>✅ 已設計（EDD §8.5）</td></tr><tr><td>11</td><td>API Rate Limiting</td><td>登入 10/min/IP；購買 5/min/User</td><td>Load Test + 429 驗證</td><td>§9.4（EDD）</td><td>✅ 已設計</td></tr><tr><td>12</td><td>Secret Rotation 自動化</td><td>JWT 90d；DB 180d；IAP 90d</td><td>AWS Secrets Manager + Rotation 驗證</td><td>§9.3</td><td>✅ 已設計</td></tr></table>
+<hr>
+<h2 id="16.-finops-成本優化">16. FinOps 成本優化</h2>
+<h3 id="16.1-成本分配-tag-策略">16.1 成本分配 Tag 策略</h3>
+<p>
+所有 AWS 資源必須包含以下 Tag（Terraform 強制）：
+</p>
+<table><tr><th>Tag 鍵</th><th>範例值</th><th>用途</th></tr><tr><td><code>Environment</code></td><td>dev / staging / prod</td><td>環境成本隔離</td></tr><tr><td><code>Service</code></td><td>game-service / account-service / mysql / redis</td><td>服務成本追蹤</td></tr><tr><td><code>Team</code></td><td>backend / devops</td><td>團隊成本分配</td></tr><tr><td><code>CostCenter</code></td><td>fishing-arcade-game-01</td><td>財務部門成本中心</td></tr><tr><td><code>ManagedBy</code></td><td>terraform</td><td>IaC 來源標記</td></tr></table>
+<h3 id="16.2-月度-finops-review-規則">16.2 月度 FinOps Review 規則</h3>
+<table><tr><th>預算消耗</th><th>自動動作</th><th>通知對象</th></tr><tr><td>達 80%</td><td>發送 Slack 通知至 #finops 頻道</td><td>DevOps Lead</td></tr><tr><td>達 100%</td><td>自動凍結非 Critical Deployment + Slack 告警</td><td>Engineering Manager</td></tr><tr><td>達 120%</td><td>立即通知 + 手動審查所有 AWS 資源</td><td>Engineering Manager + CTO</td></tr></table>
+<h3 id="16.3-成本優化重點">16.3 成本優化重點</h3>
+<table><tr><th>優化項目</th><th>預計節省</th><th>實施時間</th></tr><tr><td>Game Service Spot Instance 比例（非高峰時段 70% Spot）</td><td>~40% EC2 成本</td><td>Phase 2</td></tr><tr><td>Reserved Instance（MySQL RDS + ElastiCache，1 年合約）</td><td>~30% RDS/Cache 成本</td><td>Phase 2 月費穩定後</td></tr><tr><td>fish_kills 舊分區 DROP（6 個月後清理）</td><td>MySQL RDS 儲存 -50%</td><td>Phase 2 起每月執行</td></tr><tr><td>CloudFront 靜態資產快取 TTL 優化（1 天→7 天）</td><td>~20% CDN 流量費</td><td>Phase 1</td></tr></table>
+<hr>
+<h2 id="17.-api-gateway-&-service-mesh">17. API Gateway & Service Mesh</h2>
+<h3 id="17.1-nginx-ingress-配置標準">17.1 Nginx Ingress 配置標準</h3>
+<table><tr><th>功能</th><th>配置</th><th>目的</th></tr><tr><td>TLS 終止</td><td>TLS 1.3+，cert-manager 自動更新 Let's Encrypt</td><td>HTTPS 強制</td></tr><tr><td>Rate Limiting（IP 層）</td><td><code>limit_req_zone $binary_remote_addr zone=api:10m rate=100r/s</code></td><td>DDoS 初步防護</td></tr><tr><td>WebSocket 路由</td><td><code>proxy_pass http://game-service:2567</code> + <code>proxy_set_header Upgrade $http_upgrade</code></td><td>Colyseus WSS</td></tr><tr><td>Correlation ID 注入</td><td><code>proxy_set_header X-Correlation-ID $request_id</code></td><td>分散式追蹤</td></tr><tr><td>超時設定</td><td><code>proxy_connect_timeout 5s; proxy_read_timeout 60s</code>（WebSocket 保持 60s）</td><td>防殭屍連線</td></tr></table>
+<h3 id="17.2-circuit-breaker-狀態機（opossum）">17.2 Circuit Breaker 狀態機（opossum）</h3>
+<pre><code>Closed（正常）
+<p>
+↓ 錯誤率 &gt; 50%（連續 10 次請求內）
+Open（熔斷）
+↓ 等待 10 秒 resetTimeout
+Half-Open（試探）
+↓ 試探請求成功 3 次
+Closed（恢復）
+</p>
+<p>
+若 Half-Open 試探失敗 → 回到 Open 重計等待
+</code></pre>
+</p>
+<p>
+<strong>配置（各外部依賴）</strong>
+</p>
+<table><tr><th>依賴服務</th><th>timeout</th><th>errorThresholdPercentage</th><th>resetTimeout</th></tr><tr><td>RTP Engine（Redis）</td><td>50ms</td><td>50%</td><td>10,000ms</td></tr><tr><td>IAP 平台（Apple/Google）</td><td>5,000ms</td><td>50%</td><td>30,000ms</td></tr><tr><td>Analytics（Mixpanel/Amplitude）</td><td>1,000ms</td><td>70%</td><td>60,000ms</td></tr><tr><td>Feature Flag（Unleash）</td><td>200ms</td><td>50%</td><td>10,000ms</td></tr></table>
+<h3 id="17.3-service-mesh-計劃">17.3 Service Mesh 計劃</h3>
+<p>
+Phase 1–2：不引入 Service Mesh（Modular Monolith，服務間通訊量有限）。
+</p>
+<p>
+Phase 3 Microservices 拆分後計劃引入 <strong>Istio</strong>：
+</p>
+<ul><li>mTLS：所有 Pod 間通訊雙向 TLS 認證</li><li>Traffic Management：細粒度 Canary 流量分配</li><li>Observability：自動 L7 指標 + Distributed Tracing（無需修改業務代碼）</li></ul>
+<hr>
+<h2 id="18.-open-questions（架構層級）">18. Open Questions（架構層級）</h2>
+<table><tr><th>#</th><th>問題</th><th>優先級</th><th>負責人</th><th>截止</th></tr><tr><td>AQ-01</td><td>Colyseus Room 跨 Pod 路由（HPA Scale-Out 後）：@colyseus/loadbalancer vs 自建 Redis Room Registry？</td><td>HIGH</td><td>Backend Architect</td><td>Phase 2</td></tr><tr><td>AQ-02</td><td>MySQL fish_kills 表分區策略：MySQL RANGE 分區 vs TiDB 水平分片（DAU 超過 50,000 後）？</td><td>MEDIUM</td><td>DBA + SRE</td><td>Phase 3</td></tr><tr><td>AQ-03</td><td>Redis Pub/Sub 訊息堆積風險：何時遷移至 NATS JetStream（持久化 + 消費者組）？</td><td>MEDIUM</td><td>Backend Architect</td><td>Phase 3</td></tr><tr><td>AQ-04</td><td>Service Mesh 引入時機：Istio 的 Sidecar 開銷（~30% 額外 CPU）是否可接受？</td><td>LOW</td><td>SRE</td><td>Phase 3</td></tr></table>
+<hr>
+<h2 id="19.-approval-sign-off">19. Approval Sign-off</h2>
+<table><tr><th>角色</th><th>姓名</th><th>審核日期</th><th>狀態</th></tr><tr><td>Tech Lead</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>System Architect</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>DevOps/SRE Lead</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Security Engineer</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>PM（PRD Owner）</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr></table></main>
+</div>
+<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

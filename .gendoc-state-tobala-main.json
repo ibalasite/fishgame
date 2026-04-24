@@ -4,7 +4,7 @@
   "review_strategy": "standard",
   "max_rounds": 5,
   "stop_condition": "任一輪 finding=0 或第 5 輪 fix 完",
-  "last_updated": "2026-04-24T05:30:54.896405Z",
+  "last_updated": "2026-04-24T16:49:08.300184Z",
   "input_type": "doc_local+codebase_git",
   "input_source": "/Users/tobala/projects/fishing-arcade-game/docs/req/魚機遊戲募資企劃書.md + https://github.com/taishan6868/Fishing-game-source-code.git",
   "req_dir": "docs/req",
@@ -34,7 +34,11 @@
     "D09-SCHEMA",
     "D11-test-plan",
     "D12-BDD-server",
-    "D13-RTM"
+    "D13-RTM",
+    "D14-runbook",
+    "D15-LOCAL_DEPLOY",
+    "D16-ALIGN",
+    "D17-HTML"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -162,10 +166,55 @@
       "terminated": true,
       "terminate_reason": "zero_finding",
       "quality_status": "passed"
+    },
+    "D14-runbook": {
+      "rounds_done": 4,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 0,
+      "last_CHM": [
+        0,
+        0,
+        0
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D15-LOCAL_DEPLOY": {
+      "rounds_done": 1,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 1,
+      "last_CHM": [
+        0,
+        0,
+        1
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D16-ALIGN": {
+      "terminated": true,
+      "terminate_reason": "special_skill_complete",
+      "quality_status": "completed",
+      "finding_total": 43,
+      "finding_CHMC": [
+        5,
+        16,
+        16,
+        6
+      ]
     }
   },
   "edd_generated": true,
   "edd_path": "docs/EDD.md",
   "arch_path": "docs/ARCH.md",
-  "arch_generated": true
+  "arch_generated": true,
+  "special_completed": {
+    "D16-ALIGN": true,
+    "D17-HTML": true
+  },
+  "pipeline_complete": true
 }

@@ -1,0 +1,62 @@
+{
+  "idea.html": {
+    "title": "產品創意",
+    "url": "idea.html",
+    "excerpt": "IDEA Document < -- SDLC Requirements Engineering — Layer 0：Idea Capture -- < -- 此文件是需求鏈的起點（IDEA → BRD → PRD → PDD → EDD），記錄最原始的構想輸入 -- < -- 由 /gendoc idea 自動填寫；未來需求變更時，此文件作為「原始意圖」比對基準 -- --- Document Control 欄位 內容 ------ ------ DOC-ID IDEA-FISHING-ARCADE-GAME-20260424 專案名稱 fishing-arcade-game（捕魚街機遊戲"
+  },
+  "brd.html": {
+    "title": "業務需求文件",
+    "url": "brd.html",
+    "excerpt": "BRD — Business Requirements Document < -- SDLC Requirements Engineering — Layer 1：Business Requirements -- < -- 上游文件：docs/IDEA.md（DOC-ID: IDEA-FISHING-ARCADE-GAME-20260424）-- < -- 回答：為什麼做？為誰做？成功長什麼樣？值不值得投資？ -- --- Document Control 欄位 內容 ------ ------ DOC-ID BRD-FISHING-ARCADE-GAME-20260424 專案名稱 fish"
+  },
+  "prd.html": {
+    "title": "產品需求文件",
+    "url": "prd.html",
+    "excerpt": "PRD — Product Requirements Document < -- 對應學術標準：IEEE 830 (SRS)，對應業界：Google PRD / Amazon PRFAQ -- --- Document Control 欄位 內容 ------ ------ DOC-ID PRD-FISHGAME-20260424 產品名稱 fishing-arcade-game（捕魚街機遊戲平台） 文件版本 v0.1 狀態 DRAFT 作者（PM） AI Generated (gendoc-gen-prd) 日期 2026-04-24 上游 BRD BRD.md (BRD.md) §3.1,"
+  },
+  "edd.html": {
+    "title": "工程設計文件",
+    "url": "edd.html",
+    "excerpt": "EDD — Engineering Design Document (Tech Spec) < -- 對應學術標準：IEEE 1016 (SDD)；對應業界：Google Design Doc / Amazon Tech Spec -- < -- 上游 PRD 回答「做什麼」；本文件回答「怎麼實作」 -- --- Document Control 欄位 內容 ------ ------ DOC-ID EDD-FISHGAME-20260424 專案名稱 fishing-arcade-game（捕魚街機遊戲平台） Project Slug fishing-arcade-game GitHub O"
+  },
+  "arch.html": {
+    "title": "架構設計",
+    "url": "arch.html",
+    "excerpt": "ARCH — 架構設計文件（Architecture Design） < -- 上游 EDD 回答「怎麼實作」；本文件回答「系統整體架構如何組織、演進、保障品質」 -- --- Document Control 欄位 內容 ------ ------ DOC-ID ARCH-FISHGAME-20260424 專案名稱 fishing-arcade-game（捕魚街機遊戲平台） Project Slug fishing-arcade-game 文件版本 v1.0 狀態 DRAFT 作者（Tech Lead / Architect） AI Generated (gendoc-gen-arch) "
+  },
+  "api.html": {
+    "title": "API 設計",
+    "url": "api.html",
+    "excerpt": "API — API 設計文件（API Design Document） --- Document Control 欄位 內容 ------ ------ DOC-ID API-FISHGAME-20260424 專案名稱 fishing-arcade-game（捕魚街機遊戲平台） 文件版本 v1.0 狀態 DRAFT 作者 AI Generated (gendoc-gen-api) 日期 2026-04-24 上游 EDD EDD.md (EDD.md)（EDD-FISHGAME-20260424） 上游 PRD PRD.md (PRD.md) 上游 ARCH ARCH.md (ARCH.md"
+  },
+  "schema.html": {
+    "title": "資料庫 Schema",
+    "url": "schema.html",
+    "excerpt": "SCHEMA — 資料庫 Schema 設計文件 Document Control 欄位 值 ------ ----- DOC-ID SCHEMA-FISHGAME-20260424 版本 v1.0 狀態 DRAFT 作者 AI Generated (gendoc-gen-schema) 日期 2026-04-24 資料庫 MySQL 8.0.36（InnoDB） ORM Prisma 5.x（TypeScript） 上游 EDD EDD.md (EDD.md)（EDD-FISHGAME-20260424）§5.5 上游 ARCH ARCH.md (ARCH.md) 上游 API API.md"
+  },
+  "test-plan.html": {
+    "title": "測試計劃",
+    "url": "test-plan.html",
+    "excerpt": "Test Plan — 測試計畫 < -- SDLC Quality Engineering — Layer 7：Test Strategy & Plan -- < -- 對應學術標準：IEEE 829 Test Plan；業界：Google Test Certified / ISTQB Test Plan -- < -- 回答：如何驗證產品符合 BRD/PRD/EDD 定義的需求？測試範圍、工具、責任、時程為何？ -- --- Document Control 欄位 內容 ------ ------ DOC-ID TP-FISHGAME-20260424 專案名稱 fishing-arcad"
+  },
+  "rtm.html": {
+    "title": "需求追溯矩陣",
+    "url": "rtm.html",
+    "excerpt": "需求追蹤矩陣（Requirements Traceability Matrix） < -- DOC-ID: RTM-FISHGAME-20260424 -- < -- Version: 1.0 Date: 2026-04-24 Status: Draft -- < -- Source: PRD (8 US / 39 ACs) → test-plan §15.1/§15.2 → features/ .feature -- --- 文件控制 欄位 值 ------ ----- DOC-ID RTM-FISHGAME-20260424 Version 1.0 Date 2026-04-24 Stat"
+  },
+  "runbook.html": {
+    "title": "運維手冊",
+    "url": "runbook.html",
+    "excerpt": "Fishing Arcade Game — Operations Runbook < -- DOC-ID: RUNBOOK-FISHING-ARCADE-GAME-20260424 -- < -- Version: 0.1 Date: 2026-04-24 Status: DRAFT -- < -- Quality Bar: 凌晨 3 點被叫醒，零前情提要，能直接執行每一個步驟 -- < -- ⚠️ DRAFT WARNING: 此文件為 DRAFT 狀態。§12 聯絡資訊尚未填充，P1 升級路徑目前失效。 請在轉為 READY 前完成「發布前佔位符填充清單」（見 §0）。-- --- §0 "
+  },
+  "local_deploy.html": {
+    "title": "本地部署指南",
+    "url": "local_deploy.html",
+    "excerpt": "LOCAL_DEPLOY — Local Development Deployment Guide (Rancher Desktop + Kubernetes) --- Document Control Field Value ------- ------- DOC-ID LOCAL_DEPLOY-FISHING-ARCADE-GAME-20260424 Project fishing-arcade-game（捕魚街機遊戲平台） Version v1.0 Status DRAFT Date 2026-04-24 Upstream EDD EDD.md (EDD.md) Last Verifie"
+  },
+  "align_report.html": {
+    "title": "對齊掃描報告",
+    "url": "align_report.html",
+    "excerpt": "gendoc — 對齊掃描報告（ALIGN_REPORT） 專案 ：fishing-arcade-game（多人競技捕魚街機遊戲平台） 掃描日期 ：2026-04-25 生成工具 ：gendoc-align-check v3.0 client_type ：none（純後端，無 PDD/VDD/FRONTEND/BDD-client） --- 總覽儀錶板 ╔══════════════════════════════════════════════════════════════════╗ ║ gendoc — 對齊掃描報告 ║ ║ 專案：fishing-arcade-game 日期：2026-"
+  }
+}
