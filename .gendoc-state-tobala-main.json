@@ -33,7 +33,8 @@
     "D08-API",
     "D09-SCHEMA",
     "D11-test-plan",
-    "D12-BDD-server"
+    "D12-BDD-server",
+    "D13-RTM"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -152,6 +153,12 @@
         2,
         0
       ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D13-RTM": {
+      "rounds_done": 1,
       "terminated": true,
       "terminate_reason": "zero_finding",
       "quality_status": "passed"
