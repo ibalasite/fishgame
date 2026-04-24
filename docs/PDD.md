@@ -1560,7 +1560,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-white-100` | `#FFFFFF` |
 | `color-white-60` | `rgba(255,255,255,0.6)` |
 | `color-white-45` | `rgba(255,255,255,0.45)` |
-| `color-white-30` | `rgba(255,255,255,0.35)` |
+| `color-white-35` | `rgba(255,255,255,0.35)` |
 | `color-black-80` | `rgba(0,0,0,0.8)` |
 | `color-vip-silver` | `#C0C0C0` |
 | `color-vip-gold` | `#FFD700` |
@@ -1580,13 +1580,13 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `line-height-tight` | `1.2` |
 | `line-height-normal` | `1.5` |
 | `line-height-loose` | `1.8` |
-| `spacing-4` | `4px` |
-| `spacing-8` | `8px` |
-| `spacing-12` | `12px` |
-| `spacing-16` | `16px` |
-| `spacing-24` | `24px` |
-| `spacing-32` | `32px` |
-| `spacing-48` | `48px` |
+| `spacing-4` | `4px`（VDD CSS 別名：`--space-1`）|
+| `spacing-8` | `8px`（VDD CSS 別名：`--space-2`）|
+| `spacing-12` | `12px`（VDD CSS 別名：`--space-3`）|
+| `spacing-16` | `16px`（VDD CSS 別名：`--space-4`）|
+| `spacing-24` | `24px`（VDD CSS 別名：`--space-6`）|
+| `spacing-32` | `32px`（VDD CSS 別名：`--space-8`）|
+| `spacing-48` | `48px`（VDD CSS 別名：`--space-12`）|
 | `radius-8` | `8px` |
 | `radius-16` | `16px` |
 | `radius-24` | `24px` |
@@ -1615,7 +1615,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-bg-elevated` | `color-ocean-700` | 浮層/彈窗背景 |
 | `color-text-primary` | `color-white-100` | 主要文字（HUD、標題）|
 | `color-text-secondary` | `color-white-60` | 輔助說明文字 |
-| `color-text-disabled` | `color-white-30` | 禁用狀態文字 |
+| `color-text-disabled` | `color-white-35` | 禁用狀態文字 |
 | `color-action-primary` | `color-gold-400` | 主要 CTA 按鈕（充值、確認）|
 | `color-action-primary-hover` | `color-gold-600` | CTA 懸停態 |
 | `color-action-primary-active` | `color-gold-600` | CTA 按壓態 |
