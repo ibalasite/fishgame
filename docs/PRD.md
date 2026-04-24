@@ -334,7 +334,7 @@ C4Context
 |--------------|-------------|------------|------------|---------|
 | US-FISH-001 / AC-1 | 玩家進入競技房間 | 系統初始化魚群 | 畫面顯示至少 3 種魚類：普通魚（倍率 1–5x）/ 精英魚（倍率 6–20x）/ Boss 魚（倍率 50–200x），魚群數量符合設計規格（每批次 ≥ 20 條） | Integration |
 | US-FISH-001 / AC-2 | 玩家射擊一條普通魚 | 炮彈命中魚 | 命中率根據 RTP 動態調整引擎計算（目標 RTP 85–95%）；命中後魚消失，金幣動畫顯示收益倍率，3 秒內更新玩家金幣餘額 | Unit + E2E |
-| US-FISH-001 / AC-3 | Boss 魚出現（每局至少 1 次）| 多名玩家同時射擊同一 Boss 魚 | 各玩家的炮彈消耗各自計算，Boss 魚有獨立血量；擊殺者獲得全額 Boss 倍率獎勵，其他玩家獲得參與獎勵（0%）；Boss 消失後同步至所有房間玩家 | Integration |
+| US-FISH-001 / AC-3 | Boss 魚出現（每局至少 1 次）| 多名玩家同時射擊同一 Boss 魚 | 各玩家的炮彈消耗各自計算，Boss 魚有獨立血量；擊殺者獲得全額 Boss 倍率獎勵，其他玩家獲得參與獎勵（0%）；Boss 消失後同步至所有房間玩家。**設計說明：Boss 魚採用贏者通吃機制（Winner-Takes-All），非擊殺玩家獲得 0% 獎勵，目的是強化競爭爽感與稀缺性，製造高價值目標的搶奪張力。邊界條件補充：若 Boss 魚逃跑（滿足逃跑條件），則參與射擊的所有玩家各獲 Boss 魚面值 × 5% 的安慰獎勵。Phase 2 考慮：可在數值迭代中評估「傷害比例獎勵」機制以改善新手參與感。** | Integration |
 | US-FISH-001 / AC-4 | Boss 魚血量降至 0 | 擊殺觸發 | 擊殺動畫播放（2 秒內），擊殺者顯示「Boss 擊殺！」浮字，金幣收益即時更新 | E2E |
 | US-FISH-001 / AC-5 | 魚群生成服務（波次排程）發生異常（服務崩潰或回應逾時 > 3s）| 魚群無法正常刷新 | 系統降級為預設靜態魚群波次（3 種固定魚群路徑輪播），遊戲繼續正常運行，不崩潰；後台觸發告警通知 Engineering On-Call | Integration |
 | US-FISH-001 / AC-6 | 6 名玩家在同一毫秒內同時射擊同一條魚（最高並發命中情境）| 多人同時命中觸發 | 伺服器使用 Redis 原子操作（SETNX / Lua 腳本）確保僅第一名命中者計算擊殺收益；其他 5 名玩家消耗砲彈但無金幣收益；所有玩家客戶端在 200ms 內收到統一結果通知，無重複計算 | Integration |
@@ -409,7 +409,7 @@ C4Context
 
 **User Story：**
 > 作為 **VIP 老闆（Persona B）**，
-> 我希望能 **方便地購買鑽石充值包並兌換成遊戲內高倍率砲台或禮包**，
+> 我希望能 **在 3 步驟內完成鑽石充值包的購買並兌換成遊戲內高倍率砲台或禮包**（3 步驟：選包 → 確認 → 支付），
 > 以便 **在遊戲中獲得更強的競爭優勢並感受到付費回報感**。
 
 **Acceptance Criteria：**
@@ -418,7 +418,7 @@ C4Context
 |--------------|-------------|------------|------------|---------|
 | US-SHOP-001 / AC-1 | 玩家點擊「充值鑽石」按鈕 | 選擇充值套餐（USD 4.99 = 50 鑽石）並確認付款 | 呼叫 IAP 平台（AppStore/Google Play）支付流程；支付成功後 5 秒內鑽石餘額更新；支付失敗顯示具體錯誤訊息（非「未知錯誤」）| E2E |
 | US-SHOP-001 / AC-2 | 玩家鑽石餘額不足 | 嘗試購買需要 100 鑽石的道具 | 顯示「鑽石不足，需 100 鑽石，目前餘額 XX 鑽石」提示，提供「立即充值」按鈕引導；購買失敗，金幣和鑽石餘額不變 | Unit |
-| US-SHOP-001 / AC-3 | 支付過程中網路中斷 | 支付請求發出後 30 秒無回應 | 顯示「網路連線不穩，請稍後重試」；鑽石不重複發放（幂等設計，以訂單 ID 去重）；玩家可在訂單記錄中查詢狀態 | Integration |
+| US-SHOP-001 / AC-3 | 支付過程中網路中斷 | 支付請求發出後 30 秒無回應 | 顯示「網路連線不穩，請稍後重試」；鑽石不重複發放（幂等設計，以訂單 ID 去重）；玩家可在訂單記錄中查詢狀態。**幂等 ID 生成時機補充：伺服器在接收首次購買請求時立即生成 order_id（UUID v4）並返回給客戶端；客戶端在重試時攜帶相同 order_id；伺服器以 order_id 去重，若 order_id 狀態為 PENDING/COMPLETED 則直接返回現有結果，不重複扣款。邊界條件：若客戶端未收到首次回應即重試（order_id 尚未建立），伺服器應能識別並正確創建訂單（需要幂等鍵預先在客戶端生成，詳見 EDD §IAP 模組）。EDD 決策：訂單 ID 的生成端（客戶端 vs 伺服器）由 EDD 決定；此 AC 定義預期行為，不論生成端為何，必須保證同一購買動作只被執行一次。** | Integration |
 | US-SHOP-001 / AC-4 | 玩家使用金幣調整砲台倍率 | 選擇 10x 倍率砲台 | 每次射擊消耗 10 枚金幣（倍率 × 基礎消耗），金幣餘額即時扣減並顯示；金幣餘額降為 0 時，砲台自動降回 1x 基礎倍率 | Unit |
 | US-SHOP-001 / AC-5 | AppStore / Google Play IAP 服務完全不可用（IAP 平台下線或 API 連線失敗）| 玩家嘗試發起鑽石充值 | 系統偵測 IAP 不可用後，顯示「目前充值服務暫時無法使用，請稍後再試」提示；不顯示付款介面，避免玩家輸入付款資訊後失敗；降級啟用備援支付通道（若已設定 Stripe 等備援）或禁止充值（記錄事件供後續補償）；後台觸發 PaymentFailureSpike 告警 | Integration |
 | US-SHOP-001 / AC-6 | 玩家成功充值鑽石後，透過 IAP 平台申請退款成功（平台回調退款通知）| 退款確認回調收到 | 系統在 5 秒內扣除對應鑽石數量（若餘額充足）；若鑽石已消費（餘額不足），記錄負債狀態並標記帳號待人工審查；顯示「退款已處理」通知，VIP 訂閱因退款降級則即時生效；退款事件寫入 iap_orders（payment_status = REFUNDED）| Integration |
@@ -727,8 +727,8 @@ stateDiagram-v2
 | 功能 | Event Name | 觸發動作 | 必要 Payload 欄位 | 關聯 KPI | 實作狀態 |
 |------|-----------|---------|-----------------|---------|:-------:|
 | 帳號註冊完成 | `user_registered` | 玩家成功完成 Email 註冊，帳號建立 | `{user_id, registration_method, platform, country_code}` | 新用戶轉化率、DAU 成長 | 🔲 |
-| 登入完成 | `user_login_completed` | 玩家成功登入帳號 | `{user_id, login_method, platform, session_id}` | DAU 量測基礎事件 | 🔲 |
-| 登入失敗 | `user_login_failed` | 玩家登入失敗（密碼錯誤 / 帳號鎖定）| `{email_hash, failure_reason, attempt_count, platform}` | 安全監控、登入成功率（注意：payload 中 email 需雜湊處理，不記錄明文）| 🔲 |
+| 登入完成 | `user_logged_in` | 玩家成功登入帳號 | `{user_id, login_method, platform, session_id}` | DAU 量測基礎事件 | 🔲 |
+| 登入失敗 | `user_login_rejected` | 玩家登入失敗（密碼錯誤 / 帳號鎖定）| `{email_hash, failure_reason, attempt_count, platform}` | 安全監控、登入成功率（注意：payload 中 email 需雜湊處理，不記錄明文）| 🔲 |
 | 快速匹配 | `room_match_initiated` | 玩家點擊快速匹配 | `{user_id, room_type, weapon_selected, skill_selected}` | DAU 活躍度 | 🔲 |
 | 房間就緒 | `room_match_completed` | 房間配對成功，遊戲開始 | `{room_id, player_count, bot_count, match_duration_ms}` | 匹配成功率 | 🔲 |
 | 魚被擊殺 | `fish_killed` | 玩家成功捕捉一條魚 | `{user_id, room_id, fish_type, fish_multiplier, coins_earned, weapon_used}` | 場均收益、武器使用分佈 | 🔲 |
@@ -743,7 +743,7 @@ stateDiagram-v2
 | VIP 訂閱 | `vip_subscription_started` | VIP 訂閱成功 | `{user_id, vip_tier, amount_usd, subscription_platform}` | VIP 訂閱率 | 🔲 |
 | 年齡驗證 | `age_gate_completed` | 年齡驗證完成 | `{user_id, result, declared_age_bracket}` | 合規指標 | 🔲 |
 
-**Event 命名規範：** `{object}_{action}` 全小寫底線，動詞一律使用**過去式**（表示事件已發生），例如：`user_registered`（非 `user_register`）、`fish_killed`（非 `fish_kill`）、`session_ended`（非 `session_end`）。命名結構：`{名詞對象}_{過去式動詞}`，必要時加 `_{結果}` 後綴（如 `iap_purchase_completed` / `iap_purchase_failed`）。
+**Event 命名規範：** `{object}_{action}` 全小寫底線，動詞一律使用**過去式**（表示事件已發生），例如：`user_registered`（非 `user_register`）、`fish_killed`（非 `fish_kill`）、`session_ended`（非 `session_end`）。命名結構：`{名詞對象}_{過去式動詞}`，必要時加 `_{結果}` 後綴（如 `iap_purchase_completed` / `iap_purchase_failed`）。**命名一致性說明：`completed`/`failed` 後綴形式（如 `user_login_completed`）與純過去式動詞形式（如 `user_logged_in`）在語義上等效，均符合規範；但本文件統一採用純過去式動詞形式以保持命名風格一致**（即 `user_logged_in` 優於 `user_login_completed`，`user_login_rejected` 優於 `user_login_failed`）。
 **Analytics 工具鏈：** 待 Engineering 確認（Mixpanel / Amplitude / Segment）
 **驗收條件：** 功能進入 Staging 前，需在 Analytics Dashboard 確認 Event 成功觸發 ≥ 5 次測試。
 
@@ -1027,6 +1027,7 @@ stateDiagram-v2
 | RACI | 責任分配矩陣：R（Responsible 執行者）/ A（Accountable 負責人）/ C（Consulted 被諮詢）/ I（Informed 被通知）|
 | Kill Switch | Feature Flag 的緊急關閉功能，可在 5 分鐘內將特定功能下線 |
 | Feature Flag | 功能開關，允許在不部署新代碼的情況下動態啟用/停用特定功能 |
+| 玩家（Player）/ 用戶（User）| 本文件中兩詞為同義詞，均指遊戲終端使用者。使用慣例：帳號/認證/技術語境使用「用戶」；遊戲玩法/競技/數值語境使用「玩家」。API/資料庫欄位一律使用 user_id（技術標準命名）。|
 
 ---
 
