@@ -1372,12 +1372,14 @@ graph TD
 
 **SLO（目標）**
 
-| SLO | 目標 | 量測窗口 | 告警（消耗 50% Error Budget 時）|
-|-----|------|---------|-------------------------------|
-| API Availability | ≥ 99.5% | 30 天滾動 | < 99.75%（30 分鐘 Burn Rate）|
-| WebSocket P99 | ≤ 100ms | 7 天 | > 80ms（持續 5 分鐘）|
-| REST P99 | ≤ 500ms | 7 天 | > 400ms（持續 5 分鐘）|
-| Error Rate | ≤ 0.1% | 1 小時 | > 0.05%（持續 10 分鐘）|
+> SLO 數值來源：BRD §5.4 非功能需求（NFR）。每項 SLO 均有對應 BRD 需求 ID 確保業務承諾可追溯。
+
+| SLO | 目標 | 量測窗口 | BRD 依據 | 告警（消耗 50% Error Budget 時）|
+|-----|------|---------|---------|-------------------------------|
+| API Availability | ≥ 99.5% | 30 天滾動 | BRD §5.4 NFR-AVAIL-001（服務可用性 ≥ 99.5%）| < 99.75%（30 分鐘 Burn Rate）|
+| WebSocket P99 | ≤ 100ms | 7 天 | BRD §5.4 NFR-PERF-001（遊戲事件 P99 ≤ 100ms）| > 80ms（持續 5 分鐘）|
+| REST P99 | ≤ 500ms | 7 天 | BRD §5.4 NFR-PERF-002（API 回應 P99 ≤ 500ms）| > 400ms（持續 5 分鐘）|
+| Error Rate | ≤ 0.1% | 1 小時 | BRD §5.4 NFR-REL-001（錯誤率 ≤ 0.1%）| > 0.05%（持續 10 分鐘）|
 
 **Error Budget Policy**
 - 0–50% 消耗：正常開發節奏
@@ -1692,6 +1694,20 @@ span.setAttributes({
 - `session.id`、`user.id`、`room.id`：遊戲上下文
 - `payment.amount_usd`、`payment.product_id`：商城上下文
 - `rtp.snapshot`：RTP 狀態（數值，非演算法細節）
+
+**Sampling Rate 設定：**
+
+| 環境 | Sampling 策略 | Sampler 設定 | 說明 |
+|------|-------------|------------|------|
+| Production | Adaptive（流量比例）| `OTEL_TRACES_SAMPLER=parentbased_traceidratio`<br>`OTEL_TRACES_SAMPLER_ARG=0.1` | 一般路徑 10% 採樣；避免 Jaeger 儲存過量 |
+| Production（關鍵路徑）| 100% 強制採樣 | Span 手動標記 `sampled=true` | Jackpot 觸發、IAP 購買、帳號封禁等高敏感操作強制全量採樣 |
+| Staging | 全量採樣 | `OTEL_TRACES_SAMPLER=always_on` | 測試環境需要完整 Trace，不考慮儲存成本 |
+| Development | 全量採樣 | `OTEL_TRACES_SAMPLER=always_on` | 本地開發完整可觀測 |
+
+**Jaeger 儲存估算（Production 10% Sampling）：**
+- WebSocket 事件：6,000 events/s × 10% = 600 spans/s
+- REST API：500 req/s × 10% = 50 spans/s
+- 預計每日 Span 數：~56M spans（Jaeger S3 後端，保留 7 天）
 
 ---
 
