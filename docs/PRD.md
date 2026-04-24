@@ -152,6 +152,26 @@ C4Context
 
 ---
 
+---
+
+#### Persona C：「新手小花」— 新手免費玩家
+
+| 欄位 | 內容 |
+|------|------|
+| **背景** | 22 歲，越南河內大學生，透過 Facebook 廣告或朋友推薦首次下載捕魚遊戲，每天零碎時間 10–15 分鐘，消費能力有限，傾向免費體驗 |
+| **目標** | 探索遊戲玩法，享受免費捕魚的爽感，在不付費的前提下盡可能玩得有趣；若真正喜歡，可能轉化為輕付費用戶 |
+| **痛點（≥ 2）** | ① 剛進遊戲不清楚武器和技能怎麼用，缺乏新手引導導致快速流失；② 金幣消耗速度比獲得速度快，很快「破產」卻不理解原因（RTP 機制不透明）|
+| **技術熟悉度** | 低（對 IAP 流程不熟悉，習慣免費 App，對「付費道具」存有疑慮）|
+| **使用頻率** | 每日 1–2 局，主要在通勤或午休碎片時間 |
+| **付費習慣** | 基本不付費；若有低門檻首充優惠（如 USD 0.99 → 100 鑽石），有小概率嘗試 |
+| **成功樣貌** | 新手引導完成後能獨立操作，第一局能捕到魚並看到金幣收益動畫，感受到「會玩了」的掌控感 |
+
+**典型使用場景：** 下午 3:00，小花看到 Facebook 廣告中魚被炸飛的特效感到好奇，下載遊戲。進入後看到新手教學，點擊砲台打到第一條魚，金幣噴出動畫讓她興奮。系統提示「再打 3 條魚可以獲得新手禮包」，她繼續遊玩。5 分鐘後她因金幣快用完看到「充值鑽石」的引導，猶豫了一下，選擇先繼續免費玩。
+
+> **Persona A ARPU 上限說明：** Persona A（競技阿明）的 ARPU 上限為 USD 20/月，Persona B（VIP 老闆）為 USD 50–100/月，兩者共同構成月營收 ≥ USD 10,000 目標的付費基礎——並非矛盾，而是不同付費層次的疊加。Persona C（新手小花）主要貢獻 DAU 規模（達成 DAU 10,000 目標），並作為付費漏斗的頂部流量，部分轉化為 Persona A。
+
+---
+
 ### 3.3 Non-Target Users（明確排除，來自 BRD §4.3）
 
 - ❌ **未成年用戶（18 歲以下）**：法規合規要求，付費類娛樂遊戲需年齡驗證
@@ -189,6 +209,14 @@ C4Context
 - [ ] **換裝皮膚系統**（FChangeSkinUI 模組參考）：留存與付費加強道具
 - [ ] **好友系統 + 私人房間**：社交功能增強留存
 - [ ] **排行榜系統**：週榜 / 月榜，競爭感強化
+
+> **BRD → PRD 優先級降級說明（BRD Should Have → PRD Phase 2）：**
+> BRD §5.3 將「砲台/技能升級成長系統」、「任務系統（日常/週常）」、「每週活動/節日活動框架」列為 Should Have。基於以下考量，本 PRD 將上述三項調整至 P1（Phase 2，上線後 6 個月內迭代）：
+> 1. **6 個月交付周期限制**：核心多人競技玩法驗證為首要里程碑，成長系統與任務設計需在核心 RTP/Jackpot 數值穩定後方能設計（設計依賴關係）。
+> 2. **USD 200,000 預算限制**：P0 功能（房間/魚群/武器/RTP/商城/年齡驗證/帳號）已占據 12 人 × 6 個月開發資源的主要份額，無充裕容量在 MVP 版本同時交付成長系統與活動框架。
+> 3. **假設驗證優先**：核心競技機制（A1 假設）需先驗證，才能為任務設計和活動策略提供數據依據；若 A1 假設不成立，成長系統設計方向將根本性改變。
+>
+> Phase 2 啟動條件：MVP 上線後，次日留存率達到 ≥ 35%、付費率 ≥ 2%，確認核心玩法假設成立後，正式排入 P1 開發計畫。
 
 ### 4.4 Out of Scope（明確排除，來自 BRD §5.3）
 
@@ -229,11 +257,40 @@ C4Context
 
 ## 5. User Stories & Acceptance Criteria
 
+### 5.0 玩家帳號系統（P0）
+
+**REQ-ID：** US-ACCT-001（對應 BRD §5.3 Must Have：玩家帳號系統，BRD O1, O2, O3）
+
+**優先度：** P0（Must Have）｜**T-Shirt Size：M**
+
+**User Story：**
+> 作為 **競技阿明（Persona A）**，
+> 我希望能 **用電子郵件快速註冊並登入帳號，安全地保存我的遊戲進度與鑽石餘額**，
+> 以便 **在任何裝置上繼續我的遊戲，不因重新安裝而失去付費道具**。
+
+**Acceptance Criteria（可測試、無歧義）：**
+
+| REQ-ID / AC# | Given（前提）| When（行動）| Then（結果）| 測試類型 |
+|--------------|-------------|------------|------------|---------|
+| US-ACCT-001 / AC-1（Happy Path：註冊成功）| 用戶尚未有帳號，輸入有效 email（符合 RFC 5322）及符合強度規則的密碼 | 點擊「註冊」按鈕 | 系統在 3 秒內建立帳號，自動登入，跳轉至遊戲大廳；email 以 AES-256-GCM 加密存入 `users` 資料表；用戶 ID 以 UUID v4 格式生成 | E2E |
+| US-ACCT-001 / AC-2（Happy Path：登入成功）| 用戶已有帳號，輸入正確 email 和密碼 | 點擊「登入」按鈕 | 系統在 2 秒內驗證憑證，簽發 JWT Access Token（15 分鐘有效）+ Refresh Token（7 天有效）；跳轉至遊戲大廳，顯示正確的金幣和鑽石餘額 | E2E |
+| US-ACCT-001 / AC-3（Error Path：Email 已存在）| 用戶嘗試以已被使用的 email 註冊 | 提交註冊表單 | 系統回傳 HTTP 409，顯示 Inline 錯誤訊息「此 Email 已被使用，請登入或使用其他 Email」於 email 輸入框下方；不建立重複帳號；錯誤訊息不洩露現有帳號的任何其他資訊 | Unit + Integration |
+| US-ACCT-001 / AC-4（Error Path：登入失敗鎖定）| 用戶連續輸入錯誤密碼 | 第 5 次輸入錯誤密碼後點擊「登入」| 帳號進入 15 分鐘鎖定期；顯示「登入嘗試次數過多，帳號已暫時鎖定，請 15 分鐘後重試」；鎖定期間所有登入嘗試均被拒絕（不重置失敗計數）；鎖定事件記錄至後台安全日誌（包含 IP、時間戳） | Unit + Integration |
+| US-ACCT-001 / AC-5（Boundary Case：密碼強度規則）| 用戶在註冊時輸入密碼 | 輸入密碼並離開欄位（onBlur）| 密碼不符合強度規則時，即時顯示 Inline 提示（不等待提交）：「密碼需至少 8 個字元，且包含大寫字母、小寫字母和數字」；符合規則後提示消失；密碼以 bcrypt（cost factor ≥ 12）雜湊後儲存，不以明文記錄 | Unit |
+
+**邊界條件：**
+- 密碼強度規則：≥ 8 字元，且包含至少 1 個大寫字母（A–Z）、1 個小寫字母（a–z）、1 個數字（0–9）
+- 登入失敗鎖定：連續失敗 ≤ 5 次前顯示剩餘嘗試次數（「還有 N 次機會」）；第 5 次失敗後鎖定 15 分鐘
+- Email 唯一性：`users.email` 欄位設置唯一索引（應用層 + 資料庫層雙重保障）
+- 遊客模式：首次開啟可以「遊客模式」進入（僅限免費功能），遊客模式不允許購買鑽石或 VIP
+
+---
+
 ### 5.1 多人競技房間（P0）
 
 **REQ-ID：** US-ROOM-001（對應 BRD §5.3 Must Have：4–6 人即時多人競技房間，BRD O1, O4）
 
-**優先度：** P0（Must Have）
+**優先度：** P0（Must Have）｜**T-Shirt Size：L**（WebSocket 房間管理 + Bot 補位 + 結算邏輯複雜度高）
 
 **User Story：**
 > 作為 **競技阿明（Persona A）**，
@@ -249,6 +306,8 @@ C4Context
 | US-ROOM-001 / AC-3 | 房間配對等待超過 30 秒（玩家不足）| 系統嘗試自動匹配 | 系統以 AI 補位（2–3 個 Bot）填滿房間，確保遊戲可以繼續，並向玩家顯示「Bot 補位」提示 | E2E |
 | US-ROOM-001 / AC-4 | 玩家中途斷線 | WebSocket 連線中斷 | 系統在 5 秒內嘗試重連；重連失敗後該玩家座位由 Bot 接替，房間繼續正常運行 | Integration |
 | US-ROOM-001 / AC-5 | 一局結束（時間到）| 結算觸發 | 顯示每位玩家金幣排名，MVP 玩家（最高得分）獲得 MVP 獎勵加成（+10% 金幣），結算介面在 3 秒內顯示 | E2E |
+| US-ROOM-001 / AC-6 | 玩家點擊「快速匹配」時，Colyseus 房間服務回傳 503 / 連線逾時 | 房間創建失敗 | 系統顯示「目前遊戲伺服器忙碌，請稍後重試」錯誤訊息，提供「重試」按鈕；不建立空房間；玩家金幣不扣除 | Integration |
+| US-ROOM-001 / AC-7 | 玩家金幣餘額低於該房間進入門檻 | 嘗試進入高倍率付費房間 | 顯示「金幣不足，需要 XXX 金幣才能進入此房間，目前餘額 YYY 金幣」提示；不允許進入房間；引導至充值 / 低倍率免費房間 | Unit |
 
 **邊界條件：**
 - 最大玩家數：6 人；若超過 6 人請求加入同一房間，後加入者進入等待隊列
@@ -262,7 +321,7 @@ C4Context
 
 **REQ-ID：** US-FISH-001（對應 BRD §5.3 Must Have：魚群系統，BRD O1, O4）
 
-**優先度：** P0（Must Have）
+**優先度：** P0（Must Have）｜**T-Shirt Size：L**（魚群生成引擎 + RTP 原子操作 + 多人同步並發邏輯）
 
 **User Story：**
 > 作為 **競技阿明（Persona A）**，
@@ -277,6 +336,8 @@ C4Context
 | US-FISH-001 / AC-2 | 玩家射擊一條普通魚 | 炮彈命中魚 | 命中率根據 RTP 動態調整引擎計算（目標 RTP 85–95%）；命中後魚消失，金幣動畫顯示收益倍率，3 秒內更新玩家金幣餘額 | Unit + E2E |
 | US-FISH-001 / AC-3 | Boss 魚出現（每局至少 1 次）| 多名玩家同時射擊同一 Boss 魚 | 各玩家的炮彈消耗各自計算，Boss 魚有獨立血量；擊殺者獲得全額 Boss 倍率獎勵，其他玩家獲得參與獎勵（0%）；Boss 消失後同步至所有房間玩家 | Integration |
 | US-FISH-001 / AC-4 | Boss 魚血量降至 0 | 擊殺觸發 | 擊殺動畫播放（2 秒內），擊殺者顯示「Boss 擊殺！」浮字，金幣收益即時更新 | E2E |
+| US-FISH-001 / AC-5 | 魚群生成服務（波次排程）發生異常（服務崩潰或回應逾時 > 3s）| 魚群無法正常刷新 | 系統降級為預設靜態魚群波次（3 種固定魚群路徑輪播），遊戲繼續正常運行，不崩潰；後台觸發告警通知 Engineering On-Call | Integration |
+| US-FISH-001 / AC-6 | 6 名玩家在同一毫秒內同時射擊同一條魚（最高並發命中情境）| 多人同時命中觸發 | 伺服器使用 Redis 原子操作（SETNX / Lua 腳本）確保僅第一名命中者計算擊殺收益；其他 5 名玩家消耗砲彈但無金幣收益；所有玩家客戶端在 200ms 內收到統一結果通知，無重複計算 | Integration |
 
 **邊界條件：**
 - 空值：若魚群全部被捕捉，系統在 2 秒內生成下一批新魚群，不允許空場景
@@ -289,7 +350,7 @@ C4Context
 
 **REQ-ID：** US-WPSK-001（對應 BRD §5.3 Must Have：武器系統 + 技能系統，BRD O1, O4）
 
-**優先度：** P0（Must Have）
+**優先度：** P0（Must Have）｜**T-Shirt Size：M**（武器/技能選擇 UI + 伺服器端效果同步；冷卻計時邏輯中等複雜）
 
 **User Story：**
 > 作為 **競技阿明（Persona A）**，
@@ -316,7 +377,7 @@ C4Context
 
 **REQ-ID：** US-RTP-001（對應 BRD §5.3 Must Have：RTP 控制系統 + Jackpot，BRD O2, O3）
 
-**優先度：** P0（Must Have）
+**優先度：** P0（Must Have）｜**T-Shirt Size：XL**（RTP 動態引擎為核心數值系統，需大量模擬驗證；Jackpot 觸發機制涉及伺服器端安全計算，拆分為子任務建議：RTP 引擎 = L，Jackpot 機制 = M）
 
 **User Story：**
 > 作為 **VIP 老闆（Persona B）**，
@@ -331,6 +392,7 @@ C4Context
 | US-RTP-001 / AC-2 | 玩家連續失敗次數超過設計閾值 | RTP 補償機制觸發 | 系統動態提高命中率，確保玩家不會連續 20 局無收益，補償邏輯不洩露給玩家客戶端（伺服器端計算） | Integration |
 | US-RTP-001 / AC-3 | Jackpot 大獎池觸發條件達成（觸發率由數值策劃設定）| Jackpot 觸發 | 大獎金幣數字跳動動畫播放（≥ 3 秒），全屏特效爆發，觸發玩家獲得 Jackpot 累積獎池金額；Jackpot 獎池在觸發後重置為起始值 | E2E |
 | US-RTP-001 / AC-4 | Jackpot 觸發事件發生 | 事件記錄 | 後台 Jackpot 觸發日誌在 1 秒內記錄：觸發時間 / 玩家 ID / 房間 ID / 獎池金額；用於合規審計 | Integration |
+| US-RTP-001 / AC-5 | 伺服器 RTP 計算服務異常（服務無回應或 Health Check 失敗持續 3 次）| 玩家正常射擊 | 系統自動降級為固定命中率模式（80%），所有房間繼續正常遊玩，不中斷；後台觸發 P1 告警通知 On-Call + 數值策劃；降級模式下，固定命中率 80% 作為 P99 目標的保底值，不保證 RTP 區間精度，告警解除後自動恢復動態 RTP | Integration |
 
 **邊界條件：**
 - RTP 計算必須在伺服器端進行（客戶端不得持有 RTP 算法，防止作弊）
@@ -343,7 +405,7 @@ C4Context
 
 **REQ-ID：** US-SHOP-001（對應 BRD §5.3 Must Have：雙貨幣系統 + 基礎商城，BRD O2, O3）
 
-**優先度：** P0（Must Have）
+**優先度：** P0（Must Have）｜**T-Shirt Size：L**（IAP 整合 + 幂等設計 + 退款處理 + 雙貨幣原子事務）
 
 **User Story：**
 > 作為 **VIP 老闆（Persona B）**，
@@ -358,6 +420,8 @@ C4Context
 | US-SHOP-001 / AC-2 | 玩家鑽石餘額不足 | 嘗試購買需要 100 鑽石的道具 | 顯示「鑽石不足，需 100 鑽石，目前餘額 XX 鑽石」提示，提供「立即充值」按鈕引導；購買失敗，金幣和鑽石餘額不變 | Unit |
 | US-SHOP-001 / AC-3 | 支付過程中網路中斷 | 支付請求發出後 30 秒無回應 | 顯示「網路連線不穩，請稍後重試」；鑽石不重複發放（幂等設計，以訂單 ID 去重）；玩家可在訂單記錄中查詢狀態 | Integration |
 | US-SHOP-001 / AC-4 | 玩家使用金幣調整砲台倍率 | 選擇 10x 倍率砲台 | 每次射擊消耗 10 枚金幣（倍率 × 基礎消耗），金幣餘額即時扣減並顯示；金幣餘額降為 0 時，砲台自動降回 1x 基礎倍率 | Unit |
+| US-SHOP-001 / AC-5 | AppStore / Google Play IAP 服務完全不可用（IAP 平台下線或 API 連線失敗）| 玩家嘗試發起鑽石充值 | 系統偵測 IAP 不可用後，顯示「目前充值服務暫時無法使用，請稍後再試」提示；不顯示付款介面，避免玩家輸入付款資訊後失敗；降級啟用備援支付通道（若已設定 Stripe 等備援）或禁止充值（記錄事件供後續補償）；後台觸發 PaymentFailureSpike 告警 | Integration |
+| US-SHOP-001 / AC-6 | 玩家成功充值鑽石後，透過 IAP 平台申請退款成功（平台回調退款通知）| 退款確認回調收到 | 系統在 5 秒內扣除對應鑽石數量（若餘額充足）；若鑽石已消費（餘額不足），記錄負債狀態並標記帳號待人工審查；顯示「退款已處理」通知，VIP 訂閱因退款降級則即時生效；退款事件寫入 iap_orders（payment_status = REFUNDED）| Integration |
 
 **邊界條件：**
 - 金幣不可兌換為鑽石（單向兌換：鑽石 → 金幣）；金幣/鑽石均不可兌換現金（合規要求）
@@ -370,12 +434,14 @@ C4Context
 
 **REQ-ID：** US-AGE-001（對應 BRD §8.1 合規要求：18 歲以上年齡限制）
 
-**優先度：** P0（Must Have，合規強制）
+**優先度：** P0（Must Have，合規強制）｜**T-Shirt Size：S**（前端彈窗 + DB 記錄；無複雜業務邏輯）
+
+> **角色說明（Stakeholder，非 End-User Persona）：** 「平台合規負責人」並非最終使用者，而是代表 §3.1 Stakeholder Map 中「Legal / Compliance（外聘）」的需求視角——此功能的目的是滿足法規義務，而非直接服務玩家的使用情境。工程師實作時，主要 Trigger 點是「新用戶首次進入付費功能前」，執行者是系統，受益者是平台合規安全。
 
 **User Story：**
-> 作為 **平台合規負責人**，
+> 作為 **平台合規負責人（代表 Legal/Compliance 利害關係人）**，
 > 我希望能 **確保所有付費功能僅對 18 歲以上用戶開放**，
-> 以便 **符合台灣及東南亞各市場的未成年保護法規**。
+> 以便 **符合台灣及東南亞各市場的未成年保護法規，避免法律風險**。
 
 **Acceptance Criteria：**
 
@@ -395,7 +461,7 @@ C4Context
 
 **REQ-ID：** US-VIP-001（對應 BRD §5.3 Should Have：VIP 訂閱，BRD O2, O3）
 
-**優先度：** P1（Should Have）
+**優先度：** P1（Should Have）｜**T-Shirt Size：M**（IAP 訂閱流 + 等級管理 + 每日補貼發放；依賴 US-SHOP-001 IAP 基礎設施）
 
 **User Story：**
 > 作為 **VIP 老闆（Persona B）**，
@@ -478,6 +544,36 @@ flowchart TD
         O -->|否| P[伺服器將玩家標記離線，Bot 接替位置]
         P --> Q[玩家返回後顯示「您已離開上一局，損失金幣不補償」]
     end
+
+    subgraph RTP 服務降級流程
+        R1[玩家射擊觸發命中計算] --> R2{RTP 服務健康？}
+        R2 -->|正常| R3[動態 RTP 引擎計算命中率]
+        R2 -->|異常：Health Check 失敗 3 次| R4[自動切換至固定命中率模式 80%]
+        R4 --> R5[遊戲繼續正常運行，不中斷]
+        R4 --> R6[後台觸發 P1 告警：RTPServiceDegraded]
+        R5 --> R7{RTP 服務恢復？}
+        R7 -->|是| R3
+        R7 -->|持續異常| R5
+    end
+
+    subgraph 結算超時流程
+        S1[局時間到，結算觸發] --> S2{結算 API 回應時間}
+        S2 -->|< 3000ms| S3[正常顯示結算介面]
+        S2 -->|3000ms–5000ms| S4[顯示「結算計算中，請稍候...」Loading 介面]
+        S2 -->|> 5000ms 或 API 失敗| S5[顯示「結算服務暫時異常，您的金幣已安全保存」]
+        S5 --> S6[後台非同步重試結算計算，完成後推播通知玩家]
+        S5 --> S7[玩家可自由退出，不被強制等待]
+    end
+
+    subgraph 配對網路失敗流程
+        M1[玩家點擊快速匹配] --> M2{Colyseus 房間服務連線}
+        M2 -->|連線正常| M3[進行配對流程]
+        M2 -->|連線失敗：503 / 逾時| M4[顯示「遊戲伺服器連線失敗，請檢查網路後重試」]
+        M4 --> M5[提供「重試」按鈕]
+        M5 --> M6{重試後連線正常？}
+        M6 -->|是| M3
+        M6 -->|仍失敗（連續 3 次）| M7[顯示「目前伺服器維護中，請稍後再試」並回到大廳]
+    end
 ```
 
 ### 6.3 狀態機 — 玩家帳號狀態 & 遊戲局狀態
@@ -516,15 +612,18 @@ stateDiagram-v2
 
 | 指標 | 目標值 | 量測方式 | 降級策略 |
 |------|--------|---------|---------|
-| WebSocket 延遲（遊戲狀態同步）P99 | < 100ms @ 1,000 並發玩家 | APM + Colyseus 指標 | 降低狀態同步頻率（30fps → 10fps），保持基礎遊玩 |
+| WebSocket 延遲（遊戲狀態同步）P99 | < 100ms @ 1,000 並發玩家 | APM + Colyseus 指標 | 降低狀態同步頻率（30fps → 10fps），保持基礎遊玩；降級模式（10fps）下 P99 目標放寬至 < 300ms |
 | API 回應時間（商城/帳號）P99 | < 500ms @ 500 RPS | APM（Datadog/New Relic）| Circuit Breaker + Cache |
 | API 回應時間（商城/帳號）P50 | < 150ms | APM | Cache L1/L2 |
 | 頁面初始載入（FCP） | < 2.0s（4G 網路）| Lighthouse / RUM | CDN + 資源壓縮 |
-| 頁面最大內容渲染（LCP） | < 3.0s | Lighthouse / RUM | SSR / 預載關鍵資源 |
+| 頁面最大內容渲染（LCP） | < 3.0s（業務依據見下注）| Lighthouse / RUM | SSR / 預載關鍵資源 |
 | 房間狀態同步頻率 | 30 fps（理想）/ 10 fps（降級）| 遊戲客戶端計數器 | 自動降頻 |
 | 批次 RTP 計算（模擬）| ≥ 10,000 場/秒 | 壓力測試 | 分批非同步計算 |
+| WebSocket 告警觸發閾值 | P99 > 150ms 持續 3 分鐘（告警）；> 200ms 持續 3 分鐘（升級 P1）| §7.7.4 Alert 定義 | 雙層告警門檻，150ms 為早期預警，200ms 為緊急響應 |
 
 *參考值，需 Engineering 確認，基於 BRD §3.1 SMART KPI：DAU 10,000、付費率 5%。*
+
+> **LCP 3.0s 業務依據說明：** 本產品目標市場為台灣/東南亞（泰國/越南/菲律賓），4G 網路品質不均，尤其東南亞農村地區平均 RTT 偏高（150–250ms）。採用 3.0s LCP 目標（較 Google 建議的 2.5s 寬鬆 0.5s）是基於目標市場網路現實的業務判斷，而非技術妥協；若行銷數據顯示主要玩家集中於都市高速網路環境，Engineering 可在 EDD 中收緊至 2.5s。
 
 ### 7.2 可用性（Availability）
 
@@ -585,7 +684,7 @@ stateDiagram-v2
 | 指標名稱 | 類型 | 說明 | 告警觸發條件 |
 |---------|------|------|------------|
 | `fishgame_active_rooms` | Gauge | 當前活躍遊戲房間數 | < 1（服務異常）|
-| `fishgame_websocket_latency_ms` | Histogram | WebSocket 延遲分佈（P50/P95/P99）| P99 > 200ms 持續 3 分鐘 |
+| `fishgame_websocket_latency_ms` | Histogram | WebSocket 延遲分佈（P50/P95/P99）| P99 > 150ms 持續 3 分鐘（預警）；P99 > 200ms 持續 3 分鐘（緊急）|
 | `fishgame_api_request_duration_seconds` | Histogram | API 請求延遲分佈 | P99 > 1s 持續 5 分鐘 |
 | `fishgame_api_error_rate` | Gauge | 5xx 錯誤比率 | > 1% 持續 5 分鐘 |
 | `fishgame_rtp_actual` | Gauge | 實際 RTP 滾動計算（1 小時窗口）| < 80% 或 > 97%（數值異常）|
@@ -607,7 +706,8 @@ stateDiagram-v2
 |---------|---------|--------|---------|---------|
 | ServiceDown | Health Check 連續失敗 3 次 | P0 | PagerDuty（電話）| 回應 5 分鐘 |
 | HighErrorRate | API error_rate > 1% 持續 5 分鐘 | P1 | PagerDuty + Slack | 回應 15 分鐘 |
-| HighLatency | WebSocket P99 > 200ms 持續 3 分鐘 | P2 | Slack | 回應 30 分鐘 |
+| HighLatencyWarn | WebSocket P99 > 150ms 持續 3 分鐘 | P2 | Slack | 回應 30 分鐘（早期預警）|
+| HighLatency | WebSocket P99 > 200ms 持續 3 分鐘 | P1 | PagerDuty + Slack | 回應 15 分鐘（緊急升級）|
 | RTPAnomaly | 實際 RTP < 80% 或 > 97% | P1 | PagerDuty + 數值策劃 | 回應 15 分鐘 |
 | JackpotAnomaly | Jackpot 觸發頻率 > 設計值 3x | P1 | PagerDuty + PM | 回應 15 分鐘 |
 | DiskSpaceWarning | 磁碟使用率 > 80% | P3 | Slack | 回應 4 小時 |
@@ -626,20 +726,24 @@ stateDiagram-v2
 
 | 功能 | Event Name | 觸發動作 | 必要 Payload 欄位 | 關聯 KPI | 實作狀態 |
 |------|-----------|---------|-----------------|---------|:-------:|
+| 帳號註冊完成 | `user_registered` | 玩家成功完成 Email 註冊，帳號建立 | `{user_id, registration_method, platform, country_code}` | 新用戶轉化率、DAU 成長 | 🔲 |
+| 登入完成 | `user_login_completed` | 玩家成功登入帳號 | `{user_id, login_method, platform, session_id}` | DAU 量測基礎事件 | 🔲 |
+| 登入失敗 | `user_login_failed` | 玩家登入失敗（密碼錯誤 / 帳號鎖定）| `{email_hash, failure_reason, attempt_count, platform}` | 安全監控、登入成功率（注意：payload 中 email 需雜湊處理，不記錄明文）| 🔲 |
 | 快速匹配 | `room_match_initiated` | 玩家點擊快速匹配 | `{user_id, room_type, weapon_selected, skill_selected}` | DAU 活躍度 | 🔲 |
 | 房間就緒 | `room_match_completed` | 房間配對成功，遊戲開始 | `{room_id, player_count, bot_count, match_duration_ms}` | 匹配成功率 | 🔲 |
 | 魚被擊殺 | `fish_killed` | 玩家成功捕捉一條魚 | `{user_id, room_id, fish_type, fish_multiplier, coins_earned, weapon_used}` | 場均收益、武器使用分佈 | 🔲 |
 | Boss 魚被擊殺 | `boss_fish_killed` | 玩家擊殺 Boss 魚 | `{user_id, room_id, boss_type, coins_earned, kill_rank_in_room}` | Boss 競爭強度 | 🔲 |
 | Jackpot 觸發 | `jackpot_triggered` | Jackpot 大獎觸發 | `{user_id, room_id, jackpot_amount, trigger_timestamp}` | Jackpot 觸發率（合規審計）| 🔲 |
 | 技能使用 | `skill_activated` | 玩家啟動技能 | `{user_id, room_id, skill_type, cooldown_remaining_before}` | 技能使用率 | 🔲 |
+| 武器選擇 | `weapon_selected` | 玩家在進入房間前選定武器（確認選擇）| `{user_id, weapon_type, weapon_level, session_id}` | 武器使用偏好分佈、武器平衡性分析 | 🔲 |
 | 局結束 | `game_session_ended` | 遊戲局結算 | `{room_id, user_id, final_rank, coins_earned_net, session_duration_seconds, is_mvp}` | 場均時長（North Star 代理）| 🔲 |
 | 商城打開 | `shop_opened` | 玩家進入商城 | `{user_id, entry_point, current_diamond_balance}` | 商城轉化漏斗 | 🔲 |
 | 充值完成 | `iap_purchase_completed` | 鑽石充值成功 | `{user_id, product_id, amount_usd, diamonds_granted, payment_method}` | 付費率、ARPU | 🔲 |
 | 充值失敗 | `iap_purchase_failed` | 支付失敗 | `{user_id, product_id, error_code, payment_method}` | 支付失敗率 | 🔲 |
-| VIP 訂閱 | `vip_subscription_started` | VIP 訂閱成功 | `{user_id, vip_tier, amount_usd, subscription_platform}` | VIP 轉化率 | 🔲 |
+| VIP 訂閱 | `vip_subscription_started` | VIP 訂閱成功 | `{user_id, vip_tier, amount_usd, subscription_platform}` | VIP 訂閱率 | 🔲 |
 | 年齡驗證 | `age_gate_completed` | 年齡驗證完成 | `{user_id, result, declared_age_bracket}` | 合規指標 | 🔲 |
 
-**Event 命名規範：** `{object}_{action}_{result}` 全小寫底線
+**Event 命名規範：** `{object}_{action}` 全小寫底線，動詞一律使用**過去式**（表示事件已發生），例如：`user_registered`（非 `user_register`）、`fish_killed`（非 `fish_kill`）、`session_ended`（非 `session_end`）。命名結構：`{名詞對象}_{過去式動詞}`，必要時加 `_{結果}` 後綴（如 `iap_purchase_completed` / `iap_purchase_failed`）。
 **Analytics 工具鏈：** 待 Engineering 確認（Mixpanel / Amplitude / Segment）
 **驗收條件：** 功能進入 Staging 前，需在 Analytics Dashboard 確認 Event 成功觸發 ≥ 5 次測試。
 
@@ -744,15 +848,16 @@ stateDiagram-v2
 
 ### 9.3 Success KPIs（成功指標，來自 BRD §3.1 SMART）
 
-| 指標 | Baseline（Launch 前）| 目標（Launch + 6M）| 量測工具 |
-|------|:-------------------:|:-----------------:|---------|
-| DAU | 0 | ≥ 10,000 | 後台 DAU 看板 |
-| 月營收 | USD 0 | ≥ USD 10,000 | 財務報表 + 支付平台數據 |
-| 付費率（付費 DAU / 總 DAU）| 0% | ≥ 5%（Launch + 3M）| 支付數據 |
-| 次日留存率 | 0% | ≥ 35%（Launch + 1W）| 分析後台（同期群分析）|
-| 7 日留存率 | 0% | ≥ 25%（Launch + 2W）| 分析後台 |
-| ARPU（付費玩家）| USD 0 | ≥ USD 20/月 | 財務數據 |
-| 場均時長 | 0 分鐘 | ≥ 10 分鐘（MAU 全玩家）| Analytics |
+| 指標 | Baseline（Launch 前）| 目標（Launch + 6M）| 業界競品參考值 | 量測工具 |
+|------|:-------------------:|:-----------------:|:------------:|---------|
+| DAU | 0 | ≥ 10,000 | 亞洲中型休閒遊戲 D30：DAU 5,000–50,000（市場中位）| 後台 DAU 看板 |
+| 月營收 | USD 0 | ≥ USD 10,000 | 同類捕魚遊戲 DAU 10,000 規模月均 USD 8,000–20,000（BRD §7.1 財務模型）| 財務報表 + 支付平台數據 |
+| 付費率（付費 DAU / 總 DAU）| 0% | ≥ 5%（Launch + 3M）| 亞洲休閒遊戲付費率行業中位：3–8%；本目標 5% 為合理中段值 | 支付數據 |
+| 次日留存率 | 0% | ≥ 35%（Launch + 1W）| 業界優秀休閒遊戲 D1 留存：35–45%；現有捕魚遊戲競品 D1 約 20–30%（超越競品目標）| 分析後台（同期群分析）|
+| 7 日留存率 | 0% | ≥ 25%（Launch + 2W）| 業界休閒遊戲 D7 留存中位：15–25%；本目標 25% 為同類遊戲上段 | 分析後台 |
+| ARPU（付費玩家）| USD 0 | ≥ USD 20/月 | 東南亞手遊付費玩家 ARPU：USD 10–30/月；VIP 玩家（Persona B）預估 USD 50–100/月 | 財務數據 |
+| 場均時長 | 0 分鐘 | ≥ 10 分鐘（MAU 全玩家）| 亞洲休閒遊戲場均時長：8–15 分鐘；競技類遊戲偏高；本目標基於 §2.3 機會假設 H1（競技房間場均時長比非競技高 ≥ 20%）| Analytics |
+| VIP 訂閱率（訂閱 DAU / 付費 DAU）| 0% | ≥ 1% DAU（Launch + 1M）| 手遊訂閱制轉化率：0.5–3%；以 DAU 10,000 計，目標 ≥ 100 活躍 VIP 訂閱者 | 財務數據 + VIP 看板 |
 
 ### 9.4 A/B Test Plan
 
@@ -899,7 +1004,11 @@ stateDiagram-v2
 | RTP（Return to Player）| 回報玩家率，指玩家長期投入資金後平均可獲回的比例；本遊戲設計範圍 85–95%，代表每投入 100 金幣平均可獲回 85–95 金幣（長期統計值）|
 | Jackpot | 大獎池機制，玩家付費消費時有概率觸發超大倍率獎勵；Jackpot 獎池隨玩家付費消費累積，觸發後重置 |
 | 搶魚機制 | 多人房間中，魚群資源為有限且共享的——某玩家擊殺的魚，其他玩家無法再次擊殺，形成真實競爭 |
-| MVP（Most Valuable Player）| 本遊戲每局結束後評出最高金幣收益的玩家，獲得 +10% 加成獎勵（注意：與「Minimum Viable Product」需依上下文區分）|
+| MVP（Most Valuable Player）| 本遊戲每局結束後評出最高金幣收益的玩家，獲得 +10% 加成獎勵。注意：本文件中「MVP」出現在遊戲情境（§5.x、§6.x）時，一律指「Most Valuable Player」；出現在產品規劃情境（§4.x、§10.x）時，指「Minimum Viable Product（最小可行產品）」，須依章節上下文區分 |
+| MVP 玩家 | 每局結算時金幣收益最高的玩家（Most Valuable Player），獲得 +10% 金幣加成獎勵 |
+| MVP 版本 | Minimum Viable Product，本產品第一個可驗證核心假設的上線版本（含所有 P0 功能） |
+| 房間（game room）| 由 Colyseus 管理的一個即時遊戲實例，容納 4–6 名玩家，每個房間有唯一 room_id；「競技房間」特指啟用搶魚機制和 MVP 排名獎勵的房間類型 |
+| 遊戲局（game session）| 一個房間從開始到結算的完整遊玩週期，通常持續 3–5 分鐘；一個房間可連續進行多個遊戲局。注意：「場局」為「遊戲局」的口語同義詞，本文件統一使用「遊戲局」|
 | 金幣 | 遊戲內基礎貨幣，透過捕魚獲得，用於調整砲台倍率消耗；可用鑽石購買補充 |
 | 鑽石 | 遊戲內付費貨幣，用現實貨幣（IAP）購買，用於高倍率砲台、技能道具、禮包等；不可兌換現金 |
 | DAU（Daily Active Users）| 日活躍用戶數，每天登入並進行遊玩的獨立用戶數量 |
@@ -937,13 +1046,14 @@ stateDiagram-v2
 
 | REQ-ID | BRD 目標 | User Story 章節 | AC# | PDD 設計章節 | EDD 技術方案章節 | 測試案例 ID | 狀態 |
 |--------|---------|---------------|-----|------------|---------------|-----------|------|
-| US-ROOM-001 | O1, O4（BRD §3.1）| §5.1 | AC-1, AC-2, AC-3, AC-4, AC-5 | 待 PDD 生成後補填 | 待 EDD 生成後補填 | TC-001 ~ TC-005 | DRAFT |
-| US-FISH-001 | O1, O4（BRD §3.1）| §5.2 | AC-1, AC-2, AC-3, AC-4 | 待 PDD 生成後補填 | 待 EDD 生成後補填 | TC-006 ~ TC-009 | DRAFT |
-| US-WPSK-001 | O1, O4（BRD §3.1）| §5.3 | AC-1, AC-2, AC-3, AC-4 | 待 PDD 生成後補填 | 待 EDD 生成後補填 | TC-010 ~ TC-013 | DRAFT |
-| US-RTP-001 | O2, O3（BRD §3.1）| §5.4 | AC-1, AC-2, AC-3, AC-4 | 待 PDD 生成後補填 | 待 EDD 生成後補填 | TC-014 ~ TC-017 | DRAFT |
-| US-SHOP-001 | O2, O3（BRD §3.1）| §5.5 | AC-1, AC-2, AC-3, AC-4 | 待 PDD 生成後補填 | 待 EDD 生成後補填 | TC-018 ~ TC-021 | DRAFT |
-| US-AGE-001 | BRD §8.1 合規 | §5.6 | AC-1, AC-2, AC-3 | 待 PDD 生成後補填 | 待 EDD 生成後補填 | TC-022 ~ TC-024 | DRAFT |
-| US-VIP-001 | O2, O3（BRD §3.1）| §5.7 | AC-1, AC-2, AC-3 | 待 PDD 生成後補填 | 待 EDD 生成後補填 | TC-025 ~ TC-027 | DRAFT |
+| US-ACCT-001 | O1, O2, O3（BRD §3.1）；BRD §5.3 帳號系統 | §5.0 | AC-1, AC-2, AC-3, AC-4, AC-5 | 待 PDD §帳號設計後補填 | 待 EDD §帳號服務（Auth Service）後補填 | TC-001 ~ TC-005 | DRAFT |
+| US-ROOM-001 | O1, O4（BRD §3.1）| §5.1 | AC-1~AC-7 | 待 PDD §房間設計後補填 | 待 EDD §Colyseus 房間服務後補填 | TC-006 ~ TC-012 | DRAFT |
+| US-FISH-001 | O1, O4（BRD §3.1）| §5.2 | AC-1~AC-6 | 待 PDD §魚群設計後補填 | 待 EDD §魚群生成服務後補填 | TC-013 ~ TC-018 | DRAFT |
+| US-WPSK-001 | O1, O4（BRD §3.1）| §5.3 | AC-1, AC-2, AC-3, AC-4 | 待 PDD §武器技能設計後補填 | 待 EDD §遊戲狀態服務後補填 | TC-019 ~ TC-022 | DRAFT |
+| US-RTP-001 | O2, O3（BRD §3.1）| §5.4 | AC-1~AC-5 | 待 PDD §數值設計後補填 | 待 EDD §RTP 引擎服務後補填 | TC-023 ~ TC-027 | DRAFT |
+| US-SHOP-001 | O2, O3（BRD §3.1）| §5.5 | AC-1~AC-6 | 待 PDD §商城設計後補填 | 待 EDD §支付服務（IAP Gateway）後補填 | TC-028 ~ TC-033 | DRAFT |
+| US-AGE-001 | BRD §8.1 合規要求（台灣個資法 + 東南亞未成年保護法規）| §5.6 | AC-1, AC-2, AC-3 | 待 PDD §合規 UI 設計後補填 | 待 EDD §年齡驗證服務後補填 | TC-034 ~ TC-036 | DRAFT |
+| US-VIP-001 | O2, O3（BRD §3.1）| §5.7 | AC-1, AC-2, AC-3 | 待 PDD §VIP 設計後補填 | 待 EDD §VIP 訂閱服務後補填 | TC-037 ~ TC-039 | DRAFT |
 
 **狀態說明：**
 - `DRAFT`：需求已識別，尚未設計
