@@ -29,7 +29,10 @@
     "D12b-BDD-client",
     "D03-PRD",
     "D06-EDD",
-    "D07-ARCH"
+    "D07-ARCH",
+    "D08-API",
+    "D09-SCHEMA",
+    "D11-test-plan"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -91,6 +94,48 @@
         0,
         0,
         0
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D08-API": {
+      "rounds_done": 2,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 1,
+      "last_CHM": [
+        0,
+        1,
+        0
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D09-SCHEMA": {
+      "rounds_done": 1,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 8,
+      "last_CHM": [
+        2,
+        4,
+        2
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding_after_fix",
+      "quality_status": "passed"
+    },
+    "D11-test-plan": {
+      "rounds_done": 1,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 5,
+      "last_CHM": [
+        0,
+        1,
+        4
       ],
       "terminated": true,
       "terminate_reason": "zero_finding",
