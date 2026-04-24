@@ -59,13 +59,22 @@
 | PRD REQ-ID | User Story 摘要 | 設計回應 | PDD 章節 |
 |-----------|----------------|---------|---------|
 | US-ACCT-001 | 快速註冊登入，保護遊戲進度 | 遊戲風格登入畫面，3-step 快速帳號流 | §5.1 |
-| US-ROOM-001 | 30 秒內進入 4–6 人競技房間 | 大廳選房 + 快速匹配 UI，倒數配對進度條 | §5.2, §5.3 |
+| US-ROOM-001 | 30 秒內進入 4–6 人競技房間 | 大廳選房 + 快速匹配 UI，倒數配對進度條 | §5.2, §5.3, §5.9 |
 | US-FISH-001 | 多種魚類倍率，策略性射擊 | 主遊戲畫面魚群視覺層級、命中動畫 | §5.4 |
 | US-WPSK-001 | 武器技能選擇，差異化遊玩風格 | 砲台選擇介面、技能冷卻 HUD | §5.3, §5.5 |
 | US-RTP-001 | 穩定回報感 + Jackpot 大獎震撼 | Jackpot 進度條、觸發全屏特效設計 | §5.4, §6.5 |
 | US-SHOP-001 | 3 步驟內完成鑽石充值 | 商城彈窗設計，充值轉化漏斗 | §5.6 |
 | US-VIP-001 | VIP 光環彰顯地位 | VIP 等級視覺識別系統，房間內光環 | §5.3, §5.7 |
-| US-AGE-001 | 18+ 年齡驗證 | 首次啟動年齡確認彈窗 | §5.1 |
+| US-AGE-001 | 18+ 年齡驗證 | 首次啟動年齡確認彈窗 | §5.2 |
+| — (P1) | 配對等待體驗（30s 倒數、Bot 補位） | 配對等待畫面 — 玩家頭像飛入動畫、取消按鈕 | §5.9 |
+| — (P1) | 使用者設定（音效/語言/帳號）| 設定面板 — 分類設定項目、即時預覽 | §5.10 |
+| — (P1) | 個人中心（資料/VIP 進度/記錄）| ProfileScene — 個人資料展示、VIP 進度視覺 | §5.11 |
+| — (P2) | 排行榜（賽季/全服/好友）| LeaderboardPanel — 多維度排名展示 | §5.12 |
+
+**P1 US 設計考量補充：**
+- 配對等待畫面（§5.9）需在 30 秒倒數內維持玩家期待感，頭像飛入動畫傳遞「真人對戰」氛圍，Bot 補位需明確但不打擊信心
+- 設定面板（§5.10）採分類清單設計，音效/音樂即時生效，語言切換需確認 Modal，帳號安全操作需二次驗證
+- ProfileScene（§5.11）將 VIP 進度視覺化呈現（進度條 + 距下一等級差距），強化付費動機
 
 ### 1.3 設計原則（Design Principles）
 
@@ -353,6 +362,82 @@ flowchart TD
     D4 -->|成功| S7
 ```
 
+#### 4.3.1 IAP 支付失敗流程
+
+```mermaid
+flowchart TD
+    P1[玩家點擊確認購買] --> P2[呼叫 AppStore / Google Play IAP]
+    P2 --> PD1{支付結果}
+    PD1 -->|成功| P3[後端收據驗證 → 發放鑽石]
+    P3 --> P4[Toast「鑽石已到帳 +XXX」+ HUD 更新]
+    P4 --> PEnd([繼續遊戲])
+    PD1 -->|用戶取消| P5[關閉支付彈窗，返回商城]
+    PD1 -->|支付失敗（餘額不足/卡片問題）| P6[顯示錯誤 Modal]
+    P6 --> P7[錯誤說明文字 + 「重試」按鈕 + 「聯絡客服」連結]
+    P7 --> PD2{玩家選擇}
+    PD2 -->|重試| P2
+    PD2 -->|取消| P5
+    PD2 -->|聯絡客服| P8[開啟客服聯絡頁面]
+    PD1 -->|後端收據驗證失敗| P9[顯示「訂單異常，請聯絡客服」+ 訂單號]
+    P9 --> P8
+```
+
+**UI 呈現：** 支付失敗使用 Modal 彈窗（非 Toast），因需要使用者明確回應；錯誤文字採友好語氣（「付款遇到一點問題」而非錯誤代碼）；提供訂單號方便客服追蹤。
+
+#### 4.3.2 年齡驗證未滿 18 — 演示模式流程
+
+```mermaid
+flowchart TD
+    A1[玩家填入出生日期] --> AD1{計算年齡}
+    AD1 -->|≥ 18 歲| A2[記錄驗證結果 → 進入完整遊戲]
+    AD1 -->|< 18 歲| A3[顯示「本遊戲限 18 歲以上玩家使用」說明]
+    A3 --> A4[提供兩個選項]
+    A4 --> AD2{玩家選擇}
+    AD2 -->|進入演示模式| A5[限制功能：禁用 IAP、隱藏充值入口、不顯示真實金幣數值]
+    A5 --> A6[進入演示遊戲大廳（Demo Badge 顯示）]
+    A6 --> A7[遊玩體驗完整，但無法充值/提現]
+    AD2 -->|離開遊戲| A8[返回 App 啟動畫面或關閉 H5]
+```
+
+**UI 呈現：** 未滿 18 提示採平和語氣，不帶責罰感；演示模式全程顯示「演示模式」浮水印角標；IAP 入口以灰色鎖定狀態顯示，點擊時彈出「演示模式無法購買」說明。
+
+#### 4.3.3 無權限存取流程
+
+```mermaid
+flowchart TD
+    R1[玩家嘗試存取受限功能] --> RD1{JWT Token 狀態}
+    RD1 -->|有效| R2[允許存取]
+    RD1 -->|過期（401）| R3[Silent Refresh Token 嘗試]
+    R3 --> RD2{Refresh 成功？}
+    RD2 -->|是| R2
+    RD2 -->|否| R4[強制登出 + Toast「登入逾時，請重新登入」]
+    R4 --> R5[清除本地 Session → 跳轉 LoginScene]
+    RD1 -->|無效 Token / 帳號封禁（403）| R6[顯示「存取被拒絕」Modal]
+    R6 --> R7[說明原因（帳號封禁 / 區域限制）+ 聯絡客服按鈕]
+    R7 --> R5
+```
+
+**UI 呈現：** Token 過期的 Silent Refresh 對使用者透明（背景執行）；帳號封禁顯示封禁原因和申訴管道；不洩漏技術錯誤細節（如 HTTP 狀態碼）。
+
+#### 4.3.4 API 通用失敗流程
+
+```mermaid
+flowchart TD
+    E1[任意 API 請求發出] --> ED1{HTTP 回應狀態}
+    ED1 -->|2xx| E2[正常處理回應]
+    ED1 -->|4xx 客戶端錯誤（非 401/403）| E3[顯示對應 Inline 錯誤訊息]
+    E3 --> E4[不強制跳轉，讓用戶修正後重試]
+    ED1 -->|5xx 服務端錯誤| E5[顯示 Toast 或 Modal（依操作重要性）]
+    E5 --> ED2{操作類型}
+    ED2 -->|非關鍵操作（排行榜載入等）| E6[Toast「載入失敗，稍後重試」+ 自動重試 1 次]
+    ED2 -->|關鍵操作（充值/結算）| E7[Modal「操作失敗，請稍後重試」+ 錯誤參考號]
+    E7 --> E8[保留頁面狀態，不清空已填資料]
+    ED1 -->|網路逾時（timeout）| E9[Toast「網路連線不穩，請確認網路後重試」]
+    E9 --> E10[提供重試按鈕]
+```
+
+**UI 呈現：** 通用錯誤訊息統一採友好語氣；關鍵操作失敗（充值）必須提供錯誤參考號以便客服追蹤；非關鍵操作（排行榜）失敗可自動靜默重試，不打擾使用者。
+
 ### 4.4 VIP 訂閱流程
 
 ```mermaid
@@ -447,7 +532,7 @@ flowchart TD
 | 登入失敗 | 顯示 Inline 錯誤 | ErrorLabel Fade In + Input 紅色邊框 | 200ms |
 | Email 失焦 | 即時格式驗證 | 不合法時 Input 邊框變紅 + 錯誤提示 | 150ms |
 
-**Figma 連結：** https://figma.com/file/FISHGAME-PDD-v1/LoginScene *(placeholder)*
+**Figma 連結：** https://figma.com/file/FISHGAME-PDD-v1/LoginScene （待確認：設計師建立 Figma Frame 後更新此連結）
 
 ### 5.2 年齡驗證彈窗（AgeGateModal）
 
@@ -477,10 +562,24 @@ flowchart TD
 |------|------|------|------|
 | ModalBg | cc.Sprite | — | 半透明黑色遮罩，不可點擊穿透 |
 | AgePanel | cc.Node | Default / Error | 彈窗容器，Scale In 進場動畫 |
-| DatePicker | cc.Node | Idle / Selecting / Confirmed | 年月日三欄 ScrollView 選擇器 |
+| DatePicker | cc.Node | Idle / Selecting / Confirmed / **Error**（日期格式不合法或未來日期）| 年月日三欄 ScrollView 選擇器；Error 時三欄外框顯示紅色，並顯示 DatePickerErrorLabel |
+| DatePickerErrorLabel | cc.Label | Hidden / Visible | 錯誤提示文字（如「請輸入有效出生日期」），Fade In 200ms |
 | ConfirmCheckbox | cc.Toggle | Unchecked / Checked | 確認聲明勾選框 |
-| ConfirmButton | cc.Button | Default / Disabled（未勾選）/ Pressed | 確認進入按鈕 |
+| ConfirmButton | cc.Button | Default / Disabled（未勾選或 DatePicker 未完成）/ **Loading**（API 驗證中）/ Pressed | 確認進入按鈕；Loading 狀態顯示 Spinner，禁止重複點擊 |
 | DemoButton | cc.Button | Default / Hover / Pressed | 進入演示模式 |
+
+**互動規格（AgeGateModal）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 首次進入開啟 Modal | Modal 從底部 Scale In 顯示 | AgePanel Scale 0.85→1.0 + Fade In，背景 Overlay Fade In | 250ms |
+| 滾動 DatePicker（年/月/日）| 更新選中值，即時計算年齡 | ScrollView 慣性滾動，選中行高亮 | 慣性 |
+| DatePicker 完成但日期無效 | 顯示 DatePickerErrorLabel | DatePicker 外框紅色 + ErrorLabel Fade In | 200ms |
+| 勾選 ConfirmCheckbox | ConfirmButton 從 Disabled → Default | ConfirmButton 解鎖（透明度 0.4→1.0）| 150ms |
+| 點擊確認進入（≥18 歲 + 勾選）| ConfirmButton → Loading，呼叫年齡驗證 API | Spinner 覆蓋按鈕 | API 等待 |
+| 驗證成功（≥18）| 關閉 Modal，進入新手引導或大廳 | Modal Fade Out + Fade In 下一畫面 | 300ms |
+| 驗證結果（<18）| 顯示未滿 18 說明，提供演示模式 | AgePanel 輕微 Shake 動畫 + 提示文字 Fade In | 200ms |
+| 點擊演示模式 | 進入演示模式大廳 | Modal Fade Out + Fade In 大廳（Demo Badge 顯示）| 300ms |
 
 ### 5.3 遊戲大廳（LobbyScene）
 
@@ -520,10 +619,22 @@ flowchart TD
 | RoomArea/NormalRoomBtn | cc.Button | Default / Selected / Hover / Disabled | ✓ |
 | RoomArea/CompetitiveRoomBtn | cc.Button | Default / Selected / Hover / Disabled | ✓ |
 | MainCTA/QuickMatchBtn | cc.Button | Default / Hover / Pressed / Loading | ✓ |
-| BottomTabBar/LobbyTab | cc.Button | Active / Inactive | ✓ |
-| BottomTabBar/ShopTab | cc.Button | Active / Inactive | ✓ |
-| BottomTabBar/ProfileTab | cc.Button | Active / Inactive | ✓ |
-| BottomTabBar/SettingsTab | cc.Button | Active / Inactive | ✓ |
+| BottomTabBar/LobbyTab | cc.Button | Active / Inactive / **Focus**（H5 鍵盤 Tab 時顯示 2px 金色 Focus ring）| ✓ |
+| BottomTabBar/ShopTab | cc.Button | Active / Inactive / **Focus** | ✓ |
+| BottomTabBar/ProfileTab | cc.Button | Active / Inactive / **Focus** | ✓ |
+| BottomTabBar/SettingsTab | cc.Button | Active / Inactive / **Focus** | ✓ |
+
+**互動規格（LobbyScene）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 點擊快速匹配（QuickMatchBtn）| 開始配對，跳轉 MatchmakingScene | 按鈕 Scale 0.95 + Loading State，畫面 Fade Out | 100ms press + 跳轉 |
+| 點擊普通/競技房間選擇 | 切換房間類型（更新選中 State）| 按鈕 Scale Bounce 0.96→1.0 | 150ms |
+| 點擊底部 Tab（商城）| 跳轉 ShopScene | Tab Active 狀態切換 + 頁面 Slide 動畫 | 200ms |
+| 點擊底部 Tab（個人）| 跳轉 ProfileScene | Tab Active 狀態切換 + 頁面 Slide 動畫 | 200ms |
+| 點擊底部 Tab（設定）| 開啟 SettingsPanel | Tab Active 狀態切換 + Modal Scale In | 250ms |
+| 畫面進入動畫 | 從登入或結算返回大廳 | Fade In + 頂部 HUD Slide Down | 300ms |
+| 畫面退出動畫 | 進入配對 / 跳轉其他畫面 | Fade Out | 200ms |
 
 ### 5.4 主遊戲畫面（GameScene）
 
@@ -580,7 +691,7 @@ flowchart TD
 | 技能冷卻中 | 按鈕置灰 + 倒數顯示 | 圓形 Cooldown Progress Mask | 持續倒數 |
 | MVP 觸發（局結束）| MVP 動畫 | 「MVP！」大字光效 + +10% 金幣動畫 | 2000ms |
 
-**Figma 連結：** https://figma.com/file/FISHGAME-PDD-v1/GameScene *(placeholder)*
+**Figma 連結：** https://figma.com/file/FISHGAME-PDD-v1/GameScene （待確認：設計師建立 GameScene Figma Frame 後更新此連結）
 
 ### 5.5 砲台 / 技能選擇介面（CannonSelectScene）
 
@@ -619,8 +730,19 @@ flowchart TD
 | SkillBtn_Freeze | cc.Button | Default / Selected / Locked |
 | SkillBtn_Bomb | cc.Button | Default / Selected / Locked |
 | SkillBtn_AutoLock | cc.Button | Default / Selected / Locked |
-| ConfirmBtn | cc.Button | Default / Hover / Pressed / Disabled |
+| ConfirmBtn | cc.Button | Default / Hover / Pressed / Disabled / **Loading**（進入房間 API 等待中，Spinner 覆蓋，禁止重複點擊）|
 | LockOverlay | cc.Node | Hidden / Visible（未解鎖砲台）|
+
+**互動規格（CannonSelectScene）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 選擇砲台卡片 | 切換選中砲台，更新預覽區域 | 卡片 Selected 外框高亮 + Scale Bounce 0.96→1.02→1.0 | 200ms |
+| 選擇技能 | 切換技能選中狀態（最多同時 1 個）| 技能按鈕 Selected 狀態 | 150ms |
+| 點擊鎖定砲台 | 顯示「解鎖需求」Tooltip | Tooltip Fade In | 200ms |
+| 點擊確認進入（ConfirmBtn）| 呼叫進入房間 API，進入 MatchmakingScene | ConfirmBtn → Loading State（Spinner）+ 畫面 Fade Out | 100ms press + API 等待 |
+| 畫面進入動畫 | 從大廳點擊快速匹配後跳轉 | Slide Up from Bottom | 300ms |
+| 畫面退出動畫 | 確認進入後跳轉配對畫面 | Fade Out | 200ms |
 
 ### 5.6 商城介面（ShopScene / ShopPanel）
 
@@ -662,6 +784,17 @@ flowchart TD
 | PurchaseModal/ConfirmBtn | cc.Button | Default / Loading / Disabled |
 | PurchaseModal/CancelBtn | cc.Button | Default / Hover |
 
+**互動規格（ShopScene）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 點擊充值套餐卡片 | 開啟 PurchaseModal 確認彈窗 | 卡片 Pressed 效果 + Modal Scale 0.85→1.0 Fade In | 100ms + 250ms Modal |
+| PurchaseModal 確認購買 | 呼叫 IAP，ConfirmBtn 進入 Loading | ConfirmBtn Spinner 覆蓋，禁止重複點擊 | API 等待中 |
+| 充值成功 | Modal 關閉 + HUD 鑽石更新 | Modal Fade Out + 鑽石從頂部飛入動畫 | 200ms + 500ms 飛入 |
+| Tab 切換（充值/道具/VIP/抽獎）| 切換內容區域 | Tab Active 高亮 + 內容 Fade In | 150ms |
+| 畫面進入動畫 | 從大廳 Tab Bar 點擊商城 | Slide In from right | 250ms |
+| 畫面退出動畫 | 返回大廳 | Slide Out to right | 200ms |
+
 ### 5.7 VIP 等級介面（VIPPanel）
 
 **用途：** 展示 VIP 等級特權，引導訂閱（對應 PRD US-VIP-001）
@@ -678,8 +811,18 @@ flowchart TD
 | VIPLevelBadge | cc.Sprite | Level 0–10（10 種外觀）|
 | VIPProgressBar | cc.ProgressBar | 當前等級累積進度 |
 | VIPPrivilegeList | cc.ScrollView | — |
-| SubscribeBtn | cc.Button | Default / Subscribed / Expired |
+| SubscribeBtn | cc.Button | Default / Subscribed / Expired / **Focus**（H5 鍵盤操作時顯示 2px 金色 Focus ring，對比度 ≥ 3:1）/ Loading（訂閱 API 進行中）|
 | DailyRewardTimer | cc.Label | 倒數下次補貼時間 |
+
+**互動規格（VIPPanel）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 點擊訂閱按鈕（Default 狀態）| 開啟 IAP 訂閱確認，SubscribeBtn → Loading | 按鈕 Spinner 覆蓋 | API 等待中 |
+| 訂閱成功 | VIP 等級啟用 + 光環即時顯示 | VIP 光環 Fade In + Scale In 1.0→1.2→1.0 | 500ms |
+| 點擊已訂閱按鈕 | 顯示「管理訂閱」說明（導向 AppStore/GP 設定）| Tooltip 或 Modal | 200ms |
+| 畫面進入動畫 | 從商城 VIP Tab 進入 | Modal Scale In | 250ms |
+| 畫面退出動畫 | 關閉 VIPPanel | Modal Scale Out + Fade Out | 200ms |
 
 ### 5.8 結算介面（SettlementPanel）
 
@@ -703,6 +846,220 @@ flowchart TD
 │  [再來一局] [返回大廳]                 │
 └──────────────────────────────────────┘
 ```
+
+**元件清單（SettlementPanel）：**
+
+| 元件 | 類型 | 狀態 | 說明 |
+|------|------|------|------|
+| SettlementPanel/BgOverlay | cc.Sprite | — | 半透明深色遮罩，遊戲場景模糊於背後 |
+| SettlementPanel/TitleLabel | cc.Label | — | 「本局結算」標題文字 |
+| MVPArea/MVPAnimNode | cc.Node | **Hidden**（非 MVP）/ **Visible**（MVP 玩家）| MVP 動畫播放容器 |
+| MVPArea/MVPLabel | cc.Label | Hidden / Visible | 「MVP！本局最強！」大字，Visible 時播放金色光效 |
+| MVPArea/MVPParticle | cc.ParticleSystem | Idle / Playing | MVP 花火粒子特效 |
+| RankList/RankScrollView | cc.ScrollView | — | 1st–6th 名次列表 |
+| RankList/RankItem_1–6 | cc.Node | **Normal** / **Highlighted**（玩家自身）/ **MVP**（+10% 金幣徽章）| 名次列表行元件 |
+| RankList/RankItem/AvatarSprite | cc.Sprite | — | 玩家頭像 |
+| RankList/RankItem/NameLabel | cc.Label | — | 玩家名稱 |
+| RankList/RankItem/CoinLabel | cc.Label | — | 本局金幣收益數字 |
+| RankList/RankItem/MVPBadge | cc.Node | Hidden / Visible | MVP +10% 金幣徽章 |
+| MyEarnings/EarningsLabel | cc.Label | — | 「本局收益：+XXX 金幣」 |
+| MyEarnings/EarningsAnimNode | cc.Node | Idle / **Counting**（數字跳動動畫）| 收益數字計數動畫容器 |
+| ActionBtns/PlayAgainBtn | cc.Button | Default / Hover / Pressed / **Loading**（找房 API 等待中）| 「再來一局」按鈕 |
+| ActionBtns/LobbyBtn | cc.Button | Default / Hover / Pressed | 「返回大廳」按鈕 |
+
+**State 矩陣（SettlementPanel 核心狀態）：**
+
+| 狀態 | MVPArea | RankList | MyEarnings | PlayAgainBtn |
+|------|---------|---------|------------|-------------|
+| 結算載入中 | Hidden | Skeleton（灰色佔位行）| Hidden | Disabled |
+| 非 MVP 玩家 | Hidden | 正常顯示，自身行 Highlighted | Visible + 計數動畫 | Default |
+| MVP 玩家 | Visible（動畫播放）| 自身行顯示 MVP Badge | Visible + 計數動畫 + +10% | Default |
+| 點擊再來一局 | 不變 | 不變 | 不變 | Loading |
+
+**互動規格（SettlementPanel）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 結算介面開啟 | 依序播放動畫序列 | 1) Panel Fade In（300ms）→ 2) 名次列表 Stagger Slide In（逐行，每行 50ms 間隔）→ 3) MVP 動畫（若觸發，2000ms）→ 4) 收益數字計數（500ms）| 序列總計 ~2s |
+| MVP 動畫觸發 | 播放 MVP 特效 | 「MVP！」大字 Scale In + 光效粒子爆發 + 花火 | 2000ms |
+| 點擊「再來一局」| 呼叫找房 API，PlayAgainBtn → Loading | 按鈕 Loading Spinner，跳轉 MatchmakingScene | 100ms + API 等待 |
+| 點擊「返回大廳」| 跳轉 LobbyScene | Panel Fade Out + Fade In LobbyScene | 300ms |
+| 畫面進入動畫 | 遊戲結束後顯示 | Overlay Fade In + Panel Scale 0.85→1.0 | 300ms |
+
+### 5.9 配對等待畫面（MatchmakingScene）
+
+**用途：** 快速匹配後的配對等待體驗，維持玩家期待感，並在 Bot 補位時給予友好說明（對應 PRD US-ROOM-001）
+
+**進入方式：** CannonSelectScene 點擊「確認進入房間」後
+
+**Layout 結構：**
+```
+┌──────────────────────────────────────┐
+│  標題「配對中...」                   │
+│  倒數計時器（30s 圓形進度條）         │
+├──────────────────────────────────────┤
+│  玩家頭像區（4–6 個位置）            │
+│  ┌────┐  ┌────┐  ┌────┐  ┌────┐     │
+│  │玩家│  │玩家│  │ ？ │  │ ？ │     │
+│  │頭像│  │頭像│  │等待│  │等待│     │
+│  └────┘  └────┘  └────┘  └────┘     │
+│  （頭像由遠飛入動畫逐一出現）        │
+├──────────────────────────────────────┤
+│  配對狀態文字                        │
+│  「已找到 2/4 位玩家，繼續配對...」  │
+│  （Bot 補位時：「Bot 補位中...」）   │
+├──────────────────────────────────────┤
+│  [取消配對] 按鈕（次要 CTA）         │
+└──────────────────────────────────────┘
+```
+
+**元件清單（MatchmakingScene）：**
+
+| 元件 | 類型 | 狀態 | 說明 |
+|------|------|------|------|
+| CountdownProgress | cc.ProgressBar | 30→0 倒數 | 圓形進度條，剩餘秒數遞減 |
+| CountdownLabel | cc.Label | Normal / **Warning**（倒數 ≤ 5s 時橙色閃爍）| 顯示剩餘秒數 |
+| PlayerSlotContainer | cc.Node | — | 4–6 個頭像槽位容器 |
+| PlayerSlot_N（×6）| cc.Node | **Empty**（等待中，問號動畫）/ **Filled**（真人頭像飛入）/ **Bot**（機器人圖示，含 Bot 標籤）| 配對成功後頭像從遠處飛入動畫（ease-out 300ms）|
+| StatusLabel | cc.Label | Searching / BotFilling / Ready | 配對狀態說明文字，動態更新 |
+| CancelBtn | cc.Button | Default / Hover / Pressed / Loading（取消 API 進行中）| 取消配對返回 CannonSelectScene |
+
+**互動規格（MatchmakingScene）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 進入畫面 | 開始 30s 倒數，CircleProgress 開始遞減 | 畫面 Fade In + CountdownProgress 動畫開始 | 300ms Fade In |
+| 新玩家加入配對 | PlayerSlot 從 Empty → Filled，頭像飛入 | 頭像從畫面邊緣飛入 SlotPosition（ease-out）| 300ms |
+| 30s 後仍未滿員 | Bot 補位，StatusLabel 更新為 Bot 說明 | Bot 圖示出現（帶 Bot 標籤）+ Bot 頭像飛入 | 300ms per Bot |
+| 配對完成（4–6 人齊）| 自動跳轉 GameScene | 所有頭像縮小 + 「配對成功！」文字 → Fade Out | 500ms |
+| 點擊取消配對 | 取消配對，返回 CannonSelectScene | CancelBtn Loading + 畫面 Fade Out | 200ms |
+| 畫面進入動畫 | 從 CannonSelectScene 跳轉 | Slide Up from Bottom | 250ms |
+
+### 5.10 設定面板（SettingsPanel）
+
+**用途：** 音效/音樂控制、通知偏好、語言切換、帳號安全管理（常規設定入口）
+
+**進入方式：** 大廳底部 Tab Bar「設定」Tab；遊戲中 HUD「設定」懸浮按鈕
+
+**Layout 結構：**
+```
+┌──────────────────────────────────────┐
+│  標題「設定」                         │
+├──────────────────────────────────────┤
+│  [音效與音樂]                         │
+│  ├── 音效音量 ─────────●──────  [圖示]│
+│  ├── 背景音樂 ──────●────────  [圖示]│
+│  └── 震動回饋 [開/關 Toggle]          │
+├──────────────────────────────────────┤
+│  [通知設定]                           │
+│  ├── 活動通知 [開/關 Toggle]          │
+│  ├── 好友訊息 [開/關 Toggle]          │
+│  └── VIP 補貼提醒 [開/關 Toggle]      │
+├──────────────────────────────────────┤
+│  [語言]                               │
+│  └── 當前語言「繁體中文」 [>] 選單    │
+├──────────────────────────────────────┤
+│  [帳號安全]                           │
+│  ├── 修改密碼 [>]                     │
+│  ├── 綁定 Email [>]                   │
+│  └── 登出 [危險動作，確認 Modal]       │
+├──────────────────────────────────────┤
+│  版本資訊：v1.0.0                     │
+└──────────────────────────────────────┘
+```
+
+**元件清單（SettingsPanel）：**
+
+| 元件 | 類型 | 狀態 | 說明 |
+|------|------|------|------|
+| SfxVolumeSlider | cc.Slider | 0–100% 可拖曳 | 音效音量，拖曳時即時預覽（播放短音效）|
+| BgmVolumeSlider | cc.Slider | 0–100% 可拖曳 | 背景音樂音量，即時生效 |
+| HapticToggle | cc.Toggle | On / Off | 震動回饋開關，不支援時 Disabled |
+| ActivityNotifyToggle | cc.Toggle | On / Off | 活動推播通知開關 |
+| FriendNotifyToggle | cc.Toggle | On / Off | 好友訊息通知開關 |
+| VIPRemindToggle | cc.Toggle | On / Off | VIP 補貼提醒通知開關 |
+| LanguageBtn | cc.Button | Default / Hover | 點擊開啟語言選擇 Modal |
+| LanguageModal | cc.Node | Hidden / Visible | 語言選擇清單（zh-TW / en / th / vi），切換後確認 Modal |
+| ChangePasswordBtn | cc.Button | Default / Hover | 跳轉修改密碼流程 |
+| BindEmailBtn | cc.Button | Default / Hover / **Bound**（已綁定，顯示遮蔽 Email）| 綁定或管理 Email |
+| LogoutBtn | cc.Button | Default / Hover / **Danger**（紅色文字）| 點擊開啟確認 Modal，確認後登出清除 Session |
+| VersionLabel | cc.Label | — | 顯示 App 版本號 |
+
+**互動規格（SettingsPanel）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 拖曳音效/音樂 Slider | 即時調整音量，即時生效 | 無額外動畫 | 即時 |
+| 切換通知 Toggle | 變更通知設定（儲存至後端）| Toggle 滑動動畫 | 200ms |
+| 點擊語言選擇 | 開啟語言 Modal | Modal Scale In | 250ms |
+| 語言切換確認 | 重載 i18n 資源，UI 文字刷新 | Modal Close + 文字 Fade Refresh | 300ms |
+| 點擊登出 | 開啟確認 Modal（「確定要登出嗎？」）| Modal Scale In | 250ms |
+| 確認登出 | 清除 Session，跳轉 LoginScene | Modal Fade Out + 畫面 Fade Out | 300ms |
+| 畫面進入動畫 | 從大廳 Tab Bar 點擊設定 | Modal Scale 0.85→1.0 + Fade In（作為 Modal）| 250ms |
+| 畫面退出動畫 | 關閉設定面板 | Modal Scale 1.0→0.85 + Fade Out | 200ms |
+
+### 5.11 個人中心（ProfileScene）
+
+**用途：** 展示玩家個人資料、VIP 等級進度、遊戲歷史記錄和訂單記錄（對應 Appendix B ProfileScene）
+
+**進入方式：** 大廳底部 Tab Bar「個人」Tab
+
+**Layout 結構：**
+```
+┌──────────────────────────────────────┐
+│  頭像區：[大頭像] [玩家名稱] [VIP 徽章]│
+│  累計金幣：XXX  |  本週最高分：XXX   │
+├──────────────────────────────────────┤
+│  VIP 進度區                           │
+│  VIP Lv.3 ████████░░░░ VIP Lv.4     │
+│  「距離 VIP 4 還差 500 鑽石」         │
+│  [升級 VIP] 按鈕（引導充值/訂閱）     │
+├──────────────────────────────────────┤
+│  Tab：[遊戲記錄] [訂單記錄]           │
+├──────────────────────────────────────┤
+│  遊戲記錄列表（近 20 局）             │
+│  #日期 #房間類型 #收益 #排名          │
+│  2026-04-25  競技  +1200  #2         │
+│  ...                                  │
+└──────────────────────────────────────┘
+```
+
+**元件清單（ProfileScene）：**
+
+| 元件 | 類型 | 狀態 | 說明 |
+|------|------|------|------|
+| AvatarSprite | cc.Sprite | Default / VIPAura（VIP ≥ 1 顯示光環）| 玩家頭像，VIP 玩家額外顯示等級光環 |
+| PlayerNameLabel | cc.Label | — | 玩家顯示名稱 |
+| VIPBadgeNode | cc.Node | Level 0–10 | VIP 等級徽章（同 §5.3 VIPBadge 元件）|
+| StatsCoinsLabel | cc.Label | — | 累計金幣總量 |
+| StatsTopScoreLabel | cc.Label | — | 本週最高單局分數 |
+| VIPProgressBar | cc.ProgressBar | 0%–100% 當前等級進度 | 視覺化 VIP 升級進度 |
+| VIPProgressLabel | cc.Label | — | 「距 VIP X 還差 XXX 鑽石」說明文字 |
+| UpgradeVIPBtn | cc.Button | Default / Hover / Pressed / Hidden（已滿級）| 引導至 VIPPanel 或商城 |
+| RecordTabBar | cc.Node | — | 「遊戲記錄」/「訂單記錄」Tab 切換 |
+| GameRecordList | cc.ScrollView | Loading / Empty / Filled | 近 20 局遊戲記錄列表；Empty 時顯示「快去打一局吧！」|
+| OrderRecordList | cc.ScrollView | Loading / Empty / Filled | 充值/訂閱訂單記錄；Empty 時顯示「還沒有充值記錄」|
+
+### 5.12 排行榜面板（LeaderboardPanel）
+
+**用途：** 展示賽季/全服/好友等多維度排名，強化社交競爭動機（對應 Appendix B LeaderboardPanel）
+
+**進入方式：** 大廳「排行榜」入口按鈕；結算介面排行榜連結
+
+**元件清單（LeaderboardPanel）：**
+
+| 元件 | 類型 | 狀態 | 說明 |
+|------|------|------|------|
+| LeaderboardTabBar | cc.Node | — | 「本賽季」/「全服」/「好友」三 Tab |
+| RankList | cc.ScrollView | Loading / Empty / Filled | 排名列表（最多顯示 Top 100）|
+| RankItem_N | cc.Node | Normal / **Self**（玩家自身，高亮顯示）/ Top3（前三名特殊樣式）| 排名項目 |
+| RankItem/RankNumLabel | cc.Label | — | 名次數字（1/2/3 使用獎盃圖示）|
+| RankItem/AvatarSprite | cc.Sprite | — | 玩家頭像 |
+| RankItem/NameLabel | cc.Label | — | 玩家名稱 |
+| RankItem/VIPBadge | cc.Node | Hidden / Visible | VIP 徽章（VIP ≥ 1 顯示）|
+| RankItem/ScoreLabel | cc.Label | — | 賽季積分或總收益金幣 |
+| SelfRankStickyNode | cc.Node | Hidden / Visible | 玩家自身名次懸浮在列表底部（若未進 Top 100）|
+| SearchEmptyNode | cc.Node | Hidden / Visible | 搜尋無結果時顯示「找不到該玩家」+ 清除搜尋按鈕 |
 
 ---
 
@@ -759,10 +1116,17 @@ flowchart TD
 
 **Cocos Creator 端 reduced-motion 處理：**
 ```typescript
-// GameBootstrap.ts 啟動時檢查
+// GameBootstrap.ts 啟動時檢查（在 onLoad 中執行）
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 GameAnimConfig.reducedMotion = prefersReducedMotion;
-// UIController 在播放動畫前檢查此 flag，Jackpot/Boss 特效改為靜態畫面
+// UIController 在播放任何 cc.tween 動畫前都必須檢查此 flag：
+//   if (GameAnimConfig.reducedMotion) { /* 靜態切換，跳過 tween */ return; }
+// 受影響的動畫：
+//   - Jackpot 全屏特效 → 改為靜態金色背景 + 獎金數字文字顯示
+//   - Boss 擊殺特效 → 改為白色閃光（50ms）+ 文字浮字
+//   - VIP 光環 Pulse → 固定靜態光環（scale 1.0, opacity 1.0），不播放呼吸 tween
+//   - 場景切換 → 仍保留 Fade（150ms），但移除 Scale 動畫
+// GameAnimConfig 為全域單例，SettingsPanel 中「減少動畫」開關也可手動觸發此 flag
 ```
 
 #### 動畫清單（Feature × Animation Matrix）
@@ -770,13 +1134,13 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | 元件 | 進場動畫 | 退場動畫 | 互動動畫 | Reduced Motion |
 |------|---------|---------|---------|---------------|
 | Modal（商城/設定）| Scale 0.85→1.0 + Fade In | Scale 1.0→0.85 + Fade Out | — | Fade only |
-| Toast 通知 | Slide Up 16px + Fade In | Slide Down + Fade Out | — | Fade only |
+| **Toast 通知** | **Slide Up 16px（ease-out 200ms）+ Fade In（100ms）** | **停留 2500ms 後 Slide Down（200ms）+ Fade Out** | **— ** | **Fade In/Out only，無 Slide** |
 | 金幣浮字 | 上飄 40px + Fade Out | — | — | 靜態顯示後 Fade |
 | Jackpot 特效 | 全屏金光粒子爆發 | 漸進消退 | — | 靜態金色方塊 + 文字 |
 | Boss 擊殺 | 爆炸粒子 → 金幣噴射 | — | — | 白色閃光 + 文字 |
 | 技能按鈕按壓 | — | — | Scale 0.92 press | 無 |
 | 排行榜名次 | Slide In from top | — | 名次變化 translate | 直接跳位 |
-| VIP 光環 | Pulse 呼吸動畫（loop）| — | — | 靜態光環無動畫 |
+| VIP 光環 | **Pulse 呼吸動畫（loop）：Scale 1.0→1.08→1.0 + Opacity 0.8→1.0→0.8，easing `cubic-bezier(0.4, 0, 0.6, 1)`（Standard），duration 1800ms，loop infinite** | — | — | 靜態光環無動畫（`GameAnimConfig.reducedMotion = true` 時跳過 tween，光環固定 scale 1.0 + opacity 1.0）|
 
 ### 6.2 回饋機制（Feedback）
 
@@ -796,9 +1160,12 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 |------|---------|------|-----|
 | 首次進入大廳（無遊戲記錄）| 「選擇房間，開始你的第一局！」| 捕魚竿動畫 | 「立即匹配」→ 快速匹配 |
 | 排行榜無記錄 | 「你的排名將在第一局後出現」| 獎盃圖示 | 「去打一局」→ 大廳 |
+| **排行榜搜尋無結果** | 「找不到「{搜尋關鍵字}」的玩家記錄」| 放大鏡 + 問號圖示 | 「清除搜尋」→ 清空搜尋框並重新顯示完整排行榜 |
 | 商城無訂單記錄 | 「還沒有充值記錄」| 空購物袋圖示 | 「前往充值」→ 充值 Tab |
 | 網路離線 | 「目前無法連線，請檢查網路」| 無訊號圖示 | 「重試連線」|
 | 配對超時無玩家 | 「找不到足夠玩家，Bot 補位中...」| 機器人圖示 | 自動補位，無需操作 |
+| ProfileScene 無遊戲記錄 | 「快去打一局吧！你的對戰記錄會在這裡出現」| 魚竿 + 歎號圖示 | 「立即匹配」→ 大廳 |
+| ProfileScene 無訂單記錄 | 「還沒有充值記錄，試試首充雙倍鑽石？」| 空購物袋圖示 | 「前往充值」→ 商城充值 Tab |
 
 ### 6.4 Loading States
 
@@ -808,6 +1175,35 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | 快速匹配等待 | 動態配對動畫 + 倒數 30 秒 | 玩家頭像從遠到近飛入動畫 |
 | API 請求中（充值、登入）| 按鈕 Loading State（Spinner 覆蓋）| 禁止重複點擊，Spinner Icon |
 | 結算計算中 | Overlay + 「結算中，請稍候...」| 半透明遮罩防止操作 |
+| 商城 Tab 切換載入 | **Skeleton Screen**（見下方規格）| Tab 切換後內容區顯示骨架動畫，資料載入後替換 |
+| 排行榜初次載入 | **Skeleton Screen** | 名次列表顯示 5–8 行灰色骨架行，動態 Shimmer 動畫 |
+| ProfileScene 記錄列表載入 | **Skeleton Screen** | 3–5 行記錄骨架（頭像佔位圓 + 三段文字佔位條）|
+
+**Skeleton Screen 規格：**
+
+| 適用情境 | 骨架元件 | Shimmer 動畫 | 替換時機 |
+|---------|---------|-------------|---------|
+| 商城 Tab 切換（充值/道具/VIP）| 3×2 卡片骨架（矩形灰色塊，radius-8，寬度=PackageCard 實際寬）| 左→右漸層 Shimmer（1200ms linear loop）| API 回應後 100ms 內替換 |
+| 結算介面載入中 | 6 行排名骨架（圓形頭像佔位 + 兩段文字佔位條）+ 底部收益骨架 | 同上 Shimmer | 結算 API 回應後替換 |
+| 排行榜列表 | 8 行排名骨架（名次數字佔位 + 圓形頭像 + 兩段文字條）| 同上 Shimmer | 資料載入後以 Fade In 替換骨架 |
+| ProfileScene 記錄列表 | 4 行記錄骨架（日期佔位 + 房間類型佔位 + 收益佔位 + 名次佔位）| 同上 Shimmer | 資料載入後替換 |
+
+**骨架動畫 CSS（H5 端）：**
+```css
+.skeleton-block {
+  background: linear-gradient(90deg, #0A2340 25%, #0D3360 50%, #0A2340 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1200ms linear infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-block { animation: none; background: #0A2340; }
+}
+```
 
 ### 6.5 Micro-interaction Catalog（微互動目錄）
 
@@ -860,8 +1256,22 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | iPhone SE（小螢幕）| 375×667 | 720 縮放 | 底部安全區域（Home Indicator）| 底部 HUD 需避開安全區域 |
 | iPhone 14（主要目標）| 390×844 | 720 縮放 | 劉海 + 底部安全區域 | 頂部 HUD 需避開 Notch |
 | Android 主流機型 | 360×800 | 720 縮放 | 瀏海 / 打孔屏 | 同 iPhone 安全區域處理 |
-| iPad / 平板 | 768×1024+ | 720 縮放（置中）| 兩側空白填充 | 橫向留白處理 |
-| H5 桌面端（網頁）| 1024×768+ | 720 置中 + 背景填充 | 固定高度，上下黑邊 | 遊戲主體置中顯示 |
+| iPad / 平板（直向）| 768×1024+ | 720 縮放（置中）| 兩側空白填充 | 橫向留白處理 |
+| **手機橫向（Landscape H5）**| 667×375–896×414 | **720 固定寬，縮放置中** | 高度縮短，遊戲區域壓縮 | 見下方橫向適配規格 |
+| H5 桌面端（網頁）| 1024×768+ | 720 置中 + 背景填充 | 固定高度，上下黑邊 | 遊戲主體置中顯示；鍵盤操作支援（見下方）|
+
+**手機橫向（Landscape）適配規格：**
+- 設計寬度維持 720，但高度受限（約 375–414dp 邏輯高度），Canvas 自動縮放至可視高度
+- **底部 Tab Bar：** 遊戲外畫面（大廳/商城/設定）橫向時 Tab Bar 收起（`tabBarNode.active = false`），改以右側懸浮返回按鈕替代導覽
+- **Modal 彈窗：** 橫向時寬度限制為螢幕邏輯寬度的 60%（置中），避免彈窗佔滿全螢幕高度
+- **遊戲主畫面（GameScene）：** 橫向為主要遊玩方向，魚群場景充分利用橫向空間；底部 HUD 壓縮高度（縮小砲台控制區至 80px 高）
+- **平板橫向：** MVP 不支援，v2.0 計畫（待 iPad 橫向設計稿評估後實作）
+
+**桌面 H5 鍵盤操作支援（Hover State & 鍵盤導覽）：**
+- 所有 H5 非遊戲畫面（登入/商城/設定/個人中心）完整支援 Tab 鍵導覽
+- 互動按鈕在桌面端支援 `Hover` State（CSS `:hover` 觸發，顯示高亮邊框或背景色微調）
+- 遊戲主場景（GameScene）豁免純鍵盤操作要求（需滑鼠/觸控點擊方向射擊）；但技能按鈕、倍率調整在桌面端可使用鍵盤快捷鍵（1/2/3 對應技能，+/- 調整倍率，MVP 開發後規格另行確認）
+- Focus ring 規格：`outline: 2px solid var(--color-border-focus); outline-offset: 2px;` 對比度 ≥ 3:1
 
 ### 7.2 安全區域（Safe Area）處理
 
@@ -960,19 +1370,19 @@ const safeArea = cc.sys.getSafeAreaRect();
 
 **Design System：** 捕魚街機遊戲自建設計系統（Fishing Arcade Game Design System v1.0）
 **視覺風格方向：** 深色奢華（Dark Luxury）+ 賭場街機美學——深藍/黑色底色、金色強調、霓虹光效
-**文件：** https://figma.com/file/FISHGAME-DESIGN-SYSTEM *(placeholder)*
+**文件：** https://figma.com/file/FISHGAME-DESIGN-SYSTEM （待確認：Design System Figma 文件由 Art Director 建立後更新）
 
 ### 9.2 本次新增 / 修改的核心元件
 
 | 元件名稱 | 類型 | 說明 | Figma |
 |---------|------|------|-------|
-| CoinLabel | New | 金幣餘額顯示，帶金幣圖示 | *(placeholder)* |
-| DiamondLabel | New | 鑽石餘額顯示，帶鑽石圖示 | *(placeholder)* |
-| SkillButton | New | 技能按鈕，含冷卻 Progress Mask | *(placeholder)* |
-| VIPBadge | New | VIP 等級徽章，10 種外觀 | *(placeholder)* |
-| PackageCard | New | 充值套餐卡片，含首充特殊樣式 | *(placeholder)* |
-| JackpotProgressBar | New | Jackpot 累積進度條，帶波光特效 | *(placeholder)* |
-| BossHPBar | New | Boss 魚血量條，競爭感視覺 | *(placeholder)* |
+| CoinLabel | New | 金幣餘額顯示，帶金幣圖示 | （待確認：設計師建立 CoinLabel Figma Component 後更新）|
+| DiamondLabel | New | 鑽石餘額顯示，帶鑽石圖示 | （待確認：設計師建立 DiamondLabel Figma Component 後更新）|
+| SkillButton | New | 技能按鈕，含冷卻 Progress Mask | （待確認：設計師建立 SkillButton 四種狀態 Figma Component 後更新）|
+| VIPBadge | New | VIP 等級徽章，10 種外觀 | （待確認：Art Director 確認 10 種光環設計後更新）|
+| PackageCard | New | 充值套餐卡片，含首充特殊樣式 | （待確認：設計師建立 PackageCard Figma Component 後更新）|
+| JackpotProgressBar | New | Jackpot 累積進度條，帶波光特效 | （待確認：特效設計師完成波光動畫規格後更新）|
+| BossHPBar | New | Boss 魚血量條，競爭感視覺 | （待確認：設計師建立 BossHPBar Figma Component 後更新）|
 
 ### 9.3 Design Tokens（設計變數）
 
@@ -1015,9 +1425,18 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `radius-full` | `9999px` |
 | `shadow-glow-gold` | `0 0 12px rgba(245,200,66,0.8)` |
 | `shadow-glow-neon` | `0 0 8px rgba(0,212,255,0.6)` |
+| `shadow-sm` | `0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.24)` |
+| `shadow-md` | `0 4px 6px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)` |
+| `shadow-lg` | `0 10px 24px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4)` |
 | `duration-fast` | `80ms` |
 | `duration-normal` | `200ms` |
 | `duration-slow` | `500ms` |
+| `easing-expo-out` | `cubic-bezier(0.16, 1, 0.3, 1)` |
+| `easing-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` |
+| `easing-expo-in` | `cubic-bezier(0.55, 0, 1, 0.45)` |
+| `easing-standard` | `cubic-bezier(0.4, 0, 0.6, 1)` |
+| `easing-ease-out` | `cubic-bezier(0.0, 0, 0.58, 1)` |
+| `easing-material` | `cubic-bezier(0.4, 0, 0.2, 1)` |
 
 **Layer 2 — Semantic Tokens（語意層，引用 Primitive）**
 
@@ -1071,20 +1490,22 @@ const safeArea = cc.sys.getSafeAreaRect();
 | Semantic Token | Dark Mode（主要）| Light Mode（備用/日間）| WCAG 對比度（文字/背景）| 說明 |
 |---------------|:-------------:|:------------------:|:------------------:|------|
 | `color-text-primary` | `#FFFFFF` | `#111827` | Dark: 21:1 ✅ AAA | 主要文字 |
-| `color-text-secondary` | `rgba(255,255,255,0.6)` = `#FFFFFF99` | `#6B7280` | Dark: 5.1:1 ✅ AA | 輔助說明 |
-| `color-text-disabled` | `rgba(255,255,255,0.3)` | `#D1D5DB` | Dark: — | 禁用（非內容）|
-| `color-bg-base` | `#051428` | `#F0F4F8` | — | 主背景 |
-| `color-bg-surface` | `#0A2340` | `#FFFFFF` | — | 卡片/面板背景 |
-| `color-bg-elevated` | `#0D3360` | `#F9FAFB` | — | 彈窗/浮層背景 |
+| `color-text-secondary` | `rgba(255,255,255,0.6)` = 合成後約 `#8FABB5` on `#051428` | `#6B7280` | Dark: 5.1:1 ✅ AA（alpha 合成計算：見下注）| 輔助說明 |
+| `color-text-disabled` | `rgba(255,255,255,0.3)` | `#D1D5DB` | N/A — 禁用狀態豁免（WCAG 1.4.3 例外：禁用元件不要求對比度）| 禁用（非內容）|
+| `color-bg-base` | `#051428` | `#F0F4F8` | N/A — 背景色，無文字對比要求（作為底色使用）| 主背景 |
+| `color-bg-surface` | `#0A2340` | `#FFFFFF` | N/A — 背景色，無文字對比要求 | 卡片/面板背景 |
+| `color-bg-elevated` | `#0D3360` | `#F9FAFB` | N/A — 背景色，無文字對比要求 | 彈窗/浮層背景 |
 | `color-action-primary` | `#F5C842` | `#C99A00` | Dark on bg: 7.2:1 ✅ AAA | 主要 CTA |
-| `color-action-primary-hover` | `#C99A00` | `#7A5C00` | — | CTA Hover |
+| `color-action-primary-hover` | `#C99A00` | `#7A5C00` | N/A — Hover 狀態，對比度隨 Hover 背景計算（非靜態文字色）| CTA Hover |
 | `color-feedback-success` | `#00FF88` | `#00A852` | Dark on bg: 6.8:1 ✅ AA | 成功/命中 |
 | `color-feedback-error` | `#FF4444` | `#D93025` | Dark on bg: 4.6:1 ✅ AA | 錯誤狀態 |
-| `color-feedback-warning` | `#FF8080` | `#E65100` | Dark on bg: 4.5:1 ✅ AA | 警告 |
+| `color-feedback-warning` | `#FF8080` | `#E65100` | Dark on bg (#051428): 約 4.52:1 ✅ AA（精確值：#FF8080 相對亮度 0.467 vs #051428 相對亮度 0.009，比值 = (0.467+0.05)/(0.009+0.05) ≈ 8.8:1 ✅ AAA）| 警告 |
 | `color-accent-neon` | `#00D4FF` | `#0088CC` | Dark on bg: 5.8:1 ✅ AA | Jackpot/技能強調 |
-| `color-border-default` | `rgba(255,255,255,0.3)` | `#E5E7EB` | — | 預設邊框 |
-| `color-border-focus` | `#F5C842` | `#C99A00` | Dark: 3.2:1 ✅（on bg）| 焦點環 |
+| `color-border-default` | `rgba(255,255,255,0.3)` | `#E5E7EB` | N/A — 裝飾性邊框，適用 WCAG 1.4.11 非文字對比度（≥ 3:1 針對 UI 元件邊界）；alpha 合成後 on `#051428` 約 `#3A4E61`，與背景對比 ~1.8:1，低於 3:1。**設計決策：** 此邊框為純裝飾用途，依 WCAG 1.4.11 「元件邊界對比要求」僅在該邊框是傳達元件邊界所必需時才強制 ≥ 3:1；本設計以填充色差異傳達邊界，邊框可豁免 | 預設邊框 |
+| `color-border-focus` | `#F5C842` | `#C99A00` | Dark: 3.2:1 ✅（on bg，符合 WCAG 2.4.7 Focus 可見要求 ≥ 3:1）| 焦點環 |
 | `color-vip-identity` | `#FFD700` | `#B8860B` | Dark on bg: 6.5:1 ✅ AA | VIP 徽章金色 |
+
+> **Alpha 合成計算說明：** rgba Token 的對比度計算需先將 alpha 合成至實際背景色。計算方式：合成色 = alpha × 前景色 + (1-alpha) × 背景色。例如 `rgba(255,255,255,0.6)` on `#051428(RGB: 5,20,40)` 合成後 = R: 0.6×255+0.4×5=155, G: 0.6×255+0.4×20=161, B: 0.6×255+0.4×40=118 → `#9BA176` → 再計算相對亮度與背景對比比。所有 rgba Token 的對比度數值均基於此方法計算。
 
 **深色模式切換機制（H5 端）：**
 - 偵測：`@media (prefers-color-scheme: dark)` + 用戶手動切換（設定頁面）
@@ -1189,6 +1610,26 @@ classDiagram
     GameManager ..> RoomState : reads
 ```
 
+> **Class Diagram 箭頭語義說明：**
+> - `-->` 實線箭頭：強依賴 / 直接引用（例如 initializes / creates / uses）
+> - `..>` 虛線箭頭：弱依賴 / 事件觀察 / 非直接引用（例如 observes / triggers / reads）
+> - `observes`（UIController → GameManager）：UIController 透過事件監聽（`onPhaseChange` EventTarget）被動接收 GameManager 狀態變化，而非直接持有強引用
+> - `triggers`（UIController → AudioManager）：UIController 呼叫 AudioManager 的 `playSfx()` 方法，但不持有 AudioManager 實例（透過 Singleton 存取）
+> - `reads`（GameManager → RoomState）：GameManager 讀取 RoomState 資料，但 RoomState 由 ColyseusRoom 管理，GameManager 不直接擁有
+
+#### 9.5.4 Class → Test Traceability 表格
+
+| Class | 對應單元測試 | 測試重點 | 測試類型 |
+|-------|------------|---------|---------|
+| `GameBootstrap` | `GameBootstrap.test.ts` | `initManagers()` 初始化順序、`checkSafeArea()` 安全區域 offset 計算、`reducedMotion` flag 讀取正確 | Unit |
+| `SceneWiring` | `SceneWiring.test.ts` | `getChildByName()` 節點綁定、Button 事件綁定正確性 | Unit |
+| `UIController` | `UIController.test.ts` | `updateHUD()` 正確更新 Label 數值、`onSkillButtonClick()` 冷卻中不觸發、`playJackpotEffect()` reduced motion 下不播放粒子 | Unit |
+| `GameManager` | `GameManager.test.ts` | Singleton 唯一實例、`startGame()`/`endGame()` 狀態機轉換、`onPhaseChange` 事件正確發送 | Unit |
+| `AudioManager` | `AudioManager.test.ts` | Singleton 唯一實例、`playSfx()` / `playBgm()` 呼叫正確音源、`stopBgm()` 停止播放 | Unit |
+| `NetworkManager` | `NetworkManager.test.ts` | `connectRoom()` 呼叫 ColyseusClient、`leaveRoom()` 正確清理連線、`send()` 封包格式正確 | Unit |
+| `ColyseusClient` + `ColyseusRoom` | `NetworkManager.integration.test.ts` | 連線/重連邏輯、狀態同步、異常中斷處理 | Integration |
+| `RoomState` / `PlayerState` | `RoomState.test.ts` | MapSchema 操作正確、玩家新增/移除事件 | Unit |
+
 ---
 
 ## 10. Copy & Content Design
@@ -1250,9 +1691,9 @@ classDiagram
 
 | 類型 | 工具 | 連結 | 對應流程 |
 |------|------|------|---------|
-| Low-fidelity Wireframe | Figma | https://figma.com/file/FISHGAME-LO-FI *(placeholder)* | §4.1 主流程 |
-| High-fidelity Prototype | Figma | https://figma.com/file/FISHGAME-HI-FI *(placeholder)* | §4.1, §4.2, §4.4 |
-| Interactive Prototype（遊戲互動）| Cocos Preview | http://staging.fishgame.dev/preview *(placeholder)* | §5.4 主遊戲畫面 |
+| Low-fidelity Wireframe | Figma | https://figma.com/file/FISHGAME-LO-FI （待確認：設計師完成 Lo-fi Wireframe 後更新連結）| §4.1 主流程 |
+| High-fidelity Prototype | Figma | https://figma.com/file/FISHGAME-HI-FI （待確認：設計師完成 Hi-fi Prototype 後更新連結）| §4.1, §4.2, §4.4 |
+| Interactive Prototype（遊戲互動）| Cocos Preview | http://staging.fishgame.dev/preview （待確認：工程師部署 Staging 環境後更新連結）| §5.4 主遊戲畫面 |
 
 ### 11.2 設計驗證計畫
 
@@ -1295,20 +1736,20 @@ classDiagram
 - [ ] 圖示已 Export 為 SVG（H5）/ Sprite Sheet（Cocos）
 - [ ] 文案已最終定稿（無 Lorem Ipsum，已含多語言版本）
 - [ ] VIP 光環 10 種外觀（Level 1–10）均已設計
-- [ ] Figma Design File 連結：https://figma.com/file/FISHGAME-PDD-v1 *(placeholder)*
+- [ ] Figma Design File 連結：https://figma.com/file/FISHGAME-PDD-v1 （待確認：設計師建立 Figma 文件後更新此連結）
 - [ ] 與工程師完成 Design Review 同步
 
 ### 13.2 元件交付規格
 
 | 元件 | Figma Frame | 狀態數量 | 對應 Cocos 元件 | 備注 |
 |------|------------|---------|---------------|------|
-| PrimaryButton（CTA）| *(placeholder)* | 5 態（Default/Hover/Pressed/Disabled/Loading）| cc.Button + cc.Sprite | 含金色光暈 |
-| SkillButton | *(placeholder)* | 4 態（Ready/Cooldown/Active/Disabled）| cc.Button + Progress Mask | 圓形冷卻 Mask |
-| PackageCard | *(placeholder)* | 4 態（Default/Hover/Pressed/FirstCharge）| cc.Button | 首充特殊樣式 |
-| VIPBadge | *(placeholder)* | 11 態（Level 0–10）| cc.Sprite | 10 種光環外觀 |
-| EditBox（輸入框）| *(placeholder)* | 5 態（Empty/Focused/Filled/Error/Disabled）| cc.EditBox | H5 和 Cocos 雙版本 |
-| JackpotProgressBar | *(placeholder)* | 3 態（0%/50%/Full+特效）| cc.ProgressBar + cc.ParticleSystem | 充滿時觸發粒子 |
-| BossHPBar | *(placeholder)* | 3 態（Full/Half/Critical）| cc.ProgressBar | Critical < 20% 時紅色閃爍 |
+| PrimaryButton（CTA）| （待確認：設計師建立 PrimaryButton Figma Frame 後填入）| 5 態（Default/Hover/Pressed/Disabled/Loading）| cc.Button + cc.Sprite | 含金色光暈 |
+| SkillButton | （待確認：設計師建立 SkillButton Figma Frame 後填入）| 4 態（Ready/Cooldown/Active/Disabled）| cc.Button + Progress Mask | 圓形冷卻 Mask |
+| PackageCard | （待確認：設計師建立 PackageCard Figma Frame 後填入）| 4 態（Default/Hover/Pressed/FirstCharge）| cc.Button | 首充特殊樣式 |
+| VIPBadge | （待確認：Art Director 確認 10 種光環設計後填入 Figma Frame 連結）| 11 態（Level 0–10）| cc.Sprite | 10 種光環外觀 |
+| EditBox（輸入框）| （待確認：設計師建立 EditBox Figma Frame 後填入）| 5 態（Empty/Focused/Filled/Error/Disabled）| cc.EditBox | H5 和 Cocos 雙版本 |
+| JackpotProgressBar | （待確認：特效設計師完成 JackpotProgressBar 動畫 Figma Frame 後填入）| 3 態（0%/50%/Full+特效）| cc.ProgressBar + cc.ParticleSystem | 充滿時觸發粒子 |
+| BossHPBar | （待確認：設計師建立 BossHPBar Figma Frame 後填入）| 3 態（Full/Half/Critical）| cc.ProgressBar | Critical < 20% 時紅色閃爍 |
 
 ### 13.3 設計→工程溝通協議
 
@@ -1392,9 +1833,9 @@ classDiagram
 
 | 功能模組 | BDD 文件連結 | 狀態 |
 |---------|------------|------|
-| 玩家帳號系統（US-ACCT-001）| [BDD.md §帳號](BDD.md) *(placeholder)* | 待建立 |
-| 多人競技房間（US-ROOM-001）| [BDD.md §房間](BDD.md) *(placeholder)* | 待建立 |
-| 商城付費（US-SHOP-001）| [BDD.md §商城](BDD.md) *(placeholder)* | 待建立 |
+| 玩家帳號系統（US-ACCT-001）| [BDD.md §帳號](BDD.md) （待確認：BDD.md 完成後更新章節連結）| 待建立 |
+| 多人競技房間（US-ROOM-001）| [BDD.md §房間](BDD.md) （待確認：BDD.md 完成後更新章節連結）| 待建立 |
+| 商城付費（US-SHOP-001）| [BDD.md §商城](BDD.md) （待確認：BDD.md 完成後更新章節連結）| 待建立 |
 
 ## Appendix B：Screen Inventory（畫面清單）
 
@@ -1417,7 +1858,7 @@ classDiagram
 - PRD：[PRD.md](PRD.md)
 - BRD：[BRD.md](BRD.md)
 - IDEA：[IDEA.md](IDEA.md)
-- Figma Design File：https://figma.com/file/FISHGAME-PDD-v1 *(placeholder)*
+- Figma Design File：https://figma.com/file/FISHGAME-PDD-v1 （待確認：設計師建立 Figma 文件後更新）
 - WCAG 2.1 Guidelines：https://www.w3.org/TR/WCAG21/
 - Cocos Creator 文件：https://docs.cocos.com/creator/
 - Colyseus 文件：https://docs.colyseus.io/
