@@ -389,6 +389,8 @@ kubectl exec -n fishing-arcade-prod deployment/game-service -- \
 | `fishing_arcade_rtp_deviation` | P2 | 短期 RTP 偏差 > ±5% | §7 (業務告警) |
 | `fishing_arcade_queue_depth_high` | P2 | Redis Queue depth > 1000（若使用）| §7.4 |
 
+> **Early-Warning 說明**：`fishing_arcade_p99_latency_high`（REST P99 > 400ms）和 `fishing_arcade_websocket_latency_high`（WS P99 > 80ms）為 Early-Warning 告警，觸發點設定在對應 SLO 目標的 80%（REST SLO ≤ 500ms × 80% = 400ms；WS SLO ≤ 100ms × 80% = 80ms）。這些告警旨在提前預警，尚未違反 SLO，但需立即調查以防止 SLO 突破。
+
 ---
 
 ## §6 Incident Response
@@ -847,6 +849,8 @@ kubectl create job vip-bonus-manual-$(date +%s) \
 
 > **P1 金融事故**：Redis Lua Script 原子鎖失效可能導致多名玩家同時獲得 Jackpot 獎勵。此為最高嚴重度事故，必須立即啟動 §6.5 IAP Financial Incident 流程並同時執行以下步驟。
 
+> ⚠️ **Stop-First 原則**：偵測到疑似重複觸發後，**必須先執行 §7.11.2 暫停 Jackpot**，再進行 §7.11.3 MySQL 確認查詢。止損優先於確認，避免在調查期間持續產生新的重複獎勵。
+
 #### §7.11.1 偵測
 
 ```bash
@@ -857,8 +861,9 @@ kubectl exec -n fishing-arcade-prod deployment/game-service -- \
 # If 多個不同值或鎖異常：繼續調查
 
 # Step 2: 查詢 Redis Jackpot 相關 Keys
+# ⚠️ 警告：不可在生產環境使用 KEYS 命令（會阻塞 Redis），請使用 SCAN 替代
 kubectl exec -n fishing-arcade-prod deployment/game-service -- \
-  redis-cli -h ${REDIS_HOST} KEYS "jackpot*"
+  redis-cli -h ${REDIS_HOST} -c --scan --pattern "jackpot*"
 # Expected: 列出所有 jackpot 相關 keys（jackpot_lock, jackpot_pool, jackpot_winner_* 等）
 
 # Step 3: 查詢 Jackpot 觸發日誌（最近 30 分鐘）
@@ -868,24 +873,7 @@ kubectl logs -n fishing-arcade-prod -l app=game-service \
 # If 多條 jackpot_awarded 日誌時間戳相近（< 5s）：確認為重複觸發
 ```
 
-#### §7.11.2 確認（查詢 MySQL jackpot_winners 表）
-
-```bash
-kubectl exec -n fishing-arcade-prod deployment/game-service -- \
-  node -e "
-    const c = await require('mysql2/promise').createConnection(process.env.DATABASE_URL);
-    const [rows] = await c.execute(
-      'SELECT id, user_id, amount, created_at FROM jackpot_winners WHERE created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY created_at DESC'
-    );
-    console.table(rows);
-    c.end();
-  "
-# Expected: 1 小時內最多 1 筆 jackpot_winners 記錄
-# If 多筆記錄且 created_at 時間差 < 5s：確認為重複觸發事故
-# 記錄所有受影響的 user_id 和 amount，用於後續補償
-```
-
-#### §7.11.3 暫停 Jackpot（Feature Flag）
+#### §7.11.2 暫停 Jackpot（Feature Flag）
 
 ```bash
 # 立即關閉 Jackpot 功能，防止後續重複觸發
@@ -904,12 +892,29 @@ kubectl exec -n fishing-arcade-prod deployment/game-service -- \
 # Expected: JACKPOT_ENABLED: false
 ```
 
+#### §7.11.3 確認（查詢 MySQL jackpot_winners 表）
+
+```bash
+kubectl exec -n fishing-arcade-prod deployment/game-service -- \
+  node -e "
+    const c = await require('mysql2/promise').createConnection(process.env.DATABASE_URL);
+    const [rows] = await c.execute(
+      'SELECT id, user_id, amount, created_at FROM jackpot_winners WHERE created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY created_at DESC'
+    );
+    console.table(rows);
+    c.end();
+  "
+# Expected: 1 小時內最多 1 筆 jackpot_winners 記錄
+# If 多筆記錄且 created_at 時間差 < 5s：確認為重複觸發事故
+# 記錄所有受影響的 user_id 和 amount，用於後續補償
+```
+
 #### §7.11.4 補償（雙人確認原則）
 
 > ⚠️ **強制雙人確認**：補償操作涉及真實金幣，必須由兩名工程師（1 執行 + 1 確認）共同完成，並在 Incident Doc 中記錄兩人姓名和操作時間。
 
 ```bash
-# 1. 確認多餘獎勵的 user_id 和 amount（從 §7.11.2 查詢結果）
+# 1. 確認多餘獎勵的 user_id 和 amount（從 §7.11.3 查詢結果）
 # 2. 由第二人確認金額和 user_id 正確
 # 3. 執行扣除（需 DBA 協助操作，不在此自動化）
 # 執行人：<ENGINEER_1_NAME>  確認人：<ENGINEER_2_NAME>
@@ -1041,7 +1046,7 @@ kubectl exec -n fishing-arcade-prod deployment/account-service -- \
 #   - migration 新增了 table  → DOWN = DROP TABLE IF EXISTS <table>
 #   - migration 新增了 index  → DOWN = DROP INDEX <index_name> ON <table>
 #
-# 在 migration Job Pod 中執行 down DDL（不直接在 app pod 執行）：
+# 在 account-service pod 中執行 down DDL：
 kubectl exec -n fishing-arcade-prod deployment/account-service -- \
   node -e "
     const c = await require('mysql2/promise').createConnection(process.env.DATABASE_URL);
@@ -1159,7 +1164,8 @@ aws elasticache create-replication-group \
   --replication-group-description "Restore from snapshot $(date +%Y%m%d)" \
   --snapshot-name <snapshot-name> \
   --cache-node-type cache.r6g.large \
-  --num-cache-clusters 3 \
+  --num-node-groups 3 \
+  --replicas-per-node-group 1 \
   --automatic-failover-enabled \
   --multi-az-enabled \
   --cluster-mode enabled \
@@ -1208,7 +1214,7 @@ kubectl exec -n fishing-arcade-prod deployment/account-service -- \
 kubectl exec -n fishing-arcade-prod deployment/account-service -- \
   node -e "
     const c = await require('mysql2/promise').createConnection(process.env.DATABASE_URL);
-    await c.execute('ALTER USER app_user@% IDENTIFIED BY ?', [process.env.NEW_DB_PASSWORD]);
+    await c.execute("ALTER USER 'app_user'@'%' IDENTIFIED BY ?", [process.env.NEW_DB_PASSWORD]);
     console.log('DB password updated');
     c.end();
   "
@@ -1252,7 +1258,7 @@ kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
 kubectl exec -n fishing-arcade-prod deployment/account-service -- \
   node -e "
     const c = await require('mysql2/promise').createConnection(process.env.DATABASE_URL);
-    await c.execute('ALTER USER app_user@% IDENTIFIED BY ?', [process.env.OLD_DB_PASSWORD]);
+    await c.execute("ALTER USER 'app_user'@'%' IDENTIFIED BY ?", [process.env.OLD_DB_PASSWORD]);
     console.log('Password rolled back to old');
     c.end();
   "
