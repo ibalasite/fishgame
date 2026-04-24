@@ -28,7 +28,8 @@
     "D10-FRONTEND",
     "D12b-BDD-client",
     "D03-PRD",
-    "D06-EDD"
+    "D06-EDD",
+    "D07-ARCH"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -80,8 +81,24 @@
       "terminated": true,
       "terminate_reason": "zero_finding",
       "quality_status": "passed"
+    },
+    "D07-ARCH": {
+      "rounds_done": 2,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 0,
+      "last_CHM": [
+        0,
+        0,
+        0
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
     }
   },
   "edd_generated": true,
-  "edd_path": "docs/EDD.md"
+  "edd_path": "docs/EDD.md",
+  "arch_path": "docs/ARCH.md",
+  "arch_generated": true
 }
