@@ -4,7 +4,7 @@
   "review_strategy": "standard",
   "max_rounds": 5,
   "stop_condition": "任一輪 finding=0 或第 5 輪 fix 完",
-  "last_updated": "2026-04-24T04:57:56.594974Z",
+  "last_updated": "2026-04-24T05:30:54.896405Z",
   "input_type": "doc_local+codebase_git",
   "input_source": "/Users/tobala/projects/fishing-arcade-game/docs/req/魚機遊戲募資企劃書.md + https://github.com/taishan6868/Fishing-game-source-code.git",
   "req_dir": "docs/req",
@@ -22,7 +22,13 @@
   "completed_steps": [
     "D01-IDEA",
     "D02-BRD",
-    "handoff"
+    "handoff",
+    "D04-PDD",
+    "D05-VDD",
+    "D10-FRONTEND",
+    "D12b-BDD-client",
+    "D03-PRD",
+    "D06-EDD"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -36,5 +42,46 @@
   "brd_review_passed": true,
   "brd_review_rounds": 3,
   "brd_review_completed_at": "2026-04-24T04:57:20.000000Z",
-  "handoff_source": "gendoc-auto"
+  "handoff_source": "gendoc-auto",
+  "pipeline_hash": "5031b56333cabdbd",
+  "template_dir": "/Users/tobala/projects/gendoc/templates",
+  "skipped_client_steps": [
+    "D04-PDD",
+    "D05-VDD",
+    "D10-FRONTEND",
+    "D12b-BDD-client"
+  ],
+  "last_completed": "D03-PRD",
+  "review_progress": {
+    "D03-PRD": {
+      "rounds_done": 3,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 0,
+      "last_CHM": [
+        0,
+        0,
+        0
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D06-EDD": {
+      "rounds_done": 3,
+      "max_rounds": 5,
+      "strategy": "standard",
+      "last_finding_total": 0,
+      "last_CHM": [
+        0,
+        0,
+        0
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    }
+  },
+  "edd_generated": true,
+  "edd_path": "docs/EDD.md"
 }
