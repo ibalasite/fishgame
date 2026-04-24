@@ -228,7 +228,7 @@ graph TD
     B --> B1["房間列表（普通 / 競技）"]
     B --> B2["砲台 / 技能選擇"]
     B --> B3["配對等待畫面"]
-    B --> B4["排行榜"]
+    B --> B4["排行榜（LeaderboardBtn 入口）"]
     B --> B5["活動公告"]
 
     C --> C1["主遊戲 HUD（金幣/排名/技能）"]
@@ -581,6 +581,8 @@ flowchart TD
 | 驗證結果（<18）| 顯示未滿 18 說明，提供演示模式 | AgePanel 輕微 Shake 動畫 + 提示文字 Fade In | 200ms |
 | 點擊演示模式 | 進入演示模式大廳 | Modal Fade Out + Fade In 大廳（Demo Badge 顯示）| 300ms |
 
+**Figma 連結：** （待確認：設計師建立 AgeGateModal Figma Frame 後更新此連結）
+
 ### 5.3 遊戲大廳（LobbyScene）
 
 **用途：** 玩家選擇房間類型、查看活動、進入砲台選擇（對應 PRD US-ROOM-001）
@@ -623,6 +625,7 @@ flowchart TD
 | BottomTabBar/ShopTab | cc.Button | Active / Inactive / **Focus** | ✓ |
 | BottomTabBar/ProfileTab | cc.Button | Active / Inactive / **Focus** | ✓ |
 | BottomTabBar/SettingsTab | cc.Button | Active / Inactive / **Focus** | ✓ |
+| TopHUD/LeaderboardBtn | cc.Button | Default / Hover / Pressed | ✓ |
 
 **互動規格（LobbyScene）：**
 
@@ -633,8 +636,11 @@ flowchart TD
 | 點擊底部 Tab（商城）| 跳轉 ShopScene | Tab Active 狀態切換 + 頁面 Slide 動畫 | 200ms |
 | 點擊底部 Tab（個人）| 跳轉 ProfileScene | Tab Active 狀態切換 + 頁面 Slide 動畫 | 200ms |
 | 點擊底部 Tab（設定）| 開啟 SettingsPanel | Tab Active 狀態切換 + Modal Scale In | 250ms |
+| 點擊排行榜入口（LeaderboardBtn）| 開啟 LeaderboardPanel（Modal 覆蓋大廳）| 按鈕 Pressed Scale 0.95 + LeaderboardPanel Modal Scale In | 100ms press + 250ms Modal |
 | 畫面進入動畫 | 從登入或結算返回大廳 | Fade In + 頂部 HUD Slide Down | 300ms |
 | 畫面退出動畫 | 進入配對 / 跳轉其他畫面 | Fade Out | 200ms |
+
+**Figma 連結：** （待確認：設計師建立 LobbyScene Figma Frame 後更新此連結）
 
 ### 5.4 主遊戲畫面（GameScene）
 
@@ -744,6 +750,8 @@ flowchart TD
 | 畫面進入動畫 | 從大廳點擊快速匹配後跳轉 | Slide Up from Bottom | 300ms |
 | 畫面退出動畫 | 確認進入後跳轉配對畫面 | Fade Out | 200ms |
 
+**Figma 連結：** （待確認：設計師建立 CannonSelectScene Figma Frame 後更新此連結）
+
 ### 5.6 商城介面（ShopScene / ShopPanel）
 
 **用途：** 鑽石充值、道具購買、VIP 訂閱（對應 PRD US-SHOP-001）
@@ -795,9 +803,37 @@ flowchart TD
 | 畫面進入動畫 | 從大廳 Tab Bar 點擊商城 | Slide In from right | 250ms |
 | 畫面退出動畫 | 返回大廳 | Slide Out to right | 200ms |
 
+**Figma 連結：** （待確認：設計師建立 ShopScene Figma Frame 後更新此連結）
+
 ### 5.7 VIP 等級介面（VIPPanel）
 
 **用途：** 展示 VIP 等級特權，引導訂閱（對應 PRD US-VIP-001）
+
+**Layout 結構：**
+```
+┌──────────────────────────────────────┐
+│  頂部 VIP Banner                     │
+│  ┌──────────────────────────────┐    │
+│  │  [VIP 等級徽章]  VIP Lv.3   │    │
+│  │  ✨ 金色光環動畫（Pulse）   │    │
+│  └──────────────────────────────┘    │
+├──────────────────────────────────────┤
+│  VIP 升級進度條                      │
+│  VIP Lv.3 ███████░░░░ VIP Lv.4      │
+│  「距離 VIP 4 還差 500 鑽石 (62%)」  │
+├──────────────────────────────────────┤
+│  特權列表（可滾動）                   │
+│  ✅ 每日鑽石補貼 +30                 │
+│  ✅ 高倍率砲台優先解鎖               │
+│  ✅ 房間內金色光環 — 全場可見        │
+│  ✅ VIP 專屬皮膚 2 套               │
+│  ...（更高等級灰色預覽）             │
+├──────────────────────────────────────┤
+│  訂閱按鈕 + 補貼計時器               │
+│  [訂閱 VIP · $9.99/月]（Primary CTA）│
+│  下次鑽石補貼：23:14:09             │
+└──────────────────────────────────────┘
+```
 
 **核心設計要點：**
 - VIP 光環視覺識別：VIP 1–10 對應 10 種不同顏色光環（銀→金→紅→彩虹漸變）
@@ -823,6 +859,8 @@ flowchart TD
 | 點擊已訂閱按鈕 | 顯示「管理訂閱」說明（導向 AppStore/GP 設定）| Tooltip 或 Modal | 200ms |
 | 畫面進入動畫 | 從商城 VIP Tab 進入 | Modal Scale In | 250ms |
 | 畫面退出動畫 | 關閉 VIPPanel | Modal Scale Out + Fade Out | 200ms |
+
+**Figma 連結：** （待確認：設計師建立 VIPPanel Figma Frame 後更新此連結）
 
 ### 5.8 結算介面（SettlementPanel）
 
@@ -886,6 +924,8 @@ flowchart TD
 | 點擊「返回大廳」| 跳轉 LobbyScene | Panel Fade Out + Fade In LobbyScene | 300ms |
 | 畫面進入動畫 | 遊戲結束後顯示 | Overlay Fade In + Panel Scale 0.85→1.0 | 300ms |
 
+**Figma 連結：** （待確認：設計師建立 SettlementPanel Figma Frame 後更新此連結）
+
 ### 5.9 配對等待畫面（MatchmakingScene）
 
 **用途：** 快速匹配後的配對等待體驗，維持玩家期待感，並在 Bot 補位時給予友好說明（對應 PRD US-ROOM-001）
@@ -934,6 +974,8 @@ flowchart TD
 | 配對完成（4–6 人齊）| 自動跳轉 GameScene | 所有頭像縮小 + 「配對成功！」文字 → Fade Out | 500ms |
 | 點擊取消配對 | 取消配對，返回 CannonSelectScene | CancelBtn Loading + 畫面 Fade Out | 200ms |
 | 畫面進入動畫 | 從 CannonSelectScene 跳轉 | Slide Up from Bottom | 250ms |
+
+**Figma 連結：** （待確認：設計師建立 MatchmakingScene Figma Frame 後更新此連結）
 
 ### 5.10 設定面板（SettingsPanel）
 
@@ -998,6 +1040,8 @@ flowchart TD
 | 畫面進入動畫 | 從大廳 Tab Bar 點擊設定 | Modal Scale 0.85→1.0 + Fade In（作為 Modal）| 250ms |
 | 畫面退出動畫 | 關閉設定面板 | Modal Scale 1.0→0.85 + Fade Out | 200ms |
 
+**Figma 連結：** （待確認：設計師建立 SettingsPanel Figma Frame 後更新此連結）
+
 ### 5.11 個人中心（ProfileScene）
 
 **用途：** 展示玩家個人資料、VIP 等級進度、遊戲歷史記錄和訂單記錄（對應 Appendix B ProfileScene）
@@ -1040,11 +1084,46 @@ flowchart TD
 | GameRecordList | cc.ScrollView | Loading / Empty / Filled | 近 20 局遊戲記錄列表；Empty 時顯示「快去打一局吧！」|
 | OrderRecordList | cc.ScrollView | Loading / Empty / Filled | 充值/訂閱訂單記錄；Empty 時顯示「還沒有充值記錄」|
 
+**互動規格（ProfileScene）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 點擊 Tab（遊戲記錄 / 訂單記錄）| 切換列表內容，觸發對應資料載入 | Tab Active 高亮 + 內容區 Fade In | 150ms |
+| 點擊 UpgradeVIPBtn | 跳轉至 VIPPanel（若未滿級）或商城 VIP Tab | 按鈕 Pressed Scale 0.95 + 頁面 Slide In | 100ms press + 200ms 跳轉 |
+| 列表滾動至底部 | 觸發下一頁記錄載入（Pagination）| 底部 Skeleton 行出現 → 資料載入後替換 | 載入期間 |
+| 進場動畫 | 從大廳底部 Tab Bar「個人」Tab 進入 | Slide In from right | 250ms |
+| 退場動畫 | 切換至其他 Tab 或返回大廳 | Slide Out to right | 200ms |
+
+**Figma 連結：** （待確認：設計師建立 ProfileScene Figma Frame 後更新此連結）
+
 ### 5.12 排行榜面板（LeaderboardPanel）
 
 **用途：** 展示賽季/全服/好友等多維度排名，強化社交競爭動機（對應 Appendix B LeaderboardPanel）
 
 **進入方式：** 大廳「排行榜」入口按鈕；結算介面排行榜連結
+
+**Layout 結構：**
+```
+┌──────────────────────────────────────┐
+│  標題「排行榜」                [X 關閉]│
+├──────────────────────────────────────┤
+│  Tab 切換：[本賽季] [全服] [好友]      │
+├──────────────────────────────────────┤
+│  搜尋框                              │
+│  [ 🔍 搜尋玩家名稱...          [X] ] │
+├──────────────────────────────────────┤
+│  排名列表（可滾動，Top 100）           │
+│  #1 🏆 [頭像] [名稱] [VIP] [積分]    │
+│  #2 🥈 [頭像] [名稱] [VIP] [積分]    │
+│  #3 🥉 [頭像] [名稱] [VIP] [積分]    │
+│  #4    [頭像] [名稱] [VIP] [積分]    │
+│  ...                                 │
+│  （搜尋無結果時顯示 SearchEmptyNode） │
+├──────────────────────────────────────┤
+│  自身名次懸浮行（未進 Top 100 時顯示） │
+│  #247  [我的頭像] [我的名稱] [積分]   │
+└──────────────────────────────────────┘
+```
 
 **元件清單（LeaderboardPanel）：**
 
@@ -1059,7 +1138,22 @@ flowchart TD
 | RankItem/VIPBadge | cc.Node | Hidden / Visible | VIP 徽章（VIP ≥ 1 顯示）|
 | RankItem/ScoreLabel | cc.Label | — | 賽季積分或總收益金幣 |
 | SelfRankStickyNode | cc.Node | Hidden / Visible | 玩家自身名次懸浮在列表底部（若未進 Top 100）|
+| SearchInput | cc.EditBox | Default / Focused / Filled / Clear（輸入後顯示 X 清除按鈕）| 依玩家名稱搜尋排行榜，即時過濾列表 |
 | SearchEmptyNode | cc.Node | Hidden / Visible | 搜尋無結果時顯示「找不到該玩家」+ 清除搜尋按鈕 |
+
+**互動規格（LeaderboardPanel）：**
+
+| 觸發 | 動作 | 動畫效果 | 持續時間 |
+|------|------|---------|---------|
+| 點擊 Tab（本賽季/全服/好友）| 切換排行榜維度，重新載入對應排名資料 | Tab Active 高亮 + 列表 Fade In | 150ms |
+| 滾動排名列表 | 分頁載入更多（滾動至底部自動載入下一頁）| 底部 Spinner 出現 → 新資料 Fade In 追加 | 載入期間 |
+| 自身名次 Sticky 行 | 未進 Top 100 時固定於列表底部，始終可見 | SelfRankStickyNode 底部 Slide Up 進場 | 200ms（首次顯示）|
+| 搜尋框輸入（SearchInput）| 即時依名稱過濾列表；無結果時顯示 SearchEmptyNode | 列表 Fade Refresh | 300ms debounce |
+| 搜尋框清除（X 按鈕）| 清空搜尋，恢復完整排行榜 | 列表 Fade In | 200ms |
+| 進場動畫 | 從大廳 LeaderboardBtn 點擊進入 | Modal Scale 0.85→1.0 + Fade In | 250ms |
+| 退場動畫 | 點擊 X 關閉 | Modal Scale 1.0→0.85 + Fade Out | 200ms |
+
+**Figma 連結：** （待確認：設計師建立 LeaderboardPanel Figma Frame 後更新此連結）
 
 ---
 
@@ -1151,6 +1245,7 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | Boss 擊殺 | 爆炸特效立即播放 | 金幣噴射動畫（1500ms）| MVP 資格標記 |
 | Jackpot 觸發 | 全屏特效立即播放 | 獎池金額跳動動畫（3s+）| 合規日誌記錄（後台）|
 | 充值成功 | 支付按鈕 Loading→Checkmark | Toast「鑽石已到帳」| HUD 鑽石餘額更新 |
+| IAP 支付等待中（可能 > 5s）| 等待 3s 後按鈕文字更新為「請稍候，正在完成付款...」（Spinner 持續顯示）；等待 30s 後若未收到回調，自動觸發逾時錯誤 Modal（「付款時間較長，請稍候或聯絡客服」）| 按鈕文字 Fade Refresh（150ms）→ 30s 後 Modal Scale In（250ms）| 3s 起文字更新；30s 逾時 Modal |
 | 技能使用 | 技能特效立即播放 | 冷卻計時開始 | — |
 | 連線中斷 | 「重連中...」覆層立即顯示 | 5s 倒數重試 | 失敗後跳出彈窗 |
 
@@ -1217,6 +1312,7 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | 充值成功 | IAP 回調確認 | 鑽石從頂部飛入 HUD 動畫 | 單次 |
 | 結算 MVP | 本局最高得分玩家 | 金色光環 + 「MVP！」大字 + 花火特效 | 單次，3 秒後 Fade |
 | 金幣倍率調整（+/-）| 點擊倍率按鈕 | 數字翻動動畫（100ms）| 到達上下限時 disable |
+| 設定 Toggle 切換 | 點擊任意 cc.Toggle（音效/通知/震動等）| 設定值即時變更並持久化至後端；Toggle 滑動動畫 200ms ease-out；音效/音樂類 Toggle 切換後立即播放/靜音以確認生效 | 滑動 200ms；音效確認即時 |
 
 ### 6.6 Gesture & Touch Design（遊戲觸控設計）
 
@@ -1259,6 +1355,8 @@ GameAnimConfig.reducedMotion = prefersReducedMotion;
 | iPad / 平板（直向）| 768×1024+ | 720 縮放（置中）| 兩側空白填充 | 橫向留白處理 |
 | **手機橫向（Landscape H5）**| 667×375–896×414 | **720 固定寬，縮放置中** | 高度縮短，遊戲區域壓縮 | 見下方橫向適配規格 |
 | H5 桌面端（網頁）| 1024×768+ | 720 置中 + 背景填充 | 固定高度，上下黑邊 | 遊戲主體置中顯示；鍵盤操作支援（見下方）|
+| Desktop L（大螢幕桌面）| 1440×900+ | 720 置中（`margin: 0 auto`）| 上下等比縮放，最大高度 1280px | 遊戲主體 720px 水平置中；兩側多餘空間填充 `color-bg-base`（`#051428` 深海藍）；左右不顯示任何功能性 UI |
+| Desktop XL（超寬桌面）| 1920×1080+ | 720 置中 | 同 Desktop L | 遊戲主體 720px 水平置中；左右超寬空白同樣填充 `color-bg-base`，可考慮放置品牌裝飾圖（v2.0 計畫）；核心功能區不擴展至兩側 |
 
 **手機橫向（Landscape）適配規格：**
 - 設計寬度維持 720，但高度受限（約 375–414dp 邏輯高度），Canvas 自動縮放至可視高度
@@ -1415,13 +1513,23 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `font-size-24` | `24px` |
 | `font-size-36` | `36px` |
 | `font-size-48` | `48px` |
+| `font-family-primary` | `'Noto Sans TC', 'Roboto', sans-serif` |
+| `font-weight-regular` | `400` |
+| `font-weight-medium` | `500` |
+| `font-weight-bold` | `700` |
+| `line-height-tight` | `1.2` |
+| `line-height-normal` | `1.5` |
+| `line-height-loose` | `1.8` |
 | `spacing-4` | `4px` |
 | `spacing-8` | `8px` |
 | `spacing-12` | `12px` |
 | `spacing-16` | `16px` |
 | `spacing-24` | `24px` |
+| `spacing-32` | `32px` |
+| `spacing-48` | `48px` |
 | `radius-8` | `8px` |
 | `radius-16` | `16px` |
+| `radius-24` | `24px` |
 | `radius-full` | `9999px` |
 | `shadow-glow-gold` | `0 0 12px rgba(245,200,66,0.8)` |
 | `shadow-glow-neon` | `0 0 8px rgba(0,212,255,0.6)` |
@@ -1460,8 +1568,19 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `spacing-hud-gap` | `spacing-8` | HUD 元件間距 |
 | `spacing-card-padding` | `spacing-16` | 卡片內距 |
 | `spacing-section-gap` | `spacing-24` | 區塊間距 |
+| `spacing-panel-gap` | `spacing-32` | 面板內主要區塊間距（如 VIPPanel 各區）|
+| `spacing-page-padding` | `spacing-48` | 頁面頂層大間距（如 ProfileScene 頭像區頂部）|
 | `shadow-button-glow` | `shadow-glow-gold` | CTA 按鈕金色光暈 |
 | `shadow-skill-ready` | `shadow-glow-neon` | 技能就緒光暈 |
+| `text-heading-lg` | `font-size-36` + `font-weight-bold` + `line-height-tight` | 大標題（結算 MVP、Jackpot 標題）|
+| `text-heading-md` | `font-size-24` + `font-weight-bold` + `line-height-tight` | 中標題（面板標題、VIP 等級）|
+| `text-body-md` | `font-size-18` + `font-weight-regular` + `line-height-normal` | 正文（說明文字、清單項目）|
+| `text-body-sm` | `font-size-14` + `font-weight-regular` + `line-height-normal` | 小正文（HUD 輔助文字、標籤）|
+| `text-caption` | `font-size-12` + `font-weight-regular` + `line-height-loose` | 版本號、法律說明等小字 |
+| `text-button-label` | `font-size-18` + `font-weight-medium` + `line-height-tight` | 按鈕文字（CTA）|
+| `radius-sm` | `radius-8` | 小圓角（按鈕、輸入框、小卡片）|
+| `radius-md` | `radius-16` | 中圓角（充值卡片、面板容器）|
+| `radius-lg` | `radius-24` | 大圓角（Modal 彈窗、VIPPanel Banner）|
 
 **Layer 3 — Component Tokens（元件層，引用 Semantic）**
 
