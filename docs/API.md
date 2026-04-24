@@ -68,6 +68,7 @@
 | **版本** | `v1` 路徑前綴，向下相容保證 ≥ 6 個月（見 §15）|
 | **字元集** | UTF-8 |
 | **最大請求 Body** | 1 MB（除 File Upload 端點外）|
+| **路徑參數命名** | snake_case（`:user_id`, `:order_id`）；Response 欄位一律使用 `user_id`/`order_id`，User 資源縮略版中的 `id` 欄位等同 `user_id` |
 
 ---
 
@@ -88,6 +89,13 @@
   "email": "player@example.com",
   "password": "Passw0rd!123"
 }
+```
+
+**curl 範例：**
+```bash
+curl -X POST https://api.fishing-arcade-game.com/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"player@example.com","password":"Passw0rd!123"}'
 ```
 
 **Response 200：**
@@ -215,6 +223,19 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 }
 ```
 
+**curl 範例：**
+```bash
+curl -X POST https://api.fishing-arcade-game.com/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "newplayer@example.com",
+    "password": "Passw0rd!123",
+    "display_name": "FishHunter88",
+    "birthdate": "1995-03-15",
+    "agree_terms": true
+  }'
+```
+
 **Response 201：**
 ```json
 {
@@ -246,6 +267,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 **認證**：✅ 需要 JWT  
 **權限**：player:read
 
+**curl 範例：**
+```bash
+curl https://api.fishing-arcade-game.com/v1/users/me \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
+
 **Response 200：**
 ```json
 {
@@ -276,11 +303,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 **功能**：更新玩家個人資料（Partial Update）  
 **認證**：✅ 需要 JWT  
 **權限**：player:write  
-**冪等性**：相同請求重複執行結果相同
+**冪等性**：相同請求重複執行結果相同  
+**Partial Update 語義**：僅更新請求 Body 中包含的欄位；未傳入的欄位保持原值不變。所有欄位選填，但 Body 至少須包含一個欄位。
 
 | 欄位 | 型別 | 必填 | 說明 |
 |------|------|------|------|
-| `display_name` | string | ❌ | 2–30 字元 |
+| `display_name` | string | ❌ | 2–30 字元，不含特殊符號 |
 | `avatar_url` | string | ❌ | S3 presigned URL 上傳後的公開 URL，最大 512 字元 |
 
 **Request 範例：**
@@ -288,6 +316,14 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 {
   "display_name": "SuperFishHunter"
 }
+```
+
+**curl 範例：**
+```bash
+curl -X PATCH https://api.fishing-arcade-game.com/v1/users/me \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..." \
+  -H "Content-Type: application/json" \
+  -d '{"display_name":"SuperFishHunter"}'
 ```
 
 **Response 200：**
@@ -317,6 +353,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 **功能**：取得玩家遊戲幣餘額  
 **認證**：✅ 需要 JWT  
 **權限**：player:read
+
+**curl 範例：**
+```bash
+curl https://api.fishing-arcade-game.com/v1/users/me/balance \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
 
 **Response 200：**
 ```json
@@ -359,17 +401,40 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 
 ---
 
-#### POST /v1/vip/subscribe
+#### POST /v1/vip/subscriptions
 
 **功能**：購買 VIP 訂閱（月費方案，使用鑽石）  
 **認證**：✅ 需要 JWT  
-**權限**：player:write
+**權限**：player:write  
+**冪等性**：傳入 `Idempotency-Key` Header（UUID v4），相同 Key 重複呼叫回傳原始訂閱結果，不重複扣鑽
 
 | 欄位 | 型別 | 必填 | 說明 |
 |------|------|------|------|
-| `plan_id` | string | ✅ | VIP 方案 ID（`vip_monthly` / `vip_quarterly`）|
+| `plan_id` | string | ✅ | VIP 方案 ID（`vip_monthly` / `vip_quarterly`）枚舉值 |
 
-**Response 200：**
+**Required Header：**
+
+| Header | 必填 | 說明 |
+|--------|------|------|
+| `Idempotency-Key` | ✅ | UUID v4，防重複訂閱（24h TTL）|
+
+**Request 範例：**
+```json
+{
+  "plan_id": "vip_monthly"
+}
+```
+
+**curl 範例：**
+```bash
+curl -X POST https://api.fishing-arcade-game.com/v1/vip/subscriptions \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..." \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: 550e8400-e29b-41d4-a716-446655440001" \
+  -d '{"plan_id":"vip_monthly"}'
+```
+
+**Response 201：**
 ```json
 {
   "data": {
@@ -388,10 +453,11 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 
 | HTTP | Error Code | 說明 |
 |------|-----------|------|
-| 400 | `VALIDATION_ERROR` | plan_id 無效 |
+| 400 | `VALIDATION_ERROR` | plan_id 非 enum 值 |
 | 401 | `UNAUTHORIZED` | Token 無效 |
+| 409 | `DUPLICATE_SUBSCRIPTION` | 相同 Idempotency-Key 已使用（回傳原始訂閱）|
 | 422 | `INSUFFICIENT_DIAMONDS` | 鑽石餘額不足 |
-| 422 | `VIP_ALREADY_ACTIVE` | VIP 已啟用中 |
+| 422 | `VIP_ALREADY_ACTIVE` | VIP 已啟用中（同方案不可重複訂閱）|
 
 ---
 
@@ -415,6 +481,13 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 | `after` | string | ❌ | Cursor（base64 encoded room_id）|
 | `limit` | integer | ❌ | 1–50，預設 20 |
 | `status` | string | ❌ | `waiting` / `active`，預設 `waiting` |
+| `sort` | string | ❌ | 排序欄位：`created_at`（預設，降序）/ `jackpot_pool`（降序）|
+
+**curl 範例：**
+```bash
+curl "https://api.fishing-arcade-game.com/v1/game/rooms?status=waiting&limit=20" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
 
 **Response 200：**
 ```json
@@ -464,6 +537,13 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 | `limit` | integer | ❌ | 1–50，預設 20 |
 | `from` | string | ❌ | 開始時間（ISO 8601 UTC）|
 | `to` | string | ❌ | 結束時間（ISO 8601 UTC）|
+| `sort` | string | ❌ | 排序欄位：`started_at`（預設，降序）/ `gold_earned`（降序）|
+
+**curl 範例：**
+```bash
+curl "https://api.fishing-arcade-game.com/v1/game/history?limit=20&from=2026-04-01T00:00:00Z" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
 
 **Response 200：**
 ```json
@@ -512,6 +592,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 | `type` | string | ❌ | `daily` / `weekly` / `all_time`，預設 `daily` |
 | `limit` | integer | ❌ | 1–100，預設 50 |
 
+**curl 範例：**
+```bash
+curl "https://api.fishing-arcade-game.com/v1/game/leaderboard?type=daily&limit=50" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
+
 **Response 200：**
 ```json
 {
@@ -554,6 +640,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 **功能**：取得商城商品列表（鑽石儲值包）  
 **認證**：✅ 需要 JWT  
 **權限**：player:read
+
+**curl 範例：**
+```bash
+curl https://api.fishing-arcade-game.com/v1/shop/products \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
 
 **Response 200：**
 ```json
@@ -618,7 +710,20 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 }
 ```
 
-**Response 200：**
+**curl 範例：**
+```bash
+curl -X POST https://api.fishing-arcade-game.com/v1/shop/purchases \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "platform": "apple",
+    "product_id": "diamonds_330",
+    "receipt": "MIIXXXXXXX...",
+    "idempotency_key": "550e8400-e29b-41d4-a716-446655440000"
+  }'
+```
+
+**Response 201：**
 ```json
 {
   "data": {
@@ -660,6 +765,14 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 |------|------|------|------|
 | `after` | string | ❌ | Cursor |
 | `limit` | integer | ❌ | 1–50，預設 20 |
+| `sort` | string | ❌ | 排序欄位：`created_at`（預設，降序）|
+| `status` | string | ❌ | 篩選訂單狀態：`completed` / `pending` / `failed` |
+
+**curl 範例：**
+```bash
+curl "https://api.fishing-arcade-game.com/v1/shop/orders?limit=20" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
 
 **Response 200：**
 ```json
@@ -697,6 +810,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 **功能**：取得單筆訂單詳情  
 **認證**：✅ 需要 JWT  
 **權限**：player:read（僅限本人訂單；operator/superadmin 可查所有）
+
+**curl 範例：**
+```bash
+curl "https://api.fishing-arcade-game.com/v1/shop/orders/ord_01HX..." \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
 
 **Response 200：**
 ```json
@@ -748,6 +867,14 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 | `limit` | integer | ❌ | 1–100，預設 50 |
 | `search` | string | ❌ | 搜尋 email 或 display_name（前綴匹配）|
 | `vip_tier` | integer | ❌ | 篩選 VIP 等級 0–3 |
+| `status` | string | ❌ | `active` / `suspended` / `banned` |
+| `sort` | string | ❌ | 排序欄位：`created_at`（預設，降序）/ `last_login_at` / `gold_balance` |
+
+**curl 範例：**
+```bash
+curl "https://api.fishing-arcade-game.com/v1/admin/users?limit=50&status=active" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
 
 **Response 200：**
 ```json
@@ -789,7 +916,10 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 **功能**：更新玩家帳號狀態（封禁/解封/調整餘額）  
 **認證**：✅ 需要 JWT  
 **權限**：superadmin:write  
-**冪等性**：相同請求重複執行結果相同
+**冪等性**：相同請求重複執行結果相同  
+**Partial Update 語義**：僅更新請求 Body 中包含的欄位；未傳入的欄位保持原值不變。  
+**Audit Log**：所有成功操作自動寫入 `audit_logs` 表（operator_id、target_user_id、action、reason、IP、timestamp）。  
+**X-Admin-Reason Header**：敏感操作（status 變更、gold_adjustment）需傳入 `X-Admin-Reason` Header（最大 256 字元）。
 
 | 欄位 | 型別 | 必填 | 說明 |
 |------|------|------|------|
@@ -797,6 +927,16 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 | `suspend_reason` | string | ❌ | 封禁原因（status=suspended/banned 時必填）|
 | `gold_adjustment` | integer | ❌ | 金幣調整量（正數加，負數扣；SuperAdmin 限定）|
 | `adjustment_reason` | string | ❌ | gold_adjustment 不為 0 時必填 |
+| `X-Admin-Reason` | Header | 條件 | 必填（status 變更或 gold_adjustment 不為 0 時）|
+
+**curl 範例：**
+```bash
+curl -X PATCH "https://api.fishing-arcade-game.com/v1/admin/users/usr_01HX..." \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..." \
+  -H "Content-Type: application/json" \
+  -H "X-Admin-Reason: 違反遊戲服務條款 §3.2（外掛工具）" \
+  -d '{"status":"suspended","suspend_reason":"外掛工具使用"}'
+```
 
 **Response 200：**
 ```json
@@ -827,6 +967,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 
 **功能**：取得遊戲設定（RTP 目標、Jackpot 觸發機率）  
 **認證**：✅ 需要 JWT  
+**curl 範例：**
+```bash
+curl https://api.fishing-arcade-game.com/v1/admin/game-config \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
+
 **權限**：operator:read
 
 **Response 200：**
@@ -861,14 +1007,23 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 **功能**：更新遊戲設定（透過 Unleash Feature Flag 生效）  
 **認證**：✅ 需要 JWT  
 **權限**：superadmin:write  
-**冪等性**：相同請求重複執行結果相同
+**冪等性**：相同請求重複執行結果相同  
+**Partial Update 語義**：僅更新傳入的欄位；未傳入的欄位保持原值不變。至少須傳入一個欄位。
 
 | 欄位 | 型別 | 必填 | 說明 |
 |------|------|------|------|
-| `rtp_target_min` | number | ❌ | 0.80–0.95 |
-| `rtp_target_max` | number | ❌ | rtp_target_min 至 0.98 |
+| `rtp_target_min` | number | ❌ | 0.80–0.95（float，最多 4 位小數）|
+| `rtp_target_max` | number | ❌ | rtp_target_min 至 0.98（必須 ≥ rtp_target_min）|
 | `jackpot_trigger_probability` | number | ❌ | 0.00001–0.001 |
 | `fish_spawn_rate` | number | ❌ | 0.5–2.0（倍率）|
+
+**curl 範例：**
+```bash
+curl -X PATCH https://api.fishing-arcade-game.com/v1/admin/game-config \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..." \
+  -H "Content-Type: application/json" \
+  -d '{"rtp_target_min":0.87,"rtp_target_max":0.93}'
+```
 
 **Response 200：**
 ```json
@@ -906,6 +1061,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 |------|------|------|------|
 | `period` | string | ❌ | `today` / `7d` / `30d`，預設 `today` |
 
+**curl 範例：**
+```bash
+curl "https://api.fishing-arcade-game.com/v1/admin/stats/kpi?period=today" \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..."
+```
+
 **Response 200：**
 ```json
 {
@@ -932,6 +1093,38 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 |------|-----------|------|
 | 401 | `UNAUTHORIZED` | Token 無效 |
 | 403 | `FORBIDDEN` | 非 operator/superadmin 角色 |
+
+---
+
+### 2.5 RBAC 權限矩陣（Role × Endpoint）
+
+> 依 EDD §4.1 Role-Based Access Control 定義。`✅` = 允許；`❌` = 拒絕（回傳 403）；`—` = 不適用（公開）。
+
+| Endpoint | player | operator | superadmin |
+|----------|--------|----------|------------|
+| POST /auth/login | — | — | — |
+| POST /auth/register | — | — | — |
+| POST /auth/refresh | — | — | — |
+| POST /auth/logout | ✅ | ✅ | ✅ |
+| GET /users/me | ✅ | ✅ | ✅ |
+| PATCH /users/me | ✅ | ✅ | ✅ |
+| GET /users/me/balance | ✅ | ✅ | ✅ |
+| POST /vip/subscriptions | ✅ | ❌ | ✅ |
+| GET /game/rooms | ✅ | ✅ | ✅ |
+| GET /game/history | ✅（僅本人）| ✅（僅本人）| ✅（所有人）|
+| GET /game/leaderboard | ✅ | ✅ | ✅ |
+| GET /shop/products | ✅ | ✅ | ✅ |
+| POST /shop/purchases | ✅ | ❌ | ✅ |
+| GET /shop/orders | ✅（僅本人）| ✅（僅本人）| ✅（所有人）|
+| GET /shop/orders/:order_id | ✅（僅本人）| ✅ | ✅ |
+| POST /users/me/avatar/upload-url | ✅ | ✅ | ✅ |
+| GET /admin/users | ❌ | ✅ | ✅ |
+| PATCH /admin/users/:user_id | ❌ | ❌ | ✅ |
+| GET /admin/game-config | ❌ | ✅ | ✅ |
+| PATCH /admin/game-config | ❌ | ❌ | ✅ |
+| GET /admin/stats/kpi | ❌ | ✅ | ✅ |
+
+**403 Forbidden 觸發條件**：JWT 有效但 role 不在允許列表；Token 未攜帶時回傳 401 而非 403。
 
 ---
 
@@ -988,6 +1181,12 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 
 ## 4. API 呼叫序列圖
 
+> 完整 Sequence Diagram 檔案（含 Happy Path + Error Paths）位於 `docs/diagrams/`：
+> - [sequence-login.md](diagrams/sequence-login.md) — POST /auth/login
+> - [sequence-register.md](diagrams/sequence-register.md) — POST /auth/register
+> - [sequence-iap-purchase.md](diagrams/sequence-iap-purchase.md) — POST /shop/purchases
+> - [sequence-vip-subscribe.md](diagrams/sequence-vip-subscribe.md) — POST /vip/subscriptions
+
 ### 4.1 IAP 充值流程（Write Path）
 
 ```mermaid
@@ -1009,7 +1208,7 @@ sequenceDiagram
     Shop->>MySQL: UPDATE orders SET status=completed
     Shop->>EventBus: PUBLISH events:commerce IAPPurchaseCompleted
     EventBus-->>Account: 異步消費 → UPDATE users.diamond_balance += 330
-    Shop-->>Client: 200 { order_id, diamonds_credited: 330 }
+    Shop-->>Client: 201 { order_id, diamonds_credited: 330 }
 ```
 
 ### 4.2 玩家登入 + 遊戲加入流程（Read + WebSocket）
@@ -1085,6 +1284,8 @@ X-Event-Type: jackpot.triggered
 | `X-Request-ID` | ❌ | 客戶端生成的 UUID，回傳於 meta.request_id |
 | `X-Platform` | ❌ | `ios` / `android` / `web`（遙測用）|
 | `X-App-Version` | ❌ | 客戶端應用版本（`1.0.0`）|
+| `Idempotency-Key` | 條件 | POST /vip/subscriptions 必填，UUID v4 |
+| `X-Admin-Reason` | 條件 | PATCH /admin/users/:user_id 敏感操作時必填，最大 256 字元 |
 
 ### 6.2 Response Headers
 
@@ -1101,6 +1302,8 @@ X-Event-Type: jackpot.triggered
 
 ## 7. Error Code Registry
 
+> 所有 `error.code` 均為全大寫底線格式（`DOMAIN_ENTITY_REASON`），唯一不重複。各 Endpoint 的錯誤碼均引用此 Registry，不重複定義。
+
 | HTTP Code | Error Code | 說明 | 建議客戶端行為 |
 |-----------|-----------|------|-------------|
 | 400 | `VALIDATION_ERROR` | 輸入格式驗證失敗（`errors` 陣列含欄位詳情）| 顯示欄位錯誤提示 |
@@ -1109,16 +1312,26 @@ X-Event-Type: jackpot.triggered
 | 401 | `INVALID_REFRESH_TOKEN` | Refresh Token 無效或過期 | 導向登入頁 |
 | 403 | `FORBIDDEN` | 無此操作的角色權限 | 顯示無權限提示 |
 | 404 | `NOT_FOUND` | 資源不存在 | 顯示 404 提示 |
-| 409 | `CONFLICT` | 資源已存在（Email/名稱衝突）| 提示用戶更換輸入 |
+| 404 | `USER_NOT_FOUND` | 指定玩家不存在 | 顯示 404 提示 |
+| 404 | `ORDER_NOT_FOUND` | 指定訂單不存在 | 顯示 404 提示 |
+| 409 | `CONFLICT` | 資源已存在（泛型）| 提示用戶更換輸入 |
+| 409 | `EMAIL_ALREADY_EXISTS` | 電子郵件已被使用 | 提示更換 Email |
+| 409 | `DISPLAY_NAME_TAKEN` | 顯示名稱已被使用 | 提示更換名稱 |
 | 409 | `DUPLICATE_PURCHASE` | 重複購買（idempotency_key 已使用）| 查詢原訂單狀態 |
-| 422 | `BUSINESS_RULE_VIOLATION` | 業務規則違反 | 顯示 message 內容 |
+| 409 | `DUPLICATE_SUBSCRIPTION` | VIP 訂閱 Idempotency-Key 重複 | 查詢原訂閱狀態 |
+| 422 | `BUSINESS_RULE_VIOLATION` | 業務規則違反（泛型）| 顯示 message 內容 |
 | 422 | `INSUFFICIENT_DIAMONDS` | 鑽石不足 | 導向商城 |
-| 422 | `AGE_RESTRICTION` | 年齡限制 | 顯示法規提示 |
-| 422 | `IAP_RECEIPT_INVALID` | IAP 收據無效 | 提示重試 |
-| 423 | `ACCOUNT_LOCKED` | 帳號鎖定 | 提示聯繫客服 |
-| 429 | `RATE_LIMITED` | 速率限制（Headers 含重置時間）| 依 Reset Header 等待後重試 |
+| 422 | `AGE_RESTRICTION` | 年齡不符合法規要求（< 18 歲）| 顯示法規提示 |
+| 422 | `VIP_ALREADY_ACTIVE` | VIP 已啟用中（同方案不可重複訂閱）| 顯示當前 VIP 到期日 |
+| 422 | `IAP_RECEIPT_INVALID` | IAP 收據無效（平台回拒）| 提示重試或聯繫客服 |
+| 422 | `IAP_RECEIPT_USED` | IAP 收據已被使用 | 提示聯繫客服 |
+| 422 | `CANNOT_MODIFY_ADMIN` | 不可修改管理員帳號 | 顯示操作限制提示 |
+| 422 | `RTP_RANGE_INVALID` | rtp_target_min > rtp_target_max | 修正數值後重試 |
+| 423 | `ACCOUNT_LOCKED` | 帳號鎖定（連續失敗 10 次）| 提示聯繫客服 |
+| 429 | `RATE_LIMITED` | 速率限制（Headers 含重置時間）| 依 `Retry-After` Header 等待後重試 |
 | 500 | `INTERNAL_ERROR` | 系統錯誤（不含內部詳情）| 提示稍後重試並回報 |
 | 503 | `SERVICE_UNAVAILABLE` | 服務暫時不可用（Circuit Breaker）| 等待後重試 |
+| 503 | `IAP_SERVICE_UNAVAILABLE` | IAP 平台暫時不可用 | 等待後重試 |
 
 ---
 
@@ -1201,7 +1414,17 @@ X-Event-Type: jackpot.triggered
 
 **Step 3**：PUT 成功後，呼叫 `PATCH /v1/users/me` 更新 `avatar_url` 為 `public_url`
 
-**檔案限制**：最大 2 MB；格式 JPEG/PNG/WebP；圖片尺寸 100×100–2048×2048
+**Step 4（非同步後台）**：S3 Event 觸發 Lambda 病毒掃描（ClamAV）；掃描失敗 → 自動刪除檔案 + 清空 avatar_url + 通知用戶。
+
+**檔案限制**：最大 2 MB；格式 JPEG/PNG/WebP（MIME 白名單驗證，非副檔名黑名單）；圖片尺寸 100×100–2048×2048；Presigned URL 有效期 300 秒（5 分鐘）。
+
+**curl 範例（Step 1）：**
+```bash
+curl -X POST https://api.fishing-arcade-game.com/v1/users/me/avatar/upload-url \
+  -H "Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..." \
+  -H "Content-Type: application/json" \
+  -d '{"content_type":"image/jpeg","file_size_bytes":524288}'
+```
 
 ---
 
@@ -1440,6 +1663,304 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+
+  /auth/logout:
+    post:
+      summary: 登出（吊銷 Refresh Token）
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refresh_token]
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        '204':
+          description: 登出成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /vip/subscriptions:
+    post:
+      summary: 購買 VIP 訂閱
+      tags: [VIP]
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID v4，防重複訂閱
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [plan_id]
+              properties:
+                plan_id:
+                  type: string
+                  enum: [vip_monthly, vip_quarterly]
+      responses:
+        '201':
+          description: 訂閱成功
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/BusinessRuleViolation'
+
+  /game/history:
+    get:
+      summary: 取得玩家遊戲歷史
+      tags: [Game]
+      parameters:
+        - $ref: '#/components/parameters/AfterCursor'
+        - $ref: '#/components/parameters/LimitParam'
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date-time
+          description: 開始時間（ISO 8601 UTC）
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date-time
+          description: 結束時間（ISO 8601 UTC）
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [started_at, gold_earned]
+            default: started_at
+      responses:
+        '200':
+          description: 成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /game/leaderboard:
+    get:
+      summary: 取得排行榜
+      tags: [Game]
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [daily, weekly, all_time]
+            default: daily
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: 成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /shop/orders:
+    get:
+      summary: 取得訂單歷史
+      tags: [Shop]
+      parameters:
+        - $ref: '#/components/parameters/AfterCursor'
+        - $ref: '#/components/parameters/LimitParam'
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [completed, pending, failed]
+      responses:
+        '200':
+          description: 成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /shop/orders/{order_id}:
+    get:
+      summary: 取得訂單詳情
+      tags: [Shop]
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: string
+          description: 訂單 ID
+      responses:
+        '200':
+          description: 成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /users/me/avatar/upload-url:
+    post:
+      summary: 取得頭像上傳 Presigned URL
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content_type, file_size_bytes]
+              properties:
+                content_type:
+                  type: string
+                  enum: [image/jpeg, image/png, image/webp]
+                file_size_bytes:
+                  type: integer
+                  minimum: 1
+                  maximum: 2097152
+      responses:
+        '200':
+          description: 成功
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /admin/users:
+    get:
+      summary: 列出所有玩家（後台）
+      tags: [Admin]
+      parameters:
+        - $ref: '#/components/parameters/AfterCursor'
+        - $ref: '#/components/parameters/LimitParam'
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: email 或 display_name 前綴搜尋
+        - in: query
+          name: vip_tier
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 3
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [active, suspended, banned]
+      responses:
+        '200':
+          description: 成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/users/{user_id}:
+    patch:
+      summary: 更新玩家帳號狀態
+      tags: [Admin]
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: X-Admin-Reason
+          schema:
+            type: string
+            maxLength: 256
+          description: 操作理由（status 變更或 gold_adjustment 時必填）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [active, suspended, banned]
+                suspend_reason:
+                  type: string
+                  maxLength: 512
+                gold_adjustment:
+                  type: integer
+                adjustment_reason:
+                  type: string
+                  maxLength: 512
+      responses:
+        '200':
+          description: 成功
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/BusinessRuleViolation'
+
+  /admin/game-config:
+    get:
+      summary: 取得遊戲設定
+      tags: [Admin]
+      responses:
+        '200':
+          description: 成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    patch:
+      summary: 更新遊戲設定
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rtp_target_min:
+                  type: number
+                  minimum: 0.80
+                  maximum: 0.95
+                rtp_target_max:
+                  type: number
+                  minimum: 0.80
+                  maximum: 0.98
+                jackpot_trigger_probability:
+                  type: number
+                  minimum: 0.00001
+                  maximum: 0.001
+                fish_spawn_rate:
+                  type: number
+                  minimum: 0.5
+                  maximum: 2.0
+      responses:
+        '200':
+          description: 成功
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/BusinessRuleViolation'
 
 components:
   securitySchemes:
