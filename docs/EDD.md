@@ -49,16 +49,27 @@
 
 ### 1.3 PRD 需求追溯
 
-| PRD User Story | 技術實現章節 | 備註 |
-|---------------|------------|------|
-| US-ACCT-001（帳號系統）| §5.5 Entity: User / §4 JWT Auth | bcrypt 密碼雜湊 |
-| US-ROOM-001（多人競技房間）| §3 Colyseus Room / §5.5 GameRoom | Colyseus Schema State Sync |
-| US-FISH-001（魚群系統）| §5.5 Entity: Fish / §4.5 FishSpawned | FishPool Service |
-| US-WPSK-001（武器技能）| §5.5 Weapon/Skill / §4.5 WeaponFired | 伺服器端計算 |
-| US-RTP-001（RTP+Jackpot）| §7 RTP Engine / §5.5 Jackpot | Redis Atomic |
-| US-SHOP-001（商城 IAP）| §5.5 Order / §4 OWASP A08 | 冪等 order_id |
-| US-AGE-001（年齡驗證）| §4 A01 RBAC / §5.5 User.age_status | 狀態機控制 |
-| US-VIP-001（VIP 訂閱）| §5.5 VipSubscription / §4.5 VipActivated | 訂閱狀態同步 |
+> 追溯粒度：User Story → P0 Acceptance Criteria → EDD 實現章節
+
+| PRD User Story | P0 Acceptance Criteria | 技術實現章節 | 備註 |
+|---------------|----------------------|------------|------|
+| US-ACCT-001（帳號系統）| AC-1: 註冊需 email + password + birthdate，birthdate 用於年齡驗證 | §5.5 Entity: User | bcrypt cost=12 密碼雜湊 |
+| US-ACCT-001（帳號系統）| AC-2: 登入成功回傳 JWT Access（15min）+ Refresh Token（7d） | §4 JWT Auth / §4.1 OWASP A07 | RS256 非對稱簽章 |
+| US-ACCT-001（帳號系統）| AC-3: 登入失敗 5 次鎖定 15 分鐘 | §4.1 OWASP A07 | Redis TTL 鎖定 |
+| US-ROOM-001（多人競技房間）| AC-1: 4–6 人房間，不足 30 秒後 Bot 補位 | §3 Colyseus Room / §5.5 GameRoom | Colyseus Schema State Sync |
+| US-ROOM-001（多人競技房間）| AC-2: 玩家斷線 30 秒內可重連，逾時 Bot 取代 | §10.4 State Machine（DISCONNECTED 狀態）| Colyseus reconnect API |
+| US-FISH-001（魚群系統）| AC-1: 普通/精英/Boss 三類魚群，伺服器端生成 | §5.5 Entity: Fish / §4.5 FishSpawned | FishPool Service |
+| US-FISH-001（魚群系統）| AC-2: Boss 魚逃跑後發放安慰獎 | §10.6 Class Diagram BossFish.onEscape() | consolationRate 設定 |
+| US-WPSK-001（武器技能）| AC-1: 武器切換需驗證玩家擁有該武器 | §5.5 Weapon/Skill | 伺服器端授權驗證 |
+| US-WPSK-001（武器技能）| AC-2: 技能冷卻時間由伺服器端強制執行 | §4.5 WeaponFired Domain Event | 防作弊機制 |
+| US-RTP-001（RTP+Jackpot）| AC-1: RTP 範圍 85–95%，伺服器端計算 | §7 RTP Engine（§3.2 ADR-003）| Server-Authoritative |
+| US-RTP-001（RTP+Jackpot）| AC-2: Jackpot 觸發使用 Redis Lua Script 原子操作，確保唯一觸發 | §5.5 Jackpot / §10.8 Jackpot Sequence | Redis EVALSHA 原子鎖 |
+| US-SHOP-001（商城 IAP）| AC-1: 訂單需帶 UUID order_id 支援冪等重試 | §5.5 Order / §4.1 OWASP A08 | 冪等 order_id |
+| US-SHOP-001（商城 IAP）| AC-2: IAP Receipt 驗證失敗時訂單標記 PENDING 異步重試 | §8.5 Graceful Degradation | Circuit Breaker 模式 |
+| US-AGE-001（年齡驗證）| AC-1: 未驗證年齡的玩家只能進入演示模式 | §4.1 A01 RBAC / §5.5 User.age_status | 狀態機控制 |
+| US-AGE-001（年齡驗證）| AC-2: age_status 狀態機：UNVERIFIED → DEMO_ONLY → VERIFIED | §10.4 State Machine（延伸）| AgeVerified Domain Event |
+| US-VIP-001（VIP 訂閱）| AC-1: VIP 到期後自動降級，不中斷服務 | §5.5 VipSubscription | 訂閱狀態同步 |
+| US-VIP-001（VIP 訂閱）| AC-2: VIP 訂閱生效後立即廣播 VipActivated 事件 | §4.5 VipActivated Domain Event | 事件驅動更新 |
 
 ---
 
@@ -116,7 +127,26 @@ graph TD
 
 ### 3.1 架構模式
 
-**選用模式：** Layered + Event-Driven（遊戲事件層）
+#### 高層架構模式選型：Modular Monolith（模組化單體）
+
+**選型決策：Modular Monolith（非 Microservices）**
+
+| 考量因素 | 說明 | 結論 |
+|---------|------|------|
+| 團隊規模 | 初期 3–5 人工程團隊 | 小團隊維護多個獨立部署服務成本過高 |
+| 流量差異 | 各服務（Account/Game/Shop）初期流量差異有限（均源自同一客戶端）| 差異化水平擴展需求暫不明確 |
+| SLA 差異 | Game Service 需 WebSocket P99 < 100ms；Account/Shop 需 REST P99 < 500ms | 有差異但可透過獨立 k8s Deployment 解決，不需完全 Microservices |
+| 服務間通訊 | 同進程內模組呼叫（不需網路 hop），Domain Event 透過 Redis Pub/Sub 跨模組通訊 | 延遲最優 |
+| 未來拆分計劃 | Phase 3 後若 Game Service QPS 顯著超過其他模組，獨立拆出為獨立服務 | 已保留模組邊界（DDD Bounded Context），拆分成本低 |
+
+**架構決策：**
+- **現階段（Phase 1–2）**：每個 Bounded Context（Account/Game/Shop/Admin）為獨立 k8s Deployment，共享 MySQL/Redis 資源；模組間透過 Redis Pub/Sub 傳遞 Domain Event
+- **服務間通訊策略**：
+  - **同步（REST）**：客戶端至 API Gateway；API Gateway 至各 Service Controller
+  - **異步（Event）**：Domain Event（如 GameSessionEnded → Commerce 結算；IAPPurchaseCompleted → Account 更新餘額）透過 Redis Pub/Sub 傳遞
+- **Phase 3 拆分觸發條件**：Game Service 峰值 QPS > 10,000 events/s，或需要獨立部署週期時，沿現有 Bounded Context 邊界拆出
+
+**選用分層模式：Layered + Event-Driven（遊戲事件層）**
 
 ```
 Presentation Layer  — Express Controller / Colyseus Room Handler（輸入驗證）
@@ -235,9 +265,69 @@ graph LR
 
 ### 4.1 OWASP Top 10 對應
 
+#### 角色權限矩陣（Role × API Endpoint × HTTP Method）
+
+> 三種角色：`Player`（玩家）、`Operator`（運營管理員）、`SuperAdmin`（超級管理員）
+> 符號說明：✅ 允許、❌ 禁止、⚠️ 僅限本人資源（BOLA 防護：需驗證 resource.user_id === jwt.user_id）
+
+| API Endpoint | HTTP Method | Player | Operator | SuperAdmin | 說明 |
+|-------------|-------------|--------|----------|------------|------|
+| `/v1/auth/register` | POST | ✅ | ✅ | ✅ | 公開端點 |
+| `/v1/auth/login` | POST | ✅ | ✅ | ✅ | 公開端點 |
+| `/v1/auth/refresh` | POST | ✅ | ✅ | ✅ | 帶有效 Refresh Token |
+| `/v1/users/:id` | GET | ⚠️ | ✅ | ✅ | 玩家只能查自己 |
+| `/v1/users/:id` | PATCH | ⚠️ | ❌ | ✅ | 玩家只能改自己非敏感欄位 |
+| `/v1/users/:id/ban` | POST | ❌ | ✅ | ✅ | 封號操作 |
+| `/v1/users/:id/age-verify` | POST | ⚠️ | ✅ | ✅ | 玩家提交自己的年齡聲明 |
+| `/v1/game/rooms` | GET | ✅ | ✅ | ✅ | 查詢可用房間 |
+| `/v1/game/rooms/:id/join` | POST | ✅ | ❌ | ❌ | 僅玩家可加入遊戲 |
+| `/v1/game/sessions/:id` | GET | ⚠️ | ✅ | ✅ | 玩家只能查自己參與的局 |
+| `/v1/shop/products` | GET | ✅ | ✅ | ✅ | 查詢商品列表 |
+| `/v1/shop/orders` | POST | ✅ | ❌ | ❌ | 玩家建立訂單 |
+| `/v1/shop/orders/:id/verify-receipt` | POST | ⚠️ | ❌ | ❌ | 玩家驗證自己的 IAP Receipt |
+| `/v1/vip/subscribe` | POST | ✅ | ❌ | ❌ | 玩家訂閱 VIP |
+| `/v1/admin/rtp/config` | GET | ❌ | ✅ | ✅ | 查看 RTP 設定 |
+| `/v1/admin/rtp/override` | POST | ❌ | ❌ | ✅ | **高敏感**：即時調整 RTP 目標值；需 SuperAdmin + Feature Flag `perm.admin.rtp_override` |
+| `/v1/admin/jackpot/disable` | POST | ❌ | ❌ | ✅ | **高敏感**：緊急關閉 Jackpot |
+| `/v1/admin/users` | GET | ❌ | ✅ | ✅ | 查詢玩家列表（分頁）|
+| `/v1/admin/analytics/kpi` | GET | ❌ | ✅ | ✅ | KPI Dashboard 資料 |
+| `/v1/admin/activity/config` | POST | ❌ | ✅ | ✅ | 活動與數值設定 |
+| `/v1/admin/audit-logs` | GET | ❌ | ✅ | ✅ | 查看稽核日誌（唯讀）|
+
+**RBAC 實施方式：**
+```typescript
+// JWT Payload 包含 role 欄位
+interface JWTPayload {
+  sub: string;       // user_id
+  role: 'Player' | 'Operator' | 'SuperAdmin';
+  iat: number;
+  exp: number;
+}
+
+// Express Middleware：角色驗證
+const requireRole = (...roles: UserRole[]) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ success: false, error: { code: 'FORBIDDEN', message: '權限不足' } });
+    }
+    next();
+  };
+
+// BOLA 防護：資源擁有者驗證
+const requireOwnerOrRole = (...roles: UserRole[]) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    const isOwner = req.params.id === req.user.sub;
+    const hasRole = roles.includes(req.user.role);
+    if (!isOwner && !hasRole) {
+      return res.status(403).json({ success: false, error: { code: 'FORBIDDEN', message: '無權存取他人資源' } });
+    }
+    next();
+  };
+```
+
 | # | 風險 | 本系統對策 |
 |---|------|----------|
-| A01 | Broken Access Control | JWT RS256 + RBAC（玩家/管理員/超管三級）；每個 API endpoint 透過 middleware 驗證 `user.role`；Colyseus Room 進入時驗證 JWT |
+| A01 | Broken Access Control | JWT RS256 + RBAC（玩家/管理員/超管三級）；每個 API endpoint 透過 middleware 驗證 `user.role`；Colyseus Room 進入時驗證 JWT；BOLA 防護透過 `requireOwnerOrRole` middleware |
 | A02 | Cryptographic Failures | 密碼 bcrypt cost=12；PII（email/phone/birthdate）AES-256-GCM 加密存儲；HTTPS TLS 1.3+ 全程加密；WebSocket 使用 WSS |
 | A03 | Injection | 全部使用 Prisma Parameterized Query；用戶輸入透過 Zod Schema Validation；禁止 raw SQL 拼接 |
 | A04 | Insecure Design | 伺服器端 RTP 計算（Server-Authoritative）；Threat Model 已設計（見 §9.5）；Fail-fast startup |
@@ -250,10 +340,44 @@ graph LR
 
 ### 4.2 Secret 管理
 
-- 所有 Secret（DB 密碼、JWT 私鑰、IAP API Key）存於 k8s Secret / OS Keystore
+#### 工具選型
+
+| 工具 | 用途 | 說明 |
+|------|------|------|
+| **k8s Secret** | 應用層 Secret（DB 密碼、Redis 密碼、JWT Keys）| 以 k8s Secret 注入至 Pod 環境變數；不存明文於 ConfigMap |
+| **AWS Secrets Manager** | 需要版本輪換與審計的高敏感 Secret（IAP API Keys、加密主金鑰 AES Key）| 支援自動 Rotation；Audit Trail 完整；k8s 透過 External Secrets Operator 同步至 k8s Secret |
+
+**決策原則：** 日常配置類 Secret（DB/Redis 連線密碼）用 k8s Secret 即可；需要獨立稽核、自動輪換的外部服務金鑰（Apple/Google IAP Key、AES 加密主金鑰）統一存於 AWS Secrets Manager。
+
+#### Secret 分類清單
+
+| 分類 | Secret 名稱 | 存放工具 | 說明 |
+|------|-----------|---------|------|
+| **DB Credentials** | `MYSQL_PASSWORD` | k8s Secret | MySQL 應用帳號密碼 |
+| **DB Credentials** | `REDIS_PASSWORD` | k8s Secret | Redis AUTH 密碼 |
+| **JWT Keys** | `JWT_PRIVATE_KEY` | k8s Secret | RS256 JWT 簽章私鑰（PEM 格式）|
+| **JWT Keys** | `JWT_PUBLIC_KEY` | k8s Secret | RS256 JWT 驗證公鑰（PEM 格式）|
+| **IAP API Keys** | `APPLE_IAP_SHARED_SECRET` | AWS Secrets Manager | App Store Connect 共享密鑰 |
+| **IAP API Keys** | `GOOGLE_IAP_SERVICE_ACCOUNT_KEY` | AWS Secrets Manager | Google Play 服務帳號 JSON Key |
+| **Encryption Keys** | `PII_AES_KEY` | AWS Secrets Manager | PII 欄位（email/phone/birthdate）AES-256-GCM 加密主金鑰 |
+
+#### k8s Secret 命名規範
+
+格式：`fishing-arcade-{env}-{category}`
+
+| 環境 | 分類 | Secret 名稱範例 |
+|------|------|---------------|
+| production | db | `fishing-arcade-prod-db` |
+| production | jwt | `fishing-arcade-prod-jwt` |
+| staging | db | `fishing-arcade-staging-db` |
+| staging | jwt | `fishing-arcade-staging-jwt` |
+| development | db | `fishing-arcade-dev-db` |
+
+#### 其他 Secret 管理規則
+
 - 啟動時 Fail-fast 驗證所有必要環境變數（缺失立即 exit(1)）
 - Log 遮罩規則：`email → t***@***.com`；`password → [REDACTED]`；`jwt_token → [TOKEN:前4位]`
-- Secret Rotation Policy：JWT 私鑰每 90 天輪換；DB 密碼每 180 天輪換
+- Secret Rotation Policy：JWT 私鑰每 90 天輪換；DB 密碼每 180 天輪換；IAP Keys 依平台要求輪換
 
 ### 4.5 Domain Events
 
@@ -425,6 +549,136 @@ erDiagram
     users ||--o{ audit_logs : "觸發"
 ```
 
+### 5.5b Indexing 策略
+
+> 補充各主要 Entity 的索引設計，對應查詢模式。
+
+| Entity | Index 欄位 | Index 類型 | 對應查詢模式 | 說明 |
+|--------|-----------|-----------|------------|------|
+| `users` | `email` | UNIQUE INDEX | 登入查詢（`WHERE email = ?`）| 確保唯一性；登入高頻查詢 |
+| `users` | `deleted_at` | INDEX | 查詢活躍用戶（`WHERE deleted_at IS NULL`）| 支援軟刪除過濾 |
+| `game_sessions` | `status, started_at` | COMPOSITE INDEX | 查詢進行中房間列表（`WHERE status = 'IN_PROGRESS' ORDER BY started_at DESC`）| 玩家配對時高頻查詢 |
+| `game_sessions` | `room_id` | INDEX | Colyseus Room 對應查詢（`WHERE room_id = ?`）| 遊戲事件觸發查詢 |
+| `session_players` | `session_id` | INDEX | 查詢局內玩家列表（`WHERE session_id = ?`）| 結算時批量查詢 |
+| `session_players` | `user_id, joined_at` | COMPOSITE INDEX | 查詢玩家歷史對局（`WHERE user_id = ? ORDER BY joined_at DESC`）| 個人戰績頁面查詢 |
+| `fish_kills` | `session_id` | INDEX | 查詢局內擊殺記錄（`WHERE session_id = ?`）| 結算計算用 |
+| `fish_kills` | `killer_id, killed_at` | COMPOSITE INDEX | 查詢玩家捕魚歷史（`WHERE killer_id = ? ORDER BY killed_at DESC LIMIT 100`）| 個人統計頁面 |
+| `fish_kills` | `killed_at` | INDEX（按月分區）| 批量清理舊記錄（`WHERE killed_at < ?`）| 支援 RANGE 分區 + 歷史資料清理 |
+| `orders` | `user_id, created_at` | COMPOSITE INDEX | 查詢用戶訂單列表（`WHERE user_id = ? ORDER BY created_at DESC`）| 購買記錄頁面 |
+| `orders` | `status, created_at` | COMPOSITE INDEX | 查詢 PENDING 待處理訂單（`WHERE status = 'PENDING' ORDER BY created_at`）| 異步重試任務掃描 |
+| `orders` | `iap_receipt_hash` | UNIQUE INDEX | IAP 重複驗證防護（`WHERE iap_receipt_hash = ?`）| 防止 Receipt 重用 |
+| `vip_subscriptions` | `user_id` | UNIQUE INDEX | 查詢用戶 VIP 狀態（`WHERE user_id = ?`）| 一對一關係，高頻查詢 |
+| `vip_subscriptions` | `expires_at, status` | COMPOSITE INDEX | 掃描即將到期的訂閱（`WHERE status = 'ACTIVE' AND expires_at < ?`）| 訂閱到期定時任務 |
+| `audit_logs` | `actor_user_id, created_at` | COMPOSITE INDEX | 查詢特定用戶操作記錄（`WHERE actor_user_id = ? ORDER BY created_at DESC`）| 管理後台查詢 |
+| `audit_logs` | `event_type, created_at` | COMPOSITE INDEX | 查詢特定事件類型（`WHERE event_type = ? AND created_at BETWEEN ? AND ?`）| 稽核報表查詢 |
+
+**分區策略（`fish_kills` 表）：**
+- `fish_kills` 預計每日新增 200 萬行，1 年後累積 7 億行
+- 採用 MySQL RANGE 分區（按月 `killed_at`），每月一個分區
+- 超過 6 個月的歷史分區可直接 `ALTER TABLE DROP PARTITION` 清理，不影響線上服務
+
+---
+
+## 5.6 API 設計概覽
+
+> 完整 Endpoint 定義請參見 [API.md](API.md)。本節定義 API 設計規範，所有 Endpoint 必須遵循。
+
+### Base URL Pattern
+
+| 環境 | Base URL |
+|------|---------|
+| Local | `http://localhost:3000/v1` |
+| Development | `https://api.dev.fishing-arcade-game.internal/v1` |
+| Staging | `https://api.staging.fishing-arcade-game.com/v1` |
+| Production | `https://api.fishing-arcade-game.com/v1` |
+
+WebSocket（Colyseus）連線端點：
+- Production: `wss://game.fishing-arcade-game.com`
+- Staging: `wss://game.staging.fishing-arcade-game.com`
+
+### 版本策略
+
+- URL Path 版本化：`/v1/`（當前版本）
+- 破壞性變更時遞增版本（`/v2/`），舊版本保留 6 個月後棄用
+- 版本棄用通知：HTTP Response Header `Deprecation: true` + `Sunset: <date>`
+
+### 認證方式
+
+```
+Authorization: Bearer {JWT_ACCESS_TOKEN}
+```
+
+- 所有需要認證的 Endpoint 必須攜帶 `Authorization: Bearer {JWT}` Header
+- JWT Access Token 有效期：15 分鐘；Refresh Token 有效期：7 天
+- 未認證請求回傳 `HTTP 401 Unauthorized`
+- 無權限請求回傳 `HTTP 403 Forbidden`
+
+### 統一回應格式
+
+所有 REST API 回應統一使用以下信封格式：
+
+```typescript
+interface APIResponse<T> {
+  success: boolean;           // true = 成功, false = 失敗
+  data: T | null;             // 業務資料（成功時）；失敗時為 null
+  error: APIError | null;     // 錯誤詳情（失敗時）；成功時為 null
+  metadata?: ResponseMetadata; // 分頁等元資料（可選）
+}
+
+interface APIError {
+  code: string;               // 自定義錯誤碼（見下表）
+  message: string;            // 人可讀錯誤訊息（英文）
+  message_zh?: string;        // 繁中本地化訊息（面向玩家的錯誤）
+  details?: Record<string, string[]>; // 欄位驗證錯誤細節
+}
+
+interface ResponseMetadata {
+  total: number;              // 總資料筆數（分頁）
+  page: number;               // 目前頁碼（從 1 開始）
+  limit: number;              // 每頁筆數
+  has_next: boolean;          // 是否有下一頁
+}
+```
+
+**回應範例（成功）：**
+```json
+{
+  "success": true,
+  "data": { "user_id": "uuid", "gold_balance": 1500 },
+  "error": null
+}
+```
+
+**回應範例（失敗）：**
+```json
+{
+  "success": false,
+  "data": null,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request parameters",
+    "details": { "email": ["Invalid email format"] }
+  }
+}
+```
+
+### 統一錯誤碼規範
+
+| HTTP Status | 自定義 error_code | 說明 |
+|------------|-----------------|------|
+| 400 | `VALIDATION_ERROR` | 請求參數驗證失敗（Zod Schema 驗證不通過）|
+| 400 | `INVALID_RECEIPT` | IAP Receipt 格式無效 |
+| 401 | `UNAUTHORIZED` | 未攜帶或 JWT Token 無效/過期 |
+| 401 | `TOKEN_EXPIRED` | JWT Access Token 已過期（應使用 Refresh Token 換新）|
+| 403 | `FORBIDDEN` | 角色權限不足 |
+| 403 | `AGE_RESTRICTED` | 年齡限制（age_status = UNVERIFIED）|
+| 404 | `NOT_FOUND` | 資源不存在 |
+| 409 | `DUPLICATE_ORDER` | order_id 重複（冪等衝突）|
+| 409 | `EMAIL_ALREADY_EXISTS` | 帳號 Email 已被使用 |
+| 429 | `RATE_LIMIT_EXCEEDED` | 請求頻率超限（詳見 §9.5 Rate Limiting）|
+| 500 | `INTERNAL_ERROR` | 伺服器內部錯誤（不含業務細節）|
+| 503 | `SERVICE_DEGRADED` | 服務降級中（IAP 驗證 PENDING 等）|
+
 ---
 
 ## 6. TDD 設計
@@ -480,6 +734,24 @@ export const options = {
 
 ### 7.3 k8s 資源規格
 
+#### 環境規格矩陣
+
+| 規格項目 | Local（Rancher Desktop）| Development | Staging | Production |
+|---------|------------------------|-------------|---------|------------|
+| **k8s Namespace** | `default` | `fishing-arcade-dev` | `fishing-arcade-staging` | `fishing-arcade-prod` |
+| **Game Service 副本數** | 1 | 1 | 2 | 3–20（HPA）|
+| **Game Service CPU** | 500m / 1000m | 500m / 1000m | 500m / 2000m | 500m / 2000m |
+| **Game Service Memory** | 256Mi / 1Gi | 512Mi / 1Gi | 512Mi / 2Gi | 512Mi / 2Gi |
+| **API Service 副本數** | 1 | 1 | 2 | 2–10（HPA）|
+| **API Service CPU** | 100m / 500m | 100m / 500m | 100m / 500m | 100m / 500m |
+| **API Service Memory** | 64Mi / 256Mi | 128Mi / 512Mi | 128Mi / 512Mi | 128Mi / 512Mi |
+| **DB Host** | `localhost:3306` | `/secrets/fishing-arcade-dev-db` | `/secrets/fishing-arcade-staging-db` | `/secrets/fishing-arcade-prod-db`（RDS Multi-AZ）|
+| **Redis Host** | `localhost:6379` | `/secrets/fishing-arcade-dev-redis` | `/secrets/fishing-arcade-staging-redis` | `/secrets/fishing-arcade-prod-redis`（ElastiCache Cluster）|
+
+> Secret 路徑格式：AWS Secrets Manager 路徑，由 External Secrets Operator 同步至 k8s Secret（命名規範見 §4.2）
+
+#### Pod 資源規格 YAML
+
 **Game Service（Colyseus）— 資源最密集**
 ```yaml
 resources:
@@ -501,6 +773,58 @@ hpa:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 70
 ```
+
+#### Pod Disruption Budget（PDB）
+
+> PDB 設定依據：SLO Availability ≥ 99.5%（§10.5）；確保滾動更新或節點維護期間不低於最小可用副本數。
+
+**Game Service PDB（Colyseus）**
+```yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: game-service-pdb
+  namespace: fishing-arcade-prod
+spec:
+  minAvailable: 2        # 最少保留 2 個副本在線（最小副本數 3 → 允許最多同時 1 個不可用）
+  selector:
+    matchLabels:
+      app: game-service
+```
+
+**Account Service PDB**
+```yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: account-service-pdb
+  namespace: fishing-arcade-prod
+spec:
+  maxUnavailable: 1      # 最多允許 1 個副本不可用（最小副本數 2 → 任何時刻至少 1 個在線）
+  selector:
+    matchLabels:
+      app: account-service
+```
+
+**Shop Service PDB**
+```yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: shop-service-pdb
+  namespace: fishing-arcade-prod
+spec:
+  maxUnavailable: 1      # 同 Account Service 設定
+  selector:
+    matchLabels:
+      app: shop-service
+```
+
+| Service | PDB 策略 | 設定依據 |
+|---------|---------|---------|
+| Game Service（Colyseus）| `minAvailable: 2` | 遊戲即時連線不可中斷；維護時至少 2 個副本承載現有房間 |
+| Account Service | `maxUnavailable: 1` | 無狀態 REST；短暫單副本降級可接受；不影響已登入玩家 |
+| Shop Service | `maxUnavailable: 1` | 同上；購買流程可重試；不需強保留最小副本數 |
 
 ---
 
@@ -566,6 +890,68 @@ Release Tag（v*）:
   → ④ 自動擴展至 100%（若 error_rate < 0.1% 且 P99 < 100ms）
   → ⑤ 若失敗自動 Rollback 至前一版本
 ```
+
+### 9.4 Rate Limiting 設計
+
+> 實施位置：**API Gateway 層**（Nginx Ingress + 自建 Express Rate Limit Middleware）；WebSocket 連線限制由 Colyseus Room 層控制。
+
+#### 限制維度與數值
+
+| 端點類型 | 端點範例 | 限制維度 | 限制數值 | 說明 |
+|---------|---------|---------|---------|------|
+| 認證端點 | `POST /v1/auth/login` | Per IP | 10 req/min | 防暴力破解；超限鎖定 15 分鐘（Redis TTL）|
+| 認證端點 | `POST /v1/auth/register` | Per IP | 5 req/min | 防批量帳號創建 |
+| 認證端點 | `POST /v1/auth/refresh` | Per User ID | 30 req/min | Token Refresh 不需 IP 限制 |
+| 一般 REST API | `GET /v1/shop/products` | Per User ID | 60 req/min | 公共查詢類端點 |
+| 一般 REST API | `GET /v1/users/:id` | Per User ID | 30 req/min | 玩家資料查詢 |
+| 寫入端點 | `POST /v1/shop/orders` | Per User ID | 5 req/min | 購買操作防刷單 |
+| 寫入端點 | `POST /v1/shop/orders/:id/verify-receipt` | Per User ID | 5 req/min | IAP 驗證防刷 |
+| WebSocket 連線 | Colyseus 握手 | Per IP | 20 connections/min | 防 WebSocket 連線耗盡攻擊 |
+| 管理員端點 | `POST /v1/admin/rtp/override` | Per User ID | 5 req/min | 高敏感操作額外限制 |
+| Health Check | `GET /health` | 不限 | — | k8s Probe 不受限制 |
+
+#### 超限回應格式
+
+HTTP 429 Too Many Requests：
+```json
+{
+  "success": false,
+  "data": null,
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Too many requests. Please retry after the indicated time.",
+    "message_zh": "請求次數過多，請稍後再試。"
+  }
+}
+```
+
+HTTP Response Headers：
+```
+HTTP/1.1 429 Too Many Requests
+Retry-After: 60
+X-RateLimit-Limit: 10
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1745500860
+```
+
+#### 實施架構
+
+```
+客戶端請求
+    ↓
+Nginx Ingress（IP 層粗粒度 Rate Limit：防 DDoS）
+    ↓
+Express Rate Limit Middleware（細粒度：Per User ID / Per IP，Redis 計數器）
+    ↓
+Controller → Service
+```
+
+**Redis 計數器 Key 格式：**
+```
+rate_limit:{endpoint_key}:{user_id|ip_hash}  →  TTL = window_seconds
+```
+
+---
 
 ### 9.5 Threat Model（STRIDE 分析）
 
@@ -755,6 +1141,112 @@ graph TD
 ```
 
 ### 10.6 Class Diagram（Domain Layer — Game BC）
+
+#### AccountService & ShopService 公開介面定義
+
+```typescript
+// ─── AccountService 公開介面 ───────────────────────────────
+interface IAccountService {
+  /** 玩家註冊；email 唯一；birthdate 用於年齡驗證 */
+  register(email: string, password: string, birthdate: Date): Promise<UserDTO>;
+
+  /** 登入驗證；成功回傳 JWT Access + Refresh Token 組合 */
+  login(email: string, password: string): Promise<AuthTokenPairDTO>;
+
+  /** 使用 Refresh Token 換發新 Access Token */
+  refreshToken(refreshToken: string): Promise<AuthTokenPairDTO>;
+
+  /** 查詢玩家資料（需 BOLA 驗證：呼叫者需為本人或 Operator+）*/
+  getUserById(userId: string): Promise<UserDTO>;
+
+  /** 更新玩家年齡驗證狀態 */
+  verifyAge(userId: string, declaredAge: number): Promise<void>;
+
+  /** 封鎖玩家帳號（需 Operator 或 SuperAdmin 角色）*/
+  banUser(userId: string, reason: string, operatorId: string): Promise<void>;
+
+  /** 查詢玩家金幣與鑽石餘額 */
+  getBalance(userId: string): Promise<BalanceDTO>;
+
+  /** 更新金幣餘額（遊戲結算用；冪等，帶 session_id）*/
+  creditGold(userId: string, amount: number, sessionId: string): Promise<BalanceDTO>;
+
+  /** 查詢 VIP 訂閱狀態 */
+  getVipStatus(userId: string): Promise<VipSubscriptionDTO | null>;
+}
+
+// ─── ShopService 公開介面 ───────────────────────────────────
+interface IShopService {
+  /** 查詢所有上架商品列表 */
+  listProducts(): Promise<ProductDTO[]>;
+
+  /** 建立訂單（含 order_id 冪等保證）；order_id 由客戶端生成（UUID v4）*/
+  createOrder(userId: string, productId: string, orderId: string): Promise<OrderDTO>;
+
+  /** 驗證 IAP Receipt 並發放鑽石；冪等（相同 order_id 多次呼叫返回同一結果）*/
+  verifyIAPReceipt(orderId: string, iapReceipt: string, platform: 'apple' | 'google'): Promise<OrderDTO>;
+
+  /** 查詢用戶訂單列表（分頁）*/
+  listOrders(userId: string, page: number, limit: number): Promise<PaginatedResult<OrderDTO>>;
+
+  /** 查詢單一訂單狀態 */
+  getOrderById(orderId: string): Promise<OrderDTO>;
+
+  /** 訂閱 VIP；建立 VipSubscription 記錄並發佈 VipActivated 事件 */
+  subscribeVip(userId: string, orderId: string, vipTier: number): Promise<VipSubscriptionDTO>;
+}
+
+// ─── 相關 DTO 型別 ────────────────────────────────────────────
+interface UserDTO {
+  id: string;
+  email_masked: string;    // 遮罩後的 email（如 t***@***.com）
+  age_status: 'UNVERIFIED' | 'DEMO_ONLY' | 'VERIFIED';
+  vip_tier: number;
+  gold_balance: bigint;
+  diamond_balance: number;
+  created_at: Date;
+}
+
+interface AuthTokenPairDTO {
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;      // Access Token 有效秒數（900 = 15 分鐘）
+}
+
+interface BalanceDTO {
+  user_id: string;
+  gold_balance: bigint;
+  diamond_balance: number;
+}
+
+interface OrderDTO {
+  order_id: string;        // UUID v4（冪等 key）
+  user_id: string;
+  product_id: string;
+  order_type: 'DIAMOND_PACK' | 'VIP_SUBSCRIPTION' | 'WEAPON_PACK';
+  amount_usd: number;
+  status: 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
+  created_at: Date;
+}
+
+interface VipSubscriptionDTO {
+  user_id: string;
+  vip_tier: number;
+  activated_at: Date;
+  expires_at: Date;
+  status: 'ACTIVE' | 'EXPIRED' | 'CANCELLED';
+}
+
+interface PaginatedResult<T> {
+  items: T[];
+  total: number;
+  page: number;
+  limit: number;
+  has_next: boolean;
+}
+```
+
+#### Class Diagram（UML）
 
 ```mermaid
 classDiagram
