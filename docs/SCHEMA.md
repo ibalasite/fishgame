@@ -20,7 +20,8 @@
 
 | 版本 | 日期 | 作者 | 變更摘要 |
 |------|------|------|---------|
-| v1.0 | 2026-04-24 | AI Generated | 初稿 — 8 張核心資料表完整設計 |
+| v1.0 | 2026-04-24 | AI Generated | 初稿 — 11 張資料表設計（含 data_access_logs）|
+| v1.1 | 2026-04-24 | Review R1 Fix | Fix F-01~F-08：ER Diagram、軟刪除例外文件化、session_players FK+audit、vip unique constraint、索引順序、CHECK 約束 DDL |
 
 ---
 
@@ -28,7 +29,7 @@
 
 1. 概述
 2. 通用欄位規範（命名規則 / ID 策略 / Soft Delete）
-3. 資料表定義（10 張表）
+3. 資料表定義（11 張表）
 4. 正規化規則
 5. 索引策略
 6. 稽核與合規資料表
@@ -57,7 +58,7 @@
 | 時區 | 所有 DATETIME 儲存 UTC；應用層負責顯示時區轉換 |
 | Schema 命名空間 | `fishgame`（production）/ `fishgame_staging` |
 | ORM | Prisma 5.x（TypeScript），生成 migration SQL |
-| 最大連線數 | 依 §7.3 連線池公式計算（Production: PgBouncer 等效為 ProxySQL）|
+| 最大連線數 | 依 §7.3 連線池公式計算（Production: ProxySQL 連線池管理）|
 
 **主要 Entity 清單（依 EDD §5.5）**
 
@@ -73,6 +74,7 @@
 | `game_configs` | 1 行 | 遊戲設定（RTP/Jackpot）|
 | `audit_logs` | 每日 1 萬+ 行 | 管理員操作稽核（Append-only）|
 | `products` | ~20 行 | 商城商品目錄（讀多寫少）|
+| `data_access_logs` | 每日 N 行 | 敏感欄位存取稽核（Append-only）|
 
 ---
 
@@ -84,7 +86,7 @@
 |------|------|------|
 | 資料表名稱 | `snake_case`，**複數**，小寫（Prisma 慣例）| `users`, `game_sessions` |
 | 欄位名稱 | `snake_case`，小寫 | `display_name`, `created_at` |
-| Boolean 欄位 | 以 `is_`、`has_`、`can_` 為前綴 | `is_mvp`, `is_active`, `age_verified` |
+| Boolean 欄位 | 以 `is_`、`has_`、`can_` 為前綴 | `is_mvp`, `is_active`（例外：`age_verified` 為 API 契約既有命名，不重命名）|
 | Enum 欄位（MySQL）| ALL_CAPS 字串，`ENUM(...)` | `'active','suspended','banned'` |
 | 外鍵欄位 | 參照表名稱單數 + `_id` | `user_id`, `session_id` |
 | 索引名稱 | `idx_{table}_{columns}` | `idx_users_email` |
@@ -128,7 +130,13 @@ UPDATE users SET deleted_at = NOW(3) WHERE id = ?
 -- 補充：透過 Prisma softDeleteMiddleware 在應用層強制過濾
 ```
 
-> **注意**：`audit_logs` 是 Append-only，**不加** `deleted_at`。`game_configs`、`products` 使用 `is_active` 取代軟刪除。
+> **軟刪除例外表（不加 `deleted_at`）：**
+> - `audit_logs`：Append-only 日誌，永久保留，不刪除
+> - `game_configs`：單行設定，使用（管理員直接覆寫）
+> - `products`：商品目錄，使用 `is_active` 標記上下架，保留歷史記錄
+> - `game_sessions`、`session_players`：遊戲事件記錄，不可撤銷（發生即永久）；透過 `status` 欄位標記生命週期
+> - `fish_kills`、`jackpot_events`：事件日誌（Append-only），不需要軟刪除
+> - `data_access_logs`：Append-only 稽核日誌，永久保留
 
 ### 2.4 共用 Trigger Function（updated_at 自動更新）
 
@@ -182,7 +190,11 @@ CREATE TABLE users (
   updated_at           DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   deleted_at           DATETIME(3)      NULL     DEFAULT NULL,
 
-  CONSTRAINT pk_users PRIMARY KEY (id)
+  CONSTRAINT pk_users PRIMARY KEY (id),
+  CONSTRAINT chk_users_gold CHECK (gold_balance >= 0),
+  CONSTRAINT chk_users_diamond CHECK (diamond_balance >= 0),
+  CONSTRAINT chk_users_vip_tier CHECK (vip_tier BETWEEN 0 AND 3),
+  CONSTRAINT chk_users_failed_login CHECK (failed_login_count BETWEEN 0 AND 255)
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci
@@ -285,19 +297,20 @@ CREATE TRIGGER trg_game_sessions_updated_at
 CREATE TABLE session_players (
   id            BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
   session_id    BIGINT UNSIGNED  NOT NULL,
-  user_id       CHAR(26)         NOT NULL,
+  user_id       CHAR(26)         NULL                   COMMENT 'NULL = GDPR 匿名化後（ON DELETE SET NULL）',
   final_gold    BIGINT           NOT NULL DEFAULT 0     COMMENT '結算後淨金幣（可為負）',
   gold_spent    BIGINT UNSIGNED  NOT NULL DEFAULT 0     COMMENT '本局消耗金幣',
   gold_earned   BIGINT UNSIGNED  NOT NULL DEFAULT 0     COMMENT '本局獲得金幣',
   is_mvp        TINYINT(1)       NOT NULL DEFAULT 0,
   joined_at     DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   left_at       DATETIME(3)      NULL     DEFAULT NULL,
+  updated_at    DATETIME(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
 
   CONSTRAINT pk_session_players PRIMARY KEY (id),
   CONSTRAINT fk_sp_sessions FOREIGN KEY (session_id)
     REFERENCES game_sessions(id) ON DELETE CASCADE,
   CONSTRAINT fk_sp_users FOREIGN KEY (user_id)
-    REFERENCES users(id) ON DELETE CASCADE,
+    REFERENCES users(id) ON DELETE SET NULL,     -- GDPR 硬刪除時自動匿名化（user_id → NULL）
   CONSTRAINT uq_sp_session_user UNIQUE (session_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='遊戲局-玩家關聯表';
 
@@ -308,6 +321,10 @@ CREATE INDEX idx_sp_user_joined
 CREATE INDEX idx_sp_session_id
   ON session_players (session_id)
   COMMENT '結算時批量查詢局內玩家';
+
+CREATE TRIGGER trg_session_players_updated_at
+  BEFORE UPDATE ON session_players
+  FOR EACH ROW SET NEW.updated_at = NOW(3);
 ```
 
 ---
@@ -419,7 +436,9 @@ CREATE TABLE orders (
   CONSTRAINT fk_orders_users FOREIGN KEY (user_id)
     REFERENCES users(id),
   CONSTRAINT uq_orders_idempotency UNIQUE (idempotency_key),
-  CONSTRAINT uq_orders_receipt_hash UNIQUE (receipt_hash)
+  CONSTRAINT uq_orders_receipt_hash UNIQUE (receipt_hash),
+  CONSTRAINT chk_orders_diamonds CHECK (diamonds_credited >= 0),
+  CONSTRAINT chk_orders_amount CHECK (amount_usd >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='IAP 充值訂單（UUID 冪等）';
 
 CREATE INDEX idx_orders_user_created
@@ -463,18 +482,39 @@ CREATE TABLE vip_subscriptions (
   CONSTRAINT pk_vip_subscriptions PRIMARY KEY (id),
   CONSTRAINT fk_vip_users FOREIGN KEY (user_id)
     REFERENCES users(id),
-  CONSTRAINT uq_vip_idempotency UNIQUE (idempotency_key)
+  CONSTRAINT uq_vip_idempotency UNIQUE (idempotency_key),
+  CONSTRAINT chk_vip_diamonds CHECK (diamonds_deducted >= 0),
+  CONSTRAINT chk_vip_tier CHECK (vip_tier BETWEEN 1 AND 3),
+  CONSTRAINT chk_vip_expires CHECK (expires_at > activated_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='VIP 訂閱記錄';
 
--- 活躍玩家 VIP 狀態（最常查）
-CREATE UNIQUE INDEX uq_vip_user_active
+-- 玩家 VIP 訂閱查詢（支援多筆歷史記錄，唯一活躍訂閱由 trg_vip_one_active 保障）
+CREATE INDEX idx_vip_user_status
   ON vip_subscriptions (user_id, status)
-  COMMENT 'WHERE user_id=? AND status=''active'' — 確保唯一活躍訂閱';
+  COMMENT '查詢用戶 VIP 狀態（WHERE user_id=? AND status=''active''）；唯一活躍限制由觸發器保障';
 
--- 到期掃描定時任務
+-- 到期掃描：等值條件 status 在前，範圍條件 expires_at 在後
 CREATE INDEX idx_vip_expires_status
-  ON vip_subscriptions (expires_at, status)
-  COMMENT '掃描即將到期訂閱';
+  ON vip_subscriptions (status, expires_at)
+  COMMENT '掃描即將到期活躍訂閱（WHERE status=''active'' AND expires_at < ?）';
+
+-- 確保每個用戶最多一個 active 訂閱（MySQL 不支援 Partial Unique Index）
+DELIMITER $$
+CREATE TRIGGER trg_vip_one_active
+  BEFORE INSERT ON vip_subscriptions
+  FOR EACH ROW
+BEGIN
+  IF NEW.status = 'active' THEN
+    IF EXISTS (
+      SELECT 1 FROM vip_subscriptions
+      WHERE user_id = NEW.user_id AND status = 'active'
+    ) THEN
+      SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'User already has an active VIP subscription';
+    END IF;
+  END IF;
+END$$
+DELIMITER ;
 
 CREATE TRIGGER trg_vip_updated_at
   BEFORE UPDATE ON vip_subscriptions
@@ -636,7 +676,7 @@ CREATE TRIGGER trg_products_updated_at
 | `WHERE email=? AND deleted_at IS NULL` | POST /auth/login | `uq_users_email_lower` | < 2ms |
 | `WHERE user_id=? ORDER BY created_at DESC LIMIT 20` | GET /shop/orders | `idx_orders_user_created` | < 5ms |
 | `WHERE status='WAITING' ORDER BY started_at DESC LIMIT 20` | GET /game/rooms | `idx_game_sessions_status_started` | < 5ms |
-| `WHERE user_id=? AND status='active'` | GET /users/me（VIP 狀態）| `uq_vip_user_active` | < 2ms |
+| `WHERE user_id=? AND status='active'` | GET /users/me（VIP 狀態）| `idx_vip_user_status` | < 2ms |
 | `WHERE killer_id=? ORDER BY killed_at DESC LIMIT 100` | GET /game/history（統計）| `idx_fish_kills_killer` | < 10ms（分區裁剪）|
 
 ### 5.3 複合索引欄位順序原則
@@ -791,7 +831,7 @@ ALTER TABLE fish_kills MODIFY weapon_type VARCHAR(30) NOT NULL DEFAULT 'CANNON';
 | 表 | FK | ON DELETE 行為 | 理由 |
 |----|-----|--------------|------|
 | `session_players.session_id` | game_sessions | CASCADE | 局刪除時同步清除玩家記錄 |
-| `session_players.user_id` | users | CASCADE | 帳號刪除（軟刪除替代）|
+| `session_players.user_id` | users | SET NULL | GDPR 硬刪除時保留遊戲歷史，user_id 設為 NULL（匿名化）|
 | `jackpot_events.session_id` | game_sessions | RESTRICT | 有 Jackpot 的局不可刪除 |
 | `jackpot_events.winner_user_id` | users | RESTRICT | 中獎記錄保留（稅務合規）|
 | `orders.user_id` | users | RESTRICT | 訂單需保留 7 年（稅務法規）|
@@ -989,6 +1029,19 @@ erDiagram
         datetime3 updated_at "NOT NULL"
     }
 
+    data_access_logs {
+        bigint_unsigned id PK
+        varchar100 table_name "NOT NULL"
+        varchar36 record_id "NOT NULL"
+        varchar100 field_name
+        enum action "SELECT/UPDATE/DELETE"
+        char26 actor_id
+        varchar50 actor_type
+        text reason
+        varchar64 ip_hash "SHA-256(IP)"
+        datetime3 accessed_at "NOT NULL"
+    }
+
     users ||--o{ session_players : "參與"
     users ||--o{ orders : "產生"
     users ||--o{ vip_subscriptions : "擁有"
@@ -1152,11 +1205,10 @@ async function runGdprHardDelete() {
 
   for (const { id } of deletedUsers) {
     await prisma.$transaction([
+      // 刪除有 RESTRICT FK 的子記錄
       prisma.vipSubscriptions.deleteMany({ where: { userId: id } }),
-      prisma.sessionPlayers.updateMany({
-        where: { userId: id },
-        data: { userId: 'usr_deleted_placeholder' },
-      }),
+      // session_players.user_id ON DELETE SET NULL — FK 自動處理（保留遊戲歷史，匿名化）
+      // 不需要手動 updateMany
       prisma.users.delete({ where: { id } }),
     ]);
   }
