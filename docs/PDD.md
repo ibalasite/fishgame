@@ -1577,6 +1577,23 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-yellow-400` | `#FFEB3B`（HP 條中段純黃，區別於品牌金 #F5C842）|
 | `color-neon-blue-light` | `#40DFFF`（color-action-secondary-hover，Secondary Button Hover）|
 | `color-neon-blue-dark` | `#00A8CC`（color-action-secondary-active，Secondary Button Press）|
+
+> **VDD-Only Color Scale Extensions（VDD §6.1）：** 以下色階 Token 在 VDD §6.1 中定義，供漸層、懸停態、暗部高光等精細視覺效果使用；PDD §9.3 Layer 1 僅定義業務邏輯所需的核心色值（400/600/700/800/900），視覺延伸色階僅在 CSS 渲染層使用。
+>
+> | VDD CSS 變數 | 值 | 主要用途 |
+> |-------------|---|---------|
+> | `color-gold-50` | `#FFFEF0` | 金色色階最淺端（hover 高光背景）|
+> | `color-gold-100` | `#FFF8C9` | 金色次淺端 |
+> | `color-gold-200` | `#FFE87A` | 金色中淺端 |
+> | `color-gold-300` | `#FFD740` | 金色中段（Jackpot 粒子）|
+> | `color-gold-950` | `#3D2E00` | 金色最深端（hover 深色背景）|
+> | `color-ocean-50` | `#E8F4FF` | 海藍色階最淺端（工具提示背景）|
+> | `color-ocean-100` | `#B3D4F7` | 海藍次淺端 |
+> | `color-ocean-200` | `#5EA8E8` | 海藍中淺端（輸入框 focus 高亮邊框）|
+> | `color-ocean-300` | `#1A72C9` | 海藍中段（次要按鈕 hover）|
+> | `color-ocean-500` | `#134A8A` | 海藍中深端（進度填充）|
+> | `color-ocean-950` | `#030B1A` | 海藍最深端（深色遮罩底色）|
+
 | `font-size-12` | `12px` |
 | `font-size-14` | `14px` |
 | `font-size-16` | `16px` |
@@ -1681,7 +1698,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 |-------|------|---------|
 | `color-bg-base` | `color-ocean-900` | 主要背景色（遊戲底色）|
 | `color-bg-surface` | `color-ocean-800` | 卡片/面板背景 |
-| `color-bg-elevated` | `color-ocean-700` | 浮層/彈窗背景 |
+| `color-bg-elevated` | `color-ocean-700` | 浮層/彈窗/懸浮面板背景 |
 | `color-text-primary` | `color-white-100` | 主要文字（HUD、標題）|
 | `color-text-secondary` | `color-white-60` | 輔助說明文字 |
 | `color-text-disabled` | `color-white-35` | 禁用狀態文字 |
@@ -1703,7 +1720,6 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-text-success` | `color-neon-green` | 成功文字（命中提示）|
 | `color-text-error` | `color-red-500` | 錯誤文字 |
 | `color-text-tertiary` | `color-white-40` | 三級文字 |
-| `color-bg-elevated` | `color-ocean-700` | 懸浮面板背景 |
 | `color-bg-overlay` | `rgba(5,20,40,0.85)` | 模態遮罩 |
 | `color-bg-scrim` | `rgba(0,0,0,0.6)` | 半透明深色遮罩 |
 | `color-accent-vip` | `color-vip-identity` | VIP 徽章強調色 |
@@ -1734,7 +1750,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `text-body-md` | `font-size-18` + `font-weight-regular` + `line-height: 28px` | 正文（說明文字、清單項目）|
 | `text-body-sm` | `font-size-14` + `font-weight-regular` + `line-height: 20px` | 小正文（HUD 輔助文字、標籤）|
 | `text-caption` | `font-size-12` + `font-weight-regular` + `line-height: 16px` | 版本號、法律說明等小字 |
-| `text-button-label` | `font-size-18` + `font-weight-medium` + `line-height-tight` | 按鈕文字（CTA）|
+| `text-button-label` | `font-size-18` + `font-weight-medium` + `line-height: 22px` | 按鈕文字（CTA）|
 | `radius-sm` | `radius-8` | 小圓角（按鈕、輸入框、小卡片）|
 | `radius-md` | `radius-16` | 中圓角（充值卡片、面板容器）|
 | `radius-lg` | `radius-24` | 大圓角（Modal 彈窗、VIPPanel Banner）|
