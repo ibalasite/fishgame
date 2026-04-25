@@ -104,7 +104,7 @@ curl -X POST https://api.fishing-arcade-game.com/v1/auth/login \
   "data": {
     "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
     "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "expires_in": 3600,
+    "expires_in": 900,
     "token_type": "Bearer",
     "user": {
       "id": "usr_01HX...",
@@ -134,7 +134,7 @@ curl -X POST https://api.fishing-arcade-game.com/v1/auth/login \
 |------|-----------|------|
 | 400 | `VALIDATION_ERROR` | email/password 格式錯誤 |
 | 401 | `INVALID_CREDENTIALS` | 帳號或密碼錯誤 |
-| 423 | `ACCOUNT_LOCKED` | 帳號已鎖定（連續失敗 10 次）|
+| 423 | `ACCOUNT_LOCKED` | 帳號已鎖定（連續失敗 5 次）|
 | 429 | `RATE_LIMITED` | 超過 10 req/min/IP 限制 |
 
 ---
@@ -147,7 +147,7 @@ curl -X POST https://api.fishing-arcade-game.com/v1/auth/login \
 Authorization: Bearer <access_token>
 ```
 
-Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Window）。
+Token 有效期：`access_token` 15 分鐘（900s）；`refresh_token` 7 天（固定有效期）。
 
 ---
 
@@ -164,7 +164,7 @@ Token 有效期：`access_token` 1 小時；`refresh_token` 30 天（Sliding Win
 {
   "data": {
     "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "expires_in": 3600
+    "expires_in": 900
   },
   "meta": { "request_id": "req_01HX..." }
 }
@@ -1327,7 +1327,7 @@ X-Event-Type: jackpot.triggered
 | 422 | `IAP_RECEIPT_USED` | IAP 收據已被使用 | 提示聯繫客服 |
 | 422 | `CANNOT_MODIFY_ADMIN` | 不可修改管理員帳號 | 顯示操作限制提示 |
 | 422 | `RTP_RANGE_INVALID` | rtp_target_min > rtp_target_max | 修正數值後重試 |
-| 423 | `ACCOUNT_LOCKED` | 帳號鎖定（連續失敗 10 次）| 提示聯繫客服 |
+| 423 | `ACCOUNT_LOCKED` | 帳號鎖定（連續失敗 5 次）| 提示聯繫客服 |
 | 429 | `RATE_LIMITED` | 速率限制（Headers 含重置時間）| 依 `Retry-After` Header 等待後重試 |
 | 500 | `INTERNAL_ERROR` | 系統錯誤（不含內部詳情）| 提示稍後重試並回報 |
 | 503 | `SERVICE_UNAVAILABLE` | 服務暫時不可用（Circuit Breaker）| 等待後重試 |
