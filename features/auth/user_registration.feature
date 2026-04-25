@@ -81,7 +81,7 @@ Feature: 使用者帳號註冊
     Given 使用者 age_verified=false（年齡驗證未通過）
     When 使用者嘗試執行 POST /v1/shop/purchases
     Then API 回應狀態碼 403
-    And 回應錯誤碼為 "AGE_VERIFICATION_REQUIRED"
+    And 回應錯誤碼為 "AGE_RESTRICTED"
 
   # ─── 邊界條件 ───────────────────────────────────────────
 

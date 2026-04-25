@@ -61,7 +61,7 @@ Feature: 使用者帳號登入與 JWT 認證
     When 該 IP 再次提交 POST /v1/auth/login
     Then API 回應狀態碼 429
     And 回應包含 Retry-After header，時間 ≥ 3600 秒
-    And 回應錯誤碼為 "RATE_LIMITED"
+    And 回應錯誤碼為 "RATE_LIMIT_EXCEEDED"
 
   @p0 @regression @api @contract @TC-INT-ACCT-013-E
   Scenario: 以撤銷的 Refresh Token 刷新 Token 被拒絕

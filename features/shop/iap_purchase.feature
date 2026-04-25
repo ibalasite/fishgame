@@ -54,7 +54,7 @@ Feature: IAP 鑽石充值與金幣兌換
     Given Idempotency-Key="idem-key-001" 已被成功使用，對應 order_id="ORD-001"
     When 玩家以相同 Idempotency-Key="idem-key-001" 再次發送 POST /v1/shop/purchases
     Then API 回應狀態碼 409
-    And 回應錯誤碼為 "DUPLICATE_PURCHASE"
+    And 回應錯誤碼為 "DUPLICATE_ORDER"
     And 回應包含 original_order_id="ORD-001"
     And 鑽石未重複發放
 
@@ -93,7 +93,7 @@ Feature: IAP 鑽石充值與金幣兌換
     Given 玩家 age_verified=false
     When 玩家嘗試發送 POST /v1/shop/purchases
     Then API 回應狀態碼 403
-    And 回應錯誤碼為 "AGE_VERIFICATION_REQUIRED"
+    And 回應錯誤碼為 "AGE_RESTRICTED"
 
   # ─── 邊界條件 ───────────────────────────────────────────
 

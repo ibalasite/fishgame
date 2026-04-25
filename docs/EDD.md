@@ -687,8 +687,11 @@ interface ResponseMetadata {
 | 403 | `FORBIDDEN` | 角色權限不足 |
 | 403 | `AGE_RESTRICTED` | 年齡限制（age_status = UNVERIFIED）|
 | 404 | `NOT_FOUND` | 資源不存在 |
-| 409 | `DUPLICATE_ORDER` | order_id 重複（冪等衝突）|
+| 402 | `INSUFFICIENT_DIAMONDS` | 鑽石餘額不足（VIP 訂閱、武器購買等鑽石消費場景）|
+| 409 | `DUPLICATE_ORDER` | order_id 重複（IAP 訂單冪等衝突）|
+| 409 | `DUPLICATE_SUBSCRIPTION` | VIP 訂閱 Idempotency-Key 重複（冪等衝突）|
 | 409 | `EMAIL_ALREADY_EXISTS` | 帳號 Email 已被使用 |
+| 422 | `VIP_ALREADY_ACTIVE` | 玩家已有活躍 VIP 訂閱，重複訂閱被拒 |
 | 429 | `RATE_LIMIT_EXCEEDED` | 請求頻率超限（詳見 §9.5 Rate Limiting）|
 | 500 | `INTERNAL_ERROR` | 伺服器內部錯誤（不含業務細節）|
 | 503 | `SERVICE_DEGRADED` | 服務降級中（IAP 驗證 PENDING 等）|
