@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>需求追蹤矩陣 (RTM) — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 需求追蹤矩陣 (RTM)</p>
+    <h1 class="banner-title">需求追蹤矩陣 (RTM)</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link active" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>需求追蹤矩陣（Requirements Traceability Matrix）</h1>
+<p>&lt;!-- DOC-ID: RTM-FISHGAME-20260424 --&gt;</p>
+<p>&lt;!-- Version: 1.0 | Date: 2026-04-24 | Status: Draft --&gt;</p>
+<p>&lt;!-- Source: PRD (8 US / 39 ACs) → test-plan §15.1/§15.2 → features/*.feature --&gt;</p>
+<hr>
+<h2>文件控制</h2>
+<table>
+<tr><th>欄位</th><th>值</th></tr>
+<tr><td>DOC-ID</td><td>RTM-FISHGAME-20260424</td></tr>
+<tr><td>Version</td><td>1.0</td></tr>
+<tr><td>Date</td><td>2026-04-24</td></tr>
+<tr><td>Status</td><td>Draft</td></tr>
+<tr><td>上游文件</td><td>PRD, EDD, ARCH, API, SCHEMA, test-plan.md, features/*.feature</td></tr>
+<tr><td>維護者</td><td>QA Lead</td></tr>
+</table>
+<hr>
+<h2>§1 統計摘要</h2>
+<h3>§1.1 整體覆蓋率</h3>
+<table>
+<tr><th>指標</th><th>數量</th><th>說明</th></tr>
+<tr><td>PRD User Stories</td><td>8（P0: 7 / P1: 1）</td><td>US-ACCT/ROOM/FISH/WPSK/RTP/SHOP/AGE + VIP</td></tr>
+<tr><td>PRD Acceptance Criteria</td><td>39（P0: 36 / P1: 3）</td><td>每條 AC 至少一個 TC</td></tr>
+<tr><td>§15.1 E2E / Integration TCs</td><td>43</td><td>test-plan RTM 正式映射表</td></tr>
+<tr><td>§15.2 Unit Test TCs</td><td>24</td><td>核心模組 Class-level 覆蓋</td></tr>
+<tr><td>BDD 補充場景（features/）</td><td>~78（Scenario 宣告數）/ ~95（含 Outline 展開後 test cases）</td><td>8 個 feature files，§15.1 未涵蓋之邊界/錯誤路徑；計算說明：含 Scenario Outline Examples 展開後為 95 個有效 test case</td></tr>
+<tr><td><strong>Total TC（含 BDD 補充）</strong></td><td><strong>~110</strong>（Scenario 宣告）/ <strong>~138</strong>（含 Outline 展開）</td><td>詳見 §3–§5；數量包含 §15.1 正式 TC + BDD 補充</td></tr>
+<tr><td>TC 規劃覆蓋率</td><td><strong>100%</strong>（39/39）</td><td>所有 P0 AC 均有對應 TC 規劃</td></tr>
+<tr><td>BDD Scenario 覆蓋率</td><td><strong>~67%</strong>（26/39 AC 有實際 BDD Scenario）</td><td>13 個 AC 的 BDD Feature 欄位為空，仍待補充</td></tr>
+<tr><td>初始執行狀態</td><td>0 / 83 PASS</td><td>全部 TODO（尚未執行）</td></tr>
+</table>
+<h3>§1.2 測試類型分布</h3>
+<div class="diagram-container"><pre class="mermaid">pie title TC 類型分布（§15.1 + §15.2）
+  "E2E" : 12
+  "Integration" : 25
+  "Unit (§15.1)" : 6
+  "Unit (§15.2 Class)" : 24</pre></div>
+<h3>§1.3 模組覆蓋分布</h3>
+<div class="diagram-container"><pre class="mermaid">bar
+  title TC 數量 by 模組（§15.1 基準）
+  x-axis [ACCT, ROOM, FISH, WPSK, RTP, SHOP, AGE, VIP]
+  y-axis "TC 數量" 0 --> 10
+  bar [7, 8, 6, 4, 6, 7, 4, 3]</pre></div>
+<h3>§1.4 P0 AC 覆蓋狀態（36 條）</h3>
+<table>
+<tr><th>US</th><th>AC 數</th><th>TC 數（§15.1）</th><th>覆蓋 %</th></tr>
+<tr><td>US-ACCT-001</td><td>5</td><td>7</td><td>100%</td></tr>
+<tr><td>US-ROOM-001</td><td>7</td><td>8</td><td>100%</td></tr>
+<tr><td>US-FISH-001</td><td>6</td><td>6</td><td>100%</td></tr>
+<tr><td>US-WPSK-001</td><td>4</td><td>4</td><td>100%</td></tr>
+<tr><td>US-RTP-001</td><td>5</td><td>6</td><td>100%</td></tr>
+<tr><td>US-SHOP-001</td><td>6</td><td>7</td><td>100%</td></tr>
+<tr><td>US-AGE-001</td><td>3</td><td>4</td><td>100%</td></tr>
+<tr><td><strong>P0 小計</strong></td><td><strong>36</strong></td><td><strong>42</strong></td><td><strong>100%</strong></td></tr>
+<tr><td>US-VIP-001（P1）</td><td>3</td><td>3</td><td>100%</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>39</strong></td><td><strong>45</strong></td><td><strong>100%</strong></td></tr>
+</table>
+<hr>
+<h2>§2 狀態代碼說明</h2>
+<table>
+<tr><th>代碼</th><th>含義</th></tr>
+<tr><td>TODO</td><td>尚未執行</td></tr>
+<tr><td>PASS</td><td>執行通過</td></tr>
+<tr><td>FAIL</td><td>執行失敗（需建 Bug Ticket）</td></tr>
+<tr><td>SKIP</td><td>已知跳過（需說明原因）</td></tr>
+<tr><td>BLOCK</td><td>前置條件未滿足，無法執行</td></tr>
+<tr><td>WIP</td><td>測試腳本撰寫中</td></tr>
+</table>
+<hr>
+<h2>§3 Unit Test RTM</h2>
+<h3>§3.1 核心模組 Unit Test（test-plan §15.2 Class-Level）</h3>
+<table>
+<tr><th>TC-ID</th><th>Class / Module</th><th>測試場景摘要</th><th>PRD AC</th><th>測試路徑（推斷）</th><th>狀態</th></tr>
+<tr><td>TC-UNIT-RTP-001-S</td><td>RtpEngine</td><td>10,000 次模擬 RTP 落在 85–95%</td><td>US-RTP-001/AC-1</td><td><code>tests/unit/rtp/RtpEngine.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-RTP-001-E</td><td>RtpEngine</td><td>統計異常（RTP &lt; 80%）→ 告警觸發</td><td>US-RTP-001/AC-5</td><td><code>tests/unit/rtp/RtpEngine.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-RTP-001-B</td><td>RtpEngine</td><td>連敗閾值邊界（N-1 不補償，第 N 補償）</td><td>US-RTP-001/AC-2</td><td><code>tests/unit/rtp/RtpEngine.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-JACKPOT-001-S</td><td>JackpotService</td><td>Jackpot 觸發率符合設計規格（≤0.1%）</td><td>US-RTP-001/AC-3</td><td><code>tests/unit/jackpot/JackpotService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-JACKPOT-001-E</td><td>JackpotService</td><td>Redis 寫入失敗 → Jackpot 不觸發，狀態回滾</td><td>US-RTP-001/AC-4</td><td><code>tests/unit/jackpot/JackpotService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-JACKPOT-001-B</td><td>JackpotService</td><td>觸發率邊界（剛好達到 / 差 1 未達）</td><td>US-RTP-001/AC-3</td><td><code>tests/unit/jackpot/JackpotService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-AUTH-001-S</td><td>AuthService</td><td>正確密碼 bcrypt compare → JWT 簽發</td><td>US-ACCT-001/AC-2</td><td><code>tests/unit/auth/AuthService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-AUTH-001-E</td><td>AuthService</td><td>第 5 次密碼錯誤 → lockAccount，Redis TTL 900s</td><td>US-ACCT-001/AC-4</td><td><code>tests/unit/auth/AuthService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-AUTH-001-B</td><td>AuthService</td><td>第 4 次失敗不鎖 / 第 5 次鎖（邊界）</td><td>US-ACCT-001/AC-4</td><td><code>tests/unit/auth/AuthService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-AGE-001-S</td><td>AgeVerificationService</td><td>出生 18 年前 → 通過驗證 → age_verified=true</td><td>US-AGE-001/AC-3</td><td><code>tests/unit/compliance/AgeVerification.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-AGE-001-E</td><td>AgeVerificationService</td><td>出生 &lt; 18 年 → 拒絕 → RESTRICTED 模式</td><td>US-AGE-001/AC-2</td><td><code>tests/unit/compliance/AgeVerification.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-AGE-001-B</td><td>AgeVerificationService</td><td>今日滿 18 歲（邊界日期）</td><td>US-AGE-001/AC-1</td><td><code>tests/unit/compliance/AgeVerification.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-FISH-001-S</td><td>FishKillResolver</td><td>第一名命中者獲金幣，其餘 0%</td><td>US-FISH-001/AC-3</td><td><code>tests/unit/fish/FishKillResolver.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-FISH-001-E</td><td>FishKillResolver</td><td>Redis SETNX 失敗（競爭條件）→ 第二名不計算</td><td>US-FISH-001/AC-6</td><td><code>tests/unit/fish/FishKillResolver.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-FISH-001-B</td><td>FishKillResolver</td><td>Boss 逃跑（血量未歸零）→ 全員 5% 安慰獎勵</td><td>US-FISH-001/AC-3</td><td><code>tests/unit/fish/FishKillResolver.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-PAY-001-S</td><td>PaymentService</td><td>幂等 order_id → 第二次提交回傳原始訂單</td><td>US-SHOP-001/AC-3</td><td><code>tests/unit/payment/PaymentService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-PAY-001-E</td><td>PaymentService</td><td>IAP verifyReceipt 失敗 → 訂單 status=failed</td><td>US-SHOP-001/AC-5</td><td><code>tests/unit/payment/PaymentService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-PAY-001-B</td><td>PaymentService</td><td>退款 + 鑽石剛好用完（負債標記邊界）</td><td>US-SHOP-001/AC-6</td><td><code>tests/unit/payment/PaymentService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-CURR-001-S</td><td>CurrencyService</td><td>扣減 10 金幣倍率 → 餘額正確更新</td><td>US-SHOP-001/AC-4</td><td><code>tests/unit/currency/CurrencyService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-CURR-001-E</td><td>CurrencyService</td><td>鑽石餘額 0 → 購買失敗 → 餘額不變</td><td>US-SHOP-001/AC-2</td><td><code>tests/unit/currency/CurrencyService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-CURR-001-B</td><td>CurrencyService</td><td>金幣剛好足夠（餘額 = 消耗量）/ 差 1 不足</td><td>US-SHOP-001/AC-4</td><td><code>tests/unit/currency/CurrencyService.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-WPSK-001-S</td><td>SkillCooldownManager</td><td>冷卻結束後可激活技能</td><td>US-WPSK-001/AC-2</td><td><code>tests/unit/weapon/SkillCooldownManager.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-WPSK-001-E</td><td>SkillCooldownManager</td><td>冷卻中點擊 → 技能不觸發</td><td>US-WPSK-001/AC-3</td><td><code>tests/unit/weapon/SkillCooldownManager.test.ts</code></td><td>TODO</td></tr>
+<tr><td>TC-UNIT-WPSK-001-B</td><td>SkillCooldownManager</td><td>冷卻計時器剛好到 0（邊界觸發）</td><td>US-WPSK-001/AC-2</td><td><code>tests/unit/weapon/SkillCooldownManager.test.ts</code></td><td>TODO</td></tr>
+</table>
+<blockquote><p>[WARNING] class-inventory.md 未找到，路徑為從 EDD §4.5.2 classDiagram 推斷值。執行 <code>/gendoc-gen-diagrams</code> 後更新。</p></blockquote>
+<h3>§3.2 PRD-Linked Unit Test（test-plan §15.1 UNIT TCs）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>場景摘要</th><th>BDD Feature</th><th>測試類型</th><th>狀態</th></tr>
+<tr><td>TC-UNIT-ACCT-005-B</td><td>US-ACCT-001/AC-5</td><td>密碼強度 onBlur 驗證 + bcrypt cost=12 邊界</td><td><code>features/auth/user_registration.feature</code></td><td>Unit</td><td>TODO</td></tr>
+<tr><td>TC-UNIT-ROOM-007-E</td><td>US-ROOM-001/AC-7</td><td>金幣不足 → 拒絕進入高倍率房間</td><td>—</td><td>Unit</td><td>TODO</td></tr>
+<tr><td>TC-UNIT-WPSK-003-E</td><td>US-WPSK-001/AC-3</td><td>冷卻中點擊技能 → 按鈕置灰 → 無效點擊</td><td><code>features/game/weapon_skill.feature</code></td><td>Unit</td><td>TODO</td></tr>
+<tr><td>TC-UNIT-WPSK-004-E</td><td>US-WPSK-001/AC-4</td><td>未解鎖鎖定炮 → 提示等級要求 → 不允許使用</td><td><code>features/game/weapon_skill.feature</code></td><td>Unit</td><td>TODO</td></tr>
+<tr><td>TC-UNIT-SHOP-002-E</td><td>US-SHOP-001/AC-2</td><td>鑽石不足 → 拒絕購買 → 餘額不變 → 引導充值</td><td>—</td><td>Unit</td><td>TODO</td></tr>
+<tr><td>TC-UNIT-SHOP-004-B</td><td>US-SHOP-001/AC-4</td><td>金幣倍率扣減 → 即時更新 → 歸零降 1x</td><td>—</td><td>Unit</td><td>TODO</td></tr>
+<tr><td>TC-UNIT-AGE-002-E</td><td>US-AGE-001/AC-2</td><td>輸入未滿 18 歲 → 拒絕 → 付費功能鎖定</td><td><code>features/auth/user_registration.feature</code></td><td>Unit</td><td>TODO</td></tr>
+</table>
+<hr>
+<h2>§4 Integration Test RTM</h2>
+<h3>§4.1 ACCT — 帳號認證（US-ACCT-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-ACCT-002-S</td><td>US-ACCT-001/AC-2</td><td>登入成功 → JWT + Refresh Token 簽發</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-003-E</td><td>US-ACCT-001/AC-3</td><td>Email 已存在 → 409 EMAIL_ALREADY_EXISTS</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-004-E</td><td>US-ACCT-001/AC-4</td><td>24h 內同一 IP 超過 100 次登入 → 429 RATE_LIMITED</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-006-E</td><td>—</td><td>POST /v1/auth/login 帶過期 JWT → 401 TOKEN_EXPIRED</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-007-E</td><td>—</td><td>GET /v1/users/:id 帶他人 JWT → 403 FORBIDDEN</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-008-S</td><td>—</td><td>有效憑證登入 → access_token + refresh_token</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-009-S</td><td>—</td><td>Refresh Token → 新 access_token，舊 token 作廢</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-010-S</td><td>—</td><td>登出 → refresh_token 作廢，重用返回 401</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-011-E</td><td>—</td><td>錯誤密碼 → 401 INVALID_CREDENTIALS（不洩漏帳號存在）</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-012-E</td><td>—</td><td>不存在 email 登入 → 401（回應與密碼錯誤相同，防枚舉）</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-013-E</td><td>—</td><td>已撤銷 refresh_token 刷新 → 401 TOKEN_REVOKED</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-014-E</td><td>—</td><td>無 Authorization header → 401 UNAUTHORIZED</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-015-B</td><td>—</td><td>JWT Token 有效期邊界（access: 14/16 min，refresh: 29/31 day）</td><td><code>features/auth/user_login.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-016-E</td><td>—</td><td>同一 IP 1 分鐘超過 5 次註冊 → 429 + Retry-After</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ACCT-017-E</td><td>—</td><td>agree_terms=false → 400 VALIDATION_ERROR</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+</table>
+<h3>§4.2 ROOM — 多人競技房間（US-ROOM-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-ROOM-002-S</td><td>US-ROOM-001/AC-2</td><td>玩家 A 捕魚 → 魚從公共池消失 → 同步 &lt; 100ms</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-003-S</td><td>US-ROOM-001/AC-4</td><td>玩家斷線 → 10s 內 Bot 補位（is_bot=true）</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-004-S</td><td>—</td><td>WS 事件往返延遲 P99 ≤ 100ms（同 AZ，連續 100 次）</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-004-E</td><td>US-ROOM-001/AC-4</td><td>WS 中斷 → 5s 重連失敗 → Bot 接替</td><td>—</td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-005-E</td><td>—</td><td>房間已滿 6 人 → 422 ROOM_FULL</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-006-E</td><td>US-ROOM-001/AC-6</td><td>Colyseus 503 → Circuit Breaker → 提示重試</td><td>—</td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-007-E</td><td>—</td><td>無 JWT Token → WS 握手 401 UNAUTHORIZED</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-008-E</td><td>—</td><td>過期/偽造 JWT → WS 握手 401 INVALID_TOKEN</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-009-B</td><td>—</td><td>房間人數邊界（3→waiting / 4+→game_started）</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-ROOM-010-S</td><td>—</td><td>30s 匹配超時 → 機器人補位 4 人 → 遊戲啟動</td><td><code>features/game/room_matchmaking.feature</code></td><td>TODO</td></tr>
+</table>
+<h3>§4.3 FISH — 捕魚遊戲核心（US-FISH-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-FISH-001-S</td><td>US-FISH-001/AC-1</td><td>射擊命中普通魚（3x）→ 金幣即時到帳</td><td><code>features/game/fishing_gameplay.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-003-B</td><td>US-FISH-001/AC-3</td><td>命中/未命中/Boss 逃跑獎勵分配規則</td><td><code>features/game/fishing_gameplay.feature</code>（待補充 Scenario）</td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-005-E</td><td>US-FISH-001/AC-5</td><td>魚群服務崩潰 → 降級靜態波次 → 不中斷遊戲</td><td><code>features/game/fishing_gameplay.feature</code>（待補充 Scenario）</td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-006-B</td><td>US-FISH-001/AC-6</td><td>6 玩家同時命中同一魚 → Redis SETNX → 唯一計算</td><td><code>features/game/fishing_gameplay.feature</code>（待補充 Scenario）</td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-002-S</td><td>—</td><td>未命中不扣金幣，彈藥數量 -1</td><td><code>features/game/fishing_gameplay.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-003-S</td><td>—</td><td>不同魚種倍率（3/5/10/20x）計算正確</td><td><code>features/game/fishing_gameplay.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-004-S</td><td>—</td><td>武器倍率 × 魚種倍率疊加（雷射炮 3x × 20x = 60 金幣）</td><td><code>features/game/fishing_gameplay.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-005-S</td><td>—</td><td>單局全程未命中 → 保底 10 金幣</td><td><code>features/game/fishing_gameplay.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-007-E</td><td>—</td><td>目標魚已被擊殺 → onMessage &quot;TARGET_NOT_FOUND&quot;</td><td><code>features/game/fishing_gameplay.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-FISH-008-B</td><td>—</td><td>魚種 × 武器倍率邊界矩陣（4×4 Outline）</td><td><code>features/game/fishing_gameplay.feature</code></td><td>TODO</td></tr>
+</table>
+<h3>§4.4 WPSK — 武器與技能（US-WPSK-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-WPSK-002-S</td><td>US-WPSK-001/AC-2</td><td>技能冷卻期間無法重複使用，回傳剩餘冷卻時間</td><td><code>features/game/weapon_skill.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-WPSK-003-S</td><td>US-WPSK-001/AC-2</td><td>冷卻期結束後可重新使用技能</td><td><code>features/game/weapon_skill.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-WPSK-005-S</td><td>—</td><td>全屏炸彈命中所有存活魚，觸發各自 fish_kill</td><td><code>features/game/weapon_skill.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-WPSK-006-E</td><td>US-WPSK-001/AC-4</td><td>非 VIP（tier=0）使用 VIP 武器 → &quot;VIP_REQUIRED&quot;</td><td><code>features/game/weapon_skill.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-WPSK-007-S</td><td>US-WPSK-001/AC-4</td><td>VIP（tier=1）成功裝備 VIP 強化武器（5x）</td><td><code>features/game/weapon_skill.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-WPSK-008-E</td><td>—</td><td>遊戲未開始時選武器 → &quot;GAME_NOT_STARTED&quot;</td><td><code>features/game/weapon_skill.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-WPSK-009-B</td><td>—</td><td>技能冷卻邊界（冷卻 -1s COOLING_DOWN / 剛好 SUCCESS）</td><td><code>features/game/weapon_skill.feature</code></td><td>TODO</td></tr>
+</table>
+<h3>§4.5 RTP — RTP 引擎與 Jackpot（US-RTP-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-RTP-002-S</td><td>US-RTP-001/AC-2</td><td>連敗 &gt; 閾值 → 補償邏輯觸發 → 命中率動態提升</td><td>—</td><td>TODO</td></tr>
+<tr><td>TC-INT-RTP-004-S</td><td>US-RTP-001/AC-4</td><td>Jackpot 觸發 → 1s 內寫入後台審計日誌</td><td><code>features/game/rtp_jackpot.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-RTP-005-E</td><td>US-RTP-001/AC-5</td><td>RTP Health Check 失敗 3 次 → 降級 80% 固定命中</td><td>—</td><td>TODO</td></tr>
+<tr><td>TC-INT-RTP-006-E</td><td>—</td><td>POST /v1/game-configs 帶非 Admin JWT → 403 FORBIDDEN</td><td><code>features/game/rtp_jackpot.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-RTP-005-S</td><td>—</td><td>Admin 調整 RTP 後 15 分鐘內生效，DB 記錄更新</td><td><code>features/game/rtp_jackpot.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-RTP-007-E</td><td>—</td><td>base_rtp=0.79（&lt; 0.80）→ 422 RTP_OUT_OF_RANGE</td><td><code>features/game/rtp_jackpot.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-RTP-008-B</td><td>—</td><td>100 房間同時觸發 Jackpot → Redis GETSET 唯一獲獎</td><td><code>features/game/rtp_jackpot.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-RTP-009-B</td><td>—</td><td>RTP 邊界值驗證（0.80/0.95/0.99→200，0.79/1.00→422）</td><td><code>features/game/rtp_jackpot.feature</code></td><td>TODO</td></tr>
+</table>
+<h3>§4.6 SHOP — IAP 充值（US-SHOP-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-SHOP-003-B</td><td>US-SHOP-001/AC-3</td><td>重複 Idempotency-Key → 409 + original_order_id</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-005-E</td><td>US-SHOP-001/AC-5</td><td>IAP Circuit Breaker Open → 503 + retry_after=30</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-006-E</td><td>US-SHOP-001/AC-6</td><td>Apple 退款 webhook → orders.status=REFUNDED，扣鑽</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-007-E</td><td>—</td><td>POST /v1/shop/purchases 無 JWT → 401 UNAUTHORIZED</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-002-S</td><td>—</td><td>鑽石兌換金幣匯率 1:10，1 秒內完成</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-003-S</td><td>—</td><td>Google Play IAP 驗證成功後鑽石到帳</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-004-S</td><td>—</td><td>充值後金幣立即可用，可購買武器</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-008-B</td><td>—</td><td>不同充值方案鑽石數量驗證（50/330/1680/5800）</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-009-E</td><td>—</td><td>1 分鐘超過 5 次充值請求 → 429 + Retry-After</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-SHOP-010-E</td><td>—</td><td>偽造 IAP 收據（status:21002）→ 422 IAP_RECEIPT_INVALID</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+</table>
+<h3>§4.7 AGE — 年齡驗證（US-AGE-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-AGE-003-S</td><td>US-AGE-001/AC-3</td><td>≥18 歲確認 → DB 記錄 age_verified=true → 付費啟用</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-AGE-004-E</td><td>—</td><td>age_verified=false 用戶 POST /v1/shop/purchases → 403</td><td><code>features/shop/iap_purchase.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-AGE-002-S</td><td>—</td><td>18 歲以上自動通過，DB age_verified=true</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-AGE-003-E</td><td>—</td><td>age_verified=false → POST /v1/shop/purchases → 403 AGE_VERIFICATION_REQUIRED</td><td><code>features/auth/user_registration.feature</code></td><td>TODO</td></tr>
+</table>
+<h3>§4.8 VIP — VIP 月費訂閱（US-VIP-001）</h3>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>狀態</th></tr>
+<tr><td>TC-INT-VIP-002-S</td><td>US-VIP-001/AC-2</td><td>次日系統執行補貼 Job → diamond_balance +5</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-VIP-003-E</td><td>US-VIP-001/AC-3</td><td>VIP 到期 → vip_tier 重置 0 → VIP 功能被拒</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-VIP-004-E</td><td>—</td><td>已是活躍 VIP 重複訂閱 → 422 VIP_ALREADY_ACTIVE</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-VIP-005-E</td><td>—</td><td>重複 Idempotency-Key → 409 + original_subscription_id</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-VIP-006-E</td><td>—</td><td>無 JWT Token 訂閱 → 401 UNAUTHORIZED</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-VIP-007-B</td><td>—</td><td>鑽石餘額邊界（30/31→SUCCESS，29/0→FAILED）</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-VIP-008-S</td><td>—</td><td>VIP 訂閱後可使用 laser_cannon_vip（5x）</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+<tr><td>TC-INT-VIP-009-E</td><td>—</td><td>鑽石 &lt; 30 顆 → 422 INSUFFICIENT_DIAMONDS</td><td><code>features/shop/vip_subscription.feature</code></td><td>TODO</td></tr>
+</table>
+<hr>
+<h2>§5 E2E Test RTM</h2>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC / 場景摘要</th><th>BDD Feature</th><th>測試標籤</th><th>狀態</th></tr>
+<tr><td>TC-E2E-ACCT-001-S</td><td>US-ACCT-001/AC-1</td><td>完整註冊 → 帳號建立 → JWT 簽發 → age_verified=true</td><td><code>features/auth/user_registration.feature</code></td><td>@smoke</td><td>TODO</td></tr>
+<tr><td>TC-E2E-ROOM-001-S</td><td>US-ROOM-001/AC-1</td><td>4 位玩家 30s 內快速匹配 → WS 握手 → 進入競技房間</td><td><code>features/game/room_matchmaking.feature</code></td><td>@smoke @websocket</td><td>TODO</td></tr>
+<tr><td>TC-E2E-ROOM-003-S</td><td>US-ROOM-001/AC-3</td><td>等待 &gt; 30s → Bot 補位 → 遊戲繼續</td><td>—</td><td></td><td>TODO</td></tr>
+<tr><td>TC-E2E-ROOM-005-S</td><td>US-ROOM-001/AC-5</td><td>遊戲結束 → 積分排名 → 最高分獲 MVP 標記</td><td><code>features/game/fishing_gameplay.feature</code></td><td>@smoke</td><td>TODO</td></tr>
+<tr><td>TC-E2E-FISH-002-S</td><td>US-FISH-001/AC-2</td><td>命中普通魚 → RTP 動態計算 → 3s 內金幣更新</td><td>—</td><td></td><td>TODO</td></tr>
+<tr><td>TC-E2E-FISH-004-S</td><td>US-FISH-001/AC-4</td><td>Boss 血量歸零 → 2s 爆炸動畫 → 即時金幣更新</td><td>—</td><td></td><td>TODO</td></tr>
+<tr><td>TC-E2E-WPSK-001-S</td><td>US-WPSK-001/AC-1</td><td>選擇雷射炮 → 扣費 30 金幣 → 射擊倍率 3x 生效</td><td><code>features/game/weapon_skill.feature</code></td><td>@smoke @websocket</td><td>TODO</td></tr>
+<tr><td>TC-E2E-WPSK-002-S</td><td>US-WPSK-001/AC-2</td><td>冷卻結束 → 冰凍技能觸發 → 全屏 3s 停頓</td><td>—</td><td></td><td>TODO</td></tr>
+<tr><td>TC-E2E-RTP-003-S</td><td>US-RTP-001/AC-3</td><td>Jackpot 觸發 → 動畫 ≥ 3s → 獎池重置 → 廣播</td><td><code>features/game/rtp_jackpot.feature</code></td><td></td><td>TODO</td></tr>
+<tr><td>TC-E2E-SHOP-001-S</td><td>US-SHOP-001/AC-1</td><td>Apple IAP 收據驗證成功 → 201 → diamond_balance=330</td><td><code>features/shop/iap_purchase.feature</code></td><td>@smoke</td><td>TODO</td></tr>
+<tr><td>TC-E2E-AGE-001-S</td><td>US-AGE-001/AC-1</td><td>18 歲以下 → 422 AGE_RESTRICTION → user 記錄未建立</td><td><code>features/auth/user_registration.feature</code></td><td>@smoke</td><td>TODO</td></tr>
+<tr><td>TC-E2E-VIP-001-S</td><td>US-VIP-001/AC-1</td><td>鑽石足夠 → 201 → vip_tier=1 → diamond_balance=70</td><td><code>features/shop/vip_subscription.feature</code></td><td>@smoke</td><td>TODO</td></tr>
+</table>
+<hr>
+<h2>§6 需求 ↔ 測試快速查詢</h2>
+<h3>§6.1 User Story → TC-ID 對照</h3>
+<table>
+<tr><th>US-ID</th><th>優先級</th><th>ACs</th><th>對應 TC-IDs（§15.1 基準）</th></tr>
+<tr><td>US-ACCT-001</td><td>P0</td><td>AC-1~5</td><td>TC-E2E-ACCT-001-S, TC-INT-ACCT-002-S, TC-INT-ACCT-003-E, TC-INT-ACCT-004-E, TC-UNIT-ACCT-005-B, TC-INT-ACCT-006-E, TC-INT-ACCT-007-E</td></tr>
+<tr><td>US-ROOM-001</td><td>P0</td><td>AC-1~7</td><td>TC-E2E-ROOM-001-S, TC-INT-ROOM-002-S, TC-E2E-ROOM-003-S, TC-INT-ROOM-004-E, TC-E2E-ROOM-005-S, TC-INT-ROOM-006-E, TC-UNIT-ROOM-007-E, TC-INT-ROOM-008-E</td></tr>
+<tr><td>US-FISH-001</td><td>P0</td><td>AC-1~6</td><td>TC-INT-FISH-001-S, TC-E2E-FISH-002-S, TC-INT-FISH-003-B, TC-INT-FISH-003-S, TC-E2E-FISH-004-S, TC-INT-FISH-004-S, TC-INT-FISH-005-E, TC-INT-FISH-005-S, TC-INT-FISH-006-B</td></tr>
+<tr><td>US-WPSK-001</td><td>P0</td><td>AC-1~4</td><td>TC-E2E-WPSK-001-S, TC-E2E-WPSK-002-S, TC-UNIT-WPSK-003-E, TC-UNIT-WPSK-004-E</td></tr>
+<tr><td>US-RTP-001</td><td>P0</td><td>AC-1~5</td><td>TC-UNIT-RTP-001-S, TC-INT-RTP-002-S, TC-E2E-RTP-003-S, TC-INT-RTP-004-S, TC-INT-RTP-005-E, TC-INT-RTP-006-E</td></tr>
+<tr><td>US-SHOP-001</td><td>P0</td><td>AC-1~6</td><td>TC-E2E-SHOP-001-S, TC-UNIT-SHOP-002-E, TC-INT-SHOP-003-B, TC-UNIT-SHOP-004-B, TC-INT-SHOP-005-E, TC-INT-SHOP-006-E, TC-INT-SHOP-007-E</td></tr>
+<tr><td>US-AGE-001</td><td>P0</td><td>AC-1~3</td><td>TC-E2E-AGE-001-S, TC-UNIT-AGE-002-E, TC-INT-AGE-003-S, TC-INT-AGE-004-E</td></tr>
+<tr><td>US-VIP-001</td><td>P1</td><td>AC-1~3</td><td>TC-E2E-VIP-001-S, TC-INT-VIP-002-S, TC-INT-VIP-003-E</td></tr>
+</table>
+<h3>§6.2 TC-ID → PRD AC 反查（Smoke Tests 優先）</h3>
+<table>
+<tr><th>TC-ID</th><th>US</th><th>AC</th><th>@tags</th></tr>
+<tr><td>TC-E2E-ACCT-001-S</td><td>US-ACCT-001</td><td>AC-1</td><td>@smoke @p0</td></tr>
+<tr><td>TC-E2E-ROOM-001-S</td><td>US-ROOM-001</td><td>AC-1</td><td>@smoke @p0 @websocket</td></tr>
+<tr><td>TC-E2E-WPSK-001-S</td><td>US-WPSK-001</td><td>AC-1</td><td>@smoke @p0 @websocket</td></tr>
+<tr><td>TC-E2E-RTP-003-S</td><td>US-RTP-001</td><td>AC-3</td><td>@smoke @p0</td></tr>
+<tr><td>TC-E2E-SHOP-001-S</td><td>US-SHOP-001</td><td>AC-1</td><td>@smoke @p0</td></tr>
+<tr><td>TC-E2E-AGE-001-S</td><td>US-AGE-001</td><td>AC-1</td><td>@smoke @p0</td></tr>
+<tr><td>TC-E2E-VIP-001-S</td><td>US-VIP-001</td><td>AC-1</td><td>@smoke @p1</td></tr>
+<tr><td>TC-E2E-ROOM-005-S</td><td>US-ROOM-001</td><td>AC-5</td><td>@smoke @p0</td></tr>
+<tr><td>TC-INT-ACCT-008-S</td><td>US-ACCT-001</td><td>AC-2</td><td>@smoke @p0</td></tr>
+<tr><td>TC-INT-FISH-001-S</td><td>US-FISH-001</td><td>AC-1</td><td>@smoke @p0</td></tr>
+</table>
+<hr>
+<h2>§7 失敗追蹤表</h2>
+<blockquote><p>初始狀態：所有 TC 均為 TODO（尚未執行），無失敗記錄。</p></blockquote>
+<table>
+<tr><th>Bug-ID</th><th>TC-ID</th><th>發現版本</th><th>嚴重度</th><th>描述</th><th>指派</th><th>狀態</th></tr>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>本表格在首次執行測試後填入</td><td>—</td><td>—</td></tr>
+</table>
+<hr>
+<h2>§8 CSV 匯出（§15.1 RTM）</h2>
+<pre><code class="language-csv">tc_id,prd_req_id,ac_desc,test_type,bdd_file,status,priority
+TC-E2E-ACCT-001-S,US-ACCT-001/AC-1,帳號註冊成功,E2E,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-002-S,US-ACCT-001/AC-2,登入 JWT+Refresh Token 簽發,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-003-E,US-ACCT-001/AC-3,Email 已存在 409,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-004-E,US-ACCT-001/AC-4,Rate Limit 429,Integration,features/auth/user_login.feature,TODO,P0
+TC-UNIT-ACCT-005-B,US-ACCT-001/AC-5,密碼強度邊界,Unit,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-006-E,,過期 JWT 401,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-007-E,,他人資料 403,Integration,features/auth/user_registration.feature,TODO,P0
+TC-E2E-ROOM-001-S,US-ROOM-001/AC-1,快速匹配進房,E2E,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-002-S,US-ROOM-001/AC-2,魚同步 &lt; 100ms,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-E2E-ROOM-003-S,US-ROOM-001/AC-3,Bot 補位,E2E,,TODO,P0
+TC-INT-ROOM-004-E,US-ROOM-001/AC-4,WS 重連失敗 Bot 接替,Integration,,TODO,P0
+TC-E2E-ROOM-005-S,US-ROOM-001/AC-5,結算 MVP,E2E,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-ROOM-006-E,US-ROOM-001/AC-6,Colyseus 503,Integration,,TODO,P0
+TC-UNIT-ROOM-007-E,US-ROOM-001/AC-7,金幣不足進高倍率房間,Unit,,TODO,P0
+TC-INT-ROOM-008-E,,無效 JWT WS 401,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-FISH-001-S,US-FISH-001/AC-1,命中金幣即時到帳,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-E2E-FISH-002-S,US-FISH-001/AC-2,RTP 計算金幣更新,E2E,,TODO,P0
+TC-INT-FISH-003-B,US-FISH-001/AC-3,Boss 贏者通吃規則,Integration,,TODO,P0
+TC-E2E-FISH-004-S,US-FISH-001/AC-4,Boss 爆炸動畫金幣更新,E2E,,TODO,P0
+TC-INT-FISH-005-E,US-FISH-001/AC-5,魚群服務降級,Integration,,TODO,P0
+TC-INT-FISH-006-B,US-FISH-001/AC-6,並發命中 Redis SETNX 唯一,Integration,,TODO,P0
+TC-E2E-WPSK-001-S,US-WPSK-001/AC-1,雷射炮扣費+倍率,E2E,features/game/weapon_skill.feature,TODO,P0
+TC-E2E-WPSK-002-S,US-WPSK-001/AC-2,冰凍技能觸發,E2E,,TODO,P0
+TC-UNIT-WPSK-003-E,US-WPSK-001/AC-3,冷卻中點擊無效,Unit,features/game/weapon_skill.feature,TODO,P0
+TC-UNIT-WPSK-004-E,US-WPSK-001/AC-4,未解鎖拒絕使用,Unit,features/game/weapon_skill.feature,TODO,P0
+TC-UNIT-RTP-001-S,US-RTP-001/AC-1,10000 次模擬 RTP 85-95%,Unit,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-002-S,US-RTP-001/AC-2,連敗補償邏輯觸發,Integration,,TODO,P0
+TC-E2E-RTP-003-S,US-RTP-001/AC-3,Jackpot 觸發動畫獎池重置,E2E,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-004-S,US-RTP-001/AC-4,Jackpot 觸發審計日誌,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-005-E,US-RTP-001/AC-5,RTP Health Check 失敗降級,Integration,,TODO,P0
+TC-INT-RTP-006-E,,非 Admin 修改 RTP 403,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-E2E-SHOP-001-S,US-SHOP-001/AC-1,Apple IAP 鑽石到帳,E2E,features/shop/iap_purchase.feature,TODO,P0
+TC-UNIT-SHOP-002-E,US-SHOP-001/AC-2,鑽石不足購買失敗,Unit,,TODO,P0
+TC-INT-SHOP-003-B,US-SHOP-001/AC-3,幂等 order_id,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-UNIT-SHOP-004-B,US-SHOP-001/AC-4,金幣倍率扣減歸零,Unit,,TODO,P0
+TC-INT-SHOP-005-E,US-SHOP-001/AC-5,Circuit Breaker 503,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-006-E,US-SHOP-001/AC-6,退款 webhook REFUNDED,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-007-E,,無 JWT 401,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-E2E-AGE-001-S,US-AGE-001/AC-1,未成年拒絕,E2E,features/auth/user_registration.feature,TODO,P0
+TC-UNIT-AGE-002-E,US-AGE-001/AC-2,&lt; 18 歲付費鎖定,Unit,features/auth/user_registration.feature,TODO,P0
+TC-INT-AGE-003-S,US-AGE-001/AC-3,&gt;=18 歲記錄付費啟用,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-AGE-004-E,,未驗證用戶購買 403,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-E2E-VIP-001-S,US-VIP-001/AC-1,VIP 訂閱成功扣鑽石,E2E,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-002-S,US-VIP-001/AC-2,次日補貼 5 鑽石,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-003-E,US-VIP-001/AC-3,VIP 到期降級,Integration,features/shop/vip_subscription.feature,TODO,P1</code></pre>
+<hr>
+<h2>§15.3 UML 追蹤圖（Sequence Diagram → TC-ID）</h2>
+<h3>§15.3.1 用戶註冊流程（sequence-register）</h3>
+<pre><code class="">docs/diagrams/sequence-register.md
+
+Client → AccountService.register() → AgeVerificationService.verify()
+                                   → AuthService.hashPassword()
+                                   → UserRepository.create()
+                                   → EmailService.sendVerification()</code></pre>
+<table>
+<tr><th>Sequence 步驟</th><th>對應 TC-ID</th></tr>
+<tr><td>POST /v1/auth/register 成功路徑</td><td>TC-E2E-ACCT-001-S</td></tr>
+<tr><td>Age verification（出生 &lt; 18）</td><td>TC-E2E-AGE-001-S, TC-UNIT-AGE-001-E</td></tr>
+<tr><td>Email 重複衝突（409）</td><td>TC-INT-ACCT-003-E</td></tr>
+<tr><td>agree_terms=false 驗證</td><td>TC-INT-ACCT-017-E</td></tr>
+<tr><td>密碼 bcrypt hash</td><td>TC-UNIT-AUTH-001-S, TC-UNIT-ACCT-005-B</td></tr>
+<tr><td>Rate Limit（IP 5次/min）</td><td>TC-INT-ACCT-016-E</td></tr>
+</table>
+<h3>§15.3.2 IAP 充值流程（sequence-iap-purchase）</h3>
+<pre><code class="">docs/diagrams/sequence-iap-purchase.md
+
+Client → ShopService.createPurchase() → IAPVerifier.verify(receipt)
+                                      → PaymentService.idempotencyCheck()
+                                      → CurrencyService.creditDiamonds()
+                                      → OrderRepository.markCompleted()</code></pre>
+<table>
+<tr><th>Sequence 步驟</th><th>對應 TC-ID</th></tr>
+<tr><td>Apple IAP 收據驗證成功</td><td>TC-E2E-SHOP-001-S</td></tr>
+<tr><td>幂等 order_id 重複提交</td><td>TC-INT-SHOP-003-B, TC-UNIT-PAY-001-S</td></tr>
+<tr><td>Circuit Breaker Open（503）</td><td>TC-INT-SHOP-005-E, TC-UNIT-PAY-001-E</td></tr>
+<tr><td>退款 webhook 觸發</td><td>TC-INT-SHOP-006-E, TC-UNIT-PAY-001-B</td></tr>
+<tr><td>無 JWT 401</td><td>TC-INT-SHOP-007-E</td></tr>
+<tr><td>未年齡驗證 403</td><td>TC-INT-AGE-004-E</td></tr>
+<tr><td>鑽石 ↔ 金幣兌換（1:10）</td><td>TC-INT-SHOP-002-S, TC-UNIT-CURR-001-S</td></tr>
+</table>
+<h3>§15.3.3 VIP 訂閱流程（sequence-vip-subscribe）</h3>
+<pre><code class="">docs/diagrams/sequence-vip-subscribe.md
+
+Client → VipService.subscribe() → CurrencyService.deductDiamonds(30)
+                                → VipRepository.createSubscription()
+                                → UserRepository.setVipTier(1)
+                                → SchedulerService.registerDailyBonus()</code></pre>
+<table>
+<tr><th>Sequence 步驟</th><th>對應 TC-ID</th></tr>
+<tr><td>VIP 訂閱成功（30 鑽石）</td><td>TC-E2E-VIP-001-S</td></tr>
+<tr><td>次日補貼 Job</td><td>TC-INT-VIP-002-S</td></tr>
+<tr><td>VIP 到期降級</td><td>TC-INT-VIP-003-E</td></tr>
+<tr><td>鑽石不足</td><td>TC-INT-VIP-009-E</td></tr>
+<tr><td>已是活躍 VIP 重複訂閱</td><td>TC-INT-VIP-004-E</td></tr>
+<tr><td>Idempotency Key 重複</td><td>TC-INT-VIP-005-E</td></tr>
+</table>
+<hr>
+<h2>§15.4 類別追蹤表（Class → Test Coverage）</h2>
+<blockquote><p>[WARNING] class-inventory.md 未找到。以下為 EDD §4.5.2 classDiagram 推斷值，執行 <code>/gendoc-gen-diagrams</code> 後更新。</p></blockquote>
+<table>
+<tr><th>Class</th><th>服務</th><th>§15.2 Unit TC</th><th>§15.1 Integration TC</th><th>E2E TC</th></tr>
+<tr><td>AuthService</td><td>account</td><td>TC-UNIT-AUTH-001-S/E/B</td><td>TC-INT-ACCT-002/004/006/007-*</td><td>TC-E2E-ACCT-001-S</td></tr>
+<tr><td>AgeVerificationService</td><td>account</td><td>TC-UNIT-AGE-001-S/E/B</td><td>TC-INT-AGE-003-S, TC-INT-AGE-004-E</td><td>TC-E2E-AGE-001-S</td></tr>
+<tr><td>RtpEngine</td><td>game</td><td>TC-UNIT-RTP-001-S/E/B</td><td>TC-INT-RTP-002-S, TC-INT-RTP-005-E</td><td>TC-E2E-RTP-003-S</td></tr>
+<tr><td>JackpotService</td><td>game</td><td>TC-UNIT-JACKPOT-001-S/E/B</td><td>TC-INT-RTP-004-S</td><td>TC-E2E-RTP-003-S</td></tr>
+<tr><td>FishKillResolver</td><td>game</td><td>TC-UNIT-FISH-001-S/E/B</td><td>TC-INT-FISH-001/003/006-*</td><td>TC-E2E-FISH-002/004-S</td></tr>
+<tr><td>SkillCooldownManager</td><td>game</td><td>TC-UNIT-WPSK-001-S/E/B</td><td>TC-INT-WPSK-002/003-S</td><td>TC-E2E-WPSK-001-S</td></tr>
+<tr><td>PaymentService</td><td>shop</td><td>TC-UNIT-PAY-001-S/E/B</td><td>TC-INT-SHOP-003/005/006/007-*</td><td>TC-E2E-SHOP-001-S</td></tr>
+<tr><td>CurrencyService</td><td>shop</td><td>TC-UNIT-CURR-001-S/E/B</td><td>TC-INT-SHOP-002-S, TC-INT-VIP-009-E</td><td>TC-E2E-SHOP-001-S</td></tr>
+</table>
+<hr>
+<p><em>RTM 自動維護規則：每次 BDD feature file 新增 TC，同步更新本文件 §4/§5 對應表格及 §1 統計數字。</em></p></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

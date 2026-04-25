@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>活動圖：遊戲流程 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 活動圖：遊戲流程</p>
+    <h1 class="banner-title">活動圖：遊戲流程</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link active" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: activity-gameplay</p>
+<p>uml-type: 活動圖（主遊戲流程）</p>
+<p>source: PRD.md §4.1; EDD.md §3.1; ARCH.md §3.4</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<hr>
+<h1>Activity Diagram — Main Gameplay Loop（主遊戲流程）</h1>
+<blockquote><p>來源：PRD.md §4.1 In Scope；EDD.md §3.1 分層架構；ARCH.md §3.4 Data Flow Diagram</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+flowchart TD
+    subgraph Player["👤 Player"]
+        P_Start([Start])
+        P_OpenApp[開啟遊戲 App]
+        P_SelectRoom[選擇房間類型\n競技/休閒/VIP]
+        P_WaitMatch[等待配對中\n顯示 Loading UI]
+        P_ChooseWeapon[選擇武器與技能\n初始化砲台]
+        P_Observe[觀察魚群移動\n選擇目標]
+        P_Shoot[點擊射擊\nSHOOT 事件送出]
+        P_WaitResult[等待命中結果\n顯示彈道動畫]
+        P_ViewHit[顯示命中動畫\n金幣 +N 特效]
+        P_ViewMiss[顯示未命中\n彈幕消失]
+        P_UseSkill[使用技能\n冰凍/炸彈/鎖定]
+        P_ViewResults[查看對局結果\nMVP 獎勵動畫]
+        P_Continue{繼續遊玩?}
+        P_End([End])
+    end
+
+    subgraph GameServer["⚙️ GameServer (Colyseus + Node.js)"]
+        GS_Auth[驗證 JWT Token\nonAuth()]
+        GS_FindRoom[查詢可用房間\nFindOrCreate]
+        GS_WaitPlayers{玩家數 >= 4?}
+        GS_AddBot[補 Bot\naddBot()]
+        GS_StartSession[建立 GameSession\nstartSession()]
+        GS_SpawnFish[生成魚群波次\nFishSpawner.scheduleWave()]
+        GS_ValidateShoot[驗證射擊請求\n玩家/魚/武器 合法性]
+        GS_RTPCalc[RTP 引擎計算命中\nServer-Authoritative]
+        GS_ContributeJP[Jackpot 貢獻\nREDIS INCR +5]
+        GS_HitFish[魚扣血\nfish.applyDamage()]
+        GS_CheckDead{fish.hp <= 0?}
+        GS_KillFish[標記 DEAD\n發布 FishKilled]
+        GS_BroadcastHit[廣播命中結果\n STATE_UPDATE delta]
+        GS_BroadcastMiss[廣播未命中\nMISS to shooter]
+        GS_CheckSession{對局時間 >= 10min?}
+        GS_SettleSession[結算 SessionSettleUseCase\n計算 MVP]
+        GS_BroadcastResults[廣播對局結果\n RESULTS to all]
+    end
+
+    subgraph Database["💾 Database (MySQL + Redis)"]
+        DB_Session[INSERT game_sessions]
+        DB_Kill[INSERT fish_kills\nrtp_snapshot]
+        DB_Balance[UPDATE gold_balance\n async via EventBus]
+        DB_SessionEnd[UPDATE game_sessions.status=ENDED]
+    end
+
+    P_Start --> P_OpenApp --> P_SelectRoom
+    P_SelectRoom --> P_WaitMatch
+    P_WaitMatch --> GS_Auth
+    GS_Auth --> GS_FindRoom
+    GS_FindRoom --> GS_WaitPlayers
+    GS_WaitPlayers -->|是| GS_StartSession
+    GS_WaitPlayers -->|30s 超時| GS_AddBot --> GS_StartSession
+    GS_StartSession --> DB_Session
+    DB_Session --> GS_SpawnFish
+    GS_SpawnFish --> P_ChooseWeapon
+
+    P_ChooseWeapon --> P_Observe
+    P_Observe --> P_Shoot
+    P_Observe --> P_UseSkill
+    P_UseSkill --> P_Observe
+
+    P_Shoot --> GS_ValidateShoot
+    GS_ValidateShoot -->|驗證失敗| P_ViewMiss
+    GS_ValidateShoot -->|驗證通過| GS_RTPCalc
+    GS_RTPCalc -->|命中| GS_ContributeJP --> GS_HitFish
+    GS_RTPCalc -->|未命中| GS_BroadcastMiss --> P_ViewMiss
+    GS_HitFish --> GS_CheckDead
+    GS_CheckDead -->|存活| GS_BroadcastHit
+    GS_CheckDead -->|死亡| GS_KillFish --> DB_Kill --> DB_Balance
+    GS_KillFish --> GS_BroadcastHit
+
+    GS_BroadcastHit --> P_WaitResult --> P_ViewHit
+    P_ViewMiss --> P_Observe
+    P_ViewHit --> P_Observe
+
+    P_Observe --> GS_CheckSession
+    GS_CheckSession -->|繼續| GS_SpawnFish
+    GS_CheckSession -->|結束| GS_SettleSession --> DB_SessionEnd
+    GS_SettleSession --> GS_BroadcastResults --> P_ViewResults
+
+    P_ViewResults --> P_Continue
+    P_Continue -->|是| P_SelectRoom
+    P_Continue -->|否| P_End</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

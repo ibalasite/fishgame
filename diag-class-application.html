@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>類別圖：應用層 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 類別圖：應用層</p>
+    <h1 class="banner-title">類別圖：應用層</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link active" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: class-application</p>
+<p>uml-type: 類別圖（應用層）</p>
+<p>source: EDD.md §3.1; ARCH.md §2.2</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<hr>
+<h1>Class Diagram — Application Layer（應用層）</h1>
+<blockquote><p>來源：EDD.md §3.1 分層架構；ARCH.md §2.2 分層架構模式</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+classDiagram
+    direction TB
+
+    %% ==================== COMMANDS (DTOs) ====================
+
+    class ShootCommand {
+        <<DTO>>
+        + playerId: string
+        + roomId: string
+        + fishId: string
+        + weaponType: WeaponType
+        + sessionId: string
+        + firedAt: Date
+    }
+
+    class EnterRoomCommand {
+        <<DTO>>
+        + playerId: string
+        + roomType: string
+        + preferredTableId: string?
+    }
+
+    class PurchaseCommand {
+        <<DTO>>
+        + playerId: string
+        + productId: string
+        + orderId: string
+        + platform: string
+        + receiptData: string
+        + amount: number
+    }
+
+    class SubscribeVIPCommand {
+        <<DTO>>
+        + playerId: string
+        + vipTier: int
+        + orderId: string
+        + receiptData: string
+    }
+
+    class RefundCommand {
+        <<DTO>>
+        + orderId: string
+        + playerId: string
+        + reason: string
+        + requestedAt: Date
+    }
+
+    %% ==================== RESULTS (DTOs) ====================
+
+    class HitResult {
+        <<DTO>>
+        + isHit: bool
+        + coinsAwarded: int
+        + rtpSnapshot: float
+        + jackpotContributed: int
+        + fishKilled: bool
+        + animationType: string
+    }
+
+    class SessionResult {
+        <<DTO>>
+        + sessionId: string
+        + playerId: string
+        + finalCoins: int
+        + isMVP: bool
+        + killCount: int
+        + rtpAchieved: float
+    }
+
+    class PurchaseResult {
+        <<DTO>>
+        + orderId: string
+        + success: bool
+        + diamondsGranted: int
+        + newBalance: int
+        + errorCode: string?
+    }
+
+    %% ==================== USE CASES ====================
+
+    class ShootFishUseCase {
+        <<UseCase>>
+        - playerRepo: PlayerRepository
+        - roomRepo: RoomRepository
+        - rtpEngine: RTPEngine
+        - jackpotService: JackpotService
+        - eventBus: IDomainEventBus
+        + execute(cmd: ShootCommand): HitResult
+        - validatePlayer(playerId: string): Player
+        - validateRoom(roomId: string): Room
+        - validateFish(room: Room, fishId: string): Fish
+        - calculateHit(player: Player, fish: Fish, room: Room): HitResult
+        - publishEvents(events: DomainEvent[]): void
+    }
+
+    class EnterRoomUseCase {
+        <<UseCase>>
+        - playerRepo: PlayerRepository
+        - roomRepo: RoomRepository
+        - eventBus: IDomainEventBus
+        + execute(cmd: EnterRoomCommand): Room
+        - findOrCreateRoom(roomType: string): Room
+        - validateAgeStatus(player: Player): void
+        - assignPlayer(player: Player, room: Room): void
+    }
+
+    class PurchaseUseCase {
+        <<UseCase>>
+        - playerRepo: PlayerRepository
+        - paymentPort: IPaymentPort
+        - eventBus: IDomainEventBus
+        + execute(cmd: PurchaseCommand): PurchaseResult
+        - validateIdempotency(orderId: string): bool
+        - verifyReceipt(cmd: PurchaseCommand): ReceiptVerifyResult
+        - grantDiamonds(player: Player, amount: int): void
+        - createTransaction(player: Player, cmd: PurchaseCommand): Transaction
+    }
+
+    class SubscribeVIPUseCase {
+        <<UseCase>>
+        - playerRepo: PlayerRepository
+        - paymentPort: IPaymentPort
+        - notificationPort: INotificationPort
+        - eventBus: IDomainEventBus
+        + execute(cmd: SubscribeVIPCommand): void
+        - verifySubscription(cmd: SubscribeVIPCommand): bool
+        - activateVIP(player: Player, tier: int): void
+        - sendNotification(playerId: string, tier: int): void
+    }
+
+    class RefundUseCase {
+        <<UseCase>>
+        - playerRepo: PlayerRepository
+        - paymentPort: IPaymentPort
+        - eventBus: IDomainEventBus
+        + execute(cmd: RefundCommand): void
+        - findOrder(orderId: string): Transaction
+        - validateRefundEligibility(order: Transaction): void
+        - processRefund(order: Transaction): void
+        - deductBalance(player: Player, amount: int): void
+    }
+
+    class LeaveRoomUseCase {
+        <<UseCase>>
+        - playerRepo: PlayerRepository
+        - roomRepo: RoomRepository
+        - eventBus: IDomainEventBus
+        + execute(playerId: string, roomId: string): void
+    }
+
+    class SessionSettleUseCase {
+        <<UseCase>>
+        - playerRepo: PlayerRepository
+        - roomRepo: RoomRepository
+        - eventBus: IDomainEventBus
+        + execute(sessionId: string): SessionResult[]
+        - calculateMVP(session: GameSession): string
+        - distributeRewards(results: SessionResult[]): void
+    }
+
+    %% ==================== APPLICATION SERVICES ====================
+
+    class GameService {
+        <<ApplicationService>>
+        - shootFishUseCase: ShootFishUseCase
+        - enterRoomUseCase: EnterRoomUseCase
+        - leaveRoomUseCase: LeaveRoomUseCase
+        - sessionSettleUseCase: SessionSettleUseCase
+        - rtpService: RTPService
+        - jackpotService: JackpotService
+        + handleShoot(cmd: ShootCommand): HitResult
+        + handleEnterRoom(cmd: EnterRoomCommand): Room
+        + handleLeaveRoom(playerId: string, roomId: string): void
+        + handleSessionEnd(sessionId: string): SessionResult[]
+    }
+
+    class RTPService {
+        <<ApplicationService>>
+        - rtpEngine: RTPEngine
+        - cache: ICache
+        - featureFlag: IFeatureFlag
+        + getPlayerRTP(playerId: string): float
+        + updateRTP(playerId: string, result: HitResult): void
+        + isRTPDegraded(): bool
+        + getDegradedFallbackRate(): float
+        + overrideRTPTarget(target: float): void
+    }
+
+    class JackpotApplicationService {
+        <<ApplicationService>>
+        - jackpotService: JackpotService
+        - cache: ICache
+        - eventBus: IDomainEventBus
+        + getPoolAmount(): int
+        + contribute(amount: int): void
+        + checkAndTrigger(playerId: string, sessionId: string): JackpotEvent?
+        + emergencyDisable(): void
+    }
+
+    class AccountService {
+        <<ApplicationService>>
+        - playerRepo: PlayerRepository
+        - tokenService: ITokenService
+        - cache: ICache
+        + register(email: string, password: string, birthdate: Date): Player
+        + login(email: string, password: string): TokenPair
+        + refreshToken(refreshToken: string): TokenPair
+        + verifyAge(playerId: string): void
+        + getProfile(playerId: string): Player
+    }
+
+    %% ==================== PORTS (Interfaces) ====================
+
+    class IPaymentPort {
+        <<Port>>
+        + verifyAppleReceipt(receipt: string): ReceiptVerifyResult
+        + verifyGoogleReceipt(receipt: string): ReceiptVerifyResult
+        + processRefund(orderId: string): RefundResult
+    }
+
+    class INotificationPort {
+        <<Port>>
+        + sendPushNotification(userId: string, message: string): void
+        + broadcastJackpot(winnerId: string, amount: int): void
+        + sendVIPActivated(userId: string, tier: int): void
+    }
+
+    class IDomainEventBus {
+        <<Port>>
+        + publish(event: DomainEvent): void
+        + subscribe(eventType: string, handler: EventHandler): void
+    }
+
+    class ICache {
+        <<Port>>
+        + get(key: string): string?
+        + set(key: string, value: string, ttlSeconds: int): void
+        + delete(key: string): void
+        + increment(key: string, by: int): int
+        + atomicGetAndSet(key: string, value: string): string?
+    }
+
+    class IFeatureFlag {
+        <<Port>>
+        + isEnabled(flagName: string): bool
+        + getVariant(flagName: string): string
+    }
+
+    class ITokenService {
+        <<Port>>
+        + sign(payload: JWTPayload): TokenPair
+        + verify(token: string): JWTPayload
+        + revoke(jti: string): void
+    }
+
+    %% ==================== RELATIONSHIPS ====================
+
+    ShootFishUseCase ..> ShootCommand : input
+    ShootFishUseCase ..> HitResult : output
+    EnterRoomUseCase ..> EnterRoomCommand : input
+    PurchaseUseCase ..> PurchaseCommand : input
+    PurchaseUseCase ..> PurchaseResult : output
+    SubscribeVIPUseCase ..> SubscribeVIPCommand : input
+    RefundUseCase ..> RefundCommand : input
+    SessionSettleUseCase ..> SessionResult : output
+
+    GameService --> ShootFishUseCase : delegates
+    GameService --> EnterRoomUseCase : delegates
+    GameService --> LeaveRoomUseCase : delegates
+    GameService --> SessionSettleUseCase : delegates
+    GameService --> RTPService : uses
+    GameService --> JackpotApplicationService : uses
+
+    ShootFishUseCase --> IPaymentPort : uses
+    ShootFishUseCase --> IDomainEventBus : publishes
+    PurchaseUseCase --> IPaymentPort : uses
+    PurchaseUseCase --> IDomainEventBus : publishes
+    SubscribeVIPUseCase --> IPaymentPort : uses
+    SubscribeVIPUseCase --> INotificationPort : uses
+    RefundUseCase --> IPaymentPort : uses
+
+    AccountService --> ITokenService : uses
+    AccountService --> ICache : uses
+    RTPService --> ICache : uses
+    RTPService --> IFeatureFlag : uses
+    JackpotApplicationService --> ICache : uses
+    JackpotApplicationService --> IDomainEventBus : publishes</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - link "fishing-arcade-game" [ref=e3] [cursor=pointer]:
+      - /url: index.html
+    - generic [ref=e4]:
+      - button "☰" [ref=e5] [cursor=pointer]
+      - searchbox "搜尋文件…" [ref=e7]
+  - generic [ref=e8]:
+    - generic [ref=e9]: fishing-arcade-game
+    - heading "文件中心" [level=1] [ref=e10]
+    - paragraph [ref=e11]: fishing-arcade-game 全專案文件索引
+  - generic [ref=e12]:
+    - navigation [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: 文件導覽
+        - link "🏠 首頁" [ref=e16] [cursor=pointer]:
+          - /url: index.html
+        - link "💡 產品創意" [ref=e17] [cursor=pointer]:
+          - /url: idea.html
+        - link "📋 業務需求" [ref=e18] [cursor=pointer]:
+          - /url: brd.html
+        - link "📝 產品需求" [ref=e19] [cursor=pointer]:
+          - /url: prd.html
+        - link "🎨 產品設計" [ref=e20] [cursor=pointer]:
+          - /url: pdd.html
+        - link "🖌️ 視覺設計" [ref=e21] [cursor=pointer]:
+          - /url: vdd.html
+        - link "⚙️ 工程設計" [ref=e22] [cursor=pointer]:
+          - /url: edd.html
+        - link "🏗️ 架構設計" [ref=e23] [cursor=pointer]:
+          - /url: arch.html
+        - link "🔌 API 設計" [ref=e24] [cursor=pointer]:
+          - /url: api.html
+        - link "🗄️ 資料庫" [ref=e25] [cursor=pointer]:
+          - /url: schema.html
+        - link "🖥️ 前端設計" [ref=e26] [cursor=pointer]:
+          - /url: frontend.html
+        - link "🎵 音效設計" [ref=e27] [cursor=pointer]:
+          - /url: audio.html
+        - link "✨ 動畫特效" [ref=e28] [cursor=pointer]:
+          - /url: anim.html
+        - link "🧪 測試計劃" [ref=e29] [cursor=pointer]:
+          - /url: test-plan.html
+        - link "🔗 追溯矩陣" [ref=e30] [cursor=pointer]:
+          - /url: rtm.html
+        - link "📖 運維手冊" [ref=e31] [cursor=pointer]:
+          - /url: runbook.html
+        - link "🚀 本地部署" [ref=e32] [cursor=pointer]:
+          - /url: local_deploy.html
+        - link "🔍 對齊報告" [ref=e33] [cursor=pointer]:
+          - /url: align_report.html
+    - main [ref=e34]:
+      - heading "文件總覽" [level=1] [ref=e35]
+      - generic [ref=e36]:
+        - link "💡 產品創意 問題定義與初始概念" [ref=e37] [cursor=pointer]:
+          - /url: idea.html
+          - generic [ref=e38]: 💡
+          - generic [ref=e39]: 產品創意
+          - generic [ref=e40]: 問題定義與初始概念
+        - link "📋 業務需求文件 Business Requirements" [ref=e41] [cursor=pointer]:
+          - /url: brd.html
+          - generic [ref=e42]: 📋
+          - generic [ref=e43]: 業務需求文件
+          - generic [ref=e44]: Business Requirements
+        - link "📝 產品需求文件 User Stories & AC" [ref=e45] [cursor=pointer]:
+          - /url: prd.html
+          - generic [ref=e46]: 📝
+          - generic [ref=e47]: 產品需求文件
+          - generic [ref=e48]: User Stories & AC
+        - link "🎨 產品設計文件 UI/UX Design Spec" [ref=e49] [cursor=pointer]:
+          - /url: pdd.html
+          - generic [ref=e50]: 🎨
+          - generic [ref=e51]: 產品設計文件
+          - generic [ref=e52]: UI/UX Design Spec
+        - link "🖌️ 視覺設計文件 Visual Design & Tokens" [ref=e53] [cursor=pointer]:
+          - /url: vdd.html
+          - generic [ref=e54]: 🖌️
+          - generic [ref=e55]: 視覺設計文件
+          - generic [ref=e56]: Visual Design & Tokens
+        - link "⚙️ 工程設計文件 Technical Architecture" [ref=e57] [cursor=pointer]:
+          - /url: edd.html
+          - generic [ref=e58]: ⚙️
+          - generic [ref=e59]: 工程設計文件
+          - generic [ref=e60]: Technical Architecture
+        - link "🏗️ 架構設計 System Architecture" [ref=e61] [cursor=pointer]:
+          - /url: arch.html
+          - generic [ref=e62]: 🏗️
+          - generic [ref=e63]: 架構設計
+          - generic [ref=e64]: System Architecture
+        - link "🔌 API 設計 REST & WebSocket API" [ref=e65] [cursor=pointer]:
+          - /url: api.html
+          - generic [ref=e66]: 🔌
+          - generic [ref=e67]: API 設計
+          - generic [ref=e68]: REST & WebSocket API
+        - link "🗄️ 資料庫 Schema Database Design" [ref=e69] [cursor=pointer]:
+          - /url: schema.html
+          - generic [ref=e70]: 🗄️
+          - generic [ref=e71]: 資料庫 Schema
+          - generic [ref=e72]: Database Design
+        - link "🖥️ 前端技術設計 Cocos Creator Client" [ref=e73] [cursor=pointer]:
+          - /url: frontend.html
+          - generic [ref=e74]: 🖥️
+          - generic [ref=e75]: 前端技術設計
+          - generic [ref=e76]: Cocos Creator Client
+        - link "🎵 音效設計文件 BGM/SFX Design" [ref=e77] [cursor=pointer]:
+          - /url: audio.html
+          - generic [ref=e78]: 🎵
+          - generic [ref=e79]: 音效設計文件
+          - generic [ref=e80]: BGM/SFX Design
+        - link "✨ 動畫特效文件 Animation & VFX" [ref=e81] [cursor=pointer]:
+          - /url: anim.html
+          - generic [ref=e82]: ✨
+          - generic [ref=e83]: 動畫特效文件
+          - generic [ref=e84]: Animation & VFX
+        - link "🧪 測試計劃 Test Strategy & RTM" [ref=e85] [cursor=pointer]:
+          - /url: test-plan.html
+          - generic [ref=e86]: 🧪
+          - generic [ref=e87]: 測試計劃
+          - generic [ref=e88]: Test Strategy & RTM
+        - link "🔗 需求追溯矩陣 Requirements Traceability" [ref=e89] [cursor=pointer]:
+          - /url: rtm.html
+          - generic [ref=e90]: 🔗
+          - generic [ref=e91]: 需求追溯矩陣
+          - generic [ref=e92]: Requirements Traceability
+        - link "📖 運維手冊 Operations Runbook" [ref=e93] [cursor=pointer]:
+          - /url: runbook.html
+          - generic [ref=e94]: 📖
+          - generic [ref=e95]: 運維手冊
+          - generic [ref=e96]: Operations Runbook
+        - link "🚀 本地部署指南 Local K8s Deployment" [ref=e97] [cursor=pointer]:
+          - /url: local_deploy.html
+          - generic [ref=e98]: 🚀
+          - generic [ref=e99]: 本地部署指南
+          - generic [ref=e100]: Local K8s Deployment
+        - link "🔍 對齊掃描報告 Alignment Check Report" [ref=e101] [cursor=pointer]:
+          - /url: align_report.html
+          - generic [ref=e102]: 🔍
+          - generic [ref=e103]: 對齊掃描報告
+          - generic [ref=e104]: Alignment Check Report

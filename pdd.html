@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>產品設計文件 (PDD) — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 產品設計文件 (PDD)</p>
+    <h1 class="banner-title">產品設計文件 (PDD)</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link active" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>PDD — Product Design Document (UX / Interaction Design)</h1>
+<p>&lt;!-- SDLC Requirements Engineering — Layer 3：UX / Interaction Design --&gt;</p>
+<p>&lt;!-- 上游：PRD（System Requirements）→ 本文件 → 下游：EDD（Tech Spec） --&gt;</p>
+<p>&lt;!-- Client 類型偵測結果：Cocos Creator（PRD §1 明確提及 Cocos Creator 3.x + TypeScript） --&gt;</p>
+<hr>
+<p>&lt;!-- ⚠️ Platform Scope — 本文件適用範圍 --&gt;</p>
+<h2>Platform Scope Declaration（平台範圍宣告）</h2>
+<ul><li style="list-style:none"><input type="checkbox" checked disabled> Web（Browser / H5）</li><li style="list-style:none"><input type="checkbox" disabled> iOS Native</li><li style="list-style:none"><input type="checkbox" disabled> Android Native</li><li style="list-style:none"><input type="checkbox" disabled> Desktop App</li><li style="list-style:none"><input type="checkbox" checked disabled> Game UI（Cocos Creator 3.x）</li><li style="list-style:none"><input type="checkbox" disabled> Embedded / Kiosk</li></ul>
+<hr>
+<h2>Document Control</h2>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr>
+<tr><td><strong>文件版本</strong></td><td>v1.0</td></tr>
+<tr><td><strong>狀態</strong></td><td>DRAFT</td></tr>
+<tr><td><strong>作者（UX / Product Designer）</strong></td><td>AI Generated (gendoc-gen-pdd)</td></tr>
+<tr><td><strong>日期</strong></td><td>2026-04-25</td></tr>
+<tr><td><strong>上游 PRD</strong></td><td><a href="PRD.md" target="_blank" rel="noopener">PRD.md</a></td></tr>
+<tr><td><strong>下游 EDD</strong></td><td><a href="EDD.md" target="_blank" rel="noopener">EDD.md</a>（Tech Spec）</td></tr>
+<tr><td><strong>設計稿（Figma）</strong></td><td>https://figma.com/file/FISHGAME-PDD-v1 <em>(placeholder — 待設計師建立)</em></td></tr>
+<tr><td><strong>審閱者</strong></td><td>Engineering Lead, 遊戲策劃 Lead, Art Director</td></tr>
+<tr><td><strong>核准者</strong></td><td>Design Lead / Executive Sponsor</td></tr>
+</table>
+<hr>
+<h2>Change Log</h2>
+<table>
+<tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr>
+<tr><td>v1.0</td><td>2026-04-25</td><td>/gendoc pdd (AI Generated)</td><td>初稿，依 IDEA + BRD + PRD 自動生成</td></tr>
+</table>
+<hr>
+<h2>1. Design Brief</h2>
+<h3>1.1 設計目標</h3>
+<blockquote><p>本次設計要解決的核心體驗問題：現有捕魚遊戲雖有多人同屏，但 UI 設計未能傳遞「真實競爭感」——玩家感受不到搶奪資源的緊張刺激，操作介面缺乏策略深度的視覺線索，付費引導生硬。設計完成後，玩家應在進入房間的前 30 秒即感受到「這局我要贏」的競爭動機，以及在 Jackpot 觸發時體驗到「全場沸騰」的視覺盛宴。</p></blockquote>
+<p><strong>設計成功樣貌：</strong></p>
+<ul><li>競技阿明（Persona A）進入遊戲 &lt; 30 秒、選好武器技能開戰，操作反饋即時爽快</li><li>VIP 老闆（Persona B）的 VIP 光環在房間內顯而易見，Jackpot 特效讓全場玩家都注意到他</li><li>新手小花（Persona C）完成新手引導後能獨立操作，第一局就看到金幣噴出動畫</li></ul>
+<h3>1.2 PRD 需求對應</h3>
+<table>
+<tr><th>PRD REQ-ID</th><th>User Story 摘要</th><th>設計回應</th><th>PDD 章節</th></tr>
+<tr><td>US-ACCT-001</td><td>快速註冊登入，保護遊戲進度</td><td>遊戲風格登入畫面，3-step 快速帳號流</td><td>§5.1</td></tr>
+<tr><td>US-ROOM-001</td><td>30 秒內進入 4–6 人競技房間</td><td>大廳選房 + 快速匹配 UI，倒數配對進度條</td><td>§5.3（LobbyScene）, §5.5（CannonSelectScene）, §5.9（MatchmakingScene）</td></tr>
+<tr><td>US-FISH-001</td><td>多種魚類倍率，策略性射擊</td><td>主遊戲畫面魚群視覺層級、命中動畫</td><td>§5.4</td></tr>
+<tr><td>US-WPSK-001</td><td>武器技能選擇，差異化遊玩風格</td><td>砲台選擇介面、技能冷卻 HUD</td><td>§5.4（GameScene HUD 技能按鈕）, §5.5（CannonSelectScene）</td></tr>
+<tr><td>US-RTP-001</td><td>穩定回報感 + Jackpot 大獎震撼</td><td>Jackpot 進度條、觸發全屏特效設計</td><td>§5.4, §6.5</td></tr>
+<tr><td>US-SHOP-001</td><td>3 步驟內完成鑽石充值</td><td>商城彈窗設計，充值轉化漏斗</td><td>§5.6</td></tr>
+<tr><td>US-VIP-001</td><td>VIP 光環彰顯地位</td><td>VIP 等級視覺識別系統，房間內光環</td><td>§5.3, §5.7</td></tr>
+<tr><td>US-AGE-001</td><td>18+ 年齡驗證</td><td>首次啟動年齡確認彈窗</td><td>§5.2</td></tr>
+<tr><td>— (P1)</td><td>配對等待體驗（30s 倒數、Bot 補位）</td><td>配對等待畫面 — 玩家頭像飛入動畫、取消按鈕</td><td>§5.9</td></tr>
+<tr><td>— (P1)</td><td>使用者設定（音效/語言/帳號）</td><td>設定面板 — 分類設定項目、即時預覽</td><td>§5.10</td></tr>
+<tr><td>— (P1)</td><td>個人中心（資料/VIP 進度/記錄）</td><td>ProfileScene — 個人資料展示、VIP 進度視覺</td><td>§5.11</td></tr>
+<tr><td>— (P2)</td><td>排行榜（賽季/全服/好友）</td><td>LeaderboardPanel — 多維度排名展示</td><td>§5.12</td></tr>
+</table>
+<p><strong>P1 US 設計考量補充：</strong></p>
+<ul><li>配對等待畫面（§5.9）需在 30 秒倒數內維持玩家期待感，頭像飛入動畫傳遞「真人對戰」氛圍，Bot 補位需明確但不打擊信心</li><li>設定面板（§5.10）採分類清單設計，音效/音樂即時生效，語言切換需確認 Modal，帳號安全操作需二次驗證</li><li>ProfileScene（§5.11）將 VIP 進度視覺化呈現（進度條 + 距下一等級差距），強化付費動機</li></ul>
+<h3>1.3 設計原則（Design Principles）</h3>
+<ol><li><strong>爽感優先（Dopamine First）</strong>：每一個命中、每一次 Boss 擊殺、每一次 Jackpot，視覺與音效回饋必須讓玩家感受到「值了」。所有動畫設計以「讓玩家想截圖分享」為標準。</li></ol>
+<ol><li><strong>競爭感可見（Competition Visible）</strong>：多人競爭的緊張感必須透過 UI 明確傳達——其他玩家的砲火方向、Boss 魚血量、即時排名——讓玩家隨時知道「我現在第幾名、我需要搶什麼」。</li></ol>
+<ol><li><strong>付費引導自然（Natural Monetization）</strong>：鑽石充值、VIP 訂閱、禮包購買的引導點在玩家「感受到不足」的自然時機出現，而非強行打斷遊戲。所有付費 UI 必須與整體視覺風格一致，不顯突兀。</li></ol>
+<ol><li><strong>3 秒可懂（3-Second Comprehension）</strong>：新手玩家在任何畫面停留 3 秒後，應能直覺理解「下一步做什麼」。核心操作路徑不超過 3 個步驟。</li></ol>
+<hr>
+<h2>2. User Research Summary</h2>
+<h3>2.0 User Personas</h3>
+<h4>Persona A：「競技阿明」— 核心競技玩家</h4>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>姓名</strong></td><td>阿明（Lin Ming）</td></tr>
+<tr><td><strong>年齡</strong></td><td>27 歲</td></tr>
+<tr><td><strong>職業</strong></td><td>台北軟體工程師</td></tr>
+<tr><td><strong>技術熟悉度</strong></td><td>高（手機遊戲重度用戶，5/5）</td></tr>
+<tr><td><strong>使用情境</strong></td><td>每日通勤 40 分鐘 + 午休 20 分鐘，碎片時間快速娛樂</td></tr>
+<tr><td><strong>核心目標</strong></td><td>在競技局中搶先捕獲 Boss 魚，在排行榜展現實力，累積 VIP 彰顯地位</td></tr>
+<tr><td><strong>主要痛點</strong></td><td>現有捕魚遊戲多人同屏「假競爭」，技能只有倍率調整，毫無策略深度（PRD §3.2）</td></tr>
+<tr><td><strong>付費習慣</strong></td><td>每月 USD 15–30，偏好立即回報的付費（高倍率砲台、技能道具）</td></tr>
+<tr><td><strong>成功時的感受</strong></td><td>搶到 Boss 魚彈出「MVP！」時的勝利爽感，每局都想再來一局</td></tr>
+<tr><td><strong>引言</strong></td><td>「以前玩捕魚就是傻傻按，現在跟人搶 Boss 魚才叫真的爽！」</td></tr>
+</table>
+<h4>Persona B：「VIP 老闆」— 高付費核心玩家</h4>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>姓名</strong></td><td>Somchai（索猜）</td></tr>
+<tr><td><strong>年齡</strong></td><td>38 歲</td></tr>
+<tr><td><strong>職業</strong></td><td>泰國曼谷個體商人</td></tr>
+<tr><td><strong>技術熟悉度</strong></td><td>中（習慣手機購物付費，3/5）</td></tr>
+<tr><td><strong>使用情境</strong></td><td>晚間 1–2 小時遊戲放鬆，有明顯地位彰顯需求</td></tr>
+<tr><td><strong>核心目標</strong></td><td>成為 VIP 頂級玩家，擁有限定皮膚和高倍率砲台，在遊戲中被其他玩家「看見」</td></tr>
+<tr><td><strong>主要痛點</strong></td><td>現有遊戲即使大量充值也感受不到 VIP 感，外觀和普通玩家一樣（PRD §3.2）</td></tr>
+<tr><td><strong>付費習慣</strong></td><td>每月 USD 50–100，偏好大額禮包和 VIP 訂閱月費</td></tr>
+<tr><td><strong>成功時的感受</strong></td><td>VIP 光環在房間中顯眼，Jackpot 觸發時全屏特效讓所有人都注意到他</td></tr>
+<tr><td><strong>引言</strong></td><td>「我付了這麼多錢，就是要讓其他人看到我的金色砲台光環！」</td></tr>
+</table>
+<h4>Persona C：「新手小花」— 新手免費玩家</h4>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>姓名</strong></td><td>Hoa Nguyen（阮小花）</td></tr>
+<tr><td><strong>年齡</strong></td><td>22 歲</td></tr>
+<tr><td><strong>職業</strong></td><td>越南河內大學生</td></tr>
+<tr><td><strong>技術熟悉度</strong></td><td>低（對 IAP 流程不熟悉，2/5）</td></tr>
+<tr><td><strong>使用情境</strong></td><td>透過 Facebook 廣告首次下載，每日零碎時間 10–15 分鐘</td></tr>
+<tr><td><strong>核心目標</strong></td><td>探索玩法享受免費捕魚爽感，在不付費前提下盡可能玩得有趣</td></tr>
+<tr><td><strong>主要痛點</strong></td><td>剛進遊戲不清楚武器和技能怎麼用；金幣消耗速度比獲得速度快（PRD §3.2）</td></tr>
+<tr><td><strong>付費習慣</strong></td><td>基本不付費；低門檻首充優惠（USD 0.99）有小概率嘗試</td></tr>
+<tr><td><strong>成功時的感受</strong></td><td>新手引導完成後能獨立操作，第一局看到金幣噴出動畫</td></tr>
+<tr><td><strong>引言</strong></td><td>「打到魚的時候金幣噴出來的動畫太好看了，我想繼續玩！」</td></tr>
+</table>
+<h3>2.1 研究方法</h3>
+<table>
+<tr><th>方法</th><th>樣本數</th><th>日期</th><th>關鍵發現</th></tr>
+<tr><td>競品體驗分析</td><td>5 個競品（H5 魚機 + App 捕魚）</td><td>2026-04</td><td>市場主流強調爆金倍率，多人同屏無真實競爭 UI 設計，缺乏競爭感視覺傳達</td></tr>
+<tr><td>用戶訪談（計劃中）</td><td>N ≥ 10 人目標用戶</td><td>2026-05</td><td>IDEA §5.2 驗證計畫：問題確認率目標 ≥ 70%</td></tr>
+<tr><td>參考 Codebase UX 分析</td><td>taishan6868 Lua/Cocos 模組</td><td>2026-04</td><td>現有模組包含 FCannonUnlockUI / FChangeSkinUI / FDiamondLottery，UI 結構成熟，可提取設計模式</td></tr>
+<tr><td>Usability Test（計劃中）</td><td>5 人（目標 Persona A/B）</td><td>MVP 完成後</td><td>Task Completion Rate 目標 ≥ 80%</td></tr>
+</table>
+<h3>2.2 用戶心智模型</h3>
+<blockquote><p>玩家期待捕魚遊戲的運作方式是：「射擊 → 命中 → 金幣獎勵」的直覺循環，且多人同場時「搶先打到就是我的」——類似街機遊戲的即時競爭直覺。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>現有設計造成的誤解：多人同屏但資源不爭搶，玩家不理解為什麼旁邊的人也在打同一條魚卻各自得分，導致競爭感完全失效。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>本次設計如何對齊用戶心智模型：主遊戲畫面清楚顯示「魚的血量條」（Boss 魚）和「搶奪進度」，命中特效方向感強烈，讓玩家立刻感受到「這條魚正在被多人搶」的緊張感。</p></blockquote>
+<h3>2.3 關鍵 Insight（設計決策依據）</h3>
+<table>
+<tr><th>#</th><th>Insight</th><th>來源</th><th>設計影響</th></tr>
+<tr><td>I-1</td><td>玩家在競技局中需要隨時知道「自己現在第幾名」，否則缺乏持續射擊的動機</td><td>PRD §3.2 Persona A 目標</td><td>觸發 §5.4 主遊戲 HUD 即時排名設計</td></tr>
+<tr><td>I-2</td><td>VIP 高付費用戶的核心需求是「被看見」，VIP 視覺識別必須在房間內顯著可見</td><td>PRD §3.2 Persona B 痛點</td><td>觸發 §5.7 VIP 光環設計系統</td></tr>
+<tr><td>I-3</td><td>新手流失主要發生在「金幣快用完時不知道怎麼辦」，而非遊戲太難</td><td>PRD §3.2 Persona C 痛點</td><td>觸發 §5.1 新手引導流程與低門檻充值引導</td></tr>
+<tr><td>I-4</td><td>Jackpot 觸發的視覺震撼感是高付費用戶持續付費的核心動機之一</td><td>PRD §3.2 Persona B 成功樣貌</td><td>觸發 §6.5 Jackpot 全屏特效微互動設計</td></tr>
+<tr><td>I-5</td><td>技能冷卻時間若不可見，玩家會頻繁點擊無效按鈕導致體驗挫折</td><td>PRD US-WPSK-001 AC-3</td><td>觸發 §5.5 技能 HUD 冷卻視覺化設計</td></tr>
+</table>
+<h3>2.4 User Journey Map：玩家首次體驗競技局</h3>
+<table>
+<tr><th>階段</th><th>觸達</th><th>探索</th><th>首局競技</th><th>達成目標</th><th>回訪</th></tr>
+<tr><td><strong>用戶行動</strong></td><td>看到 Facebook 廣告（魚被炸飛特效）點擊下載</td><td>打開遊戲完成年齡驗證 + 新手引導</td><td>選擇武器技能，快速匹配進入競技局，與其他玩家搶魚</td><td>局結束結算，看到排名和金幣收益，觸發 MVP 或 Jackpot</td><td>被 Push 通知或活動提醒拉回，開啟第二局</td></tr>
+<tr><td><strong>想法</strong></td><td>「這個特效好酷，感覺很爽快」</td><td>「這個操作還蠻簡單的，武器怎麼選？」</td><td>「那條 Boss 魚是我先打的！旁邊那個人也在搶！」</td><td>「我今天拿了 MVP！金幣漲了好多！想再來一局」</td><td>「今天的限時 Boss 活動不玩可惜了」</td></tr>
+<tr><td><strong>情緒</strong></td><td>😊 好奇期待</td><td>😐 摸索中</td><td>😤 緊張競爭</td><td>😁 成就感爆棚</td><td>😊 期待感</td></tr>
+<tr><td><strong>痛點</strong></td><td>廣告品質參差，進入門檻（下載等待）</td><td>新手引導太長 / 太短，武器選擇不知如何判斷</td><td>網路延遲導致命中判定混亂，金幣不夠用</td><td>結算介面資訊太多看不懂</td><td>通知頻率過高造成干擾</td></tr>
+<tr><td><strong>機會點</strong></td><td>廣告素材強調「搶 Boss 爽感」，降低安裝包體積</td><td>互動式新手引導（第一局內嵌引導），武器推薦提示</td><td>低延遲體驗優化，金幣不足時適時引導充值（非強制）</td><td>簡潔結算卡片設計，MVP 特效分享功能</td><td>個人化活動通知，留存禮包設計</td></tr>
+<tr><td><strong>接觸點</strong></td><td>Facebook/LINE 廣告 → App Store/H5 落地頁</td><td>遊戲啟動畫面 → 年齡驗證 → 大廳</td><td>砲台選擇介面 → 配對等待 → 主遊戲畫面</td><td>結算介面 → 排行榜</td><td>Push 通知 → 活動公告橫幅</td></tr>
+</table>
+<blockquote><p><strong>Persona：</strong> 競技阿明（Persona A）｜<strong>目標：</strong> 在首次競技局中感受到真實競爭感，並有「想再來一局」的意願 ｜<strong>情境：</strong> 午休 20 分鐘碎片時間首次體驗</p></blockquote>
+<h3>2.5 Jobs to Be Done (JTBD)</h3>
+<p><strong>核心 Job Statement：</strong></p>
+<blockquote><p>當 [我有 10–30 分鐘碎片時間想要快速娛樂] 時，我希望能 [進入一場有真實競爭感的多人捕魚局，並在局中感受到勝利爽感]，</p></blockquote>
+<blockquote><p>讓我能夠 [帶著愉悅感離開，並期待下次再玩]。</p></blockquote>
+<table>
+<tr><th>Job Type</th><th>Job Statement</th><th>現有解法（競品）</th><th>不滿意程度（1–5）</th></tr>
+<tr><td>Functional（功能型）</td><td>在碎片時間快速進入遊戲，選好武器技能並開始射擊，即時獲得金幣收益回饋</td><td>現有 H5 魚機：進入速度快但無武器技能選擇策略</td><td>4（缺乏策略深度）</td></tr>
+<tr><td>Emotional（情感型）</td><td>在競技中感受「搶先捕獲 Boss 魚」的勝利爽感，以及 Jackpot 觸發時的驚喜震撼</td><td>現有競品：Jackpot 特效品質差，多人競爭感不真實</td><td>5（核心痛點）</td></tr>
+<tr><td>Social（社交型）</td><td>在多人同場中展示技術和 VIP 地位，成為 MVP，並有可分享的成就截圖</td><td>現有競品：無 MVP 機制，無 VIP 視覺識別，無分享功能</td><td>4（高設計機會）</td></tr>
+</table>
+<blockquote><p><strong>評分說明：</strong> 1 = 完全滿意，5 = 非常不滿意（代表高設計機會）</p></blockquote>
+<h3>2.6 Service Blueprint（服務藍圖）</h3>
+<table>
+<tr><th>行動類型</th><th>進入遊戲</th><th>競技局進行</th><th>Jackpot 觸發</th><th>付費充值</th><th>局結束結算</th></tr>
+<tr><td><strong>用戶行動</strong></td><td>下載/訪問 H5，完成登入 + 年齡驗證</td><td>選武器技能，快速匹配，射擊搶魚</td><td>繼續射擊，觀看 Jackpot 特效</td><td>點擊商城，選充值包，完成支付</td><td>查看排名和金幣，決定是否再來一局</td></tr>
+<tr><td>— 可視線</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td><strong>前台 UI</strong></td><td>登入頁面 + 年齡驗證彈窗 + 大廳</td><td>砲台選擇介面 + 主遊戲 HUD</td><td>Jackpot 全屏特效 + 大獎動畫</td><td>商城彈窗 + IAP 支付流程</td><td>結算介面 + MVP 動畫</td></tr>
+<tr><td>— 可見線</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td><strong>後台流程</strong></td><td>JWT 認證 + 年齡記錄 DB</td><td>Colyseus 房間狀態同步 + RTP 計算引擎</td><td>Jackpot 觸發邏輯 + 獎池重置</td><td>IAP 收據驗證 + 鑽石發放</td><td>結算 API + 排名計算</td></tr>
+<tr><td>— 內部互動線</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td><strong>支援系統</strong></td><td>MySQL（用戶帳號）+ Redis（Session）</td><td>Redis 原子操作（搶魚去重）+ Node.js</td><td>MySQL（Jackpot 合規日誌）</td><td>MySQL（訂單記錄，ACID）+ AppStore/GP</td><td>MySQL（遊戲局記錄）+ Analytics</td></tr>
+<tr><td><strong>實體證據</strong></td><td>URL / App 圖示 + 登入確認信</td><td>遊戲畫面截圖 + 音效</td><td>Jackpot 動畫截圖（可分享）</td><td>支付確認通知 + 鑽石餘額更新</td><td>結算截圖 + MVP 徽章</td></tr>
+</table>
+<hr>
+<h2>3. Information Architecture (IA)</h2>
+<h3>3.1 畫面結構（Sitemap）</h3>
+<div class="diagram-container"><pre class="mermaid">graph TD
+    Root["🎮 Fishing Arcade Game"]
+
+    Root --> A["啟動 / 登入"]
+    Root --> B["遊戲大廳"]
+    Root --> C["主遊戲畫面"]
+    Root --> D["商城"]
+    Root --> E["個人中心"]
+    Root --> F["設定"]
+
+    A --> A1["登入 / 快速訪客"]
+    A --> A2["年齡驗證（首次）"]
+    A --> A3["新手引導（首次）"]
+
+    B --> B1["房間列表（普通 / 競技）"]
+    B --> B2["砲台 / 技能選擇"]
+    B --> B3["配對等待畫面"]
+    B --> B4["排行榜（LeaderboardBtn 入口）"]
+    B --> B5["活動公告"]
+
+    C --> C1["主遊戲 HUD（金幣/排名/技能）"]
+    C --> C2["魚群場景"]
+    C --> C3["Jackpot 進度條"]
+    C --> C4["結算介面"]
+    C --> C5["MVP 動畫"]
+
+    D --> D1["鑽石充值包"]
+    D --> D2["道具 / 禮包購買"]
+    D --> D3["VIP 訂閱"]
+    D --> D4["抽獎"]
+
+    E --> E1["個人資料"]
+    E --> E2["VIP 等級 / 進度"]
+    E --> E3["遊戲記錄"]
+    E --> E4["訂單記錄"]
+
+    F --> F1["音效 / 音樂設定"]
+    F --> F2["通知設定"]
+    F --> F3["語言選擇"]
+    F --> F4["帳號安全"]</pre></div>
+<h3>3.2 導覽結構</h3>
+<table>
+<tr><th>層級</th><th>導覽方式</th><th>入口位置</th></tr>
+<tr><td>主導覽</td><td>遊戲主 HUD 底部固定工具列（大廳 / 商城 / 個人中心 / 設定）</td><td>畫面底部，遊戲大廳及非遊戲中狀態顯示</td></tr>
+<tr><td>遊戲中導覽</td><td>遊戲 HUD 懸浮按鈕（設定 / 離開 / 技能）</td><td>畫面四角，不遮擋主要遊戲區域</td></tr>
+<tr><td>情境導覽</td><td>結算介面「再來一局 / 返回大廳」、付費引導「立即充值」</td><td>操作結果頁面內</td></tr>
+</table>
+<p><strong>遊戲 UI 特殊導覽原則（Cocos Creator）：</strong></p>
+<ul><li>遊戲中所有 UI 覆層（HUD、技能按鈕、排名）以 z-order 層級管理，不遮擋魚群主場景</li><li>彈窗（商城、設定、結算）使用 Modal 覆蓋方式呈現，背景遊戲場景暫停或模糊</li><li>底部工具列僅在大廳狀態顯示，進入遊戲後收起</li></ul>
+<h3>3.3 內容優先順序（遊戲 UI F/Z Pattern）</h3>
+<table>
+<tr><th>畫面</th><th>最重要（First Fixation）</th><th>次要</th><th>輔助</th></tr>
+<tr><td>大廳</td><td>快速匹配按鈕（CTA）+ 金幣/鑽石餘額</td><td>房間類型選擇 + 活動橫幅</td><td>排行榜入口、設定</td></tr>
+<tr><td>砲台選擇</td><td>當前選中砲台視覺展示</td><td>技能選擇區</td><td>砲台解鎖進度、「確認進入」按鈕</td></tr>
+<tr><td>主遊戲</td><td>魚群場景（遊玩核心）</td><td>金幣餘額 + 即時排名 HUD</td><td>Jackpot 進度條、技能按鈕</td></tr>
+<tr><td>結算</td><td>MVP 獎勵動畫 / 本局金幣收益</td><td>排行榜名次</td><td>「再來一局」CTA、返回大廳</td></tr>
+<tr><td>商城</td><td>推薦充值包（最高價值感）</td><td>其他充值選項</td><td>VIP 訂閱入口、抽獎</td></tr>
+</table>
+<hr>
+<h2>4. User Flows</h2>
+<h3>4.1 主流程（Happy Path）— 玩家首次進入競技局並獲勝</h3>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    Start([玩家開啟遊戲]) --> S1[啟動畫面 / Splash]
+    S1 --> D1{已有帳號？}
+    D1 -->|否| S2[登入/註冊畫面]
+    D1 -->|是| S3[自動登入]
+    S2 --> S3
+    S3 --> D2{首次使用？}
+    D2 -->|是| S4[年齡驗證彈窗]
+    S4 --> D3{年齡 ≥ 18？}
+    D3 -->|否| SX[鎖定付費功能/演示模式]
+    D3 -->|是| S5[新手引導流程]
+    S5 --> S6[遊戲大廳]
+    D2 -->|否| S6
+    S6 --> S7[選擇房間類型：普通/競技]
+    S7 --> S8[砲台 + 技能選擇介面]
+    S8 --> S9[點擊「快速匹配」]
+    S9 --> D4{配對完成？}
+    D4 -->|30 秒內| S10[房間就緒 4–6 人]
+    D4 -->|超時| S11[Bot 補位通知 → 房間就緒]
+    S10 --> S12[主遊戲畫面 — 遊戲開始]
+    S11 --> S12
+    S12 --> D5{命中判定}
+    D5 -->|命中| S13[金幣收益動畫 + HUD 更新]
+    D5 -->|未命中| S12
+    S13 --> D6{Jackpot 觸發？}
+    D6 -->|是| S14[Jackpot 全屏特效 + 大獎]
+    D6 -->|否| S12
+    S14 --> S15[局結束結算]
+    S12 --> S15
+    S15 --> D7{MVP？}
+    D7 -->|是| S16[MVP 動畫 + +10% 金幣獎勵]
+    D7 -->|否| S17[標準結算]
+    S16 --> End([大廳 / 再來一局])
+    S17 --> End</pre></div>
+<p><strong>任務完成時間目標：</strong> 從開啟遊戲到進入競技局 &lt; 60 秒；配對等待 &lt; 30 秒；局長 3–5 分鐘</p>
+<h3>4.2 替代流程 — 金幣不足時的付費引導</h3>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    Start([玩家金幣餘額不足]) --> S1[系統偵測低餘額]
+    S1 --> D1{情境}
+    D1 -->|嘗試進入高倍率房間| S2[顯示「金幣不足」提示 + 引導低倍率房間]
+    D1 -->|遊戲中金幣降為 0| S3[砲台自動降回 1x 倍率 + 輕提示橫幅]
+    S2 --> D2{玩家行動}
+    D2 -->|接受低倍率房間| S4[進入普通房間]
+    D2 -->|點擊充值| S5[商城彈窗開啟]
+    S3 --> S5
+    S5 --> S6[選擇充值包]
+    S6 --> S7[IAP 支付流程]
+    S7 --> D3{支付結果}
+    D3 -->|成功| S8[鑽石發放 + 金幣換算 + 餘額更新]
+    D3 -->|失敗| S9[錯誤訊息 + 重試引導]
+    S8 --> End([繼續遊戲])
+    S4 --> End</pre></div>
+<h3>4.3 錯誤流程 — 連線中斷與房間異常</h3>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    S1[玩家在遊戲中] --> D1{WebSocket 連線狀態}
+    D1 -->|正常| S2[繼續遊戲]
+    D1 -->|偵測中斷| S3[顯示「連線中斷，嘗試重連...」覆層 + 進度指示]
+    S3 --> D2{5 秒內重連成功？}
+    D2 -->|是| S2
+    D2 -->|否| S4[顯示「已中斷連線」彈窗：局結果已保存]
+    S4 --> S5[返回大廳]
+
+    S6[玩家嘗試快速匹配] --> D3{Colyseus 服務狀態}
+    D3 -->|正常| S7[配對流程]
+    D3 -->|503/逾時| S8[「伺服器忙碌」錯誤訊息 + 重試按鈕]
+    S8 --> D4{重試 3 次後}
+    D4 -->|仍失敗| S9[「目前維護中，請稍後再試」Toast + 返回大廳]
+    D4 -->|成功| S7</pre></div>
+<h4>4.3.1 IAP 支付失敗流程</h4>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    P1[玩家點擊確認購買] --> P2[呼叫 AppStore / Google Play IAP]
+    P2 --> PD1{支付結果}
+    PD1 -->|成功| P3[後端收據驗證 → 發放鑽石]
+    P3 --> P4[Toast「鑽石已到帳 +XXX」+ HUD 更新]
+    P4 --> PEnd([繼續遊戲])
+    PD1 -->|用戶取消| P5[關閉支付彈窗，返回商城]
+    PD1 -->|支付失敗（餘額不足/卡片問題）| P6[顯示錯誤 Modal]
+    P6 --> P7[錯誤說明文字 + 「重試」按鈕 + 「聯絡客服」連結]
+    P7 --> PD2{玩家選擇}
+    PD2 -->|重試| P2
+    PD2 -->|取消| P5
+    PD2 -->|聯絡客服| P8[開啟客服聯絡頁面]
+    PD1 -->|後端收據驗證失敗| P9[顯示「訂單異常，請聯絡客服」+ 訂單號]
+    P9 --> P8</pre></div>
+<p><strong>UI 呈現：</strong> 支付失敗使用 Modal 彈窗（非 Toast），因需要使用者明確回應；錯誤文字採友好語氣（「付款遇到一點問題」而非錯誤代碼）；提供訂單號方便客服追蹤。</p>
+<h4>4.3.2 年齡驗證未滿 18 — 演示模式流程</h4>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    A1[玩家填入出生日期] --> AD1{計算年齡}
+    AD1 -->|≥ 18 歲| A2[記錄驗證結果 → 進入完整遊戲]
+    AD1 -->|< 18 歲| A3[顯示「本遊戲限 18 歲以上玩家使用」說明]
+    A3 --> A4[提供兩個選項]
+    A4 --> AD2{玩家選擇}
+    AD2 -->|進入演示模式| A5[限制功能：禁用 IAP、隱藏充值入口、不顯示真實金幣數值]
+    A5 --> A6[進入演示遊戲大廳（Demo Badge 顯示）]
+    A6 --> A7[遊玩體驗完整，但無法充值/提現]
+    AD2 -->|離開遊戲| A8[返回 App 啟動畫面或關閉 H5]</pre></div>
+<p><strong>UI 呈現：</strong> 未滿 18 提示採平和語氣，不帶責罰感；演示模式全程顯示「演示模式」浮水印角標；IAP 入口以灰色鎖定狀態顯示，點擊時彈出「演示模式無法購買」說明。</p>
+<h4>4.3.3 無權限存取流程</h4>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    R1[玩家嘗試存取受限功能] --> RD1{JWT Token 狀態}
+    RD1 -->|有效| R2[允許存取]
+    RD1 -->|過期（401）| R3[Silent Refresh Token 嘗試]
+    R3 --> RD2{Refresh 成功？}
+    RD2 -->|是| R2
+    RD2 -->|否| R4[強制登出 + Toast「登入逾時，請重新登入」]
+    R4 --> R5[清除本地 Session → 跳轉 LoginScene]
+    RD1 -->|無效 Token / 帳號封禁（403）| R6[顯示「存取被拒絕」Modal]
+    R6 --> R7[說明原因（帳號封禁 / 區域限制）+ 聯絡客服按鈕]
+    R7 --> R5</pre></div>
+<p><strong>UI 呈現：</strong> Token 過期的 Silent Refresh 對使用者透明（背景執行）；帳號封禁顯示封禁原因和申訴管道；不洩漏技術錯誤細節（如 HTTP 狀態碼）。</p>
+<h4>4.3.4 API 通用失敗流程</h4>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    E1[任意 API 請求發出] --> ED1{HTTP 回應狀態}
+    ED1 -->|2xx| E2[正常處理回應]
+    ED1 -->|4xx 客戶端錯誤（非 401/403）| E3[顯示對應 Inline 錯誤訊息]
+    E3 --> E4[不強制跳轉，讓用戶修正後重試]
+    ED1 -->|5xx 服務端錯誤| E5[顯示 Toast 或 Modal（依操作重要性）]
+    E5 --> ED2{操作類型}
+    ED2 -->|非關鍵操作（排行榜載入等）| E6[Toast「載入失敗，稍後重試」+ 自動重試 1 次]
+    ED2 -->|關鍵操作（充值/結算）| E7[Modal「操作失敗，請稍後重試」+ 錯誤參考號]
+    E7 --> E8[保留頁面狀態，不清空已填資料]
+    ED1 -->|網路逾時（timeout）| E9[Toast「網路連線不穩，請確認網路後重試」]
+    E9 --> E10[提供重試按鈕]</pre></div>
+<p><strong>UI 呈現：</strong> 通用錯誤訊息統一採友好語氣；關鍵操作失敗（充值）必須提供錯誤參考號以便客服追蹤；非關鍵操作（排行榜）失敗可自動靜默重試，不打擾使用者。</p>
+<h3>4.4 VIP 訂閱流程</h3>
+<div class="diagram-container"><pre class="mermaid">flowchart TD
+    Start([玩家進入商城/個人中心]) --> S1[VIP 訂閱介紹頁面]
+    S1 --> S2[顯示各 VIP 等級特權對比]
+    S2 --> S3[點擊「訂閱 VIP 月費 USD 9.99」]
+    S3 --> S4[IAP 訂閱確認彈窗]
+    S4 --> D1{確認？}
+    D1 -->|取消| End1([返回商城])
+    D1 -->|確認| S5[AppStore/Google Play 訂閱流程]
+    S5 --> D2{訂閱結果}
+    D2 -->|成功| S6[VIP 等級啟用動畫 + 光環即時顯示]
+    D2 -->|失敗| S7[支付失敗錯誤訊息 + 客服連結]
+    S6 --> End2([進入遊戲，VIP 光環可見])</pre></div>
+<hr>
+<h2>5. Screen Specifications</h2>
+<blockquote><p>Cocos Creator WYSIWYG 設計原則：所有 UI 節點必須直接 bake 進 <code>.scene</code> JSON，美術打開 Cocos Editor 立即看到完整畫面，不允許 script 動態生成 UI。</p></blockquote>
+<blockquote><p>- 靜態 UI 節點（Label、Button、Background、Panel）全部 pre-bake 進 <code>.scene</code></p></blockquote>
+<blockquote><p>- 動態元件（魚群、砲彈、特效）以 <code>.prefab</code> 存檔，script 用 <code>instantiate(prefab)</code> 複製</p></blockquote>
+<blockquote><p>- 禁止模式：<code>new Node()</code> for UI、<code>addComponent(Label)</code> for layout</p></blockquote>
+<h3>5.0 Cocos Creator 自適應 UI 規範</h3>
+<p>策略：<code>FIXED_WIDTH</code>（寬固定 720，高隨螢幕比例自動伸縮）</p>
+<pre><code class="language-json">{
+  &quot;general&quot;: { &quot;designWidth&quot;: 720, &quot;designHeight&quot;: 1280, &quot;fitWidth&quot;: false, &quot;fitHeight&quot;: true },
+  &quot;splashScreen&quot;: { &quot;totalTime&quot;: 0, &quot;autoFit&quot;: true, &quot;logo&quot;: null }
+}</code></pre>
+<p>每個 section-level 節點必須有 <code>cc.Widget</code>（<code>_alignMode: 2</code> ON_WINDOW_RESIZE）。</p>
+<p><strong>Splash Screen 移除：</strong></p>
+<ul><li><code>settings/v2/packages/project.json</code>：<code>splashScreen.totalTime: 0</code>、<code>logo: null</code></li><li><code>build-templates/web-desktop/index.html</code>：CSS 隱藏 <code>.powered-by-cocos</code></li></ul>
+<p><strong>三層 Script 架構（不動態建 UI）：</strong></p>
+<ul><li><code>SceneWiring.ts</code>：只做 <code>getChildByName()</code> + Button 接線，不建節點</li><li><code>UIController.ts</code>：cc.Component，狀態更新 + <code>instantiate</code> + <code>tween</code></li><li><code>GameBootstrap.ts</code>：DI 配線 + <code>view.setDesignResolutionSize</code></li></ul>
+<h3>5.1 登入 / 啟動畫面（LoginScene）</h3>
+<p><strong>用途：</strong> 玩家身份驗證，進入遊戲前的入口（對應 PRD US-ACCT-001）</p>
+<p><strong>進入方式：</strong> 應用程式啟動，或登出後返回</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  遊戲 LOGO（動態粒子效果）              │
+│  副標題「多人競技捕魚街機」               │
+├──────────────────────────────────────┤
+│  主內容區                              │
+│  ├── Email 輸入框                      │
+│  ├── 密碼輸入框（可顯/隱密碼）           │
+│  ├── 登入按鈕（Primary CTA）            │
+│  ├── 分隔線「或」                       │
+│  └── 訪客模式快速進入（Secondary CTA）  │
+├──────────────────────────────────────┤
+│  底部：「還沒有帳號？立即註冊」連結       │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（Scene: LoginScene）：</strong></p>
+<table>
+<tr><th>GameObject 路徑</th><th>類型</th><th>狀態</th><th>美術可替換</th></tr>
+<tr><td>Background/BgSprite</td><td>cc.Sprite</td><td>—</td><td>✓</td></tr>
+<tr><td>LogoArea/LogoImage</td><td>cc.Sprite</td><td>—</td><td>✓</td></tr>
+<tr><td>LogoArea/SubtitleLabel</td><td>cc.Label</td><td>—</td><td>✓</td></tr>
+<tr><td>FormPanel/EmailInput</td><td>cc.EditBox</td><td>Empty / Focused / Error / Filled</td><td>✓</td></tr>
+<tr><td>FormPanel/PasswordInput</td><td>cc.EditBox</td><td>Empty / Focused / Error / Filled</td><td>✓</td></tr>
+<tr><td>FormPanel/LoginButton</td><td>cc.Button</td><td>Default / Hover / Pressed / Disabled</td><td>✓</td></tr>
+<tr><td>FormPanel/GuestButton</td><td>cc.Button</td><td>Default / Hover / Pressed</td><td>✓</td></tr>
+<tr><td>FormPanel/ErrorLabel</td><td>cc.Label</td><td>Hidden / Visible（錯誤訊息）</td><td>✓</td></tr>
+<tr><td>FormPanel/RegisterLink</td><td>cc.Button</td><td>Default / Hover</td><td>✓</td></tr>
+</table>
+<p><strong>互動規格：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>點擊登入按鈕（有效輸入）</td><td>呼叫登入 API</td><td>按鈕 Scale 0.95，Loading Spinner 覆蓋</td><td>100ms press + API 等待</td></tr>
+<tr><td>登入成功</td><td>跳轉大廳</td><td>Fade Out 整體畫面 → Fade In 大廳</td><td>300ms</td></tr>
+<tr><td>登入失敗</td><td>顯示 Inline 錯誤</td><td>ErrorLabel Fade In + Input 紅色邊框</td><td>200ms</td></tr>
+<tr><td>Email 失焦</td><td>即時格式驗證</td><td>不合法時 Input 邊框變紅 + 錯誤提示</td><td>150ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> https://figma.com/file/FISHGAME-PDD-v1/LoginScene （待確認：設計師建立 Figma Frame 後更新此連結）</p>
+<h3>5.2 年齡驗證彈窗（AgeGateModal）</h3>
+<p><strong>用途：</strong> 新用戶首次進入付費功能前的 18+ 強制確認（對應 PRD US-AGE-001）</p>
+<p><strong>進入方式：</strong> 首次登入或首次嘗試進入付費功能</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  半透明遮罩背景（全螢幕）               │
+│  ┌──────────────────────────────┐    │
+│  │  遊戲圖示 + 「年齡確認」標題   │    │
+│  │  ──────────────────────────  │    │
+│  │  「本遊戲限 18 歲以上玩家使用」 │    │
+│  │  出生日期選擇器（年/月/日）     │    │
+│  │  ☑ 我確認我已年滿 18 歲        │    │
+│  │  ──────────────────────────  │    │
+│  │  [確認進入]  [離開演示模式]    │    │
+│  └──────────────────────────────┘    │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th><th>說明</th></tr>
+<tr><td>ModalBg</td><td>cc.Sprite</td><td>—</td><td>半透明黑色遮罩，不可點擊穿透</td></tr>
+<tr><td>AgePanel</td><td>cc.Node</td><td>Default / Error</td><td>彈窗容器，Scale In 進場動畫</td></tr>
+<tr><td>DatePicker</td><td>cc.Node</td><td>Idle / Selecting / Confirmed / <strong>Error</strong>（日期格式不合法或未來日期）</td><td>年月日三欄 ScrollView 選擇器；Error 時三欄外框顯示紅色，並顯示 DatePickerErrorLabel</td></tr>
+<tr><td>DatePickerErrorLabel</td><td>cc.Label</td><td>Hidden / Visible</td><td>錯誤提示文字（如「請輸入有效出生日期」），Fade In 200ms</td></tr>
+<tr><td>ConfirmCheckbox</td><td>cc.Toggle</td><td>Unchecked / Checked / <strong>Focus</strong>（H5 Tab 鍵聚焦時顯示 2px 金色 focus ring，符合 §8.2 Focus Indicator 規格，對比度 ≥ 3:1）</td><td>確認聲明勾選框</td></tr>
+<tr><td>ConfirmButton</td><td>cc.Button</td><td>Default / Disabled（未勾選或 DatePicker 未完成）/ <strong>Loading</strong>（API 驗證中）/ Pressed</td><td>確認進入按鈕；Loading 狀態顯示 Spinner，禁止重複點擊</td></tr>
+<tr><td>DemoButton</td><td>cc.Button</td><td>Default / Hover / Pressed</td><td>進入演示模式</td></tr>
+</table>
+<p><strong>互動規格（AgeGateModal）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>首次進入開啟 Modal</td><td>Modal 從底部 Scale In 顯示</td><td>AgePanel Scale 0.85→1.0 + Fade In，背景 Overlay Fade In</td><td>250ms</td></tr>
+<tr><td>滾動 DatePicker（年/月/日）</td><td>更新選中值，即時計算年齡</td><td>ScrollView 慣性滾動，選中行高亮</td><td>慣性</td></tr>
+<tr><td>DatePicker 完成但日期無效</td><td>顯示 DatePickerErrorLabel</td><td>DatePicker 外框紅色 + ErrorLabel Fade In</td><td>200ms</td></tr>
+<tr><td>勾選 ConfirmCheckbox</td><td>ConfirmButton 從 Disabled → Default</td><td>ConfirmButton 解鎖（透明度 0.4→1.0）</td><td>150ms</td></tr>
+<tr><td>點擊確認進入（≥18 歲 + 勾選）</td><td>ConfirmButton → Loading，呼叫年齡驗證 API</td><td>Spinner 覆蓋按鈕</td><td>API 等待</td></tr>
+<tr><td>驗證成功（≥18）</td><td>關閉 Modal，進入新手引導或大廳</td><td>Modal Fade Out + Fade In 下一畫面</td><td>300ms</td></tr>
+<tr><td>驗證結果（&lt;18）</td><td>顯示未滿 18 說明，提供演示模式</td><td>AgePanel 輕微 Shake 動畫 + 提示文字 Fade In</td><td>200ms</td></tr>
+<tr><td>點擊演示模式</td><td>進入演示模式大廳</td><td>Modal Fade Out + Fade In 大廳（Demo Badge 顯示）</td><td>300ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 AgeGateModal Figma Frame 後更新此連結）</p>
+<h3>5.3 遊戲大廳（LobbyScene）</h3>
+<p><strong>用途：</strong> 玩家選擇房間類型、查看活動、進入砲台選擇（對應 PRD US-ROOM-001）</p>
+<p><strong>進入方式：</strong> 登入成功後、結算返回後</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  頂部 HUD：[玩家名稱] [金幣 💰] [鑽石 💎] [VIP 等級] │
+├──────────────────────────────────────┤
+│  活動橫幅輪播（限時 Boss / 節慶活動）    │
+├──────────────────────────────────────┤
+│  房間選擇區                            │
+│  ┌────────────┐  ┌────────────┐       │
+│  │ 普通房間   │  │ 競技房間   │       │
+│  │ 新手友好   │  │ 真實競爭   │       │
+│  │ 進入門檻低 │  │ MVP 獎勵   │       │
+│  └────────────┘  └────────────┘       │
+├──────────────────────────────────────┤
+│  快速匹配 CTA 按鈕（主要 CTA）          │
+├──────────────────────────────────────┤
+│  底部 Tab Bar：[大廳] [商城] [個人] [設定] │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（Scene: LobbyScene）：</strong></p>
+<table>
+<tr><th>GameObject 路徑</th><th>類型</th><th>狀態</th><th>美術可替換</th></tr>
+<tr><td>TopHUD/PlayerNameLabel</td><td>cc.Label</td><td>—</td><td>✓</td></tr>
+<tr><td>TopHUD/CoinLabel</td><td>cc.Label</td><td>—</td><td>✓</td></tr>
+<tr><td>TopHUD/DiamondLabel</td><td>cc.Label</td><td>—</td><td>✓</td></tr>
+<tr><td>TopHUD/VIPBadgeNode</td><td>cc.Node</td><td>Hidden / VIP1–10</td><td>✓</td></tr>
+<tr><td>BannerArea/BannerScrollView</td><td>cc.ScrollView</td><td>—</td><td>✓</td></tr>
+<tr><td>RoomArea/NormalRoomBtn</td><td>cc.Button</td><td>Default / Selected / Hover / Disabled</td><td>✓</td></tr>
+<tr><td>RoomArea/CompetitiveRoomBtn</td><td>cc.Button</td><td>Default / Selected / Hover / Disabled</td><td>✓</td></tr>
+<tr><td>MainCTA/QuickMatchBtn</td><td>cc.Button</td><td>Default / Hover / Pressed / Loading</td><td>✓</td></tr>
+<tr><td>BottomTabBar/LobbyTab</td><td>cc.Button</td><td>Active / Inactive / <strong>Focus</strong>（H5 鍵盤 Tab 時顯示 2px 金色 Focus ring）</td><td>✓</td></tr>
+<tr><td>BottomTabBar/ShopTab</td><td>cc.Button</td><td>Active / Inactive / <strong>Focus</strong></td><td>✓</td></tr>
+<tr><td>BottomTabBar/ProfileTab</td><td>cc.Button</td><td>Active / Inactive / <strong>Focus</strong></td><td>✓</td></tr>
+<tr><td>BottomTabBar/SettingsTab</td><td>cc.Button</td><td>Active / Inactive / <strong>Focus</strong></td><td>✓</td></tr>
+<tr><td>TopHUD/LeaderboardBtn</td><td>cc.Button</td><td>Default / Hover / Pressed</td><td>✓</td></tr>
+</table>
+<p><strong>互動規格（LobbyScene）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>點擊快速匹配（QuickMatchBtn）</td><td>開始配對，跳轉 MatchmakingScene</td><td>按鈕 Scale 0.95 + Loading State，畫面 Fade Out</td><td>100ms press + 跳轉</td></tr>
+<tr><td>點擊普通/競技房間選擇</td><td>切換房間類型（更新選中 State）</td><td>按鈕 Scale Bounce 0.96→1.0</td><td>150ms</td></tr>
+<tr><td>點擊底部 Tab（商城）</td><td>跳轉 ShopScene</td><td>Tab Active 狀態切換 + 頁面 Slide 動畫</td><td>200ms</td></tr>
+<tr><td>點擊底部 Tab（個人）</td><td>跳轉 ProfileScene</td><td>Tab Active 狀態切換 + 頁面 Slide 動畫</td><td>200ms</td></tr>
+<tr><td>點擊底部 Tab（設定）</td><td>開啟 SettingsPanel</td><td>Tab Active 狀態切換 + Modal Scale In</td><td>250ms</td></tr>
+<tr><td>點擊排行榜入口（LeaderboardBtn）</td><td>開啟 LeaderboardPanel（Modal 覆蓋大廳）</td><td>按鈕 Pressed Scale 0.95 + LeaderboardPanel Modal Scale In</td><td>100ms press + 250ms Modal</td></tr>
+<tr><td>畫面進入動畫</td><td>從登入或結算返回大廳</td><td>Fade In + 頂部 HUD Slide Down</td><td>300ms</td></tr>
+<tr><td>畫面退出動畫</td><td>進入配對 / 跳轉其他畫面</td><td>Fade Out</td><td>200ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 LobbyScene Figma Frame 後更新此連結）</p>
+<h3>5.4 主遊戲畫面（GameScene）</h3>
+<p><strong>用途：</strong> 核心遊玩畫面，魚群射擊 + HUD + 競爭資訊（對應 PRD US-FISH-001, US-WPSK-001, US-RTP-001）</p>
+<p><strong>進入方式：</strong> 配對完成後自動進入</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  頂部 HUD                             │
+│  [排名 #1/6] [本局金幣] [Jackpot 進度條] [剩餘時間] │
+├──────────────────────────────────────┤
+│                                       │
+│     魚群場景（全螢幕背景 + 魚群動態）    │
+│                                       │
+│  [其他玩家砲台×5（座位固定）]           │
+│                                       │
+│     Boss 魚血量條（Boss 出現時顯示）    │
+│                                       │
+├──────────────────────────────────────┤
+│  底部控制 HUD                          │
+│  [金幣餘額] [砲台] [倍率-/+] [技能×3] [設定] │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（Scene: GameScene）：</strong></p>
+<table>
+<tr><th>GameObject 路徑</th><th>類型</th><th>狀態</th><th>美術可替換</th></tr>
+<tr><td>TopHUD/RankLabel</td><td>cc.Label</td><td>—</td><td>✓</td></tr>
+<tr><td>TopHUD/SessionCoinLabel</td><td>cc.Label</td><td>—</td><td>✓</td></tr>
+<tr><td>TopHUD/JackpotProgressBar</td><td>cc.ProgressBar</td><td>0%–100%</td><td>✓</td></tr>
+<tr><td>TopHUD/TimerLabel</td><td>cc.Label</td><td>Normal / Warning（最後 30s）</td><td>✓</td></tr>
+<tr><td>GameScene/FishPool</td><td>cc.Node</td><td>—</td><td>魚群 prefab 容器</td></tr>
+<tr><td>GameScene/BossHPBar</td><td>cc.ProgressBar</td><td>Hidden / Visible</td><td>✓</td></tr>
+<tr><td>PlayerSlots/PlayerSlot_0–5</td><td>cc.Node</td><td>Active / Bot / Disconnected</td><td>✓</td></tr>
+<tr><td>BottomHUD/CoinLabel</td><td>cc.Label</td><td>—</td><td>✓</td></tr>
+<tr><td>BottomHUD/CannonSprite</td><td>cc.Sprite</td><td>4 種砲台外觀</td><td>✓</td></tr>
+<tr><td>BottomHUD/MultiplierLabel</td><td>cc.Label</td><td>1x–20x</td><td>✓</td></tr>
+<tr><td>BottomHUD/SkillBtn_Freeze</td><td>cc.Button</td><td>Ready / Cooldown / Active</td><td>✓</td></tr>
+<tr><td>BottomHUD/SkillBtn_Bomb</td><td>cc.Button</td><td>Ready / Cooldown / Active</td><td>✓</td></tr>
+<tr><td>BottomHUD/SkillBtn_AutoLock</td><td>cc.Button</td><td>Ready / Cooldown / Active</td><td>✓</td></tr>
+</table>
+<p><strong>互動規格（遊戲核心）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>點擊/觸碰魚群方向</td><td>發射炮彈</td><td>炮彈飛行動畫 + 命中爆炸特效</td><td>飛行 100–200ms</td></tr>
+<tr><td>命中魚</td><td>金幣收益</td><td>金幣噴出動畫（數字浮字）+ 收益入帳動畫</td><td>500ms</td></tr>
+<tr><td>Boss 魚被擊殺</td><td>大獎動畫</td><td>爆炸特效 + 「Boss 擊殺！」浮字 + 金幣暴雨</td><td>1500ms</td></tr>
+<tr><td>Jackpot 觸發</td><td>全屏特效</td><td>全屏金光特效 + 數字跳動 + 音效爆發</td><td>≥ 3000ms</td></tr>
+<tr><td>技能啟動</td><td>技能效果 + 冷卻開始</td><td>技能動畫（冰凍：藍色冰晶覆蓋全屏）</td><td>視技能</td></tr>
+<tr><td>技能冷卻中</td><td>按鈕置灰 + 倒數顯示</td><td>圓形 Cooldown Progress Mask</td><td>持續倒數</td></tr>
+<tr><td>MVP 觸發（局結束）</td><td>MVP 動畫</td><td>「MVP！」大字光效 + +10% 金幣動畫</td><td>2000ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> https://figma.com/file/FISHGAME-PDD-v1/GameScene （待確認：設計師建立 GameScene Figma Frame 後更新此連結）</p>
+<h3>5.5 砲台 / 技能選擇介面（CannonSelectScene）</h3>
+<p><strong>用途：</strong> 進入房間前選擇武器技能組合（對應 PRD US-WPSK-001）</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  標題「選擇你的武器」                  │
+├──────────────────────────────────────┤
+│  砲台選擇區（水平捲動）                │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ │
+│  │基礎砲│ │雷射炮│ │散射炮│ │鎖定炮│ │
+│  │（解鎖）│ │（解鎖）│ │（解鎖）│ │（鎖定）│ │
+│  └──────┘ └──────┘ └──────┘ └──────┘ │
+├──────────────────────────────────────┤
+│  技能選擇區                            │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│  │冰凍（30s）│ │全屏炸彈  │ │自動鎖定  │ │
+│  └──────────┘ └──────────┘ └──────────┘ │
+├──────────────────────────────────────┤
+│  選中組合預覽 + 數值說明               │
+│  [確認進入房間] 主要 CTA               │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th></tr>
+<tr><td>CannonScrollView</td><td>cc.ScrollView</td><td>—</td></tr>
+<tr><td>CannonCard_Basic</td><td>cc.Button</td><td>Default / Selected / Locked</td></tr>
+<tr><td>CannonCard_Laser</td><td>cc.Button</td><td>Default / Selected / Locked</td></tr>
+<tr><td>CannonCard_Scatter</td><td>cc.Button</td><td>Default / Selected / Locked</td></tr>
+<tr><td>CannonCard_Lock</td><td>cc.Button</td><td>Default / Selected / Locked（需等級解鎖）</td></tr>
+<tr><td>SkillBtn_Freeze</td><td>cc.Button</td><td>Default / Selected / Locked</td></tr>
+<tr><td>SkillBtn_Bomb</td><td>cc.Button</td><td>Default / Selected / Locked</td></tr>
+<tr><td>SkillBtn_AutoLock</td><td>cc.Button</td><td>Default / Selected / Locked</td></tr>
+<tr><td>ConfirmBtn</td><td>cc.Button</td><td>Default / Hover / Pressed / Disabled / <strong>Loading</strong>（進入房間 API 等待中，Spinner 覆蓋，禁止重複點擊）</td></tr>
+<tr><td>LockOverlay</td><td>cc.Node</td><td>Hidden / Visible（未解鎖砲台）</td></tr>
+</table>
+<p><strong>互動規格（CannonSelectScene）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>選擇砲台卡片</td><td>切換選中砲台，更新預覽區域</td><td>卡片 Selected 外框高亮 + Scale Bounce 0.96→1.02→1.0</td><td>200ms</td></tr>
+<tr><td>選擇技能</td><td>切換技能選中狀態（最多同時 1 個）</td><td>技能按鈕 Selected 狀態</td><td>150ms</td></tr>
+<tr><td>點擊鎖定砲台</td><td>顯示「解鎖需求」Tooltip</td><td>Tooltip Fade In</td><td>200ms</td></tr>
+<tr><td>點擊確認進入（ConfirmBtn）</td><td>呼叫進入房間 API，進入 MatchmakingScene</td><td>ConfirmBtn → Loading State（Spinner）+ 畫面 Fade Out</td><td>100ms press + API 等待</td></tr>
+<tr><td>畫面進入動畫</td><td>從大廳點擊快速匹配後跳轉</td><td>Slide Up from Bottom</td><td>300ms</td></tr>
+<tr><td>畫面退出動畫</td><td>確認進入後跳轉配對畫面</td><td>Fade Out</td><td>200ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 CannonSelectScene Figma Frame 後更新此連結）</p>
+<h3>5.6 商城介面（ShopScene / ShopPanel）</h3>
+<p><strong>用途：</strong> 鑽石充值、道具購買、VIP 訂閱（對應 PRD US-SHOP-001）</p>
+<p><strong>進入方式：</strong> 大廳底部 Tab Bar 商城 Tab、金幣不足引導、VIP 引導</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  頂部：鑽石餘額顯示                   │
+├──────────────────────────────────────┤
+│  Tab 切換：[充值] [道具] [VIP] [抽獎]  │
+├──────────────────────────────────────┤
+│  充值Tab：充值套餐卡片網格（3列）       │
+│  ┌────────┐ ┌────────┐ ┌────────┐    │
+│  │ 50 鑽石│ │120 鑽石│ │250 鑽石│    │
+│  │ $4.99  │ │$9.99   │ │$19.99  │    │
+│  └────────┘ └────────┘ └────────┘    │
+│  ┌────────┐ ┌────────┐ ┌────────┐    │
+│  │ 首充 x2│ │熱門推薦│ │最高性價│    │
+│  │特別標籤│ │特別標籤│ │比標籤  │    │
+│  └────────┘ └────────┘ └────────┘    │
+├──────────────────────────────────────┤
+│  IAP 支付確認彈窗（獨立 Modal）        │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th></tr>
+<tr><td>ShopTabBar</td><td>cc.Node</td><td>—</td></tr>
+<tr><td>RechargeTab</td><td>cc.Button</td><td>Active / Inactive</td></tr>
+<tr><td>PackageCard（每個充值包）</td><td>cc.Button</td><td>Default / Hover / Pressed / FirstCharge（首充特殊樣式）</td></tr>
+<tr><td>VIPTabContent</td><td>cc.Node</td><td>—</td></tr>
+<tr><td>VIPCard</td><td>cc.Button</td><td>Default / CurrentLevel / Upgrade</td></tr>
+<tr><td>PurchaseModal</td><td>cc.Node</td><td>Hidden / Visible</td></tr>
+<tr><td>PurchaseModal/ConfirmBtn</td><td>cc.Button</td><td>Default / Loading / Disabled</td></tr>
+<tr><td>PurchaseModal/CancelBtn</td><td>cc.Button</td><td>Default / Hover</td></tr>
+</table>
+<p><strong>互動規格（ShopScene）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>點擊充值套餐卡片</td><td>開啟 PurchaseModal 確認彈窗</td><td>卡片 Pressed 效果 + Modal Scale 0.85→1.0 Fade In</td><td>100ms + 250ms Modal</td></tr>
+<tr><td>PurchaseModal 確認購買</td><td>呼叫 IAP，ConfirmBtn 進入 Loading</td><td>ConfirmBtn Spinner 覆蓋，禁止重複點擊</td><td>API 等待中</td></tr>
+<tr><td>充值成功</td><td>Modal 關閉 + HUD 鑽石更新</td><td>Modal Fade Out + 鑽石從頂部飛入動畫</td><td>200ms + 500ms 飛入</td></tr>
+<tr><td>Tab 切換（充值/道具/VIP/抽獎）</td><td>切換內容區域</td><td>Tab Active 高亮 + 內容 Fade In</td><td>150ms</td></tr>
+<tr><td>畫面進入動畫</td><td>從大廳 Tab Bar 點擊商城</td><td>Slide In from right</td><td>250ms</td></tr>
+<tr><td>畫面退出動畫</td><td>返回大廳</td><td>Slide Out to right</td><td>200ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 ShopScene Figma Frame 後更新此連結）</p>
+<h3>5.7 VIP 等級介面（VIPPanel）</h3>
+<p><strong>用途：</strong> 展示 VIP 等級特權，引導訂閱（對應 PRD US-VIP-001）</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  頂部 VIP Banner                     │
+│  ┌──────────────────────────────┐    │
+│  │  [VIP 等級徽章]  VIP Lv.3   │    │
+│  │  ✨ 金色光環動畫（Pulse）   │    │
+│  └──────────────────────────────┘    │
+├──────────────────────────────────────┤
+│  VIP 升級進度條                      │
+│  VIP Lv.3 ███████░░░░ VIP Lv.4      │
+│  「距離 VIP 4 還差 500 鑽石 (62%)」  │
+├──────────────────────────────────────┤
+│  特權列表（可滾動）                   │
+│  ✅ 每日鑽石補貼 +30                 │
+│  ✅ 高倍率砲台優先解鎖               │
+│  ✅ 房間內金色光環 — 全場可見        │
+│  ✅ VIP 專屬皮膚 2 套               │
+│  ...（更高等級灰色預覽）             │
+├──────────────────────────────────────┤
+│  訂閱按鈕 + 補貼計時器               │
+│  [訂閱 VIP · $9.99/月]（Primary CTA）│
+│  下次鑽石補貼：23:14:09             │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>核心設計要點：</strong></p>
+<ul><li>VIP 光環視覺識別：VIP 1–10 對應 10 種不同顏色光環（銀→金→紅→彩虹漸變）</li><li>砲台 VIP 光環在房間內其他玩家可見（GameObject: PlayerSlot/VIPAuraSprite）</li><li>每日鑽石補貼自動發放的 Push 通知設計</li></ul>
+<p><strong>元件清單：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th></tr>
+<tr><td>VIPLevelBadge</td><td>cc.Sprite</td><td>Level 0–10（10 種外觀）</td></tr>
+<tr><td>VIPProgressBar</td><td>cc.ProgressBar</td><td>當前等級累積進度</td></tr>
+<tr><td>VIPPrivilegeList</td><td>cc.ScrollView</td><td>—</td></tr>
+<tr><td>SubscribeBtn</td><td>cc.Button</td><td>Default / Subscribed / Expired / <strong>Focus</strong>（H5 鍵盤操作時顯示 2px 金色 Focus ring，對比度 ≥ 3:1）/ Loading（訂閱 API 進行中）</td></tr>
+<tr><td>DailyRewardTimer</td><td>cc.Label</td><td>倒數下次補貼時間</td></tr>
+</table>
+<p><strong>互動規格（VIPPanel）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>點擊訂閱按鈕（Default 狀態）</td><td>開啟 IAP 訂閱確認，SubscribeBtn → Loading</td><td>按鈕 Spinner 覆蓋</td><td>API 等待中</td></tr>
+<tr><td>訂閱成功</td><td>VIP 等級啟用 + 光環即時顯示</td><td>VIP 光環 Fade In + Scale In 1.0→1.2→1.0</td><td>500ms</td></tr>
+<tr><td>點擊已訂閱按鈕</td><td>顯示「管理訂閱」說明（導向 AppStore/GP 設定）</td><td>Tooltip 或 Modal</td><td>200ms</td></tr>
+<tr><td>畫面進入動畫</td><td>從商城 VIP Tab 進入</td><td>Modal Scale In</td><td>250ms</td></tr>
+<tr><td>畫面退出動畫</td><td>關閉 VIPPanel</td><td>Modal Scale Out + Fade Out</td><td>200ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 VIPPanel Figma Frame 後更新此連結）</p>
+<h3>5.8 結算介面（SettlementPanel）</h3>
+<p><strong>用途：</strong> 局結束後顯示排名、金幣收益、MVP 動畫（對應 PRD US-ROOM-001 AC-5）</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  標題「本局結算」                     │
+├──────────────────────────────────────┤
+│  MVP 動畫區（MVP 玩家出現時）          │
+│  「MVP！」金色大字 + 光效粒子          │
+├──────────────────────────────────────┤
+│  排行榜列表（1st–6th）                 │
+│  #1 [頭像] [名稱] [金幣] [+10% MVP]   │
+│  #2 [頭像] [名稱] [金幣]              │
+│  ...                                  │
+├──────────────────────────────────────┤
+│  我的本局收益：+XXX 金幣               │
+├──────────────────────────────────────┤
+│  [再來一局] [返回大廳]                 │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（SettlementPanel）：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th><th>說明</th></tr>
+<tr><td>SettlementPanel/BgOverlay</td><td>cc.Sprite</td><td>—</td><td>半透明深色遮罩，遊戲場景模糊於背後</td></tr>
+<tr><td>SettlementPanel/TitleLabel</td><td>cc.Label</td><td>—</td><td>「本局結算」標題文字</td></tr>
+<tr><td>MVPArea/MVPAnimNode</td><td>cc.Node</td><td><strong>Hidden</strong>（非 MVP）/ <strong>Visible</strong>（MVP 玩家）</td><td>MVP 動畫播放容器</td></tr>
+<tr><td>MVPArea/MVPLabel</td><td>cc.Label</td><td>Hidden / Visible</td><td>「MVP！本局最強！」大字，Visible 時播放金色光效</td></tr>
+<tr><td>MVPArea/MVPParticle</td><td>cc.ParticleSystem</td><td>Idle / Playing</td><td>MVP 花火粒子特效</td></tr>
+<tr><td>RankList/RankScrollView</td><td>cc.ScrollView</td><td>—</td><td>1st–6th 名次列表</td></tr>
+<tr><td>RankList/RankItem_1–6</td><td>cc.Node</td><td><strong>Normal</strong> / <strong>Highlighted</strong>（玩家自身）/ <strong>MVP</strong>（+10% 金幣徽章）</td><td>名次列表行元件</td></tr>
+<tr><td>RankList/RankItem/AvatarSprite</td><td>cc.Sprite</td><td>—</td><td>玩家頭像</td></tr>
+<tr><td>RankList/RankItem/NameLabel</td><td>cc.Label</td><td>—</td><td>玩家名稱</td></tr>
+<tr><td>RankList/RankItem/CoinLabel</td><td>cc.Label</td><td>—</td><td>本局金幣收益數字</td></tr>
+<tr><td>RankList/RankItem/MVPBadge</td><td>cc.Node</td><td>Hidden / Visible</td><td>MVP +10% 金幣徽章</td></tr>
+<tr><td>MyEarnings/EarningsLabel</td><td>cc.Label</td><td>—</td><td>「本局收益：+XXX 金幣」</td></tr>
+<tr><td>MyEarnings/EarningsAnimNode</td><td>cc.Node</td><td>Idle / <strong>Counting</strong>（數字跳動動畫）</td><td>收益數字計數動畫容器</td></tr>
+<tr><td>ActionBtns/PlayAgainBtn</td><td>cc.Button</td><td>Default / Hover / Pressed / <strong>Loading</strong>（找房 API 等待中）</td><td>「再來一局」按鈕</td></tr>
+<tr><td>ActionBtns/LobbyBtn</td><td>cc.Button</td><td>Default / Hover / Pressed</td><td>「返回大廳」按鈕</td></tr>
+</table>
+<p><strong>State 矩陣（SettlementPanel 核心狀態）：</strong></p>
+<table>
+<tr><th>狀態</th><th>MVPArea</th><th>RankList</th><th>MyEarnings</th><th>PlayAgainBtn</th></tr>
+<tr><td>結算載入中</td><td>Hidden</td><td>Skeleton（灰色佔位行）</td><td>Hidden</td><td>Disabled</td></tr>
+<tr><td>非 MVP 玩家</td><td>Hidden</td><td>正常顯示，自身行 Highlighted</td><td>Visible + 計數動畫</td><td>Default</td></tr>
+<tr><td>MVP 玩家</td><td>Visible（動畫播放）</td><td>自身行顯示 MVP Badge</td><td>Visible + 計數動畫 + +10%</td><td>Default</td></tr>
+<tr><td>點擊再來一局</td><td>不變</td><td>不變</td><td>不變</td><td>Loading</td></tr>
+</table>
+<p><strong>互動規格（SettlementPanel）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>結算介面開啟</td><td>依序播放動畫序列</td><td>1) Panel Fade In（300ms）→ 2) 名次列表 Stagger Slide In（逐行，每行 50ms 間隔）→ 3) MVP 動畫（若觸發，2000ms）→ 4) 收益數字計數（500ms）</td><td>序列總計 ~2s</td></tr>
+<tr><td>MVP 動畫觸發</td><td>播放 MVP 特效</td><td>「MVP！」大字 Scale In + 光效粒子爆發 + 花火</td><td>2000ms</td></tr>
+<tr><td>點擊「再來一局」</td><td>呼叫找房 API，PlayAgainBtn → Loading</td><td>按鈕 Loading Spinner，跳轉 MatchmakingScene</td><td>100ms + API 等待</td></tr>
+<tr><td>點擊「返回大廳」</td><td>跳轉 LobbyScene</td><td>Panel Fade Out + Fade In LobbyScene</td><td>300ms</td></tr>
+<tr><td>畫面進入動畫</td><td>遊戲結束後顯示</td><td>Overlay Fade In + Panel Scale 0.85→1.0</td><td>300ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 SettlementPanel Figma Frame 後更新此連結）</p>
+<h3>5.9 配對等待畫面（MatchmakingScene）</h3>
+<p><strong>用途：</strong> 快速匹配後的配對等待體驗，維持玩家期待感，並在 Bot 補位時給予友好說明（對應 PRD US-ROOM-001）</p>
+<p><strong>進入方式：</strong> CannonSelectScene 點擊「確認進入房間」後</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  標題「配對中...」                   │
+│  倒數計時器（30s 圓形進度條）         │
+├──────────────────────────────────────┤
+│  玩家頭像區（4–6 個位置）            │
+│  ┌────┐  ┌────┐  ┌────┐  ┌────┐     │
+│  │玩家│  │玩家│  │ ？ │  │ ？ │     │
+│  │頭像│  │頭像│  │等待│  │等待│     │
+│  └────┘  └────┘  └────┘  └────┘     │
+│  （頭像由遠飛入動畫逐一出現）        │
+├──────────────────────────────────────┤
+│  配對狀態文字                        │
+│  「已找到 2/4 位玩家，繼續配對...」  │
+│  （Bot 補位時：「Bot 補位中...」）   │
+├──────────────────────────────────────┤
+│  [取消配對] 按鈕（次要 CTA）         │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（MatchmakingScene）：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th><th>說明</th></tr>
+<tr><td>CountdownProgress</td><td>cc.ProgressBar</td><td>30→0 倒數</td><td>圓形進度條，剩餘秒數遞減</td></tr>
+<tr><td>CountdownLabel</td><td>cc.Label</td><td>Normal / <strong>Warning</strong>（倒數 ≤ 5s 時橙色閃爍）</td><td>顯示剩餘秒數</td></tr>
+<tr><td>PlayerSlotContainer</td><td>cc.Node</td><td>—</td><td>4–6 個頭像槽位容器</td></tr>
+<tr><td>PlayerSlot_N（×6）</td><td>cc.Node</td><td><strong>Empty</strong>（等待中，問號動畫）/ <strong>Filled</strong>（真人頭像飛入）/ <strong>Bot</strong>（機器人圖示，含 Bot 標籤）</td><td>配對成功後頭像從遠處飛入動畫（ease-out 300ms）</td></tr>
+<tr><td>StatusLabel</td><td>cc.Label</td><td>Searching / BotFilling / Ready</td><td>配對狀態說明文字，動態更新</td></tr>
+<tr><td>CancelBtn</td><td>cc.Button</td><td>Default / Hover / Pressed / Loading（取消 API 進行中）</td><td>取消配對返回 CannonSelectScene</td></tr>
+</table>
+<p><strong>互動規格（MatchmakingScene）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>進入畫面</td><td>開始 30s 倒數，CircleProgress 開始遞減</td><td>畫面 Fade In + CountdownProgress 動畫開始</td><td>300ms Fade In</td></tr>
+<tr><td>新玩家加入配對</td><td>PlayerSlot 從 Empty → Filled，頭像飛入</td><td>頭像從畫面邊緣飛入 SlotPosition（ease-out）</td><td>300ms</td></tr>
+<tr><td>30s 後仍未滿員</td><td>Bot 補位，StatusLabel 更新為 Bot 說明</td><td>Bot 圖示出現（帶 Bot 標籤）+ Bot 頭像飛入</td><td>300ms per Bot</td></tr>
+<tr><td>配對完成（4–6 人齊）</td><td>自動跳轉 GameScene</td><td>所有頭像縮小 + 「配對成功！」文字 → Fade Out</td><td>500ms</td></tr>
+<tr><td>點擊取消配對</td><td>取消配對，返回 CannonSelectScene</td><td>CancelBtn Loading + 畫面 Fade Out</td><td>200ms</td></tr>
+<tr><td>畫面進入動畫</td><td>從 CannonSelectScene 跳轉</td><td>Slide Up from Bottom</td><td>250ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 MatchmakingScene Figma Frame 後更新此連結）</p>
+<h3>5.10 設定面板（SettingsPanel）</h3>
+<p><strong>用途：</strong> 音效/音樂控制、通知偏好、語言切換、帳號安全管理（常規設定入口）</p>
+<p><strong>進入方式：</strong> 大廳底部 Tab Bar「設定」Tab；遊戲中 HUD「設定」懸浮按鈕</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  標題「設定」                         │
+├──────────────────────────────────────┤
+│  [音效與音樂]                         │
+│  ├── 音效音量 ─────────●──────  [圖示]│
+│  ├── 背景音樂 ──────●────────  [圖示]│
+│  └── 震動回饋 [開/關 Toggle]          │
+├──────────────────────────────────────┤
+│  [通知設定]                           │
+│  ├── 活動通知 [開/關 Toggle]          │
+│  ├── 好友訊息 [開/關 Toggle]          │
+│  └── VIP 補貼提醒 [開/關 Toggle]      │
+├──────────────────────────────────────┤
+│  [語言]                               │
+│  └── 當前語言「繁體中文」 [&gt;] 選單    │
+├──────────────────────────────────────┤
+│  [帳號安全]                           │
+│  ├── 修改密碼 [&gt;]                     │
+│  ├── 綁定 Email [&gt;]                   │
+│  └── 登出 [危險動作，確認 Modal]       │
+├──────────────────────────────────────┤
+│  版本資訊：v1.0.0                     │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（SettingsPanel）：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th><th>說明</th></tr>
+<tr><td>SfxVolumeSlider</td><td>cc.Slider</td><td>0–100% 可拖曳</td><td>音效音量，拖曳時即時預覽（播放短音效）</td></tr>
+<tr><td>BgmVolumeSlider</td><td>cc.Slider</td><td>0–100% 可拖曳</td><td>背景音樂音量，即時生效</td></tr>
+<tr><td>HapticToggle</td><td>cc.Toggle</td><td>On / Off</td><td>震動回饋開關，不支援時 Disabled</td></tr>
+<tr><td>ActivityNotifyToggle</td><td>cc.Toggle</td><td>On / Off</td><td>活動推播通知開關</td></tr>
+<tr><td>FriendNotifyToggle</td><td>cc.Toggle</td><td>On / Off</td><td>好友訊息通知開關</td></tr>
+<tr><td>VIPRemindToggle</td><td>cc.Toggle</td><td>On / Off</td><td>VIP 補貼提醒通知開關</td></tr>
+<tr><td>LanguageBtn</td><td>cc.Button</td><td>Default / Hover</td><td>點擊開啟語言選擇 Modal</td></tr>
+<tr><td>LanguageModal</td><td>cc.Node</td><td>Hidden / Visible</td><td>語言選擇清單（zh-TW / en / th / vi），切換後確認 Modal</td></tr>
+<tr><td>ChangePasswordBtn</td><td>cc.Button</td><td>Default / Hover</td><td>跳轉修改密碼流程</td></tr>
+<tr><td>BindEmailBtn</td><td>cc.Button</td><td>Default / Hover / <strong>Bound</strong>（已綁定，顯示遮蔽 Email）</td><td>綁定或管理 Email</td></tr>
+<tr><td>LogoutBtn</td><td>cc.Button</td><td>Default / Hover / <strong>Danger</strong>（紅色文字）</td><td>點擊開啟確認 Modal，確認後登出清除 Session</td></tr>
+<tr><td>VersionLabel</td><td>cc.Label</td><td>—</td><td>顯示 App 版本號</td></tr>
+</table>
+<p><strong>互動規格（SettingsPanel）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>拖曳音效/音樂 Slider</td><td>即時調整音量，即時生效</td><td>無額外動畫</td><td>即時</td></tr>
+<tr><td>切換通知 Toggle</td><td>變更通知設定（儲存至後端）</td><td>Toggle 滑動動畫</td><td>200ms</td></tr>
+<tr><td>點擊語言選擇</td><td>開啟語言 Modal</td><td>Modal Scale In</td><td>250ms</td></tr>
+<tr><td>語言切換確認</td><td>重載 i18n 資源，UI 文字刷新</td><td>Modal Close + 文字 Fade Refresh</td><td>300ms</td></tr>
+<tr><td>點擊登出</td><td>開啟確認 Modal（「確定要登出嗎？」）</td><td>Modal Scale In</td><td>250ms</td></tr>
+<tr><td>確認登出</td><td>清除 Session，跳轉 LoginScene</td><td>Modal Fade Out + 畫面 Fade Out</td><td>300ms</td></tr>
+<tr><td>畫面進入動畫</td><td>從大廳 Tab Bar 點擊設定</td><td>Modal Scale 0.85→1.0 + Fade In（作為 Modal）</td><td>250ms</td></tr>
+<tr><td>畫面退出動畫</td><td>關閉設定面板</td><td>Modal Scale 1.0→0.85 + Fade Out</td><td>200ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 SettingsPanel Figma Frame 後更新此連結）</p>
+<h3>5.11 個人中心（ProfileScene）</h3>
+<p><strong>用途：</strong> 展示玩家個人資料、VIP 等級進度、遊戲歷史記錄和訂單記錄（對應 Appendix B ProfileScene）</p>
+<p><strong>進入方式：</strong> 大廳底部 Tab Bar「個人」Tab</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  頭像區：[大頭像] [玩家名稱] [VIP 徽章]│
+│  累計金幣：XXX  |  本週最高分：XXX   │
+├──────────────────────────────────────┤
+│  VIP 進度區                           │
+│  VIP Lv.3 ████████░░░░ VIP Lv.4     │
+│  「距離 VIP 4 還差 500 鑽石」         │
+│  [升級 VIP] 按鈕（引導充值/訂閱）     │
+├──────────────────────────────────────┤
+│  Tab：[遊戲記錄] [訂單記錄]           │
+├──────────────────────────────────────┤
+│  遊戲記錄列表（近 20 局）             │
+│  #日期 #房間類型 #收益 #排名          │
+│  2026-04-25  競技  +1200  #2         │
+│  ...                                  │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（ProfileScene）：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th><th>說明</th></tr>
+<tr><td>AvatarSprite</td><td>cc.Sprite</td><td>Default / VIPAura（VIP ≥ 1 顯示光環）</td><td>玩家頭像，VIP 玩家額外顯示等級光環</td></tr>
+<tr><td>PlayerNameLabel</td><td>cc.Label</td><td>—</td><td>玩家顯示名稱</td></tr>
+<tr><td>VIPBadgeNode</td><td>cc.Node</td><td>Level 0–10</td><td>VIP 等級徽章（同 §5.3 VIPBadge 元件）</td></tr>
+<tr><td>StatsCoinsLabel</td><td>cc.Label</td><td>—</td><td>累計金幣總量</td></tr>
+<tr><td>StatsTopScoreLabel</td><td>cc.Label</td><td>—</td><td>本週最高單局分數</td></tr>
+<tr><td>VIPProgressBar</td><td>cc.ProgressBar</td><td>0%–100% 當前等級進度</td><td>視覺化 VIP 升級進度</td></tr>
+<tr><td>VIPProgressLabel</td><td>cc.Label</td><td>—</td><td>「距 VIP X 還差 XXX 鑽石」說明文字</td></tr>
+<tr><td>UpgradeVIPBtn</td><td>cc.Button</td><td>Default / Hover / Pressed / Hidden（已滿級）</td><td>引導至 VIPPanel 或商城</td></tr>
+<tr><td>RecordTabBar</td><td>cc.Node</td><td>—</td><td>「遊戲記錄」/「訂單記錄」Tab 切換</td></tr>
+<tr><td>GameRecordList</td><td>cc.ScrollView</td><td>Loading / Empty / Filled</td><td>近 20 局遊戲記錄列表；Empty 時顯示「快去打一局吧！」</td></tr>
+<tr><td>OrderRecordList</td><td>cc.ScrollView</td><td>Loading / Empty / Filled</td><td>充值/訂閱訂單記錄；Empty 時顯示「還沒有充值記錄」</td></tr>
+</table>
+<p><strong>互動規格（ProfileScene）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>點擊 Tab（遊戲記錄 / 訂單記錄）</td><td>切換列表內容，觸發對應資料載入</td><td>Tab Active 高亮 + 內容區 Fade In</td><td>150ms</td></tr>
+<tr><td>點擊 UpgradeVIPBtn</td><td>跳轉至 VIPPanel（若未滿級）或商城 VIP Tab</td><td>按鈕 Pressed Scale 0.95 + 頁面 Slide In</td><td>100ms press + 200ms 跳轉</td></tr>
+<tr><td>列表滾動至底部</td><td>觸發下一頁記錄載入（Pagination）</td><td>底部 Skeleton 行出現 → 資料載入後替換</td><td>載入期間</td></tr>
+<tr><td>進場動畫</td><td>從大廳底部 Tab Bar「個人」Tab 進入</td><td>Slide In from right</td><td>250ms</td></tr>
+<tr><td>退場動畫</td><td>切換至其他 Tab 或返回大廳</td><td>Slide Out to right</td><td>200ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 ProfileScene Figma Frame 後更新此連結）</p>
+<h3>5.12 排行榜面板（LeaderboardPanel）</h3>
+<p><strong>用途：</strong> 展示賽季/全服/好友等多維度排名，強化社交競爭動機（對應 Appendix B LeaderboardPanel）</p>
+<p><strong>進入方式：</strong> 大廳「排行榜」入口按鈕；結算介面排行榜連結</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  標題「排行榜」                [X 關閉]│
+├──────────────────────────────────────┤
+│  Tab 切換：[本賽季] [全服] [好友]      │
+├──────────────────────────────────────┤
+│  搜尋框                              │
+│  [ 🔍 搜尋玩家名稱...          [X] ] │
+├──────────────────────────────────────┤
+│  排名列表（可滾動，Top 100）           │
+│  #1 🏆 [頭像] [名稱] [VIP] [積分]    │
+│  #2 🥈 [頭像] [名稱] [VIP] [積分]    │
+│  #3 🥉 [頭像] [名稱] [VIP] [積分]    │
+│  #4    [頭像] [名稱] [VIP] [積分]    │
+│  ...                                 │
+│  （搜尋無結果時顯示 SearchEmptyNode） │
+├──────────────────────────────────────┤
+│  自身名次懸浮行（未進 Top 100 時顯示） │
+│  #247  [我的頭像] [我的名稱] [積分]   │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>元件清單（LeaderboardPanel）：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th><th>說明</th></tr>
+<tr><td>LeaderboardTabBar</td><td>cc.Node</td><td>—</td><td>「本賽季」/「全服」/「好友」三 Tab</td></tr>
+<tr><td>RankList</td><td>cc.ScrollView</td><td>Loading / Empty / Filled</td><td>排名列表（最多顯示 Top 100）</td></tr>
+<tr><td>RankItem_N</td><td>cc.Node</td><td>Normal / <strong>Self</strong>（玩家自身，高亮顯示）/ Top3（前三名特殊樣式）</td><td>排名項目</td></tr>
+<tr><td>RankItem/RankNumLabel</td><td>cc.Label</td><td>—</td><td>名次數字（1/2/3 使用獎盃圖示）</td></tr>
+<tr><td>RankItem/AvatarSprite</td><td>cc.Sprite</td><td>—</td><td>玩家頭像</td></tr>
+<tr><td>RankItem/NameLabel</td><td>cc.Label</td><td>—</td><td>玩家名稱</td></tr>
+<tr><td>RankItem/VIPBadge</td><td>cc.Node</td><td>Hidden / Visible</td><td>VIP 徽章（VIP ≥ 1 顯示）</td></tr>
+<tr><td>RankItem/ScoreLabel</td><td>cc.Label</td><td>—</td><td>賽季積分或總收益金幣</td></tr>
+<tr><td>SelfRankStickyNode</td><td>cc.Node</td><td>Hidden / Visible</td><td>玩家自身名次懸浮在列表底部（若未進 Top 100）</td></tr>
+<tr><td>SearchInput</td><td>cc.EditBox</td><td>Default / Focused / Filled / Clear（輸入後顯示 X 清除按鈕）</td><td>依玩家名稱搜尋排行榜，即時過濾列表</td></tr>
+<tr><td>SearchEmptyNode</td><td>cc.Node</td><td>Hidden / Visible</td><td>搜尋無結果時顯示「找不到該玩家」+ 清除搜尋按鈕</td></tr>
+</table>
+<p><strong>互動規格（LeaderboardPanel）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>點擊 Tab（本賽季/全服/好友）</td><td>切換排行榜維度，重新載入對應排名資料</td><td>Tab Active 高亮 + 列表 Fade In</td><td>150ms</td></tr>
+<tr><td>滾動排名列表</td><td>分頁載入更多（滾動至底部自動載入下一頁）</td><td>底部 Spinner 出現 → 新資料 Fade In 追加</td><td>載入期間</td></tr>
+<tr><td>自身名次 Sticky 行</td><td>未進 Top 100 時固定於列表底部，始終可見</td><td>SelfRankStickyNode 底部 Slide Up 進場</td><td>200ms（首次顯示）</td></tr>
+<tr><td>搜尋框輸入（SearchInput）</td><td>即時依名稱過濾列表；無結果時顯示 SearchEmptyNode</td><td>列表 Fade Refresh</td><td>300ms debounce</td></tr>
+<tr><td>搜尋框清除（X 按鈕）</td><td>清空搜尋，恢復完整排行榜</td><td>列表 Fade In</td><td>200ms</td></tr>
+<tr><td>進場動畫</td><td>從大廳 LeaderboardBtn 點擊進入</td><td>Modal Scale 0.85→1.0 + Fade In</td><td>250ms</td></tr>
+<tr><td>退場動畫</td><td>點擊 X 關閉</td><td>Modal Scale 1.0→0.85 + Fade Out</td><td>200ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 LeaderboardPanel Figma Frame 後更新此連結）</p>
+<hr>
+<h3>5.13 新手引導（OnboardingScene）</h3>
+<p><strong>用途：</strong> 首次登入玩家完成年齡驗證後，透過三步驟互動式引導了解核心玩法（射擊、技能、充值），降低新手流失（對應 §1.3 設計原則「3 秒可懂」及 Persona C 需求）</p>
+<p><strong>進入方式：</strong> LoginScene 完成後，若伺服器回傳 <code>is_new_user=true</code>，自動觸發；不影響已完成引導的老玩家</p>
+<p><strong>Layout 結構：</strong></p>
+<pre><code class="">┌──────────────────────────────────────┐
+│  全螢幕半透明黑色遮罩（alpha 0.75）    │
+│  目標元件高亮區域（cc.Graphics 鏤空）  │
+│  ┌──────────────────────────────┐    │
+│  │  說明氣泡（GuideLabel）        │    │
+│  │  「點擊魚群方向即可射擊，試試看！」│    │
+│  └──────────────────────────────┘    │
+│                                      │
+│  [跳過]                     [知道了] │
+│  步驟指示：1 / 3                      │
+└──────────────────────────────────────┘</code></pre>
+<p><strong>引導步驟：</strong></p>
+<table>
+<tr><th>步驟</th><th>高亮目標</th><th>說明文字</th></tr>
+<tr><td>1/3</td><td>砲台射擊區域</td><td>「點擊魚群方向即可射擊，金幣越多倍率越高！」</td></tr>
+<tr><td>2/3</td><td>技能按鈕（SkillButton）</td><td>「技能按鈕充能後點擊釋放，對 Boss 傷害加倍！」</td></tr>
+<tr><td>3/3</td><td>HUD 金幣餘額 + 充值入口</td><td>「金幣不足時可隨時充值，首充雙倍鑽石！」</td></tr>
+</table>
+<p><strong>元件清單（OnboardingScene）：</strong></p>
+<table>
+<tr><th>元件</th><th>類型</th><th>狀態</th><th>說明</th></tr>
+<tr><td>OverlayMask</td><td>cc.Sprite</td><td>—</td><td>全螢幕半透明黑色遮罩（<code>color-black-80</code>），不可點擊穿透（鏤空區域除外）</td></tr>
+<tr><td>HighlightMask</td><td>cc.Graphics</td><td>—</td><td>以 cc.Graphics 繪製鏤空矩形高亮當前引導目標元件，帶 4px 金色邊框（<code>color-border-focus</code>）</td></tr>
+<tr><td>GuideLabel</td><td>cc.Label</td><td>—</td><td>說明氣泡文字，圓角白底黑字，字型 <code>text-body-md</code>，最大寬 320px 自動換行</td></tr>
+<tr><td>NextBtn</td><td>cc.Button</td><td>Default / Pressed</td><td>「知道了」按鈕；點擊前進至下一步，最後一步點擊後完成引導</td></tr>
+<tr><td>SkipBtn</td><td>cc.Button</td><td>Default / Pressed</td><td>「跳過」按鈕；點擊後立即結束引導並標記 <code>is_new_user=false</code></td></tr>
+<tr><td>StepIndicator</td><td>cc.Label</td><td>—</td><td>步驟指示文字，格式「1 / 3」，<code>text-caption</code>，右下角固定位置</td></tr>
+</table>
+<p><strong>互動規格（OnboardingScene）：</strong></p>
+<table>
+<tr><th>觸發</th><th>動作</th><th>動畫效果</th><th>持續時間</th></tr>
+<tr><td>引導進場</td><td>OverlayMask + HighlightMask + GuideLabel 同時顯示</td><td>Fade In</td><td>300ms</td></tr>
+<tr><td>點擊 NextBtn（非最後一步）</td><td>高亮區域移至下一目標，GuideLabel 更新說明文字</td><td>HighlightMask 位移 + GuideLabel Fade Refresh</td><td>250ms</td></tr>
+<tr><td>點擊 NextBtn（最後一步）</td><td>結束引導，呼叫 API 標記 <code>is_new_user=false</code>，Overlay 退場</td><td>Fade Out 全覆層</td><td>300ms</td></tr>
+<tr><td>點擊 SkipBtn</td><td>立即結束引導，呼叫 API 標記 <code>is_new_user=false</code></td><td>Fade Out</td><td>200ms</td></tr>
+<tr><td>引導完成退場</td><td>回到大廳（LobbyScene），顯示正常 HUD</td><td>畫面 Fade In</td><td>300ms</td></tr>
+</table>
+<p><strong>Figma 連結：</strong> （待確認：設計師建立 OnboardingScene Figma Frame 後更新此連結）</p>
+<hr>
+<h2>6. Interaction Design Specifications</h2>
+<h3>6.1 動畫與過場（Motion Design）</h3>
+<table>
+<tr><th>動畫類型</th><th>使用時機</th><th>規格</th><th>緩動函數</th></tr>
+<tr><td>場景進入</td><td>大廳 → 遊戲 / 遊戲 → 結算</td><td>Fade Out + Fade In，全黑幕</td><td>ease-in-out（300ms）</td></tr>
+<tr><td>Modal 開啟</td><td>商城 / 設定 / 結算彈窗</td><td>Scale 0.85→1.0 + Fade In</td><td>spring（250ms）</td></tr>
+<tr><td>Modal 關閉</td><td>關閉任何彈窗</td><td>Scale 1.0→0.85 + Fade Out</td><td>ease-in（200ms）</td></tr>
+<tr><td>金幣收益浮字</td><td>命中魚後</td><td>數字從命中點向上飄移 + Fade Out</td><td>ease-out（600ms）</td></tr>
+<tr><td>Boss 擊殺動畫</td><td>Boss 魚死亡</td><td>爆炸特效 → 金幣噴射 → 收益數字</td><td>ease-out（1500ms 序列）</td></tr>
+<tr><td>Jackpot 特效</td><td>Jackpot 觸發</td><td>全屏金光 → 數字跳動 → 慢速 Fade</td><td>custom spring（3000ms+）</td></tr>
+<tr><td>技能冷卻 Progress</td><td>技能使用後</td><td>圓形 Mask 順時針消退</td><td>linear（冷卻時長）</td></tr>
+<tr><td>排行榜更新</td><td>名次變化</td><td>行元素位移動畫</td><td>ease-out（200ms）</td></tr>
+<tr><td>Toast 通知</td><td>系統訊息</td><td>Slide Up from Bottom + 停留 + Slide Down</td><td>ease-out（200ms）</td></tr>
+</table>
+<p><strong>原則：</strong></p>
+<ul><li>功能性動畫 ≤ 300ms</li><li>遊戲特效動畫（Boss 擊殺、Jackpot）≤ 3000ms，但允許序列化延伸</li><li>尊重 <code>prefers-reduced-motion</code> 設定（遊戲 H5 端）</li></ul>
+<h3>6.1.1 Motion Design Specification（動態設計規格）</h3>
+<h4>Easing Function Specification（緩動函數規格）</h4>
+<table>
+<tr><th>動畫用途</th><th>Easing Function</th><th>Duration</th><th>prefers-reduced-motion 替代</th></tr>
+<tr><td>場景切換 / 大元件出現</td><td><code>cubic-bezier(0.16, 1, 0.3, 1)</code> (Expo Out)</td><td>300ms</td><td><code>opacity 0→1, 150ms linear</code></td></tr>
+<tr><td>Modal 彈窗出現</td><td><code>cubic-bezier(0.34, 1.56, 0.64, 1)</code> (Spring Bounce)</td><td>250ms</td><td><code>opacity 0→1, 150ms linear</code></td></tr>
+<tr><td>元件退場 / Modal 關閉</td><td><code>cubic-bezier(0.55, 0, 1, 0.45)</code> (Expo In)</td><td>200ms</td><td><code>opacity 1→0, 100ms linear</code></td></tr>
+<tr><td>按鈕按壓反饋</td><td><code>cubic-bezier(0.4, 0, 0.6, 1)</code> (Standard)</td><td>80ms</td><td>無動畫（直接切換）</td></tr>
+<tr><td>金幣浮字上飄</td><td><code>cubic-bezier(0.0, 0, 0.58, 1)</code> (Ease Out)</td><td>600ms</td><td>直接顯示數值，無上飄</td></tr>
+<tr><td>技能冷卻 Mask</td><td><code>linear</code></td><td>冷卻秒數（30–60s）</td><td>靜態文字倒數</td></tr>
+<tr><td>排行榜名次移動</td><td><code>cubic-bezier(0.4, 0, 0.2, 1)</code> (Material Standard)</td><td>200ms</td><td>直接跳至新位置</td></tr>
+</table>
+<h4>prefers-reduced-motion 實作規範（H5 端）</h4>
+<pre><code class="language-css">/* H5 端全域設定 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}</code></pre>
+<p><strong>Cocos Creator 端 reduced-motion 處理：</strong></p>
+<pre><code class="language-typescript">// GameBootstrap.ts 啟動時檢查（在 onLoad 中執行）
+const prefersReducedMotion = window.matchMedia(&#x27;(prefers-reduced-motion: reduce)&#x27;).matches;
+GameAnimConfig.reducedMotion = prefersReducedMotion;
+// UIController 在播放任何 cc.tween 動畫前都必須檢查此 flag：
+//   if (GameAnimConfig.reducedMotion) { /* 靜態切換，跳過 tween */ return; }
+// 受影響的動畫：
+//   - Jackpot 全屏特效 → 改為靜態金色背景 + 獎金數字文字顯示
+//   - Boss 擊殺特效 → 改為白色閃光（50ms）+ 文字浮字
+//   - VIP 光環 Pulse → 固定靜態光環（scale 1.0, opacity 1.0），不播放呼吸 tween
+//   - 場景切換 → 仍保留 Fade（150ms），但移除 Scale 動畫
+// GameAnimConfig 為全域單例，SettingsPanel 中「減少動畫」開關也可手動觸發此 flag</code></pre>
+<h4>動畫清單（Feature × Animation Matrix）</h4>
+<table>
+<tr><th>元件</th><th>進場動畫</th><th>退場動畫</th><th>互動動畫</th><th>Reduced Motion</th></tr>
+<tr><td>Modal（商城/設定）</td><td>Scale 0.85→1.0 + Fade In</td><td>Scale 1.0→0.85 + Fade Out</td><td>—</td><td>Fade only</td></tr>
+<tr><td><strong>Toast 通知</strong></td><td><strong>Slide Up 16px（ease-out 200ms）+ Fade In（100ms）</strong></td><td><strong>停留 2500ms 後 Slide Down（200ms）+ Fade Out</strong></td><td><strong>— </strong></td><td><strong>Fade In/Out only，無 Slide</strong></td></tr>
+<tr><td>金幣浮字</td><td>上飄 40px + Fade Out</td><td>—</td><td>—</td><td>靜態顯示後 Fade</td></tr>
+<tr><td>Jackpot 特效</td><td>全屏金光粒子爆發</td><td>漸進消退</td><td>—</td><td>靜態金色方塊 + 文字</td></tr>
+<tr><td>Boss 擊殺</td><td>爆炸粒子 → 金幣噴射</td><td>—</td><td>—</td><td>白色閃光 + 文字</td></tr>
+<tr><td>技能按鈕按壓</td><td>—</td><td>—</td><td>Scale 0.92 press</td><td>無</td></tr>
+<tr><td>排行榜名次</td><td>Slide In from top</td><td>—</td><td>名次變化 translate</td><td>直接跳位</td></tr>
+<tr><td>VIP 光環</td><td><strong>Pulse 呼吸動畫（loop）：Scale 1.0→1.08→1.0 + Opacity 0.8→1.0→0.8，easing <code>cubic-bezier(0.4, 0, 0.6, 1)</code>（Standard），duration 1800ms，loop infinite</strong></td><td>—</td><td>—</td><td>靜態光環無動畫（<code>GameAnimConfig.reducedMotion = true</code> 時跳過 tween，光環固定 scale 1.0 + opacity 1.0）</td></tr>
+</table>
+<h3>6.2 回饋機制（Feedback）</h3>
+<table>
+<tr><th>操作</th><th>即時回饋（0～100ms）</th><th>短期回饋（100ms～1s）</th><th>長期回饋（&gt; 1s）</th></tr>
+<tr><td>點擊砲台射擊</td><td>砲台發射動畫 + 音效</td><td>炮彈飛行 + 命中/未命中特效</td><td>—</td></tr>
+<tr><td>命中魚</td><td>魚消失特效</td><td>金幣浮字 + 收益音效</td><td>HUD 金幣餘額更新</td></tr>
+<tr><td>Boss 擊殺</td><td>爆炸特效立即播放</td><td>金幣噴射動畫（1500ms）</td><td>MVP 資格標記</td></tr>
+<tr><td>Jackpot 觸發</td><td>全屏特效立即播放</td><td>獎池金額跳動動畫（3s+）</td><td>合規日誌記錄（後台）</td></tr>
+<tr><td>充值成功</td><td>支付按鈕 Loading→Checkmark</td><td>Toast「鑽石已到帳」</td><td>HUD 鑽石餘額更新</td></tr>
+<tr><td>IAP 支付等待中（可能 &gt; 5s）</td><td>等待 3s 後按鈕文字更新為「請稍候，正在完成付款...」（Spinner 持續顯示）；等待 30s 後若未收到回調，自動觸發逾時錯誤 Modal（「付款時間較長，請稍候或聯絡客服」）</td><td>按鈕文字 Fade Refresh（150ms）→ 30s 後 Modal Scale In（250ms）</td><td>3s 起文字更新；30s 逾時 Modal</td></tr>
+<tr><td>技能使用</td><td>技能特效立即播放</td><td>冷卻計時開始</td><td>—</td></tr>
+<tr><td>遊戲結算計算中（可能 &gt; 3s）</td><td>結算 Overlay 顯示（Fade In 200ms）</td><td>「結算中，請稍候...」+ Spinner 動畫（半透明遮罩防止操作）</td><td>超過 3s 後文字更新為「稍有延遲，結算結果已安全保存」</td></tr>
+<tr><td>連線中斷</td><td>「重連中...」覆層立即顯示</td><td>5s 倒數重試</td><td>失敗後跳出彈窗</td></tr>
+</table>
+<h3>6.3 空狀態設計（Empty States）</h3>
+<table>
+<tr><th>情境</th><th>說明文字</th><th>圖示</th><th>CTA</th></tr>
+<tr><td>首次進入大廳（無遊戲記錄）</td><td>「選擇房間，開始你的第一局！」</td><td>捕魚竿動畫</td><td>「立即匹配」→ 快速匹配</td></tr>
+<tr><td>排行榜無記錄</td><td>「你的排名將在第一局後出現」</td><td>獎盃圖示</td><td>「去打一局」→ 大廳</td></tr>
+<tr><td><strong>排行榜搜尋無結果</strong></td><td>「找不到「{搜尋關鍵字}」的玩家記錄」</td><td>放大鏡 + 問號圖示</td><td>「清除搜尋」→ 清空搜尋框並重新顯示完整排行榜</td></tr>
+<tr><td>商城無訂單記錄</td><td>「還沒有充值記錄」</td><td>空購物袋圖示</td><td>「前往充值」→ 充值 Tab</td></tr>
+<tr><td>網路離線</td><td>「目前無法連線，請檢查網路」</td><td>無訊號圖示</td><td>「重試連線」</td></tr>
+<tr><td>配對超時無玩家</td><td>「找不到足夠玩家，Bot 補位中...」</td><td>機器人圖示</td><td>自動補位，無需操作</td></tr>
+<tr><td>ProfileScene 無遊戲記錄</td><td>「快去打一局吧！你的對戰記錄會在這裡出現」</td><td>魚竿 + 歎號圖示</td><td>「立即匹配」→ 大廳</td></tr>
+<tr><td>ProfileScene 無訂單記錄</td><td>「還沒有充值記錄，試試首充雙倍鑽石？」</td><td>空購物袋圖示</td><td>「前往充值」→ 商城充值 Tab</td></tr>
+<tr><td><strong>伺服器錯誤（5xx）</strong></td><td>「暫時無法載入，請稍後重試」</td><td>告警三角形圖示（Warning icon）</td><td>「重試」→ 觸發 retry API call（出現時機：API 回傳 5xx 且 retry 次數已達上限）</td></tr>
+</table>
+<h3>6.4 Loading States</h3>
+<table>
+<tr><th>情境</th><th>策略</th><th>規格</th></tr>
+<tr><td>遊戲場景載入</td><td>Loading Progress Bar + 捕魚遊戲 Tip</td><td>進度條 + 文字提示「小技巧：...」</td></tr>
+<tr><td>快速匹配等待</td><td>動態配對動畫 + 倒數 30 秒</td><td>玩家頭像從遠到近飛入動畫</td></tr>
+<tr><td>API 請求中（充值、登入）</td><td>按鈕 Loading State（Spinner 覆蓋）</td><td>禁止重複點擊，Spinner Icon</td></tr>
+<tr><td>結算計算中</td><td>Overlay + 「結算中，請稍候...」</td><td>半透明遮罩防止操作</td></tr>
+<tr><td>商城 Tab 切換載入</td><td><strong>Skeleton Screen</strong>（見下方規格）</td><td>Tab 切換後內容區顯示骨架動畫，資料載入後替換</td></tr>
+<tr><td>排行榜初次載入</td><td><strong>Skeleton Screen</strong></td><td>名次列表顯示 5–8 行灰色骨架行，動態 Shimmer 動畫</td></tr>
+<tr><td>ProfileScene 記錄列表載入</td><td><strong>Skeleton Screen</strong></td><td>3–5 行記錄骨架（頭像佔位圓 + 三段文字佔位條）</td></tr>
+</table>
+<p><strong>Skeleton Screen 規格：</strong></p>
+<table>
+<tr><th>適用情境</th><th>骨架元件</th><th>Shimmer 動畫</th><th>替換時機</th></tr>
+<tr><td>商城 Tab 切換（充值/道具/VIP）</td><td>3×2 卡片骨架（矩形灰色塊，radius-8，寬度=PackageCard 實際寬）</td><td>左→右漸層 Shimmer（1200ms linear loop）</td><td>API 回應後 100ms 內替換</td></tr>
+<tr><td>結算介面載入中</td><td>6 行排名骨架（圓形頭像佔位 + 兩段文字佔位條）+ 底部收益骨架</td><td>同上 Shimmer</td><td>結算 API 回應後替換</td></tr>
+<tr><td>排行榜列表</td><td>8 行排名骨架（名次數字佔位 + 圓形頭像 + 兩段文字條）</td><td>同上 Shimmer</td><td>資料載入後以 Fade In 替換骨架</td></tr>
+<tr><td>ProfileScene 記錄列表</td><td>4 行記錄骨架（日期佔位 + 房間類型佔位 + 收益佔位 + 名次佔位）</td><td>同上 Shimmer</td><td>資料載入後替換</td></tr>
+</table>
+<p><strong>骨架動畫 CSS（H5 端）：</strong></p>
+<pre><code class="language-css">.skeleton-block {
+  background: linear-gradient(90deg, #0A2340 25%, #0D3360 50%, #0A2340 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1200ms linear infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-block { animation: none; background: #0A2340; }
+}</code></pre>
+<h3>6.5 Micro-interaction Catalog（微互動目錄）</h3>
+<table>
+<tr><th>觸發器（Trigger）</th><th>規則（Rules）</th><th>回饋（Feedback）</th><th>迴圈（Loop）</th></tr>
+<tr><td>砲台射擊按下</td><td>有金幣且技能非冷卻中才觸發</td><td>Scale 0.92 + 發射音效</td><td>放開後 80ms 恢復</td></tr>
+<tr><td>Boss 魚命中</td><td>先命中者獲擊殺資格</td><td>血量條減少動畫 + 打擊音效</td><td>Boss 死亡後重置</td></tr>
+<tr><td>Jackpot 進度條充滿</td><td>達到觸發閾值</td><td>金色波光特效從左到右 → 觸發全屏動畫</td><td>觸發後重置為 0</td></tr>
+<tr><td>技能按鈕可用（冷卻結束）</td><td>冷卻計時到 0</td><td>按鈕從置灰恢復亮色 + 光環呼吸效果</td><td>等待再次使用</td></tr>
+<tr><td>VIP 鑽石補貼發放</td><td>每日首次登入</td><td>鑽石圖示從天上掉落動畫 + 數量計數</td><td>每日重置</td></tr>
+<tr><td>充值成功</td><td>IAP 回調確認</td><td>鑽石從頂部飛入 HUD 動畫</td><td>單次</td></tr>
+<tr><td>結算 MVP</td><td>本局最高得分玩家</td><td>金色光環 + 「MVP！」大字 + 花火特效</td><td>單次，3 秒後 Fade</td></tr>
+<tr><td>金幣倍率調整（+/-）</td><td>點擊倍率按鈕</td><td>數字翻動動畫（100ms）</td><td>到達上下限時 disable</td></tr>
+<tr><td>設定 Toggle 切換</td><td>點擊任意 cc.Toggle（音效/通知/震動等）</td><td>設定值即時變更並持久化至後端；Toggle 滑動動畫 200ms ease-out；音效/音樂類 Toggle 切換後立即播放/靜音以確認生效</td><td>滑動 200ms；音效確認即時</td></tr>
+</table>
+<h3>6.6 Gesture &amp; Touch Design（遊戲觸控設計）</h3>
+<table>
+<tr><th>手勢類型</th><th>觸發條件</th><th>動作回應</th><th>視覺回饋</th><th>衝突處理</th></tr>
+<tr><td>單點（Tap）主遊戲區</td><td>輕觸魚群畫面任意點</td><td>向點擊方向發射砲彈</td><td>炮台轉向 + 發射動畫</td><td>優先射擊，忽略 UI 觸控</td></tr>
+<tr><td>單點技能按鈕</td><td>輕觸對應技能</td><td>啟動技能（若可用）</td><td>技能特效 + 冷卻開始</td><td>冷卻中則無效</td></tr>
+<tr><td>長按倍率按鈕</td><td>持續按壓 500ms</td><td>快速連續調整倍率</td><td>持續數字翻動</td><td>達到限制值自動停止</td></tr>
+<tr><td>下拉（大廳活動區）</td><td>從頂部向下拉 &gt; 60px</td><td>刷新活動公告</td><td>Pull 動畫 + Spinner</td><td>僅活動列表啟用</td></tr>
+</table>
+<p><strong>最小觸控目標：</strong> 44×44px（iOS HIG / Android Material 規範），所有按鈕最小尺寸符合此規格</p>
+<h3>6.7 Haptic Feedback Design（震動回饋規格）</h3>
+<table>
+<tr><th>場景</th><th>震動類型</th><th>iOS</th><th>Android</th><th>備注</th></tr>
+<tr><td>射擊觸發</td><td>Selection</td><td><code>.selection</code></td><td><code>KEYBOARD_TAP</code></td><td>頻繁操作，最輕類型</td></tr>
+<tr><td>命中魚</td><td>Impact Light</td><td><code>.light</code></td><td><code>VIRTUAL_KEY</code></td><td>正向收益回饋</td></tr>
+<tr><td>Boss 擊殺</td><td>Impact Medium</td><td><code>.medium</code></td><td><code>CONFIRM</code></td><td>重要成就感知</td></tr>
+<tr><td>Jackpot 觸發</td><td>Notification Success</td><td><code>.success</code></td><td><code>CONFIRM</code></td><td>最強烈正向回饋</td></tr>
+<tr><td>技能冷卻結束</td><td>Selection</td><td><code>.selection</code></td><td><code>KEYBOARD_TAP</code></td><td>提示可用</td></tr>
+<tr><td>金幣不足警告</td><td>Notification Warning</td><td><code>.warning</code></td><td><code>REJECT</code></td><td>負向提示</td></tr>
+<tr><td>連線中斷</td><td>Notification Error</td><td><code>.error</code></td><td><code>REJECT</code></td><td>異常狀態告警</td></tr>
+</table>
+<p><strong>降級策略：</strong> Web 端不支援震動 API 時，以視覺回饋（抖動動畫）替代，不依賴震動作為唯一回饋。</p>
+<hr>
+<h2>7. Responsive &amp; Adaptive Design</h2>
+<h3>7.1 Cocos Creator 適配策略</h3>
+<p>本遊戲採用 Cocos Creator <code>FIXED_WIDTH</code> 適配模式（設計寬度 720px，高度自動伸縮），不使用傳統 CSS 斷點。以下為各主要裝置的適配行為：</p>
+<table>
+<tr><th>裝置類型</th><th>螢幕尺寸</th><th>設計寬度</th><th>高度適配</th><th>主要適配問題</th></tr>
+<tr><td>iPhone SE（小螢幕）</td><td>375×667</td><td>720 縮放</td><td>底部安全區域（Home Indicator）</td><td>底部 HUD 需避開安全區域</td></tr>
+<tr><td>iPhone 14（主要目標）</td><td>390×844</td><td>720 縮放</td><td>劉海 + 底部安全區域</td><td>頂部 HUD 需避開 Notch</td></tr>
+<tr><td>Android 主流機型</td><td>360×800</td><td>720 縮放</td><td>瀏海 / 打孔屏</td><td>同 iPhone 安全區域處理</td></tr>
+<tr><td>iPad / 平板（直向）</td><td>768×1024+</td><td>720 縮放（置中）</td><td>兩側空白填充</td><td>橫向留白處理</td></tr>
+<tr><td><strong>手機橫向（Landscape H5）</strong></td><td>667×375–896×414</td><td><strong>720 固定寬，縮放置中</strong></td><td>高度縮短，遊戲區域壓縮</td><td>見下方橫向適配規格</td></tr>
+<tr><td>H5 桌面端（網頁）</td><td>1024×768+</td><td>720 置中 + 背景填充</td><td>固定高度，上下黑邊</td><td>遊戲主體置中顯示；鍵盤操作支援（見下方）</td></tr>
+<tr><td>Desktop L（大螢幕桌面）</td><td>1440×900+</td><td>720 置中（<code>margin: 0 auto</code>）</td><td>上下等比縮放，最大高度 1280px</td><td>遊戲主體 720px 水平置中；兩側多餘空間填充 <code>color-bg-base</code>（<code>#051428</code> 深海藍）；左右不顯示任何功能性 UI</td></tr>
+<tr><td>Desktop XL（超寬桌面）</td><td>1920×1080+</td><td>720 置中</td><td>同 Desktop L</td><td>遊戲主體 720px 水平置中；左右超寬空白同樣填充 <code>color-bg-base</code>，可考慮放置品牌裝飾圖（v2.0 計畫）；核心功能區不擴展至兩側</td></tr>
+</table>
+<p><strong>手機橫向（Landscape）適配規格：</strong></p>
+<ul><li>設計寬度維持 720，但高度受限（約 375–414dp 邏輯高度），Canvas 自動縮放至可視高度</li><li><strong>底部 Tab Bar：</strong> 遊戲外畫面（大廳/商城/設定）橫向時 Tab Bar 收起（<code>tabBarNode.active = false</code>），改以右側懸浮返回按鈕替代導覽</li><li><strong>Modal 彈窗：</strong> 橫向時寬度限制為螢幕邏輯寬度的 60%（置中），避免彈窗佔滿全螢幕高度</li><li><strong>遊戲主畫面（GameScene）：</strong> 橫向為主要遊玩方向，魚群場景充分利用橫向空間；底部 HUD 壓縮高度（縮小砲台控制區至 80px 高）</li><li><strong>平板橫向：</strong> MVP 不支援，v2.0 計畫（待 iPad 橫向設計稿評估後實作）</li></ul>
+<p><strong>桌面 H5 鍵盤操作支援（Hover State &amp; 鍵盤導覽）：</strong></p>
+<ul><li>所有 H5 非遊戲畫面（登入/商城/設定/個人中心）完整支援 Tab 鍵導覽</li><li>互動按鈕在桌面端支援 <code>Hover</code> State（CSS <code>:hover</code> 觸發，顯示高亮邊框或背景色微調）</li><li>遊戲主場景（GameScene）豁免純鍵盤操作要求（需滑鼠/觸控點擊方向射擊）；但技能按鈕、倍率調整在桌面端可使用鍵盤快捷鍵（1/2/3 對應技能，+/- 調整倍率，MVP 開發後規格另行確認）</li><li>Focus ring 規格：<code>outline: 2px solid var(--color-border-focus); outline-offset: 2px;</code> 對比度 ≥ 3:1（Primary Button 例外：使用 <code>outline: 2px solid var(--btn-primary-focus-ring); outline-offset: 2px;</code>，避免金色 focus ring 在金色背景上不可見，詳見 §8.2 及 §9.3）</li></ul>
+<h3>7.2 安全區域（Safe Area）處理</h3>
+<pre><code class="language-typescript">// GameBootstrap.ts
+const safeArea = cc.sys.getSafeAreaRect();
+// TopHUD 頂部偏移 = safeArea.y（Status Bar 高度）
+// BottomHUD 底部偏移 = 螢幕高度 - safeArea.height - safeArea.y（Home Indicator）</code></pre>
+<table>
+<tr><th>UI 區域</th><th>cc.Widget 錨點設定</th><th>說明</th></tr>
+<tr><td>Background</td><td>全拉伸（四邊 0）</td><td>全螢幕背景</td></tr>
+<tr><td>TopHUD</td><td>頂部橫拉（top 0, left 0, right 0）</td><td>含安全區域 offset</td></tr>
+<tr><td>GameArea</td><td>全拉伸（含 offset）</td><td>魚群主場景</td></tr>
+<tr><td>BottomHUD</td><td>底部橫拉（bottom 0, left 0, right 0）</td><td>含 Home Indicator offset</td></tr>
+<tr><td>ModalPanel</td><td>螢幕置中（center）</td><td>商城/設定彈窗</td></tr>
+</table>
+<h3>7.3 關鍵元件的適配行為</h3>
+<table>
+<tr><th>元件</th><th>手機直向</th><th>手機橫向（H5）</th><th>平板/桌面</th></tr>
+<tr><td>遊戲主畫面</td><td>全螢幕，控制在下方</td><td>同比例置中，左右填充</td><td>720px 置中，背景填充</td></tr>
+<tr><td>底部 Tab Bar</td><td>5 個 Tab，固定底部</td><td>不顯示（遊戲中）</td><td>側邊欄（計畫中 v2.0）</td></tr>
+<tr><td>Modal 彈窗</td><td>全螢幕或 80% 寬度</td><td>60% 寬度置中</td><td>480px 固定寬度置中</td></tr>
+<tr><td>商城卡片</td><td>3 列網格</td><td>4 列網格</td><td>3 列網格（放大）</td></tr>
+</table>
+<hr>
+<h2>8. Accessibility (A11y) Specifications</h2>
+<blockquote><p><strong>遊戲 UI 無障礙說明：</strong> 本產品為 Cocos Creator 遊戲 UI，部分 WCAG 準則在遊戲場景中的適用方式與傳統 Web 應用不同。以下標注「遊戲適用」說明實際實作方式。</p></blockquote>
+<h3>8.1 視覺可及性</h3>
+<table>
+<tr><th>項目</th><th>規格</th><th>驗證工具</th></tr>
+<tr><td>色彩對比（UI 文字）</td><td>≥ 4.5:1（HUD 文字對背景）</td><td>Colour Contrast Analyser</td></tr>
+<tr><td>色彩對比（大字標題）</td><td>≥ 3:1（結算標題等）</td><td>Contrast Checker</td></tr>
+<tr><td>不能只靠顏色傳遞資訊</td><td>技能狀態同時用圖示+顏色+文字倒數</td><td>設計審查</td></tr>
+<tr><td>最小觸控目標</td><td>44×44px 所有互動按鈕</td><td>Figma 測量</td></tr>
+<tr><td>字體最小尺寸</td><td>HUD 文字 14px 設計值（720dp 基準）</td><td>設計審查</td></tr>
+</table>
+<h3>8.2 鍵盤與螢幕閱讀器（H5 端）</h3>
+<table>
+<tr><th>項目</th><th>規格</th></tr>
+<tr><td>Tab 順序</td><td>登入/商城等非遊戲畫面符合視覺閱讀順序</td></tr>
+<tr><td>Focus Indicator</td><td>明顯的 2px 邊框，對比 ≥ 3:1。<strong>Primary Button</strong> 使用深色（<code>btn-primary-focus-ring: #051428</code>）2px outline（與金色按鈕背景對比約 11.6:1 ✅ AAA）；其他元件使用金色（<code>color-border-focus: #F5C842</code>）outline</td></tr>
+<tr><td>互動元件</td><td>按鈕使用 <code>&lt;button&gt;</code> 元素（H5 overlay 層）</td></tr>
+<tr><td>圖片 Alt</td><td>所有 H5 端 <code>&lt;img&gt;</code> 有意義的 alt 或 <code>aria-label</code></td></tr>
+<tr><td>Modal Focus Trap</td><td>商城/設定彈窗開啟時 Focus 移入，關閉後回到觸發元素</td></tr>
+</table>
+<h3>8.3 可及性測試計畫</h3>
+<table>
+<tr><th>測試類型</th><th>工具</th><th>時機</th></tr>
+<tr><td>自動掃描（H5 端）</td><td>axe-core / Lighthouse</td><td>每次 PR</td></tr>
+<tr><td>顏色對比驗證</td><td>Colour Contrast Analyser</td><td>設計審查階段</td></tr>
+<tr><td>觸控目標尺寸驗證</td><td>Figma Plugin + 實機測試</td><td>Sprint Review</td></tr>
+<tr><td>螢幕閱讀器（H5 非遊戲畫面）</td><td>VoiceOver（iOS）</td><td>Release 前</td></tr>
+<tr><td>色盲模擬</td><td>Sim Daltonism</td><td>設計審查</td></tr>
+</table>
+<h3>8.4 WCAG 2.1 AA 合規矩陣（遊戲 UI 適用範圍）</h3>
+<blockquote><p><strong>本產品無障礙設計目標：</strong> 非遊戲 UI（登入、商城、設定）WCAG 2.1 Level AA 全面合規；遊戲主場景（魚群、HUD）盡力達成，部分準則以遊戲適用方式實作。</p></blockquote>
+<table>
+<tr><th>WCAG 準則</th><th>評等</th><th>要求內容</th><th>遊戲 UI 實作方式</th><th>測試方法</th><th>優先</th></tr>
+<tr><td>1.1.1 非文字內容</td><td>AA</td><td>所有圖示/圖片有 alt 或 aria-label</td><td>H5 端 <code>&lt;img alt=&quot;...&quot;&gt;</code> / <code>aria-label</code>；Cocos 端圖示同時搭配文字標籤（技能名稱）</td><td>axe-core（H5）</td><td>M</td></tr>
+<tr><td>1.3.1 資訊與關係</td><td>AA</td><td>資訊、結構和關係能以非視覺方式傳達（不僅依賴外觀）</td><td>H5 端：<code>cc.Label</code> 文字以語意化 HTML 輸出（如 <code>&lt;h1&gt;</code>/<code>&lt;h2&gt;</code> 對應標題層級，<code>&lt;ul&gt;/&lt;li&gt;</code> 對應列表），表單欄位以 <code>&lt;label&gt;</code> 關聯，排行榜以 <code>&lt;table&gt;</code> 結構化輸出；Cocos 端（原生）：透過描述性節點命名與畫面層級結構等效傳達</td><td>axe-core（H5 結構驗證）+ 螢幕閱讀器（VoiceOver / TalkBack）逐畫面朗讀驗證</td><td>M</td></tr>
+<tr><td>1.4.3 對比度（文字）</td><td>AA</td><td>正文 ≥ 4.5:1，大字 ≥ 3:1</td><td>HUD 文字使用高對比色（白字黑底描邊），色彩 Token 驗證</td><td>Colour Contrast Analyser</td><td>M</td></tr>
+<tr><td>1.4.4 調整文字大小</td><td>AA</td><td>放大至 200% 不遺失功能</td><td>H5 端使用 <code>rem</code>/<code>em</code>；Cocos 端設計尺寸已考慮小螢幕縮放</td><td>瀏覽器 200% 縮放測試</td><td>R</td></tr>
+<tr><td>1.4.11 非文字對比度</td><td>AA</td><td>按鈕邊框、技能按鈕邊框 ≥ 3:1</td><td>所有互動按鈕有明確邊框色 Token 定義；<code>color-border-default</code> 已從 <code>rgba(255,255,255,0.3)</code>（1.8:1，不合規）更新至 <code>rgba(255,255,255,0.45)</code>（合成後 <code>#767E89</code>，約 3.2:1 ✅）</td><td>手動測試 + Colour Contrast Analyser</td><td>M</td></tr>
+<tr><td>2.1.1 鍵盤操作</td><td>AA</td><td>非遊戲畫面可純鍵盤操作</td><td>登入/商城/設定可 Tab 導覽 + Enter 觸發；遊戲主畫面豁免（需觸控/滑鼠）</td><td>手動測試（無觸控）</td><td>M</td></tr>
+<tr><td>2.4.3 焦點順序</td><td>AA</td><td>Tab 順序符合視覺閱讀流程</td><td>H5 端 DOM 順序與視覺一致，避免 tabindex &gt; 0</td><td>手動測試</td><td>M</td></tr>
+<tr><td>2.4.7 焦點可見</td><td>AA</td><td>焦點指示符清晰可見</td><td>H5 端 Focus ring ≥ 2px solid，對比度 ≥ 3:1。<strong>Primary Button</strong> 特別使用深色 focus ring（<code>btn-primary-focus-ring: #051428</code>），因金色按鈕背景（<code>#F5C842</code>）與通用金色 focus ring 對比度為 1:1（不可見）；改用深色 focus ring 後對比度提升至約 11.6:1 ✅ AAA，符合 WCAG 2.4.7</td><td>手動測試</td><td>M</td></tr>
+<tr><td>3.1.1 頁面語言</td><td>AA</td><td>HTML lang 屬性正確</td><td><code>&lt;html lang=&quot;zh-TW&quot;&gt;</code> / <code>lang=&quot;en&quot;</code> 依語言設定</td><td>axe-core</td><td>M</td></tr>
+<tr><td>3.3.1 錯誤識別</td><td>AA</td><td>錯誤訊息明確說明問題</td><td>登入/表單錯誤使用 <code>aria-describedby</code> 關聯錯誤訊息</td><td>Screen Reader</td><td>M</td></tr>
+<tr><td>3.3.2 標籤或說明</td><td>AA</td><td>表單欄位有明確標籤</td><td><code>&lt;label for=&quot;id&quot;&gt;</code> 或 <code>aria-label</code> 於所有輸入框</td><td>axe-core</td><td>M</td></tr>
+<tr><td>4.1.2 名稱、角色、值</td><td>AA</td><td>自訂元件有 ARIA role/state</td><td>商城 Tab 使用 <code>role=&quot;tab&quot;</code> / <code>aria-selected</code>，按鈕使用 <code>role=&quot;button&quot;</code></td><td>axe-core + Screen Reader</td><td>M</td></tr>
+<tr><td>1.4.10 Reflow</td><td>AA</td><td>320px 寬度不需水平捲動</td><td>H5 端商城/設定等非遊戲畫面在 320px 可正常顯示；遊戲主畫面豁免（固定 720 縮放）</td><td>320px 視窗測試</td><td>R</td></tr>
+</table>
+<p><em>M = 強制（上線前必須通過）；R = 建議（最佳實踐）</em></p>
+<p><strong>無障礙測試工具清單：</strong></p>
+<ul><li>自動化：axe-core（整合至 CI）、Lighthouse Accessibility Score（目標 ≥ 90）</li><li>輔助技術：VoiceOver（iOS Safari）/ TalkBack（Android Chrome）</li><li>顏色：Colour Contrast Analyser、Figma Contrast Plugin</li><li>人工測試：鍵盤操作（登入/商城畫面）、觸控目標實機驗證</li></ul>
+<hr>
+<h2>9. Design System Reference</h2>
+<h3>9.1 使用的 Design System</h3>
+<p><strong>Design System：</strong> 捕魚街機遊戲自建設計系統（Fishing Arcade Game Design System v1.0）</p>
+<p><strong>視覺風格方向：</strong> 深色奢華（Dark Luxury）+ 賭場街機美學——深藍/黑色底色、金色強調、霓虹光效</p>
+<p><strong>文件：</strong> https://figma.com/file/FISHGAME-DESIGN-SYSTEM （待確認：Design System Figma 文件由 Art Director 建立後更新）</p>
+<h3>9.2 本次新增 / 修改的核心元件</h3>
+<table>
+<tr><th>元件名稱</th><th>類型</th><th>說明</th><th>Figma</th></tr>
+<tr><td>CoinLabel</td><td>New</td><td>金幣餘額顯示，帶金幣圖示</td><td>（待確認：設計師建立 CoinLabel Figma Component 後更新）</td></tr>
+<tr><td>DiamondLabel</td><td>New</td><td>鑽石餘額顯示，帶鑽石圖示</td><td>（待確認：設計師建立 DiamondLabel Figma Component 後更新）</td></tr>
+<tr><td>SkillButton</td><td>New</td><td>技能按鈕，含冷卻 Progress Mask</td><td>（待確認：設計師建立 SkillButton 四種狀態 Figma Component 後更新）</td></tr>
+<tr><td>VIPBadge</td><td>New</td><td>VIP 等級徽章，10 種外觀</td><td>（待確認：Art Director 確認 10 種光環設計後更新）</td></tr>
+<tr><td>PackageCard</td><td>New</td><td>充值套餐卡片，含首充特殊樣式</td><td>（待確認：設計師建立 PackageCard Figma Component 後更新）</td></tr>
+<tr><td>JackpotProgressBar</td><td>New</td><td>Jackpot 累積進度條，帶波光特效</td><td>（待確認：特效設計師完成波光動畫規格後更新）</td></tr>
+<tr><td>BossHPBar</td><td>New</td><td>Boss 魚血量條，競爭感視覺</td><td>（待確認：設計師建立 BossHPBar Figma Component 後更新）</td></tr>
+</table>
+<h3>9.3 Design Tokens（設計變數）</h3>
+<p><strong>Design Token 三層架構：</strong></p>
+<p><strong>Layer 1 — Primitive Tokens（原始值）</strong></p>
+<table>
+<tr><th>Token</th><th>值</th></tr>
+<tr><td><code>color-gold-400</code></td><td><code>#F5C842</code></td></tr>
+<tr><td><code>color-gold-600</code></td><td><code>#C99A00</code></td></tr>
+<tr><td><code>color-gold-900</code></td><td><code>#7A5C00</code></td></tr>
+<tr><td><code>color-ocean-900</code></td><td><code>#051428</code></td></tr>
+<tr><td><code>color-ocean-800</code></td><td><code>#0A2340</code></td></tr>
+<tr><td><code>color-ocean-700</code></td><td><code>#0D3360</code></td></tr>
+<tr><td><code>color-neon-blue</code></td><td><code>#00D4FF</code></td></tr>
+<tr><td><code>color-neon-green</code></td><td><code>#00FF88</code></td></tr>
+<tr><td><code>color-red-700</code></td><td><code>#CC0000</code></td></tr>
+<tr><td><code>color-red-500</code></td><td><code>#FF4444</code></td></tr>
+<tr><td><code>color-red-300</code></td><td><code>#FF8080</code></td></tr>
+<tr><td><code>color-neon-purple</code></td><td><code>#A020F0</code>（Boss 魔法效果）</td></tr>
+<tr><td><code>color-black-80</code></td><td><code>rgba(0,0,0,0.8)</code>（技能冷卻遮罩）</td></tr>
+<tr><td><code>color-black-900</code></td><td><code>#000000</code></td></tr>
+<tr><td><code>color-white-100</code></td><td><code>#FFFFFF</code></td></tr>
+<tr><td><code>color-white-60</code></td><td><code>rgba(255,255,255,0.6)</code></td></tr>
+<tr><td><code>color-white-45</code></td><td><code>rgba(255,255,255,0.45)</code></td></tr>
+<tr><td><code>color-white-40</code></td><td><code>rgba(255,255,255,0.4)</code></td></tr>
+<tr><td><code>color-white-35</code></td><td><code>rgba(255,255,255,0.35)</code></td></tr>
+<tr><td><code>color-white-20</code></td><td><code>rgba(255,255,255,0.2)</code></td></tr>
+<tr><td><code>color-vip-silver</code></td><td><code>#C0C0C0</code></td></tr>
+<tr><td><code>color-vip-gold</code></td><td><code>#FFD700</code></td></tr>
+<tr><td><code>color-vip-platinum</code></td><td><code>#E5E4E2</code></td></tr>
+<tr><td><code>color-vip-ruby</code></td><td><code>#FF1744</code></td></tr>
+<tr><td><code>color-vip-rainbow-start</code></td><td><code>#FF0080</code>（品牌霓虹粉，取代標準 RGB 彩虹）</td></tr>
+<tr><td><code>color-vip-rainbow-mid</code></td><td><code>#00D4FF</code>（品牌霓虹青）</td></tr>
+<tr><td><code>color-vip-rainbow-end</code></td><td><code>#00FF88</code>（品牌霓虹綠）</td></tr>
+<tr><td><code>color-yellow-400</code></td><td><code>#FFEB3B</code>（HP 條中段純黃，區別於品牌金 #F5C842）</td></tr>
+<tr><td><code>color-neon-blue-light</code></td><td><code>#40DFFF</code>（color-action-secondary-hover，Secondary Button Hover）</td></tr>
+<tr><td><code>color-neon-blue-dark</code></td><td><code>#00A8CC</code>（color-action-secondary-active，Secondary Button Press）</td></tr>
+</table>
+<blockquote><p><strong>VDD-Only Color Scale Extensions（VDD §6.1）：</strong> 以下色階 Token 在 VDD §6.1 中定義，供漸層、懸停態、暗部高光等精細視覺效果使用；PDD §9.3 Layer 1 僅定義業務邏輯所需的核心色值（400/600/700/800/900），視覺延伸色階僅在 CSS 渲染層使用。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| VDD CSS 變數 | 值 | 主要用途 |</p></blockquote>
+<blockquote><p>|-------------|---|---------|</p></blockquote>
+<blockquote><p>| <code>color-gold-50</code> | <code>#FFFEF0</code> | 金色色階最淺端（hover 高光背景）|</p></blockquote>
+<blockquote><p>| <code>color-gold-100</code> | <code>#FFF8C9</code> | 金色次淺端 |</p></blockquote>
+<blockquote><p>| <code>color-gold-200</code> | <code>#FFE87A</code> | 金色中淺端 |</p></blockquote>
+<blockquote><p>| <code>color-gold-300</code> | <code>#FFD740</code> | 金色中段（Jackpot 粒子）|</p></blockquote>
+<blockquote><p>| <code>color-gold-950</code> | <code>#3D2E00</code> | 金色最深端（hover 深色背景）|</p></blockquote>
+<blockquote><p>| <code>color-ocean-50</code> | <code>#E8F4FF</code> | 海藍色階最淺端（工具提示背景）|</p></blockquote>
+<blockquote><p>| <code>color-ocean-100</code> | <code>#B3D4F7</code> | 海藍次淺端 |</p></blockquote>
+<blockquote><p>| <code>color-ocean-200</code> | <code>#5EA8E8</code> | 海藍中淺端（輸入框 focus 高亮邊框）|</p></blockquote>
+<blockquote><p>| <code>color-ocean-300</code> | <code>#1A72C9</code> | 海藍中段（次要按鈕 hover）|</p></blockquote>
+<blockquote><p>| <code>color-ocean-500</code> | <code>#134A8A</code> | 海藍中深端（進度填充）|</p></blockquote>
+<blockquote><p>| <code>color-ocean-950</code> | <code>#030B1A</code> | 海藍最深端（深色遮罩底色）|</p></blockquote>
+<blockquote><p>| <code>color-white-70</code> | <code>rgba(255,255,255,0.7)</code> | color-border-strong（強調邊框）|</p></blockquote>
+<blockquote><p>| <code>color-black-60</code> | <code>rgba(0,0,0,0.6)</code> | color-bg-scrim / fish-label-bg（遮罩、魚標籤背景）|</p></blockquote>
+<blockquote><p>| <code>color-black-50</code> | <code>rgba(0,0,0,0.5)</code> | weapon-cooldown-bg（武器冷卻遮罩）|</p></blockquote>
+<blockquote><p>| <code>color-gold-border-50</code> | <code>rgba(245,200,66,0.5)</code> | color-gold-border-card（武器卡/商品卡邊框）|</p></blockquote>
+<blockquote><p>| <code>color-player-orange</code> | <code>#FF6D00</code> | 玩家3識別色 / 房間滿員 badge / 暢銷 badge |</p></blockquote>
+<blockquote><p>| <code>color-player-purple</code> | <code>#9C27B0</code> | 玩家4識別色 / 深海女皇 Boss 主色 |</p></blockquote>
+<blockquote><p>| <code>color-white-8</code> | <code>rgba(255,255,255,0.08)</code> | icon-btn 懸停背景 / input-bg 聚焦態 |</p></blockquote>
+<table>
+<tr><th><code>font-size-12</code></th><th><code>12px</code></th></tr>
+<tr><td><code>font-size-14</code></td><td><code>14px</code></td></tr>
+<tr><td><code>font-size-16</code></td><td><code>16px</code></td></tr>
+<tr><td><code>font-size-18</code></td><td><code>18px</code></td></tr>
+<tr><td><code>font-size-20</code></td><td><code>20px</code></td></tr>
+<tr><td><code>font-size-24</code></td><td><code>24px</code></td></tr>
+<tr><td><code>font-size-28</code></td><td><code>28px</code></td></tr>
+<tr><td><code>font-size-32</code></td><td><code>32px</code></td></tr>
+<tr><td><code>font-size-36</code></td><td><code>36px</code></td></tr>
+<tr><td><code>font-size-48</code></td><td><code>48px</code></td></tr>
+<tr><td><code>font-size-56</code></td><td><code>56px</code></td></tr>
+<tr><td><code>font-family-primary</code></td><td><code>&#x27;Noto Sans TC&#x27;, &#x27;Roboto&#x27;, &#x27;PingFang TC&#x27;, sans-serif</code></td></tr>
+<tr><td><code>font-weight-regular</code></td><td><code>400</code></td></tr>
+<tr><td><code>font-weight-medium</code></td><td><code>500</code></td></tr>
+<tr><td><code>font-weight-semibold</code></td><td><code>600</code></td></tr>
+<tr><td><code>font-weight-bold</code></td><td><code>700</code></td></tr>
+<tr><td><code>font-weight-black</code></td><td><code>900</code></td></tr>
+<tr><td><code>line-height-tight</code></td><td><code>1.2</code></td></tr>
+<tr><td><code>line-height-normal</code></td><td><code>1.5</code></td></tr>
+<tr><td><code>line-height-loose</code></td><td><code>1.8</code></td></tr>
+</table>
+<blockquote><p><strong>VDD-Only Font Extensions（VDD §6.1）：</strong> 以下字體 CSS Custom Property 在 VDD 中定義為補充字型，供特定用途使用；PDD §9.3 僅定義 <code>font-family-primary</code> 作為通用基礎字型。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| VDD CSS 變數 | 值 | 主要用途 |</p></blockquote>
+<blockquote><p>|-------------|---|---------|</p></blockquote>
+<blockquote><p>| <code>--font-family-display</code> | <code>&#x27;Oswald&#x27;, &#x27;Noto Sans TC&#x27;, sans-serif</code> | text-multiplier、text-display（Jackpot 爆字、大倍率）|</p></blockquote>
+<blockquote><p>| <code>--font-family-mono</code> | <code>&#x27;Roboto Mono&#x27;, &#x27;Courier New&#x27;, monospace</code> | text-hud-score、計時器（等寬數字對齊）|</p></blockquote>
+<table>
+<tr><th><code>spacing-4</code></th><th><code>4px</code>（VDD CSS 別名：<code>--space-1</code>）</th></tr>
+<tr><td><code>spacing-8</code></td><td><code>8px</code>（VDD CSS 別名：<code>--space-2</code>）</td></tr>
+<tr><td><code>spacing-12</code></td><td><code>12px</code>（VDD CSS 別名：<code>--space-3</code>）</td></tr>
+<tr><td><code>spacing-16</code></td><td><code>16px</code>（VDD CSS 別名：<code>--space-4</code>）</td></tr>
+<tr><td><code>spacing-24</code></td><td><code>24px</code>（VDD CSS 別名：<code>--space-6</code>）</td></tr>
+<tr><td><code>spacing-32</code></td><td><code>32px</code>（VDD CSS 別名：<code>--space-8</code>）</td></tr>
+<tr><td><code>spacing-48</code></td><td><code>48px</code>（VDD CSS 別名：<code>--space-12</code>）</td></tr>
+</table>
+<blockquote><p><strong>VDD-Only Spacing Extensions（VDD §6.1）：</strong> VDD 另定義以下 3 個 CSS Custom Property 作為補充間距；這些值在 PDD 的 spacing-N 體系中無對應命名，僅供 CSS/Web 層使用，Cocos Creator 端直接使用數值。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| VDD CSS 變數 | 像素值 | 主要用途 |</p></blockquote>
+<blockquote><p>|-------------|-------|---------|</p></blockquote>
+<blockquote><p>| <code>--space-5</code> | <code>20px</code> | 中等元件內距（技能按鈕 padding）|</p></blockquote>
+<blockquote><p>| <code>--space-10</code> | <code>40px</code> | 大間距（Modal 內容區塊間距）|</p></blockquote>
+<blockquote><p>| <code>--space-16</code> | <code>64px</code> | 超大頁面間距（ProfileScene 安全區頂部）|</p></blockquote>
+<table>
+<tr><th><code>radius-8</code></th><th><code>8px</code></th></tr>
+<tr><td><code>radius-16</code></td><td><code>16px</code></td></tr>
+<tr><td><code>radius-24</code></td><td><code>24px</code></td></tr>
+<tr><td><code>radius-icon</code></td><td><code>20px</code>（圖示按鈕圓角，VDD §5.3）</td></tr>
+<tr><td><code>radius-full</code></td><td><code>9999px</code></td></tr>
+<tr><td><code>shadow-glow-gold</code></td><td><code>0 0 12px rgba(245,200,66,0.8)</code></td></tr>
+<tr><td><code>shadow-glow-neon</code></td><td><code>0 0 8px rgba(0,212,255,0.6)</code></td></tr>
+<tr><td><code>shadow-sm</code></td><td><code>0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.24)</code></td></tr>
+<tr><td><code>shadow-md</code></td><td><code>0 4px 6px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3)</code></td></tr>
+<tr><td><code>shadow-lg</code></td><td><code>0 10px 24px rgba(0,0,0,0.6), 0 4px 8px rgba(0,0,0,0.4)</code></td></tr>
+<tr><td><code>duration-fast</code></td><td><code>80ms</code></td></tr>
+<tr><td><code>duration-normal</code></td><td><code>200ms</code></td></tr>
+<tr><td><code>duration-slow</code></td><td><code>500ms</code></td></tr>
+<tr><td><code>easing-expo-out</code></td><td><code>cubic-bezier(0.16, 1, 0.3, 1)</code></td></tr>
+<tr><td><code>easing-spring</code></td><td><code>cubic-bezier(0.34, 1.56, 0.64, 1)</code></td></tr>
+<tr><td><code>easing-expo-in</code></td><td><code>cubic-bezier(0.55, 0, 1, 0.45)</code></td></tr>
+<tr><td><code>easing-standard</code></td><td><code>cubic-bezier(0.4, 0, 0.6, 1)</code></td></tr>
+<tr><td><code>easing-ease-out</code></td><td><code>cubic-bezier(0.0, 0, 0.58, 1)</code></td></tr>
+<tr><td><code>easing-material</code></td><td><code>cubic-bezier(0.4, 0, 0.2, 1)</code></td></tr>
+</table>
+<blockquote><p><strong>VDD-Only Primitive Extensions（VDD §6.1）：</strong> 以下 Token 在 VDD CSS Layer 中定義，但不在 PDD Primitive 表格中；Cocos Creator 端直接使用 Motion 物件常數（tokens.ts）或數值，無需 CSS Custom Property。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p><strong>Motion（遊戲特效動畫）</strong></p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| Token | 值 | 用途 |</p></blockquote>
+<blockquote><p>|-------|---|------|</p></blockquote>
+<blockquote><p>| <code>duration-instant</code> | <code>0ms</code> | <code>prefers-reduced-motion</code> 替代值；所有動畫在 reduced-motion 下替換為此值 |</p></blockquote>
+<blockquote><p>| <code>duration-xslow</code> | <code>1000ms</code> | Boss 進場全屏震動、倍率爆字出現 |</p></blockquote>
+<blockquote><p>| <code>duration-jackpot</code> | <code>3000ms</code> | Jackpot 爆炸特效最短播放時間 |</p></blockquote>
+<blockquote><p>| <code>easing-linear</code> | <code>linear</code> | 等速進度條（血量/裝填）|</p></blockquote>
+<blockquote><p>| <code>easing-ease-in</code> | <code>cubic-bezier(0.4, 0, 1, 1)</code> | 元素退出動畫 |</p></blockquote>
+<blockquote><p>| <code>easing-bounce</code> | <code>cubic-bezier(0.68, -0.55, 0.265, 1.55)</code> | 按鈕按下後彈回 |</p></blockquote>
+<p>&gt;</p>
+<blockquote><p><strong>Shadow（遊戲光暈效果）</strong></p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| Token | 值 | 用途 |</p></blockquote>
+<blockquote><p>|-------|---|------|</p></blockquote>
+<blockquote><p>| <code>shadow-glow-green</code> | <code>0 0 12px rgba(0,255,136,0.8)</code> | 命中魚群霓虹綠光暈 |</p></blockquote>
+<blockquote><p>| <code>shadow-glow-red</code> | <code>0 0 12px rgba(255,68,68,0.7)</code> | 危急 HP / 危險狀態紅色光暈 |</p></blockquote>
+<blockquote><p>| <code>shadow-card</code> | <code>0 8px 32px rgba(0,0,0,0.6)</code> | 卡片/Dropdown 懸浮陰影 |</p></blockquote>
+<blockquote><p>| <code>shadow-inset</code> | <code>inset 0 2px 4px rgba(0,0,0,0.4)</code> | 輸入框/進度槽內凹陰影 |</p></blockquote>
+<blockquote><p>| <code>shadow-glow-gold-soft</code> | <code>0 0 24px rgba(245,200,66,0.4)</code> | card-shadow-highlight（高亮面板金光暈）|</p></blockquote>
+<blockquote><p>| <code>shadow-card-sm</code> | <code>0 4px 16px rgba(0,0,0,0.5)</code> | shop-card-shadow（商品卡陰影）|</p></blockquote>
+<blockquote><p>| <code>shadow-inset-highlight</code> | <code>inset 0 1px 0 rgba(255,255,255,0.1)</code> | weapon-card-shadow（武器卡頂部高光邊）|</p></blockquote>
+<p>&gt;</p>
+<blockquote><p><strong>Z-Index Tier（層疊秩序）</strong></p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| Token | 值 | 層級說明 |</p></blockquote>
+<blockquote><p>|-------|---|---------|</p></blockquote>
+<blockquote><p>| <code>z-bg</code> | <code>0</code> | 背景元素（海底背景、場景裝飾）|</p></blockquote>
+<blockquote><p>| <code>z-game</code> | <code>1</code> | 遊戲主體（魚群、砲台）|</p></blockquote>
+<blockquote><p>| <code>z-hud</code> | <code>10</code> | HUD 顯示層（分數、計時器）|</p></blockquote>
+<blockquote><p>| <code>z-overlay</code> | <code>20</code> | 遊戲內疊加層（技能特效 overlay）|</p></blockquote>
+<blockquote><p>| <code>z-modal</code> | <code>30</code> | Modal / Panel（充值面板、設定頁）|</p></blockquote>
+<blockquote><p>| <code>z-toast</code> | <code>40</code> | 短暫提示（Toast 通知）|</p></blockquote>
+<blockquote><p>| <code>z-tutorial</code> | <code>50</code> | 教學引導遮罩（最高層）|</p></blockquote>
+<p><strong>Layer 2 — Semantic Tokens（語意層，引用 Primitive）</strong></p>
+<table>
+<tr><th>Token</th><th>引用</th><th>使用含義</th></tr>
+<tr><td><code>color-bg-base</code></td><td><code>color-ocean-900</code></td><td>主要背景色（遊戲底色）</td></tr>
+<tr><td><code>color-bg-surface</code></td><td><code>color-ocean-800</code></td><td>卡片/面板背景</td></tr>
+<tr><td><code>color-bg-elevated</code></td><td><code>color-ocean-700</code></td><td>浮層/彈窗/懸浮面板背景</td></tr>
+<tr><td><code>color-text-primary</code></td><td><code>color-white-100</code></td><td>主要文字（HUD、標題）</td></tr>
+<tr><td><code>color-text-secondary</code></td><td><code>color-white-60</code></td><td>輔助說明文字</td></tr>
+<tr><td><code>color-text-disabled</code></td><td><code>color-white-35</code></td><td>禁用狀態文字</td></tr>
+<tr><td><code>color-action-primary</code></td><td><code>color-gold-400</code></td><td>主要 CTA 按鈕（充值、確認）</td></tr>
+<tr><td><code>color-action-primary-hover</code></td><td><code>color-gold-600</code></td><td>CTA 懸停態</td></tr>
+<tr><td><code>color-action-primary-active</code></td><td><code>color-gold-600</code></td><td>CTA 按壓態</td></tr>
+<tr><td><code>color-action-secondary</code></td><td><code>color-neon-blue</code></td><td>次要 CTA（Secondary Button 預設色）</td></tr>
+<tr><td><code>color-feedback-success</code></td><td><code>color-neon-green</code></td><td>成功狀態（命中、充值成功）</td></tr>
+<tr><td><code>color-feedback-error</code></td><td><code>color-red-500</code></td><td>錯誤狀態（連線失敗、年齡驗證失敗）</td></tr>
+<tr><td><code>color-feedback-warning</code></td><td><code>color-red-300</code></td><td>警告（金幣不足）</td></tr>
+<tr><td><code>color-accent-neon</code></td><td><code>color-neon-blue</code></td><td>強調色（Jackpot 進度條、技能特效）</td></tr>
+<tr><td><code>color-vip-identity</code></td><td><code>color-vip-gold</code></td><td>VIP 標準金色（VIP 5 以下）</td></tr>
+<tr><td><code>color-action-danger</code></td><td><code>color-red-500</code></td><td>危險操作 CTA（刪除、登出）</td></tr>
+<tr><td><code>color-action-secondary-hover</code></td><td><code>color-neon-blue-light</code></td><td>次要 CTA 懸停態（#40DFFF）</td></tr>
+<tr><td><code>color-action-secondary-active</code></td><td><code>color-neon-blue-dark</code></td><td>次要 CTA 按壓態（#00A8CC）</td></tr>
+<tr><td><code>color-text-inverse</code></td><td><code>#0A1A00</code>（獨立值）</td><td>淺色文字反轉（金色/高亮底色上深色文字，12.3:1 AAA；非 ocean-900 別名）</td></tr>
+<tr><td><code>color-text-brand</code></td><td><code>color-gold-400</code></td><td>品牌色文字</td></tr>
+<tr><td><code>color-text-accent</code></td><td><code>color-neon-blue</code></td><td>強調文字（鑽石、Jackpot 槽）</td></tr>
+<tr><td><code>color-text-success</code></td><td><code>color-neon-green</code></td><td>成功文字（命中提示）</td></tr>
+<tr><td><code>color-text-error</code></td><td><code>color-red-500</code></td><td>錯誤文字</td></tr>
+<tr><td><code>color-text-tertiary</code></td><td><code>color-white-40</code></td><td>三級文字</td></tr>
+<tr><td><code>color-bg-overlay</code></td><td><code>rgba(5,20,40,0.85)</code></td><td>模態遮罩</td></tr>
+<tr><td><code>color-bg-scrim</code></td><td><code>color-black-60</code></td><td>半透明深色遮罩</td></tr>
+<tr><td><code>color-accent-vip</code></td><td><code>color-vip-identity</code></td><td>VIP 徽章強調色</td></tr>
+<tr><td><code>color-hp-high</code></td><td><code>color-neon-green</code></td><td>HP 條高血量色</td></tr>
+<tr><td><code>color-hp-mid</code></td><td><code>color-yellow-400</code></td><td>HP 條中血量色（#FFEB3B 純黃，視覺區別於品牌金）</td></tr>
+<tr><td><code>color-hp-low</code></td><td><code>color-red-500</code></td><td>HP 條低血量色（危急）</td></tr>
+<tr><td><code>color-border-default</code></td><td><code>color-white-45</code></td><td>預設邊框</td></tr>
+<tr><td><code>color-border-focus</code></td><td><code>color-gold-400</code></td><td>焦點邊框</td></tr>
+<tr><td><code>color-border-subtle</code></td><td><code>color-white-20</code></td><td>次要邊框</td></tr>
+<tr><td><code>color-border-brand</code></td><td><code>color-gold-400</code></td><td>品牌邊框（VIP 卡片）</td></tr>
+<tr><td><code>spacing-hud-gap</code></td><td><code>spacing-8</code></td><td>HUD 元件間距</td></tr>
+<tr><td><code>spacing-card-padding</code></td><td><code>spacing-16</code></td><td>卡片內距</td></tr>
+<tr><td><code>spacing-section-gap</code></td><td><code>spacing-24</code></td><td>區塊間距</td></tr>
+<tr><td><code>spacing-panel-gap</code></td><td><code>spacing-32</code></td><td>面板內主要區塊間距（如 VIPPanel 各區）</td></tr>
+<tr><td><code>spacing-page-padding</code></td><td><code>spacing-48</code></td><td>頁面頂層大間距（如 ProfileScene 頭像區頂部）</td></tr>
+<tr><td><code>shadow-button-glow</code></td><td><code>shadow-glow-gold</code></td><td>CTA 按鈕金色光暈</td></tr>
+<tr><td><code>shadow-skill-ready</code></td><td><code>shadow-glow-neon</code></td><td>技能就緒光暈</td></tr>
+<tr><td><code>text-display</code></td><td><code>font-size-48</code> + <code>font-weight-bold</code> + <code>line-height: 56px</code></td><td>Jackpot 爆字、大倍率數字（VIPPanel 等級 Display）</td></tr>
+<tr><td><code>text-h1</code></td><td><code>font-size-32</code> + <code>font-weight-bold</code> + <code>line-height: 40px</code></td><td>面板主標題、Boss 名稱</td></tr>
+<tr><td><code>text-h2</code></td><td><code>font-size-24</code> + <code>font-weight-semibold</code> + <code>line-height: 32px</code></td><td>卡片標題、VIP 等級</td></tr>
+<tr><td><code>text-h3</code></td><td><code>font-size-20</code> + <code>font-weight-semibold</code> + <code>line-height: 28px</code></td><td>子標題、武器名稱</td></tr>
+<tr><td><code>text-body</code></td><td><code>font-size-16</code> + <code>font-weight-regular</code> + <code>line-height: 24px</code></td><td>正文、規則說明</td></tr>
+<tr><td><code>text-hud-score</code></td><td><code>font-size-28</code> + <code>font-weight-bold</code> + <code>line-height: 32px</code></td><td>HUD 分數顯示（等寬字體）</td></tr>
+<tr><td><code>text-hud-counter</code></td><td><code>font-size-20</code> + <code>font-weight-semibold</code> + <code>line-height: 24px</code></td><td>HUD 金幣／鑽石計數器</td></tr>
+<tr><td><code>text-multiplier</code></td><td><code>font-size-56</code> + <code>font-weight-black</code> + <code>line-height: 60px</code></td><td>倍率爆字（Display 字體，max-size）</td></tr>
+<tr><td><code>text-heading-lg</code></td><td><code>font-size-36</code> + <code>font-weight-bold</code> + <code>line-height: 44px</code></td><td>大標題（結算 MVP、Jackpot 標題）</td></tr>
+<tr><td><code>text-heading-md</code></td><td><code>font-size-24</code> + <code>font-weight-bold</code> + <code>line-height: 32px</code></td><td>中標題（面板標題、VIP 等級）</td></tr>
+<tr><td><code>text-body-md</code></td><td><code>font-size-18</code> + <code>font-weight-regular</code> + <code>line-height: 28px</code></td><td>正文（說明文字、清單項目）</td></tr>
+<tr><td><code>text-body-sm</code></td><td><code>font-size-14</code> + <code>font-weight-regular</code> + <code>line-height: 20px</code></td><td>小正文（HUD 輔助文字、標籤）</td></tr>
+<tr><td><code>text-caption</code></td><td><code>font-size-12</code> + <code>font-weight-regular</code> + <code>line-height: 16px</code></td><td>版本號、法律說明等小字</td></tr>
+<tr><td><code>text-button-label</code></td><td><code>font-size-18</code> + <code>font-weight-medium</code> + <code>line-height: 22px</code></td><td>按鈕文字（CTA）</td></tr>
+<tr><td><code>radius-sm</code></td><td><code>radius-8</code></td><td>小圓角（按鈕、輸入框、小卡片）</td></tr>
+<tr><td><code>radius-md</code></td><td><code>radius-16</code></td><td>中圓角（充值卡片、面板容器）</td></tr>
+<tr><td><code>radius-lg</code></td><td><code>radius-24</code></td><td>大圓角（Modal 彈窗、VIPPanel Banner）</td></tr>
+</table>
+<blockquote><p><strong>VDD-Only Layer 2 Extensions（VDD §6.2）：</strong> 以下 8 個語意 Token 在 VDD CSS Layer 2 中定義但不在上方 PDD Layer 2 主表中；均用於 UI 元件規格，引用上方 Layer 1 Primitives。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| Token | 引用 Primitive | 用途 |</p></blockquote>
+<blockquote><p>|-------|--------------|------|</p></blockquote>
+<blockquote><p>| <code>color-text-warning</code> | <code>color-red-300</code>（#FF8080）| 警告文字色（金幣不足提示）|</p></blockquote>
+<blockquote><p>| <code>color-border-strong</code> | <code>color-white-70</code>（#FFFFFF @ 70%）| 強調邊框（Modal、輸入框 Hover 態）|</p></blockquote>
+<blockquote><p>| <code>color-border-error</code> | <code>color-red-500</code>（#FF4444）| 輸入框錯誤邊框 |</p></blockquote>
+<blockquote><p>| <code>color-border-success</code> | <code>color-neon-green</code>（#00FF88）| 輸入框成功/已驗證邊框 |</p></blockquote>
+<blockquote><p>| <code>color-feedback-info</code> | <code>color-neon-blue</code>（#00D4FF）| 資訊提示色（公告 Toast 等）|</p></blockquote>
+<blockquote><p>| <code>color-accent-success</code> | <code>color-neon-green</code>（#00FF88）| 命中成功強調色（擊殺 hit effect）|</p></blockquote>
+<blockquote><p>| <code>color-border-active</code> | <code>color-neon-blue</code>（#00D4FF）| 選中/Active 狀態邊框（Tab Bar 高亮條、Dropdown 選中項輪廓）|</p></blockquote>
+<blockquote><p>| <code>color-gold-border-subtle</code> | <code>rgba(245,200,66,0.55)</code> (color-gold-400 @ 55%) | 半透明金色玻璃面板邊框（HUD、卡片）；WCAG 1.4.11 ≥3:1 合規 |</p></blockquote>
+<p><strong>Layer 3 — Component Tokens（元件層，引用 Semantic）</strong></p>
+<table>
+<tr><th>Token</th><th>引用</th><th>元件</th></tr>
+<tr><td><code>btn-primary-bg</code></td><td><code>color-action-primary</code></td><td>主要 CTA 按鈕背景</td></tr>
+<tr><td><code>btn-primary-bg-hover</code></td><td><code>color-action-primary-hover</code></td><td>主要 CTA 懸停背景</td></tr>
+<tr><td><code>btn-primary-shadow</code></td><td><code>shadow-button-glow</code></td><td>主要 CTA 金色光暈</td></tr>
+<tr><td><code>btn-disabled-bg</code></td><td><code>color-bg-surface</code></td><td>禁用按鈕背景</td></tr>
+<tr><td><code>btn-disabled-text</code></td><td><code>color-text-disabled</code></td><td>禁用按鈕文字</td></tr>
+<tr><td><code>hud-coin-color</code></td><td><code>color-gold-400</code></td><td>HUD 金幣數字顏色</td></tr>
+<tr><td><code>hud-diamond-color</code></td><td><code>color-neon-blue</code></td><td>HUD 鑽石數字顏色</td></tr>
+<tr><td><code>skill-ready-shadow</code></td><td><code>shadow-skill-ready</code></td><td>技能就緒按鈕光暈</td></tr>
+<tr><td><code>skill-cooldown-mask</code></td><td><code>color-black-80</code></td><td>技能冷卻遮罩色</td></tr>
+<tr><td><code>jackpot-bar-fill</code></td><td><code>color-accent-neon</code></td><td>Jackpot 進度條填充色</td></tr>
+<tr><td><code>vip-badge-bg</code></td><td><code>color-vip-identity</code></td><td>VIP 徽章背景色</td></tr>
+<tr><td><code>card-bg</code></td><td><code>color-bg-surface</code></td><td>充值卡片背景</td></tr>
+<tr><td><code>card-border</code></td><td><code>color-border-default</code></td><td>充值卡片邊框</td></tr>
+<tr><td><code>btn-primary-focus-ring</code></td><td><code>color-ocean-900</code>（<code>#051428</code>）</td><td>Primary Button 焦點環（深色，與金色背景對比約 11.6:1 ✅ AAA，避免金色 focus ring 在金色按鈕上不可見）</td></tr>
+<tr><td><code>input-border-focus</code></td><td><code>color-border-focus</code></td><td>輸入框焦點邊框</td></tr>
+<tr><td><code>input-border-error</code></td><td><code>color-feedback-error</code></td><td>輸入框錯誤邊框</td></tr>
+</table>
+<blockquote><p><strong>VDD-Only Layer 3 Extensions（VDD §6.3）：</strong> 以下約 60 個 Component Token 在 VDD CSS Layer 3 中定義，用於 H5/CSS 渲染層的精細元件狀態與複合視覺效果；Cocos Creator 端直接使用數值或 tokens.ts 常數，無需 CSS Custom Property。PDD 元件規格僅定義業務語意（狀態、尺寸、交互行為），CSS 層映射細節由 VDD §6.3 定義。</p></blockquote>
+<p>&gt;</p>
+<blockquote><p>| 群組 | Token 清單 | 說明 |</p></blockquote>
+<blockquote><p>|------|-----------|------|</p></blockquote>
+<blockquote><p>| <strong>Button Primary（擴充）</strong> | <code>btn-primary-bg-active</code>、<code>btn-primary-text</code>、<code>btn-primary-radius</code>、<code>btn-primary-height</code>、<code>btn-primary-px</code> | Active 態背景、文字色、圓角/尺寸常數 |</p></blockquote>
+<blockquote><p>| <strong>Button Secondary</strong> | <code>btn-secondary-border</code>、<code>btn-secondary-text</code>、<code>btn-secondary-bg-hover</code>、<code>btn-secondary-bg-active</code>、<code>btn-secondary-disabled-color</code>、<code>btn-secondary-radius</code>、<code>btn-secondary-height</code> | 次要按鈕完整狀態；disabled-color 為霓虹青 40% |</p></blockquote>
+<blockquote><p>| <strong>Button Icon</strong> | <code>icon-btn-bg-hover</code>、<code>icon-btn-bg-active</code> | 圖示按鈕 Hover/Active 背景（白色 8%/12%）|</p></blockquote>
+<blockquote><p>| <strong>HUD（擴充）</strong> | <code>hud-bg</code>、<code>hud-border</code>、<code>hud-text-color</code>、<code>hud-score-font</code>、<code>hud-score-size</code> | HUD 背景色、邊框、文字顏色/字型 |</p></blockquote>
+<blockquote><p>| <strong>Jackpot Bar</strong> | <code>jackpot-bar-bg</code>、<code>jackpot-bar-border</code>、<code>jackpot-bar-fill-start</code>、<code>jackpot-bar-fill-end</code>、<code>jackpot-bar-height</code>、<code>jackpot-bar-radius</code>、<code>jackpot-bar-glow</code> | Jackpot 進度條背景、漸層填充端點、光暈 |</p></blockquote>
+<blockquote><p>| <strong>Boss HP Bar</strong> | <code>boss-hp-bg</code>、<code>boss-hp-border</code>、<code>boss-hp-fill-high</code>、<code>boss-hp-fill-mid</code>、<code>boss-hp-fill-low</code>、<code>boss-hp-height</code>、<code>boss-hp-transition</code> | Boss 血條三段顏色（高/中/低血量）|</p></blockquote>
+<blockquote><p>| <strong>Card / Panel（擴充）</strong> | <code>card-bg-highlight</code>、<code>card-border-width</code>、<code>card-radius</code>、<code>card-shadow</code>、<code>card-shadow-highlight</code> | 高亮面板背景（VIP/特殊）、邊框寬度、圓角、標準/高亮陰影 |</p></blockquote>
+<blockquote><p>| <strong>Input</strong> | <code>input-bg</code>、<code>input-bg-hover</code>、<code>input-bg-focus</code>、<code>input-bg-error</code>、<code>input-bg-disabled</code>、<code>input-border</code>、<code>input-text</code>、<code>input-placeholder</code>、<code>input-height</code>、<code>input-radius</code>、<code>input-px</code> | 輸入框全狀態背景（含 Error/Disabled）、文字色、尺寸 |</p></blockquote>
+<blockquote><p>| <strong>Dropdown</strong> | <code>dropdown-bg</code>、<code>dropdown-bg-hover</code>、<code>dropdown-bg-open</code>、<code>dropdown-border</code>、<code>dropdown-border-focus</code>、<code>dropdown-text</code>、<code>dropdown-text-disabled</code>、<code>dropdown-radius</code>、<code>dropdown-height</code>、<code>dropdown-shadow-open</code>、<code>dropdown-selected-bg</code>、<code>dropdown-selected-text</code> | Dropdown 全狀態 CSS 映射 |</p></blockquote>
+<blockquote><p>| <strong>VIP Badge（擴充）</strong> | <code>vip-badge-border-width</code>、<code>vip-badge-glow-radius</code>、<code>vip-badge-radius</code> | 徽章邊框寬度、光暈半徑、圓角 |</p></blockquote>
+<blockquote><p>| <strong>Modal</strong> | <code>modal-overlay</code>、<code>age-gate-overlay</code>、<code>modal-bg</code>、<code>modal-border</code>、<code>modal-radius</code> | 模態遮罩、年齡驗證特殊遮罩、面板背景/邊框/圓角 |</p></blockquote>
+<blockquote><p>| <strong>Toast / Alert</strong> | <code>toast-success-bg</code>、<code>toast-success-border</code>、<code>toast-error-bg</code>、<code>toast-error-border</code> | 成功/錯誤提示條背景與邊框 |</p></blockquote>
+<blockquote><p>| <strong>Fish Name Label</strong> | <code>fish-label-bg</code>、<code>fish-label-text</code>、<code>fish-label-font-size</code> | 魚名標籤背景、文字、字級 |</p></blockquote>
+<blockquote><p>| <strong>Weapon Select Card</strong> | <code>weapon-card-bg</code>、<code>weapon-card-border</code>、<code>weapon-card-shadow</code>、<code>weapon-card-radius</code>、<code>weapon-card-selected-glow</code> | 武器選擇卡背景、邊框（via color-gold-border-card）、內嵌高光陰影、選中光暈 |</p></blockquote>
+<blockquote><p>| <strong>Shop Card</strong> | <code>shop-card-bg</code>、<code>shop-card-border</code>、<code>shop-card-shadow</code> | 商店商品卡暖黑背景、邊框（via color-gold-border-card）、陰影 |</p></blockquote>
+<blockquote><p>| <strong>Weapon UI</strong> | <code>weapon-cooldown-bg</code> | 武器冷卻圓圈底板色（黑色 50%）|</p></blockquote>
+<blockquote><p>| <strong>NavBar</strong> | <code>navbar-bg</code>、<code>navbar-border-top</code>、<code>navbar-inactive-color</code> | 導航列背景（深藍 96%）、頂部金色細邊框（20%）、未選中圖示/標籤色（白色 50%）|</p></blockquote>
+<blockquote><p>| <strong>Settlement Panel</strong> | <code>settle-win-bg</code>、<code>settle-win-border</code>、<code>settle-loss-bg</code>、<code>settle-loss-border</code> | 勝/負結算面板漸層背景與邊框 |</p></blockquote>
+<blockquote><p>| <strong>Skeleton Loading</strong> | <code>skeleton-base</code>、<code>skeleton-shine</code>、<code>skeleton-radius</code>、<code>skeleton-duration</code> | 骨架屏底色、閃光色、圓角、動畫時長 |</p></blockquote>
+<h3>9.4 Dark Mode Token Mapping</h3>
+<blockquote><p>本遊戲以深色（Dark）為主要視覺方向。以下表格定義遊戲 UI 在可能的「日間模式（Light Mode，未來 v2.0 選項）」與「主要模式（Dark，現行）」的 Token 對照。</p></blockquote>
+<table>
+<tr><th>Semantic Token</th><th>Dark Mode（主要）</th><th>Light Mode（備用/日間）</th><th>WCAG 對比度（文字/背景）</th><th>說明</th></tr>
+<tr><td><code>color-text-primary</code></td><td><code>#FFFFFF</code></td><td><code>#111827</code></td><td>Dark: 21:1 ✅ AAA</td><td>主要文字</td></tr>
+<tr><td><code>color-text-secondary</code></td><td><code>rgba(255,255,255,0.6)</code> = 合成後約 <code>#9BA1A9</code> on <code>#051428</code></td><td><code>#6B7280</code></td><td>Dark: 6.8:1 ✅ AA（alpha 合成計算：見下注）</td><td>輔助說明</td></tr>
+<tr><td><code>color-text-disabled</code></td><td><code>rgba(255,255,255,0.35)</code></td><td><code>#5C6673</code></td><td>N/A — 禁用狀態豁免（WCAG 1.4.3 例外：禁用元件不要求對比度）</td><td>禁用（非內容）</td></tr>
+<tr><td><code>color-bg-base</code></td><td><code>#051428</code></td><td><code>#F0F4F8</code></td><td>N/A — 背景色，無文字對比要求（作為底色使用）</td><td>主背景</td></tr>
+<tr><td><code>color-bg-surface</code></td><td><code>#0A2340</code></td><td><code>#FFFFFF</code></td><td>N/A — 背景色，無文字對比要求</td><td>卡片/面板背景</td></tr>
+<tr><td><code>color-bg-elevated</code></td><td><code>#0D3360</code></td><td><code>#F9FAFB</code></td><td>N/A — 背景色，無文字對比要求</td><td>彈窗/浮層背景</td></tr>
+<tr><td><code>color-action-primary</code></td><td><code>#F5C842</code></td><td><code>#C99A00</code></td><td>Dark on bg: 7.2:1 ✅ AAA</td><td>主要 CTA</td></tr>
+<tr><td><code>color-action-primary-hover</code></td><td><code>#C99A00</code></td><td><code>#7A5C00</code></td><td>N/A — Hover 狀態，對比度隨 Hover 背景計算（非靜態文字色）</td><td>CTA Hover</td></tr>
+<tr><td><code>color-feedback-success</code></td><td><code>#00FF88</code></td><td><code>#00A852</code></td><td>Dark on bg: ~13.8:1 ✅ AAA</td><td>成功/命中</td></tr>
+<tr><td><code>color-feedback-error</code></td><td><code>#FF4444</code></td><td><code>#D93025</code></td><td>Dark on bg: 4.6:1 ✅ AA</td><td>錯誤狀態</td></tr>
+<tr><td><code>color-feedback-warning</code></td><td><code>#FF8080</code></td><td><code>#E65100</code></td><td>Dark on bg (#051428): 約 7.61:1 ✅ AAA（精確值：#FF8080 相對亮度 0.383 vs #051428 相對亮度 0.007，比值 = (0.383+0.05)/(0.007+0.05) ≈ 7.61:1 ✅ AAA）</td><td>警告</td></tr>
+<tr><td><code>color-accent-neon</code></td><td><code>#00D4FF</code></td><td><code>#0088CC</code></td><td>Dark on bg: ~10.4:1 ✅ AAA</td><td>Jackpot/技能強調</td></tr>
+<tr><td><code>color-border-default</code></td><td><code>rgba(255,255,255,0.45)</code> = 合成後約 <code>#767E89</code> on <code>#051428</code></td><td><code>#E5E7EB</code></td><td>Dark: 約 3.2:1 ✅（符合 WCAG 1.4.11 非文字對比度 ≥ 3:1；PackageCard / EditBox 邊框屬於 UI 元件邊界，不可豁免）</td><td>預設邊框</td></tr>
+<tr><td><code>color-border-focus</code></td><td><code>#F5C842</code></td><td><code>#C99A00</code></td><td>Dark: 約 8–12:1（依背景層，bg-elevated 最低 7.97:1）✅ AAA（on bg-base <code>#051428</code>：11.63:1；on bg-elevated <code>#0D3360</code>：7.97:1+；均遠超 WCAG 2.4.7 ≥ 3:1 要求）</td><td>焦點環</td></tr>
+<tr><td><code>color-vip-identity</code></td><td><code>#FFD700</code></td><td><code>#B8860B</code></td><td>Dark on bg: 6.5:1 ✅ AA</td><td>VIP 徽章金色</td></tr>
+</table>
+<blockquote><p><strong>Alpha 合成計算說明：</strong> rgba Token 的對比度計算需先將 alpha 合成至實際背景色。計算方式：合成色 = alpha × 前景色 + (1-alpha) × 背景色。例如 <code>rgba(255,255,255,0.6)</code> on <code>#051428(RGB: 5,20,40)</code> 合成後 = R: 0.6×255+0.4×5=155, G: 0.6×255+0.4×20=161, B: 0.6×255+0.4×40=169 → <code>#9BA1A9</code> → 再計算相對亮度與背景對比比。所有 rgba Token 的對比度數值均基於此方法計算。</p></blockquote>
+<p><strong>深色模式切換機制（H5 端）：</strong></p>
+<ul><li>偵測：<code>@media (prefers-color-scheme: dark)</code> + 用戶手動切換（設定頁面）</li><li>實作：CSS Custom Properties 搭配 <code>data-theme=&quot;dark&quot;</code> attribute（H5 端非遊戲 UI）</li><li>預設：Dark Mode（遊戲主視覺方向），跟隨系統 Light Mode 僅影響登入/設定等非遊戲畫面</li><li>Cocos Creator 端：GameBootstrap 在初始化時讀取系統主題設定，切換對應 Sprite Atlas</li></ul>
+<h3>9.5 Client 類別圖（Cocos Creator）</h3>
+<div class="diagram-container"><pre class="mermaid">classDiagram
+    direction TB
+
+    class GameBootstrap {
+        <<ccclass>>
+        +onLoad() void
+        +start() void
+        +initManagers() void
+        +checkSafeArea() void
+    }
+    class SceneWiring {
+        <<ccclass>>
+        +onLoad() void
+        +bindEvents() void
+        +setupUI() void
+    }
+    class UIController {
+        <<ccclass>>
+        +@property(cc.Label) coinLabel
+        +@property(cc.Label) diamondLabel
+        +@property(cc.Button) quickMatchBtn
+        +@property(cc.Node) jackpotBar
+        +start() void
+        +updateHUD(state: RoomState) void
+        +onSkillButtonClick(skillType: string) void
+        +playJackpotEffect() void
+    }
+    class GameManager {
+        <<Singleton>>
+        -instance: GameManager
+        +getInstance() GameManager
+        +currentPhase: string
+        +sessionCoins: number
+        +onPhaseChange: EventTarget
+        +startGame() void
+        +endGame() void
+    }
+    class AudioManager {
+        <<Singleton>>
+        -instance: AudioManager
+        +getInstance() AudioManager
+        +playSfx(url: string) void
+        +playBgm(url: string) void
+        +stopBgm() void
+    }
+    class NetworkManager {
+        <<Singleton>>
+        -instance: NetworkManager
+        +getInstance() NetworkManager
+        +connectRoom(url: string) void
+        +leaveRoom() void
+        +send(type: string, data: object) void
+    }
+    class ColyseusClient {
+        <<Colyseus>>
+        +joinOrCreate(roomName: string) ColyseusRoom
+    }
+    class ColyseusRoom {
+        <<Colyseus>>
+        +state: RoomState
+        +onStateChange: Signal~RoomState~
+        +send(type: string, msg: object) void
+        +leave() void
+    }
+    class RoomState {
+        <<Colyseus>>
+        +players: MapSchema~PlayerState~
+        +phase: string
+        +countdown: number
+        +jackpotPool: number
+    }
+    class PlayerState {
+        <<Colyseus>>
+        +sessionId: string
+        +displayName: string
+        +score: number
+        +vipLevel: number
+        +isBot: boolean
+    }
+
+    GameBootstrap --> SceneWiring : schedules
+    GameBootstrap --> GameManager : initializes
+    GameBootstrap --> NetworkManager : initializes
+    GameBootstrap --> AudioManager : initializes
+    SceneWiring --> UIController : resolves
+    UIController ..> GameManager : observes
+    UIController ..> AudioManager : triggers
+    NetworkManager --> ColyseusClient : uses
+    ColyseusClient --> ColyseusRoom : creates
+    ColyseusRoom --> RoomState : syncs
+    RoomState --> PlayerState : aggregates
+    GameManager ..> RoomState : reads</pre></div>
+<blockquote><p><strong>Class Diagram 箭頭語義說明：</strong></p></blockquote>
+<blockquote><p>- <code>--&gt;</code> 實線箭頭：強依賴 / 直接引用（例如 initializes / creates / uses）</p></blockquote>
+<blockquote><p>- <code>..&gt;</code> 虛線箭頭：弱依賴 / 事件觀察 / 非直接引用（例如 observes / triggers / reads）</p></blockquote>
+<blockquote><p>- <code>observes</code>（UIController → GameManager）：UIController 透過事件監聽（<code>onPhaseChange</code> EventTarget）被動接收 GameManager 狀態變化，而非直接持有強引用</p></blockquote>
+<blockquote><p>- <code>triggers</code>（UIController → AudioManager）：UIController 呼叫 AudioManager 的 <code>playSfx()</code> 方法，但不持有 AudioManager 實例（透過 Singleton 存取）</p></blockquote>
+<blockquote><p>- <code>reads</code>（GameManager → RoomState）：GameManager 讀取 RoomState 資料，但 RoomState 由 ColyseusRoom 管理，GameManager 不直接擁有</p></blockquote>
+<h4>9.5.4 Class → Test Traceability 表格</h4>
+<table>
+<tr><th>Class</th><th>對應單元測試</th><th>測試重點</th><th>測試類型</th></tr>
+<tr><td><code>GameBootstrap</code></td><td><code>GameBootstrap.test.ts</code></td><td><code>initManagers()</code> 初始化順序、<code>checkSafeArea()</code> 安全區域 offset 計算、<code>reducedMotion</code> flag 讀取正確</td><td>Unit</td></tr>
+<tr><td><code>SceneWiring</code></td><td><code>SceneWiring.test.ts</code></td><td><code>getChildByName()</code> 節點綁定、Button 事件綁定正確性</td><td>Unit</td></tr>
+<tr><td><code>UIController</code></td><td><code>UIController.test.ts</code></td><td><code>updateHUD()</code> 正確更新 Label 數值、<code>onSkillButtonClick()</code> 冷卻中不觸發、<code>playJackpotEffect()</code> reduced motion 下不播放粒子</td><td>Unit</td></tr>
+<tr><td><code>GameManager</code></td><td><code>GameManager.test.ts</code></td><td>Singleton 唯一實例、<code>startGame()</code>/<code>endGame()</code> 狀態機轉換、<code>onPhaseChange</code> 事件正確發送</td><td>Unit</td></tr>
+<tr><td><code>AudioManager</code></td><td><code>AudioManager.test.ts</code></td><td>Singleton 唯一實例、<code>playSfx()</code> / <code>playBgm()</code> 呼叫正確音源、<code>stopBgm()</code> 停止播放</td><td>Unit</td></tr>
+<tr><td><code>NetworkManager</code></td><td><code>NetworkManager.test.ts</code></td><td><code>connectRoom()</code> 呼叫 ColyseusClient、<code>leaveRoom()</code> 正確清理連線、<code>send()</code> 封包格式正確</td><td>Unit</td></tr>
+<tr><td><code>ColyseusClient</code> + <code>ColyseusRoom</code></td><td><code>NetworkManager.integration.test.ts</code></td><td>連線/重連邏輯、狀態同步、異常中斷處理</td><td>Integration</td></tr>
+<tr><td><code>RoomState</code> / <code>PlayerState</code></td><td><code>RoomState.test.ts</code></td><td>MapSchema 操作正確、玩家新增/移除事件</td><td>Unit</td></tr>
+</table>
+<hr>
+<h2>10. Copy &amp; Content Design</h2>
+<h3>10.1 語氣與文風（Tone of Voice）</h3>
+<table>
+<tr><th>情境</th><th>語氣</th><th>範例</th></tr>
+<tr><td>遊戲勝利/MVP</td><td>熱血、慶祝</td><td>「MVP！本局最強捕魚達人！」而非「您獲得了 MVP 獎勵」</td></tr>
+<tr><td>Jackpot 觸發</td><td>震撼、驚喜</td><td>「💰 JACKPOT！大獎降臨！」而非「觸發了 Jackpot 獎勵」</td></tr>
+<tr><td>金幣不足引導</td><td>鼓勵，非逼迫</td><td>「再衝一波！充值鑽石繼續大殺四方」而非「鑽石不足，請充值」</td></tr>
+<tr><td>錯誤訊息</td><td>清楚、有幫助，不責怪</td><td>「網路有點不穩，稍後再試試？」而非「連線錯誤 503」</td></tr>
+<tr><td>年齡驗證</td><td>正式但不嚴肅</td><td>「本遊戲限 18 歲以上玩家，確認你的年齡吧！」</td></tr>
+<tr><td>新手引導</td><td>輕鬆、引導式</td><td>「點擊魚群的方向就能射擊，試試看！」</td></tr>
+<tr><td>VIP 引導</td><td>尊榮感</td><td>「升級 VIP，讓全場都看到你的金色光環！」</td></tr>
+</table>
+<h3>10.2 關鍵文案清單</h3>
+<table>
+<tr><th>位置</th><th>中文文案</th><th>英文文案</th><th>字數限制</th><th>備注</th></tr>
+<tr><td>快速匹配按鈕</td><td>快速匹配</td><td>Quick Match</td><td>≤ 6 字 / ≤ 15 chars</td><td>主要 CTA，動詞開頭</td></tr>
+<tr><td>競技房間標題</td><td>競技場</td><td>Arena</td><td>≤ 4 字</td><td>強調競爭</td></tr>
+<tr><td>MVP 結算標題</td><td>MVP！本局最強！</td><td>MVP! Champion!</td><td>≤ 8 字</td><td>慶祝語氣</td></tr>
+<tr><td>Jackpot 觸發</td><td>💰 JACKPOT 大獎！</td><td>💰 JACKPOT!</td><td>≤ 8 字</td><td>全大寫強調</td></tr>
+<tr><td>金幣不足提示</td><td>金幣不足，試試充值？</td><td>Not enough coins. Recharge?</td><td>≤ 15 字</td><td>友好引導</td></tr>
+<tr><td>連線失敗</td><td>連線中斷，正在重連...</td><td>Reconnecting...</td><td>≤ 12 字</td><td>告知狀態</td></tr>
+<tr><td>年齡確認按鈕</td><td>確認，我已滿 18 歲</td><td>Confirm, I&#x27;m 18+</td><td>≤ 10 字</td><td>聲明式確認</td></tr>
+<tr><td>VIP 訂閱按鈕</td><td>訂閱 VIP · $9.99/月</td><td>Subscribe VIP · $9.99/mo</td><td>≤ 15 字 / ≤ 25 chars</td><td>含價格透明</td></tr>
+<tr><td>Bot 補位通知</td><td>等待中…Bot 已加入</td><td>Bot joined the room</td><td>≤ 10 字</td><td>告知資訊</td></tr>
+<tr><td>首充標籤</td><td>首次充值 雙倍鑽石</td><td>First Charge 2x Bonus</td><td>≤ 8 字</td><td>促銷標籤</td></tr>
+</table>
+<h3>10.3 國際化（i18n）字串清單</h3>
+<table>
+<tr><th>i18n Key</th><th>繁中（zh-TW）</th><th>英文（en）</th><th>泰文（th，P1）</th><th>越南文（vi，P1）</th></tr>
+<tr><td><code>ui.quickmatch</code></td><td>快速匹配</td><td>Quick Match</td><td>จับคู่ด่วน</td><td>Ghép nhanh</td></tr>
+<tr><td><code>ui.jackpot</code></td><td>大獎</td><td>Jackpot</td><td>แจ็คพอต</td><td>Jackpot</td></tr>
+<tr><td><code>ui.mvp</code></td><td>本局 MVP</td><td>Room MVP</td><td>MVP ห้องนี้</td><td>MVP Phòng</td></tr>
+<tr><td><code>ui.coins</code></td><td>金幣</td><td>Coins</td><td>เหรียญทอง</td><td>Đồng vàng</td></tr>
+<tr><td><code>ui.diamonds</code></td><td>鑽石</td><td>Diamonds</td><td>เพชร</td><td>Kim cương</td></tr>
+<tr><td><code>ui.vip</code></td><td>VIP 等級</td><td>VIP Level</td><td>ระดับ VIP</td><td>Cấp VIP</td></tr>
+<tr><td><code>ui.reconnecting</code></td><td>重連中...</td><td>Reconnecting...</td><td>กำลังเชื่อมต่อ...</td><td>Đang kết nối lại...</td></tr>
+<tr><td><code>ui.insufficient_coins</code></td><td>金幣不足</td><td>Insufficient Coins</td><td>เหรียญไม่พอ</td><td>Không đủ xu</td></tr>
+<tr><td><code>ui.age_confirm</code></td><td>確認我已滿 18 歲</td><td>I confirm I&#x27;m 18+</td><td>ยืนยันอายุ 18+ ปี</td><td>Xác nhận 18+ tuổi</td></tr>
+<tr><td><code>ui.bot_joined</code></td><td>Bot 補位加入</td><td>Bot joined</td><td>บอทเข้าร่วม</td><td>Bot đã vào</td></tr>
+<tr><td><code>msg.payment_success</code></td><td>充值成功！鑽石已到帳</td><td>Recharge successful! Diamonds added</td><td>เติมเงินสำเร็จ! เพชรถูกเพิ่มแล้ว</td><td>Nạp tiền thành công!</td></tr>
+<tr><td><code>msg.connection_error</code></td><td>連線失敗，請稍後重試</td><td>Connection failed, please retry</td><td>การเชื่อมต่อล้มเหลว</td><td>Kết nối thất bại</td></tr>
+</table>
+<p><strong>i18n 實作注意：</strong></p>
+<ul><li>預留文字延伸空間：英文 → 泰文可能增長 30–50%，UI 按鈕需彈性寬度</li><li>貨幣格式：USD → THB（泰銖）/ VND（越南盾）依地區設定（P1）</li><li>數字分隔符：台灣用逗號分隔（1,000），部分東南亞市場用句點（1.000）</li></ul>
+<hr>
+<h2>11. Prototype &amp; Validation Plan</h2>
+<h3>11.1 原型連結</h3>
+<table>
+<tr><th>類型</th><th>工具</th><th>連結</th><th>對應流程</th></tr>
+<tr><td>Low-fidelity Wireframe</td><td>Figma</td><td>https://figma.com/file/FISHGAME-LO-FI （待確認：設計師完成 Lo-fi Wireframe 後更新連結）</td><td>§4.1 主流程</td></tr>
+<tr><td>High-fidelity Prototype</td><td>Figma</td><td>https://figma.com/file/FISHGAME-HI-FI （待確認：設計師完成 Hi-fi Prototype 後更新連結）</td><td>§4.1, §4.2, §4.4</td></tr>
+<tr><td>Interactive Prototype（遊戲互動）</td><td>Cocos Preview</td><td>http://staging.fishgame.dev/preview （待確認：工程師部署 Staging 環境後更新連結）</td><td>§5.4 主遊戲畫面</td></tr>
+</table>
+<h3>11.2 設計驗證計畫</h3>
+<table>
+<tr><th>階段</th><th>方法</th><th>時機</th><th>樣本</th><th>成功標準</th></tr>
+<tr><td>Concept Test</td><td>5-second Test + 訪談</td><td>Wireframe 完成後（MVP 開發前）</td><td>5 人（Persona A/B）</td><td>核心競爭機制概念被正確理解率 ≥ 80%</td></tr>
+<tr><td>Prototype Test</td><td>Task-based Usability Test</td><td>Hi-fi 完成後</td><td>5 人</td><td>Task Completion Rate ≥ 80%；SUS ≥ 68</td></tr>
+<tr><td>Beta Test</td><td>Unmoderated Remote Test</td><td>MVP 上線前 Beta 測試</td><td>20 人</td><td>CSAT ≥ 4.0/5.0；新手引導完成率 ≥ 70%</td></tr>
+<tr><td>A/B Test（充值引導時機）</td><td>遊戲中金幣不足時 A：主動彈窗引導 vs B：被動橫幅</td><td>MVP 上線後 2 週</td><td>統計顯著（p &lt; 0.05）</td><td>充值轉化率提升 ≥ 10%</td></tr>
+<tr><td>A/B Test（快速匹配 CTA 文案）</td><td>A：「快速匹配」vs B：「立刻開戰」</td><td>MVP 上線後</td><td>N ≥ 2,000/組</td><td>點擊率（CTR）提升 ≥ 5%</td></tr>
+</table>
+<hr>
+<h2>12. Open Questions</h2>
+<table>
+<tr><th>#</th><th>問題</th><th>影響</th><th>負責人</th><th>截止日</th><th>狀態</th></tr>
+<tr><td>Q1</td><td>Boss 魚採用「贏者通吃」機制（PRD AC-3 注記），非擊殺玩家 0% 獎勵是否會讓新手 Persona C 感到挫折並流失？是否需要「傷害比例獎勵」替代方案？</td><td>核心遊戲體驗設計</td><td>PM + 遊戲策劃</td><td>2026-06-15</td><td>OPEN</td></tr>
+<tr><td>Q2</td><td>VIP 光環動畫（Pulse 呼吸效果）在低端 Android 機型上的性能影響是否可接受？是否需要提供「省電模式」關閉光環動畫？</td><td>VIP 視覺設計 + 效能</td><td>Engineering + Art</td><td>2026-06-30</td><td>OPEN</td></tr>
+<tr><td>Q3</td><td>年齡驗證為聲明式（用戶自填），Legal 是否要求更強的驗證方式（如 ID 上傳）？若需要，影響首次進入流程的設計複雜度</td><td>合規 + 新手流程設計</td><td>Legal + PM</td><td>2026-05-30</td><td>OPEN</td></tr>
+<tr><td>Q4</td><td>泰文/越南文 i18n 支援是 P1 計畫，但東南亞玩家（Persona B Somchai）在 MVP 期間只能看英文，是否影響 MVP 留存率假設？</td><td>目標市場語言體驗</td><td>PM + Art</td><td>2026-07-01</td><td>OPEN</td></tr>
+<tr><td>Q5</td><td>Jackpot 全屏特效在遊戲中進行時，其他玩家的視角是否也顯示 Jackpot 動畫？動畫時間（≥ 3s）是否影響遊戲流暢度？</td><td>遊戲特效設計 + 效能</td><td>Art + Engineering</td><td>2026-06-15</td><td>OPEN</td></tr>
+</table>
+<hr>
+<h2>13. Engineering Handoff Specification</h2>
+<h3>13.1 開發前確認清單（Figma Handoff Checklist）</h3>
+<p><strong>Cocos Creator 遊戲 UI 特殊要求：</strong></p>
+<ul><li style="list-style:none"><input type="checkbox" disabled> 所有畫面均有完整 5 種狀態（Default / Hover / Pressed / Disabled / Error）</li><li style="list-style:none"><input type="checkbox" disabled> 遊戲互動元件額外包含 Loading / Cooldown / Active 狀態</li><li style="list-style:none"><input type="checkbox" disabled> 所有 Cocos Scene 的 cc.Widget 錨點設定已在 Figma 中標注</li><li style="list-style:none"><input type="checkbox" disabled> 安全區域（Notch / Home Indicator）offset 已在設計稿中標示</li><li style="list-style:none"><input type="checkbox" disabled> 空狀態（無金幣 / 無排名 / 無訂單）均已設計</li><li style="list-style:none"><input type="checkbox" disabled> Loading / Skeleton 狀態（配對等待、結算計算中）已設計</li><li style="list-style:none"><input type="checkbox" disabled> 所有 Design Token 已命名並與 Cocos 開發命名對齊</li><li style="list-style:none"><input type="checkbox" disabled> 手機直向（720×1280 基準）已完整設計</li><li style="list-style:none"><input type="checkbox" disabled> 動畫規格（timing / easing curve / Cocos tween 對應）已標注</li><li style="list-style:none"><input type="checkbox" disabled> 圖示已 Export 為 SVG（H5）/ Sprite Sheet（Cocos）</li><li style="list-style:none"><input type="checkbox" disabled> 文案已最終定稿（無 Lorem Ipsum，已含多語言版本）</li><li style="list-style:none"><input type="checkbox" disabled> VIP 光環 10 種外觀（Level 1–10）均已設計</li><li style="list-style:none"><input type="checkbox" disabled> Figma Design File 連結：https://figma.com/file/FISHGAME-PDD-v1 （待確認：設計師建立 Figma 文件後更新此連結）</li><li style="list-style:none"><input type="checkbox" disabled> 與工程師完成 Design Review 同步</li></ul>
+<h3>13.2 元件交付規格</h3>
+<table>
+<tr><th>元件</th><th>Figma Frame</th><th>狀態數量</th><th>對應 Cocos 元件</th><th>備注</th></tr>
+<tr><td>PrimaryButton（CTA）</td><td>（待確認：設計師建立 PrimaryButton Figma Frame 後填入）</td><td>5 態（Default/Hover/Pressed/Disabled/Loading）</td><td>cc.Button + cc.Sprite</td><td>含金色光暈</td></tr>
+<tr><td>SkillButton</td><td>（待確認：設計師建立 SkillButton Figma Frame 後填入）</td><td>4 態（Ready/Cooldown/Active/Disabled）</td><td>cc.Button + Progress Mask</td><td>圓形冷卻 Mask</td></tr>
+<tr><td>PackageCard</td><td>（待確認：設計師建立 PackageCard Figma Frame 後填入）</td><td>4 態（Default/Hover/Pressed/FirstCharge）</td><td>cc.Button</td><td>首充特殊樣式</td></tr>
+<tr><td>VIPBadge</td><td>（待確認：Art Director 確認 10 種光環設計後填入 Figma Frame 連結）</td><td>11 態（Level 0–10）</td><td>cc.Sprite</td><td>10 種光環外觀</td></tr>
+<tr><td>EditBox（輸入框）</td><td>（待確認：設計師建立 EditBox Figma Frame 後填入）</td><td>5 態（Empty/Focused/Filled/Error/Disabled）</td><td>cc.EditBox</td><td>H5 和 Cocos 雙版本</td></tr>
+<tr><td>JackpotProgressBar</td><td>（待確認：特效設計師完成 JackpotProgressBar 動畫 Figma Frame 後填入）</td><td>3 態（0%/50%/Full+特效）</td><td>cc.ProgressBar + cc.ParticleSystem</td><td>充滿時觸發粒子</td></tr>
+<tr><td>BossHPBar</td><td>（待確認：設計師建立 BossHPBar Figma Frame 後填入）</td><td>3 態（Full/Half/Critical）</td><td>cc.ProgressBar</td><td>Critical &lt; 20% 時紅色閃爍</td></tr>
+</table>
+<h3>13.3 設計→工程溝通協議</h3>
+<ul><li>設計稿進入 READY FOR DEV 狀態前，必須通過 Design Lead 審查</li><li>工程師發現設計缺漏時，開 Figma Comment 標注，@設計師 在 2 個工作日內回應</li><li>設計變更在進入 Sprint 後需 PM + Art Director 雙重確認</li><li>遊戲特效（Jackpot / Boss 擊殺）動畫規格需額外出具《特效設計說明書》，由 Art + Engineering 共同確認</li></ul>
+<h3>13.4 Usability Testing Protocol</h3>
+<p><strong>測試目標：</strong> 驗證玩家能在 30 秒內進入競技局，且首局體驗感到「競爭爽感」（成功標準：SUS ≥ 68）</p>
+<table>
+<tr><th>階段</th><th>方法</th><th>時機</th><th>參與者</th><th>成功標準</th><th>工具</th></tr>
+<tr><td>Concept Test</td><td>5-second Test + 訪談</td><td>Wireframe 完成後</td><td>5 人（Persona A/B）</td><td>競爭機制概念理解率 ≥ 80%</td><td>Maze</td></tr>
+<tr><td>Prototype Test</td><td>Task-based Usability Test</td><td>Hi-fi 完成後</td><td>5 人</td><td>Task Completion Rate ≥ 80%；SUS ≥ 68</td><td>UserTesting.com</td></tr>
+<tr><td>Beta Test</td><td>Unmoderated Remote Test</td><td>MVP 上線前</td><td>20 人</td><td>CSAT ≥ 4.0/5.0；錯誤率 &lt; 5%</td><td>FullStory</td></tr>
+</table>
+<p><strong>測試腳本框架：</strong></p>
+<pre><code class="">1. 開場白：「我們在測試設計，不是在測試你」
+2. 熱身問題：「你平常玩什麼手機遊戲？」
+3. 任務 1：「請進入遊戲，進入一場競技局」（不提示，觀察配對流程）
+4. 任務 2：「請為你的砲台充值鑽石」（觀察商城流程）
+5. 事後問題：「最困惑的地方是哪裡？Jackpot 特效看了有什麼感覺？」
+6. SUS 量表（10 題標準量表）</code></pre>
+<h3>13.5 A/B Test Design Template</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>假設</strong></td><td>若在「遊戲中金幣降至 10% 以下時主動彈出充值引導」，則付費轉化率將提升 15%，因為此時玩家處於高動機付費時機（繼續玩但缺乏金幣）</td></tr>
+<tr><td><strong>控制組（A）</strong></td><td>現有設計：金幣不足時僅底部橫幅提示</td></tr>
+<tr><td><strong>實驗組（B）</strong></td><td>金幣降至 10% 時，主動彈出充值引導 Modal（可輕鬆關閉）</td></tr>
+<tr><td><strong>主要指標</strong></td><td>IAP 充值轉化率（付費玩家比例）（p &lt; 0.05）</td></tr>
+<tr><td><strong>護欄指標</strong></td><td>次日留存率（不得下降超過 5%）、遊戲場均時長（不得縮短）</td></tr>
+<tr><td><strong>最小樣本量</strong></td><td>N ≥ 2,000/組（統計功效 80%，顯著水準 5%）</td></tr>
+<tr><td><strong>測試時長</strong></td><td>最少 2 週（涵蓋週末效應）</td></tr>
+<tr><td><strong>分流方式</strong></td><td>User-level（避免同一玩家看到兩種版本）</td></tr>
+</table>
+<hr>
+<h2>14. Performance Design（效能設計）</h2>
+<h3>14.1 遊戲 UI 效能目標</h3>
+<table>
+<tr><th>指標</th><th>目標值</th><th>量測方式</th><th>備注</th></tr>
+<tr><td>遊戲主場景 FPS</td><td>≥ 60 fps（iOS 14+）/ ≥ 30 fps（低端 Android）</td><td>Cocos 效能監測面板</td><td>特效觸發時允許短暫降至 45 fps</td></tr>
+<tr><td>初次載入時間（H5）</td><td>FCP &lt; 2.0s（4G 網路）</td><td>Lighthouse / RUM</td><td>CDN + 資源壓縮</td></tr>
+<tr><td>場景切換時間</td><td>&lt; 1.5s（大廳→遊戲）</td><td>遊戲計時器</td><td>預載入資源</td></tr>
+<tr><td>WebSocket 延遲</td><td>P99 &lt; 100ms @ 1,000 並發</td><td>APM</td><td>PRD §7.1 定義</td></tr>
+<tr><td>Jackpot 特效資源</td><td>粒子特效 &lt; 2MB（壓縮後）</td><td>資源包大小監控</td><td>避免影響載入</td></tr>
+<tr><td>圖片資源格式</td><td>Sprite Sheet（Cocos）/ WebP+AVIF（H5）</td><td>資源包審查</td><td>不超出設計尺寸 2x</td></tr>
+</table>
+<h3>14.2 遊戲 UI 效能設計規則</h3>
+<ul><li>所有粒子特效（Jackpot、Boss 擊殺）使用 Cocos <code>cc.ParticleSystem</code>，避免過多發射數量（目標 &lt; 500 particles/s）</li><li>VIP 光環呼吸動畫使用 <code>cc.tween</code> 而非 Frame Animation，減少 CPU 佔用</li><li>金幣浮字使用物件池（Object Pool）管理，不頻繁 <code>new Node()</code></li><li>Sprite Atlas 合圖：相同場景的 UI 元素合入同一 Atlas，減少 Draw Call</li><li>遠處魚群使用 LOD（低詳細度 Sprite）降低渲染負擔</li></ul>
+<hr>
+<h2>15. Approval Sign-off</h2>
+<table>
+<tr><th>角色</th><th>姓名</th><th>簽核日期</th><th>意見</th></tr>
+<tr><td>UX / Product Designer</td><td>—</td><td>2026-05-__</td><td></td></tr>
+<tr><td>Art Director</td><td>—</td><td>2026-05-__</td><td></td></tr>
+<tr><td>Product Manager</td><td>—</td><td>2026-05-__</td><td></td></tr>
+<tr><td>Engineering Lead</td><td>—</td><td>2026-05-__</td><td></td></tr>
+<tr><td>QA Lead</td><td>—</td><td>2026-05-__</td><td></td></tr>
+<tr><td>Accessibility Review</td><td>—</td><td>2026-05-__</td><td></td></tr>
+</table>
+<hr>
+<h2>Appendix A：BDD 連結</h2>
+<table>
+<tr><th>功能模組</th><th>BDD 文件連結</th><th>狀態</th></tr>
+<tr><td>玩家帳號系統（US-ACCT-001）</td><td><a href="BDD.md" target="_blank" rel="noopener">BDD.md §帳號</a> （待確認：BDD.md 完成後更新章節連結）</td><td>待建立</td></tr>
+<tr><td>多人競技房間（US-ROOM-001）</td><td><a href="BDD.md" target="_blank" rel="noopener">BDD.md §房間</a> （待確認：BDD.md 完成後更新章節連結）</td><td>待建立</td></tr>
+<tr><td>商城付費（US-SHOP-001）</td><td><a href="BDD.md" target="_blank" rel="noopener">BDD.md §商城</a> （待確認：BDD.md 完成後更新章節連結）</td><td>待建立</td></tr>
+</table>
+<h2>Appendix B：Screen Inventory（畫面清單）</h2>
+<table>
+<tr><th>Scene 名稱</th><th>對應 PRD REQ-ID</th><th>優先度</th><th>設計狀態</th></tr>
+<tr><td>LoginScene</td><td>US-ACCT-001</td><td>P0</td><td>待設計</td></tr>
+<tr><td>AgeGateModal</td><td>US-AGE-001</td><td>P0</td><td>待設計</td></tr>
+<tr><td>LobbyScene</td><td>US-ROOM-001</td><td>P0</td><td>待設計</td></tr>
+<tr><td>CannonSelectScene</td><td>US-WPSK-001</td><td>P0</td><td>待設計</td></tr>
+<tr><td>GameScene（主遊戲）</td><td>US-FISH-001, US-WPSK-001, US-RTP-001</td><td>P0</td><td>待設計</td></tr>
+<tr><td>SettlementPanel</td><td>US-ROOM-001</td><td>P0</td><td>待設計</td></tr>
+<tr><td>ShopScene</td><td>US-SHOP-001</td><td>P0</td><td>待設計</td></tr>
+<tr><td>VIPPanel</td><td>US-VIP-001</td><td>P1</td><td>待設計</td></tr>
+<tr><td>ProfileScene</td><td>—</td><td>P1</td><td>待設計</td></tr>
+<tr><td>SettingsPanel</td><td>—</td><td>P0</td><td>待設計</td></tr>
+<tr><td>LeaderboardPanel</td><td>—</td><td>P2</td><td>待設計</td></tr>
+<tr><td>OnboardingScene</td><td>— (is_new_user=true 觸發)</td><td>P1</td><td>待設計</td></tr>
+</table>
+<h2>Appendix C：References</h2>
+<ul><li>PRD：<a href="PRD.md" target="_blank" rel="noopener">PRD.md</a></li><li>BRD：<a href="BRD.md" target="_blank" rel="noopener">BRD.md</a></li><li>IDEA：<a href="IDEA.md" target="_blank" rel="noopener">IDEA.md</a></li><li>Figma Design File：https://figma.com/file/FISHGAME-PDD-v1 （待確認：設計師建立 Figma 文件後更新）</li><li>WCAG 2.1 Guidelines：https://www.w3.org/TR/WCAG21/</li><li>Cocos Creator 文件：https://docs.cocos.com/creator/</li><li>Colyseus 文件：https://docs.colyseus.io/</li><li>taishan6868/Fishing-game-source-code（參考 Codebase，授權確認中）</li></ul></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

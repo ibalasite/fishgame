@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fishgame 文件中心 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 文件中心</p>
+    <h1 class="banner-title">fishgame 文件中心</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link active" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>捕魚遊戲 (fishing-arcade-game)</h1>
+<p><strong>多人即時捕魚射擊遊戲</strong></p>
+<p>Build Status: ![placeholder] | License: MIT | Version: v0.1.0-alpha</p>
+<hr>
+<h2>Overview</h2>
+<p>fishing-arcade-game is a real-time multiplayer competitive fishing arcade platform targeting casual pay-to-play players in Taiwan and Southeast Asia (ages 18–45). Unlike existing fishing games where &quot;multiplayer&quot; is purely cosmetic, this platform implements genuine resource competition: 4–6 players fight over the same fish in shared rooms, armed with differentiated weapons and skill combinations. The platform pairs this competitive core with a precision RTP engine (85–95%), a shared Jackpot pool, a dual-currency economy, and a VIP subscription system designed to achieve DAU 10,000, a 5% pay rate, and USD 10,000/month in revenue.</p>
+<hr>
+<h2>Key Features</h2>
+<ul><li><strong>Real-Time Multiplayer Competition</strong> — 4–6 players per room with genuine shared-resource competition; WebSocket state sync at P99 ≤ 100ms via Colyseus</li><li><strong>Fish Type System</strong> — Normal, Elite, and Boss fish with distinct HP, multiplier, and escape behaviors; Boss escape triggers a consolation reward</li><li><strong>Weapons System</strong> — Four cannon types (Basic / Laser / Scatter / Lock-on), each with distinct cost ranges (10–100 gold coins) and strategic trade-offs</li><li><strong>Skills System</strong> — Freeze, Full-Screen Bomb, and Auto-Lock skills with server-enforced cooldown timers; skill use requires server-side ownership validation</li><li><strong>Dual-Currency Economy</strong> — Gold coins (earned in-game) and Diamonds (purchased via IAP); all Diamond transactions are idempotent with UUID order IDs</li><li><strong>RTP Engine + Jackpot Pool</strong> — Server-authoritative RTP control (85–95%), loss-streak compensation, and a Redis Lua Script atomic Jackpot trigger (probability ≤ 0.1%) with platform-wide broadcast</li><li><strong>VIP Subscription</strong> — Monthly Diamond-deducted subscription; VIP players unlock exclusive weapons, skills, and in-room visual status effects</li><li><strong>Age Verification Compliance</strong> — Three-state machine (UNVERIFIED → DEMO_ONLY → VERIFIED); under-18 accounts are locked from all paid features</li><li><strong>IAP Commerce</strong> — Apple App Store and Google Play server-side receipt verification; Circuit Breaker fallback queues failed verifications for async retry</li></ul>
+<hr>
+<h2>Tech Stack</h2>
+<table>
+<tr><th>Layer</th><th>Technology</th></tr>
+<tr><td><strong>Game Client</strong></td><td>Cocos Creator 3.8 (TypeScript / Lua scripts) — separate deployment</td></tr>
+<tr><td><strong>API Gateway</strong></td><td>Node.js 20 LTS + Express 4.x — JWT auth, rate limiting, routing</td></tr>
+<tr><td><strong>Real-Time Server</strong></td><td>Node.js 20 LTS + Colyseus 0.15 — WebSocket room state sync</td></tr>
+<tr><td><strong>Account Service</strong></td><td>Node.js 20 LTS + TypeScript 5.4 — auth, JWT RS256, VIP, age verification</td></tr>
+<tr><td><strong>Shop Service</strong></td><td>Node.js 20 LTS + TypeScript 5.4 — IAP, diamond top-up, idempotent orders</td></tr>
+<tr><td><strong>ORM</strong></td><td>Prisma 5.x</td></tr>
+<tr><td><strong>Primary Database</strong></td><td>PostgreSQL 16 (production target) / MySQL 8.0 (reference) — accounts, orders, history</td></tr>
+<tr><td><strong>Cache &amp; Real-Time State</strong></td><td>Redis 7.x (Cluster Mode) — game state, Jackpot pool, session, leaderboard</td></tr>
+<tr><td><strong>Message Bus</strong></td><td>NATS — cross-service Domain Events (e.g., VipActivated, JackpotTriggered)</td></tr>
+<tr><td><strong>Infrastructure</strong></td><td>Docker + Kubernetes (k3d local / AWS or GCP Southeast Asia region)</td></tr>
+<tr><td><strong>Analytics</strong></td><td>Mixpanel / Amplitude — player behavior events, KPI dashboard</td></tr>
+</table>
+<h3>Architecture Pattern</h3>
+<p>Modular Monolith (not microservices). Three independently deployable services share a single codebase to minimize operational overhead for a 3–5 person engineering team. Services communicate in-process; cross-module events use Redis Pub/Sub.</p>
+<pre><code class="">Cocos Creator Client
+    │
+    ├── WSS :2567 ──► Game Service    (Colyseus Room, RTP Engine, Jackpot)
+    ├── REST :3001 ─► Account Service (Auth, JWT, VIP, Age Verification)
+    └── REST :3002 ─► Shop Service    (IAP, Diamond Top-up, Orders)
+                          │
+              ┌──────────┴──────────┐
+         MySQL/PostgreSQL          Redis 7
+         (persistent data)    (real-time state)</code></pre>
+<hr>
+<h2>Business Targets</h2>
+<table>
+<tr><th>Metric</th><th>Target</th></tr>
+<tr><td>Daily Active Users (DAU)</td><td>10,000</td></tr>
+<tr><td>Pay Rate</td><td>5%</td></tr>
+<tr><td>Monthly Revenue</td><td>USD 10,000</td></tr>
+<tr><td>ARPU (paying users)</td><td>USD 20/month</td></tr>
+<tr><td>D1 Retention</td><td>≥ 35%</td></tr>
+<tr><td>D7 Retention</td><td>≥ 25%</td></tr>
+<tr><td>Target Market</td><td>Taiwan, Southeast Asia (18–45 years old)</td></tr>
+<tr><td>Investment Requirement</td><td>USD 200,000</td></tr>
+<tr><td>Time to Launch</td><td>6 months (3 phases)</td></tr>
+</table>
+<hr>
+<h2>Service Level Objectives</h2>
+<table>
+<tr><th>SLO</th><th>Target</th><th>Window</th></tr>
+<tr><td>API Availability</td><td>≥ 99.5%</td><td>30-day rolling</td></tr>
+<tr><td>WebSocket P99 Latency</td><td>≤ 100ms</td><td>Real-time</td></tr>
+<tr><td>REST API P99 Latency</td><td>≤ 500ms</td><td>Real-time</td></tr>
+<tr><td>Error Rate</td><td>≤ 0.1%</td><td>5-minute</td></tr>
+</table>
+<p>RTO ≤ 30 minutes | RPO ≤ 5 minutes</p>
+<hr>
+<h2>Document Links</h2>
+<table>
+<tr><th>Document</th><th>Description</th><th>Path</th></tr>
+<tr><td>BRD</td><td>Business Requirements — market analysis, ROI, business model</td><td><a href="docs/BRD.md" target="_blank" rel="noopener">docs/BRD.md</a></td></tr>
+<tr><td>PRD</td><td>Product Requirements — 8 User Stories, 39 Acceptance Criteria</td><td><a href="docs/PRD.md" target="_blank" rel="noopener">docs/PRD.md</a></td></tr>
+<tr><td>EDD</td><td>Engineering Design — architecture, data model, API contracts, SLO</td><td><a href="docs/EDD.md" target="_blank" rel="noopener">docs/EDD.md</a></td></tr>
+<tr><td>PDD</td><td>Product Design Document — UX flows, Cocos Creator scene design</td><td><a href="docs/PDD.md" target="_blank" rel="noopener">docs/PDD.md</a></td></tr>
+<tr><td>ARCH</td><td>Architecture — C4 diagrams, Bounded Context map</td><td><a href="docs/ARCH.md" target="_blank" rel="noopener">docs/ARCH.md</a></td></tr>
+<tr><td>API</td><td>REST API reference — 20 endpoints</td><td><a href="docs/API.md" target="_blank" rel="noopener">docs/API.md</a></td></tr>
+<tr><td>SCHEMA</td><td>Database schema — 11 tables</td><td><a href="docs/SCHEMA.md" target="_blank" rel="noopener">docs/SCHEMA.md</a></td></tr>
+<tr><td>test-plan</td><td>Test plan — unit, integration, E2E, RTP simulation</td><td><a href="docs/test-plan.md" target="_blank" rel="noopener">docs/test-plan.md</a></td></tr>
+<tr><td>RTM</td><td>Requirements Traceability Matrix (~80 test cases)</td><td><a href="docs/RTM.md" target="_blank" rel="noopener">docs/RTM.md</a></td></tr>
+<tr><td>RUNBOOK</td><td>Operations runbook — SLO alerts, incident response</td><td><a href="docs/RUNBOOK.md" target="_blank" rel="noopener">docs/RUNBOOK.md</a></td></tr>
+<tr><td>LOCAL_DEPLOY</td><td>Local development environment setup</td><td><a href="docs/LOCAL_DEPLOY.md" target="_blank" rel="noopener">docs/LOCAL_DEPLOY.md</a></td></tr>
+<tr><td>ALIGN_REPORT</td><td>Document alignment scan report (43 findings)</td><td><a href="docs/ALIGN_REPORT.md" target="_blank" rel="noopener">docs/ALIGN_REPORT.md</a></td></tr>
+</table>
+<p><strong>BDD Feature Files</strong> (8 files, 78 scenarios): <code>features/auth/</code>, <code>features/game/</code>, <code>features/shop/</code></p>
+<hr>
+<h2>Quick Start</h2>
+<blockquote><p>Implementation has not yet begun. The commands below reflect the intended startup flow once <code>src/</code> is scaffolded. See <a href="docs/LOCAL_DEPLOY.md" target="_blank" rel="noopener">docs/LOCAL_DEPLOY.md</a> for the full local deployment guide.</p></blockquote>
+<p><strong>Prerequisites:</strong> Node.js 20 LTS, Docker Desktop, kubectl, k3d</p>
+<pre><code class="language-bash"># Clone the repository
+git clone https://github.com/tbd-org/fishing-arcade-game.git
+cd fishing-arcade-game
+
+# Install dependencies
+npm install
+
+# Start local infrastructure (PostgreSQL + Redis via Docker)
+docker compose up -d
+
+# Run database migrations
+npx prisma migrate deploy
+
+# Start all services in development mode
+npm run dev
+# Account Service → http://localhost:3001
+# Shop Service    → http://localhost:3002
+# Game Service    → ws://localhost:2567
+
+# Run tests
+npm test
+
+# Run BDD feature tests
+npx cucumber-js features/</code></pre>
+<hr>
+<h2>Compliance</h2>
+<ul><li><strong>Taiwan PDPA</strong>: Player email fields encrypted with AES-256-GCM; <code>data_access_logs</code> table for audit trail</li><li><strong>Age Verification</strong>: Three-state machine enforced server-side; under-18 accounts blocked from all paid features</li><li><strong>IAP Receipt Verification</strong>: Server-side validation against Apple and Google APIs; no client-trusted purchase flows</li><li><strong>RTP Compliance</strong>: <code>base_rtp</code> configurable within [0.80, 0.99]; modification restricted to Admin role with audit logging</li><li><strong>Anti-Cheat</strong>: All game logic (hit detection, RTP, Jackpot trigger) is server-authoritative; client renders results only</li></ul>
+<hr>
+<h2>Known Issues</h2>
+<p>Per <a href="docs/ALIGN_REPORT.md" target="_blank" rel="noopener">docs/ALIGN_REPORT.md</a>, the following inconsistencies are pending resolution:</p>
+<ol><li>~~<strong>CRITICAL</strong> — API.md login lock threshold (10 attempts) conflicts with PRD/EDD (5 attempts)~~ <strong>[FIXED D16-ALIGN-F]</strong> API.md updated to 5 attempts</li><li>~~<strong>CRITICAL</strong> — API.md JWT access token TTL (1h) conflicts with PRD/EDD (15min)~~ <strong>[FIXED D16-ALIGN-F]</strong> API.md updated to 900s / 7d</li><li><strong>HIGH</strong> — BDD feature error codes conflict with EDD §5.3 definitions at 3 locations; pending ADR confirmation</li><li><strong>HIGH</strong> — <code>age_status</code> design: EDD defines a 3-state ENUM; SCHEMA implements TINYINT(1); schema migration required</li><li><strong>HIGH</strong> — VIP subscription payment channel: PRD says IAP; API/EDD use Diamond deduction (30 diamonds/month). See D1-B-4</li><li><strong>INFO</strong> — <code>src/</code> and <code>tests/</code> directories do not yet exist; code implementation has not started</li></ol>
+<hr>
+<h2>License</h2>
+<p>MIT</p>
+<hr>
+<p><em>Documentation generated by the <a href="https://github.com/tobala/gendoc" target="_blank" rel="noopener">gendoc</a> documentation framework.</em></p><section style="margin-top:3rem;padding:1.5rem;background:#fff;border:1px solid var(--border);border-radius:8px;"><h2 style="margin-top:0">📊 專案健康狀態</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:1rem"><div style="text-align:center;padding:1rem;background:var(--page-bg);border-radius:6px"><div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.25rem">已完成 STEP</div><div style="font-size:1.5rem;font-weight:700;color:var(--accent)">0/20</div></div></div></section></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

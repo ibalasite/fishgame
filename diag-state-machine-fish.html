@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>狀態機圖：魚群生命週期 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 狀態機圖：魚群生命週期</p>
+    <h1 class="banner-title">狀態機圖：魚群生命週期</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link active" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: state-machine-fish</p>
+<p>uml-type: 狀態機圖（魚群生命週期）</p>
+<p>source: EDD.md §4.5 Domain Events; PRD.md §4.1 US-FISH-001</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<hr>
+<h1>State Machine — Fish Lifecycle（魚群生命週期狀態機）</h1>
+<blockquote><p>來源：EDD.md §4.5 FishKilled Domain Event；PRD.md §4.1 US-FISH-001；EDD §1.3 US-FISH-001 AC-2</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+stateDiagram-v2
+    [*] --> SPAWNING : spawnFish [fishCount < maxFish]
+
+    SPAWNING --> ALIVE : spawnAnimation done / hp=maxHp, emit FishSpawned
+
+    ALIVE --> ALIVE : hitTarget [hp > 0] / hp-=damage, emit FishDamaged
+
+    ALIVE --> DEAD : hitTarget [hp <= 0] / status=DEAD, coins=coinValue×multiplier, emit FishKilled
+
+    ALIVE --> ESCAPED : escape [swimTimer expired, isBoss] / emit BossEscaped, consolation+=rate
+
+    ESCAPED --> [*] : removed / distribute consolation awards
+
+    DEAD --> [*] : deathAnim complete 2s / removed, fishCount--, notify winner
+
+    note right of ALIVE
+        ALIVE 狀態下觸發：
+        - 普通魚：路徑移動，可被任意玩家命中
+        - 精英魚：速度更快，需多次命中
+        - Boss 魚：高血量，逃跑計時器 60s
+        - 魚的 hp/position 每幀廣播 delta sync
+    end note
+
+    note right of DEAD
+        DEAD 觸發的副效果：
+        1. INSERT fish_kills record（MySQL）
+        2. INCR jackpot_pool（Redis atomic）
+        3. UPDATE player.gold_balance（async event）
+        4. 播放爆炸動畫（animationType）
+        5. 廣播 FishKilled 事件給所有房間玩家
+    end note
+
+    note right of ESCAPED
+        ESCAPED 僅限 Boss 魚：
+        - consolationRate 設定為 Boss 面值 × 0.1
+        - 所有房間玩家均分安慰獎
+        - 觸發 BossEscaped Domain Event
+        - 管理後台可查看逃跑記錄
+    end note</pre></div>
+<h2>Fish Type 特性對照</h2>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+stateDiagram-v2
+    direction LR
+
+    state "NORMAL FISH" as NF {
+        [*] --> NF_alive : spawn
+        NF_alive --> NF_dead : 1 hit (hp=20)
+        NF_dead --> [*]
+        note right of NF_alive : multiplier=2, speed=2.0\ncoins = 20\nno escape
+    }
+
+    state "ELITE FISH" as EF {
+        [*] --> EF_alive : spawn
+        EF_alive --> EF_alive : partial hits [hp>0]
+        EF_alive --> EF_dead : final hit (hp=0)
+        EF_dead --> [*]
+        note right of EF_alive : multiplier=10, speed=1.5\nmaxHp=100\nno escape
+    }
+
+    state "BOSS FISH" as BF {
+        [*] --> BF_alive : spawn (rare wave)
+        BF_alive --> BF_alive : partial hits [hp>0]
+        BF_alive --> BF_dead : final hit [hp<=0]
+        BF_alive --> BF_escaped : escapeTimer=60s expires
+        BF_dead --> [*]
+        BF_escaped --> [*]
+        note right of BF_alive : multiplier=50, speed=0.8\nmaxHp=500, escapeTimer=60s\nBoss kill = winner-takes-all
+    }</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

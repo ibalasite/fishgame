@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>視覺設計文件 (VDD) — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 視覺設計文件 (VDD)</p>
+    <h1 class="banner-title">視覺設計文件 (VDD)</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link active" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>VDD — Visual Design Document</h1>
+<p><strong>FishGame 競技捕魚平台</strong></p>
+<hr>
+<h2>§0 Document Control</h2>
+<table>
+<tr><th>欄位</th><th>值</th></tr>
+<tr><td>DOC-ID</td><td>VDD-FISHGAME-20260425</td></tr>
+<tr><td>版本</td><td>1.0.0</td></tr>
+<tr><td>狀態</td><td>IN REVIEW</td></tr>
+<tr><td>作者</td><td>Visual Designer + Brand Designer + Design System Engineer</td></tr>
+<tr><td>審查者</td><td>Art Director（TBD）/ Brand Strategist（TBD）/ Frontend Architect（TBD）</td></tr>
+<tr><td>上游文件</td><td>BRD-FISHGAME-20260424 · PRD-FISHGAME-20260424 · PDD-FISHGAME-20260424</td></tr>
+<tr><td>建立日期</td><td>2026-04-25</td></tr>
+<tr><td>目標平台</td><td>Cocos Creator 3.x · iOS / Android · H5 WebGL</td></tr>
+<tr><td>設計寬度</td><td>720 px（FIXED_WIDTH 自適應，高度浮動）</td></tr>
+</table>
+<h3>修訂記錄</h3>
+<table>
+<tr><th>版本</th><th>日期</th><th>作者</th><th>摘要</th></tr>
+<tr><td>1.0.0</td><td>2026-04-25</td><td>AI 生成</td><td>初版，涵蓋全部 13 章</td></tr>
+<tr><td>1.0.0 IN REVIEW</td><td>2026-04-25</td><td>Design System Engineer</td><td>提審時間戳：2026-04-25；R3 四項 findings 修正（line-height-loose、按鈕/Input 圓角對齊 Token、審查者欄位、Motion Token reduced-motion 腳注）</td></tr>
+</table>
+<hr>
+<h2>§1 Design Mission</h2>
+<h3>1.0 Brand Positioning</h3>
+<p><strong>For</strong>：亞洲 18–45 歲手機休閒遊戲玩家，他們在碎片化時間中尋找即時刺激與社交競技樂趣。</p>
+<p><strong>Who</strong>：希望在 5 分鐘內獲得「打倒 Boss、爆金幣」的爽感，同時享受多人即時排名帶來的勝負張力。</p>
+<p><strong>Is</strong>：一款融合深海主題、多人即時競技與技能深度的捕魚射擊遊戲平台。</p>
+<p><strong>Unlike</strong>：泡泡捕魚（偏休閒、缺乏競技感）、歡樂捕魚王（視覺老舊、缺乏奢華感），FishGame 主打深海奢華黑金美學，以霓虹活力特效強化每一次擊殺瞬間的多巴胺反應。</p>
+<p><strong>品牌承諾</strong>：每局都有捕獲巨額獎勵的期待感。</p>
+<p><strong>視覺主張</strong>：深海奢華黑金美學 + 霓虹活力。</p>
+<h4>與主要競品視覺差異化對比</h4>
+<table>
+<tr><th>維度</th><th>泡泡捕魚</th><th>歡樂捕魚王</th><th>FishGame（本作）</th></tr>
+<tr><td>主色調</td><td>水藍 + 亮黃</td><td>暖橘 + 棕金</td><td>深海藍 + 皇家金 + 霓虹青</td></tr>
+<tr><td>視覺風格</td><td>Q 版卡通</td><td>傳統街機</td><td>Dark Luxury × Casino Arcade</td></tr>
+<tr><td>材質語言</td><td>平面卡通</td><td>半寫實</td><td>磨砂玻璃 + 金屬壓紋 + 水下散射光</td></tr>
+<tr><td>特效密度</td><td>低</td><td>中</td><td>高（全屏 Jackpot 爆炸、多粒子層疊）</td></tr>
+<tr><td>競技感設計</td><td>弱</td><td>中</td><td>強（四角 HUD + Boss 計時 + 即時排名）</td></tr>
+</table>
+<h3>1.1 設計願景</h3>
+<blockquote><p>讓每一發炮彈落點、每一條魚爆金幣的瞬間，都成為可以截圖分享的「多巴胺時刻」。</p></blockquote>
+<h3>1.2 設計原則</h3>
+<table>
+<tr><th>#</th><th>原則</th><th>說明</th><th>可量測指標</th></tr>
+<tr><td>P1</td><td><strong>Dopamine First — 多巴胺優先</strong></td><td>核心回饋（擊殺特效、金幣飛濺、Jackpot 爆炸）必須在視覺上佔主導，音效、粒子、光暈三層疊加</td><td>使用者測試：「爽感」評分 ≥ 4.2/5</td></tr>
+<tr><td>P2</td><td><strong>Competition Visible — 競爭可見</strong></td><td>任何時刻玩家都能在 ≤1 秒內讀出當前排名、對手血條、場內最高分；資訊層級用色彩+尺寸雙重編碼</td><td>5 秒可用性測試通過率 ≥ 85%</td></tr>
+<tr><td>P3</td><td><strong>Natural Monetization — 自然變現</strong></td><td>VIP 徽章、高倍炮光暈、鑽石貨幣用「羨慕感」驅動而非「強迫感」；進入商店路徑 ≤ 2 步</td><td>商店 CVR ≥ 3%；NPS 不因付費 UI 下降</td></tr>
+<tr><td>P4</td><td><strong>3-Second Comprehension — 3 秒理解</strong></td><td>新使用者進入大廳後 3 秒內不需教程即可找到「開始遊戲」入口；遊戲內 HUD 使用圖示+數字，不依賴文字</td><td>新手用戶研究首次點擊成功率 ≥ 90%</td></tr>
+<tr><td>P5</td><td><strong>Accessible by Default — 無障礙優先</strong></td><td>所有互動顏色對比度符合 WCAG 2.1 AA（文字 4.5:1，大文字 3:1，UI 元件 3:1）；支援色盲安全配色</td><td>全自動 axe 掃描 0 CRITICAL</td></tr>
+</table>
+<h3>1.3 視覺方向定位</h3>
+<pre><code class="">視覺方向：Dark Luxury × Casino Arcade
+主色調：深海深藍 + 皇家金 + 霓虹青
+材質感：磨砂玻璃（frosted glass）+ 金屬壓紋 + 水下散射光
+動態感：彈簧物理 + 粒子爆炸 + 波浪流動
+參考象限：[奢華 ↑] × [電玩街機 →]</code></pre>
+<h3>1.4 Visual Hierarchy Rules</h3>
+<p>視覺層次透過以下 4 個維度雙重編碼，確保玩家在任何場景下 ≤1 秒內辨識資訊優先級：</p>
+<table>
+<tr><th>維度</th><th>規則</th><th>說明</th></tr>
+<tr><td><strong>Scale Contrast（尺寸對比）</strong></td><td>text-h1（32px）≥ text-body（16px）× 2；Jackpot 倍率數字 56px 為全局最高層級</td><td>核心獎勵資訊以最大字號佔據視覺焦點，輔助資訊逐級縮小，禁止出現相鄰層級尺寸差 &lt; 4px 的情況</td></tr>
+<tr><td><strong>Weight Contrast（字重對比）</strong></td><td>核心 CTA 文字使用 <code>font-weight-700</code>；輔助說明文字使用 <code>font-weight-400</code>；品牌名稱與獎勵倍率數字使用 <code>font-weight-900</code></td><td>字重梯度遵循：900（獎勵爆字）→ 700（行動按鈕 / 面板標題）→ 600（卡片標題）→ 400（正文說明）</td></tr>
+<tr><td><strong>Color Emphasis（色彩強調）</strong></td><td>主要操作使用 <code>color-action-primary</code>（#F5C842）；狀態告知使用 <code>color-feedback-*</code> 系列；背景層使用 <code>color-bg-base</code>（#051428）</td><td>金色 = 可行動；霓虹青 = 資訊/次要；紅色 = 危急/錯誤；白色 = 內容；深藍 = 容器/背景；同層級禁止同時使用兩種強調色</td></tr>
+<tr><td><strong>Whitespace Rhythm（留白節奏）</strong></td><td>卡片內部 padding：<code>--space-4</code>（16px）；卡片之間間距：<code>--space-3</code>（12px）；頁面左右邊距：<code>--space-4</code>（mobile）/ <code>--space-6</code>（tablet）</td><td>留白不應均等分布，應透過疏密對比強化分組感；核心操作區（CTA 按鈕上下）留白應比一般元素多 50%</td></tr>
+</table>
+<hr>
+<h2>§2 Art Direction</h2>
+<h3>2.1 Mood Board 關鍵詞</h3>
+<table>
+<tr><th>#</th><th>關鍵詞（中）</th><th>關鍵詞（英）</th><th>視覺聯想</th></tr>
+<tr><td>1</td><td>深海奢金</td><td>Deep Sea Luxury</td><td>深不見底的靛藍海水，金光從水面折射而下</td></tr>
+<tr><td>2</td><td>街機霓虹</td><td>Arcade Neon</td><td>80s 電玩廳 LED 邊框、霓虹發光按鈕、掃光特效</td></tr>
+<tr><td>3</td><td>皇家賭場</td><td>Royal Casino</td><td>澳門/拉斯維加斯賭場大廳——金色壓花、深紅絨布、閃爍燈帶</td></tr>
+<tr><td>4</td><td>水下張力</td><td>Underwater Tension</td><td>氣泡上升、光折射、魚群在黑暗中的磷光</td></tr>
+<tr><td>5</td><td>爆炸快感</td><td>Explosive Payoff</td><td>金幣噴射、全屏金光、千倍爆字的衝擊感</td></tr>
+<tr><td>6</td><td>競技熱血</td><td>Competitive Hype</td><td>計分板倒數、倍率滾輪、攻擊軌跡交叉</td></tr>
+<tr><td>7</td><td>神話海怪</td><td>Mythic Sea Beasts</td><td>巨型 Boss 魚——龍魚、美人魚、海神——神話史詩感</td></tr>
+</table>
+<h3>2.2 視覺參考方向（5 類）</h3>
+<table>
+<tr><th>類型</th><th>參考</th><th>擷取要素</th></tr>
+<tr><td>遊戲 UI</td><td>《出海捕魚》《歡樂捕魚》《炸金花》系列</td><td>HUD 排版、金幣動態、Boss 血條</td></tr>
+<tr><td>電影美術</td><td>《神鬼奇航》水下場景 / 《阿凡達》生態光效</td><td>水下折射光、磷光粒子</td></tr>
+<tr><td>品牌設計</td><td>Rolex 字體用法 / 澳門威尼斯人品牌金色</td><td>奢華金色應用方式、壓紋材質</td></tr>
+<tr><td>遊戲機台</td><td>日本柏青哥燈板 / 拉斯維加斯 Slot Machine</td><td>燈框圓角、高飽和色、閃爍節奏</td></tr>
+<tr><td>概念藝術</td><td>ArtStation「underwater casino」搜尋結果</td><td>場景氛圍、色調組合、燈光方向</td></tr>
+</table>
+<h4>參考圖片清單（視覺方向錨定）</h4>
+<blockquote><p>具體 Figma 連結待確認（見 OQ-10）。以下為每個方向的具體視覺描述與借鑑要素。</p></blockquote>
+<table>
+<tr><th>#</th><th>視覺方向</th><th>具體描述</th><th>重點借鑑元素</th></tr>
+<tr><td>1</td><td><strong>水下場景光影</strong></td><td>深海 3000 公尺深度感：頂部藍黑漸層，散射光束從水面折射而下，形成「神光照耀」的垂直柱光；中景氣泡群緩緩上升，近景珊瑚礁輪廓模糊化處理</td><td>垂直光柱角度 20°、焦散（Caustic）光斑 UV 動畫、冷藍-暖金的色溫對比</td></tr>
+<tr><td>2</td><td><strong>玻璃質感 UI 面板</strong></td><td>磨砂玻璃（Frosted Glass）半透明面板：深藍底色帶 8px backdrop-blur，頂邊有細白高光線（1px rgba(255,255,255,0.15)），底邊有深色壓暗；整體如水下潛艇艙窗般的厚重透明感</td><td>高光線位置與寬度、blur 強度 vs 內容可讀性平衡、邊框漸層方向</td></tr>
+<tr><td>3</td><td><strong>金色裝飾紋樣</strong></td><td>澳門賭場風格的金色壓花紋路：細線鏤空幾何（龍紋 / 波浪紋 / 魚鱗紋），用於面板邊框、Boss 名稱框、大廳背景底紋；金色需有立體感（高光 + 陰影雙色描邊）</td><td>紋路密度（建議 repeat 8–16px）、金屬高光角度（左上 45°）、壓花深度感</td></tr>
+<tr><td>4</td><td><strong>遊戲機台夜燈氛圍</strong></td><td>拉斯維加斯式 Slot Machine 邊框：高飽和 LED 燈串（暖白 + 金黃 + 橘）以 60fps 閃爍，閃爍節奏為 3 燈一組「跑馬燈」效果；整體暗場景讓燈光成為主體，不依賴環境光</td><td>燈串間距（建議 12px）、閃爍頻率（3 組 × 12fps）、燈光暈染半徑（glow radius 8–16px）</td></tr>
+<tr><td>5</td><td><strong>動態粒子效果</strong></td><td>Jackpot 爆炸瞬間：200+ 金幣粒子從中心向外噴射，前 0.3s 高速擴散（easing expo-out），後 0.7s 受重力下墜旋轉；每枚金幣帶自旋 + specular 光點；整體形成「金色爆炸雲」後緩緩落下</td><td>初速度範圍（600–1200 px/s）、粒子自旋轉速（2–8 rad/s）、重力係數（0.3g）、fade-out 起始時間（0.6s 後開始）</td></tr>
+</table>
+<h3>2.3 材質與光影方向</h3>
+<table>
+<tr><th>元素</th><th>材質描述</th><th>技術實現（Cocos）</th></tr>
+<tr><td>遊戲背景</td><td>漸層深海藍（#051428→#030B1A），帶水波動態扭曲</td><td>Sprite + Shader（UV scroll）</td></tr>
+<tr><td>UI 面板 / 卡片</td><td>磨砂玻璃感：半透明深藍底 + 金色 1px 邊框 + 白色 blur 高光</td><td>RenderTexture blurPass</td></tr>
+<tr><td>主要按鈕</td><td>金屬壓紋金色，中央高光帶，Hover 加亮 15%，Press 下壓 2px</td><td>九宮格 Sprite</td></tr>
+<tr><td>炮台 / 武器</td><td>砲管鋼藍+金環，發射時橘焰光暈（glow）</td><td>粒子系統 + Sprite</td></tr>
+<tr><td>金幣</td><td>24K 金質感，旋轉時 specular 光點</td><td>SpinAnim Sprite Sheet 16 幀</td></tr>
+<tr><td>Boss 魚</td><td>深色鱗片 + 霓虹輪廓光（Outline Shader）</td><td>Outline Shader Pass</td></tr>
+<tr><td>VIP 光暈</td><td>依等級由銀→金→紅→彩虹流動漸層，rotatng glow ring</td><td>粒子 + 自訂 Shader</td></tr>
+</table>
+<h3>2.4 情感色調映射（Emotional Tone Mapping）</h3>
+<table>
+<tr><th>情感目標</th><th>視覺語言</th><th>動效語言</th></tr>
+<tr><td><strong>多巴胺刺激感</strong></td><td>金色爆字（text-multiplier 56px font-weight-900）+ 霓虹青光暈（--shadow-glow-neon）+ 高飽和金幣粒子爆炸</td><td>快速緩動 80ms expo-out；擊殺數字 scale 0→1.2→1.0 彈入；金幣粒子初速 600–1200 px/s</td></tr>
+<tr><td><strong>奢華地位感</strong></td><td>深海藍底（#051428）+ 金色細線邊框（1px rgba(245,200,66,0.3)）+ 磨砂玻璃面板 + 負字距（-0.3 to -0.5px）</td><td>慢速進場 500ms easing-ease-out；VIP 光暈 6s 緩慢旋轉 loop；面板 backdrop-blur 8px</td></tr>
+<tr><td><strong>競技緊張感</strong></td><td>高對比警示紅（#FF4444）+ Boss 血條危急時變色（#00FF88→#FF4444）+ 計時器等寬字體（font-mono）&lt;br&gt;<strong>視覺參考錨點</strong>：日式格鬥遊戲 HUD（KOF／SF6 血條）的高對比警示設計——紅色緊迫色 + 等寬數字字體 + 邊框閃爍特效；以及彈珠台／柏青哥計時器的倒計時壓迫感（高亮倒數格、分段警示色、快速閃爍節奏）</td><td>Boss 進場全屏震動 2s；計時器後 10 秒紅色脈衝；連擊提示 「COMBO x{n}」600ms 衝屏</td></tr>
+</table>
+<h3>2.5 場景美術規格</h3>
+<table>
+<tr><th>場景</th><th>背景色調</th><th>主光源方向</th><th>環境元素</th></tr>
+<tr><td>大廳 (Lobby)</td><td>深海藍 #051428，輕微放射漸層</td><td>頂部偏左，金光柱</td><td>珊瑚、氣泡、游魚群（裝飾動畫）</td></tr>
+<tr><td>遊戲場景 (GameScene)</td><td>深海黑藍 #030B1A，動態波紋</td><td>無固定主光（動態 Boss 進場時全屏掃光）</td><td>水草、礁石、遠景魚群</td></tr>
+<tr><td>商店 (Shop)</td><td>暗金色底 #0F0A00，燈光舞台感</td><td>舞台頂光，前景壓暗</td><td>商品浮動光圈、金幣粒子環境</td></tr>
+<tr><td>結算面板 (Settlement)</td><td>黑色漸層底（overlay 50% opacity）</td><td>全屏放射金光（jackpot 時）</td><td>金幣瀑布（分層視差）</td></tr>
+</table>
+<hr>
+<h2>§3 Brand Identity</h2>
+<h3>3.1 品牌識別核心</h3>
+<table>
+<tr><th>項目</th><th>定義</th></tr>
+<tr><td>品牌名稱</td><td>FishGame 競技捕魚</td></tr>
+<tr><td>核心標語</td><td>最直接的金錢刺激，最深沉的競技樂趣</td></tr>
+<tr><td>品牌個性</td><td>刺激、奢華、競爭、爽快、獨特</td></tr>
+<tr><td>品牌聲音</td><td>自信、直接、男性化（但不排斥女性）、略帶誇張的激情</td></tr>
+</table>
+<h3>3.2 主色盤</h3>
+<table>
+<tr><th>Token 名稱</th><th>HEX</th><th>oklch</th><th>WCAG（on #051428）</th><th>用途</th></tr>
+<tr><td>color-gold-400</td><td>#F5C842</td><td>oklch(82% 0.18 88)</td><td>7.2:1 AAA</td><td>主行動按鈕、金幣、獎勵文字</td></tr>
+<tr><td>color-gold-600</td><td>#C99A00</td><td>oklch(67% 0.17 88)</td><td>4.8:1 AA</td><td>按鈕 Hover 狀態、金框</td></tr>
+<tr><td>color-gold-900</td><td>#7A5C00</td><td>oklch(42% 0.13 88)</td><td>1.9:1 —</td><td>按鈕按下狀態（僅圖形用途）</td></tr>
+<tr><td>color-ocean-900</td><td>#051428</td><td>oklch(10% 0.04 240)</td><td>— (bg)</td><td>主背景底色</td></tr>
+<tr><td>color-ocean-800</td><td>#0A2340</td><td>oklch(15% 0.05 240)</td><td>— (surface)</td><td>卡片 / 面板底色</td></tr>
+<tr><td>color-ocean-700</td><td>#0D3360</td><td>oklch(22% 0.07 240)</td><td>—</td><td>次級面板、邊框底色</td></tr>
+<tr><td>color-neon-blue</td><td>#00D4FF</td><td>oklch(82% 0.16 200)</td><td>~10.4:1 AAA</td><td>鑽石貨幣、Jackpot 槽、技能特效</td></tr>
+<tr><td>color-neon-green</td><td>#00FF88</td><td>oklch(92% 0.22 152)</td><td>14.1:1 AAA</td><td>成功回饋、新手引導高亮</td></tr>
+<tr><td>color-white-100</td><td>#FFFFFF</td><td>oklch(100% 0 0)</td><td>21:1 AAA</td><td>主要文字</td></tr>
+<tr><td>color-red-500</td><td>#FF4444</td><td>oklch(65% 0.24 27)</td><td>4.6:1 AA</td><td>錯誤、危險、Boss 血量危急</td></tr>
+</table>
+<h3>3.3 功能色（語義色）</h3>
+<table>
+<tr><th>語義 Token</th><th>映射</th><th>HEX（Dark Mode）</th><th>用途</th></tr>
+<tr><td>color-bg-base</td><td>color-ocean-900</td><td>#051428</td><td>全局底色</td></tr>
+<tr><td>color-bg-surface</td><td>color-ocean-800</td><td>#0A2340</td><td>卡片/面板</td></tr>
+<tr><td>color-bg-overlay</td><td>color-ocean-900 @ 85% opacity</td><td>rgba(5,20,40,0.85)</td><td>模態遮罩</td></tr>
+<tr><td>color-text-primary</td><td>color-white-100</td><td>#FFFFFF</td><td>主要文字（21:1 AAA）</td></tr>
+<tr><td>color-text-secondary</td><td>color-white-60</td><td>composited #9BA1A9</td><td>次要文字（6.8:1 AA）</td></tr>
+<tr><td>color-text-disabled</td><td>color-white-35</td><td>composited #5C6673</td><td>禁用文字（WCAG 1.4.3 豁免）</td></tr>
+<tr><td>color-action-primary</td><td>color-gold-400</td><td>#F5C842</td><td>CTA 按鈕（7.2:1 AAA）</td></tr>
+<tr><td>color-action-primary-active</td><td>color-gold-600</td><td>#C99A00</td><td>按鈕按下（Active Press）狀態</td></tr>
+<tr><td>color-action-secondary</td><td>color-neon-blue</td><td>#00D4FF</td><td>次要行動（~10.4:1 AAA）</td></tr>
+<tr><td>color-feedback-success</td><td>color-neon-green</td><td>#00FF88</td><td>成功狀態（14.1:1 AAA）</td></tr>
+<tr><td>color-feedback-error</td><td>color-red-500</td><td>#FF4444</td><td>失敗/錯誤（4.6:1 AA）</td></tr>
+<tr><td>color-feedback-warning</td><td>color-red-300</td><td>#FF8080</td><td>警告（7.61:1 AAA）</td></tr>
+<tr><td>color-feedback-info</td><td>color-neon-blue</td><td>#00D4FF</td><td>提示（~10.4:1 AAA）</td></tr>
+<tr><td>color-border-default</td><td>color-white-45</td><td>composited #767E89</td><td>預設邊框（3.2:1 WCAG 1.4.11）</td></tr>
+<tr><td>color-border-focus</td><td>color-gold-400</td><td>#F5C842</td><td>焦點環（11.63:1 AAA）</td></tr>
+<tr><td>color-border-active</td><td>color-neon-blue</td><td>#00D4FF</td><td>選中邊框</td></tr>
+<tr><td>color-accent-vip</td><td>color-vip-identity</td><td>依等級</td><td>VIP 徽章</td></tr>
+</table>
+<h3>3.4 VIP 等級色系</h3>
+<table>
+<tr><th>等級</th><th>名稱</th><th>主色 HEX</th><th>次色 HEX</th><th>光暈類型</th><th>動畫</th></tr>
+<tr><td>1–2</td><td>銀牌</td><td>#C0C0C0</td><td>#E8E8E8</td><td>靜態銀光環</td><td>無</td></tr>
+<tr><td>3–4</td><td>金牌</td><td>#FFD700</td><td>#FFF176</td><td>緩慢旋轉金光環</td><td>6s loop</td></tr>
+<tr><td>5–6</td><td>鉑金</td><td>#E5E4E2</td><td>#C0C0C0</td><td>雙層旋轉銀白</td><td>4s loop</td></tr>
+<tr><td>7–8</td><td>紅鑽</td><td>#FF1744</td><td>#FF6B6B</td><td>紅色脈衝光暈</td><td>2s pulse</td></tr>
+<tr><td>9</td><td>黑金</td><td>#1A1A1A</td><td>#FFD700</td><td>黑底金紋，金色粒子飄散</td><td>持續粒子</td></tr>
+<tr><td>10</td><td>彩虹</td><td>漸層</td><td>#FF0080→#00D4FF→#00FF88</td><td>彩虹流動，全屏小特效進場</td><td>3s loop + 進場爆炸</td></tr>
+</table>
+<h3>3.5 Logo 使用規範</h3>
+<table>
+<tr><th>情境</th><th>尺寸</th><th>顏色版本</th><th>最小安全距離</th></tr>
+<tr><td>遊戲啟動頁</td><td>240×80 px</td><td>金色全彩版</td><td>Logo 尺寸 × 0.25</td></tr>
+<tr><td>大廳左上角</td><td>120×40 px</td><td>白色簡化版</td><td>8 px 四周</td></tr>
+<tr><td>結算面板浮水印</td><td>96×32 px</td><td>白色 30% 透明</td><td>16 px 四周</td></tr>
+<tr><td>禁止用法</td><td>—</td><td>不得在金色背景使用金色 Logo，不得壓縮變形，不得加陰影</td><td>—</td></tr>
+</table>
+<p><strong>最小尺寸規格</strong>：</p>
+<table>
+<tr><th>平台</th><th>最小高度</th><th>說明</th></tr>
+<tr><td>Digital（APP / H5）</td><td>高度 ≥ 24px（寬度自適應）</td><td>低於此尺寸 Logo 識別度不足，禁止使用</td></tr>
+<tr><td>Print（若適用）</td><td>高度 ≥ 12mm</td><td>印刷品最小可識別尺寸</td></tr>
+</table>
+<p><strong>Safe Zone 統一規則</strong>：Logo 高度 × 0.25 四周留白（適用遊戲啟動頁、大廳左上角、結算面板浮水印三個情境）。</p>
+<p><strong>禁止用法列表</strong>：</p>
+<ul><li>不得使用低於最小尺寸（Digital 高度 &lt; 24px）</li><li>不得直接放在淺色背景（#FFFFFF 或亮度 &gt; 70% 的背景）上使用金色版本</li><li>不得在金色背景使用金色 Logo（背景與 Logo 缺乏對比）</li><li>不得壓縮或拉伸變形（須保持原始寬高比）</li><li>不得加陰影、描邊、外發光（會破壞 Logo 精緻感）</li><li>不得使用低於品牌規定色以外的顏色版本</li></ul>
+<h3>3.6 圖示規範</h3>
+<table>
+<tr><th>類型</th><th>尺寸</th><th>風格</th><th>顏色</th></tr>
+<tr><td>HUD 功能圖示</td><td>32×32 px</td><td>Filled，圓角 2 px</td><td>color-text-secondary</td></tr>
+<tr><td>貨幣圖示（金幣）</td><td>24×24 px</td><td>詳細金幣 Sprite</td><td>color-gold-400</td></tr>
+<tr><td>貨幣圖示（鑽石）</td><td>24×24 px</td><td>多面切割鑽石 Sprite</td><td>color-neon-blue</td></tr>
+<tr><td>導航圖示</td><td>40×40 px</td><td>Outlined，描邊 2 px</td><td>color-text-primary</td></tr>
+<tr><td>武器圖示</td><td>64×64 px</td><td>詳細 Sprite（8 方向）</td><td>依武器類型</td></tr>
+<tr><td>魚類圖示（縮略）</td><td>48×48 px</td><td>Filled 簡化 Sprite</td><td>依魚類主色</td></tr>
+</table>
+<hr>
+<h2>§4 Character &amp; World Design</h2>
+<h3>4.1 主角設計——「海神炮手」（Captain Triton）（待 OQ-09 確認後移除此標注）</h3>
+<table>
+<tr><th>屬性</th><th>規格</th></tr>
+<tr><td>角色名稱</td><td>Captain Triton（海神炮手）</td></tr>
+<tr><td>定位</td><td>玩家操控單元，代表玩家在桌面角落的炮台</td></tr>
+<tr><td>視覺特徵</td><td>深藍制服+金色肩章；左眼單筒望遠鏡；手持炮彈；身後海浪紋章</td></tr>
+<tr><td>主色</td><td>制服 #0D3360，金邊 #F5C842，皮膚 #E8C08A</td></tr>
+<tr><td>尺寸（設計稿）</td><td>炮台 Sprite：144×144 px；人物半身：96×128 px（大廳展示用）</td></tr>
+<tr><td>表情數量</td><td>5 種：待機 / 瞄準 / 發射 / 勝利 / 失敗</td></tr>
+<tr><td>Sprite Sheet</td><td>6×8 幀 = 48 幀，每幀 144×144 px，Atlas 864×1152 px</td></tr>
+</table>
+<p><strong>動畫狀態機（炮台）</strong></p>
+<table>
+<tr><th>狀態</th><th>觸發條件</th><th>幀數</th><th>時長</th><th>特效</th></tr>
+<tr><td>Idle</td><td>無操作 ≥ 2s</td><td>8 幀 loop</td><td>800ms/loop</td><td>炮管微晃</td></tr>
+<tr><td>Aim</td><td>玩家按住屏幕</td><td>4 幀</td><td>100ms（快速到位）</td><td>準心出現，金色光環</td></tr>
+<tr><td>Fire</td><td>發射觸發</td><td>6 幀</td><td>120ms</td><td>炮口橘焰噴射，後坐力上揚</td></tr>
+<tr><td>Hit_Normal</td><td>普通魚擊中</td><td>4 幀</td><td>80ms</td><td>小金幣 x3 飛出</td></tr>
+<tr><td>Kill_Elite</td><td>精英魚死亡</td><td>8 幀</td><td>200ms</td><td>大量金幣噴射 + 白色擊殺閃</td></tr>
+<tr><td>Kill_Boss</td><td>Boss 死亡</td><td>16 幀</td><td>500ms</td><td>全屏金光 + 倍率數字爆字</td></tr>
+</table>
+<h3>4.2 NPC 魚類設計</h3>
+<h4>NPC-01 普通魚群（School Fish）</h4>
+<table>
+<tr><th>屬性</th><th>規格</th></tr>
+<tr><td>代表種類</td><td>小丑魚（橘白）、藍色刀魚、黃色蝴蝶魚</td></tr>
+<tr><td>倍率</td><td>1–5x</td></tr>
+<tr><td>尺寸</td><td>64×48 px</td></tr>
+<tr><td>主色</td><td>橘 #FF6D00 / 藍 #1565C0 / 黃 #FDD835</td></tr>
+<tr><td>動畫幀數</td><td>8 幀 loop（左右擺尾）</td></tr>
+<tr><td>死亡特效</td><td>小爆炸，金幣 ×1–5 飛出，持續 300ms</td></tr>
+<tr><td>HP 血條</td><td>無（一擊即死）</td></tr>
+</table>
+<h4>NPC-02 精英魚（Elite Fish）</h4>
+<table>
+<tr><th>屬性</th><th>規格</th></tr>
+<tr><td>代表種類</td><td>獅子魚（霓虹紋路）、鎚頭鯊（重量感）、電鰻（電弧特效）</td></tr>
+<tr><td>倍率</td><td>10–50x</td></tr>
+<tr><td>尺寸</td><td>128×96 px</td></tr>
+<tr><td>主色</td><td>獅子魚 #E91E63+#00BCD4；鎚頭鯊 #546E7A；電鰻 #FFEB3B+#2196F3</td></tr>
+<tr><td>輪廓光</td><td>2px Outline Shader，顏色對應主色</td></tr>
+<tr><td>動畫幀數</td><td>12 幀 loop（含鰭動）+ 4 幀受擊閃爍</td></tr>
+<tr><td>HP 血條</td><td>顯示，顏色 #00FF88→#FF4444 根據血量變化</td></tr>
+<tr><td>死亡特效</td><td>大爆炸，金幣瀑布（30–50 枚），持續 500ms</td></tr>
+</table>
+<h4>NPC-03 Boss 魚（Boss Fish）</h4>
+<table>
+<tr><th>屬性</th><th>規格</th></tr>
+<tr><td>代表種類</td><td>龍魚（中華神話龍頭魚身）、海神（Poseidon Shark）、深海女皇（Abyss Queen，美人魚）</td></tr>
+<tr><td>倍率</td><td>100–1000x</td></tr>
+<tr><td>尺寸</td><td>320×240 px（佔螢幕約 44%）</td></tr>
+<tr><td>主色</td><td>龍魚 #F5C842+#FF3D00；海神鯊 #1565C0+#00D4FF；深海女皇 #9C27B0+#FF4081</td></tr>
+<tr><td>進場動畫</td><td>16 幀，全屏震動 + 海浪裂開 + 主題音效，持續 1200ms</td></tr>
+<tr><td>攻擊動畫</td><td>8 幀，全場暗度降低到 60%，Boss 高亮，持續 400ms</td></tr>
+<tr><td>HP 血條</td><td>大型血條置頂，金框，帶緩衝動畫（Tween 300ms）</td></tr>
+<tr><td>死亡特效</td><td>32 幀，全屏金色爆炸 + 倍率數字衝屏（scale 0.5→3.0，fade out 1s），持續 ≥3000ms（Jackpot 規格）</td></tr>
+<tr><td>特殊能力圖示</td><td>Boss 名稱下方 1–3 個技能圖示（32×32 px，霓虹外框）</td></tr>
+</table>
+<h4>NPC-04 神話生物（Mythic Creature）（待 OQ-09 確認後移除此標注）</h4>
+<table>
+<tr><th>屬性</th><th>規格</th></tr>
+<tr><td>代表種類</td><td>鳳凰魚（節日限定）、福星金龜（春節限定）</td></tr>
+<tr><td>倍率</td><td>500–10000x（稀有度極高）</td></tr>
+<tr><td>尺寸</td><td>256×256 px</td></tr>
+<tr><td>主色</td><td>鳳凰 #FF6D00+#FFEB3B；福龜 #4CAF50+#FFD700</td></tr>
+<tr><td>出現機率</td><td>≤ 0.1%（RTP 控制）</td></tr>
+<tr><td>特殊效果</td><td>進場全屏彩虹光束 + 震動，退場留存金幣雨 3s</td></tr>
+</table>
+<h3>4.3 海底世界設計</h3>
+<table>
+<tr><th>層級</th><th>元素</th><th>設計說明</th></tr>
+<tr><td>遠景層（z=0）</td><td>深海輪廓、珊瑚礁陰影</td><td>低飽和，模糊處理（blur 4px），顏色 #020810</td></tr>
+<tr><td>中景層（z=1）</td><td>珊瑚群、海草、礁石</td><td>中飽和，帶輕微動畫（海草擺動 8s loop）</td></tr>
+<tr><td>近景層（z=2）</td><td>氣泡群、小裝飾魚群</td><td>高飽和，氣泡上升動畫 loop</td></tr>
+<tr><td>HUD 層（z=3）</td><td>所有 UI 元素</td><td>最高層，不受場景動效影響</td></tr>
+</table>
+<hr>
+<h2>§5 UI Visual System</h2>
+<h3>5.1 字型系統</h3>
+<table>
+<tr><th>Token</th><th>字體家族</th><th>備用</th></tr>
+<tr><td>font-family-primary</td><td>&#x27;Noto Sans TC&#x27;</td><td>&#x27;Roboto&#x27;, &#x27;PingFang TC&#x27;, sans-serif</td></tr>
+<tr><td>font-family-display</td><td>&#x27;Oswald&#x27;</td><td>&#x27;Noto Sans TC&#x27;, sans-serif（大標題、倍率數字）</td></tr>
+<tr><td>font-family-mono</td><td>&#x27;Roboto Mono&#x27;</td><td>&#x27;Courier New&#x27;, monospace（時間、計分）</td></tr>
+</table>
+<h3>5.2 字型比例（Type Scale）</h3>
+<table>
+<tr><th>Level</th><th>Token</th><th>字體大小</th><th>行高</th><th>字重</th><th>字距</th><th>用途</th></tr>
+<tr><td>Display</td><td>text-display</td><td>48 px</td><td>56 px</td><td>700</td><td>-0.5 px</td><td>Jackpot 爆字、大倍率數字</td></tr>
+<tr><td>H1</td><td>text-h1</td><td>32 px</td><td>40 px</td><td>700</td><td>-0.3 px</td><td>面板主標題、Boss 名稱</td></tr>
+<tr><td>H2</td><td>text-h2</td><td>24 px</td><td>32 px</td><td>600</td><td>-0.2 px</td><td>卡片標題、VIP 等級</td></tr>
+<tr><td>H3</td><td>text-h3</td><td>20 px</td><td>28 px</td><td>600</td><td>0</td><td>子標題、武器名稱</td></tr>
+<tr><td>Body</td><td>text-body</td><td>16 px</td><td>24 px</td><td>400</td><td>0</td><td>正文、規則說明</td></tr>
+<tr><td>Body-SM</td><td>text-body-sm</td><td>14 px</td><td>20 px</td><td>400</td><td>0</td><td>次要說明、標籤</td></tr>
+<tr><td>Caption</td><td>text-caption</td><td>12 px</td><td>16 px</td><td>400</td><td>0.2 px</td><td>時間戳、角標說明</td></tr>
+<tr><td>HUD-Score</td><td>text-hud-score</td><td>28 px</td><td>32 px</td><td>700</td><td>0</td><td>HUD 分數顯示（等寬字體）</td></tr>
+<tr><td>Body-MD</td><td>text-body-md</td><td>18 px</td><td>28 px</td><td>400</td><td>0</td><td>引導氣泡說明（OnboardingScene）、次要正文</td></tr>
+<tr><td>HUD-Counter</td><td>text-hud-counter</td><td>20 px</td><td>24 px</td><td>600</td><td>0</td><td>HUD 貨幣計數器</td></tr>
+<tr><td>Heading-LG</td><td>text-heading-lg</td><td>36 px</td><td>44 px</td><td>700</td><td>-0.3 px</td><td>大標題結算（MVP 結算、Jackpot 爆字輔助）</td></tr>
+<tr><td>Multiplier</td><td>text-multiplier</td><td>56 px</td><td>60 px</td><td>900</td><td>-1 px</td><td>倍率爆字（Display 字體）</td></tr>
+<tr><td>Heading-MD</td><td>text-heading-md</td><td>24 px</td><td>32 px</td><td>700</td><td>-0.2 px</td><td>面板中標題、VIP 等級標題（補充 H2 semibold，需要 bold 700 時使用）</td></tr>
+<tr><td>Button-Label</td><td>text-button-label</td><td>18 px</td><td>22 px</td><td>500</td><td>0</td><td>CTA 按鈕文字（Primary / Secondary）</td></tr>
+</table>
+<h3>5.3 按鈕規格</h3>
+<h4>主要按鈕（Primary Button）</h4>
+<table>
+<tr><th>狀態</th><th>背景</th><th>文字色</th><th>邊框</th><th>陰影</th><th>效果</th></tr>
+<tr><td>Default</td><td><code>var(--btn-primary-bg)</code> (#F5C842 金屬漸層→#C99A00)</td><td><code>var(--btn-primary-text)</code> #0A1A00</td><td>無</td><td><code>var(--btn-primary-shadow)</code></td><td>—</td></tr>
+<tr><td>Hover</td><td><code>var(--btn-primary-bg-hover)</code> (#C99A00)</td><td><code>var(--btn-primary-text)</code> #0A1A00</td><td>無</td><td><code>var(--btn-primary-shadow)</code></td><td>scale(1.03)</td></tr>
+<tr><td>Active / Press</td><td><code>var(--btn-primary-bg-active)</code> (#C99A00)</td><td><code>var(--btn-primary-text)</code> #0A1A00</td><td>無</td><td><code>var(--shadow-inset)</code></td><td>scale(0.98), translateY(2px)</td></tr>
+<tr><td>Focus</td><td><code>var(--btn-primary-bg)</code> (#F5C842)</td><td><code>var(--btn-primary-text)</code> #0A1A00</td><td>3px solid <code>var(--btn-primary-focus-ring)</code> + 2px outline <code>var(--color-border-focus)</code></td><td>—</td><td>Ring 11.63:1 AAA</td></tr>
+<tr><td>Disabled</td><td><code>var(--btn-disabled-bg)</code> (#0A2340)</td><td><code>var(--btn-disabled-text)</code> (#5C6673)</td><td>無</td><td>無</td><td>opacity 0.5；cursor: not-allowed</td></tr>
+</table>
+<p><strong>尺寸</strong>：高度 56 px，水平 Padding 24 px，圓角 <code>var(--radius-md)</code>（16 px），最小寬度 160 px；字型：<code>text-button-label</code>（18 px / 22 px / 500）</p>
+<h4>次要按鈕（Secondary Button）</h4>
+<table>
+<tr><th>狀態</th><th>背景</th><th>文字色</th><th>邊框</th></tr>
+<tr><td>Default</td><td>transparent</td><td><code>var(--color-action-secondary)</code>（#00D4FF）</td><td>2px solid <code>var(--color-action-secondary)</code>（#00D4FF）</td></tr>
+<tr><td>Hover</td><td><code>var(--btn-secondary-bg-hover)</code> (= rgba(0,212,255,0.1))</td><td><code>var(--color-action-secondary-hover)</code>（#40DFFF）</td><td>2px solid <code>var(--color-action-secondary-hover)</code>（#40DFFF）</td></tr>
+<tr><td>Active</td><td><code>var(--btn-secondary-bg-active)</code> (= rgba(0,212,255,0.2))</td><td><code>var(--color-action-secondary)</code>（#00D4FF）</td><td>2px solid <code>var(--color-action-secondary-active)</code>（#00A8CC）</td></tr>
+<tr><td>Focus</td><td>transparent</td><td><code>var(--color-action-secondary)</code>（#00D4FF）</td><td>3px solid <code>var(--btn-primary-focus-ring)</code> + 2px outline <code>var(--color-action-secondary)</code>（#00D4FF）</td></tr>
+<tr><td>Disabled</td><td>transparent opacity 0.4</td><td><code>var(--btn-secondary-disabled-color)</code></td><td>2px solid <code>var(--btn-secondary-disabled-color)</code></td></tr>
+</table>
+<p><strong>尺寸</strong>：高度 48 px，水平 Padding 20 px，圓角 <code>var(--radius-md)</code>（16 px）；字型：<code>text-button-label</code>（18 px / 22 px / 500）</p>
+<h4>圖示按鈕（Icon Button）</h4>
+<table>
+<tr><th>狀態</th><th>圖示色</th><th>背景</th><th>效果</th></tr>
+<tr><td>Default</td><td><code>var(--color-text-secondary)</code> (#9BA1A9)</td><td>transparent</td><td>—</td></tr>
+<tr><td>Hover</td><td><code>var(--color-text-primary)</code> (#FFFFFF)</td><td><code>var(--icon-btn-bg-hover)</code></td><td>—</td></tr>
+<tr><td>Active</td><td><code>var(--color-text-primary)</code> (#FFFFFF)</td><td><code>var(--icon-btn-bg-active)</code></td><td>scale(0.92)</td></tr>
+<tr><td>Focus</td><td><code>var(--color-text-primary)</code> (#FFFFFF)</td><td>transparent</td><td>2px outline <code>var(--color-border-focus)</code> (#F5C842)</td></tr>
+<tr><td>Disabled</td><td><code>var(--color-text-secondary)</code> (#9BA1A9) opacity 0.4</td><td>transparent</td><td>cursor: not-allowed</td></tr>
+</table>
+<p><strong>尺寸</strong>：40×40 px，圓角 <code>var(--radius-icon)</code>（20 px，圓形），觸控熱區 ≥ 44×44 px</p>
+<h4>危險按鈕（Danger Button）</h4>
+<table>
+<tr><th>狀態</th><th>背景</th><th>文字色</th><th>邊框</th><th>效果</th></tr>
+<tr><td>Default</td><td><code>var(--color-action-danger)</code> = #FF4444</td><td>#FFFFFF</td><td>無</td><td>—</td></tr>
+<tr><td>Hover</td><td><code>var(--color-red-700)</code> = #CC0000</td><td>#FFFFFF</td><td>無</td><td>scale(1.02)</td></tr>
+<tr><td>Active</td><td><code>var(--color-red-700)</code> = #CC0000</td><td>#FFFFFF</td><td>無</td><td>scale(0.98)，<code>var(--shadow-inset)</code></td></tr>
+<tr><td>Focus</td><td><code>var(--color-action-danger)</code> (#FF4444)</td><td>#FFFFFF</td><td>3px solid <code>var(--btn-primary-focus-ring)</code> + 2px outline <code>var(--color-action-danger)</code></td><td>Ring 4.6:1 AA</td></tr>
+<tr><td>Disabled</td><td><code>var(--color-action-danger)</code> opacity 0.5</td><td><code>var(--color-white-40)</code></td><td>無</td><td>cursor: not-allowed</td></tr>
+</table>
+<p><strong>尺寸</strong>：高度 48 px，水平 Padding 20 px，圓角 <code>var(--radius-md)</code>（16px）；字型：<code>text-button-label</code>（18 px / 22 px / 500）</p>
+<h3>5.4 輸入欄位規格</h3>
+<table>
+<tr><th>狀態</th><th>背景</th><th>邊框</th><th>文字色</th><th>提示文字色</th></tr>
+<tr><td>Default</td><td><code>var(--input-bg)</code> (rgba(255,255,255,0.05))</td><td>1px solid <code>var(--color-border-default)</code>（rgba(255,255,255,0.45)）</td><td><code>var(--color-text-primary)</code></td><td><code>var(--input-placeholder)</code> (rgba(255,255,255,0.4))</td></tr>
+<tr><td>Hover</td><td><code>var(--input-bg-hover)</code> (rgba(255,255,255,0.07))</td><td>1px solid <code>var(--color-border-strong)</code>（rgba(255,255,255,0.7)）</td><td><code>var(--color-text-primary)</code></td><td><code>var(--input-placeholder)</code></td></tr>
+<tr><td>Focus</td><td><code>var(--input-bg-focus)</code> (rgba(255,255,255,0.08))</td><td>2px solid <code>var(--color-border-focus)</code>（#F5C842）</td><td><code>var(--color-text-primary)</code></td><td>—</td></tr>
+<tr><td>Error</td><td><code>var(--input-bg-error)</code></td><td>2px solid <code>var(--color-border-error)</code>（#FF4444）</td><td><code>var(--color-text-primary)</code></td><td>—</td></tr>
+<tr><td>Disabled</td><td><code>var(--input-bg-disabled)</code></td><td>1px solid <code>var(--color-border-subtle)</code>（rgba(255,255,255,0.2)）</td><td><code>var(--color-text-disabled)</code>（rgba(255,255,255,0.35)）</td><td>—</td></tr>
+</table>
+<p><strong>尺寸</strong>：高度 52 px，水平 Padding 16 px，圓角 <code>var(--radius-md)</code>（16 px）</p>
+<h3>5.5 卡片 / 面板規格</h3>
+<table>
+<tr><th>類型</th><th>背景</th><th>邊框</th><th>圓角</th><th>陰影</th></tr>
+<tr><td>標準面板</td><td><code>var(--card-bg)</code> (rgba(10,35,64,0.95))</td><td>1px solid <code>var(--card-border)</code> (= rgba(245,200,66,0.55))</td><td><code>var(--radius-lg)</code>（24px）</td><td><code>var(--card-shadow)</code></td></tr>
+<tr><td>高亮面板（VIP/特殊）</td><td><code>var(--card-bg-highlight)</code></td><td>2px solid <code>var(--color-border-brand)</code> (#F5C842)</td><td><code>var(--radius-lg)</code>（24px）</td><td><code>var(--card-shadow-highlight)</code></td></tr>
+<tr><td>模態背景遮罩</td><td><code>var(--modal-overlay)</code> (rgba(5,20,40,0.85)) backdrop-blur 8px</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>武器選擇卡</td><td><code>var(--weapon-card-bg)</code> (rgba(13,51,96,0.9))</td><td>2px solid <code>var(--weapon-card-border)</code></td><td><code>var(--radius-md)</code>（16px）</td><td><code>var(--weapon-card-shadow)</code></td></tr>
+<tr><td>商品卡片</td><td><code>var(--shop-card-bg)</code> (rgba(15,10,0,0.9))</td><td>1px solid <code>var(--shop-card-border)</code></td><td><code>var(--radius-lg)</code>（24px）</td><td><code>var(--shop-card-shadow)</code></td></tr>
+</table>
+<h3>5.6 HUD 元素規格</h3>
+<table>
+<tr><th>元素</th><th>位置</th><th>尺寸</th><th>顏色</th><th>字級</th></tr>
+<tr><td>玩家分數</td><td>各角落（1P 左下，2P 右下，3P 左上，4P 右上）</td><td>120×40 px</td><td>bg <code>var(--hud-bg)</code>，文字 <code>var(--hud-text-color)</code></td><td>text-hud-score 28px</td></tr>
+<tr><td>金幣計數器</td><td>分數框右側</td><td>80×32 px</td><td>圖示 <code>var(--hud-coin-color)</code>，數字 <code>var(--hud-text-color)</code></td><td>text-hud-counter 20px</td></tr>
+<tr><td>鑽石計數器</td><td>金幣右側</td><td>80×32 px</td><td>圖示 <code>var(--hud-diamond-color)</code>，數字 <code>var(--hud-text-color)</code></td><td>text-hud-counter 20px</td></tr>
+<tr><td>Jackpot 進度條</td><td>頂部居中</td><td>360×24 px</td><td>底 <code>var(--color-bg-surface)</code>，填充 <code>var(--jackpot-bar-fill-start)</code>→<code>var(--jackpot-bar-fill-end)</code> 漸層</td><td>—</td></tr>
+<tr><td>Boss HP 條</td><td>頂部（Boss 進場時出現）</td><td>480×32 px</td><td>邊框 <code>var(--boss-hp-border)</code>，HP 填充 <code>var(--boss-hp-fill-high)</code>→<code>var(--boss-hp-fill-low)</code></td><td>text-caption 12px</td></tr>
+<tr><td>武器冷卻圓圈</td><td>炮台右側</td><td>48×48 px</td><td>底 <code>var(--weapon-cooldown-bg)</code>，進度弧 <code>var(--color-action-secondary)</code></td><td>text-caption 12px（中央倒數）</td></tr>
+<tr><td>計時器</td><td>頂部左側</td><td>80×32 px</td><td>bg 透明，文字 <code>var(--hud-text-color)</code></td><td>text-hud-counter，font-mono</td></tr>
+<tr><td>場次編號</td><td>頂部右側</td><td>60×20 px</td><td>文字 <code>var(--color-text-secondary)</code> (rgba(255,255,255,0.6))</td><td>text-caption</td></tr>
+</table>
+<h3>5.7 導航列規格</h3>
+<table>
+<tr><th>項目</th><th>規格</th></tr>
+<tr><td>高度</td><td>72 px（含安全區）</td></tr>
+<tr><td>背景</td><td><code>var(--navbar-bg)</code> backdrop-blur 12px</td></tr>
+<tr><td>頂部邊框</td><td>1px solid <code>var(--navbar-border-top)</code></td></tr>
+<tr><td>圖示尺寸</td><td>28×28 px</td></tr>
+<tr><td>標籤字級</td><td>text-caption 12px</td></tr>
+<tr><td>選中狀態</td><td>圖示 <code>var(--color-action-primary)</code>，標籤 <code>var(--color-action-primary)</code>，底部 3px <code>var(--color-action-primary)</code> 高亮條</td></tr>
+<tr><td>未選中狀態</td><td>圖示 <code>var(--navbar-inactive-color)</code>，標籤 <code>var(--navbar-inactive-color)</code></td></tr>
+</table>
+<h3>5.8 Dropdown 元件規格</h3>
+<p>Dropdown 用於語言切換、圖形品質選擇、房間篩選等場景。所有值引用 Semantic Token。</p>
+<h4>狀態視覺矩陣</h4>
+<table>
+<tr><th>狀態</th><th>背景</th><th>邊框</th><th>文字色</th><th>說明</th></tr>
+<tr><td>Default</td><td><code>var(--color-bg-surface)</code>（#0A2340）</td><td>1px solid <code>var(--color-border-default)</code>（rgba(255,255,255,0.45)）</td><td><code>var(--color-text-primary)</code>（#FFFFFF）</td><td>預設收起狀態</td></tr>
+<tr><td>Hover</td><td><code>var(--color-bg-elevated)</code>（#0D3360）</td><td>1px solid <code>var(--color-border-focus)</code>（#F5C842）</td><td><code>var(--color-text-primary)</code></td><td>滑鼠懸停 / 觸控長押前</td></tr>
+<tr><td>Focus</td><td><code>var(--color-bg-surface)</code>（#0A2340）</td><td>2px solid <code>var(--color-border-focus)</code>（#F5C842） + 2px outline <code>var(--color-ocean-900)</code>（#051428）</td><td><code>var(--color-text-primary)</code></td><td>鍵盤 Tab 焦點；focus ring 外層深色確保可見（11.63:1 AAA）</td></tr>
+<tr><td>Open（展開）</td><td><code>var(--color-bg-elevated)</code>（#0D3360）</td><td>2px solid <code>var(--color-border-focus)</code>（#F5C842）</td><td><code>var(--color-text-primary)</code></td><td>Dropdown list 顯示；list container 使用 <code>var(--shadow-card)</code></td></tr>
+<tr><td>Selected（選中項）</td><td><code>var(--color-action-primary)</code>（#F5C842）</td><td>無</td><td><code>var(--color-bg-base)</code>（#051428，深色反白）</td><td>List item 已選中行，高亮區分</td></tr>
+<tr><td>Disabled</td><td><code>var(--color-bg-surface)</code> opacity 40%</td><td>1px solid <code>var(--color-border-default)</code> opacity 40%</td><td><code>var(--color-text-disabled)</code></td><td>不可交互；cursor: not-allowed；pointer-events: none</td></tr>
+</table>
+<p><strong>尺寸規格</strong>：高度 48 px，水平 Padding 16 px，圓角 <code>var(--radius-md)</code>（16 px）；Dropdown list 最大高度 240 px（超出時啟用 ScrollView）</p>
+<hr>
+<h2>§6 Design Tokens</h2>
+<h3>6.1 Layer 1 — Primitive Tokens</h3>
+<p>完整繼承自 PDD §9.3，並擴充以下新增 Token：</p>
+<pre><code class="language-css">/* ── Color ── */
+--color-gold-50:  #FFFEF0;   /* oklch(99% 0.03 88) */
+--color-gold-100: #FFF8C9;   /* oklch(97% 0.07 88) */
+--color-gold-200: #FFE87A;   /* oklch(92% 0.14 88) */
+--color-gold-300: #FFD740;   /* oklch(87% 0.17 88) */
+--color-gold-400: #F5C842;   /* oklch(82% 0.18 88) — MAIN */
+--color-gold-600: #C99A00;   /* oklch(67% 0.17 88) */
+--color-gold-900: #7A5C00;   /* oklch(42% 0.13 88) */
+--color-gold-950: #3D2E00;   /* oklch(22% 0.08 88) */
+
+--color-ocean-50:  #E8F4FF;  /* oklch(96% 0.02 240) */
+--color-ocean-100: #B3D4F7;  /* oklch(85% 0.05 240) */
+--color-ocean-200: #5EA8E8;  /* oklch(70% 0.09 240) */
+--color-ocean-300: #1A72C9;  /* oklch(52% 0.12 240) */
+--color-ocean-500: #134A8A;  /* oklch(33% 0.10 240) */
+--color-ocean-700: #0D3360;  /* oklch(22% 0.07 240) */
+--color-ocean-800: #0A2340;  /* oklch(15% 0.05 240) */
+--color-ocean-900: #051428;  /* oklch(10% 0.04 240) — BASE BG */
+--color-ocean-950: #030B1A;  /* oklch(6% 0.03 240) */
+
+--color-neon-blue:  #00D4FF; /* oklch(82% 0.16 200) */
+--color-neon-green: #00FF88; /* oklch(92% 0.22 152) */
+--color-neon-purple:#A020F0; /* oklch(50% 0.25 290) — Boss 魔法效果 */
+
+--color-player-orange: #FF6D00; /* 玩家3 識別色 / 房間滿員 badge / 暢銷 badge */
+--color-player-purple: #9C27B0; /* 玩家4 識別色 / 深海女皇 Boss 主色 */
+
+--color-yellow-400: #FFEB3B; /* HP 條中段純黃（區別於品牌金 #F5C842，視覺更純正的黃色）*/
+
+--color-red-300: #FF8080;    /* oklch(72% 0.16 27) — warning */
+--color-red-500: #FF4444;    /* oklch(65% 0.24 27) — error */
+--color-red-700: #CC0000;    /* oklch(45% 0.22 27) — danger */
+
+--color-vip-silver:  #C0C0C0;
+--color-vip-gold:    #FFD700;
+--color-vip-platinum:#E5E4E2;
+--color-vip-ruby:    #FF1744;
+--color-vip-rainbow-start: #FF0080;
+--color-vip-rainbow-mid:   #00D4FF;
+--color-vip-rainbow-end:   #00FF88;
+
+--color-white-100: #FFFFFF;
+--color-white-70:  rgba(255,255,255,0.7);  /* color-border-strong */
+--color-white-60:  rgba(255,255,255,0.6);
+--color-white-45:  rgba(255,255,255,0.45);
+--color-white-40:  rgba(255,255,255,0.4);
+--color-white-35:  rgba(255,255,255,0.35);
+--color-white-20:  rgba(255,255,255,0.2);
+--color-white-8:   rgba(255,255,255,0.08); /* white @ 8%；btn icon hover / input focus 共用 */
+--color-neon-blue-light: #40DFFF;    /* color-action-secondary-hover */
+--color-neon-blue-dark:  #00A8CC;    /* color-action-secondary-active */
+--color-black-80:  rgba(0,0,0,0.8);  /* 技能冷卻遮罩（skill-cooldown-mask）*/
+--color-black-60:  rgba(0,0,0,0.6);  /* color-bg-scrim / fish-label-bg */
+--color-black-50:  rgba(0,0,0,0.5);  /* weapon-cooldown-bg */
+--color-black-900: #000000;
+--color-gold-border-50: rgba(245,200,66,0.5);  /* color-gold-400 @ 50%；weapon-card/shop-card border */
+
+/* ── Typography ── */
+--font-family-primary: &#x27;Noto Sans TC&#x27;, &#x27;Roboto&#x27;, &#x27;PingFang TC&#x27;, sans-serif;
+--font-family-display: &#x27;Oswald&#x27;, &#x27;Noto Sans TC&#x27;, sans-serif;
+--font-family-mono:    &#x27;Roboto Mono&#x27;, &#x27;Courier New&#x27;, monospace;
+
+--font-size-12: 12px;
+--font-size-14: 14px;
+--font-size-16: 16px;
+--font-size-18: 18px;
+--font-size-20: 20px;
+--font-size-24: 24px;
+--font-size-28: 28px;
+--font-size-32: 32px;
+--font-size-36: 36px;
+--font-size-48: 48px;
+--font-size-56: 56px;
+
+--font-weight-400: 400;
+--font-weight-500: 500;
+--font-weight-600: 600;
+--font-weight-700: 700;
+--font-weight-900: 900;
+
+--line-height-tight:  1.2;
+--line-height-normal: 1.5;
+--line-height-loose:  1.8;
+
+/* ── Spacing ──
+   VDD CSS 命名規則：--space-{index}（4px 倍數 index）
+   對應 PDD §9.3 spacing-{px} 命名：
+     --space-1=4px   ↔ spacing-4
+     --space-2=8px   ↔ spacing-8
+     --space-3=12px  ↔ spacing-12
+     --space-4=16px  ↔ spacing-16
+     --space-6=24px  ↔ spacing-24
+     --space-8=32px  ↔ spacing-32
+     --space-12=48px ↔ spacing-48
+     --space-5/10/16 = VDD-only extensions (20/40/64px，無 PDD 對應)
+*/
+--space-1:  4px;
+--space-2:  8px;
+--space-3:  12px;
+--space-4:  16px;
+--space-5:  20px;
+--space-6:  24px;
+--space-8:  32px;
+--space-10: 40px;
+--space-12: 48px;
+--space-16: 64px;
+
+/* ── Border Radius ── */
+--radius-sm:  8px;
+--radius-md:  16px;
+--radius-lg:  24px;
+--radius-icon: 20px;   /* Component-specific：圖示按鈕圓角（視覺圓形，低於 lg=24px 以貼合 40×40px 尺寸比例） */
+--radius-full: 9999px;
+
+/* ── Motion ── */
+--duration-instant: 0ms;
+--duration-fast:    80ms;
+--duration-normal:  200ms;
+--duration-slow:    500ms;
+--duration-xslow:   1000ms;
+--duration-jackpot: 3000ms;
+
+--easing-linear:    linear;
+--easing-ease-in:   cubic-bezier(0.4, 0, 1, 1);
+--easing-ease-out:  cubic-bezier(0.0, 0, 0.58, 1);
+--easing-expo-out:  cubic-bezier(0.16, 1, 0.3, 1);
+--easing-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
+--easing-bounce:    cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+/* ── Shadow ── */
+--shadow-glow-gold:      0 0 12px rgba(245,200,66,0.8);
+--shadow-glow-gold-soft: 0 0 24px rgba(245,200,66,0.4);  /* card-highlight glow，softer variant */
+--shadow-glow-neon:      0 0 8px rgba(0,212,255,0.6);
+--shadow-glow-green:     0 0 12px rgba(0,255,136,0.8);
+--shadow-glow-red:       0 0 12px rgba(255,68,68,0.7);
+--shadow-card:           0 8px 32px rgba(0,0,0,0.6);
+--shadow-card-sm:        0 4px 16px rgba(0,0,0,0.5);     /* shop-card shadow */
+--shadow-inset:          inset 0 2px 4px rgba(0,0,0,0.4);
+--shadow-inset-highlight: inset 0 1px 0 rgba(255,255,255,0.1);  /* weapon-card inner highlight */
+
+/* ── Z-index ── */
+--z-bg:       0;
+--z-game:     1;
+--z-hud:      10;
+--z-overlay:  20;
+--z-modal:    30;
+--z-toast:    40;
+--z-tutorial: 50;</code></pre>
+<h3>6.2 Layer 2 — Semantic Tokens</h3>
+<pre><code class="language-css">/* ── Background ── */
+--color-bg-base:        var(--color-ocean-900);   /* #051428 */
+--color-bg-surface:     var(--color-ocean-800);   /* #0A2340 */
+--color-bg-elevated:    var(--color-ocean-700);   /* #0D3360 */
+--color-bg-overlay:     rgba(5,20,40,0.85);        /* = color-ocean-900 (#051428) @ 85% opacity；無匹配 primitive，直接值 */
+--color-bg-scrim:       var(--color-black-60);    /* rgba(0,0,0,0.6) */
+
+/* ── Text ── */
+--color-text-primary:   var(--color-white-100);              /* #FFFFFF  21:1  AAA */
+--color-text-secondary: var(--color-white-60);               /* composited #9BA1A9  6.8:1 AA */
+--color-text-tertiary:  var(--color-white-40);               /* composited #767E89  3.5:1 AA（非文字用） */
+--color-text-disabled:  var(--color-white-35);
+--color-text-inverse:   #0A1A00;                             /* on 金色底；12.3:1 AAA（§9.1）；深森林綠，on 金色底專用；無匹配 primitive，直接值 */
+--color-text-brand:     var(--color-gold-400);               /* #F5C842  7.2:1 AAA */
+--color-text-accent:    var(--color-neon-blue);              /* #00D4FF  ~10.4:1 AAA */
+--color-text-success:   var(--color-neon-green);             /* #00FF88  14.1:1 AAA */
+--color-text-error:     var(--color-red-500);                /* #FF4444  4.6:1 AA */
+--color-text-warning:   var(--color-red-300);                /* #FF8080  7.61:1 AAA */
+
+/* ── Action ── */
+--color-action-primary:          var(--color-gold-400);
+--color-action-primary-hover:    var(--color-gold-600);
+--color-action-primary-active:   var(--color-gold-600);
+--color-action-secondary:        var(--color-neon-blue);
+--color-action-secondary-hover:  var(--color-neon-blue-light);   /* #40DFFF */
+--color-action-secondary-active: var(--color-neon-blue-dark);    /* #00A8CC */
+--color-action-danger:           var(--color-red-500);
+
+/* ── Border ── */
+--color-border-default: var(--color-white-45);    /* composited #767E89 3.2:1 WCAG 1.4.11 */
+--color-border-subtle:  var(--color-white-20);    /* rgba(255,255,255,0.2) */
+--color-border-strong:  var(--color-white-70);    /* rgba(255,255,255,0.7) */
+--color-border-brand:   var(--color-gold-400);
+--color-border-focus:   var(--color-gold-400);    /* 11.63:1 AAA */
+--color-border-active:  var(--color-neon-blue);   /* #00D4FF；選中/Active 狀態（Tab Bar 高亮條、Dropdown 選中項輪廓）*/
+--color-border-error:   var(--color-red-500);
+--color-border-success: var(--color-neon-green);
+
+/* ── Feedback ── */
+--color-feedback-success:  var(--color-neon-green);
+--color-feedback-error:    var(--color-red-500);
+--color-feedback-warning:  var(--color-red-300);
+--color-feedback-info:     var(--color-neon-blue);
+
+/* ── Game-specific Semantic ── */
+--color-accent-neon:       var(--color-neon-blue);
+--color-accent-success:    var(--color-neon-green);
+--color-gold-border-subtle: rgba(245,200,66,0.55);  /* color-gold-400 @ 55%；WCAG 1.4.11 UI boundary ≥3:1（~4.2:1 on ocean-900）；Cocos 環境不支援 CSS color-mix，無法生成 opacity primitive，無匹配 primitive，直接值；HUD/卡片玻璃面板邊框主題色（多個元件共用）*/
+--color-gold-border-card:  var(--color-gold-border-50);  /* rgba(245,200,66,0.5)；武器卡/商品卡邊框（稍暗，有意與 HUD/卡片 0.55 區分層次）*/
+--color-vip-identity:      var(--color-vip-gold);  /* 預設，runtime 依等級覆蓋 */
+--color-accent-vip:        var(--color-vip-identity); /* VIP 徽章強調色（PDD §9.3 Layer 2 color-accent-vip）*/
+--color-hp-high:           var(--color-neon-green);
+--color-hp-mid:            var(--color-yellow-400);  /* #FFEB3B，HP 中段（視覺純黃，區別於品牌金 #F5C842）*/
+--color-hp-low:            var(--color-red-500);
+/* --color-jackpot-progress: Jackpot 進度條漸層不使用 CSS Custom Property 定義，
+   因為 CSS Custom Property 不支援 gradient 值作為 background 簡寫的部分。
+   請使用 §6.3 的 --jackpot-bar-fill-start 和 --jackpot-bar-fill-end 兩個 Component Token 組成漸層：
+   background: linear-gradient(90deg, var(--jackpot-bar-fill-start), var(--jackpot-bar-fill-end)); */</code></pre>
+<h3>6.3 Layer 3 — Component Tokens</h3>
+<pre><code class="language-css">/* ── Button — Primary ── */
+--btn-primary-bg:          var(--color-action-primary);
+--btn-primary-bg-hover:    var(--color-action-primary-hover);
+--btn-primary-bg-active:   var(--color-action-primary-active);
+--btn-primary-text:        var(--color-text-inverse);
+--btn-primary-shadow:      var(--shadow-glow-gold);
+--btn-primary-radius:      var(--radius-md);
+--btn-primary-focus-ring:  var(--color-ocean-900);  /* #051428；金色按鈕上的焦點環必須用深色，避免金-on-金不可見（11.6:1 AAA）*/
+--btn-primary-height:      56px;
+--btn-primary-px:          24px;
+--btn-disabled-bg:         var(--color-bg-surface);    /* #0A2340 = color-ocean-800；所有按鈕禁用狀態共用底色 */
+--btn-disabled-text:       var(--color-text-disabled); /* composited #5C6673；WCAG 1.4.3 豁免（禁用元件）*/
+
+/* ── Button — Secondary ── */
+--btn-secondary-border:    var(--color-action-secondary);
+--btn-secondary-text:      var(--color-action-secondary);
+--btn-secondary-bg-hover:      rgba(0,212,255,0.1);   /* neon-blue @ 10%，無匹配 primitive，直接值 */
+--btn-secondary-bg-active:     rgba(0,212,255,0.2);   /* neon-blue @ 20%，無匹配 primitive，直接值 */
+--btn-secondary-disabled-color: rgba(0,212,255,0.4);  /* neon-blue @ 40%，無匹配 primitive，直接值 */
+--btn-secondary-radius:        var(--radius-md);
+--btn-secondary-height:        48px;
+
+/* ── Button — Icon ── */
+--icon-btn-bg-hover:  var(--color-white-8);    /* white @ 8%；via --color-white-8 */
+--icon-btn-bg-active: rgba(255,255,255,0.12);  /* white @ 12%，無匹配 primitive，直接值 */
+
+/* ── HUD ── */
+--hud-bg:                  rgba(10,35,64,0.8);    /* color-ocean-800 @ 80%，無匹配 primitive，直接值 */
+--hud-border:              var(--color-gold-border-subtle);   /* color-gold-400 @ 55%；via --color-gold-border-subtle */
+--hud-coin-color:          var(--color-gold-400);
+--hud-diamond-color:       var(--color-neon-blue);
+--hud-text-color:          var(--color-white-100);
+--hud-score-font:          var(--font-family-mono);
+--hud-score-size:          var(--font-size-28);
+
+/* ── Jackpot Bar ── */
+--jackpot-bar-bg:          rgba(10,35,64,0.9);    /* color-ocean-800 @ 90%，無匹配 primitive，直接值 */
+--jackpot-bar-border:      var(--color-gold-400);
+--jackpot-bar-fill-start:  var(--color-neon-blue);
+--jackpot-bar-fill-end:    var(--color-gold-400);
+--jackpot-bar-height:      24px;
+--jackpot-bar-radius:      var(--radius-full);
+--jackpot-bar-glow:        var(--shadow-glow-gold);
+
+/* ── Boss HP Bar ── */
+--boss-hp-bg:              rgba(0,0,0,0.7);    /* black @ 70%；無匹配 primitive（black-60=60%，black-80=80%），直接值 */
+--boss-hp-border:          var(--color-gold-400);
+--boss-hp-fill-high:       var(--color-hp-high);
+--boss-hp-fill-mid:        var(--color-hp-mid);
+--boss-hp-fill-low:        var(--color-hp-low);
+--boss-hp-height:          32px;
+--boss-hp-transition:      var(--duration-normal) var(--easing-expo-out);
+
+/* ── Card / Panel ── */
+--card-bg:                 rgba(10,35,64,0.95);   /* color-ocean-800 @ 95%，無匹配 primitive，直接值 */
+--card-bg-highlight:       rgba(10,35,64,0.98);   /* color-ocean-800 @ 98%（VIP/特殊高亮面板），無匹配 primitive，直接值 */
+--card-border:             var(--color-gold-border-subtle);   /* color-gold-400 @ 55%；via --color-gold-border-subtle */
+--card-border-width:       1px;
+--card-radius:             var(--radius-lg);
+--card-shadow:             var(--shadow-card);
+--card-shadow-highlight:   var(--shadow-glow-gold-soft);      /* 0 0 24px rgba(245,200,66,0.4)；via --shadow-glow-gold-soft */
+
+/* ── Input ── */
+--input-bg:                rgba(255,255,255,0.05);  /* white @ 5%，無匹配 primitive，直接值 */
+--input-bg-hover:          rgba(255,255,255,0.07);  /* white @ 7%，無匹配 primitive，直接值 */
+--input-bg-focus:          var(--color-white-8);    /* white @ 8%；via --color-white-8 */
+--input-bg-error:          rgba(255,68,68,0.08);    /* red-500 @ 8%，無匹配 primitive，直接值 */
+--input-bg-disabled:       rgba(255,255,255,0.02);  /* white @ 2%，無匹配 primitive，直接值 */
+--input-border:            var(--color-border-default);
+--input-border-focus:      var(--color-border-focus);
+--input-border-error:      var(--color-border-error);
+--input-text:              var(--color-text-primary);
+--input-placeholder:       var(--color-white-40);    /* rgba(255,255,255,0.4) */
+--input-height:            52px;
+--input-radius:            var(--radius-md);
+--input-px:                16px;
+
+/* ── Dropdown ── */
+--dropdown-bg:              var(--color-bg-surface);    /* Default 收起背景 */
+--dropdown-bg-hover:        var(--color-bg-elevated);   /* Hover / Open 背景 */
+--dropdown-bg-open:         var(--color-bg-elevated);
+--dropdown-border:          var(--color-border-default);
+--dropdown-border-focus:    var(--color-border-focus);  /* 2px solid gold focus ring */
+--dropdown-text:            var(--color-text-primary);
+--dropdown-text-disabled:   var(--color-text-disabled);
+--dropdown-radius:          var(--radius-md);           /* 16px */
+--dropdown-height:          48px;
+--dropdown-shadow-open:     var(--shadow-card);         /* Dropdown list 懸浮陰影 */
+--dropdown-selected-bg:     var(--color-action-primary);
+--dropdown-selected-text:   var(--color-bg-base);       /* #051428，深色反白 */
+
+/* ── VIP Badge ── */
+--vip-badge-border-width:  2px;
+--vip-badge-glow-radius:   8px;
+--vip-badge-radius:        var(--radius-full);
+
+/* ── Modal ── */
+--modal-overlay:           var(--color-bg-overlay);  /* rgba(5,20,40,0.85) */
+--age-gate-overlay:        rgba(5,20,40,0.92);       /* 法規合規遮罩，比標準模態（0.85）更不透明；無匹配 primitive，直接值 */
+--modal-bg:                var(--color-bg-surface);
+--modal-border:            var(--color-gold-border-subtle);   /* rgba(245,200,66,0.55)；WCAG 1.4.11 ≥3:1（3.88:1 on ocean-800）*/
+--modal-radius:            var(--radius-lg);
+
+/* ── Toast / Alert ── */
+--toast-success-bg:        rgba(0,255,136,0.15);  /* neon-green @ 15%，overlay tint，無匹配 primitive，直接值 */
+--toast-success-border:    var(--color-feedback-success);
+--toast-error-bg:          rgba(255,68,68,0.15);   /* red-500 @ 15%，overlay tint，無匹配 primitive，直接值 */
+--toast-error-border:      var(--color-feedback-error);
+
+/* ── Fish Name Label ── */
+--fish-label-bg:           var(--color-black-60);   /* rgba(0,0,0,0.6) */
+--fish-label-text:         var(--color-white-100);
+--fish-label-font-size:    var(--font-size-12);
+
+/* ── Weapon Select Card ── */
+--weapon-card-bg:          rgba(13,51,96,0.9);    /* color-ocean-700 @ 90%，無匹配 primitive，直接值 */
+--weapon-card-border:      var(--color-gold-border-card);  /* rgba(245,200,66,0.5)；via §6.2 --color-gold-border-card；武器卡稍暗金色（與 HUD/卡片 0.55 有意區分）*/
+--weapon-card-shadow:      var(--shadow-inset-highlight);  /* inset 0 1px 0 rgba(255,255,255,0.1)；via --shadow-inset-highlight */
+--weapon-card-radius:      var(--radius-md);
+--weapon-card-selected-glow: var(--shadow-glow-gold);
+
+/* ── Shop Card ── */
+--shop-card-bg:            rgba(15,10,0,0.9);     /* 商店場景暖黑 @ 90%，無匹配 primitive，直接值 */
+--shop-card-border:        var(--color-gold-border-card);   /* rgba(245,200,66,0.5)；via §6.2 --color-gold-border-card；WCAG 1.4.11 ≥3:1（3.4:1 on #0F0A00）*/
+--shop-card-shadow:        var(--shadow-card-sm);           /* 0 4px 16px rgba(0,0,0,0.5)；via --shadow-card-sm */
+
+/* ── Weapon UI ── */
+--weapon-cooldown-bg:      var(--color-black-50);  /* rgba(0,0,0,0.5)；via --color-black-50；武器冷卻圓圈底板 */
+
+/* ── NavBar ── */
+--navbar-bg:               rgba(5,20,40,0.96);     /* color-ocean-900 @ 96%，無匹配 primitive，直接值 */
+--navbar-border-top:       rgba(245,200,66,0.2);   /* color-gold-400 @ 20%，無匹配 primitive，直接值 */
+--navbar-inactive-color:   rgba(255,255,255,0.5);  /* white @ 50%；介於 color-white-45/color-white-60，無精確 primitive，直接值 */
+
+/* ── Settlement ── */
+--settle-win-bg:           linear-gradient(180deg, rgba(245,200,66,0.15), rgba(5,20,40,0.95));  /* 0.95 = color-ocean-900 @ 95%；CSS gradient 不支援 var()，共用值見 settle-loss-bg */
+--settle-win-border:       var(--color-gold-400);
+--settle-loss-bg:          linear-gradient(180deg, rgba(13,51,96,0.5), rgba(5,20,40,0.95));   /* 0.95 = color-ocean-900 @ 95%；CSS gradient 不支援 var()，共用值見 settle-win-bg */
+--settle-loss-border:      var(--color-border-subtle);   /* rgba(255,255,255,0.2) = color-white-20 */
+
+/* ── Skeleton Loading ── */
+--skeleton-base:   var(--color-bg-surface);     /* #0A2340 = color-ocean-800 */
+--skeleton-shine:  var(--color-bg-elevated);    /* #0D3360 = color-ocean-700 */
+--skeleton-radius: var(--radius-md);
+--skeleton-duration: 1.4s;</code></pre>
+<h3>6.4 Dark Mode Token 對應表（含 WCAG 驗證）</h3>
+<blockquote><p><strong>Light Mode 欄說明</strong>：v2.0 預留，v1.0 暫不實作。以下 Light Mode 值僅供未來規劃參考，不進入 v1.0 開發實作。</p></blockquote>
+<table>
+<tr><th>Semantic Token</th><th>Dark Mode 值</th><th>Light Mode 值（v2.0 預留）</th><th>對比比（Dark on bg-base）</th><th>WCAG 等級</th></tr>
+<tr><td>color-text-primary</td><td>#FFFFFF</td><td>#111827</td><td>21:1</td><td>AAA</td></tr>
+<tr><td>color-text-secondary</td><td>rgba(255,255,255,0.6) ≈ #9BA1A9</td><td>#6B7280</td><td>6.8:1</td><td>AA</td></tr>
+<tr><td>color-text-tertiary</td><td>rgba(255,255,255,0.4) ≈ #767E89</td><td>#9CA3AF</td><td>3.5:1</td><td>AA（非文字）</td></tr>
+<tr><td>color-text-disabled</td><td>rgba(255,255,255,0.35)</td><td>#D1D5DB</td><td>—</td><td>裝飾用，不適用</td></tr>
+<tr><td>color-text-brand</td><td>#F5C842</td><td>#C99A00</td><td>7.2:1</td><td>AAA</td></tr>
+<tr><td>color-text-accent</td><td>#00D4FF</td><td>#0284C7</td><td>~10.4:1</td><td>AAA</td></tr>
+<tr><td>color-text-success</td><td>#00FF88</td><td>#059669</td><td>14.1:1</td><td>AAA</td></tr>
+<tr><td>color-text-error</td><td>#FF4444</td><td>#DC2626</td><td>4.6:1</td><td>AA</td></tr>
+<tr><td>color-text-warning</td><td>#FF8080</td><td>#D97706</td><td>7.61:1</td><td>AAA</td></tr>
+<tr><td>color-action-primary</td><td>#F5C842</td><td>#C99A00</td><td>7.2:1</td><td>AAA</td></tr>
+<tr><td>color-action-secondary</td><td>#00D4FF</td><td>#0284C7</td><td>~10.4:1</td><td>AAA</td></tr>
+<tr><td>color-border-default</td><td>rgba(255,255,255,0.45) ≈ #767E89</td><td>#E5E7EB</td><td>3.2:1</td><td>WCAG 1.4.11</td></tr>
+<tr><td>color-border-focus</td><td>#F5C842</td><td>#92400E</td><td>11.63:1</td><td>AAA</td></tr>
+<tr><td>color-feedback-success</td><td>#00FF88</td><td>#059669</td><td>14.1:1</td><td>AAA</td></tr>
+<tr><td>color-feedback-error</td><td>#FF4444</td><td>#DC2626</td><td>4.6:1</td><td>AA</td></tr>
+<tr><td>color-feedback-warning</td><td>#FF8080</td><td>#D97706</td><td>7.61:1</td><td>AAA</td></tr>
+</table>
+<h3>6.5 Motion Token 設計</h3>
+<table>
+<tr><th>Token</th><th>值</th><th>用途</th></tr>
+<tr><td>duration-fast</td><td>80ms</td><td>按鈕 Hover/Active，圖示 bounce</td></tr>
+<tr><td>duration-normal</td><td>200ms</td><td>面板淡入，切換過渡</td></tr>
+<tr><td>duration-slow</td><td>500ms</td><td>模態進場，Boss 血條 Tween</td></tr>
+<tr><td>duration-xslow</td><td>1000ms</td><td>Boss 進場全屏震動，倍率爆字出現</td></tr>
+<tr><td>duration-jackpot</td><td>3000ms</td><td>Jackpot 爆炸特效最短播放時間</td></tr>
+<tr><td>easing-expo-out</td><td>cubic-bezier(0.16,1,0.3,1)</td><td>面板滑入、HP 條更新</td></tr>
+<tr><td>easing-spring</td><td>cubic-bezier(0.34,1.56,0.64,1)</td><td>金幣飛出、倍率數字彈跳</td></tr>
+<tr><td>easing-bounce</td><td>cubic-bezier(0.68,-0.55,0.265,1.55)</td><td>按鈕按下後彈回</td></tr>
+</table>
+<blockquote><p><strong>注：Prefers-Reduced-Motion 替代值</strong></p></blockquote>
+<blockquote><p>所有 <code>duration-*</code> Token 在 <code>prefers-reduced-motion: reduce</code> 環境下統一使用 <code>--duration-instant</code>（0ms）替代；</p></blockquote>
+<blockquote><p>所有 <code>easing-*</code> Token 改為 <code>linear</code>。</p></blockquote>
+<blockquote><p>詳細 CSS Override 規則及 prefers-reduced-motion 處理見 §9.5 動態無障礙。</p></blockquote>
+<hr>
+<h2>§7 Asset Pipeline</h2>
+<h3>7.1 資源分類</h3>
+<table>
+<tr><th>類別</th><th>格式</th><th>解析度</th><th>資料夾</th></tr>
+<tr><td>場景背景</td><td>PNG / WebP</td><td>720×1280 px（@1x），1440×2560（@2x）</td><td><code>assets/bg/</code></td></tr>
+<tr><td>魚類 Sprite Sheet</td><td>PNG</td><td>幀尺寸依規格，Atlas ≤ 2048×2048 px</td><td><code>assets/sprites/fish/</code></td></tr>
+<tr><td>武器 Sprite Sheet</td><td>PNG</td><td>144×144 px/幀，Atlas ≤ 1024×1024 px</td><td><code>assets/sprites/weapons/</code></td></tr>
+<tr><td>特效 Sprite Sheet</td><td>PNG</td><td>256×256 px/幀，Atlas ≤ 2048×2048 px</td><td><code>assets/sprites/effects/</code></td></tr>
+<tr><td>UI 圖示</td><td>SVG（Figma export）→ PNG（Atlas）</td><td>32/40/64 px，@2x</td><td><code>assets/icons/</code></td></tr>
+<tr><td>VIP 徽章</td><td>PNG（含透明通道）</td><td>64×64 px，@2x</td><td><code>assets/vip/</code></td></tr>
+<tr><td>字型</td><td>TTF + WOFF2</td><td>—</td><td><code>assets/fonts/</code></td></tr>
+<tr><td>音效</td><td>MP3 + OGG</td><td>128kbps stereo / 44.1kHz</td><td><code>assets/audio/</code></td></tr>
+<tr><td>Shader 材質</td><td>PNG（灰階或 RGBA）</td><td>256×256 px</td><td><code>assets/textures/</code></td></tr>
+<tr><td>粒子系統</td><td><code>.plist</code>（Cocos Particle Data）</td><td>—</td><td><code>assets/particles/</code></td></tr>
+</table>
+<h3>7.2 命名規範</h3>
+<pre><code class="">格式: {類別}_{名稱}_{狀態/變體}_{@倍率}.{副檔名}
+範例:
+  fish_clownfish_swim_@1x.png
+  fish_boss_dragon_death_@2x.png
+  ui_btn_primary_default_@2x.png
+  ui_btn_primary_hover_@2x.png
+  icon_coin_@2x.svg
+  icon_diamond_@2x.svg
+  vip_badge_level10_@2x.png
+  effect_jackpot_burst_@2x.png
+  bg_gamescene_ocean_@1x.png
+  particle_jackpot_burst.plist
+  particle_weapon_laser.plist
+
+狀態後綴列表:
+  按鈕: default | hover | active | focus | disabled
+  魚類動畫: idle | swim | hit | death
+  Boss: idle | attack | stunned | death
+  VIP 徽章: level01 ~ level10
+  特效: burst | loop | trail</code></pre>
+<h3>7.3 圖片壓縮標準</h3>
+<table>
+<tr><th>格式</th><th>工具</th><th>品質設定</th><th>目標大小</th></tr>
+<tr><td>PNG（透明圖）</td><td>pngquant</td><td>quality 80-90</td><td>≤ 200KB/張</td></tr>
+<tr><td>PNG（Atlas）</td><td>pngquant</td><td>quality 85-95</td><td>≤ 512KB/Atlas</td></tr>
+<tr><td>WebP（背景）</td><td>cwebp</td><td>-q 85</td><td>≤ 300KB/張</td></tr>
+<tr><td>AVIF（背景，若引擎支援）</td><td>avifenc</td><td>quality 65</td><td>≤ 200KB/張</td></tr>
+</table>
+<h3>7.4 Figma → Cocos Creator 交付流程</h3>
+<pre><code class="">1. Figma 元件命名使用 §7.2 命名規範
+2. 導出設定：@1x（720px基準）+ @2x（高清）
+3. 圖示：SVG 導出 → 工程師轉 PNG Atlas
+4. Sprite Sheet 需附帶 JSON 幀資料（TexturePacker 格式）
+5. 字型檔需取得授權後提交 assets/fonts/
+6. 每次交付使用 Zeplin / Figma Inspect 標注所有 Token 數值
+7. Changelog 記錄每次修改的 Asset Key</code></pre>
+<h3>7.5 Atlas 打包規格</h3>
+<table>
+<tr><th>類型</th><th>最大尺寸</th><th>演算法</th><th>Padding</th></tr>
+<tr><td>魚類動畫 Atlas</td><td>2048×2048 px</td><td>MaxRects</td><td>2 px</td></tr>
+<tr><td>UI 圖示 Atlas</td><td>1024×1024 px</td><td>MaxRects</td><td>1 px</td></tr>
+<tr><td>特效 Atlas</td><td>2048×2048 px</td><td>MaxRects</td><td>2 px</td></tr>
+<tr><td>武器 Atlas</td><td>1024×1024 px</td><td>MaxRects</td><td>2 px</td></tr>
+</table>
+<h3>7.6 動畫規格彙總</h3>
+<table>
+<tr><th>動畫類型</th><th>幀率</th><th>建議幀數</th><th>循環</th><th>觸發方式</th></tr>
+<tr><td>普通魚游動</td><td>12 fps</td><td>8 幀</td><td>loop</td><td>常駐</td></tr>
+<tr><td>精英魚游動</td><td>12 fps</td><td>12 幀</td><td>loop</td><td>常駐</td></tr>
+<tr><td>Boss 待機</td><td>12 fps</td><td>16 幀</td><td>loop</td><td>常駐</td></tr>
+<tr><td>Boss 進場</td><td>24 fps</td><td>24 幀</td><td>once</td><td>事件觸發</td></tr>
+<tr><td>Boss 攻擊</td><td>24 fps</td><td>12 幀</td><td>once</td><td>事件觸發</td></tr>
+<tr><td>Boss 死亡</td><td>24 fps</td><td>32 幀</td><td>once</td><td>事件觸發</td></tr>
+<tr><td>炮彈發射</td><td>24 fps</td><td>8 幀</td><td>once</td><td>觸控觸發</td></tr>
+<tr><td>金幣飛出</td><td>24 fps</td><td>16 幀</td><td>once</td><td>事件觸發</td></tr>
+<tr><td>Jackpot 爆炸</td><td>24 fps</td><td>72 幀（3s）</td><td>once</td><td>事件觸發</td></tr>
+<tr><td>VIP 光暈</td><td>12 fps</td><td>24 幀</td><td>loop</td><td>常駐</td></tr>
+<tr><td>Skeleton 載入</td><td>CSS 動畫</td><td>—</td><td>loop</td><td>資料加載中</td></tr>
+</table>
+<hr>
+<h2>§8 Screen Visual Specs</h2>
+<h3>8.1 LoginScene — 登入頁</h3>
+<p><strong>設計目標</strong>：品牌第一印象，5 秒內完成信任建立 + 行動引導</p>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>尺寸</td><td>720×1280 px（FIXED_WIDTH）</td></tr>
+<tr><td>背景</td><td>深海漸層 <code>var(--color-bg-base)</code>→<code>var(--color-ocean-950)</code>，帶輕微放射光（中心 <code>var(--color-bg-surface)</code>）</td></tr>
+<tr><td>動態背景</td><td>氣泡上升粒子（20–30 顆，opacity 0.3–0.6，上升速度 80–120 px/s）</td></tr>
+<tr><td>Logo</td><td>居中，Y=280，尺寸 240×80 px，金色版本，進場 fade+scale(0.8→1.0) 400ms easing-expo-out</td></tr>
+<tr><td>副標題</td><td>Y=380，16 px，<code>var(--color-white-70)</code>，「最直接的競技捕魚體驗」</td></tr>
+<tr><td>手機號輸入</td><td>Y=480，width=560 px，符合 §5.4 輸入欄位規格，Placeholder「輸入手機號碼」</td></tr>
+<tr><td>驗證碼欄位</td><td>Y=560，width=360 px，右側「發送驗證碼」按鈕 width=160 px（Secondary 樣式）</td></tr>
+<tr><td>主要 CTA</td><td>Y=660，「登入 / 註冊」Primary Button 560×56 px</td></tr>
+<tr><td>第三方登入</td><td>Y=760，「或使用」分隔線，Google/Facebook/Apple 圖示按鈕（各 48×48 px）</td></tr>
+<tr><td>年齡聲明</td><td>Y=900，text-caption，「點擊登入表示您已年滿 18 歲」，rgba(255,255,255,0.5)（無精確 primitive，介於 white-40/white-60 之間）</td></tr>
+<tr><td>載入狀態</td><td>按鈕文字替換為 Spinner（24 px），按鈕 disabled 樣式</td></tr>
+</table>
+<p><strong>關鍵動畫</strong>：</p>
+<ul><li>Logo 進場：fade-in + scale 0.8→1.0，400ms，easing-expo-out</li><li>表單整體：translateY(20px)→0 + fade-in，600ms，easing-expo-out，delay 200ms</li></ul>
+<hr>
+<h3>8.2 AgeGateModal — 年齡驗證模態</h3>
+<p><strong>設計目標</strong>：合規阻擋，但不破壞沉浸感</p>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>遮罩</td><td>full-screen，<code>var(--age-gate-overlay)</code>（rgba(5,20,40,0.92)），backdrop-blur 8px；比標準模態遮罩（0.85）更不透明，法規合規要求強制阻擋場景</td></tr>
+<tr><td>面板</td><td>600×400 px，居中，card-bg 規格，<code>var(--color-border-brand)</code> 金色邊框 2px</td></tr>
+<tr><td>標題圖示</td><td>警示盾牌圖示 64×64 px，<code>var(--color-action-primary)</code></td></tr>
+<tr><td>標題文字</td><td>text-h1，「年齡確認」</td></tr>
+<tr><td>內文</td><td>text-body，「本平台僅供 18 歲以上成年人使用。請確認您的年齡。」</td></tr>
+<tr><td>確認按鈕</td><td>「我已年滿 18 歲」Primary Button，280×56 px</td></tr>
+<tr><td>離開按鈕</td><td>「離開」Secondary Button，280×48 px，text-error 顏色</td></tr>
+<tr><td>版本號</td><td>面板右下角，text-caption，rgba(255,255,255,0.3)（無精確 primitive，介於 white-20/white-35 之間）</td></tr>
+</table>
+<hr>
+<h3>8.3 LobbyScene — 大廳</h3>
+<p><strong>設計目標</strong>：社交感 + 快速進房 + VIP 羨慕感</p>
+<p><strong>Layout Grid</strong>（720 px 寬）：</p>
+<pre><code class="">Y=0    ~ Y=80   : 頂部 Header Bar（Logo、錢包、個人頭像）
+Y=80   ~ Y=200  : VIP / 公告輪播（Carousel）
+Y=200  ~ Y=680  : 房間列表（房間卡片 × 6，2 列 3 行或 1 列 6 行）
+Y=680  ~ Y=760  : 快速進房 CTA（大型 Primary Button）
+Y=760  ~ Y=840  : 底部 Navigation Bar
+Y=840  ~ Y=1280 : 安全區域（Padding bottom）</code></pre>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>Header Bar</td><td>高度 80 px，bg rgba(5,20,40,0.96)（<code>var(--color-bg-base)</code> @ 96%，無精確 primitive），Logo 左側 120×40 px，右側金幣+鑽石顯示（§5.6 HUD 規格）+ 頭像 40×40 px 圓形</td></tr>
+<tr><td>VIP 輪播</td><td>高度 120 px，自動播放 4s，玩家 VIP 狀態卡 + 每日任務卡，左右 Dot 指示器</td></tr>
+<tr><td>房間卡片</td><td>320×200 px（2 列）或 656×88 px（1 列），card-bg 規格，顯示：房間名、在場人數（4/4 或 2/4）、倍率範圍（1x–500x）、房間費用（免費/5 幣/20 幣）</td></tr>
+<tr><td>房間滿人</td><td>卡片 overlay 50% 暗化，「房間已滿」badge，橘色 <code>var(--color-player-orange)</code></td></tr>
+<tr><td>VIP 房</td><td>金色邊框加粗 2px，左上角「VIP」badge</td></tr>
+<tr><td>快速進房</td><td>680×56 px，Primary Button，「快速進入遊戲」，加炮彈圖示</td></tr>
+<tr><td>底部 NavBar</td><td>§5.7 規格，5 分頁：大廳 / 商店 / 任務 / 排行 / 個人</td></tr>
+<tr><td>裝飾魚群</td><td>背景層，3–5 條小魚游過，低 opacity 0.3，不遮擋主要內容</td></tr>
+</table>
+<hr>
+<h3>8.4 MatchmakingScene — 配對場景</h3>
+<p><strong>設計目標</strong>：等待感轉化為期待感，展示隊友陣容</p>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>背景</td><td>旋轉海底探照燈光效，<code>var(--color-bg-base)</code> 底色</td></tr>
+<tr><td>標題</td><td>text-h1，「配對中...」，Y=200</td></tr>
+<tr><td>玩家位置（4格）</td><td>2×2 格，各 160×200 px，已配對顯示頭像+名字，未配對顯示 Skeleton（骨架屏）</td></tr>
+<tr><td>配對進度</td><td>進度文字「2/4 玩家已加入」，text-body，<code>var(--color-action-secondary)</code></td></tr>
+<tr><td>等待計時</td><td>計時器 MM:SS，text-hud-score，<code>var(--color-text-primary)</code></td></tr>
+<tr><td>取消按鈕</td><td>Secondary Button 240×48 px，下方 Y=900</td></tr>
+<tr><td>已配對玩家</td><td>進場動畫：頭像從外側滑入，scale 0.8→1.0，easing-spring 300ms</td></tr>
+<tr><td>VIP 玩家徽章</td><td>頭像右下角 VIP 等級徽章（§3.4 規格），帶光暈</td></tr>
+</table>
+<hr>
+<h3>8.5 GameScene — 主遊戲場景</h3>
+<p><strong>設計目標</strong>：沉浸式戰場，資訊即時可讀，特效爽感拉滿</p>
+<p><strong>Layout（Landscape 1280×720 或 Portrait 720×1280）</strong>：</p>
+<p>本平台採 Portrait 720×1280，HUD 四角分配。</p>
+<table>
+<tr><th>元素</th><th>位置</th><th>規格</th></tr>
+<tr><td>遊戲背景</td><td>z=0</td><td>動態深海 Shader，波紋動畫</td></tr>
+<tr><td>魚群出現區</td><td>z=1</td><td>全畫面遊戲區（扣除 HUD 邊距後 680×1080 px 有效）</td></tr>
+<tr><td>1P 炮台</td><td>左下角 Y=1120</td><td>144×144 px，跟隨觸控旋轉</td></tr>
+<tr><td>2P 炮台</td><td>右下角 Y=1120</td><td>同上，顏色不同（2P 青色 tint <code>var(--color-action-secondary)</code>）</td></tr>
+<tr><td>3P 炮台</td><td>左上角 Y=20</td><td>180° 翻轉，顏色 <code>var(--color-player-orange)</code></td></tr>
+<tr><td>4P 炮台</td><td>右上角 Y=20</td><td>同 3P，顏色 <code>var(--color-player-purple)</code></td></tr>
+<tr><td>1P HUD</td><td>左下 HUD 區</td><td>§5.6 規格，score / coin / diamond</td></tr>
+<tr><td>2P HUD</td><td>右下 HUD 區</td><td>同上</td></tr>
+<tr><td>Jackpot Bar</td><td>頂部居中 Y=20</td><td>§5.6 規格 360×24 px</td></tr>
+<tr><td>Boss HP Bar</td><td>Jackpot Bar 下方 Y=56（Boss 在場時顯示）</td><td>§5.6 規格 480×32 px</td></tr>
+<tr><td>武器切換</td><td>底部中央 Y=1160</td><td>3 個武器圖示（64×64 px），選中者金色 glow</td></tr>
+<tr><td>技能按鈕</td><td>武器右側</td><td>2 個技能圓形按鈕（56×56 px），冷卻圓弧覆蓋</td></tr>
+<tr><td>設定按鈕</td><td>頂部右側 Y=20</td><td>40×40 px 齒輪圖示</td></tr>
+</table>
+<p><strong>特效規格</strong>：</p>
+<table>
+<tr><th>特效</th><th>觸發</th><th>持續時間</th><th>粒子數量</th><th>顏色</th></tr>
+<tr><td>炮彈軌跡</td><td>每次發射</td><td>100ms</td><td>8–12 粒（拖尾）</td><td><code>var(--color-action-primary)</code>→透明</td></tr>
+<tr><td>普通魚死亡</td><td>擊殺</td><td>300ms</td><td>10–20 金幣粒子</td><td><code>var(--color-action-primary)</code></td></tr>
+<tr><td>精英魚死亡</td><td>擊殺</td><td>500ms</td><td>30–50 金幣+光芒</td><td><code>var(--color-action-primary)</code> + <code>var(--color-text-primary)</code></td></tr>
+<tr><td>Boss 受擊</td><td>每次命中</td><td>150ms</td><td>5–8 衝擊粒子</td><td><code>var(--color-feedback-error)</code></td></tr>
+<tr><td>Boss 死亡 / Jackpot</td><td>觸發</td><td>≥3000ms</td><td>200+ 金幣+光柱</td><td><code>var(--color-action-primary)</code> + <code>var(--color-vip-gold)</code> + <code>var(--color-text-primary)</code></td></tr>
+<tr><td>技能啟動</td><td>技能觸發</td><td>800ms</td><td>全屏邊框閃光</td><td><code>var(--color-action-secondary)</code></td></tr>
+<tr><td>連擊提示</td><td>3 秒內 ≥3 擊殺</td><td>600ms</td><td>「COMBO x{n}」衝屏文字</td><td><code>var(--color-action-primary)</code></td></tr>
+</table>
+<hr>
+<h3>8.6 CannonSelectScene — 武器選擇面板</h3>
+<p><strong>設計目標</strong>：清楚比較武器，鼓勵升級消費</p>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>背景</td><td>半透明 overlay 遮罩（從 GameScene overlay 展開）+ 武器展示台舞台感</td></tr>
+<tr><td>標題</td><td>text-h1，「選擇武器」，Y=80</td></tr>
+<tr><td>武器卡片</td><td>4 張卡片（2×2），每張 320×240 px，weapon-card 規格</td></tr>
+<tr><td>卡片內容</td><td>武器 Sprite 128×128 px（置中上方）+ 武器名（text-h3）+ 倍率範圍（text-body，<code>var(--color-text-brand)</code>）+ 子彈速度（text-body-sm）+ 費用（text-body-sm，鑽石圖示）</td></tr>
+<tr><td>選中狀態</td><td>金色邊框 2px + glow shadow，右上角「已選擇」badge</td></tr>
+<tr><td>鎖定狀態</td><td>overlay 40% 暗化，鎖圖示，「VIP {n} 解鎖」文字</td></tr>
+<tr><td>確認按鈕</td><td>Primary Button 560×56 px，Y=900</td></tr>
+<tr><td>比較 Tooltip</td><td>點擊武器出現 280 px 寬 Tooltip，顯示詳細數據對比</td></tr>
+</table>
+<hr>
+<h3>8.7 ShopScene — 商店</h3>
+<p><strong>設計目標</strong>：高轉換率設計，商品展示有羨慕感</p>
+<p><strong>Layout</strong>：</p>
+<pre><code class="">Y=0    ~ Y=80  : Header（返回按鈕 + 標題「商城」+ 當前鑽石數）
+Y=80   ~ Y=160 : 分類 Tab（幣包 / VIP / 武器 / 道具）
+Y=160  ~ Y=840 : 商品列表（ScrollView）
+Y=840  ~ Y=1280: 底部安全區</code></pre>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>幣包商品</td><td>2 列，每格 320×200 px，商品卡規格；顯示金幣數量（大字 text-h1，<code>var(--color-text-brand)</code>）+ 美元價格（text-body）+ 加贈標籤（紅色 badge）</td></tr>
+<tr><td>暢銷標籤</td><td>右上角「🔥 最熱銷」badge，<code>var(--color-player-orange)</code> 底色</td></tr>
+<tr><td>限時優惠</td><td>倒數計時條，<code>var(--color-feedback-error)</code> 底色，<code>var(--color-text-primary)</code> 文字</td></tr>
+<tr><td>VIP 方案</td><td>3 個等級卡（320×280 px），選中者金框 glow；顯示月費、VIP 等級圖示、特權清單</td></tr>
+<tr><td>購買按鈕</td><td>Primary Button 280×52 px，文字「立即購買 $X.XX」</td></tr>
+<tr><td>支付方式</td><td>底部小字說明「支援：Apple Pay / Google Pay / 信用卡」</td></tr>
+</table>
+<hr>
+<h3>8.8 VIPPanel — VIP 面板</h3>
+<p><strong>設計目標</strong>：展示身份感，驅動升級</p>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>面板</td><td>modal 樣式，720×1100 px（全屏模態）</td></tr>
+<tr><td>VIP 等級顯示</td><td>頂部大型 VIP 徽章（128×128 px）+ 等級數字 text-display</td></tr>
+<tr><td>光暈動畫</td><td>§3.4 VIP 等級色系對應光暈（持續播放）</td></tr>
+<tr><td>進度條</td><td>當前等級積分 / 升級所需積分，金色進度條，帶數字標注</td></tr>
+<tr><td>特權清單</td><td>清單項目：圖示（32 px）+ 說明文字（text-body）+ 狀態（已解鎖 <code>var(--color-feedback-success)</code> / 待解鎖 <code>var(--color-white-40)</code>）</td></tr>
+<tr><td>下一等級預覽</td><td>半透明展示下個等級的新特權，「再 {n} 積分升級」文字</td></tr>
+<tr><td>升級按鈕</td><td>Primary Button「立即充值升級」560×56 px</td></tr>
+</table>
+<hr>
+<h3>8.9 SettlementPanel — 結算面板</h3>
+<p><strong>設計目標</strong>：強化「赢了真爽 / 輸了想繼續」的情緒</p>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>背景</td><td>黑色漸層 overlay 全屏（<code>var(--color-black-80)</code> = rgba(0,0,0,0.8)）+ 金幣粒子飄落（勝利時）</td></tr>
+<tr><td>勝利狀態標題</td><td>text-display，「恭喜！」<code>var(--color-text-brand)</code>，scale 0→1.2→1.0 彈入，500ms</td></tr>
+<tr><td>失敗狀態標題</td><td>text-h1，「遊戲結束」，rgba(255,255,255,0.8)（無精確 primitive，白色高透明度）</td></tr>
+<tr><td>本局總收益</td><td>text-display，數字 <code>var(--color-text-brand)</code>，帶 count-up 數字滾動動畫（duration 800ms）</td></tr>
+<tr><td>Jackpot 達成（特殊版）</td><td>全屏金光爆炸特效 ≥3000ms，倍率數字從底部飛出衝屏（scale 0.5→3.0，fade out 1s）</td></tr>
+<tr><td>統計區塊</td><td>擊殺數 / 最高倍率 / 技能使用次數，text-body，<code>var(--color-text-primary)</code></td></tr>
+<tr><td>排名</td><td>1–4 名依序排列，第 1 名 <code>var(--color-border-brand)</code> 金框，附玩家頭像 + VIP 徽章</td></tr>
+<tr><td>再玩一局 CTA</td><td>Primary Button 560×56 px，「再玩一局」</td></tr>
+<tr><td>返回大廳</td><td>Secondary Button 560×48 px，「返回大廳」</td></tr>
+<tr><td>廣告插入點</td><td>「看廣告得雙倍獎勵」banner，高度 80 px（如啟用 AdMob）</td></tr>
+<tr><td>進場動畫</td><td>面板從下方 translateY(100%) 滑入，300ms easing-expo-out；數字 count-up delay 200ms</td></tr>
+</table>
+<hr>
+<h3>8.10 SettingsPanel — 設定面板</h3>
+<p><strong>設計目標</strong>：簡潔，快速找到音效開關</p>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>面板類型</td><td>右側 Drawer 滑入，寬度 400 px，高度全屏</td></tr>
+<tr><td>區塊</td><td>音效開關（Toggle 大圖示）/ 振動開關 / 圖形品質（低/中/高 3 段）/ 語言選擇 / 帳號資訊 / 客服連結 / 登出按鈕</td></tr>
+<tr><td>Toggle 規格</td><td>52×32 px，開啟 <code>var(--color-feedback-success)</code>，關閉 rgba(255,255,255,0.3)（無精確 primitive）</td></tr>
+<tr><td>列表項目</td><td>高度 56 px，左側圖示 28 px + 文字 text-body，右側 Toggle 或箭頭</td></tr>
+<tr><td>分隔線</td><td>1px solid rgba(255,255,255,0.1)（無精確 primitive，低於 color-border-subtle white-20）</td></tr>
+<tr><td>登出按鈕</td><td>text-error <code>var(--color-text-error)</code>，無 Button 樣式，純文字點擊</td></tr>
+</table>
+<hr>
+<h3>8.11 ProfileScene — 個人頁</h3>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>頭部</td><td>全寬 banner 漸層（<code>var(--color-bg-surface)</code>→<code>var(--color-bg-base)</code>），高度 280 px</td></tr>
+<tr><td>頭像</td><td>96×96 px 圓形，邊框依 VIP 等級（§3.4 色系），Y=120 居中</td></tr>
+<tr><td>VIP 光暈</td><td>頭像外圈旋轉光暈（§3.4 規格）</td></tr>
+<tr><td>暱稱</td><td>text-h2，<code>var(--color-text-primary)</code>，Y=230</td></tr>
+<tr><td>VIP 等級標籤</td><td>暱稱下方 badge，依等級顏色</td></tr>
+<tr><td>統計卡片</td><td>三欄：總場次 / 最高倍率 / 累計獎金，每欄 215×100 px，card-bg</td></tr>
+<tr><td>成就系統</td><td>成就 Badge 網格（64×64 px，已解鎖全色，未解鎖灰色 30% opacity）</td></tr>
+<tr><td>交易記錄</td><td>ScrollView 列表，每項 56 px 高，日期 + 金額（正值 <code>var(--color-feedback-success)</code>，負值 <code>var(--color-feedback-error)</code>）</td></tr>
+</table>
+<hr>
+<h3>8.12 LeaderboardPanel — 排行榜面板</h3>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>面板</td><td>模態，全屏 720×1280 px</td></tr>
+<tr><td>分類 Tab</td><td>今日 / 本週 / 總排行 / 好友</td></tr>
+<tr><td>前三名</td><td>特殊設計：1st 金色台座+大頭像（96px）+金色 glow，2nd 銀色，3rd 銅色</td></tr>
+<tr><td>一般名次</td><td>列表行 64 px，左側名次數字（text-h3）+ 頭像 40 px + 暱稱 + VIP 徽章 + 右側獎金 <code>var(--color-text-brand)</code></td></tr>
+<tr><td>玩家自身行</td><td>固定於列表底部，背景 rgba(245,200,66,0.1)（gold-400 @ 10%，無精確 primitive），border-top 1px <code>var(--color-border-brand)</code></td></tr>
+<tr><td>更新時間</td><td>頂部 text-caption，「最後更新：HH:MM」</td></tr>
+</table>
+<hr>
+<h3>8.13 OnboardingScene — 新手引導</h3>
+<table>
+<tr><th>元素</th><th>規格</th></tr>
+<tr><td>步驟數</td><td>5 步：歡迎 → 炮台操作 → 魚類介紹 → 武器升級 → 開始遊戲</td></tr>
+<tr><td>遮罩</td><td>半透明黑色遮罩，目標元素「高亮開口」（cutout mask）</td></tr>
+<tr><td>說明氣泡</td><td>320×120 px card-bg，指向高亮目標，帶三角箭頭</td></tr>
+<tr><td>進度點</td><td>5 個 dot，選中 <code>var(--color-action-primary)</code> 直徑 10 px，未選中 <code>var(--color-white-40)</code> 8 px</td></tr>
+<tr><td>下一步 CTA</td><td>Primary Button 240×48 px，「知道了」</td></tr>
+<tr><td>跳過按鈕</td><td>右上角，text-body-sm，<code>var(--color-text-secondary)</code></td></tr>
+<tr><td>互動提示</td><td>手指點擊動畫（24 fps 8 幀 loop Sprite），指向目標互動區</td></tr>
+</table>
+<hr>
+<h2>§9 Accessibility</h2>
+<h3>9.1 色彩對比度驗證（完整清單）</h3>
+<table>
+<tr><th>使用情境</th><th>前景色</th><th>背景色</th><th>比率</th><th>等級</th><th>合規</th></tr>
+<tr><td>主要文字（body）</td><td>#FFFFFF</td><td>#051428</td><td>21:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>次要文字</td><td>#9BA1A9</td><td>#051428</td><td>6.8:1</td><td>AA</td><td>✓</td></tr>
+<tr><td>品牌金色文字</td><td>#F5C842</td><td>#051428</td><td>7.2:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>霓虹青色文字</td><td>#00D4FF</td><td>#051428</td><td>~10.4:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>成功綠色文字</td><td>#00FF88</td><td>#051428</td><td>14.1:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>錯誤紅色文字</td><td>#FF4444</td><td>#051428</td><td>4.6:1</td><td>AA</td><td>✓</td></tr>
+<tr><td>警告文字</td><td>#FF8080</td><td>#051428</td><td>7.61:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>按鈕文字（on 金色）</td><td>#0A1A00</td><td>#F5C842</td><td>12.3:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>HUD 分數（on HUD bg）</td><td>#FFFFFF</td><td>rgba(10,35,64,0.8) ≈ #0A2340</td><td>14.6:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>Jackpot 數字</td><td>#F5C842</td><td>#030B1A</td><td>7.8:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>Boss HP 高（on hp bg）</td><td>#00FF88</td><td>#000000</td><td>14.1:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>Boss HP 中段（on hp bg）</td><td>#FFEB3B</td><td>#000000</td><td>~15.8:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>Boss HP 低（on hp bg）</td><td>#FF4444</td><td>#000000</td><td>4.6:1</td><td>AA</td><td>✓</td></tr>
+<tr><td>VIP 金色文字（on bg-base）</td><td>#FFD700</td><td>#051428</td><td>~13.3:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>VIP 金色文字（on bg-surface）</td><td>#FFD700</td><td>#0A2340</td><td>~11.6:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>Focus Ring</td><td>#F5C842</td><td>#051428</td><td>11.63:1</td><td>AAA</td><td>✓</td></tr>
+<tr><td>UI 元件邊框（non-text）</td><td>rgba(255,255,255,0.45)</td><td>#051428</td><td>3.2:1</td><td>1.4.11</td><td>✓</td></tr>
+<tr><td>Modal/HUD/卡片邊框（non-text）</td><td>rgba(245,200,66,0.55)</td><td>#0A2340</td><td>3.88:1</td><td>1.4.11</td><td>✓</td></tr>
+<tr><td>禁用文字</td><td>rgba(255,255,255,0.35)</td><td>#051428</td><td>2.9:1</td><td>—</td><td>裝飾用</td></tr>
+<tr><td>危險按鈕 Default 文字</td><td>#FFFFFF</td><td>#FF4444</td><td>4.6:1</td><td>AA</td><td>✓</td></tr>
+<tr><td>危險按鈕 Hover/Active 文字</td><td>#FFFFFF</td><td>#CC0000</td><td>5.9:1</td><td>AA</td><td>✓</td></tr>
+</table>
+<h3>9.2 色盲無障礙</h3>
+<table>
+<tr><th>色盲類型</th><th>問題點</th><th>解決方案</th></tr>
+<tr><td>紅綠色盲（Deuteranopia）</td><td>HP 條紅/綠難以區分</td><td>HP 條加入「形狀編碼」：高血量完整方塊，低血量三角形圖示；補充圖示提示</td></tr>
+<tr><td>藍黃色盲（Tritanopia）</td><td>金幣（黃）與鑽石（藍）可能混淆</td><td>圖示形狀完全不同（圓形金幣 vs 多面鑽石），不僅依賴顏色區分</td></tr>
+<tr><td>全色盲（Achromatopsia）</td><td>大量顏色信息丟失</td><td>關鍵狀態（擊殺、VIP 等級）附加文字標注或形狀編碼</td></tr>
+</table>
+<h3>9.3 焦點管理</h3>
+<table>
+<tr><th>場景</th><th>焦點規格</th></tr>
+<tr><td>全局 Focus Ring</td><td>3px solid #051428 + 2px outline #F5C842，offset 2px（11.63:1 AAA）</td></tr>
+<tr><td>Dropdown 焦點例外</td><td><code>2px solid #F5C842 + 2px outline #051428</code>（金色在前、深色在外），因元件本身底色為 <code>color-bg-surface</code>（#0A2340），pattern 反轉後焦點可見性相同（11.63:1 AAA）</td></tr>
+<tr><td>Modal 開啟</td><td>焦點自動移至模態第一個可互動元素</td></tr>
+<tr><td>Modal 關閉</td><td>焦點返回觸發元素</td></tr>
+<tr><td>焦點陷阱</td><td>Modal/Drawer 開啟時 Tab 焦點限於面板內</td></tr>
+<tr><td>跳過連結</td><td>主要頁面頂部提供「跳至主要內容」隱藏連結（focusable）</td></tr>
+</table>
+<h3>9.4 觸控無障礙</h3>
+<table>
+<tr><th>規格</th><th>值</th><th>說明</th></tr>
+<tr><td>最小觸控熱區</td><td>44×44 px</td><td>所有可互動元素</td></tr>
+<tr><td>炮台觸控區</td><td>160×160 px（視覺 144×144 px）</td><td>周圍 8 px 擴充熱區</td></tr>
+<tr><td>武器切換按鈕</td><td>80×80 px 觸控熱區（視覺 64×64 px）</td><td>保留 8 px 邊距</td></tr>
+</table>
+<h3>9.5 動態無障礙（Motion Accessibility）</h3>
+<table>
+<tr><th>動畫類型</th><th>prefers-reduced-motion 處理</th></tr>
+<tr><td>Boss 進場震動</td><td>移除全屏震動，保留淡入</td></tr>
+<tr><td>Jackpot 爆炸粒子</td><td>粒子數量降至 20%，速度減半</td></tr>
+<tr><td>金幣飛出動畫</td><td>替換為數字淡入（不移動）</td></tr>
+<tr><td>VIP 光暈旋轉</td><td>改為靜態光環</td></tr>
+<tr><td>背景氣泡</td><td>停止動畫，保留靜態背景</td></tr>
+<tr><td>按鈕 Hover 縮放</td><td>移除 scale transform，保留顏色變化</td></tr>
+</table>
+<pre><code class="language-css">@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .particle-system { display: none; }
+  .vip-halo-rotate { animation: none; }
+  .jackpot-burst { opacity: 1; transform: none; }
+}</code></pre>
+<h3>9.6 螢幕閱讀器支援（H5 Web 模式）</h3>
+<table>
+<tr><th>元素</th><th>aria 屬性</th></tr>
+<tr><td>主要 CTA 按鈕</td><td><code>aria-label=&quot;登入或註冊&quot;</code></td></tr>
+<tr><td>金幣計數器</td><td><code>aria-label=&quot;金幣：{count}&quot;</code> <code>aria-live=&quot;polite&quot;</code></td></tr>
+<tr><td>Boss HP 條</td><td><code>role=&quot;progressbar&quot;</code> <code>aria-valuenow={hp}</code> <code>aria-valuemax={maxHp}</code> <code>aria-label=&quot;Boss 血量&quot;</code></td></tr>
+<tr><td>Jackpot 進度條</td><td><code>role=&quot;progressbar&quot;</code> <code>aria-label=&quot;Jackpot 進度&quot;</code> <code>aria-live=&quot;polite&quot;</code></td></tr>
+<tr><td>模態視窗</td><td><code>role=&quot;dialog&quot;</code> <code>aria-modal=&quot;true&quot;</code> <code>aria-labelledby=&quot;modal-title&quot;</code></td></tr>
+<tr><td>排行榜列表</td><td><code>role=&quot;list&quot;</code> <code>aria-label=&quot;排行榜&quot;</code></td></tr>
+<tr><td>魚類動態更新</td><td><code>aria-live=&quot;assertive&quot;</code>（Boss 出現）/ <code>&quot;polite&quot;</code>（一般擊殺）</td></tr>
+</table>
+<hr>
+<h2>§10 Open Questions</h2>
+<table>
+<tr><th>#</th><th>問題</th><th>重要性</th><th>預期決策日</th></tr>
+<tr><td>OQ-01</td><td>角色設計是否需要授權 IP 聯名（如特定神話人物）或原創設計？聯名會影響視覺方向。</td><td>High</td><td>Sprint 2 前</td></tr>
+<tr><td>OQ-02</td><td>遊戲場景是否需要 Landscape 橫版支援？目前規格全為 Portrait 720×1280。</td><td>High</td><td>Sprint 1 前</td></tr>
+<tr><td>OQ-03</td><td>Jackpot 全屏特效音效與震動的強度閾值由 PM 還是設計定義？</td><td>Medium</td><td>Sprint 2 前</td></tr>
+<tr><td>OQ-04</td><td>Light Mode（非深色主題）是否需要完整支援，或僅作備用？</td><td>Medium</td><td><strong>已決定：v2.0 預留，v1.0 僅支援 Dark Mode</strong></td></tr>
+<tr><td>OQ-05</td><td>VIP 第 10 級「彩虹」光暈特效是否允許使用自訂 Shader，或必須純 Sprite 實現（Cocos 版本限制）？</td><td>High</td><td>Sprint 2 前</td></tr>
+<tr><td>OQ-06</td><td>第三方登入（Google/Facebook/Apple）在 H5 Web 版本的支援情況？</td><td>High</td><td>Sprint 1 前</td></tr>
+<tr><td>OQ-07</td><td>是否需要支援 RTL（阿拉伯語等）市場？當前版面全為 LTR 設計。</td><td>Low</td><td>Q3 評估</td></tr>
+<tr><td>OQ-08</td><td>Boss 有幾隻？每個場景輪換還是固定？需確認以安排完整 Boss 視覺製作。</td><td>High</td><td>Sprint 2 前</td></tr>
+<tr><td>OQ-09</td><td>主角 Captain Triton 及神話生物（§4.4 NPC-04）設計方向是否確認？包含視覺特徵、配色方案、技能數量。決策人：遊戲設計師，deadline: 2026-05-15</td><td>High</td><td>2026-05-15</td></tr>
+<tr><td>OQ-10</td><td>Figma File URL 及 P0 元件 Frame 連結待確認。決策人：設計師，deadline: 2026-05-15</td><td>Medium</td><td>2026-05-15</td></tr>
+</table>
+<hr>
+<h2>§11 Engineering Handoff</h2>
+<h3>11.1 Figma 交付規範</h3>
+<table>
+<tr><th>項目</th><th>規格</th></tr>
+<tr><td>設計工具</td><td>Figma（主要）</td></tr>
+<tr><td>設計稿解析度</td><td>@1x = 720 px 寬，輸出 @2x</td></tr>
+<tr><td>元件庫</td><td>Figma Component Library「FishGame Design System」</td></tr>
+<tr><td>Token 交付</td><td>Style Dictionary JSON 格式（提交 <code>design-tokens/tokens.json</code>）</td></tr>
+<tr><td>標注工具</td><td>Figma Inspect（內建）</td></tr>
+<tr><td>版本管理</td><td>Figma Branch per Sprint</td></tr>
+<tr><td><strong>Figma File URL</strong></td><td>見 OQ-10</td></tr>
+<tr><td><strong>P0 元件 Frame 連結</strong></td><td>見 OQ-10</td></tr>
+<tr><td><strong>Auto Layout 使用狀態</strong></td><td>所有 Component 使用 Auto Layout，Spacing 引用 Token</td></tr>
+<tr><td><strong>Dev Mode 交付方式</strong></td><td>Figma Dev Mode + Handoff 說明文件</td></tr>
+</table>
+<h3>11.2 Cocos Creator 整合</h3>
+<table>
+<tr><th>項目</th><th>規格</th></tr>
+<tr><td>引擎版本</td><td>Cocos Creator 3.x</td></tr>
+<tr><td>設計寬度</td><td>720 px（FIXED_WIDTH 自適應）</td></tr>
+<tr><td>資源目錄</td><td><code>assets/</code> 依 §7.1 分類</td></tr>
+<tr><td>Token 注入</td><td>TypeScript 常數檔案 <code>src/constants/tokens.ts</code></td></tr>
+<tr><td>粒子系統</td><td>Cocos Creator 內建粒子系統，<code>.plist</code> 格式</td></tr>
+<tr><td>Shader</td><td>Cocos Creator Effect Asset（<code>.effect</code>），存放 <code>assets/effects/</code></td></tr>
+<tr><td>Atlas 格式</td><td>TexturePacker JSON Hash 格式</td></tr>
+</table>
+<h3>11.3 Token 交付格式（tokens.ts 範例）</h3>
+<pre><code class="language-typescript">// src/constants/tokens.ts
+export const Colors = {
+  // Primitive
+  goldPrimary: &#x27;#F5C842&#x27;,
+  goldHover:   &#x27;#C99A00&#x27;,   // color-gold-600 / color-action-primary-hover
+  goldActive:  &#x27;#C99A00&#x27;,
+  oceanBase:   &#x27;#051428&#x27;,
+  oceanSurface:&#x27;#0A2340&#x27;,
+  neonBlue:    &#x27;#00D4FF&#x27;,
+  neonGreen:   &#x27;#00FF88&#x27;,
+  // Semantic
+  bgBase:      &#x27;#051428&#x27;,
+  textPrimary: &#x27;#FFFFFF&#x27;,
+  actionPrimary: &#x27;#F5C842&#x27;,
+} as const;
+
+export const Motion = {
+  durationFast:    80,
+  durationNormal:  200,
+  durationSlow:    500,
+  durationJackpot: 3000,
+  easingExpoOut:   [0.16, 1, 0.3, 1] as [number, number, number, number],
+  easingSpring:    [0.34, 1.56, 0.64, 1] as [number, number, number, number],
+} as const;
+
+export const Typography = {
+  fontPrimary: &quot;&#x27;Noto Sans TC&#x27;, &#x27;Roboto&#x27;, sans-serif&quot;,
+  fontDisplay: &quot;&#x27;Oswald&#x27;, &#x27;Noto Sans TC&#x27;, sans-serif&quot;,
+  fontMono:    &quot;&#x27;Roboto Mono&#x27;, &#x27;Courier New&#x27;, monospace&quot;,
+  sizeDisplay: 48,
+  sizeH1: 32,
+  sizeH2: 24,
+  sizeH3: 20,
+  sizeBody: 16,
+  sizeBodySm: 14,
+  sizeCaption: 12,
+  sizeHudScore: 28,
+  sizeBodyMd: 18,       // text-body-md — OnboardingScene 引導氣泡
+  sizeHudCounter: 20,   // text-hud-counter — HUD 貨幣計數器
+  sizeHeadingLg: 36,    // text-heading-lg — 結算 MVP/Jackpot 大標題
+  sizeMultiplier: 56,   // text-multiplier — Jackpot/kill 爆字
+} as const;</code></pre>
+<h3>11.4 Skeleton 載入 CSS</h3>
+<pre><code class="language-css">/* 適用於 H5 WebGL overlay 或 Web 面板 */
+.skeleton {
+  background: var(--skeleton-base, #0A2340);
+  border-radius: var(--skeleton-radius, 8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: &#x27;&#x27;;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(13, 51, 96, 0.8) 50%, /* color-ocean-700 @ 80%；CSS gradient 不支援 var() 展開，直接值 */
+    transparent 100%
+  );
+  animation: skeleton-shimmer var(--skeleton-duration, 1.4s) infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after { animation: none; }
+}</code></pre>
+<h3>11.5 關鍵動畫實現（Cocos Creator Tween API）</h3>
+<pre><code class="language-typescript">// Jackpot 爆字動畫
+import { tween, Vec3 } from &#x27;cc&#x27;;
+
+function playJackpotMultiplier(node: Node, multiplier: number) {
+  const label = node.getComponent(Label);
+  label.string = `×${multiplier}`;
+
+  node.setScale(new Vec3(0.5, 0.5, 1));
+  node.setPosition(new Vec3(0, -200, 0));
+
+  tween(node)
+    .to(0.4, { scale: new Vec3(1.2, 1.2, 1), position: new Vec3(0, 0, 0) },
+        { easing: &#x27;cubicOut&#x27; })
+    .to(0.15, { scale: new Vec3(1.0, 1.0, 1) },
+        { easing: &#x27;backOut&#x27; })
+    .delay(2.0)
+    .to(0.45, { scale: new Vec3(3.0, 3.0, 1), opacity: 0 })
+    .call(() =&gt; node.active = false)
+    .start();
+}</code></pre>
+<hr>
+<h2>§12 References</h2>
+<table>
+<tr><th>類型</th><th>名稱</th><th>說明</th></tr>
+<tr><td>上游文件</td><td>BRD-FISHGAME-20260424</td><td>商業需求</td></tr>
+<tr><td>上游文件</td><td>PRD-FISHGAME-20260424</td><td>產品需求</td></tr>
+<tr><td>上游文件</td><td>PDD-FISHGAME-20260424</td><td>產品設計（Design Token 主要來源）</td></tr>
+<tr><td>上游文件</td><td>IDEA-FISHING-ARCADE-GAME-20260424</td><td>核心概念</td></tr>
+<tr><td>標準規範</td><td>WCAG 2.1 AA/AAA</td><td>無障礙對比度標準</td></tr>
+<tr><td>標準規範</td><td>W3C Design Tokens Community Group</td><td>Token 格式規範</td></tr>
+<tr><td>技術文件</td><td>Cocos Creator 3.x Docs</td><td>引擎實現參考</td></tr>
+<tr><td>工具</td><td>Style Dictionary</td><td>Token 管理工具</td></tr>
+<tr><td>工具</td><td>TexturePacker</td><td>Sprite Atlas 打包</td></tr>
+<tr><td>工具</td><td>pngquant</td><td>PNG 壓縮</td></tr>
+</table>
+<hr>
+<h2>§13 Visual Variation Rules</h2>
+<p>本章定義哪些視覺元素可依節日活動、季節限定情境進行主題變體，哪些元素屬於品牌核心不可更動。</p>
+<h3>13.1 可變元素（Seasonal / Event Variants）</h3>
+<table>
+<tr><th>元素</th><th>變體範圍</th><th>範例</th></tr>
+<tr><td>節日活動 Banner 主題色</td><td>可替換 Banner 背景漸層色與邊框色</td><td>春節：大紅 #E53935 + 金黃 #FFD700；聖誕：墨綠 #1B5E20 + 紅白</td></tr>
+<tr><td>季節限定 NPC 配色</td><td>季節限定 Boss / 神話生物的主色與輪廓光顏色</td><td>春節：鳳凰魚 #FF6D00+#FFEB3B；中秋：玉兔 #F0E68C+#00D4FF</td></tr>
+<tr><td>特效光暈色調</td><td>Jackpot 爆炸粒子色、金幣粒子色可依活動主題調整</td><td>春節活動 Jackpot：紅金粒子；萬聖節：紫橘粒子</td></tr>
+<tr><td>大廳背景裝飾元素</td><td>季節裝飾物（燈籠、雪花、彩蛋等）可疊加至背景層</td><td>春節：燈籠飄浮動畫；聖誕：雪花飄落粒子</td></tr>
+</table>
+<h3>13.2 不可變元素（Brand Core — 禁止在任何變體中修改）</h3>
+<table>
+<tr><th>元素</th><th>說明</th></tr>
+<tr><td>主色系 Token（深海藍 / 皇家金）</td><td><code>--color-ocean-900</code> / <code>--color-gold-400</code> 系列不可替換</td></tr>
+<tr><td>Logo 識別</td><td>Logo 本體、比例、標準色版本不可修改</td></tr>
+<tr><td>主字體系統</td><td>Noto Sans TC / Oswald / Roboto Mono 三字體族不可替換</td></tr>
+<tr><td>核心 HUD 佈局</td><td>四角炮台 HUD、Jackpot 條、Boss HP 條的位置與尺寸不可變動</td></tr>
+<tr><td>無障礙對比度規範</td><td>即便在節日主題下，所有文字與 UI 元素須維持 WCAG 2.1 AA 以上對比度</td></tr>
+</table>
+<hr>
+<h2>§14 Brand Extension Guidelines</h2>
+<blockquote><p>目前 FishGame 僅有主品牌，尚無子品牌或聯名合作。本章為空白框架，具體規則待 v2.0 補充。</p></blockquote>
+<h3>14.1 子品牌規範（Sub-brand Framework）</h3>
+<table>
+<tr><th>項目</th><th>規則</th></tr>
+<tr><td>品牌識別組合</td><td>副標題 + 主 Logo 並排；副標文字位於主 Logo 右側或下方</td></tr>
+<tr><td>字型限制</td><td>副標字型不得修改主品牌字型系統（Noto Sans TC / Oswald / Roboto Mono）；副標可使用 Noto Sans TC 的不同字重</td></tr>
+<tr><td>色彩使用</td><td>子品牌強調色可在季節限定範圍內調整（參見 §13.1），但 <code>--color-ocean-900</code> / <code>--color-gold-400</code> 主色系不可替換</td></tr>
+<tr><td>具體細則</td><td>待 v2.0 補充</td></tr>
+</table>
+<h3>14.2 聯名合作規範（Co-branding Framework）</h3>
+<table>
+<tr><th>項目</th><th>規則</th></tr>
+<tr><td>合作方 Logo 位置</td><td>置於畫面右側（橫排）或下方（直排），與主 Logo 保持對等視覺重量</td></tr>
+<tr><td>最小尺寸</td><td>合作方 Logo 高度 ≥ 主 Logo 高度 × 0.8（不得小於主 Logo）</td></tr>
+<tr><td>間距</td><td>主 Logo 與合作方 Logo 之間以分隔線（1px，rgba(255,255,255,0.3)）或等寬空白（≥ 主 Logo 高度）區隔</td></tr>
+<tr><td>禁止用法</td><td>不得使合作方 Logo 壓過主 Logo；不得在合作版本中移除主品牌金色主色系</td></tr>
+<tr><td>具體細則</td><td>待有聯名項目時由品牌設計師補充至 v2.0</td></tr>
+</table>
+<hr>
+<h2>§15 Approval Sign-off</h2>
+<table>
+<tr><th>角色</th><th>姓名</th><th>簽核日期</th><th>狀態</th><th>意見</th></tr>
+<tr><td>視覺設計師</td><td>（待 OQ-09/OQ-10 關閉後簽核，目標 2026-05-15）</td><td>—</td><td>審查中</td><td>—</td></tr>
+<tr><td>品牌設計師</td><td>（待 OQ-09/OQ-10 關閉後簽核，目標 2026-05-15）</td><td>—</td><td>審查中</td><td>—</td></tr>
+<tr><td>前端工程師</td><td>（待 OQ-09/OQ-10 關閉後簽核，目標 2026-05-15）</td><td>—</td><td>審查中</td><td>—</td></tr>
+<tr><td>遊戲設計師</td><td>（待 OQ-09/OQ-10 關閉後簽核，目標 2026-05-15）</td><td>—</td><td>審查中</td><td>—</td></tr>
+<tr><td>產品經理</td><td>（待 OQ-09/OQ-10 關閉後簽核，目標 2026-05-15）</td><td>—</td><td>審查中</td><td>—</td></tr>
+</table>
+<hr>
+<p><em>本文件由 AI 輔助生成（gendoc VDD 生成引擎，2026-04-25）。所有標注 <code>[AI 推斷]</code> 之設計決策須由產品團隊評審確認後方可進入開發實作。</em></p></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

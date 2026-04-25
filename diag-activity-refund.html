@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>活動圖：退款流程 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 活動圖：退款流程</p>
+    <h1 class="banner-title">活動圖：退款流程</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link active" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: activity-refund</p>
+<p>uml-type: 活動圖（退款與補償流程）</p>
+<p>source: EDD.md §5.5 Transaction Entity; API.md §2.3 Commerce; ARCH.md §5.4</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<hr>
+<h1>Activity Diagram — Refund &amp; Compensation Flow（退款與補償流程）</h1>
+<blockquote><p>來源：EDD.md §5.5 Transaction Entity；API.md §2.3 Commerce；ARCH.md §5.4 資料一致性策略</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+flowchart TD
+    subgraph Player["👤 Player"]
+        P_RequestRefund[提交退款申請\nDELETE /v1/shop/orders/:orderId]
+        P_WaitProcessing[等待退款處理]
+        P_RefundSuccess[顯示退款成功\n鑽石扣除確認]
+        P_RefundDenied[顯示退款拒絕\n原因說明]
+    end
+
+    subgraph ShopService["⚙️ ShopService (Node.js :3001)"]
+        SS_FindOrder[查詢訂單\nfindById(orderId)]
+        SS_ValidateOwner{訂單屬於\n此玩家?}
+        SS_CheckEligibility{退款資格\n檢查}
+        SS_CheckDiamondsSpent{鑽石已使用\n超過 50%?}
+        SS_PartialRefund[計算部分退款\n按未使用比例]
+        SS_FullRefund[全額退款]
+        SS_CallPlatformRefund[呼叫 IAP 平台退款 API]
+        SS_PlatformResult{平台退款\n成功?}
+        SS_DeductDiamonds[扣除玩家鑽石\n已發放部分]
+        SS_UpdateRefunded[更新訂單 status=REFUNDED]
+        SS_LogAudit[寫入 audit_logs\n退款操作記錄]
+        SS_NotifyPlayer[推送退款成功通知]
+        SS_DenyRefund[拒絕退款\n記錄原因]
+    end
+
+    subgraph AdminService["👤 Admin (管理後台)"]
+        AS_ManualRefund[管理員手動觸發退款\nPOST /v1/admin/refunds]
+        AS_ApproveRefund[管理員審批退款]
+    end
+
+    subgraph PaymentGateway["💳 IAP Platform"]
+        PG_ProcessRefund[處理退款請求\nApple/Google Refund API]
+        PG_ConfirmRefund[確認退款\n到帳時間 3-5 工作日]
+    end
+
+    subgraph Database["💾 Database (MySQL)"]
+        DB_FindOrder[SELECT orders WHERE\norderId=? AND userId=?]
+        DB_CheckStatus[確認 status=COMPLETED\n且未退款]
+        DB_UpdateRefunded[UPDATE orders SET status=REFUNDED\n記錄 refunded_at]
+        DB_AuditLog[INSERT audit_logs\n{event=REFUND, before, after}]
+        DB_DeductBalance[UPDATE users.diamond_balance -= N\n確保 balance >= 0]
+    end
+
+    P_RequestRefund --> SS_FindOrder
+    SS_FindOrder --> DB_FindOrder --> DB_CheckStatus
+
+    DB_CheckStatus -->|訂單不存在| SS_DenyRefund
+    DB_CheckStatus -->|訂單存在| SS_ValidateOwner
+
+    SS_ValidateOwner -->|不是本人| SS_DenyRefund
+    SS_ValidateOwner -->|本人| SS_CheckEligibility
+
+    SS_CheckEligibility -->|訂單 status != COMPLETED| SS_DenyRefund
+    SS_CheckEligibility -->|在退款期限內 7天| SS_CheckDiamondsSpent
+
+    SS_CheckDiamondsSpent -->|已用 <= 50%| SS_FullRefund
+    SS_CheckDiamondsSpent -->|已用 > 50%| SS_PartialRefund
+
+    SS_FullRefund --> SS_CallPlatformRefund
+    SS_PartialRefund --> SS_CallPlatformRefund
+
+    SS_CallPlatformRefund --> PG_ProcessRefund
+    PG_ProcessRefund --> PG_ConfirmRefund
+    PG_ConfirmRefund --> SS_PlatformResult
+
+    SS_PlatformResult -->|失敗| SS_DenyRefund
+    SS_PlatformResult -->|成功| SS_DeductDiamonds
+
+    SS_DeductDiamonds --> DB_DeductBalance
+    SS_DeductDiamonds --> SS_UpdateRefunded
+    SS_UpdateRefunded --> DB_UpdateRefunded
+    SS_UpdateRefunded --> SS_LogAudit
+    SS_LogAudit --> DB_AuditLog
+    SS_LogAudit --> SS_NotifyPlayer
+
+    SS_NotifyPlayer --> P_WaitProcessing --> P_RefundSuccess
+    SS_DenyRefund --> P_RefundDenied
+
+    Note1["管理員手動退款路徑"]
+    AS_ManualRefund --> AS_ApproveRefund --> SS_DeductDiamonds
+
+    style P_RefundSuccess fill:#1a472a,stroke:#2d8a50,color:#fff
+    style P_RefundDenied fill:#4a1a1a,stroke:#8a2d2d,color:#fff
+    style Note1 fill:#1a2a4a,stroke:#2d4a8a,color:#fff</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

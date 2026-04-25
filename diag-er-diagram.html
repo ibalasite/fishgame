@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ER 關聯圖 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › ER 關聯圖</p>
+    <h1 class="banner-title">ER 關聯圖</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link active" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: er-diagram</p>
+<p>uml-type: ER 圖（實體關係圖）</p>
+<p>source: SCHEMA.md §3 資料表定義; EDD.md §5.5 Entity 清單</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<hr>
+<h1>ER Diagram — Entity Relationship Diagram（實體關係圖）</h1>
+<blockquote><p>來源：SCHEMA.md §3 資料表定義（11 張表）；EDD.md §5.5 Entity 清單與關聯</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+erDiagram
+    users {
+        CHAR_26 id PK "CUID2, prefix usr_"
+        VARCHAR_254 email UK "PII — AES-256-GCM encrypted"
+        VARCHAR_255 password_hash NOT_NULL "bcrypt cost=12"
+        VARCHAR_30 display_name NOT_NULL
+        VARCHAR_512 avatar_url NULL
+        ENUM role NOT_NULL "player|operator|superadmin"
+        TINYINT_1 age_verified NOT_NULL "0=未驗證, 1=已驗證"
+        ENUM status NOT_NULL "active|suspended|banned"
+        VARCHAR_512 suspend_reason NULL
+        TINYINT_UNSIGNED vip_tier NOT_NULL "0=無VIP, 1-3=月/季/年"
+        DATETIME_3 vip_expires_at NULL
+        BIGINT_UNSIGNED gold_balance NOT_NULL "金幣餘額 >= 0"
+        INT_UNSIGNED diamond_balance NOT_NULL "鑽石餘額 >= 0"
+        TINYINT_UNSIGNED failed_login_count NOT_NULL
+        DATETIME_3 locked_at NULL
+        DATETIME_3 last_login_at NULL
+        DATETIME_3 created_at NOT_NULL
+        DATETIME_3 updated_at NOT_NULL
+        DATETIME_3 deleted_at NULL "軟刪除"
+    }
+
+    game_sessions {
+        BIGINT_UNSIGNED id PK "AUTO_INCREMENT"
+        VARCHAR_100 room_id NOT_NULL "Colyseus Room ID"
+        ENUM status NOT_NULL "waiting|in_progress|ended"
+        TINYINT_UNSIGNED player_count NOT_NULL "4-6"
+        DATETIME_3 started_at NOT_NULL
+        DATETIME_3 ended_at NULL
+        DECIMAL_5_2 rtp_snapshot NULL "對局結束 RTP"
+        INT jackpot_contributed NULL "本局貢獻 Jackpot"
+    }
+
+    session_players {
+        BIGINT_UNSIGNED id PK "AUTO_INCREMENT"
+        BIGINT_UNSIGNED session_id FK "→ game_sessions.id"
+        CHAR_26 user_id FK "→ users.id"
+        BIGINT_UNSIGNED final_gold NOT_NULL "最終金幣"
+        TINYINT_1 is_mvp NOT_NULL "MVP 獎勵標記"
+        INT kill_count NOT_NULL "本局擊殺魚數"
+        DATETIME_3 joined_at NOT_NULL
+    }
+
+    fish_kills {
+        BIGINT_UNSIGNED id PK "AUTO_INCREMENT (月分區)"
+        BIGINT_UNSIGNED session_id FK "→ game_sessions.id"
+        CHAR_26 killer_id FK "→ users.id"
+        VARCHAR_50 fish_type NOT_NULL "normal|elite|boss"
+        BIGINT_UNSIGNED coins_awarded NOT_NULL "金幣獎勵"
+        DECIMAL_5_2 rtp_snapshot NOT_NULL "命中時 RTP"
+        VARCHAR_50 weapon_type NOT_NULL "武器類型"
+        TINYINT_1 is_jackpot_shot NOT_NULL "是否觸發 Jackpot"
+        DATETIME_3 killed_at NOT_NULL "分區鍵"
+    }
+
+    jackpot_events {
+        CHAR_36 id PK "UUID v4"
+        BIGINT_UNSIGNED session_id FK "→ game_sessions.id"
+        CHAR_26 winner_id FK "→ users.id"
+        BIGINT_UNSIGNED amount NOT_NULL "Jackpot 金額"
+        BIGINT_UNSIGNED pool_at_trigger NOT_NULL "觸發時獎池"
+        DATETIME_3 triggered_at NOT_NULL
+    }
+
+    orders {
+        CHAR_36 order_id PK "UUID v4 — 冪等 ID"
+        CHAR_26 user_id FK "→ users.id"
+        VARCHAR_50 product_id NOT_NULL "→ products.id"
+        ENUM order_type NOT_NULL "iap_diamond|vip_subscribe|item_purchase"
+        DECIMAL_10_2 amount_usd NULL "USD 金額"
+        ENUM status NOT_NULL "pending|completed|failed|refunded"
+        VARCHAR_64 iap_receipt_hash NULL "SHA256 防重用"
+        VARCHAR_20 platform NULL "apple|google"
+        INT diamonds_granted NULL "發放鑽石數"
+        DATETIME_3 completed_at NULL
+        DATETIME_3 refunded_at NULL
+        DATETIME_3 created_at NOT_NULL
+    }
+
+    vip_subscriptions {
+        CHAR_36 id PK "UUID v4"
+        CHAR_26 user_id FK "→ users.id (UNIQUE)"
+        TINYINT_UNSIGNED vip_tier NOT_NULL "1-3"
+        DATETIME_3 activated_at NOT_NULL
+        DATETIME_3 expires_at NOT_NULL
+        ENUM status NOT_NULL "active|expired|cancelled"
+        CHAR_36 order_id FK "→ orders.order_id"
+    }
+
+    products {
+        VARCHAR_50 id PK "業務 ID: diamonds_330"
+        VARCHAR_100 name NOT_NULL "商品名稱"
+        ENUM product_type NOT_NULL "diamond_pack|vip_subscription|item"
+        DECIMAL_10_2 price_usd NOT_NULL
+        INT diamonds_amount NULL "鑽石數量"
+        TINYINT_UNSIGNED vip_tier NULL "VIP 等級"
+        TINYINT_1 is_active NOT_NULL "上下架"
+        JSON metadata NULL "附加設定"
+        DATETIME_3 created_at NOT_NULL
+    }
+
+    game_configs {
+        TINYINT_UNSIGNED id PK "固定=1 (單行表)"
+        DECIMAL_4_2 rtp_target_min NOT_NULL "最低 RTP: 85"
+        DECIMAL_4_2 rtp_target_max NOT_NULL "最高 RTP: 95"
+        DECIMAL_6_2 jackpot_trigger_probability NOT_NULL "觸發概率: 0.01%"
+        BIGINT_UNSIGNED jackpot_min_threshold NOT_NULL "最低觸發金額"
+        DECIMAL_4_2 jackpot_contribution_rate NOT_NULL "貢獻率: 1%"
+        TINYINT_1 jackpot_enabled NOT_NULL
+        INT max_players_per_room NOT_NULL "最大玩家數: 6"
+        INT min_players_to_start NOT_NULL "最少開局人數: 4"
+        INT bot_fill_wait_seconds NOT_NULL "Bot 補位等待: 30"
+        DATETIME_3 updated_at NOT_NULL
+        CHAR_26 updated_by FK "→ users.id"
+    }
+
+    audit_logs {
+        BIGINT_UNSIGNED id PK "AUTO_INCREMENT (Append-only)"
+        VARCHAR_100 event_type NOT_NULL "REFUND|BAN_USER|RTP_OVERRIDE..."
+        CHAR_26 actor_user_id FK "→ users.id (操作者)"
+        VARCHAR_50 resource_type NOT_NULL "user|order|game_config"
+        VARCHAR_100 resource_id NOT_NULL "資源 ID"
+        JSON before_json NULL "變更前快照"
+        JSON after_json NULL "變更後快照"
+        ENUM outcome NOT_NULL "success|failed"
+        VARCHAR_64 ip_hash NULL "SHA256(ip)"
+        VARCHAR_100 trace_id NULL "分散式追蹤 ID"
+        DATETIME_3 created_at NOT_NULL
+    }
+
+    data_access_logs {
+        BIGINT_UNSIGNED id PK "AUTO_INCREMENT"
+        CHAR_26 accessor_id FK "→ users.id (存取者)"
+        CHAR_26 subject_id FK "→ users.id (被存取者)"
+        VARCHAR_50 field_accessed NOT_NULL "email|birthdate|phone"
+        VARCHAR_50 access_reason NOT_NULL "age_verify|support|audit"
+        DATETIME_3 accessed_at NOT_NULL
+    }
+
+    %% ===== RELATIONSHIPS =====
+
+    users ||--o{ session_players : "參與 (1:N)"
+    game_sessions ||--o{ session_players : "包含 (1:N)"
+    game_sessions ||--o{ fish_kills : "記錄 (1:N)"
+    users ||--o{ fish_kills : "擊殺 (1:N)"
+    game_sessions ||--o| jackpot_events : "觸發 (1:0..1)"
+    users ||--o| jackpot_events : "贏得 (1:0..1)"
+    users ||--o{ orders : "產生 (1:N)"
+    products ||--o{ orders : "對應 (1:N)"
+    users ||--o| vip_subscriptions : "擁有 (1:0..1)"
+    orders ||--o| vip_subscriptions : "啟動 (1:0..1)"
+    users ||--o{ audit_logs : "觸發 (1:N)"
+    users ||--o{ data_access_logs : "被存取 (1:N)"
+    users ||--o{ data_access_logs : "存取 (1:N)"
+    users ||--o| game_configs : "更新 (1:0..1)"</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
