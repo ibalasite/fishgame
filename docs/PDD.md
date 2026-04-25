@@ -1791,6 +1791,27 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `input-border-focus` | `color-border-focus` | 輸入框焦點邊框 |
 | `input-border-error` | `color-feedback-error` | 輸入框錯誤邊框 |
 
+> **VDD-Only Layer 3 Extensions（VDD §6.3）：** 以下約 60 個 Component Token 在 VDD CSS Layer 3 中定義，用於 H5/CSS 渲染層的精細元件狀態與複合視覺效果；Cocos Creator 端直接使用數值或 tokens.ts 常數，無需 CSS Custom Property。PDD 元件規格僅定義業務語意（狀態、尺寸、交互行為），CSS 層映射細節由 VDD §6.3 定義。
+>
+> | 群組 | Token 清單 | 說明 |
+> |------|-----------|------|
+> | **Button Primary（擴充）** | `btn-primary-bg-active`、`btn-primary-text`、`btn-primary-radius`、`btn-primary-height`、`btn-primary-px` | Active 態背景、文字色、圓角/尺寸常數 |
+> | **Button Secondary** | `btn-secondary-border`、`btn-secondary-text`、`btn-secondary-bg-hover`、`btn-secondary-bg-active`、`btn-secondary-radius`、`btn-secondary-height` | 次要按鈕完整狀態 |
+> | **HUD（擴充）** | `hud-bg`、`hud-border`、`hud-text-color`、`hud-score-font`、`hud-score-size` | HUD 背景色、邊框、文字顏色/字型 |
+> | **Jackpot Bar** | `jackpot-bar-bg`、`jackpot-bar-border`、`jackpot-bar-fill-start`、`jackpot-bar-fill-end`、`jackpot-bar-height`、`jackpot-bar-radius`、`jackpot-bar-glow` | Jackpot 進度條背景、漸層填充端點、光暈 |
+> | **Boss HP Bar** | `boss-hp-bg`、`boss-hp-border`、`boss-hp-fill-high`、`boss-hp-fill-mid`、`boss-hp-fill-low`、`boss-hp-height`、`boss-hp-transition` | Boss 血條三段顏色（高/中/低血量）|
+> | **Card / Panel（擴充）** | `card-border-width`、`card-radius`、`card-shadow` | 面板邊框寬度、圓角、陰影 |
+> | **Input** | `input-bg`、`input-bg-hover`、`input-bg-focus`、`input-border`、`input-text`、`input-placeholder`、`input-height`、`input-radius`、`input-px` | 輸入框完整狀態背景、文字色、尺寸 |
+> | **Dropdown** | `dropdown-bg`、`dropdown-bg-hover`、`dropdown-bg-open`、`dropdown-border`、`dropdown-border-focus`、`dropdown-text`、`dropdown-text-disabled`、`dropdown-radius`、`dropdown-height`、`dropdown-shadow-open`、`dropdown-selected-bg`、`dropdown-selected-text` | Dropdown 全狀態 CSS 映射 |
+> | **VIP Badge（擴充）** | `vip-badge-border-width`、`vip-badge-glow-radius`、`vip-badge-radius` | 徽章邊框寬度、光暈半徑、圓角 |
+> | **Modal** | `modal-overlay`、`age-gate-overlay`、`modal-bg`、`modal-border`、`modal-radius` | 模態遮罩、年齡驗證特殊遮罩、面板背景/邊框/圓角 |
+> | **Toast / Alert** | `toast-success-bg`、`toast-success-border`、`toast-error-bg`、`toast-error-border` | 成功/錯誤提示條背景與邊框 |
+> | **Fish Name Label** | `fish-label-bg`、`fish-label-text`、`fish-label-font-size` | 魚名標籤背景、文字、字級 |
+> | **Weapon Select Card** | `weapon-card-bg`、`weapon-card-border`、`weapon-card-radius`、`weapon-card-selected-glow` | 武器選擇卡背景、邊框、選中光暈 |
+> | **Shop Card** | `shop-card-bg`、`shop-card-border` | 商店商品卡暖黑背景與邊框 |
+> | **Settlement Panel** | `settle-win-bg`、`settle-win-border`、`settle-loss-bg`、`settle-loss-border` | 勝/負結算面板漸層背景與邊框 |
+> | **Skeleton Loading** | `skeleton-base`、`skeleton-shine`、`skeleton-radius`、`skeleton-duration` | 骨架屏底色、閃光色、圓角、動畫時長 |
+
 ### 9.4 Dark Mode Token Mapping
 
 > 本遊戲以深色（Dark）為主要視覺方向。以下表格定義遊戲 UI 在可能的「日間模式（Light Mode，未來 v2.0 選項）」與「主要模式（Dark，現行）」的 Token 對照。
