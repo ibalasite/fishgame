@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>物件圖：快照 — fishgame</title>
+  <title>前端類別圖：Client 服務 — fishgame</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 </head>
@@ -20,8 +20,8 @@
     </div>
   </header>
   <div class="doc-page-banner">
-    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 物件圖：快照</p>
-    <h1 class="banner-title">物件圖：快照</h1>
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 前端類別圖：Client 服務</p>
+    <h1 class="banner-title">前端類別圖：Client 服務</h1>
   </div>
   <div class="page-wrapper">
     <aside class="sidebar" aria-label="文件導覽">
@@ -60,7 +60,7 @@
 <a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
 <a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
 <a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
-<a class="sidebar__link active" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
 <a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
 <a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
 <a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
@@ -78,7 +78,7 @@
 <a class="sidebar__link" href="diag-frontend-activity-ui.html">🖱️ 前端活動圖：UI 互動</a>
 <a class="sidebar__link" href="diag-frontend-class-component.html">🗂️ 前端類別圖：元件</a>
 <a class="sidebar__link" href="diag-frontend-class-scene.html">🎬 前端類別圖：場景控制器</a>
-<a class="sidebar__link" href="diag-frontend-class-services.html">⚙️ 前端類別圖：Client 服務</a>
+<a class="sidebar__link active" href="diag-frontend-class-services.html">⚙️ 前端類別圖：Client 服務</a>
 <a class="sidebar__link" href="diag-frontend-communication.html">🤝 前端協作圖：WS 協議</a>
 <a class="sidebar__link" href="diag-frontend-component.html">🧩 前端元件圖：Cocos 節點樹</a>
 <a class="sidebar__link" href="diag-frontend-deployment.html">☁️ 前端部署圖：建構管線</a>
@@ -93,224 +93,209 @@
     </aside>
     <div class="sidebar-resizer" id="sidebarResizer"></div>
     <main class="doc-content"><hr>
-<p>diagram: object-snapshot</p>
-<p>uml-type: 物件圖（執行時快照）</p>
-<p>source: EDD.md §5.5; class-domain.md</p>
+<p>diagram: frontend-class-services</p>
+<p>uml-type: 前端類別圖：Service/System 層</p>
+<p>source: FRONTEND.md + PDD.md + VDD.md</p>
 <p>generated: 2026-04-25T00:00:00Z</p>
+<p>engine: Cocos Creator 3.8</p>
 <hr>
-<h1>Object Diagram — Runtime Snapshot（執行時快照）</h1>
-<blockquote><p>來源：EDD.md §5.5 資料模型；class-domain.md 領域類別</p></blockquote>
-<h2>Snapshot 1：房間進行中狀態（PLAYING）</h2>
-<blockquote><p>2 名玩家、3 條魚，其中 1 名玩家 VIP 狀態，1 條 Boss 魚血量受損</p></blockquote>
-<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
-classDiagram
-    direction LR
-
-    class room_001 {
-        id = "room_001"
-        roomType = "competitive"
-        status = PLAYING
-        tableId = "table_A"
-        jackpotPool = 15000
-        maxPlayers = 6
+<h1>前端類別圖：Service/System 層</h1>
+<blockquote><p>來源：FRONTEND.md §game/systems / §game/managers / §network</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">classDiagram
+    class NetworkManager {
+        <<singleton>>
+        -static _instance: NetworkManager
+        -_colyseusClient: ColyseusClient
+        -_httpClient: HttpClient
+        -_messageQueue: MessageQueue
+        -_connected: boolean
+        +static getInstance() NetworkManager
+        +connect(url: string) Promise~void~
+        +disconnect() void
+        +send(type: string, payload: object) void
+        +onMessage(type: string, handler: Function) void
+        +isConnected() boolean
+        +getColyseusClient() ColyseusClient
+        +getHttpClient() HttpClient
     }
 
-    class session_101 {
-        id = "session_101"
-        roomId = "room_001"
-        startedAt = 2026-04-25T10_00_00Z
-        endedAt = null
-        rtpCurrent = 0.88
-        playerCount = 2
-        status = PLAYING
+    class ColyseusClient {
+        -_client: Colyseus.Client
+        -_room: Colyseus.Room
+        -_roomId: string
+        -_reconnectToken: string
+        +joinRoom(roomId: string, options: object) Promise~Room~
+        +leaveRoom() Promise~void~
+        +sendMessage(type: string, payload: object) void
+        +onStateChange(handler: Function) void
+        +onMessage(type: string, handler: Function) void
+        +reconnect(roomId: string, token: string) Promise~Room~
+        +getRoomState() GameRoomState
     }
 
-    class player_vip {
-        id = "usr_AliceCUID"
-        nickname = "Alice_VIP"
-        level = 25
-        coins = 85000
-        diamonds = 500
-        vipLevel = 2
-        vipExpiresAt = 2026-07-25T00_00_00Z
-        status = IN_ROOM
-        ageStatus = VERIFIED
-        role = "player"
+    class HttpClient {
+        -_baseUrl: string
+        -_authToken: string
+        -_timeout: number
+        +get(path: string, params: object) Promise~any~
+        +post(path: string, body: object) Promise~any~
+        +put(path: string, body: object) Promise~any~
+        +delete(path: string) Promise~any~
+        +setAuthToken(token: string) void
+        +handleError(error: HttpError) void
     }
 
-    class weapon_laser {
-        type = LASER
-        level = 3
-        damage = 120
-        cost = 50
-        cooldownMs = 800
-        isUnlocked = true
+    class MessageQueue {
+        -_queue: Message[]
+        -_processing: boolean
+        -_maxSize: number
+        +enqueue(message: Message) void
+        +dequeue() Message
+        +processAll() void
+        +clear() void
+        +size() number
     }
 
-    class player_normal {
-        id = "usr_BobCUID"
-        nickname = "Bob_Challenger"
-        level = 8
-        coins = 12000
-        diamonds = 0
-        vipLevel = 0
-        vipExpiresAt = null
-        status = IN_ROOM
-        ageStatus = VERIFIED
-        role = "player"
+    class ShootingSystem {
+        <<Component>>
+        -_networkManager: NetworkManager
+        -_bulletPoolManager: BulletPoolManager
+        -_cooldownMap: Map~number_number~
+        -_isShooting: boolean
+        +onLoad() void
+        +onDestroy() void
+        +onTouchEnd(touch: Touch, targetFishId: string) void
+        +shoot(targetFishId: string, weaponId: number) void
+        +isWeaponReady(weaponId: number) boolean
+        +getCooldownRemaining(weaponId: number) number
+        +onBulletHit(fishId: string, damage: number) void
     }
 
-    class weapon_normal {
-        type = NORMAL
-        level = 1
-        damage = 30
-        cost = 10
-        cooldownMs = 200
-        isUnlocked = true
+    class FishSystem {
+        <<Component>>
+        -_networkManager: NetworkManager
+        -_fishPoolManager: FishPoolManager
+        -_activeFishes: Map~string_FishNode~
+        +onLoad() void
+        +onDestroy() void
+        +initFishes(fishStates: MapSchema) void
+        +updateFishHP(fishId: string, damage: number) void
+        +removeFish(fishId: string) void
+        +addFish(fishState: FishState) void
+        +getFishById(fishId: string) FishNode
+        +getActiveFishCount() number
     }
 
-    class fish_boss_001 {
-        id = "fish_boss_001"
-        fishType = BOSS
-        hp = 300
-        maxHp = 500
-        speed = 0.8
-        multiplier = 50
-        status = ALIVE
-        coinValue = 5000
-        spawnedAt = 2026-04-25T10_02_30Z
+    class WeaponSystem {
+        <<Component>>
+        -_networkManager: NetworkManager
+        -_currentWeaponId: number
+        -_weapons: WeaponConfig[]
+        +onLoad() void
+        +onDestroy() void
+        +loadWeaponConfigs() Promise~void~
+        +switchWeapon(weaponId: number) void
+        +getCurrentWeapon() WeaponConfig
+        +getWeaponById(weaponId: number) WeaponConfig
+        +onWeaponChanged(weaponId: number) void
+        +canAffordWeapon(weaponId: number) boolean
     }
 
-    class pos_boss {
-        x = 320.5
-        y = 240.0
+    class SkillSystem {
+        <<Component>>
+        -_networkManager: NetworkManager
+        -_activeSkillId: number
+        -_skillCooldowns: Map~number_number~
+        -_isSkillActive: boolean
+        +onLoad() void
+        +update(dt: number) void
+        +onDestroy() void
+        +activateSkill(skillId: number) void
+        +isSkillReady(skillId: number) boolean
+        +getCooldownRemaining(skillId: number) number
+        +onSkillExpired(skillId: number) void
     }
 
-    class fish_elite_002 {
-        id = "fish_elite_002"
-        fishType = ELITE
-        hp = 100
-        maxHp = 100
-        speed = 1.5
-        multiplier = 10
-        status = ALIVE
-        coinValue = 500
-        spawnedAt = 2026-04-25T10_03_10Z
+    class FishPoolManager {
+        <<singleton>>
+        -static _instance: FishPoolManager
+        -_pool: NodePool
+        -_poolSize: number
+        -_activeCount: number
+        +static getInstance() FishPoolManager
+        +getFromPool(fishType: string) Node
+        +returnToPool(node: Node) void
+        +getActiveCount() number
+        +preloadPool(size: number) Promise~void~
+        +clearPool() void
     }
 
-    class pos_elite {
-        x = 150.0
-        y = 380.0
+    class BulletPoolManager {
+        <<singleton>>
+        -static _instance: BulletPoolManager
+        -_pool: NodePool
+        -_activeCount: number
+        +static getInstance() BulletPoolManager
+        +getBullet(weaponId: number) Node
+        +returnBullet(node: Node) void
+        +getActiveCount() number
+        +preloadPool(size: number) Promise~void~
     }
 
-    class fish_normal_003 {
-        id = "fish_normal_003"
-        fishType = NORMAL
-        hp = 20
-        maxHp = 20
-        speed = 2.0
-        multiplier = 2
-        status = ALIVE
-        coinValue = 20
-        spawnedAt = 2026-04-25T10_03_45Z
+    class EffectPoolManager {
+        <<singleton>>
+        -static _instance: EffectPoolManager
+        -_hitEffectPool: NodePool
+        -_coinEffectPool: NodePool
+        +static getInstance() EffectPoolManager
+        +getHitEffect(position: Vec3) Node
+        +getCoinEffect(position: Vec3) Node
+        +returnEffect(node: Node, type: string) void
+        +preloadEffects() Promise~void~
     }
 
-    class pos_normal {
-        x = 500.0
-        y = 100.0
+    class AudioManager {
+        <<singleton>>
+        -static _instance: AudioManager
+        -_bgmVolume: number
+        -_sfxVolume: number
+        -_currentBGM: AudioSource
+        +static getInstance() AudioManager
+        +playBGM(clipName: string) void
+        +stopBGM() void
+        +fadeBGM(duration: number) Promise~void~
+        +playSFX(clipName: string) void
+        +setBGMVolume(volume: number) void
+        +setSFXVolume(volume: number) void
+        +loadAudioClip(clipName: string) Promise~AudioClip~
     }
 
-    room_001 "1" *-- "1" session_101 : currentSession
-    room_001 "1" *-- "2" player_vip : players
-    room_001 "1" *-- "2" player_normal : players
-    room_001 "1" *-- "3" fish_boss_001 : fishes
-    room_001 "1" *-- "3" fish_elite_002 : fishes
-    room_001 "1" *-- "3" fish_normal_003 : fishes
-    player_vip "1" *-- "1" weapon_laser : equips
-    player_normal "1" *-- "1" weapon_normal : equips
-    fish_boss_001 "1" *-- "1" pos_boss : at
-    fish_elite_002 "1" *-- "1" pos_elite : at
-    fish_normal_003 "1" *-- "1" pos_normal : at</pre></div>
-<h2>Snapshot 2：VIP 高餘額玩家 Profile 快照</h2>
-<blockquote><p>玩家 VIP2 狀態，持有多種技能，鑽石餘額高</p></blockquote>
-<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
-classDiagram
-    direction LR
-
-    class player_vip_boss {
-        id = "usr_VIPBossCUID"
-        nickname = "GoldKing88"
-        level = 50
-        coins = 2500000
-        diamonds = 3200
-        vipLevel = 3
-        vipExpiresAt = 2026-10-25T00_00_00Z
-        status = IDLE
-        ageStatus = VERIFIED
-        role = "player"
-        failedLoginCount = 0
-        lastLoginAt = 2026-04-25T09_30_00Z
+    class StorageUtils {
+        <<utility>>
+        +static save(key: string, value: any) void
+        +static load(key: string, defaultValue: any) any
+        +static remove(key: string) void
+        +static clear() void
+        +static getAuthToken() string
+        +static setAuthToken(token: string) void
+        +static getUserSettings() UserSettings
+        +static setUserSettings(settings: UserSettings) void
     }
 
-    class weapon_lock {
-        type = LOCK
-        level = 5
-        damage = 200
-        cost = 100
-        cooldownMs = 1500
-        isUnlocked = true
-    }
+    NetworkManager "1" *-- "1" ColyseusClient : owns
+    NetworkManager "1" *-- "1" HttpClient : owns
+    NetworkManager "1" *-- "1" MessageQueue : owns
 
-    class weapon_scatter {
-        type = SCATTER
-        level = 3
-        damage = 80
-        cost = 40
-        cooldownMs = 600
-        isUnlocked = true
-    }
+    ShootingSystem --> NetworkManager : uses
+    FishSystem --> NetworkManager : uses
+    WeaponSystem --> NetworkManager : uses
+    SkillSystem --> NetworkManager : uses
 
-    class skill_freeze {
-        type = FREEZE
-        level = 3
-        durationMs = 5000
-        cooldownMs = 30000
-        cost = 200
-    }
+    ShootingSystem --> BulletPoolManager : uses
+    FishSystem --> FishPoolManager : uses
+    ShootingSystem --> EffectPoolManager : uses
 
-    class skill_bomb {
-        type = BOMB
-        level = 2
-        durationMs = 0
-        cooldownMs = 60000
-        cost = 500
-    }
-
-    class skill_lock {
-        type = LOCK
-        level = 4
-        durationMs = 8000
-        cooldownMs = 20000
-        cost = 150
-    }
-
-    class tx_recent_purchase {
-        id = "tx_001"
-        playerId = "usr_VIPBossCUID"
-        amount = 3200
-        currency = DIAMOND
-        type = PURCHASE
-        status = COMPLETED
-        orderId = "ord_UUID_001"
-        createdAt = 2026-04-24T20_00_00Z
-    }
-
-    player_vip_boss "1" *-- "1" weapon_lock : equips
-    player_vip_boss "1" *-- "1" weapon_scatter : owns
-    player_vip_boss "1" *-- "1" skill_freeze : owns
-    player_vip_boss "1" *-- "1" skill_bomb : owns
-    player_vip_boss "1" *-- "1" skill_lock : owns
-    player_vip_boss "1" ..> "1" tx_recent_purchase : last transaction</pre></div></main>
+    StorageUtils ..> HttpClient : configures token</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
