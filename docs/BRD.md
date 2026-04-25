@@ -338,17 +338,19 @@ graph TD
 - ✅ 任務系統（日常 / 週常任務引導留存）
 - ✅ 每週活動 + 節日活動 + 限時 Boss 活動框架
 
-**Out of Scope（明確排除，含理由）：**
+**Out of Scope（MVP 本版明確延後，含理由）：**
 - ❌ 寵物技能系統 FPetSkillHelp（原因：增加開發複雜度，MVP 聚焦核心玩法驗證，列 P2 延後）
-- ❌ 換裝皮膚系統 FChangeSkinUI（原因：MVP 階段聚焦競技機制驗證，皮膚作為留存道具列 P1 系統完善期）
 - ❌ 社群好友系統 FFriendApply（原因：MVP 先驗證陌生人競技體驗，社交功能作為 P1 後續疊加）
 - ❌ 跨平台 App Store / Google Play 上架（原因：初期以 H5 / 網頁端優先驗證，移動端分發列 v2.0）
 - ❌ 歐美市場本地化（原因：初期聚焦亞洲市場，歐美市場無驗證，不投入資源）
 
+> **注意（align-fix D1-A-1）：** 換裝皮膚系統原列 Out of Scope 同時出現在 Could Have（§5.4），存在矛盾。
+> 修正：皮膚系統移出 Out of Scope 硬排除清單，改為 **Could Have（P2 視開發容量）**，與 §5.4 一致。
+
 **Future Scope（v2.0 候選）：**
 - 🔮 好友系統 + 私人房間 + 邀請碼功能
-- 🔮 換裝皮膚系統與限定皮膚活動
-- 🔮 寵物技能輔助系統
+- 🔮 換裝皮膚系統與限定皮膚活動（P2 Could Have）
+- 🔮 寵物技能輔助系統（P2 延後）
 - 🔮 公會 / 工會社群功能
 - 🔮 移動端（iOS / Android）原生 App 上架
 
@@ -367,12 +369,14 @@ graph TD
 | 砲台 / 技能升級成長系統 | **Should Have** | O4 | 長期留存核心，但 MVP 可以簡化版本先上 |
 | 任務系統（日常/週常） | **Should Have** | O4 | 引導留存的重要機制，P1 系統完善期完成 |
 | 每週/節日/限時 Boss 活動框架 | **Should Have** | O1, O4 | 活動運營驅動返回率，P1 完成期上線 |
+| 排行榜系統（日榜/週榜/總榜）| **Could Have** | O1, O4 | 社交競爭深度加強留存，依賴 Redis sorted set 實作；v1 已有 GET /v1/game/leaderboard endpoint，P2 正式納入產品 |
 | 換裝皮膚系統 | **Could Have** | O4 | 留存與付費加強道具，P2 視開發容量決定 |
 | 好友系統 + 私人房間 | **Could Have** | O1 | 社交功能增強留存，但不阻擋核心驗證 |
 | 寵物技能系統 | **Won't Have（本版）** | — | 開發複雜度高，核心假設驗證前不做 |
 | 歐美市場本地化 | **Won't Have（本版）** | — | 初期聚焦亞洲市場，無資源分散投入 |
 
 > Must Have 功能估算佔開發容量約 55%，符合「不超過 60%」原則，保留緩衝。
+> 排行榜列 Could Have（D1-A-2）：API.md 已定義 GET /v1/game/leaderboard，Redis sorted set 實作成本低，業務依據為強化社交競爭黏性（BRD O1, O4），正式進入產品需求。
 
 ---
 
