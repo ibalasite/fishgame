@@ -86,7 +86,7 @@
 |------|------|------|
 | 資料表名稱 | `snake_case`，**複數**，小寫（Prisma 慣例）| `users`, `game_sessions` |
 | 欄位名稱 | `snake_case`，小寫 | `display_name`, `created_at` |
-| Boolean 欄位 | 以 `is_`、`has_`、`can_` 為前綴 | `is_mvp`, `is_active`（例外：`age_verified` 為 API 契約既有命名，不重命名）|
+| Boolean 欄位 | 以 `is_`、`has_`、`can_` 為前綴 | `is_mvp`, `is_active`（注意：DB 欄位為 `age_status ENUM`；API 回應層以 `age_verified=true` 映射 VERIFIED 狀態）|
 | Enum 欄位（MySQL）| ALL_CAPS 字串，`ENUM(...)` | `'active','suspended','banned'` |
 | 外鍵欄位 | 參照表名稱單數 + `_id` | `user_id`, `session_id` |
 | 索引名稱 | `idx_{table}_{columns}` | `idx_users_email` |
@@ -172,7 +172,11 @@ CREATE TABLE users (
                          'operator',
                          'superadmin'
                        )                NOT NULL DEFAULT 'player',
-  age_verified         TINYINT(1)       NOT NULL DEFAULT 0              COMMENT '1=已驗證年齡 >= 18',
+  age_status           ENUM(
+                         'UNVERIFIED',
+                         'DEMO_ONLY',
+                         'VERIFIED'
+                       )                NOT NULL DEFAULT 'UNVERIFIED'    COMMENT '年齡驗證三態：UNVERIFIED（未驗證）→ DEMO_ONLY（演示模式，≥18 未完成驗證流程）→ VERIFIED（已驗證 ≥18）',
   status               ENUM(
                          'active',
                          'suspended',
@@ -237,7 +241,7 @@ CREATE TRIGGER trg_users_updated_at
 | display_name | VARCHAR(30) | NO | — | 2–30 字元，無特殊符號 |
 | avatar_url | VARCHAR(512) | YES | NULL | S3 公開 URL；ClamAV 掃描後才設定 |
 | role | ENUM | NO | 'player' | RBAC 角色 |
-| age_verified | TINYINT(1) | NO | 0 | 是否通過年齡驗證（18+）|
+| age_status | ENUM | NO | 'UNVERIFIED' | 年齡驗證三態機；API 回應層以 `age_verified=true` 映射 VERIFIED |
 | status | ENUM | NO | 'active' | 帳號狀態 |
 | vip_tier | TINYINT | NO | 0 | VIP 等級 0–3 |
 | vip_expires_at | DATETIME(3) | YES | NULL | VIP 到期時間 |
@@ -919,7 +923,7 @@ erDiagram
         varchar30 display_name "NOT NULL"
         varchar512 avatar_url
         enum role "player/operator/superadmin"
-        tinyint age_verified "NOT NULL"
+        enum age_status "UNVERIFIED/DEMO_ONLY/VERIFIED"
         enum status "active/suspended/banned"
         tinyint_unsigned vip_tier "DEFAULT 0"
         datetime3 vip_expires_at
@@ -1102,7 +1106,7 @@ erDiagram
 
 ### 命名與結構
 - [x] 所有資料表名稱為 `snake_case` 複數形式（MySQL 慣例）
-- [x] Boolean 欄位有 `is_`、`has_` 前綴（`is_mvp`, `is_active`, `age_verified`）
+- [x] Boolean 欄位有 `is_`、`has_` 前綴（`is_mvp`, `is_active`）；`age_status` 改為 ENUM 三態
 - [x] Enum 欄位使用 MySQL ENUM 類型
 - [x] 外鍵欄位命名為 `{referenced_table_singular}_id`
 - [x] 索引、約束名稱遵循命名規範

@@ -30,7 +30,7 @@
 **狀態圖示**：🔴 有 CRITICAL/HIGH 問題 ｜ ⚠️ 僅 MEDIUM/LOW ｜ ✅ 無問題
 
 - D0 必要文件存在性：✅（D0-001 為誤報，已標 MANUAL）
-- D1 Doc→Doc：⚠️（20/22 已修復，2 個 MEDIUM/LOW 待定：D1-E-2 age_status 設計決策、D1-G-2 性能測試 RTM）
+- D1 Doc→Doc：⚠️（21/22 已修復，1 個 LOW 待定：D1-G-2 性能測試 RTM）
 - D2 Doc→Code：🔴（尚無實作，設計完成度良好）
 - D3 Code→Test：🔴（尚無實作，設計完成度良好）
 - D4 Doc→Test：⚠️（7/9 已修復，剩餘：D4-001 BDD step definitions 待實作、D4-009 Analytics 降級無 BDD）
@@ -266,6 +266,7 @@
     age_status ENUM('UNVERIFIED','DEMO_ONLY','VERIFIED')；
     或 EDD 更新說明 DEMO_ONLY 透過其他欄位/邏輯實現
   可自動修復：NO
+  [FIXED: 選 A — SCHEMA §3.1 age_verified TINYINT 改為 age_status ENUM('UNVERIFIED','DEMO_ONLY','VERIFIED')；API 回應層以 age_verified=true 映射 VERIFIED]
 ```
 
 ```
