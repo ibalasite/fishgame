@@ -968,6 +968,13 @@ jobs:
 
 ### §15.1 E2E / Integration RTM（PRD AC → TC-ID → BDD Scenario）
 
+> **TC 數量說明（align-fix D1-G-1）：** 本表包含 43 個核心 TC（按 PRD AC 正式映射），為「實作啟動前最低覆蓋要求」。
+> RTM §3/§4 另含 80+ 個 BDD 補充 Scenarios（含 Outline 展開後 ~138 個有效 test case），兩者不重複計算。
+> 43 = 核心映射 TC；80+ = RTM 全量；~138 = 含 Outline 展開後 test case 總數。
+>
+> **feature 路徑說明：** 下表 BDD Scenario 欄位路徑為設計期原始命名（account_registration.feature 等），
+> 實際 features/ 目錄已依模組分層（auth/user_registration.feature 等），請參考 RTM §4/§5 的實際路徑。
+
 > TC-ID 命名格式：`TC-{TYPE}-{MODULE}-{SEQ}-{CASE}`
 > TYPE: E2E / INT（Integration）/ UNIT
 > MODULE: ACCT / ROOM / FISH / WPSK / RTP / SHOP / AGE / VIP
