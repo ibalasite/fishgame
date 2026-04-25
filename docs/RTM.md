@@ -275,7 +275,19 @@ graph LR
 
 ---
 
-## §6 需求 ↔ 測試快速查詢
+## §6 Performance Test RTM（BRD NFR → test-plan → TC-ID）
+
+| TC-ID | BRD NFR 來源 | 指標定義 | test-plan 章節 | 狀態 |
+|-------|-------------|---------|---------------|------|
+| TC-PERF-001 | PRD §7.1 / BRD A3 | WebSocket 延遲 P99 < 100ms @ 1,000 並發玩家 | §3.4 k6 負載測試 | TODO |
+| TC-PERF-002 | PRD §7.1 | API 回應時間 P99 < 500ms @ 500 RPS（商城/帳號端點）| §3.4 k6 負載測試 | TODO |
+| TC-PERF-003 | PRD §7.1 | 同一 AZ 內 WS 事件往返延遲 P99 ≤ 100ms（連續 100 次）| §3.4 / `features/game/room_matchmaking.feature` @TC-INT-ROOM-004-S | TODO |
+| TC-PERF-004 | PRD §7.2 / BRD §9.2 | 系統整體可用性 ≥ 99.5%（月度統計）| §3.4 監控 SLA 驗證 | TODO |
+| TC-PERF-005 | PRD §7.3 | 並發 1,000 人同時在線，Colyseus 伺服器無崩潰（≥ 167 活躍房間）| §3.4 k6 壓力測試 | TODO |
+
+---
+
+## §8 需求 ↔ 測試快速查詢
 
 ### §6.1 User Story → TC-ID 對照
 

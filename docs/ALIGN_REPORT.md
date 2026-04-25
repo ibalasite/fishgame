@@ -30,7 +30,7 @@
 **狀態圖示**：🔴 有 CRITICAL/HIGH 問題 ｜ ⚠️ 僅 MEDIUM/LOW ｜ ✅ 無問題
 
 - D0 必要文件存在性：✅（D0-001 為誤報，已標 MANUAL）
-- D1 Doc→Doc：⚠️（21/22 已修復，1 個 LOW 待定：D1-G-2 性能測試 RTM）
+- D1 Doc→Doc：✅（22/22 全部修復）
 - D2 Doc→Code：🔴（尚無實作，設計完成度良好）
 - D3 Code→Test：🔴（尚無實作，設計完成度良好）
 - D4 Doc→Test：⚠️（7/9 已修復，剩餘：D4-001 BDD step definitions 待實作、D4-009 Analytics 降級無 BDD）
@@ -341,6 +341,7 @@
 [LOW] D1-G-2: RTM 未追蹤性能測試 TC（BRD NFR QPS/並發指標無 RTM 覆蓋）
   建議修復方向：RTM 新增 §6 Performance Test RTM，追蹤 BRD NFR → test-plan §3.4 → k6 腳本
   可自動修復：NO
+  [FIXED: RTM §6 新增 5 條 TC-PERF-001~005，對應 PRD §7.1/§7.2/§7.3 NFR 指標]
 ```
 
 > **注意**：LOW 問題實際有 5 個，總計以 4 計算（D1-G-2 歸入 RTM 追蹤範疇，計為 MEDIUM 邊界）。
