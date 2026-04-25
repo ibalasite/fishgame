@@ -1796,19 +1796,22 @@ const safeArea = cc.sys.getSafeAreaRect();
 > | 群組 | Token 清單 | 說明 |
 > |------|-----------|------|
 > | **Button Primary（擴充）** | `btn-primary-bg-active`、`btn-primary-text`、`btn-primary-radius`、`btn-primary-height`、`btn-primary-px` | Active 態背景、文字色、圓角/尺寸常數 |
-> | **Button Secondary** | `btn-secondary-border`、`btn-secondary-text`、`btn-secondary-bg-hover`、`btn-secondary-bg-active`、`btn-secondary-radius`、`btn-secondary-height` | 次要按鈕完整狀態 |
+> | **Button Secondary** | `btn-secondary-border`、`btn-secondary-text`、`btn-secondary-bg-hover`、`btn-secondary-bg-active`、`btn-secondary-disabled-color`、`btn-secondary-radius`、`btn-secondary-height` | 次要按鈕完整狀態；disabled-color 為霓虹青 40% |
+> | **Button Icon** | `icon-btn-bg-hover`、`icon-btn-bg-active` | 圖示按鈕 Hover/Active 背景（白色 8%/12%）|
 > | **HUD（擴充）** | `hud-bg`、`hud-border`、`hud-text-color`、`hud-score-font`、`hud-score-size` | HUD 背景色、邊框、文字顏色/字型 |
 > | **Jackpot Bar** | `jackpot-bar-bg`、`jackpot-bar-border`、`jackpot-bar-fill-start`、`jackpot-bar-fill-end`、`jackpot-bar-height`、`jackpot-bar-radius`、`jackpot-bar-glow` | Jackpot 進度條背景、漸層填充端點、光暈 |
 > | **Boss HP Bar** | `boss-hp-bg`、`boss-hp-border`、`boss-hp-fill-high`、`boss-hp-fill-mid`、`boss-hp-fill-low`、`boss-hp-height`、`boss-hp-transition` | Boss 血條三段顏色（高/中/低血量）|
-> | **Card / Panel（擴充）** | `card-border-width`、`card-radius`、`card-shadow` | 面板邊框寬度、圓角、陰影 |
-> | **Input** | `input-bg`、`input-bg-hover`、`input-bg-focus`、`input-border`、`input-text`、`input-placeholder`、`input-height`、`input-radius`、`input-px` | 輸入框完整狀態背景、文字色、尺寸 |
+> | **Card / Panel（擴充）** | `card-bg-highlight`、`card-border-width`、`card-radius`、`card-shadow`、`card-shadow-highlight` | 高亮面板背景（VIP/特殊）、邊框寬度、圓角、標準/高亮陰影 |
+> | **Input** | `input-bg`、`input-bg-hover`、`input-bg-focus`、`input-bg-error`、`input-bg-disabled`、`input-border`、`input-text`、`input-placeholder`、`input-height`、`input-radius`、`input-px` | 輸入框全狀態背景（含 Error/Disabled）、文字色、尺寸 |
 > | **Dropdown** | `dropdown-bg`、`dropdown-bg-hover`、`dropdown-bg-open`、`dropdown-border`、`dropdown-border-focus`、`dropdown-text`、`dropdown-text-disabled`、`dropdown-radius`、`dropdown-height`、`dropdown-shadow-open`、`dropdown-selected-bg`、`dropdown-selected-text` | Dropdown 全狀態 CSS 映射 |
 > | **VIP Badge（擴充）** | `vip-badge-border-width`、`vip-badge-glow-radius`、`vip-badge-radius` | 徽章邊框寬度、光暈半徑、圓角 |
 > | **Modal** | `modal-overlay`、`age-gate-overlay`、`modal-bg`、`modal-border`、`modal-radius` | 模態遮罩、年齡驗證特殊遮罩、面板背景/邊框/圓角 |
 > | **Toast / Alert** | `toast-success-bg`、`toast-success-border`、`toast-error-bg`、`toast-error-border` | 成功/錯誤提示條背景與邊框 |
 > | **Fish Name Label** | `fish-label-bg`、`fish-label-text`、`fish-label-font-size` | 魚名標籤背景、文字、字級 |
-> | **Weapon Select Card** | `weapon-card-bg`、`weapon-card-border`、`weapon-card-radius`、`weapon-card-selected-glow` | 武器選擇卡背景、邊框、選中光暈 |
-> | **Shop Card** | `shop-card-bg`、`shop-card-border` | 商店商品卡暖黑背景與邊框 |
+> | **Weapon Select Card** | `weapon-card-bg`、`weapon-card-border`、`weapon-card-shadow`、`weapon-card-radius`、`weapon-card-selected-glow` | 武器選擇卡背景、邊框（via color-gold-border-card）、內嵌高光陰影、選中光暈 |
+> | **Shop Card** | `shop-card-bg`、`shop-card-border`、`shop-card-shadow` | 商店商品卡暖黑背景、邊框（via color-gold-border-card）、陰影 |
+> | **Weapon UI** | `weapon-cooldown-bg` | 武器冷卻圓圈底板色（黑色 50%）|
+> | **NavBar** | `navbar-bg`、`navbar-border-top`、`navbar-inactive-color` | 導航列背景（深藍 96%）、頂部金色細邊框（20%）、未選中圖示/標籤色（白色 50%）|
 > | **Settlement Panel** | `settle-win-bg`、`settle-win-border`、`settle-loss-bg`、`settle-loss-border` | 勝/負結算面板漸層背景與邊框 |
 > | **Skeleton Loading** | `skeleton-base`、`skeleton-shine`、`skeleton-radius`、`skeleton-duration` | 骨架屏底色、閃光色、圓角、動畫時長 |
 
