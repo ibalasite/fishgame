@@ -1,0 +1,116 @@
+tc_id,prd_req_id,ac_desc,test_type,bdd_file,status,priority
+TC-E2E-ACCT-001-S,US-ACCT-001/AC-1,帳號註冊成功,E2E,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-002-S,US-ACCT-001/AC-2,登入 JWT+Refresh Token 簽發,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-003-E,US-ACCT-001/AC-3,Email 已存在 409,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-004-E,US-ACCT-001/AC-4,Rate Limit 429,Integration,features/auth/user_login.feature,TODO,P0
+TC-UNIT-ACCT-005-B,US-ACCT-001/AC-5,密碼強度邊界,Unit,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-006-E,,過期 JWT 401,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-007-E,,他人資料 403,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-008-S,US-ACCT-001/AC-2,有效憑證登入 access_token+refresh_token,Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-009-S,,Refresh Token 換新 access_token 舊 token 作廢,Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-010-S,,登出 refresh_token 作廢,Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-011-E,,錯誤密碼 401 INVALID_CREDENTIALS,Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-012-E,,不存在 email 401,Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-013-E,,撤銷 refresh_token 401 TOKEN_REVOKED,Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-014-E,,無 Authorization header 401,Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-015-B,,JWT Token 有效期邊界(access 14/16min refresh 6/8day),Integration,features/auth/user_login.feature,TODO,P0
+TC-INT-ACCT-016-E,,同一 IP 1 分鐘超過 5 次註冊 429,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-ACCT-017-E,,agree_terms=false 400 VALIDATION_ERROR,Integration,features/auth/user_registration.feature,TODO,P0
+TC-E2E-ROOM-001-S,US-ROOM-001/AC-1,快速匹配進房,E2E,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-002-S,US-ROOM-001/AC-2,魚同步 < 100ms,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-003-S,US-ROOM-001/AC-4,玩家斷線 Bot 補位,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-004-S,,WS 事件往返延遲 P99 < 100ms,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-004-E,US-ROOM-001/AC-4,WS 重連失敗 Bot 接替,Integration,,TODO,P0
+TC-E2E-ROOM-003-S,US-ROOM-001/AC-3,Bot 補位 E2E,E2E,,TODO,P0
+TC-E2E-ROOM-005-S,US-ROOM-001/AC-5,結算 MVP,E2E,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-ROOM-005-E,,房間已滿 6 人 422 ROOM_FULL,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-006-E,US-ROOM-001/AC-6,Colyseus 503 Circuit Breaker,Integration,,TODO,P0
+TC-UNIT-ROOM-007-E,US-ROOM-001/AC-7,金幣不足進高倍率房間,Unit,,TODO,P0
+TC-INT-ROOM-007-E,,無 JWT Token WS 握手 401,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-008-E,,過期偽造 JWT WS 握手 401,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-009-B,,房間人數邊界(3→waiting / 4+→game_started),Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-ROOM-010-S,,30s 匹配超時機器人補位,Integration,features/game/room_matchmaking.feature,TODO,P0
+TC-INT-FISH-001-S,US-FISH-001/AC-1,命中金幣即時到帳,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-FISH-002-S,,未命中不扣金幣彈藥-1,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-FISH-003-S,,不同魚種倍率計算正確,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-FISH-003-B,US-FISH-001/AC-3,Boss 贏者通吃+逃跑安慰獎規則,Integration,features/game/fishing_gameplay.feature(待補充),TODO,P0
+TC-INT-FISH-004-S,,武器倍率x魚種倍率疊加,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-FISH-005-S,,單局全程未命中保底 10 金幣,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-FISH-005-E,US-FISH-001/AC-5,魚群服務崩潰降級靜態波次,Integration,features/game/fishing_gameplay.feature(待補充),TODO,P0
+TC-INT-FISH-006-B,US-FISH-001/AC-6,6 玩家同時命中 Redis SETNX 唯一,Integration,features/game/fishing_gameplay.feature(待補充),TODO,P0
+TC-INT-FISH-007-E,,目標魚已被擊殺 TARGET_NOT_FOUND,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-INT-FISH-008-B,,魚種x武器倍率邊界矩陣,Integration,features/game/fishing_gameplay.feature,TODO,P0
+TC-E2E-FISH-002-S,US-FISH-001/AC-2,RTP 計算金幣更新,E2E,,TODO,P0
+TC-E2E-FISH-004-S,US-FISH-001/AC-4,Boss 爆炸動畫金幣更新,E2E,,TODO,P0
+TC-E2E-WPSK-001-S,US-WPSK-001/AC-1,雷射炮扣費+倍率,E2E,features/game/weapon_skill.feature,TODO,P0
+TC-E2E-WPSK-002-S,US-WPSK-001/AC-2,冰凍技能觸發,E2E,,TODO,P0
+TC-INT-WPSK-002-S,US-WPSK-001/AC-2,技能冷卻期間無法重複使用,Integration,features/game/weapon_skill.feature,TODO,P0
+TC-INT-WPSK-003-S,US-WPSK-001/AC-2,冷卻期結束後可重新使用,Integration,features/game/weapon_skill.feature,TODO,P0
+TC-INT-WPSK-005-S,,全屏炸彈命中所有存活魚,Integration,features/game/weapon_skill.feature,TODO,P0
+TC-INT-WPSK-006-E,US-WPSK-001/AC-4,非 VIP 使用 VIP 武器 VIP_REQUIRED,Integration,features/game/weapon_skill.feature,TODO,P0
+TC-INT-WPSK-007-S,US-WPSK-001/AC-4,VIP 成功裝備 VIP 武器,Integration,features/game/weapon_skill.feature,TODO,P0
+TC-INT-WPSK-008-E,,遊戲未開始時選武器 GAME_NOT_STARTED,Integration,features/game/weapon_skill.feature,TODO,P0
+TC-INT-WPSK-009-B,,技能冷卻邊界(冷卻-1s COOLING_DOWN / 剛好 SUCCESS),Integration,features/game/weapon_skill.feature,TODO,P0
+TC-UNIT-WPSK-003-E,US-WPSK-001/AC-3,冷卻中點擊無效,Unit,features/game/weapon_skill.feature,TODO,P0
+TC-UNIT-WPSK-004-E,US-WPSK-001/AC-4,未解鎖拒絕使用,Unit,features/game/weapon_skill.feature,TODO,P0
+TC-UNIT-RTP-001-S,US-RTP-001/AC-1,10000 次模擬 RTP 85-95%,Unit,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-002-S,US-RTP-001/AC-2,連敗補償邏輯觸發,Integration,,TODO,P0
+TC-E2E-RTP-003-S,US-RTP-001/AC-3,Jackpot 觸發動畫獎池重置,E2E,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-004-S,US-RTP-001/AC-4,Jackpot 觸發審計日誌,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-005-E,US-RTP-001/AC-5,RTP Health Check 失敗降級 80%,Integration,,TODO,P0
+TC-INT-RTP-005-S,,Admin 調整 RTP 後 15 分鐘內生效,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-006-E,,非 Admin 修改 RTP 403,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-007-E,,base_rtp=0.79 422 RTP_OUT_OF_RANGE,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-008-B,,100 房間同時觸發 Jackpot Redis GETSET 唯一獲獎,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-INT-RTP-009-B,,RTP 邊界值驗證,Integration,features/game/rtp_jackpot.feature,TODO,P0
+TC-E2E-SHOP-001-S,US-SHOP-001/AC-1,Apple IAP 鑽石到帳,E2E,features/shop/iap_purchase.feature,TODO,P0
+TC-UNIT-SHOP-002-E,US-SHOP-001/AC-2,鑽石不足購買失敗,Unit,,TODO,P0
+TC-INT-SHOP-002-S,,鑽石兌換金幣匯率 1:10 1 秒內,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-003-B,US-SHOP-001/AC-3,幂等 order_id 重複 409,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-003-S,,Google Play IAP 驗證成功鑽石到帳,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-004-S,,充值後金幣即時可用,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-UNIT-SHOP-004-B,US-SHOP-001/AC-4,金幣倍率扣減歸零,Unit,,TODO,P0
+TC-INT-SHOP-005-E,US-SHOP-001/AC-5,Circuit Breaker 503 retry_after=30,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-006-E,US-SHOP-001/AC-6,退款 webhook REFUNDED 扣鑽,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-007-E,,無 JWT 401 UNAUTHORIZED,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-008-B,,不同充值方案鑽石數量驗證,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-009-E,,1 分鐘超過 5 次充值 429,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-INT-SHOP-010-E,,偽造 IAP 收據 422 IAP_RECEIPT_INVALID,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-E2E-AGE-001-S,US-AGE-001/AC-1,未成年拒絕,E2E,features/auth/user_registration.feature,TODO,P0
+TC-UNIT-AGE-001-S,US-AGE-001/AC-3,出生 18 年前驗證通過,Unit,tests/unit/compliance/AgeVerification.test.ts,TODO,P0
+TC-UNIT-AGE-001-E,US-AGE-001/AC-2,出生 < 18 年拒絕 RESTRICTED,Unit,tests/unit/compliance/AgeVerification.test.ts,TODO,P0
+TC-UNIT-AGE-001-B,US-AGE-001/AC-1,今日滿 18 歲邊界日期,Unit,tests/unit/compliance/AgeVerification.test.ts,TODO,P0
+TC-UNIT-AGE-002-E,US-AGE-001/AC-2,< 18 歲付費鎖定,Unit,features/auth/user_registration.feature,TODO,P0
+TC-INT-AGE-002-S,,18 歲以上自動通過 age_verified=true,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-AGE-003-S,US-AGE-001/AC-3,>=18 歲記錄付費啟用,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-AGE-003-E,,age_verified=false 403 AGE_VERIFICATION_REQUIRED,Integration,features/auth/user_registration.feature,TODO,P0
+TC-INT-AGE-004-E,,未驗證用戶購買 403,Integration,features/shop/iap_purchase.feature,TODO,P0
+TC-E2E-VIP-001-S,US-VIP-001/AC-1,VIP 訂閱成功扣鑽石,E2E,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-002-S,US-VIP-001/AC-2,次日補貼 5 鑽石,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-003-E,US-VIP-001/AC-3,VIP 到期降級,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-004-E,,已是活躍 VIP 重複訂閱 422,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-005-E,,重複 Idempotency-Key 409,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-006-E,,無 JWT Token 訂閱 401,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-007-B,,鑽石餘額邊界(30/31→SUCCESS 29/0→FAILED),Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-008-S,,VIP 訂閱後可使用 laser_cannon_vip,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-INT-VIP-009-E,,鑽石 < 30 顆 422 INSUFFICIENT_DIAMONDS,Integration,features/shop/vip_subscription.feature,TODO,P1
+TC-UNIT-AUTH-001-S,US-ACCT-001/AC-2,正確密碼 bcrypt JWT 簽發,Unit,tests/unit/auth/AuthService.test.ts,TODO,P0
+TC-UNIT-AUTH-001-E,US-ACCT-001/AC-4,第 5 次密碼錯誤 lockAccount Redis TTL 900s,Unit,tests/unit/auth/AuthService.test.ts,TODO,P0
+TC-UNIT-AUTH-001-B,US-ACCT-001/AC-4,第 4 次失敗不鎖第 5 次鎖邊界,Unit,tests/unit/auth/AuthService.test.ts,TODO,P0
+TC-UNIT-RTP-001-E,US-RTP-001/AC-5,統計異常 RTP<80% 告警觸發,Unit,tests/unit/rtp/RtpEngine.test.ts,TODO,P0
+TC-UNIT-RTP-001-B,US-RTP-001/AC-2,連敗閾值邊界(N-1 不補償 第N補償),Unit,tests/unit/rtp/RtpEngine.test.ts,TODO,P0
+TC-UNIT-JACKPOT-001-S,US-RTP-001/AC-3,Jackpot 觸發率符合設計規格,Unit,tests/unit/jackpot/JackpotService.test.ts,TODO,P0
+TC-UNIT-JACKPOT-001-E,US-RTP-001/AC-4,Redis 寫入失敗 Jackpot 不觸發,Unit,tests/unit/jackpot/JackpotService.test.ts,TODO,P0
+TC-UNIT-JACKPOT-001-B,US-RTP-001/AC-3,觸發率邊界,Unit,tests/unit/jackpot/JackpotService.test.ts,TODO,P0
+TC-UNIT-FISH-001-S,US-FISH-001/AC-3,第一名命中獲金幣,Unit,tests/unit/fish/FishKillResolver.test.ts,TODO,P0
+TC-UNIT-FISH-001-E,US-FISH-001/AC-6,Redis SETNX 失敗競爭條件,Unit,tests/unit/fish/FishKillResolver.test.ts,TODO,P0
+TC-UNIT-FISH-001-B,US-FISH-001/AC-3,Boss 逃跑全員 5% 安慰獎勵,Unit,tests/unit/fish/FishKillResolver.test.ts,TODO,P0
+TC-UNIT-PAY-001-S,US-SHOP-001/AC-3,幂等 order_id 第二次提交回傳原始訂單,Unit,tests/unit/payment/PaymentService.test.ts,TODO,P0
+TC-UNIT-PAY-001-E,US-SHOP-001/AC-5,IAP verifyReceipt 失敗訂單 status=failed,Unit,tests/unit/payment/PaymentService.test.ts,TODO,P0
+TC-UNIT-PAY-001-B,US-SHOP-001/AC-6,退款+鑽石剛好用完負債標記邊界,Unit,tests/unit/payment/PaymentService.test.ts,TODO,P0
+TC-UNIT-CURR-001-S,US-SHOP-001/AC-4,扣減金幣倍率餘額正確更新,Unit,tests/unit/currency/CurrencyService.test.ts,TODO,P0
+TC-UNIT-CURR-001-E,US-SHOP-001/AC-2,鑽石餘額 0 購買失敗餘額不變,Unit,tests/unit/currency/CurrencyService.test.ts,TODO,P0
+TC-UNIT-CURR-001-B,US-SHOP-001/AC-4,金幣剛好足夠差 1 不足,Unit,tests/unit/currency/CurrencyService.test.ts,TODO,P0
+TC-UNIT-WPSK-001-S,US-WPSK-001/AC-2,冷卻結束後可激活技能,Unit,tests/unit/weapon/SkillCooldownManager.test.ts,TODO,P0
+TC-UNIT-WPSK-001-E,US-WPSK-001/AC-3,冷卻中點擊技能不觸發,Unit,tests/unit/weapon/SkillCooldownManager.test.ts,TODO,P0
+TC-UNIT-WPSK-001-B,US-WPSK-001/AC-2,冷卻計時器剛好到 0 邊界觸發,Unit,tests/unit/weapon/SkillCooldownManager.test.ts,TODO,P0
