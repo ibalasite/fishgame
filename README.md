@@ -159,11 +159,12 @@ npx cucumber-js features/
 
 Per [docs/ALIGN_REPORT.md](docs/ALIGN_REPORT.md), the following inconsistencies are pending resolution:
 
-1. **CRITICAL** — API.md login lock threshold (10 attempts) conflicts with PRD/EDD (5 attempts); API.md needs update
-2. **CRITICAL** — API.md JWT access token TTL (1h) conflicts with PRD/EDD (15min); API.md needs update
+1. ~~**CRITICAL** — API.md login lock threshold (10 attempts) conflicts with PRD/EDD (5 attempts)~~ **[FIXED D16-ALIGN-F]** API.md updated to 5 attempts
+2. ~~**CRITICAL** — API.md JWT access token TTL (1h) conflicts with PRD/EDD (15min)~~ **[FIXED D16-ALIGN-F]** API.md updated to 900s / 7d
 3. **HIGH** — BDD feature error codes conflict with EDD §5.3 definitions at 3 locations; pending ADR confirmation
 4. **HIGH** — `age_status` design: EDD defines a 3-state ENUM; SCHEMA implements TINYINT(1); schema migration required
-5. **INFO** — `src/` and `tests/` directories do not yet exist; code implementation has not started
+5. **HIGH** — VIP subscription payment channel: PRD says IAP; API/EDD use Diamond deduction (30 diamonds/month). See D1-B-4
+6. **INFO** — `src/` and `tests/` directories do not yet exist; code implementation has not started
 
 ---
 
