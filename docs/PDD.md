@@ -1564,7 +1564,9 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-white-100` | `#FFFFFF` |
 | `color-white-60` | `rgba(255,255,255,0.6)` |
 | `color-white-45` | `rgba(255,255,255,0.45)` |
+| `color-white-40` | `rgba(255,255,255,0.4)` |
 | `color-white-35` | `rgba(255,255,255,0.35)` |
+| `color-white-20` | `rgba(255,255,255,0.2)` |
 | `color-vip-silver` | `#C0C0C0` |
 | `color-vip-gold` | `#FFD700` |
 | `color-vip-platinum` | `#E5E4E2` |
@@ -1572,6 +1574,9 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-vip-rainbow-start` | `#FF0080`（品牌霓虹粉，取代標準 RGB 彩虹） |
 | `color-vip-rainbow-mid` | `#00D4FF`（品牌霓虹青） |
 | `color-vip-rainbow-end` | `#00FF88`（品牌霓虹綠） |
+| `color-yellow-400` | `#FFEB3B`（HP 條中段純黃，區別於品牌金 #F5C842）|
+| `color-neon-blue-light` | `#40DFFF`（color-action-secondary-hover，Secondary Button Hover）|
+| `color-neon-blue-dark` | `#00A8CC`（color-action-secondary-active，Secondary Button Press）|
 | `font-size-12` | `12px` |
 | `font-size-14` | `14px` |
 | `font-size-16` | `16px` |
@@ -1583,7 +1588,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `font-size-36` | `36px` |
 | `font-size-48` | `48px` |
 | `font-size-56` | `56px` |
-| `font-family-primary` | `'Noto Sans TC', 'Roboto', sans-serif` |
+| `font-family-primary` | `'Noto Sans TC', 'Roboto', 'PingFang TC', sans-serif` |
 | `font-weight-regular` | `400` |
 | `font-weight-medium` | `500` |
 | `font-weight-semibold` | `600` |
@@ -1592,6 +1597,14 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `line-height-tight` | `1.2` |
 | `line-height-normal` | `1.5` |
 | `line-height-loose` | `1.8` |
+
+> **VDD-Only Font Extensions（VDD §6.1）：** 以下字體 CSS Custom Property 在 VDD 中定義為補充字型，供特定用途使用；PDD §9.3 僅定義 `font-family-primary` 作為通用基礎字型。
+>
+> | VDD CSS 變數 | 值 | 主要用途 |
+> |-------------|---|---------|
+> | `--font-family-display` | `'Oswald', 'Noto Sans TC', sans-serif` | text-multiplier、text-display（Jackpot 爆字、大倍率）|
+> | `--font-family-mono` | `'Roboto Mono', 'Courier New', monospace` | text-hud-score、計時器（等寬數字對齊）|
+
 | `spacing-4` | `4px`（VDD CSS 別名：`--space-1`）|
 | `spacing-8` | `8px`（VDD CSS 別名：`--space-2`）|
 | `spacing-12` | `12px`（VDD CSS 別名：`--space-3`）|
@@ -1684,7 +1697,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-action-danger` | `color-red-500` | 危險操作 CTA（刪除、登出）|
 | `color-action-secondary-hover` | `color-neon-blue-light` | 次要 CTA 懸停態（#40DFFF）|
 | `color-action-secondary-active` | `color-neon-blue-dark` | 次要 CTA 按壓態（#00A8CC）|
-| `color-text-inverse` | `color-ocean-900` | 淺色文字反轉（按鈕上深色文字）|
+| `color-text-inverse` | `#0A1A00`（獨立值）| 淺色文字反轉（金色/高亮底色上深色文字，12.3:1 AAA；非 ocean-900 別名）|
 | `color-text-brand` | `color-gold-400` | 品牌色文字 |
 | `color-text-accent` | `color-neon-blue` | 強調文字（鑽石、Jackpot 槽）|
 | `color-text-success` | `color-neon-green` | 成功文字（命中提示）|
@@ -1695,7 +1708,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-bg-scrim` | `rgba(0,0,0,0.6)` | 半透明深色遮罩 |
 | `color-accent-vip` | `color-vip-identity` | VIP 徽章強調色 |
 | `color-hp-high` | `color-neon-green` | HP 條高血量色 |
-| `color-hp-mid` | `color-gold-400` | HP 條中血量色 |
+| `color-hp-mid` | `color-yellow-400` | HP 條中血量色（#FFEB3B 純黃，視覺區別於品牌金）|
 | `color-hp-low` | `color-red-500` | HP 條低血量色（危急）|
 | `color-border-default` | `color-white-45` | 預設邊框 |
 | `color-border-focus` | `color-gold-400` | 焦點邊框 |
@@ -1708,23 +1721,34 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `spacing-page-padding` | `spacing-48` | 頁面頂層大間距（如 ProfileScene 頭像區頂部）|
 | `shadow-button-glow` | `shadow-glow-gold` | CTA 按鈕金色光暈 |
 | `shadow-skill-ready` | `shadow-glow-neon` | 技能就緒光暈 |
-| `text-display` | `font-size-48` + `font-weight-bold` + `line-height-tight` | Jackpot 爆字、大倍率數字（VIPPanel 等級 Display）|
-| `text-h1` | `font-size-32` + `font-weight-bold` + `line-height-tight` | 面板主標題、Boss 名稱 |
-| `text-h2` | `font-size-24` + `font-weight-semibold` + `line-height-tight` | 卡片標題、VIP 等級 |
-| `text-h3` | `font-size-20` + `font-weight-semibold` + `line-height-tight` | 子標題、武器名稱 |
-| `text-body` | `font-size-16` + `font-weight-regular` + `line-height-normal` | 正文、規則說明 |
-| `text-hud-score` | `font-size-28` + `font-weight-bold` + `line-height-tight` | HUD 分數顯示（等寬字體）|
-| `text-hud-counter` | `font-size-20` + `font-weight-semibold` + `line-height-tight` | HUD 金幣／鑽石計數器 |
-| `text-multiplier` | `font-size-56` + `font-weight-black` + `line-height-tight` | 倍率爆字（Display 字體，max-size）|
-| `text-heading-lg` | `font-size-36` + `font-weight-bold` + `line-height-tight` | 大標題（結算 MVP、Jackpot 標題）|
-| `text-heading-md` | `font-size-24` + `font-weight-bold` + `line-height-tight` | 中標題（面板標題、VIP 等級）|
-| `text-body-md` | `font-size-18` + `font-weight-regular` + `line-height-normal` | 正文（說明文字、清單項目）|
-| `text-body-sm` | `font-size-14` + `font-weight-regular` + `line-height-normal` | 小正文（HUD 輔助文字、標籤）|
-| `text-caption` | `font-size-12` + `font-weight-regular` + `line-height-loose` | 版本號、法律說明等小字 |
+| `text-display` | `font-size-48` + `font-weight-bold` + `line-height: 56px` | Jackpot 爆字、大倍率數字（VIPPanel 等級 Display）|
+| `text-h1` | `font-size-32` + `font-weight-bold` + `line-height: 40px` | 面板主標題、Boss 名稱 |
+| `text-h2` | `font-size-24` + `font-weight-semibold` + `line-height: 32px` | 卡片標題、VIP 等級 |
+| `text-h3` | `font-size-20` + `font-weight-semibold` + `line-height: 28px` | 子標題、武器名稱 |
+| `text-body` | `font-size-16` + `font-weight-regular` + `line-height: 24px` | 正文、規則說明 |
+| `text-hud-score` | `font-size-28` + `font-weight-bold` + `line-height: 32px` | HUD 分數顯示（等寬字體）|
+| `text-hud-counter` | `font-size-20` + `font-weight-semibold` + `line-height: 24px` | HUD 金幣／鑽石計數器 |
+| `text-multiplier` | `font-size-56` + `font-weight-black` + `line-height: 60px` | 倍率爆字（Display 字體，max-size）|
+| `text-heading-lg` | `font-size-36` + `font-weight-bold` + `line-height: 44px` | 大標題（結算 MVP、Jackpot 標題）|
+| `text-heading-md` | `font-size-24` + `font-weight-bold` + `line-height: 32px` | 中標題（面板標題、VIP 等級）|
+| `text-body-md` | `font-size-18` + `font-weight-regular` + `line-height: 28px` | 正文（說明文字、清單項目）|
+| `text-body-sm` | `font-size-14` + `font-weight-regular` + `line-height: 20px` | 小正文（HUD 輔助文字、標籤）|
+| `text-caption` | `font-size-12` + `font-weight-regular` + `line-height: 16px` | 版本號、法律說明等小字 |
 | `text-button-label` | `font-size-18` + `font-weight-medium` + `line-height-tight` | 按鈕文字（CTA）|
 | `radius-sm` | `radius-8` | 小圓角（按鈕、輸入框、小卡片）|
 | `radius-md` | `radius-16` | 中圓角（充值卡片、面板容器）|
 | `radius-lg` | `radius-24` | 大圓角（Modal 彈窗、VIPPanel Banner）|
+
+> **VDD-Only Layer 2 Extensions（VDD §6.2）：** 以下 6 個語意 Token 在 VDD CSS Layer 2 中定義但不在上方 PDD Layer 2 主表中；均用於 UI 元件規格，引用上方 Layer 1 Primitives。
+>
+> | Token | 引用 Primitive | 用途 |
+> |-------|--------------|------|
+> | `color-text-warning` | `color-red-300`（#FF8080）| 警告文字色（金幣不足提示）|
+> | `color-border-strong` | `rgba(255,255,255,0.7)`（直接值）| 強調邊框（Modal、輸入框 Hover 態）|
+> | `color-border-error` | `color-red-500`（#FF4444）| 輸入框錯誤邊框 |
+> | `color-border-success` | `color-neon-green`（#00FF88）| 輸入框成功/已驗證邊框 |
+> | `color-feedback-info` | `color-neon-blue`（#00D4FF）| 資訊提示色（公告 Toast 等）|
+> | `color-accent-success` | `color-neon-green`（#00FF88）| 命中成功強調色（擊殺 hit effect）|
 
 **Layer 3 — Component Tokens（元件層，引用 Semantic）**
 
