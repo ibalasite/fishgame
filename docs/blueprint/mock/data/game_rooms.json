@@ -1,0 +1,68 @@
+[
+  {
+    "room_id": "room_01HX7ROOM1",
+    "room_name": "Ocean Battle #42",
+    "status": "waiting",
+    "current_players": 3,
+    "max_players": 6,
+    "jackpot_pool": 158000,
+    "min_bet": 10,
+    "max_bet": 500,
+    "created_at": "2026-04-25T10:00:00Z"
+  },
+  {
+    "room_id": "room_01HX7ROOM2",
+    "room_name": "深海獵手 #7",
+    "status": "waiting",
+    "current_players": 1,
+    "max_players": 4,
+    "jackpot_pool": 42000,
+    "min_bet": 5,
+    "max_bet": 200,
+    "created_at": "2026-04-25T10:05:00Z"
+  },
+  {
+    "room_id": "room_01HX7ROOM3",
+    "room_name": "鯊魚灣 VIP#3",
+    "status": "active",
+    "current_players": 4,
+    "max_players": 4,
+    "jackpot_pool": 287500,
+    "min_bet": 50,
+    "max_bet": 2000,
+    "created_at": "2026-04-25T09:45:00Z"
+  },
+  {
+    "room_id": "room_01HX7ROOM4",
+    "room_name": "新手灣 #1",
+    "status": "waiting",
+    "current_players": 2,
+    "max_players": 6,
+    "jackpot_pool": 8800,
+    "min_bet": 1,
+    "max_bet": 50,
+    "created_at": "2026-04-25T10:10:00Z"
+  },
+  {
+    "room_id": "room_01HX7ROOM5",
+    "room_name": "颶風戰場 #15",
+    "status": "waiting",
+    "current_players": 5,
+    "max_players": 6,
+    "jackpot_pool": 95300,
+    "min_bet": 20,
+    "max_bet": 1000,
+    "created_at": "2026-04-25T09:55:00Z"
+  },
+  {
+    "room_id": "room_01HX7ROOM6",
+    "room_name": "龍王殿 #2",
+    "status": "active",
+    "current_players": 6,
+    "max_players": 6,
+    "jackpot_pool": 512800,
+    "min_bet": 100,
+    "max_bet": 5000,
+    "created_at": "2026-04-25T09:30:00Z"
+  }
+]

@@ -1,0 +1,72 @@
+[
+  {
+    "order_id": "f47ac10b-58cc-4372-a567-0e02b2c3d001",
+    "user_id": "usr_01HX7ABCD1",
+    "product_id": "diamonds_330",
+    "product_name": "330 鑽石",
+    "diamond_amount": 330,
+    "price_usd": "4.99",
+    "platform": "ios",
+    "iap_receipt": "APPLE_RECEIPT_XXXXX_001",
+    "status": "completed",
+    "idempotency_key": "550e8400-e29b-41d4-a716-446655440001",
+    "created_at": "2026-04-20T14:30:00Z",
+    "completed_at": "2026-04-20T14:30:05Z"
+  },
+  {
+    "order_id": "f47ac10b-58cc-4372-a567-0e02b2c3d002",
+    "user_id": "usr_01HX7ABCD3",
+    "product_id": "diamonds_6480",
+    "product_name": "6480 鑽石",
+    "diamond_amount": 6480,
+    "price_usd": "99.99",
+    "platform": "android",
+    "iap_receipt": "GOOGLE_RECEIPT_XXXXX_002",
+    "status": "completed",
+    "idempotency_key": "550e8400-e29b-41d4-a716-446655440002",
+    "created_at": "2026-04-18T09:15:00Z",
+    "completed_at": "2026-04-18T09:15:08Z"
+  },
+  {
+    "order_id": "f47ac10b-58cc-4372-a567-0e02b2c3d003",
+    "user_id": "usr_01HX7ABCD2",
+    "product_id": "diamonds_680",
+    "product_name": "680 鑽石",
+    "diamond_amount": 680,
+    "price_usd": "9.99",
+    "platform": "ios",
+    "iap_receipt": "APPLE_RECEIPT_XXXXX_003",
+    "status": "completed",
+    "idempotency_key": "550e8400-e29b-41d4-a716-446655440003",
+    "created_at": "2026-04-15T20:45:00Z",
+    "completed_at": "2026-04-15T20:45:06Z"
+  },
+  {
+    "order_id": "f47ac10b-58cc-4372-a567-0e02b2c3d004",
+    "user_id": "usr_01HX7ABCD4",
+    "product_id": "diamonds_60",
+    "product_name": "60 鑽石",
+    "diamond_amount": 60,
+    "price_usd": "0.99",
+    "platform": "ios",
+    "iap_receipt": "APPLE_RECEIPT_XXXXX_004",
+    "status": "failed",
+    "idempotency_key": "550e8400-e29b-41d4-a716-446655440004",
+    "created_at": "2026-04-10T11:00:00Z",
+    "completed_at": null
+  },
+  {
+    "order_id": "f47ac10b-58cc-4372-a567-0e02b2c3d005",
+    "user_id": "usr_01HX7ABCD1",
+    "product_id": "diamonds_1480",
+    "product_name": "1480 鑽石",
+    "diamond_amount": 1480,
+    "price_usd": "19.99",
+    "platform": "android",
+    "iap_receipt": "GOOGLE_RECEIPT_XXXXX_005",
+    "status": "completed",
+    "idempotency_key": "550e8400-e29b-41d4-a716-446655440005",
+    "created_at": "2026-03-28T16:30:00Z",
+    "completed_at": "2026-03-28T16:30:07Z"
+  }
+]

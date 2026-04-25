@@ -1,0 +1,92 @@
+[
+  {
+    "rank": 1,
+    "user_id": "usr_01HX7ABCD3",
+    "display_name": "陳大勇",
+    "vip_tier": 3,
+    "gold_earned": 98700,
+    "fish_killed": 1248,
+    "jackpot_count": 3
+  },
+  {
+    "rank": 2,
+    "user_id": "usr_01HX7ABCD1",
+    "display_name": "王小明",
+    "vip_tier": 2,
+    "gold_earned": 45800,
+    "fish_killed": 623,
+    "jackpot_count": 1
+  },
+  {
+    "rank": 3,
+    "user_id": "usr_01HX7RANK3",
+    "display_name": "FishKing999",
+    "vip_tier": 2,
+    "gold_earned": 38200,
+    "fish_killed": 512,
+    "jackpot_count": 1
+  },
+  {
+    "rank": 4,
+    "user_id": "usr_01HX7RANK4",
+    "display_name": "海神波賽頓",
+    "vip_tier": 1,
+    "gold_earned": 27500,
+    "fish_killed": 389,
+    "jackpot_count": 0
+  },
+  {
+    "rank": 5,
+    "user_id": "usr_01HX7RANK5",
+    "display_name": "炮王",
+    "vip_tier": 3,
+    "gold_earned": 21800,
+    "fish_killed": 305,
+    "jackpot_count": 2
+  },
+  {
+    "rank": 6,
+    "user_id": "usr_01HX7RANK6",
+    "display_name": "LuckyFisher88",
+    "vip_tier": 0,
+    "gold_earned": 18300,
+    "fish_killed": 264,
+    "jackpot_count": 1
+  },
+  {
+    "rank": 7,
+    "user_id": "usr_01HX7RANK7",
+    "display_name": "深海霸主",
+    "vip_tier": 1,
+    "gold_earned": 15600,
+    "fish_killed": 218,
+    "jackpot_count": 0
+  },
+  {
+    "rank": 8,
+    "user_id": "usr_01HX7ABCD2",
+    "display_name": "李小華",
+    "vip_tier": 1,
+    "gold_earned": 12500,
+    "fish_killed": 178,
+    "jackpot_count": 0
+  },
+  {
+    "rank": 9,
+    "user_id": "usr_01HX7RANK9",
+    "display_name": "獵魚達人",
+    "vip_tier": 0,
+    "gold_earned": 9800,
+    "fish_killed": 142,
+    "jackpot_count": 0
+  },
+  {
+    "rank": 10,
+    "user_id": "usr_01HX7ABCD5",
+    "display_name": "劉建國",
+    "vip_tier": 1,
+    "gold_earned": 8900,
+    "fish_killed": 124,
+    "jackpot_count": 0
+  }
+]

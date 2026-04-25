@@ -1,0 +1,80 @@
+[
+  {
+    "product_id": "diamonds_60",
+    "name": "60 鑽石",
+    "description": "小額儲值，立即到帳",
+    "diamond_amount": 60,
+    "bonus_diamonds": 0,
+    "price_usd": "0.99",
+    "price_twd": 30,
+    "platform": "both",
+    "is_active": true,
+    "sort_order": 1,
+    "created_at": "2025-07-01T00:00:00Z"
+  },
+  {
+    "product_id": "diamonds_330",
+    "name": "330 鑽石",
+    "description": "最熱銷方案，性價比最高",
+    "diamond_amount": 300,
+    "bonus_diamonds": 30,
+    "price_usd": "4.99",
+    "price_twd": 150,
+    "platform": "both",
+    "is_active": true,
+    "sort_order": 2,
+    "created_at": "2025-07-01T00:00:00Z"
+  },
+  {
+    "product_id": "diamonds_680",
+    "name": "680 鑽石",
+    "description": "超值大禮包",
+    "diamond_amount": 600,
+    "bonus_diamonds": 80,
+    "price_usd": "9.99",
+    "price_twd": 300,
+    "platform": "both",
+    "is_active": true,
+    "sort_order": 3,
+    "created_at": "2025-07-01T00:00:00Z"
+  },
+  {
+    "product_id": "diamonds_1480",
+    "name": "1480 鑽石",
+    "description": "豪華玩家首選",
+    "diamond_amount": 1200,
+    "bonus_diamonds": 280,
+    "price_usd": "19.99",
+    "price_twd": 600,
+    "platform": "both",
+    "is_active": true,
+    "sort_order": 4,
+    "created_at": "2025-07-01T00:00:00Z"
+  },
+  {
+    "product_id": "diamonds_3280",
+    "name": "3280 鑽石",
+    "description": "鑽石大亨方案，超多加贈",
+    "diamond_amount": 2500,
+    "bonus_diamonds": 780,
+    "price_usd": "49.99",
+    "price_twd": 1500,
+    "platform": "both",
+    "is_active": true,
+    "sort_order": 5,
+    "created_at": "2025-07-01T00:00:00Z"
+  },
+  {
+    "product_id": "diamonds_6480",
+    "name": "6480 鑽石",
+    "description": "頂級儲值，最超值加贈",
+    "diamond_amount": 5000,
+    "bonus_diamonds": 1480,
+    "price_usd": "99.99",
+    "price_twd": 3000,
+    "platform": "both",
+    "is_active": true,
+    "sort_order": 6,
+    "created_at": "2025-07-01T00:00:00Z"
+  }
+]

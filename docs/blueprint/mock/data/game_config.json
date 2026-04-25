@@ -1,0 +1,12 @@
+{
+  "rtp_target": 0.92,
+  "jackpot_trigger_probability": 0.0001,
+  "jackpot_seed_amount": 50000,
+  "jackpot_contribution_rate": 0.02,
+  "max_concurrent_rooms": 50,
+  "default_room_max_players": 6,
+  "fish_spawn_interval_ms": 500,
+  "boss_spawn_interval_minutes": 15,
+  "updated_at": "2026-04-24T08:00:00Z",
+  "updated_by": "usr_01HX7ABCD7"
+}

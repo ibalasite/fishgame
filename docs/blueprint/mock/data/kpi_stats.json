@@ -1,0 +1,17 @@
+{
+  "period": "daily",
+  "date": "2026-04-25",
+  "dau": 3842,
+  "mau": 48200,
+  "new_users_today": 128,
+  "active_rooms_peak": 32,
+  "total_gold_circulated": 18500000,
+  "total_jackpot_paid": 287500,
+  "iap_revenue_usd": "3248.50",
+  "iap_orders_count": 412,
+  "vip_subscribers_active": 2140,
+  "avg_session_duration_minutes": 22.5,
+  "retention_d1": 0.58,
+  "retention_d7": 0.31,
+  "retention_d30": 0.18
+}

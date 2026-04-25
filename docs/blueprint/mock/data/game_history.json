@@ -1,0 +1,62 @@
+[
+  {
+    "session_id": "sess_01HX7S001",
+    "room_name": "Ocean Battle #42",
+    "started_at": "2026-04-24T20:00:00Z",
+    "ended_at": "2026-04-24T20:28:00Z",
+    "duration_seconds": 1680,
+    "gold_earned": 3500,
+    "gold_spent": 1200,
+    "fish_killed": 42,
+    "jackpot_won": false,
+    "jackpot_amount": 0
+  },
+  {
+    "session_id": "sess_01HX7S002",
+    "room_name": "龍王殿 #2",
+    "started_at": "2026-04-24T18:30:00Z",
+    "ended_at": "2026-04-24T19:15:00Z",
+    "duration_seconds": 2700,
+    "gold_earned": 12800,
+    "gold_spent": 8000,
+    "fish_killed": 128,
+    "jackpot_won": true,
+    "jackpot_amount": 87500
+  },
+  {
+    "session_id": "sess_01HX7S003",
+    "room_name": "新手灣 #1",
+    "started_at": "2026-04-23T15:00:00Z",
+    "ended_at": "2026-04-23T15:20:00Z",
+    "duration_seconds": 1200,
+    "gold_earned": 800,
+    "gold_spent": 600,
+    "fish_killed": 18,
+    "jackpot_won": false,
+    "jackpot_amount": 0
+  },
+  {
+    "session_id": "sess_01HX7S004",
+    "room_name": "颶風戰場 #15",
+    "started_at": "2026-04-22T21:00:00Z",
+    "ended_at": "2026-04-22T21:45:00Z",
+    "duration_seconds": 2700,
+    "gold_earned": 5200,
+    "gold_spent": 4000,
+    "fish_killed": 76,
+    "jackpot_won": false,
+    "jackpot_amount": 0
+  },
+  {
+    "session_id": "sess_01HX7S005",
+    "room_name": "深海獵手 #7",
+    "started_at": "2026-04-21T14:00:00Z",
+    "ended_at": "2026-04-21T14:30:00Z",
+    "duration_seconds": 1800,
+    "gold_earned": 2100,
+    "gold_spent": 1800,
+    "fish_killed": 34,
+    "jackpot_won": false,
+    "jackpot_amount": 0
+  }
+]
