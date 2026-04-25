@@ -103,19 +103,26 @@
 <h2>Bullet State Machine（子彈生命週期）</h2>
 <div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
 stateDiagram-v2
-    [*] --> FIRED : player.shoot(weapon, fish)<br/>[player.coins >= weapon.cost]<br/>/ player.deductCoins(weapon.cost)<br/>/ create Bullet{id, playerId, damage}<br/>/ start trajectoryAnimation
+    [*] --> FIRED : player.shoot [coins>=cost] / deductCoins; createBullet; startAnimation
 
-    FIRED --> FLYING : bullet leaves cannon<br/>/ broadcast to room clients<br/>/ server starts collision detection
+    FIRED --> FLYING : bulletLeavesCannon / broadcast; startCollisionDetection
 
-    FLYING --> HIT : fishCollision [fish.status == ALIVE]<br/>/ RTPEngine.calculateHit() == true<br/>/ fish.applyDamage(bullet.damage)<br/>/ emit HitConfirmed
+    FLYING --> HIT : fishCollision [ALIVE && RTP==true] / applyDamage; emitHitConfirmed
 
-    FLYING --> MISSED : fishCollision [RTP roll == false]<br/>/ server rejects hit<br/>/ no coins deducted (already deducted on fire)
+    FLYING --> MISSED : fishCollision [RTP==false] / serverRejectHit
 
-    FLYING --> MISSED : timeout [maxFlightMs=2000ms]<br/>/ bullet expires, no target reached
+    FLYING --> MISSED : timeout [maxFlight=2000ms] / bulletExpire
 
-    HIT --> [*] : hitAnimation complete<br/>/ if fish.hp <= 0: emit FishKilled<br/>/ broadcast HIT result to all players
+    HIT --> [*] : hitAnimationComplete / emitFishKilled; broadcastResult
 
-    MISSED --> [*] : missAnimation complete<br/>/ broadcast MISS to shooter only<br/>/ no state change for fish
+    MISSED --> [*] : missAnimationComplete / broadcastMissToShooter
+
+    note right of FIRED
+        費用已在 FIRED 時扣除：
+        - player.deductCoins(weapon.cost)
+        - create Bullet{id, playerId, damage}
+        - start trajectoryAnimation
+    end note
 
     note right of FLYING
         Server-Authoritative:
@@ -135,21 +142,21 @@ stateDiagram-v2
 <h2>Room State Machine（房間生命週期）</h2>
 <div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
 stateDiagram-v2
-    [*] --> WAITING : RoomRepository.createRoom()<br/>[roomType, maxPlayers=6]<br/>/ Colyseus onCreate() called
+    [*] --> WAITING : createRoom [maxPlayers=6] / colyseusOnCreate
 
-    WAITING --> WAITING : player joins [playerCount < maxPlayers]<br/>/ room.addPlayer(player)<br/>/ broadcast PLAYER_JOINED
+    WAITING --> WAITING : playerJoins [count<max] / addPlayer; broadcastJoined
 
-    WAITING --> PLAYING : room.startSession() [playerCount >= minPlayers=4]<br/>OR [waitTimer=30s expires AND playerCount>=1]<br/>/ addBots() if needed<br/>/ FishSpawner.startWaveScheduler()<br/>/ emit GameSessionStarted
+    WAITING --> PLAYING : startSession [count>=4 OR timer30s] / addBots; startWaveScheduler; emitSessionStarted
 
-    WAITING --> CLOSED : room.dispose() [no players join in 5min]<br/>/ Colyseus onDispose() called
+    WAITING --> CLOSED : dispose [noJoin 5min] / colyseusOnDispose
 
-    PLAYING --> PLAYING : normal gameplay<br/>/ fish spawning waves<br/>/ player shoot/hit/miss<br/>/ jackpot contributions
+    PLAYING --> PLAYING : normalGameplay / spawnFish; processShots; accumJackpot
 
-    PLAYING --> ENDING : sessionDuration >= maxSessionMs=600000<br/>OR allPlayersLeft<br/>/ stopFishSpawner()<br/>/ SessionSettleUseCase.execute()
+    PLAYING --> ENDING : sessionEnd [duration>=600s OR allLeft] / stopSpawner; settleSession
 
-    ENDING --> CLOSED : settlement complete<br/>/ distribute rewards (coins/mvp bonus)<br/>/ emit GameSessionEnded<br/>/ broadcast RESULTS to all players<br/>/ Colyseus onDispose() scheduled
+    ENDING --> CLOSED : settlementComplete / distributeRewards; emitSessionEnded; broadcastResults
 
-    CLOSED --> [*] : room removed from registry<br/>/ Redis cleanup: DEL room_state:{roomId}<br/>/ MySQL: UPDATE game_sessions.status=ENDED
+    CLOSED --> [*] : roomRemoved / redisCleanup; updateSessionStatus
 
     note right of WAITING
         WAITING 超時補位：
@@ -177,19 +184,19 @@ stateDiagram-v2
 <h2>Player Connection State Machine（玩家連線狀態）</h2>
 <div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
 stateDiagram-v2
-    [*] --> IDLE : JWT login successful<br/>/ player.status = IDLE
+    [*] --> IDLE : jwtLoginSuccess / setStatusIDLE
 
-    IDLE --> IN_ROOM : EnterRoomUseCase.execute()<br/>[ageStatus == VERIFIED]<br/>/ room.addPlayer(player)
+    IDLE --> IN_ROOM : enterRoom [ageVerified] / addPlayer
 
-    IN_ROOM --> DISCONNECTED : WebSocket dropped<br/>/ player.disconnect()<br/>/ Redis SETEX reconnect_token 30s
+    IN_ROOM --> DISCONNECTED : wsDropped / disconnect; setReconnectToken30s
 
-    DISCONNECTED --> IN_ROOM : client.reconnect(token) [within 30s]<br/>/ restorePlayerState()
+    DISCONNECTED --> IN_ROOM : reconnect(token) [within30s] / restoreState
 
-    DISCONNECTED --> IDLE : 30s timeout [no reconnect]<br/>/ addBot(player.position)<br/>/ Redis DEL reconnect_token
+    DISCONNECTED --> IDLE : timeout [noReconnect30s] / addBot; delReconnectToken
 
-    IN_ROOM --> IDLE : player voluntarily leaves<br/>OR session ends<br/>/ room.removePlayer()
+    IN_ROOM --> IDLE : voluntaryLeave OR sessionEnd / removePlayer
 
-    IDLE --> [*] : account deleted / banned<br/>/ player.status = banned</pre></div></main>
+    IDLE --> [*] : accountDeleted OR banned / setStatusBanned</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
