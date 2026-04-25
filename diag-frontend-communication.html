@@ -132,31 +132,31 @@
         WEBGL["WebGL 2.0\nParticle + Sprite Render"]
     end
 
-    NM --> CC
-    NM --> HC
+    NM --&gt; CC
+    NM --&gt; HC
 
-    CC -->|"1. joinRoom(roomId)\nWS Handshake\nGET /colyseus?token=JWT"| GR
-    GR -->|"2. onJoin / onStateChange\nColyseus Delta Sync Protocol"| CC
-    CC -->|"3. sendMessage: shoot\n{targetFishId, weaponId}\nWS:3001"| GR
-    GR -->|"4. onMessage: fish_hit\n{fishId, damage, newHp}\nWS:3001"| CC
-    GR -->|"5. onMessage: fish_died\n{fishId, coins, score}\nWS:3001"| CC
-    GR -->|"6. onMessage: jackpot_triggered\n{jackpotAmount}\nWS:3001"| CC
-    GR -->|"7. onMessage: boss_appeared\n{bossId, bossType, maxHp}\nWS:3001"| CC
+    CC --&gt;|"1. joinRoom(roomId)\nWS Handshake\nGET /colyseus?token=JWT"| GR
+    GR --&gt;|"2. onJoin / onStateChange\nColyseus Delta Sync Protocol"| CC
+    CC --&gt;|"3. sendMessage: shoot\n{targetFishId, weaponId}\nWS:3001"| GR
+    GR --&gt;|"4. onMessage: fish_hit\n{fishId, damage, newHp}\nWS:3001"| CC
+    GR --&gt;|"5. onMessage: fish_died\n{fishId, coins, score}\nWS:3001"| CC
+    GR --&gt;|"6. onMessage: jackpot_triggered\n{jackpotAmount}\nWS:3001"| CC
+    GR --&gt;|"7. onMessage: boss_appeared\n{bossId, bossType, maxHp}\nWS:3001"| CC
 
-    HC -->|"8. POST /api/v1/auth/login\n{phone, password} → {jwt, refreshToken}\nHTTPS:443"| RAPI
-    HC -->|"9. GET /api/v1/rooms\n→ RoomInfo[]\nHTTPS:443"| RAPI
-    HC -->|"10. POST /api/v1/match/join\n{cannonId, skillId} → {matchToken}\nHTTPS:443"| RAPI
-    HC -->|"11. POST /api/v1/shop/purchase\n{itemId, quantity} → {receipt}\nHTTPS:443"| RAPI
-    HC -->|"12. GET /api/v1/game/history\n?sessionId=xxx → GameResult\nHTTPS:443"| RAPI
-    HC -->|"13. POST /api/v1/vip/subscribe\n{planId} → {vipStatus}\nHTTPS:443"| RAPI
+    HC --&gt;|"8. POST /api/v1/auth/login\n{phone, password} → {jwt, refreshToken}\nHTTPS:443"| RAPI
+    HC --&gt;|"9. GET /api/v1/rooms\n→ RoomInfo[]\nHTTPS:443"| RAPI
+    HC --&gt;|"10. POST /api/v1/match/join\n{cannonId, skillId} → {matchToken}\nHTTPS:443"| RAPI
+    HC --&gt;|"11. POST /api/v1/shop/purchase\n{itemId, quantity} → {receipt}\nHTTPS:443"| RAPI
+    HC --&gt;|"12. GET /api/v1/game/history\n?sessionId=xxx → GameResult\nHTTPS:443"| RAPI
+    HC --&gt;|"13. POST /api/v1/vip/subscribe\n{planId} → {vipStatus}\nHTTPS:443"| RAPI
 
-    AM -->|"14. loadAudioClip: bgm_game.mp3\nfile:// Bundle Cache"| BGM
-    AM -->|"15. playSFX: sfx_shoot.mp3\nfile:// Bundle Cache"| SFX
+    AM --&gt;|"14. loadAudioClip: bgm_game.mp3\nfile:// Bundle Cache"| BGM
+    AM --&gt;|"15. playSFX: sfx_shoot.mp3\nfile:// Bundle Cache"| SFX
 
-    SU -->|"16. setAuthToken / getAuthToken\nlocalStorage.setItem / getItem"| LS
-    SU -->|"17. setUserSettings / getUserSettings\nlocalStorage key: userSettings"| LS
+    SU --&gt;|"16. setAuthToken / getAuthToken\nlocalStorage.setItem / getItem"| LS
+    SU --&gt;|"17. setUserSettings / getUserSettings\nlocalStorage key: userSettings"| LS
 
-    EPM -->|"18. HitEffect.play / CoinEffect.play\nParticleSystem → WebGL Draw Call"| WEBGL</pre></div></main>
+    EPM --&gt;|"18. HitEffect.play / CoinEffect.play\nParticleSystem → WebGL Draw Call"| WEBGL</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

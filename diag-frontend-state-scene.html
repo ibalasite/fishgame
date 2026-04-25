@@ -102,36 +102,36 @@
 <h1>Scene 狀態機</h1>
 <blockquote><p>來源：FRONTEND.md §Scene 清單 / §SceneManager</p></blockquote>
 <div class="diagram-container"><pre class="mermaid">stateDiagram-v2
-    [*] --> LoadingScene : App 啟動 / onLoad
+    [*] --&gt; LoadingScene : App 啟動 / onLoad
 
-    LoadingScene --> LoginScene : 資源載入完成 [Token 無效] / navigateToLogin
-    LoadingScene --> LobbyScene : 資源載入完成 [Token 有效] / autoLogin
+    LoadingScene --&gt; LoginScene : 資源載入完成 [Token 無效] / navigateToLogin
+    LoadingScene --&gt; LobbyScene : 資源載入完成 [Token 有效] / autoLogin
 
-    LoginScene --> OnboardingScene : 登入成功 [isFirstLogin=true] / showOnboarding
-    LoginScene --> LobbyScene : 登入成功 [isFirstLogin=false] / enterLobby
+    LoginScene --&gt; OnboardingScene : 登入成功 [isFirstLogin=true] / showOnboarding
+    LoginScene --&gt; LobbyScene : 登入成功 [isFirstLogin=false] / enterLobby
 
-    OnboardingScene --> LobbyScene : 新手引導完成 [allStepsViewed=true] / completeOnboarding
+    OnboardingScene --&gt; LobbyScene : 新手引導完成 [allStepsViewed=true] / completeOnboarding
 
-    LobbyScene --> CannonSelectScene : 選擇房間 [roomAvailable=true] / enterRoom
-    LobbyScene --> MatchmakingScene : 快速匹配 [matchingEnabled=true] / startQuickMatch
+    LobbyScene --&gt; CannonSelectScene : 選擇房間 [roomAvailable=true] / enterRoom
+    LobbyScene --&gt; MatchmakingScene : 快速匹配 [matchingEnabled=true] / startQuickMatch
 
-    CannonSelectScene --> MatchmakingScene : 確認武器 [cannonSelected=true] / confirmCannon
-    CannonSelectScene --> LobbyScene : 取消 [userCancelled=true] / backToLobby
+    CannonSelectScene --&gt; MatchmakingScene : 確認武器 [cannonSelected=true] / confirmCannon
+    CannonSelectScene --&gt; LobbyScene : 取消 [userCancelled=true] / backToLobby
 
-    MatchmakingScene --> GameScene : 配對成功 [matchFound=true] / enterGame
-    MatchmakingScene --> LobbyScene : 配對超時 [timeout=30s] / backToLobby
-    MatchmakingScene --> LobbyScene : 取消配對 [userCancelled=true] / cancelMatch
+    MatchmakingScene --&gt; GameScene : 配對成功 [matchFound=true] / enterGame
+    MatchmakingScene --&gt; LobbyScene : 配對超時 [timeout=30s] / backToLobby
+    MatchmakingScene --&gt; LobbyScene : 取消配對 [userCancelled=true] / cancelMatch
 
-    GameScene --> SettlementScene : 局結束 [gamePhase=settling] / showSettlement
-    GameScene --> LobbyScene : 斷線重連失敗 [reconnectFailed=true] / forceBackLobby
+    GameScene --&gt; SettlementScene : 局結束 [gamePhase=settling] / showSettlement
+    GameScene --&gt; LobbyScene : 斷線重連失敗 [reconnectFailed=true] / forceBackLobby
 
-    SettlementScene --> LobbyScene : 確認結算 [userConfirmed=true] / backToLobby
-    SettlementScene --> CannonSelectScene : 再玩一局 [userReplay=true] / replayGame
+    SettlementScene --&gt; LobbyScene : 確認結算 [userConfirmed=true] / backToLobby
+    SettlementScene --&gt; CannonSelectScene : 再玩一局 [userReplay=true] / replayGame
 
-    LoadingScene --> [*] : App 退至背景 / suspendApp
-    LoginScene --> [*] : App 關閉 / terminate
-    LobbyScene --> [*] : App 關閉 / terminate
-    GameScene --> [*] : App 強制關閉 / emergencyExit</pre></div></main>
+    LoadingScene --&gt; [*] : App 退至背景 / suspendApp
+    LoginScene --&gt; [*] : App 關閉 / terminate
+    LobbyScene --&gt; [*] : App 關閉 / terminate
+    GameScene --&gt; [*] : App 強制關閉 / emergencyExit</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

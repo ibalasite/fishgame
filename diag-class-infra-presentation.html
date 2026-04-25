@@ -107,7 +107,7 @@ classDiagram
     %% ==================== PRESENTATION LAYER — CONTROLLERS ====================
 
     class GameController {
-        <<Controller>>
+        &lt;&lt;Controller&gt;&gt;
         - gameService: GameService
         + onJoin(client: Client, options: JoinOptions): void
         + onLeave(client: Client, consented: bool): void
@@ -120,7 +120,7 @@ classDiagram
     }
 
     class ShopController {
-        <<Controller>>
+        &lt;&lt;Controller&gt;&gt;
         - purchaseUseCase: PurchaseUseCase
         - subscribeVIPUseCase: SubscribeVIPUseCase
         - refundUseCase: RefundUseCase
@@ -132,7 +132,7 @@ classDiagram
     }
 
     class AccountController {
-        <<Controller>>
+        &lt;&lt;Controller&gt;&gt;
         - accountService: AccountService
         + register(req: Request, res: Response): Promise~void~
         + login(req: Request, res: Response): Promise~void~
@@ -143,7 +143,7 @@ classDiagram
     }
 
     class AdminController {
-        <<Controller>>
+        &lt;&lt;Controller&gt;&gt;
         - rtpService: RTPService
         - jackpotService: JackpotApplicationService
         + getRTPConfig(req: Request, res: Response): Promise~void~
@@ -157,7 +157,7 @@ classDiagram
     %% ==================== COLYSEUS SCHEMAS (RequestDTOs) ====================
 
     class GameRoomSchema {
-        <<RequestDTO>>
+        &lt;&lt;RequestDTO&gt;&gt;
         + roomId: string
         + roomType: string
         + status: string
@@ -171,7 +171,7 @@ classDiagram
     }
 
     class PlayerStateSchema {
-        <<RequestDTO>>
+        &lt;&lt;RequestDTO&gt;&gt;
         + id: string
         + nickname: string
         + coins: int
@@ -186,7 +186,7 @@ classDiagram
     }
 
     class FishStateSchema {
-        <<RequestDTO>>
+        &lt;&lt;RequestDTO&gt;&gt;
         + id: string
         + fishType: string
         + hp: int
@@ -200,7 +200,7 @@ classDiagram
     }
 
     class ShootMessage {
-        <<RequestDTO>>
+        &lt;&lt;RequestDTO&gt;&gt;
         + fishId: string
         + weaponType: string
         + positionX: float
@@ -210,7 +210,7 @@ classDiagram
     %% ==================== INFRASTRUCTURE — REPOSITORY IMPLEMENTATIONS ====================
 
     class PlayerRepositoryImpl {
-        <<RepositoryImpl>>
+        &lt;&lt;RepositoryImpl&gt;&gt;
         - prisma: PrismaClient
         - cache: RedisClient
         + findById(id: string): Promise~Player?~
@@ -224,7 +224,7 @@ classDiagram
     }
 
     class RoomRepositoryImpl {
-        <<RepositoryImpl>>
+        &lt;&lt;RepositoryImpl&gt;&gt;
         - prisma: PrismaClient
         - cache: RedisClient
         + findById(id: string): Promise~Room?~
@@ -235,7 +235,7 @@ classDiagram
     }
 
     class FishKillRepositoryImpl {
-        <<RepositoryImpl>>
+        &lt;&lt;RepositoryImpl&gt;&gt;
         - prisma: PrismaClient
         + recordKill(kill: FishKillRecord): Promise~void~
         + findBySessionId(sessionId: string): Promise~FishKillRecord[]~
@@ -243,7 +243,7 @@ classDiagram
     }
 
     class OrderRepositoryImpl {
-        <<RepositoryImpl>>
+        &lt;&lt;RepositoryImpl&gt;&gt;
         - prisma: PrismaClient
         + findById(orderId: string): Promise~Transaction?~
         + findByUserId(userId: string): Promise~Transaction[]~
@@ -254,7 +254,7 @@ classDiagram
     %% ==================== INFRASTRUCTURE — ADAPTERS ====================
 
     class PaymentAdapter {
-        <<Adapter>>
+        &lt;&lt;Adapter&gt;&gt;
         - appleClient: AppleIAPClient
         - googleClient: GoogleIAPClient
         - circuitBreaker: CircuitBreaker
@@ -266,7 +266,7 @@ classDiagram
     }
 
     class RedisAdapter {
-        <<Adapter>>
+        &lt;&lt;Adapter&gt;&gt;
         - client: RedisClient
         - keyPrefix: string
         + get(key: string): Promise~string?~
@@ -280,7 +280,7 @@ classDiagram
     }
 
     class DomainEventBusImpl {
-        <<Adapter>>
+        &lt;&lt;Adapter&gt;&gt;
         - redis: RedisAdapter
         - handlers: Map~string, EventHandler[]~
         + publish(event: DomainEvent): Promise~void~
@@ -290,7 +290,7 @@ classDiagram
     }
 
     class NotificationAdapter {
-        <<Adapter>>
+        &lt;&lt;Adapter&gt;&gt;
         - fcmClient: FCMClient
         - circuitBreaker: CircuitBreaker
         + sendPushNotification(userId: string, message: string): Promise~void~
@@ -299,7 +299,7 @@ classDiagram
     }
 
     class FeatureFlagAdapter {
-        <<Adapter>>
+        &lt;&lt;Adapter&gt;&gt;
         - unleashClient: UnleashClient
         - localCache: Map~string, bool~
         - cacheTTLMs: int
@@ -309,7 +309,7 @@ classDiagram
     }
 
     class AnalyticsAdapter {
-        <<Adapter>>
+        &lt;&lt;Adapter&gt;&gt;
         - mixpanelClient: MixpanelClient
         - buffer: DomainEvent[]
         - maxBufferSize: int
@@ -320,32 +320,32 @@ classDiagram
 
     %% ==================== RELATIONSHIPS ====================
 
-    GameController --> GameRoomSchema : manages state
-    GameController ..> PlayerStateSchema : sync
-    GameController ..> FishStateSchema : sync
-    GameController ..> ShootMessage : receives
+    GameController --&gt; GameRoomSchema : manages state
+    GameController ..&gt; PlayerStateSchema : sync
+    GameController ..&gt; FishStateSchema : sync
+    GameController ..&gt; ShootMessage : receives
 
     GameRoomSchema "1" *-- "0..*" PlayerStateSchema : players
     GameRoomSchema "1" *-- "0..*" FishStateSchema : fishes
 
-    PlayerRepositoryImpl ..|> PlayerRepository : implements
-    RoomRepositoryImpl ..|> RoomRepository : implements
-    PaymentAdapter ..|> IPaymentPort : implements
-    RedisAdapter ..|> ICache : implements
-    DomainEventBusImpl ..|> IDomainEventBus : implements
-    NotificationAdapter ..|> INotificationPort : implements
-    FeatureFlagAdapter ..|> IFeatureFlag : implements
+    PlayerRepositoryImpl ..|&gt; PlayerRepository : implements
+    RoomRepositoryImpl ..|&gt; RoomRepository : implements
+    PaymentAdapter ..|&gt; IPaymentPort : implements
+    RedisAdapter ..|&gt; ICache : implements
+    DomainEventBusImpl ..|&gt; IDomainEventBus : implements
+    NotificationAdapter ..|&gt; INotificationPort : implements
+    FeatureFlagAdapter ..|&gt; IFeatureFlag : implements
 
-    DomainEventBusImpl --> RedisAdapter : uses
-    PlayerRepositoryImpl --> RedisAdapter : caches
-    RoomRepositoryImpl --> RedisAdapter : caches
+    DomainEventBusImpl --&gt; RedisAdapter : uses
+    PlayerRepositoryImpl --&gt; RedisAdapter : caches
+    RoomRepositoryImpl --&gt; RedisAdapter : caches
 
-    ShopController --> PurchaseUseCase : calls
-    ShopController --> SubscribeVIPUseCase : calls
-    ShopController --> RefundUseCase : calls
-    AccountController --> AccountService : calls
-    AdminController --> RTPService : calls
-    AdminController --> JackpotApplicationService : calls</pre></div></main>
+    ShopController --&gt; PurchaseUseCase : calls
+    ShopController --&gt; SubscribeVIPUseCase : calls
+    ShopController --&gt; RefundUseCase : calls
+    AccountController --&gt; AccountService : calls
+    AdminController --&gt; RTPService : calls
+    AdminController --&gt; JackpotApplicationService : calls</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

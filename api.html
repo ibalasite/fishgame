@@ -1002,16 +1002,16 @@
     participant EventBus as Redis Pub/Sub
     participant Account as Account Service
 
-    Client->>Ingress: POST /v1/shop/purchases (Bearer JWT + receipt)
-    Ingress->>Shop: 路由 + JWT 驗證
-    Shop->>Shop: Zod 驗證 + idempotency_key 檢查
-    Shop->>IAP: HTTPS verifyReceipt(receipt)
-    IAP-->>Shop: { status: 0, product_id, transaction_id }
-    Shop->>MySQL: INSERT orders (status=pending)
-    Shop->>MySQL: UPDATE orders SET status=completed
-    Shop->>EventBus: PUBLISH events:commerce IAPPurchaseCompleted
-    EventBus-->>Account: 異步消費 → UPDATE users.diamond_balance += 330
-    Shop-->>Client: 201 { order_id, diamonds_credited: 330 }</pre></div>
+    Client-&gt;&gt;Ingress: POST /v1/shop/purchases (Bearer JWT + receipt)
+    Ingress-&gt;&gt;Shop: 路由 + JWT 驗證
+    Shop-&gt;&gt;Shop: Zod 驗證 + idempotency_key 檢查
+    Shop-&gt;&gt;IAP: HTTPS verifyReceipt(receipt)
+    IAP--&gt;&gt;Shop: { status: 0, product_id, transaction_id }
+    Shop-&gt;&gt;MySQL: INSERT orders (status=pending)
+    Shop-&gt;&gt;MySQL: UPDATE orders SET status=completed
+    Shop-&gt;&gt;EventBus: PUBLISH events:commerce IAPPurchaseCompleted
+    EventBus--&gt;&gt;Account: 異步消費 → UPDATE users.diamond_balance += 330
+    Shop--&gt;&gt;Client: 201 { order_id, diamonds_credited: 330 }</pre></div>
 <h3>4.2 玩家登入 + 遊戲加入流程（Read + WebSocket）</h3>
 <div class="diagram-container"><pre class="mermaid">sequenceDiagram
     participant Client as Cocos Client
@@ -1020,20 +1020,20 @@
     participant Redis as Redis
     participant Game as Game Service (Colyseus)
 
-    Client->>Ingress: POST /v1/auth/login (email + password)
-    Ingress->>Account: 路由
-    Account->>Account: bcrypt.compare(password, hash)
-    Account->>Redis: SET session:{jti} (TTL 1h)
-    Account-->>Client: 200 { access_token, refresh_token }
+    Client-&gt;&gt;Ingress: POST /v1/auth/login (email + password)
+    Ingress-&gt;&gt;Account: 路由
+    Account-&gt;&gt;Account: bcrypt.compare(password, hash)
+    Account-&gt;&gt;Redis: SET session:{jti} (TTL 1h)
+    Account--&gt;&gt;Client: 200 { access_token, refresh_token }
 
-    Client->>Ingress: GET /v1/game/rooms
-    Ingress->>Game: 路由 + JWT 驗證
-    Game-->>Client: 200 [room 列表]
+    Client-&gt;&gt;Ingress: GET /v1/game/rooms
+    Ingress-&gt;&gt;Game: 路由 + JWT 驗證
+    Game--&gt;&gt;Client: 200 [room 列表]
 
-    Client->>Ingress: WSS Upgrade (Authorization: Bearer token)
-    Ingress->>Game: Proxy WSS → Colyseus :2567
-    Game->>Game: onAuth() 驗證 JWT
-    Game-->>Client: WebSocket Connected (room state sync)</pre></div>
+    Client-&gt;&gt;Ingress: WSS Upgrade (Authorization: Bearer token)
+    Ingress-&gt;&gt;Game: Proxy WSS → Colyseus :2567
+    Game-&gt;&gt;Game: onAuth() 驗證 JWT
+    Game--&gt;&gt;Client: WebSocket Connected (room state sync)</pre></div>
 <hr>
 <h2>5. Webhook 規範</h2>
 <p>本系統 Phase 1 不對外提供 Webhook。Phase 2 計劃提供 Jackpot 觸發通知 Webhook，規範如下（預留）：</p>

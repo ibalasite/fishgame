@@ -258,43 +258,43 @@
 <div class="diagram-container"><pre class="mermaid">graph TD
     Root["🎮 Fishing Arcade Game"]
 
-    Root --> A["啟動 / 登入"]
-    Root --> B["遊戲大廳"]
-    Root --> C["主遊戲畫面"]
-    Root --> D["商城"]
-    Root --> E["個人中心"]
-    Root --> F["設定"]
+    Root --&gt; A["啟動 / 登入"]
+    Root --&gt; B["遊戲大廳"]
+    Root --&gt; C["主遊戲畫面"]
+    Root --&gt; D["商城"]
+    Root --&gt; E["個人中心"]
+    Root --&gt; F["設定"]
 
-    A --> A1["登入 / 快速訪客"]
-    A --> A2["年齡驗證（首次）"]
-    A --> A3["新手引導（首次）"]
+    A --&gt; A1["登入 / 快速訪客"]
+    A --&gt; A2["年齡驗證（首次）"]
+    A --&gt; A3["新手引導（首次）"]
 
-    B --> B1["房間列表（普通 / 競技）"]
-    B --> B2["砲台 / 技能選擇"]
-    B --> B3["配對等待畫面"]
-    B --> B4["排行榜（LeaderboardBtn 入口）"]
-    B --> B5["活動公告"]
+    B --&gt; B1["房間列表（普通 / 競技）"]
+    B --&gt; B2["砲台 / 技能選擇"]
+    B --&gt; B3["配對等待畫面"]
+    B --&gt; B4["排行榜（LeaderboardBtn 入口）"]
+    B --&gt; B5["活動公告"]
 
-    C --> C1["主遊戲 HUD（金幣/排名/技能）"]
-    C --> C2["魚群場景"]
-    C --> C3["Jackpot 進度條"]
-    C --> C4["結算介面"]
-    C --> C5["MVP 動畫"]
+    C --&gt; C1["主遊戲 HUD（金幣/排名/技能）"]
+    C --&gt; C2["魚群場景"]
+    C --&gt; C3["Jackpot 進度條"]
+    C --&gt; C4["結算介面"]
+    C --&gt; C5["MVP 動畫"]
 
-    D --> D1["鑽石充值包"]
-    D --> D2["道具 / 禮包購買"]
-    D --> D3["VIP 訂閱"]
-    D --> D4["抽獎"]
+    D --&gt; D1["鑽石充值包"]
+    D --&gt; D2["道具 / 禮包購買"]
+    D --&gt; D3["VIP 訂閱"]
+    D --&gt; D4["抽獎"]
 
-    E --> E1["個人資料"]
-    E --> E2["VIP 等級 / 進度"]
-    E --> E3["遊戲記錄"]
-    E --> E4["訂單記錄"]
+    E --&gt; E1["個人資料"]
+    E --&gt; E2["VIP 等級 / 進度"]
+    E --&gt; E3["遊戲記錄"]
+    E --&gt; E4["訂單記錄"]
 
-    F --> F1["音效 / 音樂設定"]
-    F --> F2["通知設定"]
-    F --> F3["語言選擇"]
-    F --> F4["帳號安全"]</pre></div>
+    F --&gt; F1["音效 / 音樂設定"]
+    F --&gt; F2["通知設定"]
+    F --&gt; F3["語言選擇"]
+    F --&gt; F4["帳號安全"]</pre></div>
 <h3>3.2 導覽結構</h3>
 <table>
 <tr><th>層級</th><th>導覽方式</th><th>入口位置</th></tr>
@@ -317,142 +317,142 @@
 <h2>4. User Flows</h2>
 <h3>4.1 主流程（Happy Path）— 玩家首次進入競技局並獲勝</h3>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    Start([玩家開啟遊戲]) --> S1[啟動畫面 / Splash]
-    S1 --> D1{已有帳號？}
-    D1 -->|否| S2[登入/註冊畫面]
-    D1 -->|是| S3[自動登入]
-    S2 --> S3
-    S3 --> D2{首次使用？}
-    D2 -->|是| S4[年齡驗證彈窗]
-    S4 --> D3{年齡 ≥ 18？}
-    D3 -->|否| SX[鎖定付費功能/演示模式]
-    D3 -->|是| S5[新手引導流程]
-    S5 --> S6[遊戲大廳]
-    D2 -->|否| S6
-    S6 --> S7[選擇房間類型：普通/競技]
-    S7 --> S8[砲台 + 技能選擇介面]
-    S8 --> S9[點擊「快速匹配」]
-    S9 --> D4{配對完成？}
-    D4 -->|30 秒內| S10[房間就緒 4–6 人]
-    D4 -->|超時| S11[Bot 補位通知 → 房間就緒]
-    S10 --> S12[主遊戲畫面 — 遊戲開始]
-    S11 --> S12
-    S12 --> D5{命中判定}
-    D5 -->|命中| S13[金幣收益動畫 + HUD 更新]
-    D5 -->|未命中| S12
-    S13 --> D6{Jackpot 觸發？}
-    D6 -->|是| S14[Jackpot 全屏特效 + 大獎]
-    D6 -->|否| S12
-    S14 --> S15[局結束結算]
-    S12 --> S15
-    S15 --> D7{MVP？}
-    D7 -->|是| S16[MVP 動畫 + +10% 金幣獎勵]
-    D7 -->|否| S17[標準結算]
-    S16 --> End([大廳 / 再來一局])
-    S17 --> End</pre></div>
+    Start([玩家開啟遊戲]) --&gt; S1[啟動畫面 / Splash]
+    S1 --&gt; D1{已有帳號？}
+    D1 --&gt;|否| S2[登入/註冊畫面]
+    D1 --&gt;|是| S3[自動登入]
+    S2 --&gt; S3
+    S3 --&gt; D2{首次使用？}
+    D2 --&gt;|是| S4[年齡驗證彈窗]
+    S4 --&gt; D3{年齡 ≥ 18？}
+    D3 --&gt;|否| SX[鎖定付費功能/演示模式]
+    D3 --&gt;|是| S5[新手引導流程]
+    S5 --&gt; S6[遊戲大廳]
+    D2 --&gt;|否| S6
+    S6 --&gt; S7[選擇房間類型：普通/競技]
+    S7 --&gt; S8[砲台 + 技能選擇介面]
+    S8 --&gt; S9[點擊「快速匹配」]
+    S9 --&gt; D4{配對完成？}
+    D4 --&gt;|30 秒內| S10[房間就緒 4–6 人]
+    D4 --&gt;|超時| S11[Bot 補位通知 → 房間就緒]
+    S10 --&gt; S12[主遊戲畫面 — 遊戲開始]
+    S11 --&gt; S12
+    S12 --&gt; D5{命中判定}
+    D5 --&gt;|命中| S13[金幣收益動畫 + HUD 更新]
+    D5 --&gt;|未命中| S12
+    S13 --&gt; D6{Jackpot 觸發？}
+    D6 --&gt;|是| S14[Jackpot 全屏特效 + 大獎]
+    D6 --&gt;|否| S12
+    S14 --&gt; S15[局結束結算]
+    S12 --&gt; S15
+    S15 --&gt; D7{MVP？}
+    D7 --&gt;|是| S16[MVP 動畫 + +10% 金幣獎勵]
+    D7 --&gt;|否| S17[標準結算]
+    S16 --&gt; End([大廳 / 再來一局])
+    S17 --&gt; End</pre></div>
 <p><strong>任務完成時間目標：</strong> 從開啟遊戲到進入競技局 &lt; 60 秒；配對等待 &lt; 30 秒；局長 3–5 分鐘</p>
 <h3>4.2 替代流程 — 金幣不足時的付費引導</h3>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    Start([玩家金幣餘額不足]) --> S1[系統偵測低餘額]
-    S1 --> D1{情境}
-    D1 -->|嘗試進入高倍率房間| S2[顯示「金幣不足」提示 + 引導低倍率房間]
-    D1 -->|遊戲中金幣降為 0| S3[砲台自動降回 1x 倍率 + 輕提示橫幅]
-    S2 --> D2{玩家行動}
-    D2 -->|接受低倍率房間| S4[進入普通房間]
-    D2 -->|點擊充值| S5[商城彈窗開啟]
-    S3 --> S5
-    S5 --> S6[選擇充值包]
-    S6 --> S7[IAP 支付流程]
-    S7 --> D3{支付結果}
-    D3 -->|成功| S8[鑽石發放 + 金幣換算 + 餘額更新]
-    D3 -->|失敗| S9[錯誤訊息 + 重試引導]
-    S8 --> End([繼續遊戲])
-    S4 --> End</pre></div>
+    Start([玩家金幣餘額不足]) --&gt; S1[系統偵測低餘額]
+    S1 --&gt; D1{情境}
+    D1 --&gt;|嘗試進入高倍率房間| S2[顯示「金幣不足」提示 + 引導低倍率房間]
+    D1 --&gt;|遊戲中金幣降為 0| S3[砲台自動降回 1x 倍率 + 輕提示橫幅]
+    S2 --&gt; D2{玩家行動}
+    D2 --&gt;|接受低倍率房間| S4[進入普通房間]
+    D2 --&gt;|點擊充值| S5[商城彈窗開啟]
+    S3 --&gt; S5
+    S5 --&gt; S6[選擇充值包]
+    S6 --&gt; S7[IAP 支付流程]
+    S7 --&gt; D3{支付結果}
+    D3 --&gt;|成功| S8[鑽石發放 + 金幣換算 + 餘額更新]
+    D3 --&gt;|失敗| S9[錯誤訊息 + 重試引導]
+    S8 --&gt; End([繼續遊戲])
+    S4 --&gt; End</pre></div>
 <h3>4.3 錯誤流程 — 連線中斷與房間異常</h3>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    S1[玩家在遊戲中] --> D1{WebSocket 連線狀態}
-    D1 -->|正常| S2[繼續遊戲]
-    D1 -->|偵測中斷| S3[顯示「連線中斷，嘗試重連...」覆層 + 進度指示]
-    S3 --> D2{5 秒內重連成功？}
-    D2 -->|是| S2
-    D2 -->|否| S4[顯示「已中斷連線」彈窗：局結果已保存]
-    S4 --> S5[返回大廳]
+    S1[玩家在遊戲中] --&gt; D1{WebSocket 連線狀態}
+    D1 --&gt;|正常| S2[繼續遊戲]
+    D1 --&gt;|偵測中斷| S3[顯示「連線中斷，嘗試重連...」覆層 + 進度指示]
+    S3 --&gt; D2{5 秒內重連成功？}
+    D2 --&gt;|是| S2
+    D2 --&gt;|否| S4[顯示「已中斷連線」彈窗：局結果已保存]
+    S4 --&gt; S5[返回大廳]
 
-    S6[玩家嘗試快速匹配] --> D3{Colyseus 服務狀態}
-    D3 -->|正常| S7[配對流程]
-    D3 -->|503/逾時| S8[「伺服器忙碌」錯誤訊息 + 重試按鈕]
-    S8 --> D4{重試 3 次後}
-    D4 -->|仍失敗| S9[「目前維護中，請稍後再試」Toast + 返回大廳]
-    D4 -->|成功| S7</pre></div>
+    S6[玩家嘗試快速匹配] --&gt; D3{Colyseus 服務狀態}
+    D3 --&gt;|正常| S7[配對流程]
+    D3 --&gt;|503/逾時| S8[「伺服器忙碌」錯誤訊息 + 重試按鈕]
+    S8 --&gt; D4{重試 3 次後}
+    D4 --&gt;|仍失敗| S9[「目前維護中，請稍後再試」Toast + 返回大廳]
+    D4 --&gt;|成功| S7</pre></div>
 <h4>4.3.1 IAP 支付失敗流程</h4>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    P1[玩家點擊確認購買] --> P2[呼叫 AppStore / Google Play IAP]
-    P2 --> PD1{支付結果}
-    PD1 -->|成功| P3[後端收據驗證 → 發放鑽石]
-    P3 --> P4[Toast「鑽石已到帳 +XXX」+ HUD 更新]
-    P4 --> PEnd([繼續遊戲])
-    PD1 -->|用戶取消| P5[關閉支付彈窗，返回商城]
-    PD1 -->|支付失敗（餘額不足/卡片問題）| P6[顯示錯誤 Modal]
-    P6 --> P7[錯誤說明文字 + 「重試」按鈕 + 「聯絡客服」連結]
-    P7 --> PD2{玩家選擇}
-    PD2 -->|重試| P2
-    PD2 -->|取消| P5
-    PD2 -->|聯絡客服| P8[開啟客服聯絡頁面]
-    PD1 -->|後端收據驗證失敗| P9[顯示「訂單異常，請聯絡客服」+ 訂單號]
-    P9 --> P8</pre></div>
+    P1[玩家點擊確認購買] --&gt; P2[呼叫 AppStore / Google Play IAP]
+    P2 --&gt; PD1{支付結果}
+    PD1 --&gt;|成功| P3[後端收據驗證 → 發放鑽石]
+    P3 --&gt; P4[Toast「鑽石已到帳 +XXX」+ HUD 更新]
+    P4 --&gt; PEnd([繼續遊戲])
+    PD1 --&gt;|用戶取消| P5[關閉支付彈窗，返回商城]
+    PD1 --&gt;|支付失敗（餘額不足/卡片問題）| P6[顯示錯誤 Modal]
+    P6 --&gt; P7[錯誤說明文字 + 「重試」按鈕 + 「聯絡客服」連結]
+    P7 --&gt; PD2{玩家選擇}
+    PD2 --&gt;|重試| P2
+    PD2 --&gt;|取消| P5
+    PD2 --&gt;|聯絡客服| P8[開啟客服聯絡頁面]
+    PD1 --&gt;|後端收據驗證失敗| P9[顯示「訂單異常，請聯絡客服」+ 訂單號]
+    P9 --&gt; P8</pre></div>
 <p><strong>UI 呈現：</strong> 支付失敗使用 Modal 彈窗（非 Toast），因需要使用者明確回應；錯誤文字採友好語氣（「付款遇到一點問題」而非錯誤代碼）；提供訂單號方便客服追蹤。</p>
 <h4>4.3.2 年齡驗證未滿 18 — 演示模式流程</h4>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    A1[玩家填入出生日期] --> AD1{計算年齡}
-    AD1 -->|≥ 18 歲| A2[記錄驗證結果 → 進入完整遊戲]
-    AD1 -->|< 18 歲| A3[顯示「本遊戲限 18 歲以上玩家使用」說明]
-    A3 --> A4[提供兩個選項]
-    A4 --> AD2{玩家選擇}
-    AD2 -->|進入演示模式| A5[限制功能：禁用 IAP、隱藏充值入口、不顯示真實金幣數值]
-    A5 --> A6[進入演示遊戲大廳（Demo Badge 顯示）]
-    A6 --> A7[遊玩體驗完整，但無法充值/提現]
-    AD2 -->|離開遊戲| A8[返回 App 啟動畫面或關閉 H5]</pre></div>
+    A1[玩家填入出生日期] --&gt; AD1{計算年齡}
+    AD1 --&gt;|≥ 18 歲| A2[記錄驗證結果 → 進入完整遊戲]
+    AD1 --&gt;|&lt; 18 歲| A3[顯示「本遊戲限 18 歲以上玩家使用」說明]
+    A3 --&gt; A4[提供兩個選項]
+    A4 --&gt; AD2{玩家選擇}
+    AD2 --&gt;|進入演示模式| A5[限制功能：禁用 IAP、隱藏充值入口、不顯示真實金幣數值]
+    A5 --&gt; A6[進入演示遊戲大廳（Demo Badge 顯示）]
+    A6 --&gt; A7[遊玩體驗完整，但無法充值/提現]
+    AD2 --&gt;|離開遊戲| A8[返回 App 啟動畫面或關閉 H5]</pre></div>
 <p><strong>UI 呈現：</strong> 未滿 18 提示採平和語氣，不帶責罰感；演示模式全程顯示「演示模式」浮水印角標；IAP 入口以灰色鎖定狀態顯示，點擊時彈出「演示模式無法購買」說明。</p>
 <h4>4.3.3 無權限存取流程</h4>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    R1[玩家嘗試存取受限功能] --> RD1{JWT Token 狀態}
-    RD1 -->|有效| R2[允許存取]
-    RD1 -->|過期（401）| R3[Silent Refresh Token 嘗試]
-    R3 --> RD2{Refresh 成功？}
-    RD2 -->|是| R2
-    RD2 -->|否| R4[強制登出 + Toast「登入逾時，請重新登入」]
-    R4 --> R5[清除本地 Session → 跳轉 LoginScene]
-    RD1 -->|無效 Token / 帳號封禁（403）| R6[顯示「存取被拒絕」Modal]
-    R6 --> R7[說明原因（帳號封禁 / 區域限制）+ 聯絡客服按鈕]
-    R7 --> R5</pre></div>
+    R1[玩家嘗試存取受限功能] --&gt; RD1{JWT Token 狀態}
+    RD1 --&gt;|有效| R2[允許存取]
+    RD1 --&gt;|過期（401）| R3[Silent Refresh Token 嘗試]
+    R3 --&gt; RD2{Refresh 成功？}
+    RD2 --&gt;|是| R2
+    RD2 --&gt;|否| R4[強制登出 + Toast「登入逾時，請重新登入」]
+    R4 --&gt; R5[清除本地 Session → 跳轉 LoginScene]
+    RD1 --&gt;|無效 Token / 帳號封禁（403）| R6[顯示「存取被拒絕」Modal]
+    R6 --&gt; R7[說明原因（帳號封禁 / 區域限制）+ 聯絡客服按鈕]
+    R7 --&gt; R5</pre></div>
 <p><strong>UI 呈現：</strong> Token 過期的 Silent Refresh 對使用者透明（背景執行）；帳號封禁顯示封禁原因和申訴管道；不洩漏技術錯誤細節（如 HTTP 狀態碼）。</p>
 <h4>4.3.4 API 通用失敗流程</h4>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    E1[任意 API 請求發出] --> ED1{HTTP 回應狀態}
-    ED1 -->|2xx| E2[正常處理回應]
-    ED1 -->|4xx 客戶端錯誤（非 401/403）| E3[顯示對應 Inline 錯誤訊息]
-    E3 --> E4[不強制跳轉，讓用戶修正後重試]
-    ED1 -->|5xx 服務端錯誤| E5[顯示 Toast 或 Modal（依操作重要性）]
-    E5 --> ED2{操作類型}
-    ED2 -->|非關鍵操作（排行榜載入等）| E6[Toast「載入失敗，稍後重試」+ 自動重試 1 次]
-    ED2 -->|關鍵操作（充值/結算）| E7[Modal「操作失敗，請稍後重試」+ 錯誤參考號]
-    E7 --> E8[保留頁面狀態，不清空已填資料]
-    ED1 -->|網路逾時（timeout）| E9[Toast「網路連線不穩，請確認網路後重試」]
-    E9 --> E10[提供重試按鈕]</pre></div>
+    E1[任意 API 請求發出] --&gt; ED1{HTTP 回應狀態}
+    ED1 --&gt;|2xx| E2[正常處理回應]
+    ED1 --&gt;|4xx 客戶端錯誤（非 401/403）| E3[顯示對應 Inline 錯誤訊息]
+    E3 --&gt; E4[不強制跳轉，讓用戶修正後重試]
+    ED1 --&gt;|5xx 服務端錯誤| E5[顯示 Toast 或 Modal（依操作重要性）]
+    E5 --&gt; ED2{操作類型}
+    ED2 --&gt;|非關鍵操作（排行榜載入等）| E6[Toast「載入失敗，稍後重試」+ 自動重試 1 次]
+    ED2 --&gt;|關鍵操作（充值/結算）| E7[Modal「操作失敗，請稍後重試」+ 錯誤參考號]
+    E7 --&gt; E8[保留頁面狀態，不清空已填資料]
+    ED1 --&gt;|網路逾時（timeout）| E9[Toast「網路連線不穩，請確認網路後重試」]
+    E9 --&gt; E10[提供重試按鈕]</pre></div>
 <p><strong>UI 呈現：</strong> 通用錯誤訊息統一採友好語氣；關鍵操作失敗（充值）必須提供錯誤參考號以便客服追蹤；非關鍵操作（排行榜）失敗可自動靜默重試，不打擾使用者。</p>
 <h3>4.4 VIP 訂閱流程</h3>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    Start([玩家進入商城/個人中心]) --> S1[VIP 訂閱介紹頁面]
-    S1 --> S2[顯示各 VIP 等級特權對比]
-    S2 --> S3[點擊「訂閱 VIP 月費 USD 9.99」]
-    S3 --> S4[IAP 訂閱確認彈窗]
-    S4 --> D1{確認？}
-    D1 -->|取消| End1([返回商城])
-    D1 -->|確認| S5[AppStore/Google Play 訂閱流程]
-    S5 --> D2{訂閱結果}
-    D2 -->|成功| S6[VIP 等級啟用動畫 + 光環即時顯示]
-    D2 -->|失敗| S7[支付失敗錯誤訊息 + 客服連結]
-    S6 --> End2([進入遊戲，VIP 光環可見])</pre></div>
+    Start([玩家進入商城/個人中心]) --&gt; S1[VIP 訂閱介紹頁面]
+    S1 --&gt; S2[顯示各 VIP 等級特權對比]
+    S2 --&gt; S3[點擊「訂閱 VIP 月費 USD 9.99」]
+    S3 --&gt; S4[IAP 訂閱確認彈窗]
+    S4 --&gt; D1{確認？}
+    D1 --&gt;|取消| End1([返回商城])
+    D1 --&gt;|確認| S5[AppStore/Google Play 訂閱流程]
+    S5 --&gt; D2{訂閱結果}
+    D2 --&gt;|成功| S6[VIP 等級啟用動畫 + 光環即時顯示]
+    D2 --&gt;|失敗| S7[支付失敗錯誤訊息 + 客服連結]
+    S6 --&gt; End2([進入遊戲，VIP 光環可見])</pre></div>
 <hr>
 <h2>5. Screen Specifications</h2>
 <blockquote><p>Cocos Creator WYSIWYG 設計原則：所有 UI 節點必須直接 bake 進 <code>.scene</code> JSON，美術打開 Cocos Editor 立即看到完整畫面，不允許 script 動態生成 UI。</p></blockquote>
@@ -1643,20 +1643,20 @@ const safeArea = cc.sys.getSafeAreaRect();
     direction TB
 
     class GameBootstrap {
-        <<ccclass>>
+        &lt;&lt;ccclass&gt;&gt;
         +onLoad() void
         +start() void
         +initManagers() void
         +checkSafeArea() void
     }
     class SceneWiring {
-        <<ccclass>>
+        &lt;&lt;ccclass&gt;&gt;
         +onLoad() void
         +bindEvents() void
         +setupUI() void
     }
     class UIController {
-        <<ccclass>>
+        &lt;&lt;ccclass&gt;&gt;
         +@property(cc.Label) coinLabel
         +@property(cc.Label) diamondLabel
         +@property(cc.Button) quickMatchBtn
@@ -1667,7 +1667,7 @@ const safeArea = cc.sys.getSafeAreaRect();
         +playJackpotEffect() void
     }
     class GameManager {
-        <<Singleton>>
+        &lt;&lt;Singleton&gt;&gt;
         -instance: GameManager
         +getInstance() GameManager
         +currentPhase: string
@@ -1677,7 +1677,7 @@ const safeArea = cc.sys.getSafeAreaRect();
         +endGame() void
     }
     class AudioManager {
-        <<Singleton>>
+        &lt;&lt;Singleton&gt;&gt;
         -instance: AudioManager
         +getInstance() AudioManager
         +playSfx(url: string) void
@@ -1685,7 +1685,7 @@ const safeArea = cc.sys.getSafeAreaRect();
         +stopBgm() void
     }
     class NetworkManager {
-        <<Singleton>>
+        &lt;&lt;Singleton&gt;&gt;
         -instance: NetworkManager
         +getInstance() NetworkManager
         +connectRoom(url: string) void
@@ -1693,25 +1693,25 @@ const safeArea = cc.sys.getSafeAreaRect();
         +send(type: string, data: object) void
     }
     class ColyseusClient {
-        <<Colyseus>>
+        &lt;&lt;Colyseus&gt;&gt;
         +joinOrCreate(roomName: string) ColyseusRoom
     }
     class ColyseusRoom {
-        <<Colyseus>>
+        &lt;&lt;Colyseus&gt;&gt;
         +state: RoomState
         +onStateChange: Signal~RoomState~
         +send(type: string, msg: object) void
         +leave() void
     }
     class RoomState {
-        <<Colyseus>>
+        &lt;&lt;Colyseus&gt;&gt;
         +players: MapSchema~PlayerState~
         +phase: string
         +countdown: number
         +jackpotPool: number
     }
     class PlayerState {
-        <<Colyseus>>
+        &lt;&lt;Colyseus&gt;&gt;
         +sessionId: string
         +displayName: string
         +score: number
@@ -1719,18 +1719,18 @@ const safeArea = cc.sys.getSafeAreaRect();
         +isBot: boolean
     }
 
-    GameBootstrap --> SceneWiring : schedules
-    GameBootstrap --> GameManager : initializes
-    GameBootstrap --> NetworkManager : initializes
-    GameBootstrap --> AudioManager : initializes
-    SceneWiring --> UIController : resolves
-    UIController ..> GameManager : observes
-    UIController ..> AudioManager : triggers
-    NetworkManager --> ColyseusClient : uses
-    ColyseusClient --> ColyseusRoom : creates
-    ColyseusRoom --> RoomState : syncs
-    RoomState --> PlayerState : aggregates
-    GameManager ..> RoomState : reads</pre></div>
+    GameBootstrap --&gt; SceneWiring : schedules
+    GameBootstrap --&gt; GameManager : initializes
+    GameBootstrap --&gt; NetworkManager : initializes
+    GameBootstrap --&gt; AudioManager : initializes
+    SceneWiring --&gt; UIController : resolves
+    UIController ..&gt; GameManager : observes
+    UIController ..&gt; AudioManager : triggers
+    NetworkManager --&gt; ColyseusClient : uses
+    ColyseusClient --&gt; ColyseusRoom : creates
+    ColyseusRoom --&gt; RoomState : syncs
+    RoomState --&gt; PlayerState : aggregates
+    GameManager ..&gt; RoomState : reads</pre></div>
 <blockquote><p><strong>Class Diagram 箭頭語義說明：</strong></p></blockquote>
 <blockquote><p>- <code>--&gt;</code> 實線箭頭：強依賴 / 直接引用（例如 initializes / creates / uses）</p></blockquote>
 <blockquote><p>- <code>..&gt;</code> 虛線箭頭：弱依賴 / 事件觀察 / 非直接引用（例如 observes / triggers / reads）</p></blockquote>

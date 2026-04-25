@@ -107,20 +107,20 @@ classDiagram
     %% ==================== ENUMS ====================
 
     class PlayerStatus {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         IDLE
         IN_ROOM
         DISCONNECTED
     }
 
     class FishStatus {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         ALIVE
         DEAD
     }
 
     class RoomStatus {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         WAITING
         PLAYING
         ENDING
@@ -128,7 +128,7 @@ classDiagram
     }
 
     class WeaponType {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         NORMAL
         LASER
         SCATTER
@@ -136,14 +136,14 @@ classDiagram
     }
 
     class SkillType {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         FREEZE
         BOMB
         LOCK
     }
 
     class TransactionType {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         PURCHASE
         REWARD
         CONSUME
@@ -151,20 +151,20 @@ classDiagram
     }
 
     class CurrencyType {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         COIN
         DIAMOND
     }
 
     class FishType {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         NORMAL
         ELITE
         BOSS
     }
 
     class OrderStatus {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         PENDING
         COMPLETED
         FAILED
@@ -172,7 +172,7 @@ classDiagram
     }
 
     class AgeStatus {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         UNVERIFIED
         DEMO_ONLY
         VERIFIED
@@ -181,7 +181,7 @@ classDiagram
     %% ==================== VALUE OBJECTS ====================
 
     class Weapon {
-        <<ValueObject>>
+        &lt;&lt;ValueObject&gt;&gt;
         + type: WeaponType
         + level: int
         + damage: int
@@ -193,7 +193,7 @@ classDiagram
     }
 
     class Skill {
-        <<ValueObject>>
+        &lt;&lt;ValueObject&gt;&gt;
         + type: SkillType
         + level: int
         + durationMs: int
@@ -203,7 +203,7 @@ classDiagram
     }
 
     class Money {
-        <<ValueObject>>
+        &lt;&lt;ValueObject&gt;&gt;
         + amount: int
         + currency: CurrencyType
         + equals(other: Money): bool
@@ -213,7 +213,7 @@ classDiagram
     }
 
     class Position {
-        <<ValueObject>>
+        &lt;&lt;ValueObject&gt;&gt;
         + x: float
         + y: float
         + equals(other: Position): bool
@@ -223,7 +223,7 @@ classDiagram
     %% ==================== ENTITIES ====================
 
     class Fish {
-        <<Entity>>
+        &lt;&lt;Entity&gt;&gt;
         + id: string
         + fishType: FishType
         + hp: int
@@ -240,7 +240,7 @@ classDiagram
     }
 
     class Bullet {
-        <<Entity>>
+        &lt;&lt;Entity&gt;&gt;
         + id: string
         + playerId: string
         + weaponType: WeaponType
@@ -253,7 +253,7 @@ classDiagram
     }
 
     class GameSession {
-        <<Entity>>
+        &lt;&lt;Entity&gt;&gt;
         + id: string
         + roomId: string
         + startedAt: Date
@@ -268,7 +268,7 @@ classDiagram
     }
 
     class Transaction {
-        <<Entity>>
+        &lt;&lt;Entity&gt;&gt;
         + id: string
         + playerId: string
         + amount: int
@@ -283,7 +283,7 @@ classDiagram
     }
 
     class JackpotEvent {
-        <<Entity>>
+        &lt;&lt;Entity&gt;&gt;
         + id: string
         + sessionId: string
         + winnerId: string
@@ -294,7 +294,7 @@ classDiagram
     %% ==================== AGGREGATE ROOTS ====================
 
     class Player {
-        <<AggregateRoot>>
+        &lt;&lt;AggregateRoot&gt;&gt;
         + id: string
         + nickname: string
         + email: string
@@ -326,7 +326,7 @@ classDiagram
     }
 
     class Room {
-        <<AggregateRoot>>
+        &lt;&lt;AggregateRoot&gt;&gt;
         + id: string
         + roomType: string
         + players: Player[]
@@ -352,7 +352,7 @@ classDiagram
     %% ==================== DOMAIN SERVICES ====================
 
     class RTPEngine {
-        <<DomainService>>
+        &lt;&lt;DomainService&gt;&gt;
         + targetRTP: float
         + currentRTP: float
         + calculateHit(playerId: string, fish: Fish, weapon: Weapon): HitResult
@@ -362,7 +362,7 @@ classDiagram
     }
 
     class JackpotService {
-        <<DomainService>>
+        &lt;&lt;DomainService&gt;&gt;
         + globalPool: int
         + minTriggerThreshold: int
         + triggerProbability: float
@@ -373,7 +373,7 @@ classDiagram
     }
 
     class FishSpawner {
-        <<DomainService>>
+        &lt;&lt;DomainService&gt;&gt;
         + spawnInterval: int
         + maxFishInRoom: int
         + spawnFish(room: Room): Fish
@@ -386,7 +386,7 @@ classDiagram
     %% ==================== DOMAIN EVENTS ====================
 
     class FishKilled {
-        <<DomainEvent>>
+        &lt;&lt;DomainEvent&gt;&gt;
         + eventId: string
         + sessionId: string
         + killerId: string
@@ -397,7 +397,7 @@ classDiagram
     }
 
     class JackpotTriggered {
-        <<DomainEvent>>
+        &lt;&lt;DomainEvent&gt;&gt;
         + eventId: string
         + sessionId: string
         + winnerId: string
@@ -406,7 +406,7 @@ classDiagram
     }
 
     class GameSessionEnded {
-        <<DomainEvent>>
+        &lt;&lt;DomainEvent&gt;&gt;
         + eventId: string
         + sessionId: string
         + results: SessionResult[]
@@ -415,7 +415,7 @@ classDiagram
     }
 
     class PlayerDisconnected {
-        <<DomainEvent>>
+        &lt;&lt;DomainEvent&gt;&gt;
         + eventId: string
         + playerId: string
         + roomId: string
@@ -425,7 +425,7 @@ classDiagram
     %% ==================== INTERFACES ====================
 
     class PlayerRepository {
-        <<Repository>>
+        &lt;&lt;Repository&gt;&gt;
         + findById(id: string): Player?
         + findByEmail(email: string): Player?
         + save(player: Player): void
@@ -433,7 +433,7 @@ classDiagram
     }
 
     class RoomRepository {
-        <<Repository>>
+        &lt;&lt;Repository&gt;&gt;
         + findById(id: string): Room?
         + findAvailable(): Room[]
         + save(room: Room): void
@@ -441,7 +441,7 @@ classDiagram
     }
 
     class FishRepository {
-        <<Repository>>
+        &lt;&lt;Repository&gt;&gt;
         + findByRoomId(roomId: string): Fish[]
         + save(fish: Fish): void
         + delete(id: string): void
@@ -455,23 +455,23 @@ classDiagram
     Player "1" *-- "1" Weapon : equips
     Player "1" *-- "0..*" Skill : owns
     Fish "1" *-- "1" Position : at
-    Bullet "1" --> "1" Fish : targets
-    Bullet "1" --> "1" Player : firedBy
-    Transaction "1" --> "1" Player : belongsTo
-    JackpotEvent "1" --> "1" Room : triggeredIn
-    JackpotEvent "1" --> "1" Player : winner
+    Bullet "1" --&gt; "1" Fish : targets
+    Bullet "1" --&gt; "1" Player : firedBy
+    Transaction "1" --&gt; "1" Player : belongsTo
+    JackpotEvent "1" --&gt; "1" Room : triggeredIn
+    JackpotEvent "1" --&gt; "1" Player : winner
 
-    Room ..> RTPEngine : uses
-    Room ..> JackpotService : uses
-    Room ..> FishSpawner : uses
-    Room ..> FishKilled : emits
-    Room ..> JackpotTriggered : emits
-    Room ..> GameSessionEnded : emits
-    Player ..> PlayerDisconnected : emits
+    Room ..&gt; RTPEngine : uses
+    Room ..&gt; JackpotService : uses
+    Room ..&gt; FishSpawner : uses
+    Room ..&gt; FishKilled : emits
+    Room ..&gt; JackpotTriggered : emits
+    Room ..&gt; GameSessionEnded : emits
+    Player ..&gt; PlayerDisconnected : emits
 
-    PlayerRepository ..> Player : manages
-    RoomRepository ..> Room : manages
-    FishRepository ..> Fish : manages
+    PlayerRepository ..&gt; Player : manages
+    RoomRepository ..&gt; Room : manages
+    FishRepository ..&gt; Fish : manages
 
     Player -- PlayerStatus
     Fish -- FishStatus

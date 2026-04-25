@@ -148,40 +148,40 @@
         WEBGL["WebGL 2.0\nRender Pipeline"]
     end
 
-    GC --> SS
-    GC --> FS
-    GC --> WS
-    GC --> SKS
-    GC --> UC
-    UC --> HUD
-    UC --> SD
+    GC --&gt; SS
+    GC --&gt; FS
+    GC --&gt; WS
+    GC --&gt; SKS
+    GC --&gt; UC
+    UC --&gt; HUD
+    UC --&gt; SD
 
-    HUD --> JP
-    HUD --> BHP
-    HUD --> WC
+    HUD --&gt; JP
+    HUD --&gt; BHP
+    HUD --&gt; WC
 
-    SS -->|"Colyseus msg: shoot\nWS:3001"| NM
-    FS -->|"onStateChange: fishes\nWS:3001"| NM
-    WS -->|"Colyseus msg: switchWeapon\nWS:3001"| NM
-    SKS -->|"Colyseus msg: activateSkill\nWS:3001"| NM
+    SS --&gt;|"Colyseus msg: shoot\nWS:3001"| NM
+    FS --&gt;|"onStateChange: fishes\nWS:3001"| NM
+    WS --&gt;|"Colyseus msg: switchWeapon\nWS:3001"| NM
+    SKS --&gt;|"Colyseus msg: activateSkill\nWS:3001"| NM
 
-    NM --> CC
-    CC -->|"WebSocket\nColyseus 0.15 Protocol"| GR
+    NM --&gt; CC
+    CC --&gt;|"WebSocket\nColyseus 0.15 Protocol"| GR
 
-    SD -->|"HTTP POST /api/v1/shop/purchase\nHTTPS:443"| HC
-    HC --> REST
+    SD --&gt;|"HTTP POST /api/v1/shop/purchase\nHTTPS:443"| HC
+    HC --&gt; REST
 
-    FPM --> FS_Schema
-    GR -->|"Delta State Sync"| FS_Schema
+    FPM --&gt; FS_Schema
+    GR --&gt;|"Delta State Sync"| FS_Schema
 
-    SS --> BPM
-    SS --> EPM
-    FS --> FPM
-    EPM --> WEBGL
-    FPM --> WEBGL
+    SS --&gt; BPM
+    SS --&gt; EPM
+    FS --&gt; FPM
+    EPM --&gt; WEBGL
+    FPM --&gt; WEBGL
 
-    AM -->|"file://assets/audio"| AM
-    NM --> SU</pre></div></main>
+    AM --&gt;|"file://assets/audio"| AM
+    NM --&gt; SU</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

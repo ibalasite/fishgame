@@ -177,18 +177,18 @@
         IAP["Apple/Google IAP\nExternal API"]
     end
 
-    Client -->|HTTPS /api/*| Ingress
-    Client -->|WSS /game/*| Ingress
-    Ingress --> AccountSvc
-    Ingress --> ShopSvc
-    Ingress --> GameSvc
-    AccountSvc --> RDS
-    AccountSvc --> Redis
-    ShopSvc --> RDS
-    ShopSvc --> Redis
-    ShopSvc --> IAP
-    GameSvc --> RDS
-    GameSvc --> Redis</pre></div>
+    Client --&gt;|HTTPS /api/*| Ingress
+    Client --&gt;|WSS /game/*| Ingress
+    Ingress --&gt; AccountSvc
+    Ingress --&gt; ShopSvc
+    Ingress --&gt; GameSvc
+    AccountSvc --&gt; RDS
+    AccountSvc --&gt; Redis
+    ShopSvc --&gt; RDS
+    ShopSvc --&gt; Redis
+    ShopSvc --&gt; IAP
+    GameSvc --&gt; RDS
+    GameSvc --&gt; Redis</pre></div>
 <h3>§2.2 Component Inventory</h3>
 <table>
 <tr><th>Component</th><th>K8s Namespace</th><th>Deployment</th><th>Port</th><th>HPA</th><th>說明</th></tr>
@@ -494,19 +494,19 @@ kubectl exec -n fishing-arcade-prod deployment/shop-service -- \
 <h2>§7 Troubleshooting</h2>
 <h3>§7.1 API 5xx 錯誤</h3>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    A[告警: high_error_rate] --> B{哪個 service?}
-    B -->|account-service| C[kubectl logs -n fishing-arcade-prod\n-l app=account-service --tail=100]
-    B -->|shop-service| D[kubectl logs -n fishing-arcade-prod\n-l app=shop-service --tail=100]
-    B -->|game-service| E[kubectl logs -n fishing-arcade-prod\n-l app=game-service --tail=100]
-    C --> F{DB 連線錯誤?}
-    D --> F
-    E --> F
-    F -->|Yes| G[§7.5 Database Issues]
-    F -->|No| H{OOM / CrashLoop?}
-    H -->|Yes| I[§7.6 CrashLoopBackOff]
-    H -->|No| J{最近有 Deploy?}
-    J -->|Yes| K[§9.1 Rollback]
-    J -->|No| L[Jaeger Trace 追蹤具體錯誤]</pre></div>
+    A[告警: high_error_rate] --&gt; B{哪個 service?}
+    B --&gt;|account-service| C[kubectl logs -n fishing-arcade-prod\n-l app=account-service --tail=100]
+    B --&gt;|shop-service| D[kubectl logs -n fishing-arcade-prod\n-l app=shop-service --tail=100]
+    B --&gt;|game-service| E[kubectl logs -n fishing-arcade-prod\n-l app=game-service --tail=100]
+    C --&gt; F{DB 連線錯誤?}
+    D --&gt; F
+    E --&gt; F
+    F --&gt;|Yes| G[§7.5 Database Issues]
+    F --&gt;|No| H{OOM / CrashLoop?}
+    H --&gt;|Yes| I[§7.6 CrashLoopBackOff]
+    H --&gt;|No| J{最近有 Deploy?}
+    J --&gt;|Yes| K[§9.1 Rollback]
+    J --&gt;|No| L[Jaeger Trace 追蹤具體錯誤]</pre></div>
 <pre><code class="language-bash"># Step 1: 確認錯誤集中在哪個 Pod
 kubectl get pods -n fishing-arcade-prod -l app=account-service
 # Expected: STATUS=Running，RESTARTS=0

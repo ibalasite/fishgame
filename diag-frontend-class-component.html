@@ -103,7 +103,7 @@
 <blockquote><p>來源：FRONTEND.md §ui/hud / §ui/dialogs / §ui/lobby / §ui/common</p></blockquote>
 <div class="diagram-container"><pre class="mermaid">classDiagram
     class CCComponent {
-        <<abstract>>
+        &lt;&lt;abstract&gt;&gt;
         +onLoad() void
         +start() void
         +onDestroy() void
@@ -111,7 +111,7 @@
     }
 
     class HUDComponent {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property coinBalanceLabel: Label
         +@property diamondBalanceLabel: Label
         +@property rankLabel: Label
@@ -128,7 +128,7 @@
     }
 
     class JackpotBar {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property progressBar: ProgressBar
         +@property jackpotLabel: Label
         +@property triggerEffect: ParticleSystem
@@ -143,8 +143,8 @@
     }
 
     class BossHPBar {
-        <<Component>>
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
+        &lt;&lt;Component&gt;&gt;
         +@property hpBar: ProgressBar
         +@property bossNameLabel: Label
         +@property bossIcon: Sprite
@@ -160,7 +160,7 @@
     }
 
     class WeaponCooldown {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property cooldownMask: Sprite
         +@property weaponIcon: Sprite
         +@property levelLabel: Label
@@ -177,7 +177,7 @@
     }
 
     class ShopDialog {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property itemList: ScrollView
         +@property coinLabel: Label
         +@property closeButton: Button
@@ -193,7 +193,7 @@
     }
 
     class SettingsDialog {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property bgmSlider: Slider
         +@property sfxSlider: Slider
         +@property qualityToggle: Toggle
@@ -211,7 +211,7 @@
     }
 
     class ConfirmDialog {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property titleLabel: Label
         +@property messageLabel: Label
         +@property confirmButton: Button
@@ -225,7 +225,7 @@
     }
 
     class LobbyUI {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property roomListContainer: Node
         +@property quickMatchButton: Button
         +@property playerInfoPanel: Node
@@ -240,7 +240,7 @@
     }
 
     class RoomListItem {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property roomNameLabel: Label
         +@property playerCountLabel: Label
         +@property roomIcon: Sprite
@@ -254,7 +254,7 @@
     }
 
     class MatchmakingUI {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property playerAvatars: Node[]
         +@property countdownBar: ProgressBar
         +@property statusLabel: Label
@@ -272,7 +272,7 @@
     }
 
     class ToastComponent {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property toastLabel: Label
         +@property toastBg: Sprite
         -_queue: ToastMessage[]
@@ -285,7 +285,7 @@
     }
 
     class LoadingComponent {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property spinner: Animation
         +@property progressLabel: Label
         +@property tipLabel: Label
@@ -298,7 +298,7 @@
     }
 
     class VIPBadge {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property badgeSprite: Sprite
         +@property glowEffect: ParticleSystem
         -_isVIP: boolean
@@ -309,19 +309,19 @@
         +playGlowAnimation() void
     }
 
-    CCComponent <|-- HUDComponent
-    CCComponent <|-- JackpotBar
-    CCComponent <|-- BossHPBar
-    CCComponent <|-- WeaponCooldown
-    CCComponent <|-- ShopDialog
-    CCComponent <|-- SettingsDialog
-    CCComponent <|-- ConfirmDialog
-    CCComponent <|-- LobbyUI
-    CCComponent <|-- RoomListItem
-    CCComponent <|-- MatchmakingUI
-    CCComponent <|-- ToastComponent
-    CCComponent <|-- LoadingComponent
-    CCComponent <|-- VIPBadge
+    CCComponent &lt;|-- HUDComponent
+    CCComponent &lt;|-- JackpotBar
+    CCComponent &lt;|-- BossHPBar
+    CCComponent &lt;|-- WeaponCooldown
+    CCComponent &lt;|-- ShopDialog
+    CCComponent &lt;|-- SettingsDialog
+    CCComponent &lt;|-- ConfirmDialog
+    CCComponent &lt;|-- LobbyUI
+    CCComponent &lt;|-- RoomListItem
+    CCComponent &lt;|-- MatchmakingUI
+    CCComponent &lt;|-- ToastComponent
+    CCComponent &lt;|-- LoadingComponent
+    CCComponent &lt;|-- VIPBadge
 
     LobbyUI "1" *-- "0..*" RoomListItem : contains
     HUDComponent "1" *-- "1" JackpotBar : owns

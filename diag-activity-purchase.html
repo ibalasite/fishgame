@@ -143,39 +143,39 @@ flowchart TD
         DB_UpdateFailed[UPDATE orders SET\nstatus=FAILED]
     end
 
-    P_OpenShop --> P_SelectProduct --> P_InitiatePurchase
-    P_InitiatePurchase --> SS_CheckIdempotency
+    P_OpenShop --&gt; P_SelectProduct --&gt; P_InitiatePurchase
+    P_InitiatePurchase --&gt; SS_CheckIdempotency
 
-    SS_CheckIdempotency -->|orderId 存在，已完成| P_Success
-    SS_CheckIdempotency -->|新請求| SS_CreateOrder
-    SS_CreateOrder --> DB_CreateOrder --> P_PlatformPay
+    SS_CheckIdempotency --&gt;|orderId 存在，已完成| P_Success
+    SS_CheckIdempotency --&gt;|新請求| SS_CreateOrder
+    SS_CreateOrder --&gt; DB_CreateOrder --&gt; P_PlatformPay
 
-    P_PlatformPay --> P_WaitConfirm
-    P_WaitConfirm --> SS_VerifyReceipt
+    P_PlatformPay --&gt; P_WaitConfirm
+    P_WaitConfirm --&gt; SS_VerifyReceipt
 
-    SS_VerifyReceipt --> SS_CircuitBreaker
-    SS_CircuitBreaker -->|CLOSED 正常| PG_VerifyApple
-    SS_CircuitBreaker -->|CLOSED 正常| PG_VerifyGoogle
-    SS_CircuitBreaker -->|OPEN 熔斷| SS_PendingRetry
+    SS_VerifyReceipt --&gt; SS_CircuitBreaker
+    SS_CircuitBreaker --&gt;|CLOSED 正常| PG_VerifyApple
+    SS_CircuitBreaker --&gt;|CLOSED 正常| PG_VerifyGoogle
+    SS_CircuitBreaker --&gt;|OPEN 熔斷| SS_PendingRetry
 
-    PG_VerifyApple --> PG_ReceiptValid
-    PG_VerifyGoogle --> PG_ReceiptValid
+    PG_VerifyApple --&gt; PG_ReceiptValid
+    PG_VerifyGoogle --&gt; PG_ReceiptValid
 
-    PG_ReceiptValid -->|無效| SS_FailOrder
-    PG_ReceiptValid -->|有效| PG_DupReceipt
+    PG_ReceiptValid --&gt;|無效| SS_FailOrder
+    PG_ReceiptValid --&gt;|有效| PG_DupReceipt
 
-    PG_DupReceipt -->|重複使用| SS_FailOrder
-    PG_DupReceipt -->|首次使用| DB_CheckReceipt
+    PG_DupReceipt --&gt;|重複使用| SS_FailOrder
+    PG_DupReceipt --&gt;|首次使用| DB_CheckReceipt
 
-    DB_CheckReceipt -->|重複 hash| SS_FailOrder
-    DB_CheckReceipt -->|全新 receipt| SS_GrantDiamonds
+    DB_CheckReceipt --&gt;|重複 hash| SS_FailOrder
+    DB_CheckReceipt --&gt;|全新 receipt| SS_GrantDiamonds
 
-    SS_GrantDiamonds --> SS_UpdateOrder --> DB_UpdateCompleted
-    SS_GrantDiamonds --> AS_UpdateBalance --> AS_NotifyPlayer --> P_Success
+    SS_GrantDiamonds --&gt; SS_UpdateOrder --&gt; DB_UpdateCompleted
+    SS_GrantDiamonds --&gt; AS_UpdateBalance --&gt; AS_NotifyPlayer --&gt; P_Success
 
-    SS_FailOrder --> DB_UpdateFailed --> P_Fail
-    SS_PendingRetry -->|重試最多 3 次| SS_VerifyReceipt
-    SS_PendingRetry -->|3 次失敗| P_Retry
+    SS_FailOrder --&gt; DB_UpdateFailed --&gt; P_Fail
+    SS_PendingRetry --&gt;|重試最多 3 次| SS_VerifyReceipt
+    SS_PendingRetry --&gt;|3 次失敗| P_Retry
 
     style P_Success fill:#1a472a,stroke:#2d8a50,color:#fff
     style P_Fail fill:#4a1a1a,stroke:#8a2d2d,color:#fff

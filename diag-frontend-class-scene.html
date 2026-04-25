@@ -103,7 +103,7 @@
 <blockquote><p>來源：FRONTEND.md §Scene 清單 / §game/controllers</p></blockquote>
 <div class="diagram-container"><pre class="mermaid">classDiagram
     class GameScene_Enum {
-        <<enumeration>>
+        &lt;&lt;enumeration&gt;&gt;
         LOADING
         LOGIN
         ONBOARDING
@@ -115,7 +115,7 @@
     }
 
     class SceneManager {
-        <<singleton>>
+        &lt;&lt;singleton&gt;&gt;
         -static _instance: SceneManager
         -_currentScene: GameScene_Enum
         -_sceneHistory: GameScene_Enum[]
@@ -127,7 +127,7 @@
     }
 
     class GameController {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property shootingSystem: ShootingSystem
         +@property fishSystem: FishSystem
         +@property weaponSystem: WeaponSystem
@@ -148,7 +148,7 @@
     }
 
     class UIController {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property hudComponent: HUDComponent
         +@property shopDialog: ShopDialog
         +@property settingsDialog: SettingsDialog
@@ -168,7 +168,7 @@
     }
 
     class LoadingScene {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property progressBar: ProgressBar
         +@property tipLabel: Label
         -_loadProgress: number
@@ -181,7 +181,7 @@
     }
 
     class LoginScene {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property loginButton: Button
         +@property guestButton: Button
         +@property phoneInput: EditBox
@@ -197,7 +197,7 @@
     }
 
     class LobbyScene {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property lobbyUI: LobbyUI
         +@property playerInfoPanel: Node
         +@property vipBadge: VIPBadge
@@ -212,7 +212,7 @@
     }
 
     class CannonSelectScene {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property cannonGrid: Node
         +@property skillTooltip: Node
         +@property confirmButton: Button
@@ -230,7 +230,7 @@
     }
 
     class MatchmakingScene {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property matchmakingUI: MatchmakingUI
         -_matchToken: string
         -_pollingInterval: number
@@ -245,7 +245,7 @@
     }
 
     class GameScene {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property gameController: GameController
         +@property uiController: UIController
         -_roomId: string
@@ -259,7 +259,7 @@
     }
 
     class SettlementScene {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         +@property rankingList: Node
         +@property coinSummary: Label
         +@property replayButton: Button
@@ -280,14 +280,14 @@
     GameScene "1" *-- "1" UIController : owns
     LobbyScene "1" *-- "1" LobbyUI : owns
 
-    SceneManager ..> GameScene_Enum : uses
-    LoadingScene ..> SceneManager : calls
-    LoginScene ..> SceneManager : calls
-    LobbyScene ..> SceneManager : calls
-    CannonSelectScene ..> SceneManager : calls
-    MatchmakingScene ..> SceneManager : calls
-    GameScene ..> SceneManager : calls
-    SettlementScene ..> SceneManager : calls</pre></div></main>
+    SceneManager ..&gt; GameScene_Enum : uses
+    LoadingScene ..&gt; SceneManager : calls
+    LoginScene ..&gt; SceneManager : calls
+    LobbyScene ..&gt; SceneManager : calls
+    CannonSelectScene ..&gt; SceneManager : calls
+    MatchmakingScene ..&gt; SceneManager : calls
+    GameScene ..&gt; SceneManager : calls
+    SettlementScene ..&gt; SceneManager : calls</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

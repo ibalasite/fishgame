@@ -132,30 +132,30 @@
         C7[Asset 載入完成]
     end
 
-    A1 --> A2
-    A2 --> A3
-    A3 --> A4
-    A4 --> C1
-    C1 -- 命中 --> C2
-    C1 -- 未命中 --> C3
-    C2 --> B1
-    C3 --> B1
-    B1 --> B2
-    B2 -- 否 --> B3
-    B3 --> B4
-    B4 --> B2
-    B2 -- 是 --> B5
-    B5 --> B6
-    B6 --> C4
-    C4 -- 命中 --> C5
-    C4 -- 未命中 --> C6
-    C5 --> C7
-    C6 --> C7
-    C7 --> A16
-    A16 -- StorageUtils.getAuthToken 有效 --> A18
-    A16 -- Token 不存在或過期 --> A17
-    A17 --> A18
-    A18 --> A19</pre></div></main>
+    A1 --&gt; A2
+    A2 --&gt; A3
+    A3 --&gt; A4
+    A4 --&gt; C1
+    C1 -- 命中 --&gt; C2
+    C1 -- 未命中 --&gt; C3
+    C2 --&gt; B1
+    C3 --&gt; B1
+    B1 --&gt; B2
+    B2 -- 否 --&gt; B3
+    B3 --&gt; B4
+    B4 --&gt; B2
+    B2 -- 是 --&gt; B5
+    B5 --&gt; B6
+    B6 --&gt; C4
+    C4 -- 命中 --&gt; C5
+    C4 -- 未命中 --&gt; C6
+    C5 --&gt; C7
+    C6 --&gt; C7
+    C7 --&gt; A16
+    A16 -- StorageUtils.getAuthToken 有效 --&gt; A18
+    A16 -- Token 不存在或過期 --&gt; A17
+    A17 --&gt; A18
+    A18 --&gt; A19</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
