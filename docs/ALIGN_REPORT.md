@@ -29,12 +29,21 @@
 
 **狀態圖示**：🔴 有 CRITICAL/HIGH 問題 ｜ ⚠️ 僅 MEDIUM/LOW ｜ ✅ 無問題
 
-- D0 必要文件存在性：⚠️
-- D1 Doc→Doc：🔴
+- D0 必要文件存在性：✅（D0-001 為誤報，已標 MANUAL）
+- D1 Doc→Doc：⚠️（20/22 已修復，2 個 MEDIUM/LOW 待定：D1-E-2 age_status 設計決策、D1-G-2 性能測試 RTM）
 - D2 Doc→Code：🔴（尚無實作，設計完成度良好）
 - D3 Code→Test：🔴（尚無實作，設計完成度良好）
-- D4 Doc→Test：🔴
-- D5 UML/RTM 品質：⚠️
+- D4 Doc→Test：⚠️（7/9 已修復，剩餘：D4-001 BDD step definitions 待實作、D4-009 Analytics 降級無 BDD）
+- D5 UML/RTM 品質：⚠️（3/4 已修復，D5-001 PlantUML 檔案待生成）
+
+**修復進度**（align-fix 本次執行）：
+```
+掃描原始問題：43 個（CRITICAL:5 HIGH:16 MEDIUM:16 LOW:6）
+已修復（FIXED）：30 個
+標 MANUAL（誤報/設計決策）：3 個（D0-001/D1-E-3/D1-X-1）
+剩餘開放：10 個（D1-E-2/D1-G-2/D2-001~006/D3-001/D4-001/D4-009/D5-001）
+  → D2/D3/D4-001 全為「src/ 不存在」等實作階段任務，非文件問題
+```
 
 ---
 
@@ -112,6 +121,7 @@
   建議修復方向：PRD US-VIP-001/AC-1 更新為「以鑽石扣款（30 鑽石/月）完成 VIP 訂閱」，
     並記錄 IAP 訂閱管道改為 P2 Future Scope 的設計決策
   可自動修復：NO
+  [FIXED: ddd959a]（B1 授權：PRD US-VIP-001/AC-1 更新為鑽石扣款模式，IAP 訂閱降為 P2 Future Scope）
 ```
 
 ```
@@ -142,6 +152,7 @@
   建議修復方向：EDD §5.1 更新為實際 feature file 清單；評估是否補充獨立
     features/auth/age_verification.feature（PRD US-AGE-001 有 3 個獨立 AC）
   可自動修復：NO
+  [FIXED: 7382042]（EDD §5.1 已更新為實際 feature file 清單）
 ```
 
 ```
@@ -155,6 +166,7 @@
   建議修復方向：user_registration.feature 補充 DEMO_ONLY 路徑 Scenario，
     或新增 features/auth/age_verification.feature
   可自動修復：NO
+  [FIXED: 5227d55]（TC-INT-AGE-005-S/TC-INT-AGE-006-S 補充 DEMO_ONLY 三態機 Scenario）
 ```
 
 ```
@@ -179,6 +191,7 @@
   受影響範圍：RTM §4.6；iap_purchase.feature 中 7 個未被 RTM 追蹤的 Scenarios
   建議修復方向：RTM §4.6 補充 iap_purchase.feature 中未映射 Scenario 的 TC-ID 追蹤行
   可自動修復：NO
+  [FIXED: cc7e9d5]（RTM §4.6 已全面補充 iap_purchase.feature 所有 TC-ID 追蹤行）
 ```
 
 ```
@@ -205,6 +218,7 @@
   衝突類型：gold-plating（合理實作，但需 BRD 授權）
   建議修復方向：補充至 BRD §5.4 Could Have 並說明業務依據；或降為 Future Scope
   可自動修復：NO
+  [FIXED: ddd959a]（BRD §5.4 MoSCoW 補充排行榜系統 Could Have 條目）
 ```
 
 ```
@@ -216,6 +230,7 @@
   建議修復方向：PRD §7.4 新增 NFR：個資洩漏 72h 通報機制（台灣個資法 Art 12）；
     ToS 需明確禁止歐盟用戶使用以降低 GDPR 適用風險
   可自動修復：NO
+  [FIXED: ddd959a]（PRD §7.4 補充 NFR-SEC-001/NFR-SEC-002）
 ```
 
 ```
@@ -225,6 +240,7 @@
   衝突類型：B2-下游偏離
   建議修復方向：EDD §4.1 更新為與 API.md 一致的 PATCH /v1/admin/users/:user_id 設計
   可自動修復：NO
+  [FIXED: eeb4f62]（EDD §4.1 RBAC 表更新為 PATCH /v1/admin/users/:user_id）
 ```
 
 ```
@@ -235,6 +251,7 @@
   衝突類型：gold-plating（合理實作，建議補文件）
   建議修復方向：EDD §5.5 補充三個 Entity 定義及說明
   可自動修復：NO
+  [FIXED: eeb4f62]（EDD §5.5 補充 game_configs/products/data_access_logs 三個 Entity 定義）
 ```
 
 ```
@@ -270,6 +287,7 @@
   衝突類型：缺失
   建議修復方向：fishing_gameplay.feature 補充魚群服務崩潰降級 Scenario（@TC-INT-FISH-005-E）
   可自動修復：NO
+  [FIXED: e10505c]（TC-INT-FISH-005-E 已補充降級靜態魚波 Scenario）
 ```
 
 ```
@@ -281,6 +299,7 @@
   建議修復方向：test-plan §15.1 補充說明「43 為核心 TC，RTM 包含所有補充 BDD Scenarios」；
     或更新 §1.1 為 RTM 實際 TC 數量
   可自動修復：NO
+  [FIXED: 9798b58]（test-plan §15.1 補充三層說明：核心43/RTM全量80+/含Outline展開138）
 ```
 
 ```
@@ -301,6 +320,7 @@
 [LOW] D1-A-1: BRD 內部矛盾（換裝皮膚系統在 Out of Scope 和 Could Have 均出現）
   建議修復方向：BRD §5.3 Out of Scope 移除換裝皮膚，或 §5.4 Could Have 改為 Won't Have 本版
   可自動修復：NO
+  [FIXED: ddd959a]（BRD §5.3 Out of Scope 移除皮膚系統；§5.4 保留 Could Have）
 
 [LOW] D1-C-1: EDD Container 圖未顯示 Unleash 連線（ARCH 已補全）
   建議修復方向：EDD §2.2 Container 圖補加 Unleash 連線至三個服務
@@ -396,6 +416,7 @@
   問題描述：此問題亦出現於 D1-B-2，在 Doc→Code 層面需在實作前確認正確值。
   建議修復方向：同 D1-B-2
   可自動修復：YES（確認後修改 API.md）
+  [FIXED: 4de48ce]（與 D1-B-2 同一修復：API.md expires_in=900/refresh TTL 7d）
 ```
 
 ---
@@ -446,6 +467,7 @@
   衝突類型：缺失 + 錯誤映射
   建議修復方向：room_matchmaking.feature 補充 3 個 Scenario；修正 TC-INT-ROOM-006-E 標籤
   可自動修復：NO
+  [FIXED: 77eae3d]（TC-E2E-ROOM-003-S/TC-INT-ROOM-004-E 補充；TC-INT-ROOM-006-E 改為 Circuit Breaker；原 ROOM_NOT_FOUND 改為 TC-INT-ROOM-012-E）
 ```
 
 ```
@@ -460,6 +482,7 @@
     AC-5 降級和 AC-3 逃跑安慰獎 5% 均有財務直接影響
   建議修復方向：fishing_gameplay.feature 補充 4 個 Scenario
   可自動修復：NO
+  [FIXED: e10505c]（TC-E2E-FISH-002-S/004-S/TC-INT-FISH-003-B/005-E 全部補充）
 ```
 
 ```
@@ -473,6 +496,7 @@
   建議修復方向：(1) 修正 fishing_gameplay.feature 中「遊戲未開始」Scenario 的 TC-ID；
     (2) 補充真正的 US-FISH-001/AC-6 Redis SETNX 並發測試 Scenario（@TC-INT-FISH-006-B）
   可自動修復：NO
+  [FIXED: e10505c]（TC-INT-FISH-009-E 接管「遊戲未開始」Scenario；TC-INT-FISH-006-B 補充 Redis SETNX 並發 Scenario）
 ```
 
 ```
@@ -487,6 +511,7 @@
   受影響範圍：5 個 P0 AC；AC-5 降級和 SHOP AC-2/AC-4 均有財務直接影響
   建議修復方向：對應 feature files 各補充缺失 Scenario
   可自動修復：NO
+  [FIXED: b007f94]（全部 5 個 Scenario 補充完成）
 ```
 
 ```
@@ -502,6 +527,7 @@
   建議修復方向：以 EDD 為 authority，統一錯誤碼；
     同步更新 feature files 和 RTM AC 描述；EDD §5.3 補充 DUPLICATE_SUBSCRIPTION
   可自動修復：NO（需 ADR 確認後修改）
+  [FIXED: 7382042]（全部 3 處錯誤碼已對齊 EDD §5.3；EDD §5.3 補充 DUPLICATE_SUBSCRIPTION/INSUFFICIENT_DIAMONDS/VIP_ALREADY_ACTIVE）
 ```
 
 ### MEDIUM 問題（2 個）
@@ -513,6 +539,7 @@
     實際 BDD 覆蓋約 26/39 AC（67%）。
   建議修復方向：RTM §1.4 新增「BDD Scenario 覆蓋率」獨立欄位，區分兩個維度
   可自動修復：NO
+  [FIXED: 9798b58]（RTM §1.4 新增 BDD 覆蓋率欄，各 US 實際覆蓋率分列；test-plan §15.1 補充三層計算說明）
 
 [MEDIUM] D4-009: EDD §8.5 Analytics Buffer 降級行為無 BDD 覆蓋
   問題描述：EDD §8.5 定義 Analytics 平台 HTTP 超時 > 1000ms 時本地 Buffer 降級行為，
@@ -556,12 +583,14 @@
     GameRoom 對 Fish 應為 Composition（房間消失 → 魚消失）。
   建議修復方向：EDD Class Diagram 補充 GameRoom *-- Fish 等 Composition 關係
   可自動修復：NO
+  [FIXED: f78eb86]（FishPoolRoom *-- Fish Composition 關係已補充）
 
 [MEDIUM] D5-004: EDD Class Diagram 缺少 Aggregation（o--）關係
   問題描述：EDD Class Diagram 中未出現 Aggregation 關係符號（o--）。
     GameSession 對 Player 應為 Aggregation（Session 解散 → Player 獨立存在）。
   建議修復方向：EDD Class Diagram 補充 GameSession o-- Player 等 Aggregation 關係
   可自動修復：NO
+  [FIXED: f78eb86]（GameSession o-- SessionPlayer Aggregation 關係已補充）
 ```
 
 ---
