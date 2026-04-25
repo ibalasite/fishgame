@@ -1,10 +1,10 @@
 {
   "skill_source": "gendoc-auto",
   "execution_mode": "full-auto",
-  "review_strategy": "standard",
-  "max_rounds": 5,
-  "stop_condition": "任一輪 finding=0 或第 5 輪 fix 完",
-  "last_updated": "2026-04-24T16:49:08.300184Z",
+  "review_strategy": "tiered",
+  "max_rounds": 99,
+  "stop_condition": "前 5 輪 finding=0；第 6 輪起 CRITICAL+HIGH+MEDIUM=0",
+  "last_updated": "2026-04-25T08:00:00.000000Z",
   "input_type": "doc_local+codebase_git",
   "input_source": "/Users/tobala/projects/fishing-arcade-game/docs/req/魚機遊戲募資企劃書.md + https://github.com/taishan6868/Fishing-game-source-code.git",
   "req_dir": "docs/req",
@@ -23,10 +23,6 @@
     "D01-IDEA",
     "D02-BRD",
     "handoff",
-    "D04-PDD",
-    "D05-VDD",
-    "D10-FRONTEND",
-    "D12b-BDD-client",
     "D03-PRD",
     "D06-EDD",
     "D07-ARCH",
@@ -38,7 +34,15 @@
     "D14-runbook",
     "D15-LOCAL_DEPLOY",
     "D16-ALIGN",
-    "D17-HTML"
+    "D17-HTML",
+    "D04-PDD",
+    "D05-VDD",
+    "D07b-UML",
+    "D10-FRONTEND",
+    "D10b-AUDIO",
+    "D10c-ANIM",
+    "D12b-BDD-client",
+    "D16-ALIGN-F"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -61,7 +65,7 @@
     "D10-FRONTEND",
     "D12b-BDD-client"
   ],
-  "last_completed": "D03-PRD",
+  "last_completed": "D16-ALIGN-F",
   "review_progress": {
     "D03-PRD": {
       "rounds_done": 3,
@@ -206,6 +210,34 @@
         16,
         6
       ]
+    },
+    "D04-PDD": {
+      "rounds_done": 5,
+      "max_rounds": 99,
+      "strategy": "tiered",
+      "last_finding_total": 0,
+      "last_CHM": [
+        0,
+        0,
+        0
+      ],
+      "terminated": true,
+      "terminate_reason": "zero_finding",
+      "quality_status": "passed"
+    },
+    "D05-VDD": {
+      "rounds_done": 26,
+      "max_rounds": 99,
+      "strategy": "tiered",
+      "last_finding_total": 0,
+      "last_CHM": [
+        0,
+        0,
+        0
+      ],
+      "terminated": true,
+      "terminate_reason": "tiered-CRITICAL+HIGH+MEDIUM=0",
+      "quality_status": "passed"
     }
   },
   "edd_generated": true,
@@ -214,7 +246,12 @@
   "arch_generated": true,
   "special_completed": {
     "D16-ALIGN": true,
-    "D17-HTML": true
+    "D07b-UML": true,
+    "D17-HTML": true,
+    "D16-ALIGN-F": true
   },
-  "pipeline_complete": true
+  "client_type": "game",
+  "client_type_source": "manual",
+  "start_step": "D04-PDD",
+  "review_strategy_custom": ""
 }
