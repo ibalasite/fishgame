@@ -1,5 +1,5 @@
 # features/game/fishing_gameplay.feature
-# 來源：PRD US-FISH-001/AC-1,AC-2,AC-3,AC-4,AC-5,AC-6；US-ROOM-001/AC-5,AC-6
+# 來源：PRD US-FISH-001/AC-1,AC-2,AC-3,AC-4,AC-5,AC-6；US-ROOM-001/AC-5,AC-6（AC-2,AC-3,AC-4,AC-5 於本次 align-fix 補齊）
 # Risk Level：High（核心遊戲玩法與金幣獎勵，Scenario 數量加倍）
 
 Feature: 捕魚遊戲核心玩法與結算
@@ -32,6 +32,32 @@ Feature: 捕魚遊戲核心玩法與結算
     And GET /v1/users/:id/balance 回應餘額仍為 500
     And 彈藥數量減少 1
 
+  @p0 @smoke @regression @api @TC-E2E-FISH-002-S
+  Scenario: RTP 動態計算影響金幣獎勵並即時更新餘額
+    Given 房間 RTP 當前設定為 90%，玩家初始金幣餘額 500
+    And 系統根據當前房間累積彈藥消耗動態調整命中率參數
+    When 玩家使用基本武器連續射擊 10 次（服務端依 RTP 參數決定 hit/miss）
+    Then 玩家收到對應 fish_kill 事件，金幣獎勵合計符合 RTP 期望值（±15% 誤差容忍）
+    And GET /v1/users/:id/balance 即時反映最新金幣餘額
+    And 資料庫 users.coin_balance 與 API 回應一致
+
+  @p0 @regression @api @TC-INT-FISH-003-B @websocket
+  Scenario: BOSS 魚 HP 歸零 — 最後一擊玩家贏得全額獎池，其他玩家獲 5% 安慰獎
+    Given 房間中出現 BOSS 魚，HP=100，獎池 1000 金幣
+    And 玩家 A 累計造成 90 點傷害，玩家 B 造成 9 點傷害
+    When 玩家 C 發送最後一擊使 BOSS HP ≤ 0
+    Then 玩家 C 獲得 1000 金幣（全額獎池，最後一擊者獲勝）
+    And 玩家 A、B 各獲得 50 金幣（獎池 × 5% 安慰獎）
+    And BOSS 從房間移除，服務端廣播 "boss_defeated" 事件
+
+  @p0 @smoke @regression @api @TC-E2E-FISH-004-S @websocket
+  Scenario: BOSS HP 歸零後 2 秒動畫結算，金幣立即到帳
+    Given 房間中 BOSS 魚 HP=1，玩家 A 發出最後一擊
+    When 服務端判定 BOSS HP ≤ 0（hit=true）
+    Then 服務端廣播 "boss_exploding" 動畫事件
+    And 2 秒後金幣獎勵自動到帳（玩家 A 獲得獎池全額）
+    And GET /v1/users/:id/balance 在 3 秒內反映新餘額
+
   @p0 @regression @api @TC-INT-FISH-003-S
   Scenario: 不同魚種倍率計算正確
     Given 房間中存在 4 種魚種（倍率 3x/5x/10x/20x），各 HP=1
@@ -61,9 +87,26 @@ Feature: 捕魚遊戲核心玩法與結算
     And 積分 200 的玩家被標記為 MVP（is_mvp=true）
     And 排名第 1 位積分顯示為 200，第 2 位為 180，第 3 位為 150
 
+  @p0 @regression @api @TC-INT-FISH-005-E @websocket
+  Scenario: 魚群服務崩潰後降級為靜態魚波，玩家可繼續遊戲
+    Given 房間遊戲進行中，動態魚群生成服務（FishSpawnService）出現異常
+    When 服務端偵測到 FishSpawnService 連續 3 次回應逾時
+    Then 系統降級為靜態魚波模式（預設魚種配置，固定刷新週期）
+    And 玩家射擊功能正常，可繼續命中靜態魚種獲得金幣
+    And 服務端廣播 "degraded_mode" 通知，提示「目前為靜態模式」
+
   # ─── 錯誤路徑 ───────────────────────────────────────────
 
   @p0 @regression @api @contract @TC-INT-FISH-006-B @websocket
+  Scenario: 6 人同時命中同一條魚，Redis SETNX 保證唯一擊殺結算
+    Given 房間有 6 位玩家，魚 fish_id="fish-boss-001"（HP=1）正在游動
+    When 6 位玩家幾乎同時（< 5ms 差距）發送 fire 事件，目標均為 "fish-boss-001"
+    Then 服務端以 Redis SETNX fish:kill:fish-boss-001 確保只有一位玩家獲得擊殺權
+    And 只有 1 位玩家收到 fish_kill 事件及金幣獎勵
+    And 其餘 5 位玩家收到 "TARGET_NOT_FOUND" 或空回應（魚已被擊殺）
+    And 資料庫僅新增 1 筆擊殺記錄
+
+  @p0 @regression @api @contract @TC-INT-FISH-009-E @websocket
   Scenario: 遊戲未開始時發送射擊事件被忽略
     Given 房間狀態為 "waiting"（遊戲未開始）
     When 玩家發送 fire WebSocket 事件
