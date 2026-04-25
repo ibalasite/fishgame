@@ -284,7 +284,7 @@ graph LR
 | `/v1/auth/refresh` | POST | ✅ | ✅ | ✅ | 帶有效 Refresh Token |
 | `/v1/users/:id` | GET | ⚠️ | ✅ | ✅ | 玩家只能查自己 |
 | `/v1/users/:id` | PATCH | ⚠️ | ❌ | ✅ | 玩家只能改自己非敏感欄位 |
-| `/v1/users/:id/ban` | POST | ❌ | ✅ | ✅ | 封號操作 |
+| `/v1/admin/users/:user_id` | PATCH | ❌ | ✅ | ✅ | 封號/解封/金幣調整（status 欄位控制）— 對齊 API.md §2.4 |
 | `/v1/users/:id/age-verify` | POST | ⚠️ | ✅ | ✅ | 玩家提交自己的年齡聲明 |
 | `/v1/game/rooms` | GET | ✅ | ✅ | ✅ | 查詢可用房間 |
 | `/v1/game/rooms/:id/join` | POST | ✅ | ❌ | ❌ | 僅玩家可加入遊戲 |
@@ -405,18 +405,22 @@ const requireOwnerOrRole = (...roles: UserRole[]) =>
 
 ## 5. BDD 設計
 
-### 5.1 預計 Feature Files 清單（BDD-server 輸出）
+### 5.1 Feature Files 清單（BDD-server 實際輸出）
 
-| Feature File | 對應 PRD US | 主要 Scenario |
-|-------------|-----------|-------------|
-| `account.feature` | US-ACCT-001 | 註冊成功、Email 衝突、登入鎖定、密碼強度 |
-| `game_room.feature` | US-ROOM-001 | 房間配對、Bot 補位、斷線重連、MVP 獎勵 |
-| `fish_pool.feature` | US-FISH-001 | 魚群生成、普通/精英/Boss 魚捕獲、服務降級 |
-| `weapon_skill.feature` | US-WPSK-001 | 武器切換、技能冷卻、冰凍/炸彈/鎖定效果 |
-| `rtp_engine.feature` | US-RTP-001 | RTP 範圍驗證、Jackpot 觸發、連敗補償、降級模式 |
-| `shop_iap.feature` | US-SHOP-001 | 鑽石購買、IAP Receipt 驗證、幂等重試、退款 |
-| `age_verification.feature` | US-AGE-001 | 年齡聲明、演示模式啟動、RESTRICTED 路徑 |
-| `vip_subscription.feature` | US-VIP-001 | VIP 訂閱生效、到期降級、特權驗證 |
+> **注意（align-fix 更新）：** 原設計預計 8 個 feature 檔案，實際產出與預計命名不同；`age_verification.feature` 無獨立檔案，年齡驗證 Scenarios 整合於 `auth/user_registration.feature`。
+
+| 實際 Feature File | 對應 PRD US | 主要 Scenario |
+|------------------|-----------|-------------|
+| `auth/user_login.feature` | US-ACCT-001 | 登入成功、密碼錯誤鎖定、Token 刷新、登出 |
+| `auth/user_registration.feature` | US-ACCT-001, US-AGE-001 | 註冊成功、Email 衝突、年齡驗證三態機（含 DEMO_ONLY）|
+| `game/room_matchmaking.feature` | US-ROOM-001 | 房間配對、Bot 補位、斷線重連、Circuit Breaker |
+| `game/fishing_gameplay.feature` | US-FISH-001, US-ROOM-001 | 魚群捕獲、倍率計算、保底獎勵、Boss 逃跑、服務降級 |
+| `game/weapon_skill.feature` | US-WPSK-001 | 武器切換、技能冷卻、冰凍/炸彈/鎖定效果 |
+| `game/rtp_jackpot.feature` | US-RTP-001 | RTP 範圍驗證、Jackpot 觸發、連敗補償、降級模式 |
+| `shop/iap_purchase.feature` | US-SHOP-001 | 鑽石購買、IAP Receipt 驗證、冪等重試、退款、詐騙防護 |
+| `shop/vip_subscription.feature` | US-VIP-001 | VIP 鑽石訂閱、到期降級、特權驗證 |
+
+> **待補**（D1-F-2）：`auth/user_registration.feature` 需補充 DEMO_ONLY 中間狀態 Scenario（PRD US-AGE-001/AC-1 三態機 UNVERIFIED → DEMO_ONLY → VERIFIED）。
 
 ### 5.2 範例 Gherkin Scenario
 
@@ -466,6 +470,9 @@ Feature: RTP Engine — Server-Authoritative Hit Detection
 | `orders` | id(PK,UUID), user_id(FK), product_id, order_type(ENUM), amount_usd, status(ENUM), iap_receipt_hash, created_at | 訂單（含冪等 UUID）|
 | `vip_subscriptions` | id(PK), user_id(FK,UNIQUE), vip_tier, activated_at, expires_at, status | VIP 訂閱狀態 |
 | `audit_logs` | id(PK), event_type, actor_user_id, resource_type, resource_id, before_json, after_json, outcome, ip_hash, created_at | 稽核日誌（Append-only）|
+| `game_configs` | id(PK=1), rtp_target_min, rtp_target_max, jackpot_probability, spawn_rate, max_players_per_room, updated_at | RTP/Jackpot 全局設定（單列 singleton）— 對齊 SCHEMA.md §3.8 |
+| `products` | id(PK), name, diamond_amount, price_usd, platform(ENUM), is_active, created_at | 商城鑽石方案目錄（軟性停用 is_active 旗標）— 對齊 SCHEMA.md §3.9 |
+| `data_access_logs` | id(PK), table_name, record_id, field_name, actor_id, ip_hash, accessed_at | 敏感欄位存取稽核（Append-only，PII 合規審計）— 對齊 SCHEMA.md §3.10 |
 
 **Entity 關聯**
 
