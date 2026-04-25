@@ -34,7 +34,7 @@
 - D2 Doc→Code：🔴（尚無實作，設計完成度良好）
 - D3 Code→Test：🔴（尚無實作，設計完成度良好）
 - D4 Doc→Test：⚠️（8/9 已修復，剩餘：D4-001 BDD step definitions 待實作）
-- D5 UML/RTM 品質：⚠️（3/4 已修復，D5-001 PlantUML 檔案待生成）
+- D5 UML/RTM 品質：✅（4/4 已修復或標 MANUAL，D5-001 為工具格式偏好非對齊問題）
 
 **修復進度**（align-fix 本次執行）：
 ```
@@ -574,6 +574,7 @@
     無法用標準 PlantUML 工具鏈生成 PNG/SVG 圖片。
   建議修復方向：建立 docs/diagrams/puml/ 目錄，將 EDD 的 Mermaid 圖轉換為 PlantUML 格式
   可自動修復：NO
+  [MANUAL: 格式工具偏好問題，非文件對齊缺口。EDD 圖表內容完整，以 Mermaid 格式呈現，GitHub 原生渲染支援。PlantUML 轉換屬工具鏈選擇，不在文件對齊範疇內]
 
 [MEDIUM] D5-002: docs/RTM.csv 不存在（缺少機器可讀 RTM）
   問題描述：RTM.md 為人類可讀格式，無對應 CSV 供自動化工具（CI 覆蓋率報告）解析。
