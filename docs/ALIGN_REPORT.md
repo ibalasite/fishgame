@@ -61,6 +61,7 @@
   受影響範圍：無法從根目錄瞭解專案背景、快速啟動方式、架構概述
   建議修復方向：執行 /gendoc readme 生成 README.md
   可自動修復：YES
+  [MANUAL: 已核查 — README.md 存在於 /Users/tobala/projects/fishgame/README.md，內容完整（技術棧/架構/快速啟動/文件索引），已更新 Known Issues 反映修復狀態。此 finding 為誤報（掃描時文件已存在）]
 ```
 
 ---
@@ -81,6 +82,7 @@
   受影響範圍：API.md §1.1、§12；BDD features/auth/user_login.feature TC-UNIT-AUTH-001-E
   建議修復方向：API.md §1.1 和 §12 中「10 次」統一改為「5 次」
   可自動修復：YES
+  [FIXED: 4de48ce]
 ```
 
 ### HIGH 問題（8 個）
@@ -96,6 +98,7 @@
   受影響範圍：API.md §1.1, §1.2, §1.3；BDD TC-INT-ACCT-015-B（邊界值 29/31 天）
   建議修復方向：API.md 統一為 PRD/EDD 規定：expires_in=900（15min）、refresh TTL 7d
   可自動修復：YES
+  [FIXED: 4de48ce]
 ```
 
 ```
@@ -124,6 +127,7 @@
   建議修復方向：統一後選一：(A) BDD feature 改用 PATCH /v1/admin/game-config；
     或 (B) API.md 補充 GET /v1/game-configs/jackpot 端點
   可自動修復：YES（選 A：更新 BDD feature 端點路徑）
+  [FIXED: 367e76e]
 ```
 
 ```
@@ -163,6 +167,7 @@
   受影響範圍：RTM §1.1 統計摘要；§1.2 測試類型分布圖
   建議修復方向：RTM §1.1 重新計算並明確說明「BDD Scenario 計算方式：含/不含 Outline 展開」
   可自動修復：YES
+  [FIXED: cc7e9d5]
 ```
 
 ```
@@ -186,6 +191,7 @@
   受影響範圍：features/auth/user_login.feature TC-INT-ACCT-015-B；RTM §4.1
   建議修復方向：先解決 D1-B-2（統一 Token 有效期），BDD 邊界值隨後對齊
   可自動修復：依賴 D1-B-2
+  [FIXED: D1-B-2 已於 4de48ce 修復；BDD 邊界值已對齊 PRD/EDD：29天/31天 → 6天/8天]
 ```
 
 ### MEDIUM 問題（9 個）
@@ -253,6 +259,7 @@
   衝突類型：B2-下游偏離
   建議修復方向：RTM §4.2 TC-INT-ROOM-003-S 更新 PRD REQ-ID 為 US-ROOM-001/AC-4
   可自動修復：YES
+  [FIXED: cc7e9d5]
 ```
 
 ```
@@ -285,6 +292,7 @@
   建議修復方向：RTM §6.1 補充 TC-INT-FISH-004-S, TC-INT-FISH-005-S；
     §4.3 補充三個 TC 的 BDD Feature 欄位
   可自動修復：YES
+  [FIXED: cc7e9d5]
 ```
 
 ### LOW 問題（4 個）
@@ -297,14 +305,17 @@
 [LOW] D1-C-1: EDD Container 圖未顯示 Unleash 連線（ARCH 已補全）
   建議修復方向：EDD §2.2 Container 圖補加 Unleash 連線至三個服務
   可自動修復：YES
+  [FIXED: 1a1365d]
 
 [LOW] D1-C-2: EDD C4 L1 圖缺少 Push Notification 外部系統節點
   建議修復方向：EDD §2.1 補充 PushNotif（Firebase FCM）外部系統節點
   可自動修復：YES
+  [FIXED: 1a1365d]
 
 [LOW] D1-E-3: EDD §5.5 vip_subscriptions 未列 activated_at 欄位
   建議修復方向：EDD §5.5 vip_subscriptions Entity 補充 activated_at 欄位
   可自動修復：YES
+  [MANUAL: 已核查 — EDD §5.5 Entity 清單（line 460）與 ER 圖（line 527）均已包含 activated_at 欄位，SCHEMA §3.7 亦有定義，此 finding 為誤報，無需修復]
 
 [LOW] D1-G-2: RTM 未追蹤性能測試 TC（BRD NFR QPS/並發指標無 RTM 覆蓋）
   建議修復方向：RTM 新增 §6 Performance Test RTM，追蹤 BRD NFR → test-plan §3.4 → k6 腳本
@@ -518,6 +529,7 @@
   問題描述：文件頭部標記來源包含 AC-3/AC-4，但這兩個 AC 的 Scenario 不在此 feature 內。
   建議修復方向：更新文件頭部來源標記，僅列出實際有 Scenario 覆蓋的 AC
   可自動修復：YES
+  [FIXED: a04f192]
 ```
 
 ---
@@ -537,6 +549,7 @@
   問題描述：RTM.md 為人類可讀格式，無對應 CSV 供自動化工具（CI 覆蓋率報告）解析。
   建議修復方向：生成 docs/RTM.csv（從 RTM.md Markdown 表格轉換）
   可自動修復：YES
+  [FIXED: f12fbbd]
 
 [MEDIUM] D5-003: EDD Class Diagram 缺少 Composition（*--）關係
   問題描述：EDD Class Diagram 中未出現 Composition 關係符號（*--）。
