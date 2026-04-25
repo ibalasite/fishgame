@@ -1593,6 +1593,8 @@ const safeArea = cc.sys.getSafeAreaRect();
 > | `color-ocean-300` | `#1A72C9` | 海藍中段（次要按鈕 hover）|
 > | `color-ocean-500` | `#134A8A` | 海藍中深端（進度填充）|
 > | `color-ocean-950` | `#030B1A` | 海藍最深端（深色遮罩底色）|
+> | `color-white-70` | `rgba(255,255,255,0.7)` | color-border-strong（強調邊框）|
+> | `color-black-60` | `rgba(0,0,0,0.6)` | color-bg-scrim / fish-label-bg（遮罩、魚標籤背景）|
 
 | `font-size-12` | `12px` |
 | `font-size-14` | `14px` |
@@ -1755,16 +1757,17 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `radius-md` | `radius-16` | 中圓角（充值卡片、面板容器）|
 | `radius-lg` | `radius-24` | 大圓角（Modal 彈窗、VIPPanel Banner）|
 
-> **VDD-Only Layer 2 Extensions（VDD §6.2）：** 以下 6 個語意 Token 在 VDD CSS Layer 2 中定義但不在上方 PDD Layer 2 主表中；均用於 UI 元件規格，引用上方 Layer 1 Primitives。
+> **VDD-Only Layer 2 Extensions（VDD §6.2）：** 以下 7 個語意 Token 在 VDD CSS Layer 2 中定義但不在上方 PDD Layer 2 主表中；均用於 UI 元件規格，引用上方 Layer 1 Primitives。
 >
 > | Token | 引用 Primitive | 用途 |
 > |-------|--------------|------|
 > | `color-text-warning` | `color-red-300`（#FF8080）| 警告文字色（金幣不足提示）|
-> | `color-border-strong` | `rgba(255,255,255,0.7)`（直接值）| 強調邊框（Modal、輸入框 Hover 態）|
+> | `color-border-strong` | `color-white-70`（#FFFFFF @ 70%）| 強調邊框（Modal、輸入框 Hover 態）|
 > | `color-border-error` | `color-red-500`（#FF4444）| 輸入框錯誤邊框 |
 > | `color-border-success` | `color-neon-green`（#00FF88）| 輸入框成功/已驗證邊框 |
 > | `color-feedback-info` | `color-neon-blue`（#00D4FF）| 資訊提示色（公告 Toast 等）|
 > | `color-accent-success` | `color-neon-green`（#00FF88）| 命中成功強調色（擊殺 hit effect）|
+> | `color-border-active` | `color-neon-blue`（#00D4FF）| 選中/Active 狀態邊框（Tab Bar 高亮條、Dropdown 選中項輪廓）|
 
 **Layer 3 — Component Tokens（元件層，引用 Semantic）**
 
