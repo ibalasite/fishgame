@@ -405,7 +405,7 @@
 | Hover | `var(--color-text-primary)` (#FFFFFF) | `var(--icon-btn-bg-hover)` | — |
 | Active | `var(--color-text-primary)` (#FFFFFF) | `var(--icon-btn-bg-active)` | scale(0.92) |
 | Focus | `var(--color-text-primary)` (#FFFFFF) | transparent | 2px outline `var(--color-border-focus)` (#F5C842) |
-| Disabled | `color-text-secondary` (#9BA1A9) opacity 0.4 | transparent | cursor: not-allowed |
+| Disabled | `var(--color-text-secondary)` (#9BA1A9) opacity 0.4 | transparent | cursor: not-allowed |
 
 **尺寸**：40×40 px，圓角 `--radius-icon`（20 px，圓形），觸控熱區 ≥ 44×44 px
 
@@ -1182,7 +1182,7 @@ Y=840  ~ Y=1280: 底部安全區
 | 失敗狀態標題 | text-h1，「遊戲結束」，rgba(255,255,255,0.8)（無精確 primitive，白色高透明度） |
 | 本局總收益 | text-display，數字 `var(--color-text-brand)`，帶 count-up 數字滾動動畫（duration 800ms）|
 | Jackpot 達成（特殊版）| 全屏金光爆炸特效 ≥3000ms，倍率數字從底部飛出衝屏（scale 0.5→3.0，fade out 1s）|
-| 統計區塊 | 擊殺數 / 最高倍率 / 技能使用次數，text-body，白色 |
+| 統計區塊 | 擊殺數 / 最高倍率 / 技能使用次數，text-body，`var(--color-text-primary)` |
 | 排名 | 1–4 名依序排列，第 1 名 `var(--color-border-brand)` 金框，附玩家頭像 + VIP 徽章 |
 | 再玩一局 CTA | Primary Button 560×56 px，「再玩一局」|
 | 返回大廳 | Secondary Button 560×48 px，「返回大廳」|

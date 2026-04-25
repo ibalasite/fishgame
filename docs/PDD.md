@@ -1595,6 +1595,11 @@ const safeArea = cc.sys.getSafeAreaRect();
 > | `color-ocean-950` | `#030B1A` | 海藍最深端（深色遮罩底色）|
 > | `color-white-70` | `rgba(255,255,255,0.7)` | color-border-strong（強調邊框）|
 > | `color-black-60` | `rgba(0,0,0,0.6)` | color-bg-scrim / fish-label-bg（遮罩、魚標籤背景）|
+> | `color-black-50` | `rgba(0,0,0,0.5)` | weapon-cooldown-bg（武器冷卻遮罩）|
+> | `color-gold-border-50` | `rgba(245,200,66,0.5)` | color-gold-border-card（武器卡/商品卡邊框）|
+> | `color-player-orange` | `#FF6D00` | 玩家3識別色 / 房間滿員 badge / 暢銷 badge |
+> | `color-player-purple` | `#9C27B0` | 玩家4識別色 / 深海女皇 Boss 主色 |
+> | `color-white-8` | `rgba(255,255,255,0.08)` | icon-btn 懸停背景 / input-bg 聚焦態 |
 
 | `font-size-12` | `12px` |
 | `font-size-14` | `14px` |
@@ -1681,6 +1686,9 @@ const safeArea = cc.sys.getSafeAreaRect();
 > | `shadow-glow-red` | `0 0 12px rgba(255,68,68,0.7)` | 危急 HP / 危險狀態紅色光暈 |
 > | `shadow-card` | `0 8px 32px rgba(0,0,0,0.6)` | 卡片/Dropdown 懸浮陰影 |
 > | `shadow-inset` | `inset 0 2px 4px rgba(0,0,0,0.4)` | 輸入框/進度槽內凹陰影 |
+> | `shadow-glow-gold-soft` | `0 0 24px rgba(245,200,66,0.4)` | card-shadow-highlight（高亮面板金光暈）|
+> | `shadow-card-sm` | `0 4px 16px rgba(0,0,0,0.5)` | shop-card-shadow（商品卡陰影）|
+> | `shadow-inset-highlight` | `inset 0 1px 0 rgba(255,255,255,0.1)` | weapon-card-shadow（武器卡頂部高光邊）|
 >
 > **Z-Index Tier（層疊秩序）**
 >
