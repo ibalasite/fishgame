@@ -12,19 +12,19 @@ generated: 2026-04-25T00:00:00Z
 ```mermaid
 %%{init: {"theme": "dark"}}%%
 stateDiagram-v2
-    [*] --> SPAWNING : FishSpawner.spawnFish(room)<br/>[room.fishCount < maxFish]
+    [*] --> SPAWNING : spawnFish [fishCount < maxFish]
 
-    SPAWNING --> ALIVE : spawnAnimation complete<br/>/ fish.hp = fish.maxHp<br/>/ emit FishSpawned event
+    SPAWNING --> ALIVE : spawnAnimation done / hp=maxHp, emit FishSpawned
 
-    ALIVE --> ALIVE : bullet.hitTarget(fish) [hp > 0]<br/>/ fish.hp -= damage<br/>/ emit FishDamaged event<br/>/ update room state delta
+    ALIVE --> ALIVE : hitTarget [hp > 0] / hp-=damage, emit FishDamaged
 
-    ALIVE --> DEAD : bullet.hitTarget(fish) [hp <= 0]<br/>/ fish.status = DEAD<br/>/ coins = fish.coinValue * multiplier<br/>/ emit FishKilled {killerId, coins, rtpAtKill}<br/>/ trigger Jackpot.contribute(1%)
+    ALIVE --> DEAD : hitTarget [hp <= 0] / status=DEAD, coins=coinValue×multiplier, emit FishKilled
 
-    ALIVE --> ESCAPED : fish.escape() [swimTimer expired]<br/>[fishType == BOSS]<br/>/ emit BossEscaped<br/>/ consolationPool += consolationRate
+    ALIVE --> ESCAPED : escape [swimTimer expired, isBoss] / emit BossEscaped, consolation+=rate
 
-    ESCAPED --> [*] : fish removed from room<br/>/ if BossEscaped: distribute consolation awards<br/>/ broadcast BOSS_ESCAPED animation
+    ESCAPED --> [*] : removed / distribute consolation awards
 
-    DEAD --> [*] : death animation complete (2s)<br/>/ fish removed from room<br/>/ room.fishCount--<br/>/ winner UI notification
+    DEAD --> [*] : deathAnim complete 2s / removed, fishCount--, notify winner
 
     note right of ALIVE
         ALIVE 狀態下觸發：
