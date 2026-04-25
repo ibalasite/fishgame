@@ -3,1053 +3,978 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API 設計 — fishing-arcade-game</title>
+  <title>API 文件 — fishgame</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({startOnLoad:true,theme:'default'});
-  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
-<nav class="top-nav">
-  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
-  <div class="nav-controls">
-    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
-    
-    <div class="search-wrap">
-      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
-      <div class="search-results"></div>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
     </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › API 文件</p>
+    <h1 class="banner-title">API 文件</h1>
   </div>
-</nav>
-<div class="doc-page-banner">
-  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › API 設計</div>
-  <h1 class="banner-title">API 設計</h1>
-  <p class="banner-desc">REST & WebSocket API</p>
-</div>
-<div class="page-wrapper">
-  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
 <a class="sidebar__link" href="index.html">🏠 首頁</a>
-<a class="sidebar__link" href="idea.html">💡 產品創意</a>
-<a class="sidebar__link" href="brd.html">📋 業務需求</a>
-<a class="sidebar__link" href="prd.html">📝 產品需求</a>
-<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
-<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
-<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
-<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
-<a class="sidebar__link" href="api.html">🔌 API 設計</a>
-<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
-<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
-<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
-<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
-<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
-<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
-<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
-<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link active" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
 <a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
-</div></nav>
-  <div class="sidebar-resizer" id="sidebarResizer"></div>
-  <main class="doc-content"><h1 id="api-—-api-設計文件（api-design-document）">API — API 設計文件（API Design Document）</h1>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>API — API 設計文件（API Design Document）</h1>
 <hr>
-<h2 id="document-control">Document Control</h2>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>DOC-ID</strong></td><td>API-FISHGAME-20260424</td></tr><tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr><tr><td><strong>文件版本</strong></td><td>v1.0</td></tr><tr><td><strong>狀態</strong></td><td>DRAFT</td></tr><tr><td><strong>作者</strong></td><td>AI Generated (gendoc-gen-api)</td></tr><tr><td><strong>日期</strong></td><td>2026-04-24</td></tr><tr><td><strong>上游 EDD</strong></td><td><a href="EDD.md">EDD.md</a>（EDD-FISHGAME-20260424）</td></tr><tr><td><strong>上游 PRD</strong></td><td><a href="PRD.md">PRD.md</a></td></tr><tr><td><strong>上游 ARCH</strong></td><td><a href="ARCH.md">ARCH.md</a>（ARCH-FISHGAME-20260424）</td></tr></table>
+<h2>Document Control</h2>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>DOC-ID</strong></td><td>API-FISHGAME-20260424</td></tr>
+<tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr>
+<tr><td><strong>文件版本</strong></td><td>v1.0</td></tr>
+<tr><td><strong>狀態</strong></td><td>DRAFT</td></tr>
+<tr><td><strong>作者</strong></td><td>AI Generated (gendoc-gen-api)</td></tr>
+<tr><td><strong>日期</strong></td><td>2026-04-24</td></tr>
+<tr><td><strong>上游 EDD</strong></td><td><a href="EDD.md" target="_blank" rel="noopener">EDD.md</a>（EDD-FISHGAME-20260424）</td></tr>
+<tr><td><strong>上游 PRD</strong></td><td><a href="PRD.md" target="_blank" rel="noopener">PRD.md</a></td></tr>
+<tr><td><strong>上游 ARCH</strong></td><td><a href="ARCH.md" target="_blank" rel="noopener">ARCH.md</a>（ARCH-FISHGAME-20260424）</td></tr>
+</table>
 <hr>
-<h2 id="change-log">Change Log</h2>
-<table><tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr><tr><td>v1.0</td><td>2026-04-24</td><td>AI Generated (gendoc-gen-api)</td><td>初稿</td></tr></table>
+<h2>Change Log</h2>
+<table>
+<tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr>
+<tr><td>v1.0</td><td>2026-04-24</td><td>AI Generated (gendoc-gen-api)</td><td>初稿</td></tr>
+</table>
 <hr>
-<h2 id="目錄">目錄</h2>
-<ol><li>快速概覽</li><li>認證（Authentication）</li><li>Endpoint 列表</li></ol>   - 2.1 Account — 帳號與認證
-<p>
-- 2.2 Game — 遊戲房間與歷史
-- 2.3 Commerce — 商城與 IAP
-- 2.4 Admin — 後台管理
-</p>
-<ol><li>共用 Schema 定義</li><li>API 呼叫序列圖</li><li>Webhook 規範</li><li>標準 Headers</li><li>Error Code Registry</li><li>Rate Limiting</li><li>Batch Operations</li><li>File Upload</li><li>API Paradigm Decision</li><li>OpenAPI 3.1 Specification（YAML）</li><li>API Changelog</li><li>API Review Checklist</li><li>API Versioning & Deprecation Policy</li><li>Client SDK & Code Generation</li><li>API Observability & SLO</li></ol>
+<h2>目錄</h2>
+<ol><li>快速概覽</li><li>認證（Authentication）</li><li>Endpoint 列表</li></ol>
+<ul><li style="margin-left:1.5rem">2.1 Account — 帳號與認證</li><li style="margin-left:1.5rem">2.2 Game — 遊戲房間與歷史</li><li style="margin-left:1.5rem">2.3 Commerce — 商城與 IAP</li><li style="margin-left:1.5rem">2.4 Admin — 後台管理</li></ul>
+<ol><li>共用 Schema 定義</li><li>API 呼叫序列圖</li><li>Webhook 規範</li><li>標準 Headers</li><li>Error Code Registry</li><li>Rate Limiting</li><li>Batch Operations</li><li>File Upload</li><li>API Paradigm Decision</li><li>OpenAPI 3.1 Specification（YAML）</li><li>API Changelog</li><li>API Review Checklist</li><li>API Versioning &amp; Deprecation Policy</li><li>Client SDK &amp; Code Generation</li><li>API Observability &amp; SLO</li></ol>
 <hr>
-<h2 id="0.-快速概覽">0. 快速概覽</h2>
-<table><tr><th>項目</th><th>值</th></tr><tr><td><strong>Base URL（生產）</strong></td><td><code>https://api.fishing-arcade-game.com/v1</code></td></tr><tr><td><strong>Base URL（本地）</strong></td><td><code>http://localhost:3000/v1</code></td></tr><tr><td><strong>WebSocket（Colyseus）</strong></td><td><code>wss://game.fishing-arcade-game.com</code></td></tr><tr><td><strong>協議</strong></td><td>HTTPS 強制（TLS 1.3+；HTTP 重定向 308 至 HTTPS）</td></tr><tr><td><strong>認證</strong></td><td><code>Authorization: Bearer &lt;JWT&gt;</code> — 所有端點必需（公開端點除外）</td></tr><tr><td><strong>回應格式</strong></td><td><code>application/json; charset=utf-8</code></td></tr><tr><td><strong>時區</strong></td><td>所有時間欄位為 UTC，ISO 8601 格式（<code>2026-04-24T12:00:00Z</code>）</td></tr><tr><td><strong>分頁策略</strong></td><td>Cursor-based（<code>?after=&lt;cursor&gt;&amp;limit=20</code>）— 非 OFFSET</td></tr><tr><td><strong>版本</strong></td><td><code>v1</code> 路徑前綴，向下相容保證 ≥ 6 個月（見 §15）</td></tr><tr><td><strong>字元集</strong></td><td>UTF-8</td></tr><tr><td><strong>最大請求 Body</strong></td><td>1 MB（除 File Upload 端點外）</td></tr><tr><td><strong>路徑參數命名</strong></td><td>snake_case（<code>:user_id</code>, <code>:order_id</code>）；Response 欄位一律使用 <code>user_id</code>/<code>order_id</code>，User 資源縮略版中的 <code>id</code> 欄位等同 <code>user_id</code></td></tr></table>
+<h2>0. 快速概覽</h2>
+<table>
+<tr><th>項目</th><th>值</th></tr>
+<tr><td><strong>Base URL（生產）</strong></td><td><code>https://api.fishing-arcade-game.com/v1</code></td></tr>
+<tr><td><strong>Base URL（本地）</strong></td><td><code>http://localhost:3000/v1</code></td></tr>
+<tr><td><strong>WebSocket（Colyseus）</strong></td><td><code>wss://game.fishing-arcade-game.com</code></td></tr>
+<tr><td><strong>協議</strong></td><td>HTTPS 強制（TLS 1.3+；HTTP 重定向 308 至 HTTPS）</td></tr>
+<tr><td><strong>認證</strong></td><td><code>Authorization: Bearer &lt;JWT&gt;</code> — 所有端點必需（公開端點除外）</td></tr>
+<tr><td><strong>回應格式</strong></td><td><code>application/json; charset=utf-8</code></td></tr>
+<tr><td><strong>時區</strong></td><td>所有時間欄位為 UTC，ISO 8601 格式（<code>2026-04-24T12:00:00Z</code>）</td></tr>
+<tr><td><strong>分頁策略</strong></td><td>Cursor-based（<code>?after=&lt;cursor&gt;&amp;limit=20</code>）— 非 OFFSET</td></tr>
+<tr><td><strong>版本</strong></td><td><code>v1</code> 路徑前綴，向下相容保證 ≥ 6 個月（見 §15）</td></tr>
+<tr><td><strong>字元集</strong></td><td>UTF-8</td></tr>
+<tr><td><strong>最大請求 Body</strong></td><td>1 MB（除 File Upload 端點外）</td></tr>
+<tr><td><strong>路徑參數命名</strong></td><td>snake_case（<code>:user_id</code>, <code>:order_id</code>）；Response 欄位一律使用 <code>user_id</code>/<code>order_id</code>，User 資源縮略版中的 <code>id</code> 欄位等同 <code>user_id</code></td></tr>
+</table>
 <hr>
-<h2 id="1.-認證（authentication）">1. 認證（Authentication）</h2>
-<h3 id="1.1-取得-token">1.1 取得 Token</h3>
-<p>
-<strong>POST /v1/auth/login</strong>
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>email</code></td><td>string</td><td>✅</td><td>電子郵件（格式驗證）</td></tr><tr><td><code>password</code></td><td>string</td><td>✅</td><td>明文密碼（TLS 傳輸），8–128 字元</td></tr></table>
-<p>
-<strong>Request 範例：</strong>
-</p>
+<h2>1. 認證（Authentication）</h2>
+<h3>1.1 取得 Token</h3>
+<p><strong>POST /v1/auth/login</strong></p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>email</code></td><td>string</td><td>✅</td><td>電子郵件（格式驗證）</td></tr>
+<tr><td><code>password</code></td><td>string</td><td>✅</td><td>明文密碼（TLS 傳輸），8–128 字元</td></tr>
+</table>
+<p><strong>Request 範例：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;email&quot;: &quot;player@example.com&quot;,
-&quot;password&quot;: &quot;Passw0rd!123&quot;
-}
-</code></pre>
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+  &quot;email&quot;: &quot;player@example.com&quot;,
+  &quot;password&quot;: &quot;Passw0rd!123&quot;
+}</code></pre>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl -X POST https://api.fishing-arcade-game.com/v1/auth/login \
-<p>
--H &quot;Content-Type: application/json&quot; \
--d &#x27;{&quot;email&quot;:&quot;player@example.com&quot;,&quot;password&quot;:&quot;Passw0rd!123&quot;}&#x27;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;email&quot;:&quot;player@example.com&quot;,&quot;password&quot;:&quot;Passw0rd!123&quot;}&#x27;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;access_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
-&quot;refresh_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
-&quot;expires_in&quot;: 3600,
-&quot;token_type&quot;: &quot;Bearer&quot;,
-&quot;user&quot;: {
-&quot;id&quot;: &quot;usr_01HX...&quot;,
-&quot;email&quot;: &quot;p<em>*</em>@example.com&quot;,
-&quot;role&quot;: &quot;player&quot;,
-&quot;vip_tier&quot;: 0
-}
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>JWT Payload：</strong>
-</p>
+  &quot;data&quot;: {
+    &quot;access_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
+    &quot;refresh_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
+    &quot;expires_in&quot;: 900,
+    &quot;token_type&quot;: &quot;Bearer&quot;,
+    &quot;user&quot;: {
+      &quot;id&quot;: &quot;usr_01HX...&quot;,
+      &quot;email&quot;: &quot;p***@example.com&quot;,
+      &quot;role&quot;: &quot;player&quot;,
+      &quot;vip_tier&quot;: 0
+    }
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>JWT Payload：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;sub&quot;: &quot;usr_01HX...&quot;,
-&quot;role&quot;: &quot;player&quot;,
-&quot;iat&quot;: 1714003200,
-&quot;exp&quot;: 1714006800,
-&quot;jti&quot;: &quot;jti_01HX...&quot;
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>email/password 格式錯誤</td></tr><tr><td>401</td><td><code>INVALID_CREDENTIALS</code></td><td>帳號或密碼錯誤</td></tr><tr><td>423</td><td><code>ACCOUNT_LOCKED</code></td><td>帳號已鎖定（連續失敗 10 次）</td></tr><tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 10 req/min/IP 限制</td></tr></table>
+  &quot;sub&quot;: &quot;usr_01HX...&quot;,
+  &quot;role&quot;: &quot;player&quot;,
+  &quot;iat&quot;: 1714003200,
+  &quot;exp&quot;: 1714006800,
+  &quot;jti&quot;: &quot;jti_01HX...&quot;
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>email/password 格式錯誤</td></tr>
+<tr><td>401</td><td><code>INVALID_CREDENTIALS</code></td><td>帳號或密碼錯誤</td></tr>
+<tr><td>423</td><td><code>ACCOUNT_LOCKED</code></td><td>帳號已鎖定（連續失敗 5 次）</td></tr>
+<tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 10 req/min/IP 限制</td></tr>
+</table>
 <hr>
-<h3 id="1.2-使用-token">1.2 使用 Token</h3>
-<p>
-所有需要認證的 API 請求必須在 HTTP Header 中包含：
-</p>
-<pre><code>Authorization: Bearer &lt;access_token&gt;
-<p>
-</code></pre>
-</p>
-<p>
-Token 有效期：<code>access_token</code> 1 小時；<code>refresh_token</code> 30 天（Sliding Window）。
-</p>
+<h3>1.2 使用 Token</h3>
+<p>所有需要認證的 API 請求必須在 HTTP Header 中包含：</p>
+<pre><code class="">Authorization: Bearer &lt;access_token&gt;</code></pre>
+<p>Token 有效期：<code>access_token</code> 15 分鐘（900s）；<code>refresh_token</code> 7 天（固定有效期）。</p>
 <hr>
-<h3 id="1.3-刷新-token">1.3 刷新 Token</h3>
-<p>
-<strong>POST /v1/auth/refresh</strong>（公開端點，無需 Authorization header）
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>refresh_token</code></td><td>string</td><td>✅</td><td>有效的 Refresh Token</td></tr></table>
-<p>
-<strong>Response 200：</strong>
-</p>
+<h3>1.3 刷新 Token</h3>
+<p><strong>POST /v1/auth/refresh</strong>（公開端點，無需 Authorization header）</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>refresh_token</code></td><td>string</td><td>✅</td><td>有效的 Refresh Token</td></tr>
+</table>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;access_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
-&quot;expires_in&quot;: 3600
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>INVALID_REFRESH_TOKEN</code></td><td>Token 無效、已過期或已吊銷</td></tr><tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 10 req/min/IP</td></tr></table>
+  &quot;data&quot;: {
+    &quot;access_token&quot;: &quot;eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
+    &quot;expires_in&quot;: 900
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>INVALID_REFRESH_TOKEN</code></td><td>Token 無效、已過期或已吊銷</td></tr>
+<tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 10 req/min/IP</td></tr>
+</table>
 <hr>
-<h3 id="1.4-認證-rate-limit-設定">1.4 認證 Rate Limit 設定</h3>
-<table><tr><th>端點</th><th>限制</th><th>說明</th></tr><tr><td>POST /auth/login</td><td>10 req/min/IP</td><td>防暴力破解</td></tr><tr><td>POST /auth/register</td><td>5 req/min/IP</td><td>防批量註冊</td></tr><tr><td>POST /auth/refresh</td><td>30 req/min/IP</td><td>Refresh 較寬鬆</td></tr><tr><td>所有其他 API</td><td>100 req/min/User</td><td>預設限制</td></tr><tr><td>POST /shop/purchases</td><td>5 req/min/User</td><td>IAP 防重複購買</td></tr><tr><td>Colyseus WebSocket</td><td>60 msg/s/connection</td><td>遊戲事件頻率上限</td></tr></table>
+<h3>1.4 認證 Rate Limit 設定</h3>
+<table>
+<tr><th>端點</th><th>限制</th><th>說明</th></tr>
+<tr><td>POST /auth/login</td><td>10 req/min/IP</td><td>防暴力破解</td></tr>
+<tr><td>POST /auth/register</td><td>5 req/min/IP</td><td>防批量註冊</td></tr>
+<tr><td>POST /auth/refresh</td><td>30 req/min/IP</td><td>Refresh 較寬鬆</td></tr>
+<tr><td>所有其他 API</td><td>100 req/min/User</td><td>預設限制</td></tr>
+<tr><td>POST /shop/purchases</td><td>5 req/min/User</td><td>IAP 防重複購買</td></tr>
+<tr><td>Colyseus WebSocket</td><td>60 msg/s/connection</td><td>遊戲事件頻率上限</td></tr>
+</table>
 <hr>
-<h2 id="2.-endpoint-列表">2. Endpoint 列表</h2>
-<h3 id="2.1-account-—-帳號與認證">2.1 Account — 帳號與認證</h3>
+<h2>2. Endpoint 列表</h2>
+<h3>2.1 Account — 帳號與認證</h3>
 <hr>
-<h4 id="post-/v1/auth/register">POST /v1/auth/register</h4>
-<p>
-<strong>功能</strong>：玩家帳號註冊（需年齡驗證）
-<strong>認證</strong>：不需要（公開）
-<strong>權限</strong>：public
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>email</code></td><td>string</td><td>✅</td><td>RFC 5321 格式，最大 254 字元</td></tr><tr><td><code>password</code></td><td>string</td><td>✅</td><td>8–128 字元，需含大寫+數字</td></tr><tr><td><code>display_name</code></td><td>string</td><td>✅</td><td>玩家顯示名稱，2–30 字元，無特殊符號</td></tr><tr><td><code>birthdate</code></td><td>string</td><td>✅</td><td>ISO 8601 日期（<code>YYYY-MM-DD</code>），年齡驗證用</td></tr><tr><td><code>agree_terms</code></td><td>boolean</td><td>✅</td><td>必須為 <code>true</code></td></tr></table>
-<p>
-<strong>Request 範例：</strong>
-</p>
+<h4>POST /v1/auth/register</h4>
+<p><strong>功能</strong>：玩家帳號註冊（需年齡驗證）</p>
+<p><strong>認證</strong>：不需要（公開）</p>
+<p><strong>權限</strong>：public</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>email</code></td><td>string</td><td>✅</td><td>RFC 5321 格式，最大 254 字元</td></tr>
+<tr><td><code>password</code></td><td>string</td><td>✅</td><td>8–128 字元，需含大寫+數字</td></tr>
+<tr><td><code>display_name</code></td><td>string</td><td>✅</td><td>玩家顯示名稱，2–30 字元，無特殊符號</td></tr>
+<tr><td><code>birthdate</code></td><td>string</td><td>✅</td><td>ISO 8601 日期（<code>YYYY-MM-DD</code>），年齡驗證用</td></tr>
+<tr><td><code>agree_terms</code></td><td>boolean</td><td>✅</td><td>必須為 <code>true</code></td></tr>
+</table>
+<p><strong>Request 範例：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;email&quot;: &quot;newplayer@example.com&quot;,
-&quot;password&quot;: &quot;Passw0rd!123&quot;,
-&quot;display_name&quot;: &quot;FishHunter88&quot;,
-&quot;birthdate&quot;: &quot;1995-03-15&quot;,
-&quot;agree_terms&quot;: true
-}
-</code></pre>
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+  &quot;email&quot;: &quot;newplayer@example.com&quot;,
+  &quot;password&quot;: &quot;Passw0rd!123&quot;,
+  &quot;display_name&quot;: &quot;FishHunter88&quot;,
+  &quot;birthdate&quot;: &quot;1995-03-15&quot;,
+  &quot;agree_terms&quot;: true
+}</code></pre>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl -X POST https://api.fishing-arcade-game.com/v1/auth/register \
-<p>
--H &quot;Content-Type: application/json&quot; \
--d &#x27;{
-&quot;email&quot;: &quot;newplayer@example.com&quot;,
-&quot;password&quot;: &quot;Passw0rd!123&quot;,
-&quot;display_name&quot;: &quot;FishHunter88&quot;,
-&quot;birthdate&quot;: &quot;1995-03-15&quot;,
-&quot;agree_terms&quot;: true
-}&#x27;
-</code></pre>
-</p>
-<p>
-<strong>Response 201：</strong>
-</p>
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;email&quot;: &quot;newplayer@example.com&quot;,
+    &quot;password&quot;: &quot;Passw0rd!123&quot;,
+    &quot;display_name&quot;: &quot;FishHunter88&quot;,
+    &quot;birthdate&quot;: &quot;1995-03-15&quot;,
+    &quot;agree_terms&quot;: true
+  }&#x27;</code></pre>
+<p><strong>Response 201：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;user_id&quot;: &quot;usr_01HX...&quot;,
-&quot;email&quot;: &quot;n<em>*</em>@example.com&quot;,
-&quot;display_name&quot;: &quot;FishHunter88&quot;,
-&quot;age_verified&quot;: true,
-&quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤（errors 陣列含詳細欄位）</td></tr><tr><td>409</td><td><code>EMAIL_ALREADY_EXISTS</code></td><td>電子郵件已被使用</td></tr><tr><td>422</td><td><code>AGE_RESTRICTION</code></td><td>年齡不符合法規要求（< 18 歲）</td></tr><tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 5 req/min/IP</td></tr></table>
+  &quot;data&quot;: {
+    &quot;user_id&quot;: &quot;usr_01HX...&quot;,
+    &quot;email&quot;: &quot;n***@example.com&quot;,
+    &quot;display_name&quot;: &quot;FishHunter88&quot;,
+    &quot;age_verified&quot;: true,
+    &quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤（errors 陣列含詳細欄位）</td></tr>
+<tr><td>409</td><td><code>EMAIL_ALREADY_EXISTS</code></td><td>電子郵件已被使用</td></tr>
+<tr><td>422</td><td><code>AGE_RESTRICTION</code></td><td>年齡不符合法規要求（&lt; 18 歲）</td></tr>
+<tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 5 req/min/IP</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/users/me">GET /v1/users/me</h4>
-<p>
-<strong>功能</strong>：取得當前玩家個人資料
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/users/me</h4>
+<p><strong>功能</strong>：取得當前玩家個人資料</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read</p>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl https://api.fishing-arcade-game.com/v1/users/me \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;id&quot;: &quot;usr_01HX...&quot;,
-&quot;email&quot;: &quot;p<em>*</em>@example.com&quot;,
-&quot;display_name&quot;: &quot;FishHunter88&quot;,
-&quot;role&quot;: &quot;player&quot;,
-&quot;vip_tier&quot;: 1,
-&quot;vip_expires_at&quot;: &quot;2026-05-24T00:00:00Z&quot;,
-&quot;age_verified&quot;: true,
-&quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效或過期</td></tr></table>
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;usr_01HX...&quot;,
+    &quot;email&quot;: &quot;p***@example.com&quot;,
+    &quot;display_name&quot;: &quot;FishHunter88&quot;,
+    &quot;role&quot;: &quot;player&quot;,
+    &quot;vip_tier&quot;: 1,
+    &quot;vip_expires_at&quot;: &quot;2026-05-24T00:00:00Z&quot;,
+    &quot;age_verified&quot;: true,
+    &quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效或過期</td></tr>
+</table>
 <hr>
-<h4 id="patch-/v1/users/me">PATCH /v1/users/me</h4>
-<p>
-<strong>功能</strong>：更新玩家個人資料（Partial Update）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:write
-<strong>冪等性</strong>：相同請求重複執行結果相同
-<strong>Partial Update 語義</strong>：僅更新請求 Body 中包含的欄位；未傳入的欄位保持原值不變。所有欄位選填，但 Body 至少須包含一個欄位。
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>display_name</code></td><td>string</td><td>❌</td><td>2–30 字元，不含特殊符號</td></tr><tr><td><code>avatar_url</code></td><td>string</td><td>❌</td><td>S3 presigned URL 上傳後的公開 URL，最大 512 字元</td></tr></table>
-<p>
-<strong>Request 範例：</strong>
-</p>
+<h4>PATCH /v1/users/me</h4>
+<p><strong>功能</strong>：更新玩家個人資料（Partial Update）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:write</p>
+<p><strong>冪等性</strong>：相同請求重複執行結果相同</p>
+<p><strong>Partial Update 語義</strong>：僅更新請求 Body 中包含的欄位；未傳入的欄位保持原值不變。所有欄位選填，但 Body 至少須包含一個欄位。</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>display_name</code></td><td>string</td><td>❌</td><td>2–30 字元，不含特殊符號</td></tr>
+<tr><td><code>avatar_url</code></td><td>string</td><td>❌</td><td>S3 presigned URL 上傳後的公開 URL，最大 512 字元</td></tr>
+</table>
+<p><strong>Request 範例：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;display_name&quot;: &quot;SuperFishHunter&quot;
-}
-</code></pre>
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+  &quot;display_name&quot;: &quot;SuperFishHunter&quot;
+}</code></pre>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl -X PATCH https://api.fishing-arcade-game.com/v1/users/me \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
--H &quot;Content-Type: application/json&quot; \
--d &#x27;{&quot;display_name&quot;:&quot;SuperFishHunter&quot;}&#x27;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;display_name&quot;:&quot;SuperFishHunter&quot;}&#x27;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;id&quot;: &quot;usr_01HX...&quot;,
-&quot;display_name&quot;: &quot;SuperFishHunter&quot;,
-&quot;updated_at&quot;: &quot;2026-04-24T12:05:00Z&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效或過期</td></tr><tr><td>409</td><td><code>DISPLAY_NAME_TAKEN</code></td><td>顯示名稱已被使用</td></tr></table>
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;usr_01HX...&quot;,
+    &quot;display_name&quot;: &quot;SuperFishHunter&quot;,
+    &quot;updated_at&quot;: &quot;2026-04-24T12:05:00Z&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效或過期</td></tr>
+<tr><td>409</td><td><code>DISPLAY_NAME_TAKEN</code></td><td>顯示名稱已被使用</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/users/me/balance">GET /v1/users/me/balance</h4>
-<p>
-<strong>功能</strong>：取得玩家遊戲幣餘額
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/users/me/balance</h4>
+<p><strong>功能</strong>：取得玩家遊戲幣餘額</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read</p>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl https://api.fishing-arcade-game.com/v1/users/me/balance \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;user_id&quot;: &quot;usr_01HX...&quot;,
-&quot;gold_balance&quot;: 12500,
-&quot;diamond_balance&quot;: 80,
-&quot;updated_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效或過期</td></tr></table>
+  &quot;data&quot;: {
+    &quot;user_id&quot;: &quot;usr_01HX...&quot;,
+    &quot;gold_balance&quot;: 12500,
+    &quot;diamond_balance&quot;: 80,
+    &quot;updated_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效或過期</td></tr>
+</table>
 <hr>
-<h4 id="post-/v1/auth/logout">POST /v1/auth/logout</h4>
-<p>
-<strong>功能</strong>：登出（吊銷 Refresh Token）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:write
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>refresh_token</code></td><td>string</td><td>✅</td><td>要吊銷的 Refresh Token</td></tr></table>
-<p>
-<strong>Response 204</strong>：無 body
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Access Token 無效</td></tr></table>
+<h4>POST /v1/auth/logout</h4>
+<p><strong>功能</strong>：登出（吊銷 Refresh Token）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:write</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>refresh_token</code></td><td>string</td><td>✅</td><td>要吊銷的 Refresh Token</td></tr>
+</table>
+<p><strong>Response 204</strong>：無 body</p>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Access Token 無效</td></tr>
+</table>
 <hr>
-<h4 id="post-/v1/vip/subscriptions">POST /v1/vip/subscriptions</h4>
-<p>
-<strong>功能</strong>：購買 VIP 訂閱（月費方案，使用鑽石）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:write
-<strong>冪等性</strong>：傳入 <code>Idempotency-Key</code> Header（UUID v4），相同 Key 重複呼叫回傳原始訂閱結果，不重複扣鑽
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>plan_id</code></td><td>string</td><td>✅</td><td>VIP 方案 ID（<code>vip_monthly</code> / <code>vip_quarterly</code>）枚舉值</td></tr></table>
-<p>
-<strong>Required Header：</strong>
-</p>
-<table><tr><th>Header</th><th>必填</th><th>說明</th></tr><tr><td><code>Idempotency-Key</code></td><td>✅</td><td>UUID v4，防重複訂閱（24h TTL）</td></tr></table>
-<p>
-<strong>Request 範例：</strong>
-</p>
+<h4>POST /v1/vip/subscriptions</h4>
+<p><strong>功能</strong>：購買 VIP 訂閱（月費方案，使用鑽石）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:write</p>
+<p><strong>冪等性</strong>：傳入 <code>Idempotency-Key</code> Header（UUID v4），相同 Key 重複呼叫回傳原始訂閱結果，不重複扣鑽</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>plan_id</code></td><td>string</td><td>✅</td><td>VIP 方案 ID（<code>vip_monthly</code> / <code>vip_quarterly</code>）枚舉值</td></tr>
+</table>
+<p><strong>Required Header：</strong></p>
+<table>
+<tr><th>Header</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>Idempotency-Key</code></td><td>✅</td><td>UUID v4，防重複訂閱（24h TTL）</td></tr>
+</table>
+<p><strong>Request 範例：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;plan_id&quot;: &quot;vip_monthly&quot;
-}
-</code></pre>
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+  &quot;plan_id&quot;: &quot;vip_monthly&quot;
+}</code></pre>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl -X POST https://api.fishing-arcade-game.com/v1/vip/subscriptions \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
--H &quot;Content-Type: application/json&quot; \
--H &quot;Idempotency-Key: 550e8400-e29b-41d4-a716-446655440001&quot; \
--d &#x27;{&quot;plan_id&quot;:&quot;vip_monthly&quot;}&#x27;
-</code></pre>
-</p>
-<p>
-<strong>Response 201：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Idempotency-Key: 550e8400-e29b-41d4-a716-446655440001&quot; \
+  -d &#x27;{&quot;plan_id&quot;:&quot;vip_monthly&quot;}&#x27;</code></pre>
+<p><strong>Response 201：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;subscription_id&quot;: &quot;sub_01HX...&quot;,
-&quot;plan_id&quot;: &quot;vip_monthly&quot;,
-&quot;vip_tier&quot;: 1,
-&quot;activated_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
-&quot;expires_at&quot;: &quot;2026-05-24T12:00:00Z&quot;,
-&quot;diamonds_deducted&quot;: 30
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>plan_id 非 enum 值</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>409</td><td><code>DUPLICATE_SUBSCRIPTION</code></td><td>相同 Idempotency-Key 已使用（回傳原始訂閱）</td></tr><tr><td>422</td><td><code>INSUFFICIENT_DIAMONDS</code></td><td>鑽石餘額不足</td></tr><tr><td>422</td><td><code>VIP_ALREADY_ACTIVE</code></td><td>VIP 已啟用中（同方案不可重複訂閱）</td></tr></table>
+  &quot;data&quot;: {
+    &quot;subscription_id&quot;: &quot;sub_01HX...&quot;,
+    &quot;plan_id&quot;: &quot;vip_monthly&quot;,
+    &quot;vip_tier&quot;: 1,
+    &quot;activated_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
+    &quot;expires_at&quot;: &quot;2026-05-24T12:00:00Z&quot;,
+    &quot;diamonds_deducted&quot;: 30
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>plan_id 非 enum 值</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>409</td><td><code>DUPLICATE_SUBSCRIPTION</code></td><td>相同 Idempotency-Key 已使用（回傳原始訂閱）</td></tr>
+<tr><td>422</td><td><code>INSUFFICIENT_DIAMONDS</code></td><td>鑽石餘額不足</td></tr>
+<tr><td>422</td><td><code>VIP_ALREADY_ACTIVE</code></td><td>VIP 已啟用中（同方案不可重複訂閱）</td></tr>
+</table>
 <hr>
-<h3 id="2.2-game-—-遊戲房間與歷史">2.2 Game — 遊戲房間與歷史</h3>
-<blockquote><strong>注意</strong>：遊戲即時通訊使用 Colyseus WebSocket（<code>wss://game.fishing-arcade-game.com</code>），非 REST API。以下端點用於房間查詢、歷史記錄等非即時操作。</blockquote>
+<h3>2.2 Game — 遊戲房間與歷史</h3>
+<blockquote><p><strong>注意</strong>：遊戲即時通訊使用 Colyseus WebSocket（<code>wss://game.fishing-arcade-game.com</code>），非 REST API。以下端點用於房間查詢、歷史記錄等非即時操作。</p></blockquote>
 <hr>
-<h4 id="get-/v1/game/rooms">GET /v1/game/rooms</h4>
-<p>
-<strong>功能</strong>：列出可加入的遊戲房間
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read
-<strong>分頁</strong>：Cursor-based
-</p>
-<p>
-<strong>Query Parameters：</strong>
-</p>
-<table><tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor（base64 encoded room_id）</td></tr><tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–50，預設 20</td></tr><tr><td><code>status</code></td><td>string</td><td>❌</td><td><code>waiting</code> / <code>active</code>，預設 <code>waiting</code></td></tr><tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>created_at</code>（預設，降序）/ <code>jackpot_pool</code>（降序）</td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/game/rooms</h4>
+<p><strong>功能</strong>：列出可加入的遊戲房間</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read</p>
+<p><strong>分頁</strong>：Cursor-based</p>
+<p><strong>Query Parameters：</strong></p>
+<table>
+<tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor（base64 encoded room_id）</td></tr>
+<tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–50，預設 20</td></tr>
+<tr><td><code>status</code></td><td>string</td><td>❌</td><td><code>waiting</code> / <code>active</code>，預設 <code>waiting</code></td></tr>
+<tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>created_at</code>（預設，降序）/ <code>jackpot_pool</code>（降序）</td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl &quot;https://api.fishing-arcade-game.com/v1/game/rooms?status=waiting&amp;limit=20&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: [
-{
-&quot;room_id&quot;: &quot;room_01HX...&quot;,
-&quot;room_name&quot;: &quot;Ocean Battle #42&quot;,
-&quot;status&quot;: &quot;waiting&quot;,
-&quot;player_count&quot;: 3,
-&quot;max_players&quot;: 6,
-&quot;jackpot_pool&quot;: 15000,
-&quot;min_bet&quot;: 10,
-&quot;created_at&quot;: &quot;2026-04-24T11:55:00Z&quot;
-}
-],
-&quot;pagination&quot;: {
-&quot;next_cursor&quot;: &quot;eyJpZCI6InJvb20_...&quot;,
-&quot;has_more&quot;: true,
-&quot;total_count&quot;: null
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>參數格式錯誤</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr></table>
+  &quot;data&quot;: [
+    {
+      &quot;room_id&quot;: &quot;room_01HX...&quot;,
+      &quot;room_name&quot;: &quot;Ocean Battle #42&quot;,
+      &quot;status&quot;: &quot;waiting&quot;,
+      &quot;player_count&quot;: 3,
+      &quot;max_players&quot;: 6,
+      &quot;jackpot_pool&quot;: 15000,
+      &quot;min_bet&quot;: 10,
+      &quot;created_at&quot;: &quot;2026-04-24T11:55:00Z&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;next_cursor&quot;: &quot;eyJpZCI6InJvb20_...&quot;,
+    &quot;has_more&quot;: true,
+    &quot;total_count&quot;: null
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>參數格式錯誤</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/game/history">GET /v1/game/history</h4>
-<p>
-<strong>功能</strong>：取得玩家個人遊戲歷史記錄
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read
-<strong>分頁</strong>：Cursor-based
-</p>
-<p>
-<strong>Query Parameters：</strong>
-</p>
-<table><tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor</td></tr><tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–50，預設 20</td></tr><tr><td><code>from</code></td><td>string</td><td>❌</td><td>開始時間（ISO 8601 UTC）</td></tr><tr><td><code>to</code></td><td>string</td><td>❌</td><td>結束時間（ISO 8601 UTC）</td></tr><tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>started_at</code>（預設，降序）/ <code>gold_earned</code>（降序）</td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/game/history</h4>
+<p><strong>功能</strong>：取得玩家個人遊戲歷史記錄</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read</p>
+<p><strong>分頁</strong>：Cursor-based</p>
+<p><strong>Query Parameters：</strong></p>
+<table>
+<tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor</td></tr>
+<tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–50，預設 20</td></tr>
+<tr><td><code>from</code></td><td>string</td><td>❌</td><td>開始時間（ISO 8601 UTC）</td></tr>
+<tr><td><code>to</code></td><td>string</td><td>❌</td><td>結束時間（ISO 8601 UTC）</td></tr>
+<tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>started_at</code>（預設，降序）/ <code>gold_earned</code>（降序）</td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl &quot;https://api.fishing-arcade-game.com/v1/game/history?limit=20&amp;from=2026-04-01T00:00:00Z&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: [
-{
-&quot;session_id&quot;: &quot;sess_01HX...&quot;,
-&quot;room_id&quot;: &quot;room_01HX...&quot;,
-&quot;started_at&quot;: &quot;2026-04-24T10:00:00Z&quot;,
-&quot;ended_at&quot;: &quot;2026-04-24T10:30:00Z&quot;,
-&quot;gold_earned&quot;: 1200,
-&quot;gold_spent&quot;: 800,
-&quot;fish_killed&quot;: 47,
-&quot;jackpot_won&quot;: 0,
-&quot;rtp_actual&quot;: 0.88
-}
-],
-&quot;pagination&quot;: {
-&quot;next_cursor&quot;: &quot;eyJpZCI6InNlc3...&quot;,
-&quot;has_more&quot;: false,
-&quot;total_count&quot;: null
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>時間範圍格式錯誤</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr></table>
+  &quot;data&quot;: [
+    {
+      &quot;session_id&quot;: &quot;sess_01HX...&quot;,
+      &quot;room_id&quot;: &quot;room_01HX...&quot;,
+      &quot;started_at&quot;: &quot;2026-04-24T10:00:00Z&quot;,
+      &quot;ended_at&quot;: &quot;2026-04-24T10:30:00Z&quot;,
+      &quot;gold_earned&quot;: 1200,
+      &quot;gold_spent&quot;: 800,
+      &quot;fish_killed&quot;: 47,
+      &quot;jackpot_won&quot;: 0,
+      &quot;rtp_actual&quot;: 0.88
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;next_cursor&quot;: &quot;eyJpZCI6InNlc3...&quot;,
+    &quot;has_more&quot;: false,
+    &quot;total_count&quot;: null
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>時間範圍格式錯誤</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/game/leaderboard">GET /v1/game/leaderboard</h4>
-<p>
-<strong>功能</strong>：取得全服排行榜（金幣榜）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read
-</p>
-<p>
-<strong>Query Parameters：</strong>
-</p>
-<table><tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>type</code></td><td>string</td><td>❌</td><td><code>daily</code> / <code>weekly</code> / <code>all_time</code>，預設 <code>daily</code></td></tr><tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–100，預設 50</td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/game/leaderboard</h4>
+<p><strong>功能</strong>：取得全服排行榜（金幣榜）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read</p>
+<p><strong>Query Parameters：</strong></p>
+<table>
+<tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>type</code></td><td>string</td><td>❌</td><td><code>daily</code> / <code>weekly</code> / <code>all_time</code>，預設 <code>daily</code></td></tr>
+<tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–100，預設 50</td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl &quot;https://api.fishing-arcade-game.com/v1/game/leaderboard?type=daily&amp;limit=50&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;type&quot;: &quot;daily&quot;,
-&quot;period_start&quot;: &quot;2026-04-24T00:00:00Z&quot;,
-&quot;period_end&quot;: &quot;2026-04-24T23:59:59Z&quot;,
-&quot;rankings&quot;: [
-{
-&quot;rank&quot;: 1,
-&quot;user_id&quot;: &quot;usr_01HX...&quot;,
-&quot;display_name&quot;: &quot;TopFisher&quot;,
-&quot;gold_earned&quot;: 58000,
-&quot;vip_tier&quot;: 2
-}
-],
-&quot;my_rank&quot;: {
-&quot;rank&quot;: 142,
-&quot;gold_earned&quot;: 12500
-}
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr></table>
+  &quot;data&quot;: {
+    &quot;type&quot;: &quot;daily&quot;,
+    &quot;period_start&quot;: &quot;2026-04-24T00:00:00Z&quot;,
+    &quot;period_end&quot;: &quot;2026-04-24T23:59:59Z&quot;,
+    &quot;rankings&quot;: [
+      {
+        &quot;rank&quot;: 1,
+        &quot;user_id&quot;: &quot;usr_01HX...&quot;,
+        &quot;display_name&quot;: &quot;TopFisher&quot;,
+        &quot;gold_earned&quot;: 58000,
+        &quot;vip_tier&quot;: 2
+      }
+    ],
+    &quot;my_rank&quot;: {
+      &quot;rank&quot;: 142,
+      &quot;gold_earned&quot;: 12500
+    }
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+</table>
 <hr>
-<h3 id="2.3-commerce-—-商城與-iap">2.3 Commerce — 商城與 IAP</h3>
+<h3>2.3 Commerce — 商城與 IAP</h3>
 <hr>
-<h4 id="get-/v1/shop/products">GET /v1/shop/products</h4>
-<p>
-<strong>功能</strong>：取得商城商品列表（鑽石儲值包）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/shop/products</h4>
+<p><strong>功能</strong>：取得商城商品列表（鑽石儲值包）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read</p>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl https://api.fishing-arcade-game.com/v1/shop/products \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: [
-{
-&quot;product_id&quot;: &quot;diamonds_60&quot;,
-&quot;name&quot;: &quot;60 鑽石小包&quot;,
-&quot;diamonds&quot;: 60,
-&quot;bonus_diamonds&quot;: 0,
-&quot;price_usd&quot;: 0.99,
-&quot;apple_product_id&quot;: &quot;com.fishingarcade.diamonds60&quot;,
-&quot;google_product_id&quot;: &quot;diamonds_60&quot;,
-&quot;is_active&quot;: true,
-&quot;badge&quot;: null
-},
-{
-&quot;product_id&quot;: &quot;diamonds_330&quot;,
-&quot;name&quot;: &quot;330 鑽石月包&quot;,
-&quot;diamonds&quot;: 300,
-&quot;bonus_diamonds&quot;: 30,
-&quot;price_usd&quot;: 4.99,
-&quot;apple_product_id&quot;: &quot;com.fishingarcade.diamonds330&quot;,
-&quot;google_product_id&quot;: &quot;diamonds_330&quot;,
-&quot;is_active&quot;: true,
-&quot;badge&quot;: &quot;BEST_VALUE&quot;
-}
-],
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr></table>
+  &quot;data&quot;: [
+    {
+      &quot;product_id&quot;: &quot;diamonds_60&quot;,
+      &quot;name&quot;: &quot;60 鑽石小包&quot;,
+      &quot;diamonds&quot;: 60,
+      &quot;bonus_diamonds&quot;: 0,
+      &quot;price_usd&quot;: 0.99,
+      &quot;apple_product_id&quot;: &quot;com.fishingarcade.diamonds60&quot;,
+      &quot;google_product_id&quot;: &quot;diamonds_60&quot;,
+      &quot;is_active&quot;: true,
+      &quot;badge&quot;: null
+    },
+    {
+      &quot;product_id&quot;: &quot;diamonds_330&quot;,
+      &quot;name&quot;: &quot;330 鑽石月包&quot;,
+      &quot;diamonds&quot;: 300,
+      &quot;bonus_diamonds&quot;: 30,
+      &quot;price_usd&quot;: 4.99,
+      &quot;apple_product_id&quot;: &quot;com.fishingarcade.diamonds330&quot;,
+      &quot;google_product_id&quot;: &quot;diamonds_330&quot;,
+      &quot;is_active&quot;: true,
+      &quot;badge&quot;: &quot;BEST_VALUE&quot;
+    }
+  ],
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+</table>
 <hr>
-<h4 id="post-/v1/shop/purchases">POST /v1/shop/purchases</h4>
-<p>
-<strong>功能</strong>：驗證 IAP 收據並充值鑽石
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:write
-<strong>Rate Limit</strong>：5 req/min/User
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>platform</code></td><td>string</td><td>✅</td><td><code>apple</code> / <code>google</code></td></tr><tr><td><code>product_id</code></td><td>string</td><td>✅</td><td>商品 ID（如 <code>diamonds_330</code>）</td></tr><tr><td><code>receipt</code></td><td>string</td><td>✅</td><td>Apple: base64 receipt data；Google: purchaseToken</td></tr><tr><td><code>idempotency_key</code></td><td>string</td><td>✅</td><td>UUID v4，防重複充值</td></tr></table>
-<p>
-<strong>Request 範例：</strong>
-</p>
+<h4>POST /v1/shop/purchases</h4>
+<p><strong>功能</strong>：驗證 IAP 收據並充值鑽石</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:write</p>
+<p><strong>Rate Limit</strong>：5 req/min/User</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>platform</code></td><td>string</td><td>✅</td><td><code>apple</code> / <code>google</code></td></tr>
+<tr><td><code>product_id</code></td><td>string</td><td>✅</td><td>商品 ID（如 <code>diamonds_330</code>）</td></tr>
+<tr><td><code>receipt</code></td><td>string</td><td>✅</td><td>Apple: base64 receipt data；Google: purchaseToken</td></tr>
+<tr><td><code>idempotency_key</code></td><td>string</td><td>✅</td><td>UUID v4，防重複充值</td></tr>
+</table>
+<p><strong>Request 範例：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;platform&quot;: &quot;apple&quot;,
-&quot;product_id&quot;: &quot;diamonds_330&quot;,
-&quot;receipt&quot;: &quot;MIIXXXXXXX...&quot;,
-&quot;idempotency_key&quot;: &quot;550e8400-e29b-41d4-a716-446655440000&quot;
-}
-</code></pre>
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+  &quot;platform&quot;: &quot;apple&quot;,
+  &quot;product_id&quot;: &quot;diamonds_330&quot;,
+  &quot;receipt&quot;: &quot;MIIXXXXXXX...&quot;,
+  &quot;idempotency_key&quot;: &quot;550e8400-e29b-41d4-a716-446655440000&quot;
+}</code></pre>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl -X POST https://api.fishing-arcade-game.com/v1/shop/purchases \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
--H &quot;Content-Type: application/json&quot; \
--d &#x27;{
-&quot;platform&quot;: &quot;apple&quot;,
-&quot;product_id&quot;: &quot;diamonds_330&quot;,
-&quot;receipt&quot;: &quot;MIIXXXXXXX...&quot;,
-&quot;idempotency_key&quot;: &quot;550e8400-e29b-41d4-a716-446655440000&quot;
-}&#x27;
-</code></pre>
-</p>
-<p>
-<strong>Response 201：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{
+    &quot;platform&quot;: &quot;apple&quot;,
+    &quot;product_id&quot;: &quot;diamonds_330&quot;,
+    &quot;receipt&quot;: &quot;MIIXXXXXXX...&quot;,
+    &quot;idempotency_key&quot;: &quot;550e8400-e29b-41d4-a716-446655440000&quot;
+  }&#x27;</code></pre>
+<p><strong>Response 201：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;order_id&quot;: &quot;ord_01HX...&quot;,
-&quot;status&quot;: &quot;completed&quot;,
-&quot;diamonds_credited&quot;: 330,
-&quot;new_diamond_balance&quot;: 410,
-&quot;transaction_id&quot;: &quot;1000000XXXXXX&quot;,
-&quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>409</td><td><code>DUPLICATE_PURCHASE</code></td><td>idempotency_key 已使用（重複請求，回傳原始訂單）</td></tr><tr><td>422</td><td><code>IAP_RECEIPT_INVALID</code></td><td>收據驗證失敗（IAP 平台回拒）</td></tr><tr><td>422</td><td><code>IAP_RECEIPT_USED</code></td><td>收據已被使用</td></tr><tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 5 req/min/User</td></tr><tr><td>503</td><td><code>IAP_SERVICE_UNAVAILABLE</code></td><td>IAP 平台暫時不可用（Circuit Breaker 觸發）</td></tr></table>
+  &quot;data&quot;: {
+    &quot;order_id&quot;: &quot;ord_01HX...&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;diamonds_credited&quot;: 330,
+    &quot;new_diamond_balance&quot;: 410,
+    &quot;transaction_id&quot;: &quot;1000000XXXXXX&quot;,
+    &quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>409</td><td><code>DUPLICATE_PURCHASE</code></td><td>idempotency_key 已使用（重複請求，回傳原始訂單）</td></tr>
+<tr><td>422</td><td><code>IAP_RECEIPT_INVALID</code></td><td>收據驗證失敗（IAP 平台回拒）</td></tr>
+<tr><td>422</td><td><code>IAP_RECEIPT_USED</code></td><td>收據已被使用</td></tr>
+<tr><td>429</td><td><code>RATE_LIMITED</code></td><td>超過 5 req/min/User</td></tr>
+<tr><td>503</td><td><code>IAP_SERVICE_UNAVAILABLE</code></td><td>IAP 平台暫時不可用（Circuit Breaker 觸發）</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/shop/orders">GET /v1/shop/orders</h4>
-<p>
-<strong>功能</strong>：取得玩家訂單歷史
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read
-<strong>分頁</strong>：Cursor-based
-</p>
-<p>
-<strong>Query Parameters：</strong>
-</p>
-<table><tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor</td></tr><tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–50，預設 20</td></tr><tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>created_at</code>（預設，降序）</td></tr><tr><td><code>status</code></td><td>string</td><td>❌</td><td>篩選訂單狀態：<code>completed</code> / <code>pending</code> / <code>failed</code></td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/shop/orders</h4>
+<p><strong>功能</strong>：取得玩家訂單歷史</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read</p>
+<p><strong>分頁</strong>：Cursor-based</p>
+<p><strong>Query Parameters：</strong></p>
+<table>
+<tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor</td></tr>
+<tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–50，預設 20</td></tr>
+<tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>created_at</code>（預設，降序）</td></tr>
+<tr><td><code>status</code></td><td>string</td><td>❌</td><td>篩選訂單狀態：<code>completed</code> / <code>pending</code> / <code>failed</code></td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl &quot;https://api.fishing-arcade-game.com/v1/shop/orders?limit=20&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: [
-{
-&quot;order_id&quot;: &quot;ord_01HX...&quot;,
-&quot;product_id&quot;: &quot;diamonds_330&quot;,
-&quot;platform&quot;: &quot;apple&quot;,
-&quot;status&quot;: &quot;completed&quot;,
-&quot;diamonds_credited&quot;: 330,
-&quot;amount_usd&quot;: 4.99,
-&quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
-}
-],
-&quot;pagination&quot;: {
-&quot;next_cursor&quot;: &quot;eyJpZCI6Im9yZF...&quot;,
-&quot;has_more&quot;: false,
-&quot;total_count&quot;: null
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr></table>
+  &quot;data&quot;: [
+    {
+      &quot;order_id&quot;: &quot;ord_01HX...&quot;,
+      &quot;product_id&quot;: &quot;diamonds_330&quot;,
+      &quot;platform&quot;: &quot;apple&quot;,
+      &quot;status&quot;: &quot;completed&quot;,
+      &quot;diamonds_credited&quot;: 330,
+      &quot;amount_usd&quot;: 4.99,
+      &quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;next_cursor&quot;: &quot;eyJpZCI6Im9yZF...&quot;,
+    &quot;has_more&quot;: false,
+    &quot;total_count&quot;: null
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/shop/orders/:order_id">GET /v1/shop/orders/:order_id</h4>
-<p>
-<strong>功能</strong>：取得單筆訂單詳情
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：player:read（僅限本人訂單；operator/superadmin 可查所有）
-</p>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/shop/orders/:order_id</h4>
+<p><strong>功能</strong>：取得單筆訂單詳情</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：player:read（僅限本人訂單；operator/superadmin 可查所有）</p>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl &quot;https://api.fishing-arcade-game.com/v1/shop/orders/ord_01HX...&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;order_id&quot;: &quot;ord_01HX...&quot;,
-&quot;product_id&quot;: &quot;diamonds_330&quot;,
-&quot;platform&quot;: &quot;apple&quot;,
-&quot;transaction_id&quot;: &quot;1000000XXXXXX&quot;,
-&quot;status&quot;: &quot;completed&quot;,
-&quot;diamonds_credited&quot;: 330,
-&quot;amount_usd&quot;: 4.99,
-&quot;receipt_hash&quot;: &quot;sha256:abcdef...&quot;,
-&quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
-&quot;completed_at&quot;: &quot;2026-04-24T12:00:02Z&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>403</td><td><code>FORBIDDEN</code></td><td>非本人訂單且無管理員權限</td></tr><tr><td>404</td><td><code>ORDER_NOT_FOUND</code></td><td>訂單不存在</td></tr></table>
+  &quot;data&quot;: {
+    &quot;order_id&quot;: &quot;ord_01HX...&quot;,
+    &quot;product_id&quot;: &quot;diamonds_330&quot;,
+    &quot;platform&quot;: &quot;apple&quot;,
+    &quot;transaction_id&quot;: &quot;1000000XXXXXX&quot;,
+    &quot;status&quot;: &quot;completed&quot;,
+    &quot;diamonds_credited&quot;: 330,
+    &quot;amount_usd&quot;: 4.99,
+    &quot;receipt_hash&quot;: &quot;sha256:abcdef...&quot;,
+    &quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
+    &quot;completed_at&quot;: &quot;2026-04-24T12:00:02Z&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>403</td><td><code>FORBIDDEN</code></td><td>非本人訂單且無管理員權限</td></tr>
+<tr><td>404</td><td><code>ORDER_NOT_FOUND</code></td><td>訂單不存在</td></tr>
+</table>
 <hr>
-<h3 id="2.4-admin-—-後台管理">2.4 Admin — 後台管理</h3>
-<blockquote>所有 Admin 端點需要 <code>operator</code> 或 <code>superadmin</code> 角色。</blockquote>
+<h3>2.4 Admin — 後台管理</h3>
+<blockquote><p>所有 Admin 端點需要 <code>operator</code> 或 <code>superadmin</code> 角色。</p></blockquote>
 <hr>
-<h4 id="get-/v1/admin/users">GET /v1/admin/users</h4>
-<p>
-<strong>功能</strong>：列出所有玩家（後台用）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：operator:read
-<strong>分頁</strong>：Cursor-based
-</p>
-<p>
-<strong>Query Parameters：</strong>
-</p>
-<table><tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor</td></tr><tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–100，預設 50</td></tr><tr><td><code>search</code></td><td>string</td><td>❌</td><td>搜尋 email 或 display_name（前綴匹配）</td></tr><tr><td><code>vip_tier</code></td><td>integer</td><td>❌</td><td>篩選 VIP 等級 0–3</td></tr><tr><td><code>status</code></td><td>string</td><td>❌</td><td><code>active</code> / <code>suspended</code> / <code>banned</code></td></tr><tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>created_at</code>（預設，降序）/ <code>last_login_at</code> / <code>gold_balance</code></td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/admin/users</h4>
+<p><strong>功能</strong>：列出所有玩家（後台用）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：operator:read</p>
+<p><strong>分頁</strong>：Cursor-based</p>
+<p><strong>Query Parameters：</strong></p>
+<table>
+<tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>after</code></td><td>string</td><td>❌</td><td>Cursor</td></tr>
+<tr><td><code>limit</code></td><td>integer</td><td>❌</td><td>1–100，預設 50</td></tr>
+<tr><td><code>search</code></td><td>string</td><td>❌</td><td>搜尋 email 或 display_name（前綴匹配）</td></tr>
+<tr><td><code>vip_tier</code></td><td>integer</td><td>❌</td><td>篩選 VIP 等級 0–3</td></tr>
+<tr><td><code>status</code></td><td>string</td><td>❌</td><td><code>active</code> / <code>suspended</code> / <code>banned</code></td></tr>
+<tr><td><code>sort</code></td><td>string</td><td>❌</td><td>排序欄位：<code>created_at</code>（預設，降序）/ <code>last_login_at</code> / <code>gold_balance</code></td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl &quot;https://api.fishing-arcade-game.com/v1/admin/users?limit=50&amp;status=active&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: [
-{
-&quot;id&quot;: &quot;usr_01HX...&quot;,
-&quot;email&quot;: &quot;p<em>*</em>@example.com&quot;,
-&quot;display_name&quot;: &quot;FishHunter88&quot;,
-&quot;role&quot;: &quot;player&quot;,
-&quot;vip_tier&quot;: 1,
-&quot;gold_balance&quot;: 12500,
-&quot;diamond_balance&quot;: 80,
-&quot;status&quot;: &quot;active&quot;,
-&quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
-&quot;last_login_at&quot;: &quot;2026-04-24T10:00:00Z&quot;
-}
-],
-&quot;pagination&quot;: {
-&quot;next_cursor&quot;: &quot;eyJpZCI6InVzcl...&quot;,
-&quot;has_more&quot;: true,
-&quot;total_count&quot;: null
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 operator/superadmin 角色</td></tr></table>
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;usr_01HX...&quot;,
+      &quot;email&quot;: &quot;p***@example.com&quot;,
+      &quot;display_name&quot;: &quot;FishHunter88&quot;,
+      &quot;role&quot;: &quot;player&quot;,
+      &quot;vip_tier&quot;: 1,
+      &quot;gold_balance&quot;: 12500,
+      &quot;diamond_balance&quot;: 80,
+      &quot;status&quot;: &quot;active&quot;,
+      &quot;created_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
+      &quot;last_login_at&quot;: &quot;2026-04-24T10:00:00Z&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;next_cursor&quot;: &quot;eyJpZCI6InVzcl...&quot;,
+    &quot;has_more&quot;: true,
+    &quot;total_count&quot;: null
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 operator/superadmin 角色</td></tr>
+</table>
 <hr>
-<h4 id="patch-/v1/admin/users/:user_id">PATCH /v1/admin/users/:user_id</h4>
-<p>
-<strong>功能</strong>：更新玩家帳號狀態（封禁/解封/調整餘額）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：superadmin:write
-<strong>冪等性</strong>：相同請求重複執行結果相同
-<strong>Partial Update 語義</strong>：僅更新請求 Body 中包含的欄位；未傳入的欄位保持原值不變。
-<strong>Audit Log</strong>：所有成功操作自動寫入 <code>audit_logs</code> 表（operator_id、target_user_id、action、reason、IP、timestamp）。
-<strong>X-Admin-Reason Header</strong>：敏感操作（status 變更、gold_adjustment）需傳入 <code>X-Admin-Reason</code> Header（最大 256 字元）。
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>status</code></td><td>string</td><td>❌</td><td><code>active</code> / <code>suspended</code> / <code>banned</code></td></tr><tr><td><code>suspend_reason</code></td><td>string</td><td>❌</td><td>封禁原因（status=suspended/banned 時必填）</td></tr><tr><td><code>gold_adjustment</code></td><td>integer</td><td>❌</td><td>金幣調整量（正數加，負數扣；SuperAdmin 限定）</td></tr><tr><td><code>adjustment_reason</code></td><td>string</td><td>❌</td><td>gold_adjustment 不為 0 時必填</td></tr><tr><td><code>X-Admin-Reason</code></td><td>Header</td><td>條件</td><td>必填（status 變更或 gold_adjustment 不為 0 時）</td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>PATCH /v1/admin/users/:user_id</h4>
+<p><strong>功能</strong>：更新玩家帳號狀態（封禁/解封/調整餘額）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：superadmin:write</p>
+<p><strong>冪等性</strong>：相同請求重複執行結果相同</p>
+<p><strong>Partial Update 語義</strong>：僅更新請求 Body 中包含的欄位；未傳入的欄位保持原值不變。</p>
+<p><strong>Audit Log</strong>：所有成功操作自動寫入 <code>audit_logs</code> 表（operator_id、target_user_id、action、reason、IP、timestamp）。</p>
+<p><strong>X-Admin-Reason Header</strong>：敏感操作（status 變更、gold_adjustment）需傳入 <code>X-Admin-Reason</code> Header（最大 256 字元）。</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>status</code></td><td>string</td><td>❌</td><td><code>active</code> / <code>suspended</code> / <code>banned</code></td></tr>
+<tr><td><code>suspend_reason</code></td><td>string</td><td>❌</td><td>封禁原因（status=suspended/banned 時必填）</td></tr>
+<tr><td><code>gold_adjustment</code></td><td>integer</td><td>❌</td><td>金幣調整量（正數加，負數扣；SuperAdmin 限定）</td></tr>
+<tr><td><code>adjustment_reason</code></td><td>string</td><td>❌</td><td>gold_adjustment 不為 0 時必填</td></tr>
+<tr><td><code>X-Admin-Reason</code></td><td>Header</td><td>條件</td><td>必填（status 變更或 gold_adjustment 不為 0 時）</td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl -X PATCH &quot;https://api.fishing-arcade-game.com/v1/admin/users/usr_01HX...&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
--H &quot;Content-Type: application/json&quot; \
--H &quot;X-Admin-Reason: 違反遊戲服務條款 §3.2（外掛工具）&quot; \
--d &#x27;{&quot;status&quot;:&quot;suspended&quot;,&quot;suspend_reason&quot;:&quot;外掛工具使用&quot;}&#x27;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;X-Admin-Reason: 違反遊戲服務條款 §3.2（外掛工具）&quot; \
+  -d &#x27;{&quot;status&quot;:&quot;suspended&quot;,&quot;suspend_reason&quot;:&quot;外掛工具使用&quot;}&#x27;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;user_id&quot;: &quot;usr_01HX...&quot;,
-&quot;status&quot;: &quot;suspended&quot;,
-&quot;updated_at&quot;: &quot;2026-04-24T12:10:00Z&quot;,
-&quot;updated_by&quot;: &quot;usr_admin_01HX...&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 superadmin 角色</td></tr><tr><td>404</td><td><code>USER_NOT_FOUND</code></td><td>玩家不存在</td></tr><tr><td>422</td><td><code>CANNOT_MODIFY_ADMIN</code></td><td>不可修改管理員帳號</td></tr></table>
+  &quot;data&quot;: {
+    &quot;user_id&quot;: &quot;usr_01HX...&quot;,
+    &quot;status&quot;: &quot;suspended&quot;,
+    &quot;updated_at&quot;: &quot;2026-04-24T12:10:00Z&quot;,
+    &quot;updated_by&quot;: &quot;usr_admin_01HX...&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>欄位格式錯誤</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 superadmin 角色</td></tr>
+<tr><td>404</td><td><code>USER_NOT_FOUND</code></td><td>玩家不存在</td></tr>
+<tr><td>422</td><td><code>CANNOT_MODIFY_ADMIN</code></td><td>不可修改管理員帳號</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/admin/game-config">GET /v1/admin/game-config</h4>
-<p>
-<strong>功能</strong>：取得遊戲設定（RTP 目標、Jackpot 觸發機率）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/admin/game-config</h4>
+<p><strong>功能</strong>：取得遊戲設定（RTP 目標、Jackpot 觸發機率）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl https://api.fishing-arcade-game.com/v1/admin/game-config \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>權限</strong>：operator:read
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>權限</strong>：operator:read</p>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;rtp_target_min&quot;: 0.85,
-&quot;rtp_target_max&quot;: 0.95,
-&quot;jackpot_trigger_probability&quot;: 0.0001,
-&quot;jackpot_min_pool&quot;: 10000,
-&quot;fish_spawn_rate&quot;: 1.0,
-&quot;max_players_per_room&quot;: 6,
-&quot;session_timeout_seconds&quot;: 1800,
-&quot;updated_at&quot;: &quot;2026-04-24T00:00:00Z&quot;,
-&quot;updated_by&quot;: &quot;usr_admin_01HX...&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 operator/superadmin 角色</td></tr></table>
+  &quot;data&quot;: {
+    &quot;rtp_target_min&quot;: 0.85,
+    &quot;rtp_target_max&quot;: 0.95,
+    &quot;jackpot_trigger_probability&quot;: 0.0001,
+    &quot;jackpot_min_pool&quot;: 10000,
+    &quot;fish_spawn_rate&quot;: 1.0,
+    &quot;max_players_per_room&quot;: 6,
+    &quot;session_timeout_seconds&quot;: 1800,
+    &quot;updated_at&quot;: &quot;2026-04-24T00:00:00Z&quot;,
+    &quot;updated_by&quot;: &quot;usr_admin_01HX...&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 operator/superadmin 角色</td></tr>
+</table>
 <hr>
-<h4 id="patch-/v1/admin/game-config">PATCH /v1/admin/game-config</h4>
-<p>
-<strong>功能</strong>：更新遊戲設定（透過 Unleash Feature Flag 生效）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：superadmin:write
-<strong>冪等性</strong>：相同請求重複執行結果相同
-<strong>Partial Update 語義</strong>：僅更新傳入的欄位；未傳入的欄位保持原值不變。至少須傳入一個欄位。
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>rtp_target_min</code></td><td>number</td><td>❌</td><td>0.80–0.95（float，最多 4 位小數）</td></tr><tr><td><code>rtp_target_max</code></td><td>number</td><td>❌</td><td>rtp_target_min 至 0.98（必須 ≥ rtp_target_min）</td></tr><tr><td><code>jackpot_trigger_probability</code></td><td>number</td><td>❌</td><td>0.00001–0.001</td></tr><tr><td><code>fish_spawn_rate</code></td><td>number</td><td>❌</td><td>0.5–2.0（倍率）</td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>PATCH /v1/admin/game-config</h4>
+<p><strong>功能</strong>：更新遊戲設定（透過 Unleash Feature Flag 生效）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：superadmin:write</p>
+<p><strong>冪等性</strong>：相同請求重複執行結果相同</p>
+<p><strong>Partial Update 語義</strong>：僅更新傳入的欄位；未傳入的欄位保持原值不變。至少須傳入一個欄位。</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>rtp_target_min</code></td><td>number</td><td>❌</td><td>0.80–0.95（float，最多 4 位小數）</td></tr>
+<tr><td><code>rtp_target_max</code></td><td>number</td><td>❌</td><td>rtp_target_min 至 0.98（必須 ≥ rtp_target_min）</td></tr>
+<tr><td><code>jackpot_trigger_probability</code></td><td>number</td><td>❌</td><td>0.00001–0.001</td></tr>
+<tr><td><code>fish_spawn_rate</code></td><td>number</td><td>❌</td><td>0.5–2.0（倍率）</td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl -X PATCH https://api.fishing-arcade-game.com/v1/admin/game-config \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
--H &quot;Content-Type: application/json&quot; \
--d &#x27;{&quot;rtp_target_min&quot;:0.87,&quot;rtp_target_max&quot;:0.93}&#x27;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;rtp_target_min&quot;:0.87,&quot;rtp_target_max&quot;:0.93}&#x27;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;rtp_target_min&quot;: 0.87,
-&quot;rtp_target_max&quot;: 0.93,
-&quot;effective_at&quot;: &quot;2026-04-24T12:15:00Z&quot;,
-&quot;updated_by&quot;: &quot;usr_admin_01HX...&quot;
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>數值超出允許範圍</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 superadmin 角色</td></tr><tr><td>422</td><td><code>RTP_RANGE_INVALID</code></td><td>rtp_target_min > rtp_target_max</td></tr></table>
+  &quot;data&quot;: {
+    &quot;rtp_target_min&quot;: 0.87,
+    &quot;rtp_target_max&quot;: 0.93,
+    &quot;effective_at&quot;: &quot;2026-04-24T12:15:00Z&quot;,
+    &quot;updated_by&quot;: &quot;usr_admin_01HX...&quot;
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>數值超出允許範圍</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 superadmin 角色</td></tr>
+<tr><td>422</td><td><code>RTP_RANGE_INVALID</code></td><td>rtp_target_min &gt; rtp_target_max</td></tr>
+</table>
 <hr>
-<h4 id="get-/v1/admin/stats/kpi">GET /v1/admin/stats/kpi</h4>
-<p>
-<strong>功能</strong>：取得 KPI 統計數據（DAU/MAU/Revenue）
-<strong>認證</strong>：✅ 需要 JWT
-<strong>權限</strong>：operator:read
-</p>
-<p>
-<strong>Query Parameters：</strong>
-</p>
-<table><tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>period</code></td><td>string</td><td>❌</td><td><code>today</code> / <code>7d</code> / <code>30d</code>，預設 <code>today</code></td></tr></table>
-<p>
-<strong>curl 範例：</strong>
-</p>
+<h4>GET /v1/admin/stats/kpi</h4>
+<p><strong>功能</strong>：取得 KPI 統計數據（DAU/MAU/Revenue）</p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<p><strong>權限</strong>：operator:read</p>
+<p><strong>Query Parameters：</strong></p>
+<table>
+<tr><th>參數</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>period</code></td><td>string</td><td>❌</td><td><code>today</code> / <code>7d</code> / <code>30d</code>，預設 <code>today</code></td></tr>
+</table>
+<p><strong>curl 範例：</strong></p>
 <pre><code class="language-bash">curl &quot;https://api.fishing-arcade-game.com/v1/admin/stats/kpi?period=today&quot; \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;
-</code></pre>
-</p>
-<p>
-<strong>Response 200：</strong>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot;</code></pre>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;period&quot;: &quot;today&quot;,
-&quot;from&quot;: &quot;2026-04-24T00:00:00Z&quot;,
-&quot;to&quot;: &quot;2026-04-24T23:59:59Z&quot;,
-&quot;dau&quot;: 842,
-&quot;new_registrations&quot;: 34,
-&quot;active_rooms&quot;: 18,
-&quot;revenue_usd&quot;: 1250.50,
-&quot;iap_transactions&quot;: 87,
-&quot;jackpot_triggered_count&quot;: 2,
-&quot;avg_session_duration_minutes&quot;: 24.3,
-&quot;avg_rtp_actual&quot;: 0.8923
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>錯誤回應：</strong>
-</p>
-<table><tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr><tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 operator/superadmin 角色</td></tr></table>
+  &quot;data&quot;: {
+    &quot;period&quot;: &quot;today&quot;,
+    &quot;from&quot;: &quot;2026-04-24T00:00:00Z&quot;,
+    &quot;to&quot;: &quot;2026-04-24T23:59:59Z&quot;,
+    &quot;dau&quot;: 842,
+    &quot;new_registrations&quot;: 34,
+    &quot;active_rooms&quot;: 18,
+    &quot;revenue_usd&quot;: 1250.50,
+    &quot;iap_transactions&quot;: 87,
+    &quot;jackpot_triggered_count&quot;: 2,
+    &quot;avg_session_duration_minutes&quot;: 24.3,
+    &quot;avg_rtp_actual&quot;: 0.8923
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>錯誤回應：</strong></p>
+<table>
+<tr><th>HTTP</th><th>Error Code</th><th>說明</th></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效</td></tr>
+<tr><td>403</td><td><code>FORBIDDEN</code></td><td>非 operator/superadmin 角色</td></tr>
+</table>
 <hr>
-<h3 id="2.5-rbac-權限矩陣（role-×-endpoint）">2.5 RBAC 權限矩陣（Role × Endpoint）</h3>
-<blockquote>依 EDD §4.1 Role-Based Access Control 定義。<code>✅</code> = 允許；<code>❌</code> = 拒絕（回傳 403）；<code>—</code> = 不適用（公開）。</blockquote>
-<table><tr><th>Endpoint</th><th>player</th><th>operator</th><th>superadmin</th></tr><tr><td>POST /auth/login</td><td>—</td><td>—</td><td>—</td></tr><tr><td>POST /auth/register</td><td>—</td><td>—</td><td>—</td></tr><tr><td>POST /auth/refresh</td><td>—</td><td>—</td><td>—</td></tr><tr><td>POST /auth/logout</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>GET /users/me</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>PATCH /users/me</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>GET /users/me/balance</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>POST /vip/subscriptions</td><td>✅</td><td>❌</td><td>✅</td></tr><tr><td>GET /game/rooms</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>GET /game/history</td><td>✅（僅本人）</td><td>✅（僅本人）</td><td>✅（所有人）</td></tr><tr><td>GET /game/leaderboard</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>GET /shop/products</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>POST /shop/purchases</td><td>✅</td><td>❌</td><td>✅</td></tr><tr><td>GET /shop/orders</td><td>✅（僅本人）</td><td>✅（僅本人）</td><td>✅（所有人）</td></tr><tr><td>GET /shop/orders/:order_id</td><td>✅（僅本人）</td><td>✅</td><td>✅</td></tr><tr><td>POST /users/me/avatar/upload-url</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>GET /admin/users</td><td>❌</td><td>✅</td><td>✅</td></tr><tr><td>PATCH /admin/users/:user_id</td><td>❌</td><td>❌</td><td>✅</td></tr><tr><td>GET /admin/game-config</td><td>❌</td><td>✅</td><td>✅</td></tr><tr><td>PATCH /admin/game-config</td><td>❌</td><td>❌</td><td>✅</td></tr><tr><td>GET /admin/stats/kpi</td><td>❌</td><td>✅</td><td>✅</td></tr></table>
-<p>
-<strong>403 Forbidden 觸發條件</strong>：JWT 有效但 role 不在允許列表；Token 未攜帶時回傳 401 而非 403。
-</p>
+<h3>2.5 RBAC 權限矩陣（Role × Endpoint）</h3>
+<blockquote><p>依 EDD §4.1 Role-Based Access Control 定義。<code>✅</code> = 允許；<code>❌</code> = 拒絕（回傳 403）；<code>—</code> = 不適用（公開）。</p></blockquote>
+<table>
+<tr><th>Endpoint</th><th>player</th><th>operator</th><th>superadmin</th></tr>
+<tr><td>POST /auth/login</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>POST /auth/register</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>POST /auth/refresh</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>POST /auth/logout</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>GET /users/me</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>PATCH /users/me</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>GET /users/me/balance</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>POST /vip/subscriptions</td><td>✅</td><td>❌</td><td>✅</td></tr>
+<tr><td>GET /game/rooms</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>GET /game/history</td><td>✅（僅本人）</td><td>✅（僅本人）</td><td>✅（所有人）</td></tr>
+<tr><td>GET /game/leaderboard</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>GET /shop/products</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>POST /shop/purchases</td><td>✅</td><td>❌</td><td>✅</td></tr>
+<tr><td>GET /shop/orders</td><td>✅（僅本人）</td><td>✅（僅本人）</td><td>✅（所有人）</td></tr>
+<tr><td>GET /shop/orders/:order_id</td><td>✅（僅本人）</td><td>✅</td><td>✅</td></tr>
+<tr><td>POST /users/me/avatar/upload-url</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>GET /admin/users</td><td>❌</td><td>✅</td><td>✅</td></tr>
+<tr><td>PATCH /admin/users/:user_id</td><td>❌</td><td>❌</td><td>✅</td></tr>
+<tr><td>GET /admin/game-config</td><td>❌</td><td>✅</td><td>✅</td></tr>
+<tr><td>PATCH /admin/game-config</td><td>❌</td><td>❌</td><td>✅</td></tr>
+<tr><td>GET /admin/stats/kpi</td><td>❌</td><td>✅</td><td>✅</td></tr>
+</table>
+<p><strong>403 Forbidden 觸發條件</strong>：JWT 有效但 role 不在允許列表；Token 未攜帶時回傳 401 而非 403。</p>
 <hr>
-<h2 id="3.-共用-schema-定義">3. 共用 Schema 定義</h2>
-<h3 id="3.1-成功回應-envelope">3.1 成功回應 Envelope</h3>
+<h2>3. 共用 Schema 定義</h2>
+<h3>3.1 成功回應 Envelope</h3>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: { &quot;...&quot;: &quot;資源物件或陣列&quot; },
-&quot;meta&quot;: {
-&quot;request_id&quot;: &quot;req_01HX...&quot;
-}
-}
-</code></pre>
-</p>
-<h3 id="3.2-錯誤-envelope">3.2 錯誤 Envelope</h3>
+  &quot;data&quot;: { &quot;...&quot;: &quot;資源物件或陣列&quot; },
+  &quot;meta&quot;: {
+    &quot;request_id&quot;: &quot;req_01HX...&quot;
+  }
+}</code></pre>
+<h3>3.2 錯誤 Envelope</h3>
 <pre><code class="language-json">{
-<p>
-&quot;error&quot;: {
-&quot;code&quot;: &quot;VALIDATION_ERROR&quot;,
-&quot;message&quot;: &quot;Input validation failed&quot;,
-&quot;errors&quot;: [
-{
-&quot;field&quot;: &quot;email&quot;,
-&quot;message&quot;: &quot;Invalid email format&quot;,
-&quot;value&quot;: &quot;not-an-email&quot;
-}
-],
-&quot;request_id&quot;: &quot;req_01HX...&quot;
-}
-}
-</code></pre>
-</p>
-<h3 id="3.3-分頁-envelope（cursor-based）">3.3 分頁 Envelope（Cursor-based）</h3>
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;VALIDATION_ERROR&quot;,
+    &quot;message&quot;: &quot;Input validation failed&quot;,
+    &quot;errors&quot;: [
+      {
+        &quot;field&quot;: &quot;email&quot;,
+        &quot;message&quot;: &quot;Invalid email format&quot;,
+        &quot;value&quot;: &quot;not-an-email&quot;
+      }
+    ],
+    &quot;request_id&quot;: &quot;req_01HX...&quot;
+  }
+}</code></pre>
+<h3>3.3 分頁 Envelope（Cursor-based）</h3>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: [&quot;...陣列&quot;],
-&quot;pagination&quot;: {
-&quot;next_cursor&quot;: &quot;eyJpZCI6Inh4eCIsInRzIjoxNzE0MDA0ODAwfQ==&quot;,
-&quot;has_more&quot;: true,
-&quot;total_count&quot;: null
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<blockquote><strong>next_cursor</strong>：base64 encoded JSON，內含 <code>{ &quot;id&quot;: &quot;last_record_id&quot;, &quot;ts&quot;: unix_timestamp }</code>。
-<p>
-<strong>total_count</strong>：大資料集不提供（避免全表 COUNT(*) 掃描）。</blockquote>
-</p>
+  &quot;data&quot;: [&quot;...陣列&quot;],
+  &quot;pagination&quot;: {
+    &quot;next_cursor&quot;: &quot;eyJpZCI6Inh4eCIsInRzIjoxNzE0MDA0ODAwfQ==&quot;,
+    &quot;has_more&quot;: true,
+    &quot;total_count&quot;: null
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<blockquote><p><strong>next_cursor</strong>：base64 encoded JSON，內含 <code>{ &quot;id&quot;: &quot;last_record_id&quot;, &quot;ts&quot;: unix_timestamp }</code>。</p></blockquote>
+<blockquote><p><strong>total_count</strong>：大資料集不提供（避免全表 COUNT(*) 掃描）。</p></blockquote>
 <hr>
-<h2 id="4.-api-呼叫序列圖">4. API 呼叫序列圖</h2>
-<blockquote>完整 Sequence Diagram 檔案（含 Happy Path + Error Paths）位於 <code>docs/diagrams/</code>：
-<ul><li><a href="diagrams/sequence-login.md">sequence-login.md</a> — POST /auth/login</li><li><a href="diagrams/sequence-register.md">sequence-register.md</a> — POST /auth/register</li><li><a href="diagrams/sequence-iap-purchase.md">sequence-iap-purchase.md</a> — POST /shop/purchases</li><li><a href="diagrams/sequence-vip-subscribe.md">sequence-vip-subscribe.md</a> — POST /vip/subscriptions</blockquote></li></ul><h3 id="4.1-iap-充值流程（write-path）">4.1 IAP 充值流程（Write Path）</h3>
-<div class="diagram-container" title="點擊放大"><pre class="mermaid">sequenceDiagram
+<h2>4. API 呼叫序列圖</h2>
+<blockquote><p>完整 Sequence Diagram 檔案（含 Happy Path + Error Paths）位於 <code>docs/diagrams/</code>：</p></blockquote>
+<blockquote><p>- <a href="diagrams/sequence-login.md" target="_blank" rel="noopener">sequence-login.md</a> — POST /auth/login</p></blockquote>
+<blockquote><p>- <a href="diagrams/sequence-register.md" target="_blank" rel="noopener">sequence-register.md</a> — POST /auth/register</p></blockquote>
+<blockquote><p>- <a href="diagrams/sequence-iap-purchase.md" target="_blank" rel="noopener">sequence-iap-purchase.md</a> — POST /shop/purchases</p></blockquote>
+<blockquote><p>- <a href="diagrams/sequence-vip-subscribe.md" target="_blank" rel="noopener">sequence-vip-subscribe.md</a> — POST /vip/subscriptions</p></blockquote>
+<h3>4.1 IAP 充值流程（Write Path）</h3>
+<div class="diagram-container"><pre class="mermaid">sequenceDiagram
     participant Client as Cocos Client
     participant Ingress as Nginx Ingress
     participant Shop as Shop Service
@@ -1068,8 +993,8 @@ Token 有效期：<code>access_token</code> 1 小時；<code>refresh_token</code
     Shop->>EventBus: PUBLISH events:commerce IAPPurchaseCompleted
     EventBus-->>Account: 異步消費 → UPDATE users.diamond_balance += 330
     Shop-->>Client: 201 { order_id, diamonds_credited: 330 }</pre></div>
-<h3 id="4.2-玩家登入-+-遊戲加入流程（read-+-websocket）">4.2 玩家登入 + 遊戲加入流程（Read + WebSocket）</h3>
-<div class="diagram-container" title="點擊放大"><pre class="mermaid">sequenceDiagram
+<h3>4.2 玩家登入 + 遊戲加入流程（Read + WebSocket）</h3>
+<div class="diagram-container"><pre class="mermaid">sequenceDiagram
     participant Client as Cocos Client
     participant Ingress as Nginx Ingress
     participant Account as Account Service
@@ -1091,1119 +1016,1119 @@ Token 有效期：<code>access_token</code> 1 小時；<code>refresh_token</code
     Game->>Game: onAuth() 驗證 JWT
     Game-->>Client: WebSocket Connected (room state sync)</pre></div>
 <hr>
-<h2 id="5.-webhook-規範">5. Webhook 規範</h2>
-<p>
-本系統 Phase 1 不對外提供 Webhook。Phase 2 計劃提供 Jackpot 觸發通知 Webhook，規範如下（預留）：
-</p>
-<p>
-<strong>事件類型</strong>：<code>jackpot.triggered</code>
-</p>
-<p>
-<strong>POST 目標</strong>：運營商在後台設定的 Webhook URL
-</p>
-<p>
-<strong>Headers：</strong>
-</p>
-<pre><code>Content-Type: application/json
-<p>
+<h2>5. Webhook 規範</h2>
+<p>本系統 Phase 1 不對外提供 Webhook。Phase 2 計劃提供 Jackpot 觸發通知 Webhook，規範如下（預留）：</p>
+<p><strong>事件類型</strong>：<code>jackpot.triggered</code></p>
+<p><strong>POST 目標</strong>：運營商在後台設定的 Webhook URL</p>
+<p><strong>Headers：</strong></p>
+<pre><code class="">Content-Type: application/json
 X-Signature: sha256=&lt;HMAC-SHA256(webhook_secret, raw_body)&gt;
 X-Event-ID: evt_01HX...
-X-Event-Type: jackpot.triggered
-</code></pre>
-</p>
-<p>
-<strong>Body：</strong>
-</p>
+X-Event-Type: jackpot.triggered</code></pre>
+<p><strong>Body：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;event_id&quot;: &quot;evt_01HX...&quot;,
-&quot;event_type&quot;: &quot;jackpot.triggered&quot;,
-&quot;occurred_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
-&quot;data&quot;: {
-&quot;winner_user_id&quot;: &quot;usr_01HX...&quot;,
-&quot;jackpot_amount&quot;: 50000,
-&quot;room_id&quot;: &quot;room_01HX...&quot;
-}
-}
-</code></pre>
-</p>
-<p>
-<strong>重試策略</strong>：指數退避（1m, 5m, 30m, 2h, 1d）；超過 5 次失敗 → 停用並通知 SuperAdmin。
-</p>
+  &quot;event_id&quot;: &quot;evt_01HX...&quot;,
+  &quot;event_type&quot;: &quot;jackpot.triggered&quot;,
+  &quot;occurred_at&quot;: &quot;2026-04-24T12:00:00Z&quot;,
+  &quot;data&quot;: {
+    &quot;winner_user_id&quot;: &quot;usr_01HX...&quot;,
+    &quot;jackpot_amount&quot;: 50000,
+    &quot;room_id&quot;: &quot;room_01HX...&quot;
+  }
+}</code></pre>
+<p><strong>重試策略</strong>：指數退避（1m, 5m, 30m, 2h, 1d）；超過 5 次失敗 → 停用並通知 SuperAdmin。</p>
 <hr>
-<h2 id="6.-標準-headers">6. 標準 Headers</h2>
-<h3 id="6.1-request-headers">6.1 Request Headers</h3>
-<table><tr><th>Header</th><th>必填</th><th>說明</th></tr><tr><td><code>Authorization</code></td><td>條件</td><td><code>Bearer &lt;JWT&gt;</code>（非公開端點必填）</td></tr><tr><td><code>Content-Type</code></td><td>POST/PATCH</td><td><code>application/json</code></td></tr><tr><td><code>X-Request-ID</code></td><td>❌</td><td>客戶端生成的 UUID，回傳於 meta.request_id</td></tr><tr><td><code>X-Platform</code></td><td>❌</td><td><code>ios</code> / <code>android</code> / <code>web</code>（遙測用）</td></tr><tr><td><code>X-App-Version</code></td><td>❌</td><td>客戶端應用版本（<code>1.0.0</code>）</td></tr><tr><td><code>Idempotency-Key</code></td><td>條件</td><td>POST /vip/subscriptions 必填，UUID v4</td></tr><tr><td><code>X-Admin-Reason</code></td><td>條件</td><td>PATCH /admin/users/:user_id 敏感操作時必填，最大 256 字元</td></tr></table>
-<h3 id="6.2-response-headers">6.2 Response Headers</h3>
-<table><tr><th>Header</th><th>說明</th></tr><tr><td><code>X-Request-ID</code></td><td>對應 meta.request_id，方便追蹤</td></tr><tr><td><code>X-RateLimit-Limit</code></td><td>此端點的速率上限</td></tr><tr><td><code>X-RateLimit-Remaining</code></td><td>目前窗口剩餘配額</td></tr><tr><td><code>X-RateLimit-Reset</code></td><td>配額重置時間（Unix timestamp）</td></tr><tr><td><code>Deprecation</code></td><td><code>true</code>（廢棄端點才出現）</td></tr><tr><td><code>Sunset</code></td><td>廢棄端點的截止日期（RFC 3339）</td></tr></table>
+<h2>6. 標準 Headers</h2>
+<h3>6.1 Request Headers</h3>
+<table>
+<tr><th>Header</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>Authorization</code></td><td>條件</td><td><code>Bearer &lt;JWT&gt;</code>（非公開端點必填）</td></tr>
+<tr><td><code>Content-Type</code></td><td>POST/PATCH</td><td><code>application/json</code></td></tr>
+<tr><td><code>X-Request-ID</code></td><td>❌</td><td>客戶端生成的 UUID，回傳於 meta.request_id</td></tr>
+<tr><td><code>X-Platform</code></td><td>❌</td><td><code>ios</code> / <code>android</code> / <code>web</code>（遙測用）</td></tr>
+<tr><td><code>X-App-Version</code></td><td>❌</td><td>客戶端應用版本（<code>1.0.0</code>）</td></tr>
+<tr><td><code>Idempotency-Key</code></td><td>條件</td><td>POST /vip/subscriptions 必填，UUID v4</td></tr>
+<tr><td><code>X-Admin-Reason</code></td><td>條件</td><td>PATCH /admin/users/:user_id 敏感操作時必填，最大 256 字元</td></tr>
+</table>
+<h3>6.2 Response Headers</h3>
+<table>
+<tr><th>Header</th><th>說明</th></tr>
+<tr><td><code>X-Request-ID</code></td><td>對應 meta.request_id，方便追蹤</td></tr>
+<tr><td><code>X-RateLimit-Limit</code></td><td>此端點的速率上限</td></tr>
+<tr><td><code>X-RateLimit-Remaining</code></td><td>目前窗口剩餘配額</td></tr>
+<tr><td><code>X-RateLimit-Reset</code></td><td>配額重置時間（Unix timestamp）</td></tr>
+<tr><td><code>Deprecation</code></td><td><code>true</code>（廢棄端點才出現）</td></tr>
+<tr><td><code>Sunset</code></td><td>廢棄端點的截止日期（RFC 3339）</td></tr>
+</table>
 <hr>
-<h2 id="7.-error-code-registry">7. Error Code Registry</h2>
-<blockquote>所有 <code>error.code</code> 均為全大寫底線格式（<code>DOMAIN_ENTITY_REASON</code>），唯一不重複。各 Endpoint 的錯誤碼均引用此 Registry，不重複定義。</blockquote>
-<table><tr><th>HTTP Code</th><th>Error Code</th><th>說明</th><th>建議客戶端行為</th></tr><tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>輸入格式驗證失敗（<code>errors</code> 陣列含欄位詳情）</td><td>顯示欄位錯誤提示</td></tr><tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效、過期或缺失</td><td>導向登入頁</td></tr><tr><td>401</td><td><code>INVALID_CREDENTIALS</code></td><td>帳號或密碼錯誤</td><td>顯示錯誤訊息</td></tr><tr><td>401</td><td><code>INVALID_REFRESH_TOKEN</code></td><td>Refresh Token 無效或過期</td><td>導向登入頁</td></tr><tr><td>403</td><td><code>FORBIDDEN</code></td><td>無此操作的角色權限</td><td>顯示無權限提示</td></tr><tr><td>404</td><td><code>NOT_FOUND</code></td><td>資源不存在</td><td>顯示 404 提示</td></tr><tr><td>404</td><td><code>USER_NOT_FOUND</code></td><td>指定玩家不存在</td><td>顯示 404 提示</td></tr><tr><td>404</td><td><code>ORDER_NOT_FOUND</code></td><td>指定訂單不存在</td><td>顯示 404 提示</td></tr><tr><td>409</td><td><code>CONFLICT</code></td><td>資源已存在（泛型）</td><td>提示用戶更換輸入</td></tr><tr><td>409</td><td><code>EMAIL_ALREADY_EXISTS</code></td><td>電子郵件已被使用</td><td>提示更換 Email</td></tr><tr><td>409</td><td><code>DISPLAY_NAME_TAKEN</code></td><td>顯示名稱已被使用</td><td>提示更換名稱</td></tr><tr><td>409</td><td><code>DUPLICATE_PURCHASE</code></td><td>重複購買（idempotency_key 已使用）</td><td>查詢原訂單狀態</td></tr><tr><td>409</td><td><code>DUPLICATE_SUBSCRIPTION</code></td><td>VIP 訂閱 Idempotency-Key 重複</td><td>查詢原訂閱狀態</td></tr><tr><td>422</td><td><code>BUSINESS_RULE_VIOLATION</code></td><td>業務規則違反（泛型）</td><td>顯示 message 內容</td></tr><tr><td>422</td><td><code>INSUFFICIENT_DIAMONDS</code></td><td>鑽石不足</td><td>導向商城</td></tr><tr><td>422</td><td><code>AGE_RESTRICTION</code></td><td>年齡不符合法規要求（< 18 歲）</td><td>顯示法規提示</td></tr><tr><td>422</td><td><code>VIP_ALREADY_ACTIVE</code></td><td>VIP 已啟用中（同方案不可重複訂閱）</td><td>顯示當前 VIP 到期日</td></tr><tr><td>422</td><td><code>IAP_RECEIPT_INVALID</code></td><td>IAP 收據無效（平台回拒）</td><td>提示重試或聯繫客服</td></tr><tr><td>422</td><td><code>IAP_RECEIPT_USED</code></td><td>IAP 收據已被使用</td><td>提示聯繫客服</td></tr><tr><td>422</td><td><code>CANNOT_MODIFY_ADMIN</code></td><td>不可修改管理員帳號</td><td>顯示操作限制提示</td></tr><tr><td>422</td><td><code>RTP_RANGE_INVALID</code></td><td>rtp_target_min > rtp_target_max</td><td>修正數值後重試</td></tr><tr><td>423</td><td><code>ACCOUNT_LOCKED</code></td><td>帳號鎖定（連續失敗 10 次）</td><td>提示聯繫客服</td></tr><tr><td>429</td><td><code>RATE_LIMITED</code></td><td>速率限制（Headers 含重置時間）</td><td>依 <code>Retry-After</code> Header 等待後重試</td></tr><tr><td>500</td><td><code>INTERNAL_ERROR</code></td><td>系統錯誤（不含內部詳情）</td><td>提示稍後重試並回報</td></tr><tr><td>503</td><td><code>SERVICE_UNAVAILABLE</code></td><td>服務暫時不可用（Circuit Breaker）</td><td>等待後重試</td></tr><tr><td>503</td><td><code>IAP_SERVICE_UNAVAILABLE</code></td><td>IAP 平台暫時不可用</td><td>等待後重試</td></tr></table>
+<h2>7. Error Code Registry</h2>
+<blockquote><p>所有 <code>error.code</code> 均為全大寫底線格式（<code>DOMAIN_ENTITY_REASON</code>），唯一不重複。各 Endpoint 的錯誤碼均引用此 Registry，不重複定義。</p></blockquote>
+<table>
+<tr><th>HTTP Code</th><th>Error Code</th><th>說明</th><th>建議客戶端行為</th></tr>
+<tr><td>400</td><td><code>VALIDATION_ERROR</code></td><td>輸入格式驗證失敗（<code>errors</code> 陣列含欄位詳情）</td><td>顯示欄位錯誤提示</td></tr>
+<tr><td>401</td><td><code>UNAUTHORIZED</code></td><td>Token 無效、過期或缺失</td><td>導向登入頁</td></tr>
+<tr><td>401</td><td><code>INVALID_CREDENTIALS</code></td><td>帳號或密碼錯誤</td><td>顯示錯誤訊息</td></tr>
+<tr><td>401</td><td><code>INVALID_REFRESH_TOKEN</code></td><td>Refresh Token 無效或過期</td><td>導向登入頁</td></tr>
+<tr><td>403</td><td><code>FORBIDDEN</code></td><td>無此操作的角色權限</td><td>顯示無權限提示</td></tr>
+<tr><td>404</td><td><code>NOT_FOUND</code></td><td>資源不存在</td><td>顯示 404 提示</td></tr>
+<tr><td>404</td><td><code>USER_NOT_FOUND</code></td><td>指定玩家不存在</td><td>顯示 404 提示</td></tr>
+<tr><td>404</td><td><code>ORDER_NOT_FOUND</code></td><td>指定訂單不存在</td><td>顯示 404 提示</td></tr>
+<tr><td>409</td><td><code>CONFLICT</code></td><td>資源已存在（泛型）</td><td>提示用戶更換輸入</td></tr>
+<tr><td>409</td><td><code>EMAIL_ALREADY_EXISTS</code></td><td>電子郵件已被使用</td><td>提示更換 Email</td></tr>
+<tr><td>409</td><td><code>DISPLAY_NAME_TAKEN</code></td><td>顯示名稱已被使用</td><td>提示更換名稱</td></tr>
+<tr><td>409</td><td><code>DUPLICATE_PURCHASE</code></td><td>重複購買（idempotency_key 已使用）</td><td>查詢原訂單狀態</td></tr>
+<tr><td>409</td><td><code>DUPLICATE_SUBSCRIPTION</code></td><td>VIP 訂閱 Idempotency-Key 重複</td><td>查詢原訂閱狀態</td></tr>
+<tr><td>422</td><td><code>BUSINESS_RULE_VIOLATION</code></td><td>業務規則違反（泛型）</td><td>顯示 message 內容</td></tr>
+<tr><td>422</td><td><code>INSUFFICIENT_DIAMONDS</code></td><td>鑽石不足</td><td>導向商城</td></tr>
+<tr><td>422</td><td><code>AGE_RESTRICTION</code></td><td>年齡不符合法規要求（&lt; 18 歲）</td><td>顯示法規提示</td></tr>
+<tr><td>422</td><td><code>VIP_ALREADY_ACTIVE</code></td><td>VIP 已啟用中（同方案不可重複訂閱）</td><td>顯示當前 VIP 到期日</td></tr>
+<tr><td>422</td><td><code>IAP_RECEIPT_INVALID</code></td><td>IAP 收據無效（平台回拒）</td><td>提示重試或聯繫客服</td></tr>
+<tr><td>422</td><td><code>IAP_RECEIPT_USED</code></td><td>IAP 收據已被使用</td><td>提示聯繫客服</td></tr>
+<tr><td>422</td><td><code>CANNOT_MODIFY_ADMIN</code></td><td>不可修改管理員帳號</td><td>顯示操作限制提示</td></tr>
+<tr><td>422</td><td><code>RTP_RANGE_INVALID</code></td><td>rtp_target_min &gt; rtp_target_max</td><td>修正數值後重試</td></tr>
+<tr><td>423</td><td><code>ACCOUNT_LOCKED</code></td><td>帳號鎖定（連續失敗 5 次）</td><td>提示聯繫客服</td></tr>
+<tr><td>429</td><td><code>RATE_LIMITED</code></td><td>速率限制（Headers 含重置時間）</td><td>依 <code>Retry-After</code> Header 等待後重試</td></tr>
+<tr><td>500</td><td><code>INTERNAL_ERROR</code></td><td>系統錯誤（不含內部詳情）</td><td>提示稍後重試並回報</td></tr>
+<tr><td>503</td><td><code>SERVICE_UNAVAILABLE</code></td><td>服務暫時不可用（Circuit Breaker）</td><td>等待後重試</td></tr>
+<tr><td>503</td><td><code>IAP_SERVICE_UNAVAILABLE</code></td><td>IAP 平台暫時不可用</td><td>等待後重試</td></tr>
+</table>
 <hr>
-<h2 id="8.-rate-limiting">8. Rate Limiting</h2>
-<h3 id="8.1-三層-rate-limiting">8.1 三層 Rate Limiting</h3>
-<table><tr><th>層次</th><th>執行位置</th><th>規則</th><th>觸發回應</th></tr><tr><td>Layer 1（IP 層）</td><td>Nginx Ingress</td><td>100 req/s/IP（全域）</td><td>HTTP 429 + <code>Retry-After</code></td></tr><tr><td>Layer 2（User 層）</td><td>Express Middleware（Redis）</td><td>100 req/min/User（預設）</td><td>HTTP 429 + Error Code</td></tr><tr><td>Layer 3（端點層）</td><td>Express Middleware</td><td>各端點獨立配置（見 §1.4）</td><td>HTTP 429 + Error Code</td></tr></table>
-<h3 id="8.2-rate-limit-429-response">8.2 Rate Limit 429 Response</h3>
+<h2>8. Rate Limiting</h2>
+<h3>8.1 三層 Rate Limiting</h3>
+<table>
+<tr><th>層次</th><th>執行位置</th><th>規則</th><th>觸發回應</th></tr>
+<tr><td>Layer 1（IP 層）</td><td>Nginx Ingress</td><td>100 req/s/IP（全域）</td><td>HTTP 429 + <code>Retry-After</code></td></tr>
+<tr><td>Layer 2（User 層）</td><td>Express Middleware（Redis）</td><td>100 req/min/User（預設）</td><td>HTTP 429 + Error Code</td></tr>
+<tr><td>Layer 3（端點層）</td><td>Express Middleware</td><td>各端點獨立配置（見 §1.4）</td><td>HTTP 429 + Error Code</td></tr>
+</table>
+<h3>8.2 Rate Limit 429 Response</h3>
 <pre><code class="language-json">{
-<p>
-&quot;error&quot;: {
-&quot;code&quot;: &quot;RATE_LIMITED&quot;,
-&quot;message&quot;: &quot;Too many requests. Please retry after 60 seconds.&quot;,
-&quot;retry_after&quot;: 60,
-&quot;request_id&quot;: &quot;req_01HX...&quot;
-}
-}
-</code></pre>
-</p>
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;RATE_LIMITED&quot;,
+    &quot;message&quot;: &quot;Too many requests. Please retry after 60 seconds.&quot;,
+    &quot;retry_after&quot;: 60,
+    &quot;request_id&quot;: &quot;req_01HX...&quot;
+  }
+}</code></pre>
 <hr>
-<h2 id="9.-batch-operations">9. Batch Operations</h2>
-<p>
-本系統 Phase 1 不提供批次端點。Phase 2 計劃：
-</p>
-<p>
-<strong>POST /v1/admin/users/batch</strong> — 批次封禁/更新玩家帳號
-</p>
-<p>
-<strong>Response 207 Multi-Status：</strong>
-</p>
+<h2>9. Batch Operations</h2>
+<p>本系統 Phase 1 不提供批次端點。Phase 2 計劃：</p>
+<p><strong>POST /v1/admin/users/batch</strong> — 批次封禁/更新玩家帳號</p>
+<p><strong>Response 207 Multi-Status：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;results&quot;: [
-{ &quot;user_id&quot;: &quot;usr_01HX...&quot;, &quot;status&quot;: 200, &quot;result&quot;: &quot;updated&quot; },
-{ &quot;user_id&quot;: &quot;usr_02HX...&quot;, &quot;status&quot;: 404, &quot;error&quot;: { &quot;code&quot;: &quot;USER_NOT_FOUND&quot; } }
-],
-&quot;succeeded&quot;: 1,
-&quot;failed&quot;: 1
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
+  &quot;data&quot;: {
+    &quot;results&quot;: [
+      { &quot;user_id&quot;: &quot;usr_01HX...&quot;, &quot;status&quot;: 200, &quot;result&quot;: &quot;updated&quot; },
+      { &quot;user_id&quot;: &quot;usr_02HX...&quot;, &quot;status&quot;: 404, &quot;error&quot;: { &quot;code&quot;: &quot;USER_NOT_FOUND&quot; } }
+    ],
+    &quot;succeeded&quot;: 1,
+    &quot;failed&quot;: 1
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
 <hr>
-<h2 id="10.-file-upload">10. File Upload</h2>
-<h3 id="10.1-頭像上傳（s3-presigned-url-模式）">10.1 頭像上傳（S3 Presigned URL 模式）</h3>
-<p>
-<strong>Step 1：取得 Presigned URL</strong>
-</p>
-<p>
-<strong>POST /v1/users/me/avatar/upload-url</strong>
-</p>
-<p>
-<strong>認證</strong>：✅ 需要 JWT
-</p>
-<table><tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr><tr><td><code>content_type</code></td><td>string</td><td>✅</td><td><code>image/jpeg</code> / <code>image/png</code> / <code>image/webp</code></td></tr><tr><td><code>file_size_bytes</code></td><td>integer</td><td>✅</td><td>最大 2,097,152（2 MB）</td></tr></table>
-<p>
-<strong>Response 200：</strong>
-</p>
+<h2>10. File Upload</h2>
+<h3>10.1 頭像上傳（S3 Presigned URL 模式）</h3>
+<p><strong>Step 1：取得 Presigned URL</strong></p>
+<p><strong>POST /v1/users/me/avatar/upload-url</strong></p>
+<p><strong>認證</strong>：✅ 需要 JWT</p>
+<table>
+<tr><th>欄位</th><th>型別</th><th>必填</th><th>說明</th></tr>
+<tr><td><code>content_type</code></td><td>string</td><td>✅</td><td><code>image/jpeg</code> / <code>image/png</code> / <code>image/webp</code></td></tr>
+<tr><td><code>file_size_bytes</code></td><td>integer</td><td>✅</td><td>最大 2,097,152（2 MB）</td></tr>
+</table>
+<p><strong>Response 200：</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;data&quot;: {
-&quot;upload_url&quot;: &quot;https://game-assets-prod.s3.amazonaws.com/avatars/usr_01HX...?X-Amz-Signature=...&quot;,
-&quot;public_url&quot;: &quot;https://assets.fishing-arcade-game.com/avatars/usr_01HX....jpg&quot;,
-&quot;expires_in&quot;: 300
-},
-&quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
-}
-</code></pre>
-</p>
-<p>
-<strong>Step 2</strong>：客戶端直接 PUT 到 <code>upload_url</code>（Content-Type 必須匹配）
-</p>
-<p>
-<strong>Step 3</strong>：PUT 成功後，呼叫 <code>PATCH /v1/users/me</code> 更新 <code>avatar_url</code> 為 <code>public_url</code>
-</p>
-<p>
-<strong>Step 4（非同步後台）</strong>：S3 Event 觸發 Lambda 病毒掃描（ClamAV）；掃描失敗 → 自動刪除檔案 + 清空 avatar_url + 通知用戶。
-</p>
-<p>
-<strong>檔案限制</strong>：最大 2 MB；格式 JPEG/PNG/WebP（MIME 白名單驗證，非副檔名黑名單）；圖片尺寸 100×100–2048×2048；Presigned URL 有效期 300 秒（5 分鐘）。
-</p>
-<p>
-<strong>curl 範例（Step 1）：</strong>
-</p>
+  &quot;data&quot;: {
+    &quot;upload_url&quot;: &quot;https://game-assets-prod.s3.amazonaws.com/avatars/usr_01HX...?X-Amz-Signature=...&quot;,
+    &quot;public_url&quot;: &quot;https://assets.fishing-arcade-game.com/avatars/usr_01HX....jpg&quot;,
+    &quot;expires_in&quot;: 300
+  },
+  &quot;meta&quot;: { &quot;request_id&quot;: &quot;req_01HX...&quot; }
+}</code></pre>
+<p><strong>Step 2</strong>：客戶端直接 PUT 到 <code>upload_url</code>（Content-Type 必須匹配）</p>
+<p><strong>Step 3</strong>：PUT 成功後，呼叫 <code>PATCH /v1/users/me</code> 更新 <code>avatar_url</code> 為 <code>public_url</code></p>
+<p><strong>Step 4（非同步後台）</strong>：S3 Event 觸發 Lambda 病毒掃描（ClamAV）；掃描失敗 → 自動刪除檔案 + 清空 avatar_url + 通知用戶。</p>
+<p><strong>檔案限制</strong>：最大 2 MB；格式 JPEG/PNG/WebP（MIME 白名單驗證，非副檔名黑名單）；圖片尺寸 100×100–2048×2048；Presigned URL 有效期 300 秒（5 分鐘）。</p>
+<p><strong>curl 範例（Step 1）：</strong></p>
 <pre><code class="language-bash">curl -X POST https://api.fishing-arcade-game.com/v1/users/me/avatar/upload-url \
-<p>
--H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
--H &quot;Content-Type: application/json&quot; \
--d &#x27;{&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;file_size_bytes&quot;:524288}&#x27;
-</code></pre>
-</p>
+  -H &quot;Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;content_type&quot;:&quot;image/jpeg&quot;,&quot;file_size_bytes&quot;:524288}&#x27;</code></pre>
 <hr>
-<h2 id="11.-api-paradigm-decision">11. API Paradigm Decision</h2>
-<h3 id="11.1-技術選型比較">11.1 技術選型比較</h3>
-<table><tr><th>面向</th><th>REST</th><th>GraphQL</th><th>gRPC</th></tr><tr><td>適合場景</td><td>資源 CRUD，行動端 App</td><td>複雜圖狀數據，前端自選欄位</td><td>服務間 RPC，強型別，高性能</td></tr><tr><td>學習曲線</td><td>低</td><td>中</td><td>高</td></tr><tr><td>工具生態</td><td>最豐富</td><td>豐富</td><td>中等</td></tr><tr><td>行動端整合</td><td>優秀（HTTP/2 友好）</td><td>良好</td><td>需特殊支援</td></tr><tr><td>型別安全</td><td>OpenAPI 生成</td><td>Schema 內建</td><td>Protobuf 內建</td></tr><tr><td>N+1 問題</td><td>無（資源設計良好時）</td><td>需 DataLoader</td><td>無</td></tr><tr><td>Cache（HTTP 層）</td><td>支援（GET Cache-Control）</td><td>較複雜</td><td>不支援</td></tr></table>
-<h3 id="11.2-本產品決策：rest（openapi-3.1）">11.2 本產品決策：REST（OpenAPI 3.1）</h3>
-<p>
-<strong>決策依據</strong>：
-</p>
+<h2>11. API Paradigm Decision</h2>
+<h3>11.1 技術選型比較</h3>
+<table>
+<tr><th>面向</th><th>REST</th><th>GraphQL</th><th>gRPC</th></tr>
+<tr><td>適合場景</td><td>資源 CRUD，行動端 App</td><td>複雜圖狀數據，前端自選欄位</td><td>服務間 RPC，強型別，高性能</td></tr>
+<tr><td>學習曲線</td><td>低</td><td>中</td><td>高</td></tr>
+<tr><td>工具生態</td><td>最豐富</td><td>豐富</td><td>中等</td></tr>
+<tr><td>行動端整合</td><td>優秀（HTTP/2 友好）</td><td>良好</td><td>需特殊支援</td></tr>
+<tr><td>型別安全</td><td>OpenAPI 生成</td><td>Schema 內建</td><td>Protobuf 內建</td></tr>
+<tr><td>N+1 問題</td><td>無（資源設計良好時）</td><td>需 DataLoader</td><td>無</td></tr>
+<tr><td>Cache（HTTP 層）</td><td>支援（GET Cache-Control）</td><td>較複雜</td><td>不支援</td></tr>
+</table>
+<h3>11.2 本產品決策：REST（OpenAPI 3.1）</h3>
+<p><strong>決策依據</strong>：</p>
 <ol><li><strong>客戶端技術</strong>：Cocos Creator 3.x（Lua/TypeScript）對 REST HTTP 支援最成熟，GraphQL 客戶端生態在遊戲引擎中較弱</li><li><strong>資源模式清晰</strong>：User、Order、Room、GameSession 等資源邊界清晰，適合 REST 語意</li><li><strong>行動端 Cache</strong>：REST GET 端點可直接利用 HTTP Cache-Control，減少重複請求（商品列表、排行榜）</li><li><strong>團隊熟悉度</strong>：3–5 人團隊以 REST + Express 為主要技術棧（EDD §3.3）</li><li><strong>OpenAPI 工具鏈</strong>：<code>openapi-generator-cli</code> 可生成 TypeScript/Swift/Kotlin SDK，覆蓋所有客戶端平台</li></ol>
-<p>
-<strong>WebSocket（Colyseus）</strong>：即時遊戲對戰保留 WebSocket，由 Colyseus 框架提供 Schema State Sync — 這不是 REST 端點，是獨立的 Colyseus Room 協議。
-</p>
+<p><strong>WebSocket（Colyseus）</strong>：即時遊戲對戰保留 WebSocket，由 Colyseus 框架提供 Schema State Sync — 這不是 REST 端點，是獨立的 Colyseus Room 協議。</p>
 <hr>
-<h2 id="12.-openapi-3.1-specification（yaml）">12. OpenAPI 3.1 Specification（YAML）</h2>
+<h2>12. OpenAPI 3.1 Specification（YAML）</h2>
 <pre><code class="language-yaml">openapi: 3.1.0
-<p>
 info:
-title: fishing-arcade-game API
-version: 1.0.0
-description: |
-多人即時競技捕魚遊戲平台 REST API。
-Base URL: https://api.fishing-arcade-game.com/v1
-認證: Bearer JWT (RS256)
-contact:
-email: backend@fishing-arcade-game.com
-</p>
-<p>
+  title: fishing-arcade-game API
+  version: 1.0.0
+  description: |
+    多人即時競技捕魚遊戲平台 REST API。
+    Base URL: https://api.fishing-arcade-game.com/v1
+    認證: Bearer JWT (RS256)
+  contact:
+    email: backend@fishing-arcade-game.com
+
 servers:
-- url: https://api.fishing-arcade-game.com/v1
-description: Production
-- url: http://localhost:3000/v1
-description: Local Development
-</p>
-<p>
+  - url: https://api.fishing-arcade-game.com/v1
+    description: Production
+  - url: http://localhost:3000/v1
+    description: Local Development
+
 security:
-- BearerAuth: []
-</p>
-<p>
+  - BearerAuth: []
+
 paths:
-/auth/login:
-post:
-summary: 玩家登入
-tags: [Auth]
-security: []
-requestBody:
-required: true
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/LoginRequest&#x27;
-responses:
-&#x27;200&#x27;:
-description: 登入成功
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/LoginResponse&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;429&#x27;:
-$ref: &#x27;#/components/responses/TooManyRequests&#x27;
-</p>
-<p>
-/auth/register:
-post:
-summary: 玩家註冊
-tags: [Auth]
-security: []
-requestBody:
-required: true
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/RegisterRequest&#x27;
-responses:
-&#x27;201&#x27;:
-description: 註冊成功
-&#x27;400&#x27;:
-$ref: &#x27;#/components/responses/ValidationError&#x27;
-&#x27;409&#x27;:
-$ref: &#x27;#/components/responses/Conflict&#x27;
-</p>
-<p>
-/auth/refresh:
-post:
-summary: 刷新 Access Token
-tags: [Auth]
-security: []
-requestBody:
-required: true
-content:
-application/json:
-schema:
-type: object
-required: [refresh_token]
-properties:
-refresh_token:
-type: string
-responses:
-&#x27;200&#x27;:
-description: Token 刷新成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/users/me:
-get:
-summary: 取得當前玩家個人資料
-tags: [Users]
-responses:
-&#x27;200&#x27;:
-description: 成功
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/UserProfile&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-patch:
-summary: 更新玩家個人資料
-tags: [Users]
-requestBody:
-required: true
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/UpdateProfileRequest&#x27;
-responses:
-&#x27;200&#x27;:
-description: 更新成功
-&#x27;400&#x27;:
-$ref: &#x27;#/components/responses/ValidationError&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/users/me/balance:
-get:
-summary: 取得玩家餘額
-tags: [Users]
-responses:
-&#x27;200&#x27;:
-description: 成功
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/UserBalance&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/shop/products:
-get:
-summary: 取得商品列表
-tags: [Shop]
-responses:
-&#x27;200&#x27;:
-description: 成功
-content:
-application/json:
-schema:
-type: object
-properties:
-data:
-type: array
-items:
-$ref: &#x27;#/components/schemas/Product&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/shop/purchases:
-post:
-summary: 驗證 IAP 收據並充值
-tags: [Shop]
-requestBody:
-required: true
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/PurchaseRequest&#x27;
-responses:
-&#x27;201&#x27;:
-description: 充值成功
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/PurchaseResponse&#x27;
-&#x27;400&#x27;:
-$ref: &#x27;#/components/responses/ValidationError&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;422&#x27;:
-$ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
-&#x27;429&#x27;:
-$ref: &#x27;#/components/responses/TooManyRequests&#x27;
-</p>
-<p>
-/game/rooms:
-get:
-summary: 列出遊戲房間
-tags: [Game]
-parameters:
-- $ref: &#x27;#/components/parameters/AfterCursor&#x27;
-- $ref: &#x27;#/components/parameters/LimitParam&#x27;
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/admin/stats/kpi:
-get:
-summary: 取得 KPI 統計
-tags: [Admin]
-parameters:
-- in: query
-name: period
-schema:
-type: string
-enum: [today, 7d, 30d]
-default: today
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;403&#x27;:
-$ref: &#x27;#/components/responses/Forbidden&#x27;
-</p>
-<p>
-/auth/logout:
-post:
-summary: 登出（吊銷 Refresh Token）
-tags: [Auth]
-requestBody:
-required: true
-content:
-application/json:
-schema:
-type: object
-required: [refresh_token]
-properties:
-refresh_token:
-type: string
-responses:
-&#x27;204&#x27;:
-description: 登出成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/vip/subscriptions:
-post:
-summary: 購買 VIP 訂閱
-tags: [VIP]
-parameters:
-- in: header
-name: Idempotency-Key
-required: true
-schema:
-type: string
-format: uuid
-description: UUID v4，防重複訂閱
-requestBody:
-required: true
-content:
-application/json:
-schema:
-type: object
-required: [plan_id]
-properties:
-plan_id:
-type: string
-enum: [vip_monthly, vip_quarterly]
-responses:
-&#x27;201&#x27;:
-description: 訂閱成功
-&#x27;400&#x27;:
-$ref: &#x27;#/components/responses/ValidationError&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;409&#x27;:
-$ref: &#x27;#/components/responses/Conflict&#x27;
-&#x27;422&#x27;:
-$ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
-</p>
-<p>
-/game/history:
-get:
-summary: 取得玩家遊戲歷史
-tags: [Game]
-parameters:
-- $ref: &#x27;#/components/parameters/AfterCursor&#x27;
-- $ref: &#x27;#/components/parameters/LimitParam&#x27;
-- in: query
-name: from
-schema:
-type: string
-format: date-time
-description: 開始時間（ISO 8601 UTC）
-- in: query
-name: to
-schema:
-type: string
-format: date-time
-description: 結束時間（ISO 8601 UTC）
-- in: query
-name: sort
-schema:
-type: string
-enum: [started_at, gold_earned]
-default: started_at
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/game/leaderboard:
-get:
-summary: 取得排行榜
-tags: [Game]
-parameters:
-- in: query
-name: type
-schema:
-type: string
-enum: [daily, weekly, all_time]
-default: daily
-- $ref: &#x27;#/components/parameters/LimitParam&#x27;
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/shop/orders:
-get:
-summary: 取得訂單歷史
-tags: [Shop]
-parameters:
-- $ref: &#x27;#/components/parameters/AfterCursor&#x27;
-- $ref: &#x27;#/components/parameters/LimitParam&#x27;
-- in: query
-name: status
-schema:
-type: string
-enum: [completed, pending, failed]
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/shop/orders/{order_id}:
-get:
-summary: 取得訂單詳情
-tags: [Shop]
-parameters:
-- in: path
-name: order_id
-required: true
-schema:
-type: string
-description: 訂單 ID
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;403&#x27;:
-$ref: &#x27;#/components/responses/Forbidden&#x27;
-&#x27;404&#x27;:
-$ref: &#x27;#/components/responses/NotFound&#x27;
-</p>
-<p>
-/users/me/avatar/upload-url:
-post:
-summary: 取得頭像上傳 Presigned URL
-tags: [Users]
-requestBody:
-required: true
-content:
-application/json:
-schema:
-type: object
-required: [content_type, file_size_bytes]
-properties:
-content_type:
-type: string
-enum: [image/jpeg, image/png, image/webp]
-file_size_bytes:
-type: integer
-minimum: 1
-maximum: 2097152
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;400&#x27;:
-$ref: &#x27;#/components/responses/ValidationError&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-</p>
-<p>
-/admin/users:
-get:
-summary: 列出所有玩家（後台）
-tags: [Admin]
-parameters:
-- $ref: &#x27;#/components/parameters/AfterCursor&#x27;
-- $ref: &#x27;#/components/parameters/LimitParam&#x27;
-- in: query
-name: search
-schema:
-type: string
-description: email 或 display_name 前綴搜尋
-- in: query
-name: vip_tier
-schema:
-type: integer
-minimum: 0
-maximum: 3
-- in: query
-name: status
-schema:
-type: string
-enum: [active, suspended, banned]
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;403&#x27;:
-$ref: &#x27;#/components/responses/Forbidden&#x27;
-</p>
-<p>
-/admin/users/{user_id}:
-patch:
-summary: 更新玩家帳號狀態
-tags: [Admin]
-parameters:
-- in: path
-name: user_id
-required: true
-schema:
-type: string
-- in: header
-name: X-Admin-Reason
-schema:
-type: string
-maxLength: 256
-description: 操作理由（status 變更或 gold_adjustment 時必填）
-requestBody:
-required: true
-content:
-application/json:
-schema:
-type: object
-properties:
-status:
-type: string
-enum: [active, suspended, banned]
-suspend_reason:
-type: string
-maxLength: 512
-gold_adjustment:
-type: integer
-adjustment_reason:
-type: string
-maxLength: 512
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;400&#x27;:
-$ref: &#x27;#/components/responses/ValidationError&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;403&#x27;:
-$ref: &#x27;#/components/responses/Forbidden&#x27;
-&#x27;404&#x27;:
-$ref: &#x27;#/components/responses/NotFound&#x27;
-&#x27;422&#x27;:
-$ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
-</p>
-<p>
-/admin/game-config:
-get:
-summary: 取得遊戲設定
-tags: [Admin]
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;403&#x27;:
-$ref: &#x27;#/components/responses/Forbidden&#x27;
-patch:
-summary: 更新遊戲設定
-tags: [Admin]
-requestBody:
-required: true
-content:
-application/json:
-schema:
-type: object
-properties:
-rtp_target_min:
-type: number
-minimum: 0.80
-maximum: 0.95
-rtp_target_max:
-type: number
-minimum: 0.80
-maximum: 0.98
-jackpot_trigger_probability:
-type: number
-minimum: 0.00001
-maximum: 0.001
-fish_spawn_rate:
-type: number
-minimum: 0.5
-maximum: 2.0
-responses:
-&#x27;200&#x27;:
-description: 成功
-&#x27;400&#x27;:
-$ref: &#x27;#/components/responses/ValidationError&#x27;
-&#x27;401&#x27;:
-$ref: &#x27;#/components/responses/Unauthorized&#x27;
-&#x27;403&#x27;:
-$ref: &#x27;#/components/responses/Forbidden&#x27;
-&#x27;422&#x27;:
-$ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
-</p>
-<p>
+  /auth/login:
+    post:
+      summary: 玩家登入
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: &#x27;#/components/schemas/LoginRequest&#x27;
+      responses:
+        &#x27;200&#x27;:
+          description: 登入成功
+          content:
+            application/json:
+              schema:
+                $ref: &#x27;#/components/schemas/LoginResponse&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;429&#x27;:
+          $ref: &#x27;#/components/responses/TooManyRequests&#x27;
+
+  /auth/register:
+    post:
+      summary: 玩家註冊
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: &#x27;#/components/schemas/RegisterRequest&#x27;
+      responses:
+        &#x27;201&#x27;:
+          description: 註冊成功
+        &#x27;400&#x27;:
+          $ref: &#x27;#/components/responses/ValidationError&#x27;
+        &#x27;409&#x27;:
+          $ref: &#x27;#/components/responses/Conflict&#x27;
+
+  /auth/refresh:
+    post:
+      summary: 刷新 Access Token
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refresh_token]
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        &#x27;200&#x27;:
+          description: Token 刷新成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /users/me:
+    get:
+      summary: 取得當前玩家個人資料
+      tags: [Users]
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: &#x27;#/components/schemas/UserProfile&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+    patch:
+      summary: 更新玩家個人資料
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: &#x27;#/components/schemas/UpdateProfileRequest&#x27;
+      responses:
+        &#x27;200&#x27;:
+          description: 更新成功
+        &#x27;400&#x27;:
+          $ref: &#x27;#/components/responses/ValidationError&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /users/me/balance:
+    get:
+      summary: 取得玩家餘額
+      tags: [Users]
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: &#x27;#/components/schemas/UserBalance&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /shop/products:
+    get:
+      summary: 取得商品列表
+      tags: [Shop]
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: &#x27;#/components/schemas/Product&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /shop/purchases:
+    post:
+      summary: 驗證 IAP 收據並充值
+      tags: [Shop]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: &#x27;#/components/schemas/PurchaseRequest&#x27;
+      responses:
+        &#x27;201&#x27;:
+          description: 充值成功
+          content:
+            application/json:
+              schema:
+                $ref: &#x27;#/components/schemas/PurchaseResponse&#x27;
+        &#x27;400&#x27;:
+          $ref: &#x27;#/components/responses/ValidationError&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;422&#x27;:
+          $ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
+        &#x27;429&#x27;:
+          $ref: &#x27;#/components/responses/TooManyRequests&#x27;
+
+  /game/rooms:
+    get:
+      summary: 列出遊戲房間
+      tags: [Game]
+      parameters:
+        - $ref: &#x27;#/components/parameters/AfterCursor&#x27;
+        - $ref: &#x27;#/components/parameters/LimitParam&#x27;
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /admin/stats/kpi:
+    get:
+      summary: 取得 KPI 統計
+      tags: [Admin]
+      parameters:
+        - in: query
+          name: period
+          schema:
+            type: string
+            enum: [today, 7d, 30d]
+            default: today
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;403&#x27;:
+          $ref: &#x27;#/components/responses/Forbidden&#x27;
+
+  /auth/logout:
+    post:
+      summary: 登出（吊銷 Refresh Token）
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refresh_token]
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        &#x27;204&#x27;:
+          description: 登出成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /vip/subscriptions:
+    post:
+      summary: 購買 VIP 訂閱
+      tags: [VIP]
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID v4，防重複訂閱
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [plan_id]
+              properties:
+                plan_id:
+                  type: string
+                  enum: [vip_monthly, vip_quarterly]
+      responses:
+        &#x27;201&#x27;:
+          description: 訂閱成功
+        &#x27;400&#x27;:
+          $ref: &#x27;#/components/responses/ValidationError&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;409&#x27;:
+          $ref: &#x27;#/components/responses/Conflict&#x27;
+        &#x27;422&#x27;:
+          $ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
+
+  /game/history:
+    get:
+      summary: 取得玩家遊戲歷史
+      tags: [Game]
+      parameters:
+        - $ref: &#x27;#/components/parameters/AfterCursor&#x27;
+        - $ref: &#x27;#/components/parameters/LimitParam&#x27;
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date-time
+          description: 開始時間（ISO 8601 UTC）
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date-time
+          description: 結束時間（ISO 8601 UTC）
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [started_at, gold_earned]
+            default: started_at
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /game/leaderboard:
+    get:
+      summary: 取得排行榜
+      tags: [Game]
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [daily, weekly, all_time]
+            default: daily
+        - $ref: &#x27;#/components/parameters/LimitParam&#x27;
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /shop/orders:
+    get:
+      summary: 取得訂單歷史
+      tags: [Shop]
+      parameters:
+        - $ref: &#x27;#/components/parameters/AfterCursor&#x27;
+        - $ref: &#x27;#/components/parameters/LimitParam&#x27;
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [completed, pending, failed]
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /shop/orders/{order_id}:
+    get:
+      summary: 取得訂單詳情
+      tags: [Shop]
+      parameters:
+        - in: path
+          name: order_id
+          required: true
+          schema:
+            type: string
+          description: 訂單 ID
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;403&#x27;:
+          $ref: &#x27;#/components/responses/Forbidden&#x27;
+        &#x27;404&#x27;:
+          $ref: &#x27;#/components/responses/NotFound&#x27;
+
+  /users/me/avatar/upload-url:
+    post:
+      summary: 取得頭像上傳 Presigned URL
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content_type, file_size_bytes]
+              properties:
+                content_type:
+                  type: string
+                  enum: [image/jpeg, image/png, image/webp]
+                file_size_bytes:
+                  type: integer
+                  minimum: 1
+                  maximum: 2097152
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;400&#x27;:
+          $ref: &#x27;#/components/responses/ValidationError&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+
+  /admin/users:
+    get:
+      summary: 列出所有玩家（後台）
+      tags: [Admin]
+      parameters:
+        - $ref: &#x27;#/components/parameters/AfterCursor&#x27;
+        - $ref: &#x27;#/components/parameters/LimitParam&#x27;
+        - in: query
+          name: search
+          schema:
+            type: string
+          description: email 或 display_name 前綴搜尋
+        - in: query
+          name: vip_tier
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 3
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [active, suspended, banned]
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;403&#x27;:
+          $ref: &#x27;#/components/responses/Forbidden&#x27;
+
+  /admin/users/{user_id}:
+    patch:
+      summary: 更新玩家帳號狀態
+      tags: [Admin]
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: X-Admin-Reason
+          schema:
+            type: string
+            maxLength: 256
+          description: 操作理由（status 變更或 gold_adjustment 時必填）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [active, suspended, banned]
+                suspend_reason:
+                  type: string
+                  maxLength: 512
+                gold_adjustment:
+                  type: integer
+                adjustment_reason:
+                  type: string
+                  maxLength: 512
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;400&#x27;:
+          $ref: &#x27;#/components/responses/ValidationError&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;403&#x27;:
+          $ref: &#x27;#/components/responses/Forbidden&#x27;
+        &#x27;404&#x27;:
+          $ref: &#x27;#/components/responses/NotFound&#x27;
+        &#x27;422&#x27;:
+          $ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
+
+  /admin/game-config:
+    get:
+      summary: 取得遊戲設定
+      tags: [Admin]
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;403&#x27;:
+          $ref: &#x27;#/components/responses/Forbidden&#x27;
+    patch:
+      summary: 更新遊戲設定
+      tags: [Admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rtp_target_min:
+                  type: number
+                  minimum: 0.80
+                  maximum: 0.95
+                rtp_target_max:
+                  type: number
+                  minimum: 0.80
+                  maximum: 0.98
+                jackpot_trigger_probability:
+                  type: number
+                  minimum: 0.00001
+                  maximum: 0.001
+                fish_spawn_rate:
+                  type: number
+                  minimum: 0.5
+                  maximum: 2.0
+      responses:
+        &#x27;200&#x27;:
+          description: 成功
+        &#x27;400&#x27;:
+          $ref: &#x27;#/components/responses/ValidationError&#x27;
+        &#x27;401&#x27;:
+          $ref: &#x27;#/components/responses/Unauthorized&#x27;
+        &#x27;403&#x27;:
+          $ref: &#x27;#/components/responses/Forbidden&#x27;
+        &#x27;422&#x27;:
+          $ref: &#x27;#/components/responses/BusinessRuleViolation&#x27;
+
 components:
-securitySchemes:
-BearerAuth:
-type: http
-scheme: bearer
-bearerFormat: JWT
-</p>
-<p>
-schemas:
-LoginRequest:
-type: object
-required: [email, password]
-properties:
-email:
-type: string
-format: email
-maxLength: 254
-password:
-type: string
-minLength: 8
-maxLength: 128
-</p>
-<p>
-LoginResponse:
-type: object
-properties:
-data:
-type: object
-properties:
-access_token:
-type: string
-refresh_token:
-type: string
-expires_in:
-type: integer
-token_type:
-type: string
-user:
-$ref: &#x27;#/components/schemas/UserSummary&#x27;
-meta:
-$ref: &#x27;#/components/schemas/Meta&#x27;
-</p>
-<p>
-RegisterRequest:
-type: object
-required: [email, password, display_name, birthdate, agree_terms]
-properties:
-email:
-type: string
-format: email
-maxLength: 254
-password:
-type: string
-minLength: 8
-maxLength: 128
-display_name:
-type: string
-minLength: 2
-maxLength: 30
-birthdate:
-type: string
-format: date
-agree_terms:
-type: boolean
-const: true
-</p>
-<p>
-UserSummary:
-type: object
-properties:
-id:
-type: string
-email:
-type: string
-role:
-type: string
-enum: [player, operator, superadmin]
-vip_tier:
-type: integer
-minimum: 0
-maximum: 3
-</p>
-<p>
-UserProfile:
-allOf:
-- $ref: &#x27;#/components/schemas/UserSummary&#x27;
-- type: object
-properties:
-display_name:
-type: string
-vip_expires_at:
-type: string
-format: date-time
-age_verified:
-type: boolean
-created_at:
-type: string
-format: date-time
-</p>
-<p>
-UserBalance:
-type: object
-properties:
-user_id:
-type: string
-gold_balance:
-type: integer
-minimum: 0
-diamond_balance:
-type: integer
-minimum: 0
-updated_at:
-type: string
-format: date-time
-</p>
-<p>
-UpdateProfileRequest:
-type: object
-properties:
-display_name:
-type: string
-minLength: 2
-maxLength: 30
-avatar_url:
-type: string
-maxLength: 512
-</p>
-<p>
-Product:
-type: object
-properties:
-product_id:
-type: string
-name:
-type: string
-diamonds:
-type: integer
-bonus_diamonds:
-type: integer
-price_usd:
-type: number
-format: float
-apple_product_id:
-type: string
-google_product_id:
-type: string
-is_active:
-type: boolean
-badge:
-type: string
-nullable: true
-</p>
-<p>
-PurchaseRequest:
-type: object
-required: [platform, product_id, receipt, idempotency_key]
-properties:
-platform:
-type: string
-enum: [apple, google]
-product_id:
-type: string
-receipt:
-type: string
-idempotency_key:
-type: string
-format: uuid
-</p>
-<p>
-PurchaseResponse:
-type: object
-properties:
-data:
-type: object
-properties:
-order_id:
-type: string
-status:
-type: string
-diamonds_credited:
-type: integer
-new_diamond_balance:
-type: integer
-transaction_id:
-type: string
-created_at:
-type: string
-format: date-time
-</p>
-<p>
-Meta:
-type: object
-properties:
-request_id:
-type: string
-</p>
-<p>
-ErrorEnvelope:
-type: object
-properties:
-error:
-type: object
-properties:
-code:
-type: string
-message:
-type: string
-errors:
-type: array
-items:
-type: object
-properties:
-field:
-type: string
-message:
-type: string
-request_id:
-type: string
-</p>
-<p>
-responses:
-Unauthorized:
-description: Token 無效或過期
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
-example:
-error:
-code: UNAUTHORIZED
-message: Invalid or expired token
-request_id: req_01HX...
-</p>
-<p>
-ValidationError:
-description: 輸入驗證失敗
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
-example:
-error:
-code: VALIDATION_ERROR
-message: Input validation failed
-errors:
-- field: email
-message: Invalid email format
-request_id: req_01HX...
-</p>
-<p>
-NotFound:
-description: 資源不存在
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
-</p>
-<p>
-Forbidden:
-description: 無操作權限
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
-</p>
-<p>
-Conflict:
-description: 資源衝突
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
-</p>
-<p>
-BusinessRuleViolation:
-description: 業務規則違反
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
-</p>
-<p>
-TooManyRequests:
-description: 超過速率限制
-headers:
-X-RateLimit-Reset:
-schema:
-type: integer
-description: 配額重置時間 (Unix timestamp)
-Retry-After:
-schema:
-type: integer
-description: 建議等待秒數
-content:
-application/json:
-schema:
-$ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
-</p>
-<p>
-parameters:
-AfterCursor:
-in: query
-name: after
-schema:
-type: string
-description: Cursor-based 分頁起始位置（base64 encoded）
-</p>
-<p>
-LimitParam:
-in: query
-name: limit
-schema:
-type: integer
-minimum: 1
-maximum: 100
-default: 20
-description: 每頁筆數
-</code></pre>
-</p>
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          minLength: 8
+          maxLength: 128
+
+    LoginResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+            refresh_token:
+              type: string
+            expires_in:
+              type: integer
+            token_type:
+              type: string
+            user:
+              $ref: &#x27;#/components/schemas/UserSummary&#x27;
+        meta:
+          $ref: &#x27;#/components/schemas/Meta&#x27;
+
+    RegisterRequest:
+      type: object
+      required: [email, password, display_name, birthdate, agree_terms]
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          minLength: 8
+          maxLength: 128
+        display_name:
+          type: string
+          minLength: 2
+          maxLength: 30
+        birthdate:
+          type: string
+          format: date
+        agree_terms:
+          type: boolean
+          const: true
+
+    UserSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [player, operator, superadmin]
+        vip_tier:
+          type: integer
+          minimum: 0
+          maximum: 3
+
+    UserProfile:
+      allOf:
+        - $ref: &#x27;#/components/schemas/UserSummary&#x27;
+        - type: object
+          properties:
+            display_name:
+              type: string
+            vip_expires_at:
+              type: string
+              format: date-time
+            age_verified:
+              type: boolean
+            created_at:
+              type: string
+              format: date-time
+
+    UserBalance:
+      type: object
+      properties:
+        user_id:
+          type: string
+        gold_balance:
+          type: integer
+          minimum: 0
+        diamond_balance:
+          type: integer
+          minimum: 0
+        updated_at:
+          type: string
+          format: date-time
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        display_name:
+          type: string
+          minLength: 2
+          maxLength: 30
+        avatar_url:
+          type: string
+          maxLength: 512
+
+    Product:
+      type: object
+      properties:
+        product_id:
+          type: string
+        name:
+          type: string
+        diamonds:
+          type: integer
+        bonus_diamonds:
+          type: integer
+        price_usd:
+          type: number
+          format: float
+        apple_product_id:
+          type: string
+        google_product_id:
+          type: string
+        is_active:
+          type: boolean
+        badge:
+          type: string
+          nullable: true
+
+    PurchaseRequest:
+      type: object
+      required: [platform, product_id, receipt, idempotency_key]
+      properties:
+        platform:
+          type: string
+          enum: [apple, google]
+        product_id:
+          type: string
+        receipt:
+          type: string
+        idempotency_key:
+          type: string
+          format: uuid
+
+    PurchaseResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            order_id:
+              type: string
+            status:
+              type: string
+            diamonds_credited:
+              type: integer
+            new_diamond_balance:
+              type: integer
+            transaction_id:
+              type: string
+            created_at:
+              type: string
+              format: date-time
+
+    Meta:
+      type: object
+      properties:
+        request_id:
+          type: string
+
+    ErrorEnvelope:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            errors:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+            request_id:
+              type: string
+
+  responses:
+    Unauthorized:
+      description: Token 無效或過期
+      content:
+        application/json:
+          schema:
+            $ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
+          example:
+            error:
+              code: UNAUTHORIZED
+              message: Invalid or expired token
+              request_id: req_01HX...
+
+    ValidationError:
+      description: 輸入驗證失敗
+      content:
+        application/json:
+          schema:
+            $ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
+          example:
+            error:
+              code: VALIDATION_ERROR
+              message: Input validation failed
+              errors:
+                - field: email
+                  message: Invalid email format
+              request_id: req_01HX...
+
+    NotFound:
+      description: 資源不存在
+      content:
+        application/json:
+          schema:
+            $ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
+
+    Forbidden:
+      description: 無操作權限
+      content:
+        application/json:
+          schema:
+            $ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
+
+    Conflict:
+      description: 資源衝突
+      content:
+        application/json:
+          schema:
+            $ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
+
+    BusinessRuleViolation:
+      description: 業務規則違反
+      content:
+        application/json:
+          schema:
+            $ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
+
+    TooManyRequests:
+      description: 超過速率限制
+      headers:
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+          description: 配額重置時間 (Unix timestamp)
+        Retry-After:
+          schema:
+            type: integer
+          description: 建議等待秒數
+      content:
+        application/json:
+          schema:
+            $ref: &#x27;#/components/schemas/ErrorEnvelope&#x27;
+
+  parameters:
+    AfterCursor:
+      in: query
+      name: after
+      schema:
+        type: string
+      description: Cursor-based 分頁起始位置（base64 encoded）
+
+    LimitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: 每頁筆數</code></pre>
 <hr>
-<h2 id="13.-api-changelog">13. API Changelog</h2>
-<table><tr><th>版本</th><th>日期</th><th>變更說明</th><th>破壞性變更</th></tr><tr><td>v1.0.0</td><td>2026-04-24</td><td>初始版本 — Account/Game/Commerce/Admin 全端點</td><td>—</td></tr></table>
-<p>
-<strong>預計 v1.1.0 變更（Phase 2）：</strong>
-</p>
+<h2>13. API Changelog</h2>
+<table>
+<tr><th>版本</th><th>日期</th><th>變更說明</th><th>破壞性變更</th></tr>
+<tr><td>v1.0.0</td><td>2026-04-24</td><td>初始版本 — Account/Game/Commerce/Admin 全端點</td><td>—</td></tr>
+</table>
+<p><strong>預計 v1.1.0 變更（Phase 2）：</strong></p>
 <ul><li>新增 POST /admin/users/batch（批次操作）</li><li>新增 POST /v1/webhooks（Webhook 設定）</li><li>GET /game/history 新增 <code>fish_type</code> 篩選參數</li></ul>
 <hr>
-<h2 id="14.-api-review-checklist">14. API Review Checklist</h2>
-<table><tr><th>#</th><th>項目</th><th>狀態</th></tr><tr><td>1</td><td>每個 PRD P0 功能都有對應 Endpoint</td><td>✅</td></tr><tr><td>2</td><td>所有 Endpoint 有完整 Request/Response Schema</td><td>✅</td></tr><tr><td>3</td><td>每個 Endpoint 有錯誤碼（至少 400、401、500）</td><td>✅</td></tr><tr><td>4</td><td>認證說明完整（取得/使用/刷新/Rate Limit）</td><td>✅</td></tr><tr><td>5</td><td>§4 有至少 1 個 API 序列圖（Mermaid）</td><td>✅（2 個）</td></tr><tr><td>6</td><td>使用 Cursor-based 分頁（非 OFFSET）</td><td>✅</td></tr><tr><td>7</td><td>§11 API Paradigm Decision 已填寫</td><td>✅（REST 選型 + 比較表 + 決策依據）</td></tr><tr><td>8</td><td>§12 OpenAPI 3.1 YAML 已生成</td><td>✅（完整 paths/schemas/responses）</td></tr><tr><td>9</td><td>components/responses 定義標準錯誤（401/400/404/429）</td><td>✅</td></tr><tr><td>10</td><td>所有 Endpoint 命名符合 RESTful 規範（小寫複數資源名詞）</td><td>✅</td></tr><tr><td>11</td><td>§9 Batch Operations 說明</td><td>✅（Phase 2 預留設計）</td></tr><tr><td>12</td><td>§10 File Upload 說明（S3 Presigned URL）</td><td>✅</td></tr><tr><td>13</td><td>§13 API Changelog 已建立</td><td>✅</td></tr><tr><td>14</td><td>§15 Versioning & Deprecation Policy 已定義</td><td>✅</td></tr><tr><td>15</td><td>§16 Client SDK 生成指令</td><td>✅</td></tr><tr><td>16</td><td>§17 SLO 目標與 Error Budget 已定義</td><td>✅</td></tr><tr><td>17</td><td>無未替換的裸佔位符</td><td>✅</td></tr><tr><td>18</td><td>冪等性設計：PATCH 端點說明 + IAP 使用 idempotency_key</td><td>✅</td></tr><tr><td>19</td><td>所有端點的 RBAC 權限對齊 EDD §4.1 矩陣</td><td>✅</td></tr><tr><td>20</td><td>分頁 Cursor 格式（base64 + 說明）已定義</td><td>✅</td></tr></table>
+<h2>14. API Review Checklist</h2>
+<table>
+<tr><th>#</th><th>項目</th><th>狀態</th></tr>
+<tr><td>1</td><td>每個 PRD P0 功能都有對應 Endpoint</td><td>✅</td></tr>
+<tr><td>2</td><td>所有 Endpoint 有完整 Request/Response Schema</td><td>✅</td></tr>
+<tr><td>3</td><td>每個 Endpoint 有錯誤碼（至少 400、401、500）</td><td>✅</td></tr>
+<tr><td>4</td><td>認證說明完整（取得/使用/刷新/Rate Limit）</td><td>✅</td></tr>
+<tr><td>5</td><td>§4 有至少 1 個 API 序列圖（Mermaid）</td><td>✅（2 個）</td></tr>
+<tr><td>6</td><td>使用 Cursor-based 分頁（非 OFFSET）</td><td>✅</td></tr>
+<tr><td>7</td><td>§11 API Paradigm Decision 已填寫</td><td>✅（REST 選型 + 比較表 + 決策依據）</td></tr>
+<tr><td>8</td><td>§12 OpenAPI 3.1 YAML 已生成</td><td>✅（完整 paths/schemas/responses）</td></tr>
+<tr><td>9</td><td>components/responses 定義標準錯誤（401/400/404/429）</td><td>✅</td></tr>
+<tr><td>10</td><td>所有 Endpoint 命名符合 RESTful 規範（小寫複數資源名詞）</td><td>✅</td></tr>
+<tr><td>11</td><td>§9 Batch Operations 說明</td><td>✅（Phase 2 預留設計）</td></tr>
+<tr><td>12</td><td>§10 File Upload 說明（S3 Presigned URL）</td><td>✅</td></tr>
+<tr><td>13</td><td>§13 API Changelog 已建立</td><td>✅</td></tr>
+<tr><td>14</td><td>§15 Versioning &amp; Deprecation Policy 已定義</td><td>✅</td></tr>
+<tr><td>15</td><td>§16 Client SDK 生成指令</td><td>✅</td></tr>
+<tr><td>16</td><td>§17 SLO 目標與 Error Budget 已定義</td><td>✅</td></tr>
+<tr><td>17</td><td>無未替換的裸佔位符</td><td>✅</td></tr>
+<tr><td>18</td><td>冪等性設計：PATCH 端點說明 + IAP 使用 idempotency_key</td><td>✅</td></tr>
+<tr><td>19</td><td>所有端點的 RBAC 權限對齊 EDD §4.1 矩陣</td><td>✅</td></tr>
+<tr><td>20</td><td>分頁 Cursor 格式（base64 + 說明）已定義</td><td>✅</td></tr>
+</table>
 <hr>
-<h2 id="15.-api-versioning-&-deprecation-policy">15. API Versioning & Deprecation Policy</h2>
-<h3 id="15.1-版本策略">15.1 版本策略</h3>
+<h2>15. API Versioning &amp; Deprecation Policy</h2>
+<h3>15.1 版本策略</h3>
 <ul><li><strong>路徑版本</strong>：<code>/v1/</code>，主要版本（v1、v2）有破壞性變更時升版</li><li><strong>向下相容保證</strong>：新增欄位、新增 Endpoint — 不視為破壞性變更；移除欄位、修改型別 — 視為破壞性變更</li><li><strong>並行維護</strong>：廢棄版本（如 v1）在 v2 發布後至少維護 6 個月</li></ul>
-<h3 id="15.2-廢棄流程">15.2 廢棄流程</h3>
-<p>
-<strong>Step 1</strong>：廢棄端點在 Response Headers 加入：
-</p>
-<pre><code>Deprecation: true
-<p>
+<h3>15.2 廢棄流程</h3>
+<p><strong>Step 1</strong>：廢棄端點在 Response Headers 加入：</p>
+<pre><code class="">Deprecation: true
 Sunset: Sat, 01 Nov 2026 00:00:00 GMT
-Link: &lt;https://docs.fishing-arcade-game.com/migration/v1-to-v2&gt;; rel=&quot;successor-version&quot;
-</code></pre>
-</p>
-<p>
-<strong>Step 2</strong>：開發者文件發布 Migration Guide（至少提前 90 天）
-</p>
-<p>
-<strong>Step 3</strong>：Sunset 日期後 → 端點回傳 410 Gone
-</p>
-<h3 id="15.3-非破壞性變更（無需升版）">15.3 非破壞性變更（無需升版）</h3>
+Link: &lt;https://docs.fishing-arcade-game.com/migration/v1-to-v2&gt;; rel=&quot;successor-version&quot;</code></pre>
+<p><strong>Step 2</strong>：開發者文件發布 Migration Guide（至少提前 90 天）</p>
+<p><strong>Step 3</strong>：Sunset 日期後 → 端點回傳 410 Gone</p>
+<h3>15.3 非破壞性變更（無需升版）</h3>
 <ul><li>新增 Response 欄位（客戶端應忽略未知欄位）</li><li>新增 Endpoint</li><li>放寬輸入限制（如 maxLength 增加）</li><li>新增 Query Parameter（有預設值）</li></ul>
 <hr>
-<h2 id="16.-client-sdk-&-code-generation">16. Client SDK & Code Generation</h2>
-<h3 id="16.1-openapi-generator-生成指令">16.1 OpenAPI Generator 生成指令</h3>
+<h2>16. Client SDK &amp; Code Generation</h2>
+<h3>16.1 OpenAPI Generator 生成指令</h3>
 <pre><code class="language-bash"># 安裝 openapi-generator-cli
-<p>
 npm install -g @openapitools/openapi-generator-cli
-</p>
-<h1 id="生成-typescript-(axios)-sdk-—-給-cocos-creator-web/desktop-用">生成 TypeScript (Axios) SDK — 給 Cocos Creator Web/Desktop 用</h1>
-<p>
+
+# 生成 TypeScript (Axios) SDK — 給 Cocos Creator Web/Desktop 用
 openapi-generator-cli generate \
--i docs/API.md \
--g typescript-axios \
--o generated/sdk/typescript \
---additional-properties=npmName=@fishing-arcade-game/api-client,withInterfaces=true
-</p>
-<h1 id="生成-swift-sdk-—-給-ios-客戶端用">生成 Swift SDK — 給 iOS 客戶端用</h1>
-<p>
+  -i docs/API.md \
+  -g typescript-axios \
+  -o generated/sdk/typescript \
+  --additional-properties=npmName=@fishing-arcade-game/api-client,withInterfaces=true
+
+# 生成 Swift SDK — 給 iOS 客戶端用
 openapi-generator-cli generate \
--i docs/API.md \
--g swift5 \
--o generated/sdk/swift
-</p>
-<h1 id="生成-kotlin-sdk-—-給-android-客戶端用">生成 Kotlin SDK — 給 Android 客戶端用</h1>
-<p>
+  -i docs/API.md \
+  -g swift5 \
+  -o generated/sdk/swift
+
+# 生成 Kotlin SDK — 給 Android 客戶端用
 openapi-generator-cli generate \
--i docs/API.md \
--g kotlin \
--o generated/sdk/kotlin
-</code></pre>
-</p>
-<h3 id="16.2-typescript-sdk-使用範例">16.2 TypeScript SDK 使用範例</h3>
+  -i docs/API.md \
+  -g kotlin \
+  -o generated/sdk/kotlin</code></pre>
+<h3>16.2 TypeScript SDK 使用範例</h3>
 <pre><code class="language-typescript">import { AuthApi, ShopApi, Configuration } from &#x27;@fishing-arcade-game/api-client&#x27;;
-<p>
+
 const config = new Configuration({
-basePath: &#x27;https://api.fishing-arcade-game.com/v1&#x27;,
-accessToken: () =&gt; localStorage.getItem(&#x27;access_token&#x27;) ?? &#x27;&#x27;,
+  basePath: &#x27;https://api.fishing-arcade-game.com/v1&#x27;,
+  accessToken: () =&gt; localStorage.getItem(&#x27;access_token&#x27;) ?? &#x27;&#x27;,
 });
-</p>
-<p>
+
 const authApi = new AuthApi(config);
 const shopApi = new ShopApi(config);
-</p>
-<p>
+
 // 登入
 const loginResult = await authApi.authLoginPost({
-email: &#x27;player@example.com&#x27;,
-password: &#x27;Passw0rd!123&#x27;,
+  email: &#x27;player@example.com&#x27;,
+  password: &#x27;Passw0rd!123&#x27;,
 });
 const token = loginResult.data.data.access_token;
-</p>
-<p>
+
 // 充值鑽石
 const purchase = await shopApi.shopPurchasesPost({
-platform: &#x27;apple&#x27;,
-product_id: &#x27;diamonds_330&#x27;,
-receipt: &#x27;MIIXXXXXXX...&#x27;,
-idempotency_key: crypto.randomUUID(),
-});
-</code></pre>
-</p>
+  platform: &#x27;apple&#x27;,
+  product_id: &#x27;diamonds_330&#x27;,
+  receipt: &#x27;MIIXXXXXXX...&#x27;,
+  idempotency_key: crypto.randomUUID(),
+});</code></pre>
 <hr>
-<h2 id="17.-api-observability-&-slo">17. API Observability & SLO</h2>
-<h3 id="17.1-slo-目標">17.1 SLO 目標</h3>
-<table><tr><th>SLO 指標</th><th>目標值</th><th>來源</th><th>測量方式</th></tr><tr><td>可用性（Availability）</td><td>≥ 99.5%（30 天滾動）</td><td>BRD NFR-AVAIL-001</td><td><code>rate(http_requests_total{status!~&quot;5..&quot;}[5m]) / rate(http_requests_total[5m])</code></td></tr><tr><td>P95 回應時間</td><td>< 300ms（REST）</td><td>EDD §10.5</td><td><code>histogram_quantile(0.95, http_request_duration_seconds_bucket)</code></td></tr><tr><td>P99 回應時間</td><td>< 500ms（REST）</td><td>BRD NFR-PERF-002</td><td><code>histogram_quantile(0.99, http_request_duration_seconds_bucket)</code></td></tr><tr><td>Error Rate</td><td>< 0.1%</td><td>BRD NFR-REL-001</td><td><code>rate(http_requests_total{status=~&quot;5..&quot;}[1m])</code></td></tr><tr><td>IAP 驗證成功率</td><td>> 99%</td><td>業務需求</td><td><code>rate(iap_verification_total{result=&quot;success&quot;}[5m]) / rate(iap_verification_total[5m])</code></td></tr></table>
-<h3 id="17.2-error-budget-計算">17.2 Error Budget 計算</h3>
-<pre><code>月可用時間（秒）= 30 × 24 × 60 × 60 = 2,592,000 秒
-<p>
+<h2>17. API Observability &amp; SLO</h2>
+<h3>17.1 SLO 目標</h3>
+<table>
+<tr><th>SLO 指標</th><th>目標值</th><th>來源</th><th>測量方式</th></tr>
+<tr><td>可用性（Availability）</td><td>≥ 99.5%（30 天滾動）</td><td>BRD NFR-AVAIL-001</td><td><code>rate(http_requests_total{status!~&quot;5..&quot;}[5m]) / rate(http_requests_total[5m])</code></td></tr>
+<tr><td>P95 回應時間</td><td>&lt; 300ms（REST）</td><td>EDD §10.5</td><td><code>histogram_quantile(0.95, http_request_duration_seconds_bucket)</code></td></tr>
+<tr><td>P99 回應時間</td><td>&lt; 500ms（REST）</td><td>BRD NFR-PERF-002</td><td><code>histogram_quantile(0.99, http_request_duration_seconds_bucket)</code></td></tr>
+<tr><td>Error Rate</td><td>&lt; 0.1%</td><td>BRD NFR-REL-001</td><td><code>rate(http_requests_total{status=~&quot;5..&quot;}[1m])</code></td></tr>
+<tr><td>IAP 驗證成功率</td><td>&gt; 99%</td><td>業務需求</td><td><code>rate(iap_verification_total{result=&quot;success&quot;}[5m]) / rate(iap_verification_total[5m])</code></td></tr>
+</table>
+<h3>17.2 Error Budget 計算</h3>
+<pre><code class="">月可用時間（秒）= 30 × 24 × 60 × 60 = 2,592,000 秒
+
 Availability SLO = 99.5%
 Error Budget = 2,592,000 × (1 - 0.995) = 12,960 秒（約 3.6 小時/月）
-</p>
-<p>
+
 Error Budget 消耗率 &gt; 10% / 周 → 觸發告警 → 暫停非關鍵功能發布
-Error Budget 耗盡 → 啟動 Incident Review → 凍結非 Hotfix 部署
-</code></pre>
-</p>
-<h3 id="17.3-告警閾值">17.3 告警閾值</h3>
-<table><tr><th>指標</th><th>告警條件</th><th>嚴重性</th><th>通知方式</th></tr><tr><td>Availability</td><td>< 99.75% 持續 30 分鐘</td><td>P1</td><td>PagerDuty + Slack #incident</td></tr><tr><td>P99 REST</td><td>> 400ms 持續 5 分鐘</td><td>P2</td><td>Slack #sre-alerts</td></tr><tr><td>Error Rate</td><td>> 0.05% 持續 10 分鐘</td><td>P2</td><td>Slack #sre-alerts</td></tr><tr><td>IAP Circuit Breaker</td><td>state=open</td><td>P1</td><td>PagerDuty</td></tr><tr><td>Error Budget 消耗</td><td>> 50% / 月</td><td>P2</td><td>Slack #sre-alerts</td></tr></table>
-<h3 id="17.4-監測工具">17.4 監測工具</h3>
-<table><tr><th>工具</th><th>用途</th></tr><tr><td>Prometheus</td><td>Metrics 採集（<code>prom-client</code> Node.js SDK）</td></tr><tr><td>Grafana</td><td>SLO Dashboard（§12.2 Prometheus Queries）</td></tr><tr><td>Jaeger + OpenTelemetry</td><td>分散式追蹤（Span 命名見 ARCH §12.4）</td></tr><tr><td>Loki</td><td>結構化 JSON Log 聚合</td></tr><tr><td>PagerDuty</td><td>P1 On-Call 告警</td></tr></table>
+Error Budget 耗盡 → 啟動 Incident Review → 凍結非 Hotfix 部署</code></pre>
+<h3>17.3 告警閾值</h3>
+<table>
+<tr><th>指標</th><th>告警條件</th><th>嚴重性</th><th>通知方式</th></tr>
+<tr><td>Availability</td><td>&lt; 99.75% 持續 30 分鐘</td><td>P1</td><td>PagerDuty + Slack #incident</td></tr>
+<tr><td>P99 REST</td><td>&gt; 400ms 持續 5 分鐘</td><td>P2</td><td>Slack #sre-alerts</td></tr>
+<tr><td>Error Rate</td><td>&gt; 0.05% 持續 10 分鐘</td><td>P2</td><td>Slack #sre-alerts</td></tr>
+<tr><td>IAP Circuit Breaker</td><td>state=open</td><td>P1</td><td>PagerDuty</td></tr>
+<tr><td>Error Budget 消耗</td><td>&gt; 50% / 月</td><td>P2</td><td>Slack #sre-alerts</td></tr>
+</table>
+<h3>17.4 監測工具</h3>
+<table>
+<tr><th>工具</th><th>用途</th></tr>
+<tr><td>Prometheus</td><td>Metrics 採集（<code>prom-client</code> Node.js SDK）</td></tr>
+<tr><td>Grafana</td><td>SLO Dashboard（§12.2 Prometheus Queries）</td></tr>
+<tr><td>Jaeger + OpenTelemetry</td><td>分散式追蹤（Span 命名見 ARCH §12.4）</td></tr>
+<tr><td>Loki</td><td>結構化 JSON Log 聚合</td></tr>
+<tr><td>PagerDuty</td><td>P1 On-Call 告警</td></tr>
+</table>
 <hr>
-<h2 id="18.-approval-sign-off">18. Approval Sign-off</h2>
-<table><tr><th>角色</th><th>姓名</th><th>審核日期</th><th>狀態</th></tr><tr><td>Backend Lead</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Security Engineer</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Product Manager</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr></table></main>
-</div>
-<script src="assets/app.js"></script>
+<h2>18. Approval Sign-off</h2>
+<table>
+<tr><th>角色</th><th>姓名</th><th>審核日期</th><th>狀態</th></tr>
+<tr><td>Backend Lead</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr>
+<tr><td>Security Engineer</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr>
+<tr><td>Product Manager</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr>
+</table></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
 </body>
 </html>

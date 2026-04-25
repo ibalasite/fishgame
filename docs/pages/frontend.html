@@ -3,126 +3,165 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>前端技術設計 — fishing-arcade-game</title>
+  <title>前端設計文件 — fishgame</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({startOnLoad:true,theme:'default'});
-  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
-<nav class="top-nav">
-  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
-  <div class="nav-controls">
-    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
-    
-    <div class="search-wrap">
-      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
-      <div class="search-results"></div>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
     </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 前端設計文件</p>
+    <h1 class="banner-title">前端設計文件</h1>
   </div>
-</nav>
-<div class="doc-page-banner">
-  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › 前端技術設計</div>
-  <h1 class="banner-title">前端技術設計</h1>
-  <p class="banner-desc">Cocos Creator Client</p>
-</div>
-<div class="page-wrapper">
-  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
 <a class="sidebar__link" href="index.html">🏠 首頁</a>
-<a class="sidebar__link" href="idea.html">💡 產品創意</a>
-<a class="sidebar__link" href="brd.html">📋 業務需求</a>
-<a class="sidebar__link" href="prd.html">📝 產品需求</a>
-<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
-<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
-<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
-<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
-<a class="sidebar__link" href="api.html">🔌 API 設計</a>
-<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
-<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
-<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
-<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
-<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
-<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
-<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
-<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link active" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
 <a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
-</div></nav>
-  <div class="sidebar-resizer" id="sidebarResizer"></div>
-  <main class="doc-content"><h1 id="frontend-—-前端技術設計文件-(fishing-arcade-game)">FRONTEND — 前端技術設計文件 (fishing-arcade-game)</h1>
-<p>
-<!-- 上游文件：PRD.md · EDD.md · ARCH.md · API.md · SCHEMA.md · PDD.md · VDD.md -->
-</p>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>FRONTEND — 前端技術設計文件 (fishing-arcade-game)</h1>
+<p>&lt;!-- 上游文件：PRD.md · EDD.md · ARCH.md · API.md · SCHEMA.md · PDD.md · VDD.md --&gt;</p>
 <hr>
-<h2 id="document-control">Document Control</h2>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>DOC-ID</strong></td><td>FRONTEND-FISHGAME-20260425</td></tr><tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr><tr><td><strong>文件版本</strong></td><td>v1.0</td></tr><tr><td><strong>狀態</strong></td><td>APPROVED</td></tr><tr><td><strong>作者</strong></td><td>Frontend Architect</td></tr><tr><td><strong>日期</strong></td><td>2026-04-25</td></tr><tr><td><strong>上游 EDD</strong></td><td><a href="EDD.md">EDD.md</a>（EDD-FISHGAME-20260424）</td></tr><tr><td><strong>上游 ARCH</strong></td><td><a href="ARCH.md">ARCH.md</a>（ARCH-FISHGAME-20260424）</td></tr><tr><td><strong>上游 API</strong></td><td><a href="API.md">API.md</a>（API-FISHGAME-20260424）</td></tr><tr><td><strong>上游 VDD</strong></td><td><a href="VDD.md">VDD.md</a>（VDD-FISHGAME-20260425）</td></tr><tr><td><strong>上游 PDD</strong></td><td><a href="PDD.md">PDD.md</a>（PDD-FISHGAME-20260425）</td></tr><tr><td><strong>審閱者</strong></td><td>Engineering Lead, Art Director, Game Designer Lead</td></tr><tr><td><strong>核准者</strong></td><td>CTO / Engineering Lead</td></tr></table>
+<h2>Document Control</h2>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>DOC-ID</strong></td><td>FRONTEND-FISHGAME-20260425</td></tr>
+<tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr>
+<tr><td><strong>文件版本</strong></td><td>v1.0</td></tr>
+<tr><td><strong>狀態</strong></td><td>APPROVED</td></tr>
+<tr><td><strong>作者</strong></td><td>Frontend Architect</td></tr>
+<tr><td><strong>日期</strong></td><td>2026-04-25</td></tr>
+<tr><td><strong>上游 EDD</strong></td><td><a href="EDD.md" target="_blank" rel="noopener">EDD.md</a>（EDD-FISHGAME-20260424）</td></tr>
+<tr><td><strong>上游 ARCH</strong></td><td><a href="ARCH.md" target="_blank" rel="noopener">ARCH.md</a>（ARCH-FISHGAME-20260424）</td></tr>
+<tr><td><strong>上游 API</strong></td><td><a href="API.md" target="_blank" rel="noopener">API.md</a>（API-FISHGAME-20260424）</td></tr>
+<tr><td><strong>上游 VDD</strong></td><td><a href="VDD.md" target="_blank" rel="noopener">VDD.md</a>（VDD-FISHGAME-20260425）</td></tr>
+<tr><td><strong>上游 PDD</strong></td><td><a href="PDD.md" target="_blank" rel="noopener">PDD.md</a>（PDD-FISHGAME-20260425）</td></tr>
+<tr><td><strong>審閱者</strong></td><td>Engineering Lead, Art Director, Game Designer Lead</td></tr>
+<tr><td><strong>核准者</strong></td><td>CTO / Engineering Lead</td></tr>
+</table>
 <hr>
-<h2 id="change-log">Change Log</h2>
-<table><tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr><tr><td>v1.0</td><td>2026-04-25</td><td>Frontend Architect</td><td>初稿，涵蓋全部章節</td></tr></table>
+<h2>Change Log</h2>
+<table>
+<tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr>
+<tr><td>v1.0</td><td>2026-04-25</td><td>Frontend Architect</td><td>初稿，涵蓋全部章節</td></tr>
+</table>
 <hr>
-<h2 id="目錄">目錄</h2>
+<h2>目錄</h2>
 <ol><li>概述與技術選型</li><li>專案架構</li><li>狀態管理</li><li>網路層設計</li><li>遊戲核心模組</li><li>UI/UX 實作</li><li>資源管理</li><li>效能最佳化</li><li>多平台支援</li><li>安全性</li><li>測試策略</li><li>關鍵技術決策（ADR）</li></ol>
-<p>
-Appendix A: API Response 型別定義
-Appendix B: Colyseus Schema 型別
-</p>
+<p>Appendix A: API Response 型別定義</p>
+<p>Appendix B: Colyseus Schema 型別</p>
 <hr>
-<h2 id="1.-概述與技術選型">1. 概述與技術選型</h2>
-<h3 id="1.1-前端框架選型">1.1 前端框架選型</h3>
-<p>
-<strong>核心技術棧：Cocos Creator 3.8 + TypeScript</strong>
-</p>
-<p>
-本專案客戶端採用 <strong>Cocos Creator 3.8</strong>（對應 EDD §3.3 技術棧表格，BRD 硬性約束），使用 <strong>TypeScript</strong> 作為主要開發語言（取代 Lua，提供更強的型別安全與 IDE 整合）。Cocos Creator 3.8 基於 GFX 抽象層支援 WebGL 2.0 / WebGPU，在移動端與 H5 WebGL 均有成熟的效能表現。
-</p>
-<table><tr><th>技術</th><th>版本</th><th>選型理由</th></tr><tr><td>Cocos Creator</td><td>3.8</td><td>BRD 硬性約束；跨平台（iOS/Android/H5）；WebGL 渲染效能優秀</td></tr><tr><td>TypeScript</td><td>5.4</td><td>型別安全；Colyseus SDK 官方支援；與伺服器端共享型別定義</td></tr><tr><td>Colyseus Client SDK</td><td>0.15</td><td>對應伺服器端 Colyseus 0.15；Delta State Sync；Room 管理</td></tr><tr><td>colyseus.js</td><td>0.15.x</td><td>瀏覽器/Node 相容；MIT 授權</td></tr></table>
-<p>
-<strong>技術選型對比</strong>
-</p>
-<table><tr><th>考量</th><th>Cocos Creator 3.8</th><th>Unity（排除）</th><th>Egret（排除）</th></tr><tr><td>跨平台 H5</td><td>原生支援，WebGL 渲染</td><td>需額外插件，體積大</td><td>支援但生態萎縮</td></tr><tr><td>TypeScript 整合</td><td>官方支援</td><td>C# 主語言</td><td>有限支援</td></tr><tr><td>亞洲市場滲透率</td><td>高（台灣/東南亞主流）</td><td>中（主要歐美）</td><td>低</td></tr><tr><td>社群與工具鏈</td><td>完善（3.x 版本活躍）</td><td>成熟但授權費高</td><td>社群萎縮</td></tr><tr><td>Bundle 大小（H5）</td><td>可控（< 5 MB 核心）</td><td>過大（> 20 MB）</td><td>中等</td></tr></table>
-<h3 id="1.2-開發環境與工具鏈">1.2 開發環境與工具鏈</h3>
-<p>
-<strong>本地開發環境需求</strong>
-</p>
-<table><tr><th>工具</th><th>版本</th><th>用途</th></tr><tr><td>Cocos Creator IDE</td><td>3.8.x</td><td>場景編輯、資源管理、預覽</td></tr><tr><td>Node.js</td><td>20 LTS</td><td>構建工具、腳本執行</td></tr><tr><td>TypeScript</td><td>5.4</td><td>程式碼編譯</td></tr><tr><td>VSCode</td><td>latest</td><td>程式碼編輯（官方 Cocos 插件）</td></tr><tr><td>Git LFS</td><td>3.x</td><td>二進位資源版本控制（紋理、音效）</td></tr></table>
-<p>
-<strong>構建流程</strong>
-</p>
-<pre><code>TypeScript 原始碼
-<p>
-↓ tsc（型別檢查）
+<h2>1. 概述與技術選型</h2>
+<h3>1.1 前端框架選型</h3>
+<p><strong>核心技術棧：Cocos Creator 3.8 + TypeScript</strong></p>
+<p>本專案客戶端採用 <strong>Cocos Creator 3.8</strong>（對應 EDD §3.3 技術棧表格，BRD 硬性約束），使用 <strong>TypeScript</strong> 作為主要開發語言（取代 Lua，提供更強的型別安全與 IDE 整合）。Cocos Creator 3.8 基於 GFX 抽象層支援 WebGL 2.0 / WebGPU，在移動端與 H5 WebGL 均有成熟的效能表現。</p>
+<table>
+<tr><th>技術</th><th>版本</th><th>選型理由</th></tr>
+<tr><td>Cocos Creator</td><td>3.8</td><td>BRD 硬性約束；跨平台（iOS/Android/H5）；WebGL 渲染效能優秀</td></tr>
+<tr><td>TypeScript</td><td>5.4</td><td>型別安全；Colyseus SDK 官方支援；與伺服器端共享型別定義</td></tr>
+<tr><td>Colyseus Client SDK</td><td>0.15</td><td>對應伺服器端 Colyseus 0.15；Delta State Sync；Room 管理</td></tr>
+<tr><td>colyseus.js</td><td>0.15.x</td><td>瀏覽器/Node 相容；MIT 授權</td></tr>
+</table>
+<p><strong>技術選型對比</strong></p>
+<table>
+<tr><th>考量</th><th>Cocos Creator 3.8</th><th>Unity（排除）</th><th>Egret（排除）</th></tr>
+<tr><td>跨平台 H5</td><td>原生支援，WebGL 渲染</td><td>需額外插件，體積大</td><td>支援但生態萎縮</td></tr>
+<tr><td>TypeScript 整合</td><td>官方支援</td><td>C# 主語言</td><td>有限支援</td></tr>
+<tr><td>亞洲市場滲透率</td><td>高（台灣/東南亞主流）</td><td>中（主要歐美）</td><td>低</td></tr>
+<tr><td>社群與工具鏈</td><td>完善（3.x 版本活躍）</td><td>成熟但授權費高</td><td>社群萎縮</td></tr>
+<tr><td>Bundle 大小（H5）</td><td>可控（&lt; 5 MB 核心）</td><td>過大（&gt; 20 MB）</td><td>中等</td></tr>
+</table>
+<h3>1.2 開發環境與工具鏈</h3>
+<p><strong>本地開發環境需求</strong></p>
+<table>
+<tr><th>工具</th><th>版本</th><th>用途</th></tr>
+<tr><td>Cocos Creator IDE</td><td>3.8.x</td><td>場景編輯、資源管理、預覽</td></tr>
+<tr><td>Node.js</td><td>20 LTS</td><td>構建工具、腳本執行</td></tr>
+<tr><td>TypeScript</td><td>5.4</td><td>程式碼編譯</td></tr>
+<tr><td>VSCode</td><td>latest</td><td>程式碼編輯（官方 Cocos 插件）</td></tr>
+<tr><td>Git LFS</td><td>3.x</td><td>二進位資源版本控制（紋理、音效）</td></tr>
+</table>
+<p><strong>構建流程</strong></p>
+<pre><code class="">TypeScript 原始碼
+    ↓ tsc（型別檢查）
 Cocos Creator 構建系統
-↓ esbuild（JS 打包）
-↓ 資源壓縮（紋理：ASTC/ETC2；音效：MP3/OGG）
+    ↓ esbuild（JS 打包）
+    ↓ 資源壓縮（紋理：ASTC/ETC2；音效：MP3/OGG）
 目標平台產物：
-├── web-mobile/     (H5 WebGL)
-├── ios/            (Xcode 專案)
-└── android/        (Gradle 專案)
-</code></pre>
-</p>
-<p>
-<strong>開發指令（package.json scripts）</strong>
-</p>
+    ├── web-mobile/     (H5 WebGL)
+    ├── ios/            (Xcode 專案)
+    └── android/        (Gradle 專案)</code></pre>
+<p><strong>開發指令（package.json scripts）</strong></p>
 <pre><code class="language-json">{
-<p>
-&quot;scripts&quot;: {
-&quot;dev&quot;: &quot;cocos build --platform web-mobile --debug&quot;,
-&quot;build:h5&quot;: &quot;cocos build --platform web-mobile --release&quot;,
-&quot;build:ios&quot;: &quot;cocos build --platform ios --release&quot;,
-&quot;build:android&quot;: &quot;cocos build --platform android --release&quot;,
-&quot;type-check&quot;: &quot;tsc --noEmit&quot;,
-&quot;lint&quot;: &quot;eslint &#x27;assets/scripts/<em>*/</em>.ts&#x27;&quot;,
-&quot;test&quot;: &quot;jest --config jest.config.ts&quot;,
-&quot;test:coverage&quot;: &quot;jest --coverage&quot;
-}
-}
-</code></pre>
-</p>
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;cocos build --platform web-mobile --debug&quot;,
+    &quot;build:h5&quot;: &quot;cocos build --platform web-mobile --release&quot;,
+    &quot;build:ios&quot;: &quot;cocos build --platform ios --release&quot;,
+    &quot;build:android&quot;: &quot;cocos build --platform android --release&quot;,
+    &quot;type-check&quot;: &quot;tsc --noEmit&quot;,
+    &quot;lint&quot;: &quot;eslint &#x27;assets/scripts/**/*.ts&#x27;&quot;,
+    &quot;test&quot;: &quot;jest --config jest.config.ts&quot;,
+    &quot;test:coverage&quot;: &quot;jest --coverage&quot;
+  }
+}</code></pre>
 <hr>
-<h2 id="2.-專案架構">2. 專案架構</h2>
-<h3 id="2.1-目錄結構">2.1 目錄結構</h3>
-<pre><code>assets/
-<p>
+<h2>2. 專案架構</h2>
+<h3>2.1 目錄結構</h3>
+<pre><code class="">assets/
 ├── scripts/
 │   ├── game/                       # 核心遊戲邏輯
 │   │   ├── systems/
@@ -219,13 +258,10 @@ Cocos Creator 構建系統
 │   ├── shop/                       # 商城 Bundle（商城資源）
 │   └── vip/                        # VIP Bundle（VIP 相關資源）
 └── resources/                      # 動態載入資源（runtime loadDir）
-├── fish-configs/               # 魚類設定 JSON
-└── weapon-configs/             # 武器設定 JSON
-</code></pre>
-</p>
-<h3 id="2.2-模組分層架構">2.2 模組分層架構</h3>
-<pre><code>┌──────────────────────────────────────────────────────────┐
-<p>
+    ├── fish-configs/               # 魚類設定 JSON
+    └── weapon-configs/             # 武器設定 JSON</code></pre>
+<h3>2.2 模組分層架構</h3>
+<pre><code class="">┌──────────────────────────────────────────────────────────┐
 │  Presentation Layer（Cocos Creator Node Components）      │
 │  Scene Components / UI Components / HUD Components        │
 │  → 只處理渲染和用戶輸入；不含業務邏輯                      │
@@ -244,2421 +280,2106 @@ Cocos Creator 構建系統
 │  ColyseusClient / HttpClient / StorageUtils / AudioManager│
 │  → 封裝外部依賴；對上層提供穩定的 Interface               │
 └──────────────────────────────────────────────────────────┘
-</p>
-<p>
+
 依賴方向：Presentation → Application → Domain ← Infrastructure
 禁止：Infrastructure 直接呼叫 Presentation
-禁止：Domain Layer import Cocos 模組
-</code></pre>
-</p>
-<h3 id="2.3-scene-架構-(cocos-creator)">2.3 Scene 架構 (Cocos Creator)</h3>
-<p>
-<strong>Scene 生命週期與切換策略</strong>
-</p>
+禁止：Domain Layer import Cocos 模組</code></pre>
+<h3>2.3 Scene 架構 (Cocos Creator)</h3>
+<p><strong>Scene 生命週期與切換策略</strong></p>
 <pre><code class="language-typescript">// Scene 切換統一透過 SceneManager 處理
-<p>
 enum GameScene {
-LOADING = &#x27;LoadingScene&#x27;,
-LOGIN = &#x27;LoginScene&#x27;,
-ONBOARDING = &#x27;OnboardingScene&#x27;,
-LOBBY = &#x27;LobbyScene&#x27;,
-CANNON_SELECT = &#x27;CannonSelectScene&#x27;,
-MATCHMAKING = &#x27;MatchmakingScene&#x27;,
-GAME = &#x27;GameScene&#x27;,
-SETTLEMENT = &#x27;SettlementScene&#x27;,
+  LOADING = &#x27;LoadingScene&#x27;,
+  LOGIN = &#x27;LoginScene&#x27;,
+  ONBOARDING = &#x27;OnboardingScene&#x27;,
+  LOBBY = &#x27;LobbyScene&#x27;,
+  CANNON_SELECT = &#x27;CannonSelectScene&#x27;,
+  MATCHMAKING = &#x27;MatchmakingScene&#x27;,
+  GAME = &#x27;GameScene&#x27;,
+  SETTLEMENT = &#x27;SettlementScene&#x27;,
 }
-</p>
-<p>
+
 class SceneManager {
-static async loadScene(scene: GameScene, additive = false): Promise&lt;void&gt;
-static async preloadScene(scene: GameScene): Promise&lt;void&gt;
-static unloadScene(scene: GameScene): void
-}
-</code></pre>
-</p>
-<p>
-<strong>Scene 轉換圖</strong>
-</p>
-<pre><code>LoadingScene
-<p>
-↓ (資源預載完成)
+  static async loadScene(scene: GameScene, additive = false): Promise&lt;void&gt;
+  static async preloadScene(scene: GameScene): Promise&lt;void&gt;
+  static unloadScene(scene: GameScene): void
+}</code></pre>
+<p><strong>Scene 轉換圖</strong></p>
+<pre><code class="">LoadingScene
+    ↓ (資源預載完成)
 LoginScene ←→ OnboardingScene（首次登入）
-↓ (登入成功)
+    ↓ (登入成功)
 LobbyScene
-↓ (選擇房間)
+    ↓ (選擇房間)
 CannonSelectScene
-↓ (確認武器)
+    ↓ (確認武器)
 MatchmakingScene
-↓ (配對成功)
+    ↓ (配對成功)
 GameScene
-↓ (局結束)
+    ↓ (局結束)
 SettlementScene
-↓ (確認結算)
-LobbyScene
-</code></pre>
-</p>
-<p>
-<strong>常駐 Canvas 節點（跨 Scene 持久化）</strong>
-</p>
-<pre><code>PersistentCanvas/
-<p>
+    ↓ (確認結算)
+LobbyScene</code></pre>
+<p><strong>常駐 Canvas 節點（跨 Scene 持久化）</strong></p>
+<pre><code class="">PersistentCanvas/
 ├── NetworkManager（全局網路狀態）
 ├── AudioManager（BGM 跨場景持續播放）
 ├── ToastLayer（全局 Toast 通知）
-└── LoadingLayer（全局 Loading 遮罩）
-</code></pre>
-</p>
+└── LoadingLayer（全局 Loading 遮罩）</code></pre>
 <hr>
-<h2 id="3.-狀態管理">3. 狀態管理</h2>
-<h3 id="3.1-狀態分層">3.1 狀態分層</h3>
-<p>
-遊戲前端狀態按照生命週期與職責分為四層：
-</p>
-<table><tr><th>層次</th><th>類型</th><th>管理者</th><th>說明</th></tr><tr><td><strong>Server State</strong></td><td>Colyseus Room Schema</td><td>ColyseusClient</td><td>權威狀態；伺服器推送；唯讀</td></tr><tr><td><strong>Local Game State</strong></td><td>GameController 內部狀態</td><td>GameController</td><td>本地預測；等待伺服器確認</td></tr><tr><td><strong>UI State</strong></td><td>各 UI Component 內部</td><td>UIController</td><td>面板開關、動畫狀態</td></tr><tr><td><strong>Persistent State</strong></td><td>LocalStorage</td><td>StorageUtils</td><td>玩家偏好（音效、語言）</td></tr></table>
-<p>
-<strong>狀態更新原則（Server-Authoritative，對應 EDD §3.2 ADR-003）</strong>
-</p>
+<h2>3. 狀態管理</h2>
+<h3>3.1 狀態分層</h3>
+<p>遊戲前端狀態按照生命週期與職責分為四層：</p>
+<table>
+<tr><th>層次</th><th>類型</th><th>管理者</th><th>說明</th></tr>
+<tr><td><strong>Server State</strong></td><td>Colyseus Room Schema</td><td>ColyseusClient</td><td>權威狀態；伺服器推送；唯讀</td></tr>
+<tr><td><strong>Local Game State</strong></td><td>GameController 內部狀態</td><td>GameController</td><td>本地預測；等待伺服器確認</td></tr>
+<tr><td><strong>UI State</strong></td><td>各 UI Component 內部</td><td>UIController</td><td>面板開關、動畫狀態</td></tr>
+<tr><td><strong>Persistent State</strong></td><td>LocalStorage</td><td>StorageUtils</td><td>玩家偏好（音效、語言）</td></tr>
+</table>
+<p><strong>狀態更新原則（Server-Authoritative，對應 EDD §3.2 ADR-003）</strong></p>
 <pre><code class="language-typescript">// 正確模式：本地 UI 樂觀更新 → 等待伺服器確認 → 如不一致則回滾
-<p>
 class ShootingSystem {
-shoot(targetFishId?: string): void {
-// 1. 立即播放本地射擊動畫（樂觀更新）
-this.playLocalShootAnimation();
-// 2. 發送至伺服器（Server-Authoritative 命中判定）
-this.networkManager.send(&#x27;shoot&#x27;, { targetFishId });
-// 3. 等待 fish_died / fish_hit 伺服器事件確認
-// 4. 伺服器回應後觸發金幣獎勵動畫
-}
-}
-</code></pre>
-</p>
-<h3 id="3.2-colyseus-狀態同步">3.2 Colyseus 狀態同步</h3>
-<p>
-Colyseus Delta State Sync 機制確保只傳輸變更部分，節省 40-60% 帶寬（EDD ADR-001）。
-</p>
-<p>
-<strong>Client-side Schema 鏡像</strong>
-</p>
+  shoot(targetFishId?: string): void {
+    // 1. 立即播放本地射擊動畫（樂觀更新）
+    this.playLocalShootAnimation();
+    // 2. 發送至伺服器（Server-Authoritative 命中判定）
+    this.networkManager.send(&#x27;shoot&#x27;, { targetFishId });
+    // 3. 等待 fish_died / fish_hit 伺服器事件確認
+    // 4. 伺服器回應後觸發金幣獎勵動畫
+  }
+}</code></pre>
+<h3>3.2 Colyseus 狀態同步</h3>
+<p>Colyseus Delta State Sync 機制確保只傳輸變更部分，節省 40-60% 帶寬（EDD ADR-001）。</p>
+<p><strong>Client-side Schema 鏡像</strong></p>
 <pre><code class="language-typescript">import { Schema, MapSchema, ArraySchema, type } from &#x27;@colyseus/schema&#x27;;
-<p>
+
 class PlayerState extends Schema {
-@type(&#x27;string&#x27;)  id: string;
-@type(&#x27;string&#x27;)  nickname: string;
-@type(&#x27;uint32&#x27;)  level: number;
-@type(&#x27;int64&#x27;)   coins: number;
-@type(&#x27;int64&#x27;)   diamonds: number;
-@type(&#x27;uint8&#x27;)   weaponLevel: number;
-@type(&#x27;uint8&#x27;)   weaponType: number;
-@type(&#x27;uint8&#x27;)   vipTier: number;
-@type(&#x27;int32&#x27;)   score: number;       // 本局得分（排名依據）
-@type(&#x27;boolean&#x27;) isConnected: boolean;
+  @type(&#x27;string&#x27;)  id: string;
+  @type(&#x27;string&#x27;)  nickname: string;
+  @type(&#x27;uint32&#x27;)  level: number;
+  @type(&#x27;int64&#x27;)   coins: number;
+  @type(&#x27;int64&#x27;)   diamonds: number;
+  @type(&#x27;uint8&#x27;)   weaponLevel: number;
+  @type(&#x27;uint8&#x27;)   weaponType: number;
+  @type(&#x27;uint8&#x27;)   vipTier: number;
+  @type(&#x27;int32&#x27;)   score: number;       // 本局得分（排名依據）
+  @type(&#x27;boolean&#x27;) isConnected: boolean;
 }
-</p>
-<p>
+
 class FishState extends Schema {
-@type(&#x27;string&#x27;)  id: string;
-@type(&#x27;uint8&#x27;)   fishType: number;    // 0=普通, 1=精英, 2=Boss
-@type(&#x27;float32&#x27;) x: number;
-@type(&#x27;float32&#x27;) y: number;
-@type(&#x27;uint32&#x27;)  hp: number;
-@type(&#x27;uint32&#x27;)  maxHp: number;
-@type(&#x27;uint8&#x27;)   status: number;      // 0=active, 1=dying, 2=dead
-@type(&#x27;float32&#x27;) speed: number;
-@type(&#x27;uint16&#x27;)  multiplier: number;  // 基礎倍率
+  @type(&#x27;string&#x27;)  id: string;
+  @type(&#x27;uint8&#x27;)   fishType: number;    // 0=普通, 1=精英, 2=Boss
+  @type(&#x27;float32&#x27;) x: number;
+  @type(&#x27;float32&#x27;) y: number;
+  @type(&#x27;uint32&#x27;)  hp: number;
+  @type(&#x27;uint32&#x27;)  maxHp: number;
+  @type(&#x27;uint8&#x27;)   status: number;      // 0=active, 1=dying, 2=dead
+  @type(&#x27;float32&#x27;) speed: number;
+  @type(&#x27;uint16&#x27;)  multiplier: number;  // 基礎倍率
 }
-</p>
-<p>
+
 class BulletState extends Schema {
-@type(&#x27;string&#x27;)  id: string;
-@type(&#x27;string&#x27;)  ownerId: string;
-@type(&#x27;float32&#x27;) x: number;
-@type(&#x27;float32&#x27;) y: number;
-@type(&#x27;uint8&#x27;)   weaponType: number;
+  @type(&#x27;string&#x27;)  id: string;
+  @type(&#x27;string&#x27;)  ownerId: string;
+  @type(&#x27;float32&#x27;) x: number;
+  @type(&#x27;float32&#x27;) y: number;
+  @type(&#x27;uint8&#x27;)   weaponType: number;
 }
-</p>
-<p>
+
 class GameRoomState extends Schema {
-@type({ map: PlayerState })   players  = new MapSchema&lt;PlayerState&gt;();
-@type({ array: FishState })   fishes   = new ArraySchema&lt;FishState&gt;();
-@type({ array: BulletState }) bullets  = new ArraySchema&lt;BulletState&gt;();
-@type(&#x27;string&#x27;)               roomStatus: string;   // &#x27;waiting&#x27;|&#x27;playing&#x27;|&#x27;ending&#x27;
-@type(&#x27;int64&#x27;)                jackpotPool: number;
-@type(&#x27;uint32&#x27;)               timeRemaining: number; // 秒數
-@type(&#x27;string&#x27;)               currentMvpId: string;
-}
-</code></pre>
-</p>
-<p>
-<strong>狀態變更監聽模式</strong>
-</p>
+  @type({ map: PlayerState })   players  = new MapSchema&lt;PlayerState&gt;();
+  @type({ array: FishState })   fishes   = new ArraySchema&lt;FishState&gt;();
+  @type({ array: BulletState }) bullets  = new ArraySchema&lt;BulletState&gt;();
+  @type(&#x27;string&#x27;)               roomStatus: string;   // &#x27;waiting&#x27;|&#x27;playing&#x27;|&#x27;ending&#x27;
+  @type(&#x27;int64&#x27;)                jackpotPool: number;
+  @type(&#x27;uint32&#x27;)               timeRemaining: number; // 秒數
+  @type(&#x27;string&#x27;)               currentMvpId: string;
+}</code></pre>
+<p><strong>狀態變更監聽模式</strong></p>
 <pre><code class="language-typescript">class FishSystem {
-<p>
-setupStateListeners(room: Room&lt;GameRoomState&gt;): void {
-// 魚新增（新魚出現）
-room.state.fishes.onAdd = (fish: FishState, key: string) =&gt; {
-const node = this.fishPoolManager.acquire(fish.fishType);
-node.setWorldPosition(fish.x, fish.y, 0);
-this.fishNodeMap.set(fish.id, node);
-this.playFishSpawnAnimation(node, fish.fishType);
-};
-</p>
-<p>
-// 魚移除（死亡後清除）
-room.state.fishes.onRemove = (fish: FishState, key: string) =&gt; {
-const node = this.fishNodeMap.get(fish.id);
-if (node) {
-this.fishPoolManager.release(node);
-this.fishNodeMap.delete(fish.id);
-}
-};
-</p>
-<p>
-// 魚狀態變更（HP 變化）
-room.state.fishes.onChange = (fish: FishState, changes) =&gt; {
-const node = this.fishNodeMap.get(fish.id);
-if (!node) return;
-changes.forEach(change =&gt; {
-if (change.field === &#x27;hp&#x27;) {
-this.updateFishHPBar(node, fish.hp, fish.maxHp);
-}
-if (change.field === &#x27;status&#x27; &amp;&amp; fish.status === 1) {
-this.playFishDyingAnimation(node, fish);
-}
-});
-};
-</p>
-<p>
-// Jackpot 池變更
-room.state.onChange = (changes) =&gt; {
-changes.forEach(change =&gt; {
-if (change.field === &#x27;jackpotPool&#x27;) {
-this.hudComponent.updateJackpotBar(change.value);
-}
-});
-};
-}
-}
-</code></pre>
-</p>
-<h3 id="3.3-本地-ui-狀態">3.3 本地 UI 狀態</h3>
-<p>
-UI 狀態採用輕量的 TypeScript 類別管理，不引入外部狀態庫（保持 Cocos 構建體積可控）：
-</p>
+  setupStateListeners(room: Room&lt;GameRoomState&gt;): void {
+    // 魚新增（新魚出現）
+    room.state.fishes.onAdd = (fish: FishState, key: string) =&gt; {
+      const node = this.fishPoolManager.acquire(fish.fishType);
+      node.setWorldPosition(fish.x, fish.y, 0);
+      this.fishNodeMap.set(fish.id, node);
+      this.playFishSpawnAnimation(node, fish.fishType);
+    };
+
+    // 魚移除（死亡後清除）
+    room.state.fishes.onRemove = (fish: FishState, key: string) =&gt; {
+      const node = this.fishNodeMap.get(fish.id);
+      if (node) {
+        this.fishPoolManager.release(node);
+        this.fishNodeMap.delete(fish.id);
+      }
+    };
+
+    // 魚狀態變更（HP 變化）
+    room.state.fishes.onChange = (fish: FishState, changes) =&gt; {
+      const node = this.fishNodeMap.get(fish.id);
+      if (!node) return;
+      changes.forEach(change =&gt; {
+        if (change.field === &#x27;hp&#x27;) {
+          this.updateFishHPBar(node, fish.hp, fish.maxHp);
+        }
+        if (change.field === &#x27;status&#x27; &amp;&amp; fish.status === 1) {
+          this.playFishDyingAnimation(node, fish);
+        }
+      });
+    };
+
+    // Jackpot 池變更
+    room.state.onChange = (changes) =&gt; {
+      changes.forEach(change =&gt; {
+        if (change.field === &#x27;jackpotPool&#x27;) {
+          this.hudComponent.updateJackpotBar(change.value);
+        }
+      });
+    };
+  }
+}</code></pre>
+<h3>3.3 本地 UI 狀態</h3>
+<p>UI 狀態採用輕量的 TypeScript 類別管理，不引入外部狀態庫（保持 Cocos 構建體積可控）：</p>
 <pre><code class="language-typescript">// UIStateStore：集中管理 UI 狀態
-<p>
 class UIStateStore {
-private static instance: UIStateStore;
-</p>
-<p>
-// Dialog 開關狀態
-shopDialogOpen = false;
-settingsDialogOpen = false;
-confirmDialogOpen = false;
-</p>
-<p>
-// HUD 狀態
-playerGold = 0;
-playerDiamonds = 0;
-currentRank = 1;
-localScore = 0;
-</p>
-<p>
-// 技能冷卻（本地計時，伺服器確認）
-skillCooldowns: Map&lt;SkillType, number&gt; = new Map();
-</p>
-<p>
-static getInstance(): UIStateStore {
-if (!this.instance) this.instance = new UIStateStore();
-return this.instance;
-}
-</p>
-<p>
-// 簡易訂閱機制（取代 Redux/MobX）
-private listeners: Map&lt;string, Set&lt;() =&gt; void&gt;&gt; = new Map();
-subscribe(key: string, fn: () =&gt; void): () =&gt; void { /<em> ... </em>/ }
-notify(key: string): void { /<em> ... </em>/ }
-}
-</code></pre>
-</p>
+  private static instance: UIStateStore;
+
+  // Dialog 開關狀態
+  shopDialogOpen = false;
+  settingsDialogOpen = false;
+  confirmDialogOpen = false;
+
+  // HUD 狀態
+  playerGold = 0;
+  playerDiamonds = 0;
+  currentRank = 1;
+  localScore = 0;
+
+  // 技能冷卻（本地計時，伺服器確認）
+  skillCooldowns: Map&lt;SkillType, number&gt; = new Map();
+
+  static getInstance(): UIStateStore {
+    if (!this.instance) this.instance = new UIStateStore();
+    return this.instance;
+  }
+
+  // 簡易訂閱機制（取代 Redux/MobX）
+  private listeners: Map&lt;string, Set&lt;() =&gt; void&gt;&gt; = new Map();
+  subscribe(key: string, fn: () =&gt; void): () =&gt; void { /* ... */ }
+  notify(key: string): void { /* ... */ }
+}</code></pre>
 <hr>
-<h2 id="4.-網路層設計">4. 網路層設計</h2>
-<h3 id="4.1-websocket-連線管理">4.1 WebSocket 連線管理</h3>
+<h2>4. 網路層設計</h2>
+<h3>4.1 WebSocket 連線管理</h3>
 <pre><code class="language-typescript">class NetworkManager {
-<p>
-private colyseusClient: Client;
-private currentRoom: Room&lt;GameRoomState&gt; | null = null;
-private reconnectAttempts = 0;
-private readonly MAX_RECONNECT_ATTEMPTS = 5;
-private readonly RECONNECT_DELAY_MS = [1000, 2000, 4000, 8000, 16000];
-</p>
-<p>
-// 連線狀態機
-private connectionState: &#x27;disconnected&#x27; | &#x27;connecting&#x27; | &#x27;connected&#x27; | &#x27;reconnecting&#x27; = &#x27;disconnected&#x27;;
-</p>
-<p>
-constructor() {
-this.colyseusClient = new Client(API_CONSTANTS.COLYSEUS_WS_URL);
-}
-</p>
-<p>
-async connect(token: string): Promise&lt;void&gt; {
-this.connectionState = &#x27;connecting&#x27;;
-this.colyseusClient = new Client(API_CONSTANTS.COLYSEUS_WS_URL);
-// token 透過 Room join options 傳遞，不在 WebSocket URL 中暴露
-}
-</p>
-<p>
-getConnectionState(): string {
-return this.connectionState;
-}
-}
-</code></pre>
-</p>
-<h3 id="4.2-colyseus-room-api">4.2 Colyseus Room API</h3>
-<p>
-<strong>Room 連線與基礎用法</strong>
-</p>
+  private colyseusClient: Client;
+  private currentRoom: Room&lt;GameRoomState&gt; | null = null;
+  private reconnectAttempts = 0;
+  private readonly MAX_RECONNECT_ATTEMPTS = 5;
+  private readonly RECONNECT_DELAY_MS = [1000, 2000, 4000, 8000, 16000];
+
+  // 連線狀態機
+  private connectionState: &#x27;disconnected&#x27; | &#x27;connecting&#x27; | &#x27;connected&#x27; | &#x27;reconnecting&#x27; = &#x27;disconnected&#x27;;
+
+  constructor() {
+    this.colyseusClient = new Client(API_CONSTANTS.COLYSEUS_WS_URL);
+  }
+
+  async connect(token: string): Promise&lt;void&gt; {
+    this.connectionState = &#x27;connecting&#x27;;
+    this.colyseusClient = new Client(API_CONSTANTS.COLYSEUS_WS_URL);
+    // token 透過 Room join options 傳遞，不在 WebSocket URL 中暴露
+  }
+
+  getConnectionState(): string {
+    return this.connectionState;
+  }
+}</code></pre>
+<h3>4.2 Colyseus Room API</h3>
+<p><strong>Room 連線與基礎用法</strong></p>
 <pre><code class="language-typescript">import { Client, Room } from &#x27;colyseus.js&#x27;;
-<p>
 import { GameRoomState } from &#x27;../data/schemas/GameRoomSchema&#x27;;
-</p>
-<p>
+
 class ColyseusClient {
-private client: Client;
-private room: Room&lt;GameRoomState&gt; | null = null;
-</p>
-<p>
-constructor() {
-this.client = new Client(API_CONSTANTS.COLYSEUS_WS_URL);
-// API_CONSTANTS.COLYSEUS_WS_URL = &#x27;wss://game.fishing-arcade-game.com&#x27;
-}
-</p>
-<p>
-async joinOrCreateRoom(
-roomType: &#x27;normal&#x27; | &#x27;vip&#x27; | &#x27;high_roller&#x27;,
-authToken: string
-): Promise&lt;Room&lt;GameRoomState&gt;&gt; {
-this.room = await this.client.joinOrCreate&lt;GameRoomState&gt;(&#x27;game_room&#x27;, {
-roomType,
-token: authToken,
-});
-</p>
-<p>
-this.setupRoomListeners(this.room);
-return this.room;
-}
-</p>
-<p>
-// 射擊指令（Server-Authoritative：命中由伺服器判定）
-sendShoot(weaponType: WeaponType, targetFishId?: string): void {
-if (!this.room) return;
-this.room.send(&#x27;shoot&#x27;, {
-weaponType,
-targetFishId: targetFishId ?? null,
-});
-}
-</p>
-<p>
-// 技能觸發
-sendSkillActivate(skillType: SkillType): void {
-if (!this.room) return;
-this.room.send(&#x27;skill_activate&#x27;, { skillType });
-}
-</p>
-<p>
-// 武器切換
-sendWeaponSwitch(weaponType: WeaponType, weaponLevel: number): void {
-if (!this.room) return;
-this.room.send(&#x27;weapon_switch&#x27;, { weaponType, weaponLevel });
-}
-</p>
-<p>
-private setupRoomListeners(room: Room&lt;GameRoomState&gt;): void {
-// 魚死亡（含金幣獎勵）
-room.onMessage(&#x27;fish_died&#x27;, (data: FishDiedMessage) =&gt; {
-EventBus.emit(&#x27;FISH_DIED&#x27;, data);
-});
-</p>
-<p>
-// Jackpot 觸發
-room.onMessage(&#x27;jackpot_trigger&#x27;, (data: JackpotTriggerMessage) =&gt; {
-EventBus.emit(&#x27;JACKPOT_TRIGGERED&#x27;, data);
-});
-</p>
-<p>
-// MVP 更新
-room.onMessage(&#x27;mvp_update&#x27;, (data: MVPUpdateMessage) =&gt; {
-EventBus.emit(&#x27;MVP_UPDATED&#x27;, data);
-});
-</p>
-<p>
-// Boss 進場
-room.onMessage(&#x27;boss_spawn&#x27;, (data: BossSpawnMessage) =&gt; {
-EventBus.emit(&#x27;BOSS_SPAWNED&#x27;, data);
-});
-</p>
-<p>
-// 冰凍技能生效
-room.onMessage(&#x27;skill_freeze&#x27;, (data: SkillFreezeMessage) =&gt; {
-EventBus.emit(&#x27;SKILL_FREEZE&#x27;, data);
-});
-</p>
-<p>
-// 全屏炸彈生效
-room.onMessage(&#x27;skill_bomb&#x27;, (data: SkillBombMessage) =&gt; {
-EventBus.emit(&#x27;SKILL_BOMB&#x27;, data);
-});
-</p>
-<p>
-// 遊戲結束
-room.onMessage(&#x27;game_end&#x27;, (data: GameEndMessage) =&gt; {
-EventBus.emit(&#x27;GAME_ENDED&#x27;, data);
-});
-</p>
-<p>
-// 連線錯誤
-room.onError((code, message) =&gt; {
-console.error(<code>[ColyseusClient] Room error ${code}: ${message}</code>);
-EventBus.emit(&#x27;ROOM_ERROR&#x27;, { code, message });
-});
-</p>
-<p>
-// 房間離開
-room.onLeave((code) =&gt; {
-console.log(<code>[ColyseusClient] Left room with code: ${code}</code>);
-EventBus.emit(&#x27;ROOM_LEFT&#x27;, { code });
-});
-}
-}
-</code></pre>
-</p>
-<h3 id="4.3-http-rest-api-整合">4.3 HTTP REST API 整合</h3>
+  private client: Client;
+  private room: Room&lt;GameRoomState&gt; | null = null;
+
+  constructor() {
+    this.client = new Client(API_CONSTANTS.COLYSEUS_WS_URL);
+    // API_CONSTANTS.COLYSEUS_WS_URL = &#x27;wss://game.fishing-arcade-game.com&#x27;
+  }
+
+  async joinOrCreateRoom(
+    roomType: &#x27;normal&#x27; | &#x27;vip&#x27; | &#x27;high_roller&#x27;,
+    authToken: string
+  ): Promise&lt;Room&lt;GameRoomState&gt;&gt; {
+    this.room = await this.client.joinOrCreate&lt;GameRoomState&gt;(&#x27;game_room&#x27;, {
+      roomType,
+      token: authToken,
+    });
+
+    this.setupRoomListeners(this.room);
+    return this.room;
+  }
+
+  // 射擊指令（Server-Authoritative：命中由伺服器判定）
+  sendShoot(weaponType: WeaponType, targetFishId?: string): void {
+    if (!this.room) return;
+    this.room.send(&#x27;shoot&#x27;, {
+      weaponType,
+      targetFishId: targetFishId ?? null,
+    });
+  }
+
+  // 技能觸發
+  sendSkillActivate(skillType: SkillType): void {
+    if (!this.room) return;
+    this.room.send(&#x27;skill_activate&#x27;, { skillType });
+  }
+
+  // 武器切換
+  sendWeaponSwitch(weaponType: WeaponType, weaponLevel: number): void {
+    if (!this.room) return;
+    this.room.send(&#x27;weapon_switch&#x27;, { weaponType, weaponLevel });
+  }
+
+  private setupRoomListeners(room: Room&lt;GameRoomState&gt;): void {
+    // 魚死亡（含金幣獎勵）
+    room.onMessage(&#x27;fish_died&#x27;, (data: FishDiedMessage) =&gt; {
+      EventBus.emit(&#x27;FISH_DIED&#x27;, data);
+    });
+
+    // Jackpot 觸發
+    room.onMessage(&#x27;jackpot_trigger&#x27;, (data: JackpotTriggerMessage) =&gt; {
+      EventBus.emit(&#x27;JACKPOT_TRIGGERED&#x27;, data);
+    });
+
+    // MVP 更新
+    room.onMessage(&#x27;mvp_update&#x27;, (data: MVPUpdateMessage) =&gt; {
+      EventBus.emit(&#x27;MVP_UPDATED&#x27;, data);
+    });
+
+    // Boss 進場
+    room.onMessage(&#x27;boss_spawn&#x27;, (data: BossSpawnMessage) =&gt; {
+      EventBus.emit(&#x27;BOSS_SPAWNED&#x27;, data);
+    });
+
+    // 冰凍技能生效
+    room.onMessage(&#x27;skill_freeze&#x27;, (data: SkillFreezeMessage) =&gt; {
+      EventBus.emit(&#x27;SKILL_FREEZE&#x27;, data);
+    });
+
+    // 全屏炸彈生效
+    room.onMessage(&#x27;skill_bomb&#x27;, (data: SkillBombMessage) =&gt; {
+      EventBus.emit(&#x27;SKILL_BOMB&#x27;, data);
+    });
+
+    // 遊戲結束
+    room.onMessage(&#x27;game_end&#x27;, (data: GameEndMessage) =&gt; {
+      EventBus.emit(&#x27;GAME_ENDED&#x27;, data);
+    });
+
+    // 連線錯誤
+    room.onError((code, message) =&gt; {
+      console.error(`[ColyseusClient] Room error ${code}: ${message}`);
+      EventBus.emit(&#x27;ROOM_ERROR&#x27;, { code, message });
+    });
+
+    // 房間離開
+    room.onLeave((code) =&gt; {
+      console.log(`[ColyseusClient] Left room with code: ${code}`);
+      EventBus.emit(&#x27;ROOM_LEFT&#x27;, { code });
+    });
+  }
+}</code></pre>
+<h3>4.3 HTTP REST API 整合</h3>
 <pre><code class="language-typescript">class HttpClient {
-<p>
-private readonly baseUrl: string;
-private accessToken: string | null = null;
-</p>
-<p>
-constructor() {
-this.baseUrl = API_CONSTANTS.REST_BASE_URL;
-// API_CONSTANTS.REST_BASE_URL = &#x27;https://api.fishing-arcade-game.com/v1&#x27;
-}
-</p>
-<p>
-setAccessToken(token: string): void {
-this.accessToken = token;
-}
-</p>
-<p>
-private async request&lt;T&gt;(
-method: string,
-path: string,
-body?: unknown
-): Promise&lt;T&gt; {
-const headers: Record&lt;string, string&gt; = {
-&#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
-};
-if (this.accessToken) {
-headers[&#x27;Authorization&#x27;] = <code>Bearer ${this.accessToken}</code>;
-}
-</p>
-<p>
-const response = await fetch(<code>${this.baseUrl}${path}</code>, {
-method,
-headers,
-body: body ? JSON.stringify(body) : undefined,
-});
-</p>
-<p>
-if (!response.ok) {
-const error = await response.json();
-throw new ApiError(response.status, error.error?.code, error.error?.message);
-}
-return response.json();
-}
-</p>
-<p>
-// Auth APIs
-async login(email: string, password: string): Promise&lt;AuthResponse&gt; {
-return this.request&lt;AuthResponse&gt;(&#x27;POST&#x27;, &#x27;/auth/login&#x27;, { email, password });
-}
-</p>
-<p>
-async register(payload: RegisterPayload): Promise&lt;RegisterResponse&gt; {
-return this.request&lt;RegisterResponse&gt;(&#x27;POST&#x27;, &#x27;/auth/register&#x27;, payload);
-}
-</p>
-<p>
-async refreshToken(refreshToken: string): Promise&lt;RefreshTokenResponse&gt; {
-return this.request&lt;RefreshTokenResponse&gt;(&#x27;POST&#x27;, &#x27;/auth/refresh&#x27;, { refresh_token: refreshToken });
-}
-</p>
-<p>
-// Player APIs
-async getPlayerProfile(): Promise&lt;PlayerProfileResponse&gt; {
-return this.request&lt;PlayerProfileResponse&gt;(&#x27;GET&#x27;, &#x27;/users/me&#x27;);
-}
-</p>
-<p>
-async getBalance(): Promise&lt;BalanceResponse&gt; {
-return this.request&lt;BalanceResponse&gt;(&#x27;GET&#x27;, &#x27;/users/me/balance&#x27;);
-}
-</p>
-<p>
-// Shop APIs
-async getProducts(): Promise&lt;ProductListResponse&gt; {
-return this.request&lt;ProductListResponse&gt;(&#x27;GET&#x27;, &#x27;/shop/products&#x27;);
-}
-</p>
-<p>
-async createOrder(payload: CreateOrderPayload): Promise&lt;OrderResponse&gt; {
-return this.request&lt;OrderResponse&gt;(&#x27;POST&#x27;, &#x27;/shop/orders&#x27;, payload);
-}
-</p>
-<p>
-async verifyIAPReceipt(orderId: string, receipt: string): Promise&lt;OrderResponse&gt; {
-return this.request&lt;OrderResponse&gt;(&#x27;POST&#x27;, <code>/shop/orders/${orderId}/verify-receipt</code>, { receipt });
-}
-</p>
-<p>
-// Game APIs
-async getRooms(roomType?: string): Promise&lt;RoomListResponse&gt; {
-const query = roomType ? <code>?room_type=${roomType}</code> : &#x27;&#x27;;
-return this.request&lt;RoomListResponse&gt;(&#x27;GET&#x27;, <code>/game/rooms${query}</code>);
-}
-}
-</code></pre>
-</p>
-<h3 id="4.4-離線/重連處理">4.4 離線/重連處理</h3>
-<p>
-<strong>重連策略（對應 EDD §10.4 DISCONNECTED 狀態，PRD US-ROOM-001 AC-2）</strong>
-</p>
+  private readonly baseUrl: string;
+  private accessToken: string | null = null;
+
+  constructor() {
+    this.baseUrl = API_CONSTANTS.REST_BASE_URL;
+    // API_CONSTANTS.REST_BASE_URL = &#x27;https://api.fishing-arcade-game.com/v1&#x27;
+  }
+
+  setAccessToken(token: string): void {
+    this.accessToken = token;
+  }
+
+  private async request&lt;T&gt;(
+    method: string,
+    path: string,
+    body?: unknown
+  ): Promise&lt;T&gt; {
+    const headers: Record&lt;string, string&gt; = {
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+    };
+    if (this.accessToken) {
+      headers[&#x27;Authorization&#x27;] = `Bearer ${this.accessToken}`;
+    }
+
+    const response = await fetch(`${this.baseUrl}${path}`, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new ApiError(response.status, error.error?.code, error.error?.message);
+    }
+    return response.json();
+  }
+
+  // Auth APIs
+  async login(email: string, password: string): Promise&lt;AuthResponse&gt; {
+    return this.request&lt;AuthResponse&gt;(&#x27;POST&#x27;, &#x27;/auth/login&#x27;, { email, password });
+  }
+
+  async register(payload: RegisterPayload): Promise&lt;RegisterResponse&gt; {
+    return this.request&lt;RegisterResponse&gt;(&#x27;POST&#x27;, &#x27;/auth/register&#x27;, payload);
+  }
+
+  async refreshToken(refreshToken: string): Promise&lt;RefreshTokenResponse&gt; {
+    return this.request&lt;RefreshTokenResponse&gt;(&#x27;POST&#x27;, &#x27;/auth/refresh&#x27;, { refresh_token: refreshToken });
+  }
+
+  // Player APIs
+  async getPlayerProfile(): Promise&lt;PlayerProfileResponse&gt; {
+    return this.request&lt;PlayerProfileResponse&gt;(&#x27;GET&#x27;, &#x27;/users/me&#x27;);
+  }
+
+  async getBalance(): Promise&lt;BalanceResponse&gt; {
+    return this.request&lt;BalanceResponse&gt;(&#x27;GET&#x27;, &#x27;/users/me/balance&#x27;);
+  }
+
+  // Shop APIs
+  async getProducts(): Promise&lt;ProductListResponse&gt; {
+    return this.request&lt;ProductListResponse&gt;(&#x27;GET&#x27;, &#x27;/shop/products&#x27;);
+  }
+
+  async createOrder(payload: CreateOrderPayload): Promise&lt;OrderResponse&gt; {
+    return this.request&lt;OrderResponse&gt;(&#x27;POST&#x27;, &#x27;/shop/orders&#x27;, payload);
+  }
+
+  async verifyIAPReceipt(orderId: string, receipt: string): Promise&lt;OrderResponse&gt; {
+    return this.request&lt;OrderResponse&gt;(&#x27;POST&#x27;, `/shop/orders/${orderId}/verify-receipt`, { receipt });
+  }
+
+  // Game APIs
+  async getRooms(roomType?: string): Promise&lt;RoomListResponse&gt; {
+    const query = roomType ? `?room_type=${roomType}` : &#x27;&#x27;;
+    return this.request&lt;RoomListResponse&gt;(&#x27;GET&#x27;, `/game/rooms${query}`);
+  }
+}</code></pre>
+<h3>4.4 離線/重連處理</h3>
+<p><strong>重連策略（對應 EDD §10.4 DISCONNECTED 狀態，PRD US-ROOM-001 AC-2）</strong></p>
 <pre><code class="language-typescript">class NetworkManager {
-<p>
-// 斷線後自動重連（玩家有 30 秒重連視窗，伺服器維持其在房間的佔位）
-private async attemptReconnect(): Promise&lt;void&gt; {
-if (this.reconnectAttempts &gt;= this.MAX_RECONNECT_ATTEMPTS) {
-this.connectionState = &#x27;disconnected&#x27;;
-EventBus.emit(&#x27;RECONNECT_FAILED&#x27;);
-return;
-}
-</p>
-<p>
-this.connectionState = &#x27;reconnecting&#x27;;
-EventBus.emit(&#x27;RECONNECTING&#x27;, { attempt: this.reconnectAttempts + 1 });
-</p>
-<p>
-const delay = this.RECONNECT_DELAY_MS[this.reconnectAttempts];
-await new Promise(resolve =&gt; setTimeout(resolve, delay));
-</p>
-<p>
-try {
-// 嘗試使用 reconnectionToken 重連（Colyseus 內建機制）
-const savedToken = StorageUtils.get&lt;string&gt;(&#x27;reconnection_token&#x27;);
-const roomId = StorageUtils.get&lt;string&gt;(&#x27;current_room_id&#x27;);
-</p>
-<p>
-if (savedToken &amp;&amp; roomId) {
-this.room = await this.client.reconnect(roomId, savedToken);
-this.connectionState = &#x27;connected&#x27;;
-this.reconnectAttempts = 0;
-EventBus.emit(&#x27;RECONNECTED&#x27;);
-} else {
-throw new Error(&#x27;No reconnection token available&#x27;);
-}
-} catch {
-this.reconnectAttempts++;
-await this.attemptReconnect();
-}
-}
-</p>
-<p>
-// 離線訊息佇列：網路中斷期間的操作暫存（重連後丟棄，不重發遊戲指令）
-private messageQueue: Array&lt;{ type: string; data: unknown }&gt; = [];
-</p>
-<p>
-send(type: string, data: unknown): void {
-if (this.connectionState === &#x27;connected&#x27; &amp;&amp; this.room) {
-this.room.send(type, data);
-}
-// 遊戲指令（shoot/skill）在離線時直接丟棄，不進行佇列重發
-// 避免重連後批次射擊造成異常
-}
-}
-</code></pre>
-</p>
+  // 斷線後自動重連（玩家有 30 秒重連視窗，伺服器維持其在房間的佔位）
+  private async attemptReconnect(): Promise&lt;void&gt; {
+    if (this.reconnectAttempts &gt;= this.MAX_RECONNECT_ATTEMPTS) {
+      this.connectionState = &#x27;disconnected&#x27;;
+      EventBus.emit(&#x27;RECONNECT_FAILED&#x27;);
+      return;
+    }
+
+    this.connectionState = &#x27;reconnecting&#x27;;
+    EventBus.emit(&#x27;RECONNECTING&#x27;, { attempt: this.reconnectAttempts + 1 });
+
+    const delay = this.RECONNECT_DELAY_MS[this.reconnectAttempts];
+    await new Promise(resolve =&gt; setTimeout(resolve, delay));
+
+    try {
+      // 嘗試使用 reconnectionToken 重連（Colyseus 內建機制）
+      const savedToken = StorageUtils.get&lt;string&gt;(&#x27;reconnection_token&#x27;);
+      const roomId = StorageUtils.get&lt;string&gt;(&#x27;current_room_id&#x27;);
+
+      if (savedToken &amp;&amp; roomId) {
+        this.room = await this.client.reconnect(roomId, savedToken);
+        this.connectionState = &#x27;connected&#x27;;
+        this.reconnectAttempts = 0;
+        EventBus.emit(&#x27;RECONNECTED&#x27;);
+      } else {
+        throw new Error(&#x27;No reconnection token available&#x27;);
+      }
+    } catch {
+      this.reconnectAttempts++;
+      await this.attemptReconnect();
+    }
+  }
+
+  // 離線訊息佇列：網路中斷期間的操作暫存（重連後丟棄，不重發遊戲指令）
+  private messageQueue: Array&lt;{ type: string; data: unknown }&gt; = [];
+
+  send(type: string, data: unknown): void {
+    if (this.connectionState === &#x27;connected&#x27; &amp;&amp; this.room) {
+      this.room.send(type, data);
+    }
+    // 遊戲指令（shoot/skill）在離線時直接丟棄，不進行佇列重發
+    // 避免重連後批次射擊造成異常
+  }
+}</code></pre>
 <hr>
-<h2 id="5.-遊戲核心模組">5. 遊戲核心模組</h2>
-<h3 id="5.1-射擊系統-(shooting-system)">5.1 射擊系統 (Shooting System)</h3>
-<p>
-射擊系統採用 <strong>Server-Authoritative 模式</strong>：客戶端只負責發送意圖和播放視覺反饋，命中判定與金幣結算完全由伺服器執行（EDD ADR-003）。
-</p>
+<h2>5. 遊戲核心模組</h2>
+<h3>5.1 射擊系統 (Shooting System)</h3>
+<p>射擊系統採用 <strong>Server-Authoritative 模式</strong>：客戶端只負責發送意圖和播放視覺反饋，命中判定與金幣結算完全由伺服器執行（EDD ADR-003）。</p>
 <pre><code class="language-typescript">enum WeaponType {
-<p>
-NORMAL = 0,    // 基礎砲台（1x-5x 倍率）
-LASER  = 1,    // 雷射炮（高精度，低 AOE）
-SCATTER = 2,   // 散射炮（廣範圍，低單體）
-LOCK_ON = 3,   // 鎖定炮（自動追蹤目標）
+  NORMAL = 0,    // 基礎砲台（1x-5x 倍率）
+  LASER  = 1,    // 雷射炮（高精度，低 AOE）
+  SCATTER = 2,   // 散射炮（廣範圍，低單體）
+  LOCK_ON = 3,   // 鎖定炮（自動追蹤目標）
 }
-</p>
-<p>
+
 interface BulletData {
-id: string;
-weaponType: WeaponType;
-originX: number;
-originY: number;
-targetX: number;
-targetY: number;
-targetFishId?: string;
+  id: string;
+  weaponType: WeaponType;
+  originX: number;
+  originY: number;
+  targetX: number;
+  targetY: number;
+  targetFishId?: string;
 }
-</p>
-<p>
+
 class ShootingSystem {
-private weaponType: WeaponType = WeaponType.NORMAL;
-private weaponLevel = 1;
-private shootCooldownMs = 0;
-private lastShootTime = 0;
-</p>
-<p>
-constructor(
-private networkManager: NetworkManager,
-private bulletPoolManager: BulletPoolManager,
-private effectPoolManager: EffectPoolManager,
-private uiStateStore: UIStateStore,
-) {}
-</p>
-<p>
-// 發送射擊指令（Server-Authoritative）
-shoot(targetFishId?: string): void {
-if (!this.canShoot()) return;
-</p>
-<p>
-this.lastShootTime = Date.now();
-</p>
-<p>
-// 立即播放本地砲台動畫（樂觀反饋）
-this.playCannonFireAnimation();
-</p>
-<p>
-// 生成本地子彈視覺（子彈飛行動畫）
-const bulletData = this.createBulletData(targetFishId);
-this.onBulletFired(bulletData);
-</p>
-<p>
-// 發送至伺服器（命中計算在伺服器端）
-this.networkManager.send(&#x27;shoot&#x27;, {
-weaponType: this.weaponType,
-targetFishId: targetFishId ?? null,
-});
-}
-</p>
-<p>
-// 子彈發射視覺反饋（本地即時）
-onBulletFired(bulletData: BulletData): void {
-const bulletNode = this.bulletPoolManager.acquire(bulletData.weaponType);
-bulletNode.setWorldPosition(bulletData.originX, bulletData.originY, 0);
-this.animateBulletFlight(bulletNode, bulletData);
-}
-</p>
-<p>
-// 命中反饋（伺服器確認後觸發）
-onFishHit(fishId: string, damage: number): void {
-const fishNode = this.fishSystem.getFishNode(fishId);
-if (!fishNode) return;
-</p>
-<p>
-// 傷害數字彈出
-const damageNumber = this.effectPoolManager.acquireDamageNumber();
-damageNumber.setWorldPosition(fishNode.worldPosition);
-damageNumber.getComponent(DamageNumber)!.show(damage);
-</p>
-<p>
-// 命中閃爍特效
-const hitEffect = this.effectPoolManager.acquireHitEffect();
-hitEffect.setWorldPosition(fishNode.worldPosition);
-hitEffect.getComponent(HitEffect)!.play();
-}
-</p>
-<p>
-// 魚死亡反饋（含金幣收益動畫）
-onFishDied(fishId: string, multiplier: number, coinsAwarded: number): void {
-const fishNode = this.fishSystem.getFishNode(fishId);
-if (!fishNode) return;
-</p>
-<p>
-// 倍率爆字（VDD text-multiplier: 56px/font-weight-900）
-const multiplierPopup = this.effectPoolManager.acquireMultiplierPopup();
-multiplierPopup.getComponent(MultiplierPopup)!.show(multiplier);
-</p>
-<p>
-// 金幣飛濺動畫（VDD §2.2：200+ 粒子噴射）
-const coinEffect = this.effectPoolManager.acquireCoinEffect();
-coinEffect.setWorldPosition(fishNode.worldPosition);
-coinEffect.getComponent(CoinEffect)!.play(coinsAwarded);
-</p>
-<p>
-// 更新本地 UI 金幣計數
-this.uiStateStore.playerGold += coinsAwarded;
-this.uiStateStore.notify(&#x27;playerGold&#x27;);
-}
-</p>
-<p>
-// 驗證是否可射擊（冷卻時間驗證，伺服器也會驗證）
-canShoot(): boolean {
-const now = Date.now();
-return (now - this.lastShootTime) &gt;= this.shootCooldownMs;
-}
-</p>
-<p>
-// 武器切換（含本地 UI 更新 + 通知伺服器）
-updateWeapon(weaponType: WeaponType, level: number): void {
-this.weaponType = weaponType;
-this.weaponLevel = level;
-this.shootCooldownMs = WEAPON_COOLDOWNS[weaponType][level];
-this.networkManager.send(&#x27;weapon_switch&#x27;, { weaponType, weaponLevel: level });
-}
-</p>
-<p>
-private createBulletData(targetFishId?: string): BulletData {
-const cannon = this.getCannonNode();
-return {
-id: generateId(),
-weaponType: this.weaponType,
-originX: cannon.worldPosition.x,
-originY: cannon.worldPosition.y,
-targetX: this.aimTargetX,
-targetY: this.aimTargetY,
-targetFishId,
-};
-}
-</p>
-<p>
-private playCannonFireAnimation(): void { /<em> 砲台後坐力動畫 </em>/ }
-private animateBulletFlight(node: Node, data: BulletData): void { /<em> 子彈飛行動畫 </em>/ }
-private getCannonNode(): Node { /<em> 取得本玩家砲台節點 </em>/ return null!; }
-private aimTargetX = 0;
-private aimTargetY = 0;
-private fishSystem!: FishSystem;
-}
-</code></pre>
-</p>
-<h3 id="5.2-魚群管理-(fish-pool-manager)">5.2 魚群管理 (Fish Pool Manager)</h3>
+  private weaponType: WeaponType = WeaponType.NORMAL;
+  private weaponLevel = 1;
+  private shootCooldownMs = 0;
+  private lastShootTime = 0;
+
+  constructor(
+    private networkManager: NetworkManager,
+    private bulletPoolManager: BulletPoolManager,
+    private effectPoolManager: EffectPoolManager,
+    private uiStateStore: UIStateStore,
+  ) {}
+
+  // 發送射擊指令（Server-Authoritative）
+  shoot(targetFishId?: string): void {
+    if (!this.canShoot()) return;
+
+    this.lastShootTime = Date.now();
+
+    // 立即播放本地砲台動畫（樂觀反饋）
+    this.playCannonFireAnimation();
+
+    // 生成本地子彈視覺（子彈飛行動畫）
+    const bulletData = this.createBulletData(targetFishId);
+    this.onBulletFired(bulletData);
+
+    // 發送至伺服器（命中計算在伺服器端）
+    this.networkManager.send(&#x27;shoot&#x27;, {
+      weaponType: this.weaponType,
+      targetFishId: targetFishId ?? null,
+    });
+  }
+
+  // 子彈發射視覺反饋（本地即時）
+  onBulletFired(bulletData: BulletData): void {
+    const bulletNode = this.bulletPoolManager.acquire(bulletData.weaponType);
+    bulletNode.setWorldPosition(bulletData.originX, bulletData.originY, 0);
+    this.animateBulletFlight(bulletNode, bulletData);
+  }
+
+  // 命中反饋（伺服器確認後觸發）
+  onFishHit(fishId: string, damage: number): void {
+    const fishNode = this.fishSystem.getFishNode(fishId);
+    if (!fishNode) return;
+
+    // 傷害數字彈出
+    const damageNumber = this.effectPoolManager.acquireDamageNumber();
+    damageNumber.setWorldPosition(fishNode.worldPosition);
+    damageNumber.getComponent(DamageNumber)!.show(damage);
+
+    // 命中閃爍特效
+    const hitEffect = this.effectPoolManager.acquireHitEffect();
+    hitEffect.setWorldPosition(fishNode.worldPosition);
+    hitEffect.getComponent(HitEffect)!.play();
+  }
+
+  // 魚死亡反饋（含金幣收益動畫）
+  onFishDied(fishId: string, multiplier: number, coinsAwarded: number): void {
+    const fishNode = this.fishSystem.getFishNode(fishId);
+    if (!fishNode) return;
+
+    // 倍率爆字（VDD text-multiplier: 56px/font-weight-900）
+    const multiplierPopup = this.effectPoolManager.acquireMultiplierPopup();
+    multiplierPopup.getComponent(MultiplierPopup)!.show(multiplier);
+
+    // 金幣飛濺動畫（VDD §2.2：200+ 粒子噴射）
+    const coinEffect = this.effectPoolManager.acquireCoinEffect();
+    coinEffect.setWorldPosition(fishNode.worldPosition);
+    coinEffect.getComponent(CoinEffect)!.play(coinsAwarded);
+
+    // 更新本地 UI 金幣計數
+    this.uiStateStore.playerGold += coinsAwarded;
+    this.uiStateStore.notify(&#x27;playerGold&#x27;);
+  }
+
+  // 驗證是否可射擊（冷卻時間驗證，伺服器也會驗證）
+  canShoot(): boolean {
+    const now = Date.now();
+    return (now - this.lastShootTime) &gt;= this.shootCooldownMs;
+  }
+
+  // 武器切換（含本地 UI 更新 + 通知伺服器）
+  updateWeapon(weaponType: WeaponType, level: number): void {
+    this.weaponType = weaponType;
+    this.weaponLevel = level;
+    this.shootCooldownMs = WEAPON_COOLDOWNS[weaponType][level];
+    this.networkManager.send(&#x27;weapon_switch&#x27;, { weaponType, weaponLevel: level });
+  }
+
+  private createBulletData(targetFishId?: string): BulletData {
+    const cannon = this.getCannonNode();
+    return {
+      id: generateId(),
+      weaponType: this.weaponType,
+      originX: cannon.worldPosition.x,
+      originY: cannon.worldPosition.y,
+      targetX: this.aimTargetX,
+      targetY: this.aimTargetY,
+      targetFishId,
+    };
+  }
+
+  private playCannonFireAnimation(): void { /* 砲台後坐力動畫 */ }
+  private animateBulletFlight(node: Node, data: BulletData): void { /* 子彈飛行動畫 */ }
+  private getCannonNode(): Node { /* 取得本玩家砲台節點 */ return null!; }
+  private aimTargetX = 0;
+  private aimTargetY = 0;
+  private fishSystem!: FishSystem;
+}</code></pre>
+<h3>5.2 魚群管理 (Fish Pool Manager)</h3>
 <pre><code class="language-typescript">// 魚類型常數
-<p>
 enum FishType {
-NORMAL = 0,  // 普通魚：1-5x 倍率，64×48 px，無 HP 條（一擊即死）
-ELITE  = 1,  // 精英魚：10-50x 倍率，128×96 px，顯示 HP 條
-BOSS   = 2,  // Boss 魚：100-1000x 倍率，320×240 px，全屏進場動畫
+  NORMAL = 0,  // 普通魚：1-5x 倍率，64×48 px，無 HP 條（一擊即死）
+  ELITE  = 1,  // 精英魚：10-50x 倍率，128×96 px，顯示 HP 條
+  BOSS   = 2,  // Boss 魚：100-1000x 倍率，320×240 px，全屏進場動畫
 }
-</p>
-<p>
+
 class FishPoolManager {
-// 物件池尺寸（對應 §8.2 規格）
-private readonly POOL_SIZES: Record&lt;FishType, number&gt; = {
-[FishType.NORMAL]: 60,
-[FishType.ELITE]:  30,
-[FishType.BOSS]:   5,   // Boss 同時最多 1-2 條，保留 5 個安全餘量
-};
-</p>
-<p>
-private pools: Map&lt;FishType, Node[]&gt; = new Map();
-private activeNodes: Map&lt;string, Node&gt; = new Map();  // fishId → Node
-</p>
-<p>
-async initialize(): Promise&lt;void&gt; {
-for (const [type, size] of Object.entries(this.POOL_SIZES)) {
-const pool: Node[] = [];
-const prefabPath = FISH_PREFAB_PATHS[Number(type) as FishType];
-const prefab = await resources.loadAsync&lt;Prefab&gt;(prefabPath);
-</p>
-<p>
-for (let i = 0; i &lt; size; i++) {
-const node = instantiate(prefab);
-node.active = false;
-this.gameScene.addChild(node);
-pool.push(node);
-}
-this.pools.set(Number(type) as FishType, pool);
-}
-}
-</p>
-<p>
-acquire(fishType: FishType): Node {
-const pool = this.pools.get(fishType) ?? [];
-const node = pool.find(n =&gt; !n.active);
-if (!node) {
-// 池耗盡時動態擴展（上限 pools size × 1.5）
-console.warn(<code>[FishPoolManager] Pool exhausted for type ${fishType}, expanding</code>);
-return this.expandPool(fishType);
-}
-node.active = true;
-return node;
-}
-</p>
-<p>
-release(node: Node): void {
-node.active = false;
-node.setWorldPosition(OFFSCREEN_POSITION);
-// 重置所有 Component 狀態
-node.getComponent(FishComponent)?.reset();
-}
-</p>
-<p>
-getFishNode(fishId: string): Node | undefined {
-return this.activeNodes.get(fishId);
-}
-</p>
-<p>
-private expandPool(fishType: FishType): Node { /<em> 動態擴展邏輯 </em>/ return null!; }
-}
-</code></pre>
-</p>
-<h3 id="5.3-武器系統-(weapon-system)">5.3 武器系統 (Weapon System)</h3>
+  // 物件池尺寸（對應 §8.2 規格）
+  private readonly POOL_SIZES: Record&lt;FishType, number&gt; = {
+    [FishType.NORMAL]: 60,
+    [FishType.ELITE]:  30,
+    [FishType.BOSS]:   5,   // Boss 同時最多 1-2 條，保留 5 個安全餘量
+  };
+
+  private pools: Map&lt;FishType, Node[]&gt; = new Map();
+  private activeNodes: Map&lt;string, Node&gt; = new Map();  // fishId → Node
+
+  async initialize(): Promise&lt;void&gt; {
+    for (const [type, size] of Object.entries(this.POOL_SIZES)) {
+      const pool: Node[] = [];
+      const prefabPath = FISH_PREFAB_PATHS[Number(type) as FishType];
+      const prefab = await resources.loadAsync&lt;Prefab&gt;(prefabPath);
+
+      for (let i = 0; i &lt; size; i++) {
+        const node = instantiate(prefab);
+        node.active = false;
+        this.gameScene.addChild(node);
+        pool.push(node);
+      }
+      this.pools.set(Number(type) as FishType, pool);
+    }
+  }
+
+  acquire(fishType: FishType): Node {
+    const pool = this.pools.get(fishType) ?? [];
+    const node = pool.find(n =&gt; !n.active);
+    if (!node) {
+      // 池耗盡時動態擴展（上限 pools size × 1.5）
+      console.warn(`[FishPoolManager] Pool exhausted for type ${fishType}, expanding`);
+      return this.expandPool(fishType);
+    }
+    node.active = true;
+    return node;
+  }
+
+  release(node: Node): void {
+    node.active = false;
+    node.setWorldPosition(OFFSCREEN_POSITION);
+    // 重置所有 Component 狀態
+    node.getComponent(FishComponent)?.reset();
+  }
+
+  getFishNode(fishId: string): Node | undefined {
+    return this.activeNodes.get(fishId);
+  }
+
+  private expandPool(fishType: FishType): Node { /* 動態擴展邏輯 */ return null!; }
+}</code></pre>
+<h3>5.3 武器系統 (Weapon System)</h3>
 <pre><code class="language-typescript">// 武器設定（對應 PRD §4.1 武器系統）
-<p>
 const WEAPON_CONFIG: Record&lt;WeaponType, WeaponConfig&gt; = {
-[WeaponType.NORMAL]: {
-name: &#x27;基礎砲台&#x27;,
-maxLevel: 5,
-bulletPrefab: &#x27;prefabs/bullets/NormalBullet&#x27;,
-cooldownMs: [300, 250, 200, 150, 100],   // Level 1-5 冷卻時間
-bulletSpeed: 800,
-aoeRadius: 0,
-},
-[WeaponType.LASER]: {
-name: &#x27;雷射炮&#x27;,
-maxLevel: 5,
-bulletPrefab: &#x27;prefabs/bullets/LaserBullet&#x27;,
-cooldownMs: [500, 420, 360, 300, 250],
-bulletSpeed: 1500,  // 光速直線彈
-aoeRadius: 0,
-},
-[WeaponType.SCATTER]: {
-name: &#x27;散射炮&#x27;,
-maxLevel: 5,
-bulletPrefab: &#x27;prefabs/bullets/ScatterBullet&#x27;,
-cooldownMs: [600, 520, 440, 360, 300],
-bulletSpeed: 600,
-aoeRadius: 100,     // 扇形散射範圍
-},
-[WeaponType.LOCK_ON]: {
-name: &#x27;鎖定炮&#x27;,
-maxLevel: 5,
-bulletPrefab: &#x27;prefabs/bullets/LockOnBullet&#x27;,
-cooldownMs: [800, 680, 560, 440, 320],
-bulletSpeed: 1000,
-aoeRadius: 0,
-},
+  [WeaponType.NORMAL]: {
+    name: &#x27;基礎砲台&#x27;,
+    maxLevel: 5,
+    bulletPrefab: &#x27;prefabs/bullets/NormalBullet&#x27;,
+    cooldownMs: [300, 250, 200, 150, 100],   // Level 1-5 冷卻時間
+    bulletSpeed: 800,
+    aoeRadius: 0,
+  },
+  [WeaponType.LASER]: {
+    name: &#x27;雷射炮&#x27;,
+    maxLevel: 5,
+    bulletPrefab: &#x27;prefabs/bullets/LaserBullet&#x27;,
+    cooldownMs: [500, 420, 360, 300, 250],
+    bulletSpeed: 1500,  // 光速直線彈
+    aoeRadius: 0,
+  },
+  [WeaponType.SCATTER]: {
+    name: &#x27;散射炮&#x27;,
+    maxLevel: 5,
+    bulletPrefab: &#x27;prefabs/bullets/ScatterBullet&#x27;,
+    cooldownMs: [600, 520, 440, 360, 300],
+    bulletSpeed: 600,
+    aoeRadius: 100,     // 扇形散射範圍
+  },
+  [WeaponType.LOCK_ON]: {
+    name: &#x27;鎖定炮&#x27;,
+    maxLevel: 5,
+    bulletPrefab: &#x27;prefabs/bullets/LockOnBullet&#x27;,
+    cooldownMs: [800, 680, 560, 440, 320],
+    bulletSpeed: 1000,
+    aoeRadius: 0,
+  },
 };
-</p>
-<p>
+
 class WeaponSystem {
-private currentWeapon: WeaponType = WeaponType.NORMAL;
-private currentLevel = 1;
-</p>
-<p>
-switchWeapon(weaponType: WeaponType): void {
-if (!this.playerOwnsWeapon(weaponType)) {
-// 未擁有武器 → 引導至商城
-EventBus.emit(&#x27;WEAPON_NOT_OWNED&#x27;, { weaponType });
-return;
-}
-this.currentWeapon = weaponType;
-this.shootingSystem.updateWeapon(weaponType, this.currentLevel);
-this.hudComponent.updateWeaponDisplay(weaponType, this.currentLevel);
-}
-</p>
-<p>
-upgradeWeapon(weaponType: WeaponType): void {
-// 升級由伺服器確認；本地樂觀更新後等待確認
-const nextLevel = this.getWeaponLevel(weaponType) + 1;
-if (nextLevel &gt; WEAPON_CONFIG[weaponType].maxLevel) return;
-</p>
-<p>
-this.networkManager.httpClient.upgradeWeapon(weaponType, nextLevel)
-.then(() =&gt; {
-this.setWeaponLevel(weaponType, nextLevel);
-EventBus.emit(&#x27;WEAPON_UPGRADED&#x27;, { weaponType, level: nextLevel });
-})
-.catch(() =&gt; EventBus.emit(&#x27;UPGRADE_FAILED&#x27;));
-}
-</p>
-<p>
-private playerOwnsWeapon(type: WeaponType): boolean { /<em> 查詢本地玩家資料 </em>/ return true; }
-private getWeaponLevel(type: WeaponType): number { return this.currentLevel; }
-private setWeaponLevel(type: WeaponType, level: number): void { this.currentLevel = level; }
-}
-</code></pre>
-</p>
-<h3 id="5.4-技能系統-(skill-system)">5.4 技能系統 (Skill System)</h3>
+  private currentWeapon: WeaponType = WeaponType.NORMAL;
+  private currentLevel = 1;
+
+  switchWeapon(weaponType: WeaponType): void {
+    if (!this.playerOwnsWeapon(weaponType)) {
+      // 未擁有武器 → 引導至商城
+      EventBus.emit(&#x27;WEAPON_NOT_OWNED&#x27;, { weaponType });
+      return;
+    }
+    this.currentWeapon = weaponType;
+    this.shootingSystem.updateWeapon(weaponType, this.currentLevel);
+    this.hudComponent.updateWeaponDisplay(weaponType, this.currentLevel);
+  }
+
+  upgradeWeapon(weaponType: WeaponType): void {
+    // 升級由伺服器確認；本地樂觀更新後等待確認
+    const nextLevel = this.getWeaponLevel(weaponType) + 1;
+    if (nextLevel &gt; WEAPON_CONFIG[weaponType].maxLevel) return;
+
+    this.networkManager.httpClient.upgradeWeapon(weaponType, nextLevel)
+      .then(() =&gt; {
+        this.setWeaponLevel(weaponType, nextLevel);
+        EventBus.emit(&#x27;WEAPON_UPGRADED&#x27;, { weaponType, level: nextLevel });
+      })
+      .catch(() =&gt; EventBus.emit(&#x27;UPGRADE_FAILED&#x27;));
+  }
+
+  private playerOwnsWeapon(type: WeaponType): boolean { /* 查詢本地玩家資料 */ return true; }
+  private getWeaponLevel(type: WeaponType): number { return this.currentLevel; }
+  private setWeaponLevel(type: WeaponType, level: number): void { this.currentLevel = level; }
+}</code></pre>
+<h3>5.4 技能系統 (Skill System)</h3>
 <pre><code class="language-typescript">enum SkillType {
-<p>
-FREEZE   = 0,   // 冰凍：全場魚群停止移動 3 秒（PRD §4.1）
-BOMB     = 1,   // 全屏炸彈：AOE 傷害所有魚群
-AUTO_LOCK = 2,  // 自動鎖定：10 秒內自動追蹤最高倍率魚
+  FREEZE   = 0,   // 冰凍：全場魚群停止移動 3 秒（PRD §4.1）
+  BOMB     = 1,   // 全屏炸彈：AOE 傷害所有魚群
+  AUTO_LOCK = 2,  // 自動鎖定：10 秒內自動追蹤最高倍率魚
 }
-</p>
-<p>
+
 interface SkillConfig {
-cooldownSeconds: number;
-durationSeconds: number;
-diamondCost: number;  // 鑽石費用（0 = 免費技能）
+  cooldownSeconds: number;
+  durationSeconds: number;
+  diamondCost: number;  // 鑽石費用（0 = 免費技能）
 }
-</p>
-<p>
+
 const SKILL_CONFIG: Record&lt;SkillType, SkillConfig&gt; = {
-[SkillType.FREEZE]:    { cooldownSeconds: 30, durationSeconds: 3, diamondCost: 0 },
-[SkillType.BOMB]:      { cooldownSeconds: 60, durationSeconds: 0, diamondCost: 5 },
-[SkillType.AUTO_LOCK]: { cooldownSeconds: 45, durationSeconds: 10, diamondCost: 0 },
+  [SkillType.FREEZE]:    { cooldownSeconds: 30, durationSeconds: 3, diamondCost: 0 },
+  [SkillType.BOMB]:      { cooldownSeconds: 60, durationSeconds: 0, diamondCost: 5 },
+  [SkillType.AUTO_LOCK]: { cooldownSeconds: 45, durationSeconds: 10, diamondCost: 0 },
 };
-</p>
-<p>
+
 class SkillSystem {
-private cooldownTimers: Map&lt;SkillType, number&gt; = new Map();
-private activeSkills: Set&lt;SkillType&gt; = new Set();
-</p>
-<p>
-activateSkill(skillType: SkillType): void {
-if (this.isOnCooldown(skillType)) {
-// 視覺反饋：冷卻中提示
-EventBus.emit(&#x27;SKILL_ON_COOLDOWN&#x27;, { skillType });
-return;
-}
-</p>
-<p>
-const config = SKILL_CONFIG[skillType];
-if (config.diamondCost &gt; 0) {
-// 付費技能：需扣除鑽石（伺服器確認）
-this.networkManager.send(&#x27;skill_activate&#x27;, { skillType });
-} else {
-// 免費技能：直接發送指令
-this.networkManager.send(&#x27;skill_activate&#x27;, { skillType });
-}
-</p>
-<p>
-// 本地冷卻計時開始（伺服器也驗證；本地冷卻防止重複點擊）
-this.startLocalCooldown(skillType);
-}
-</p>
-<p>
-// 技能效果由伺服器廣播後觸發（onMessage &#x27;skill_freeze&#x27;/&#x27;skill_bomb&#x27; 等）
-onFreezeActivated(data: SkillFreezeMessage): void {
-this.activeSkills.add(SkillType.FREEZE);
-this.fishSystem.freezeAllFish(data.durationMs);
-this.playFreezeEffect();
-scheduler.schedule(() =&gt; {
-this.activeSkills.delete(SkillType.FREEZE);
-this.fishSystem.unfreezeAllFish();
-}, data.durationMs / 1000);
-}
-</p>
-<p>
-onBombActivated(data: SkillBombMessage): void {
-this.playBombEffect();
-// 各魚的 HP 變化由 State Change 驅動（不需本地計算）
-}
-</p>
-<p>
-private isOnCooldown(skillType: SkillType): boolean {
-return (this.cooldownTimers.get(skillType) ?? 0) &gt; 0;
-}
-</p>
-<p>
-private startLocalCooldown(skillType: SkillType): void {
-const config = SKILL_CONFIG[skillType];
-this.cooldownTimers.set(skillType, config.cooldownSeconds);
-this.uiStateStore.skillCooldowns.set(skillType, config.cooldownSeconds);
-</p>
-<p>
-const interval = setInterval(() =&gt; {
-const remaining = (this.cooldownTimers.get(skillType) ?? 0) - 1;
-this.cooldownTimers.set(skillType, remaining);
-this.uiStateStore.skillCooldowns.set(skillType, remaining);
-this.uiStateStore.notify(&#x27;skillCooldowns&#x27;);
-if (remaining &lt;= 0) clearInterval(interval);
-}, 1000);
-}
-}
-</code></pre>
-</p>
-<h3 id="5.5-rtp/jackpot-客戶端邏輯">5.5 RTP/Jackpot 客戶端邏輯</h3>
-<p>
-<strong>核心原則：客戶端不計算 RTP，只播放視覺反饋</strong>
-</p>
+  private cooldownTimers: Map&lt;SkillType, number&gt; = new Map();
+  private activeSkills: Set&lt;SkillType&gt; = new Set();
+
+  activateSkill(skillType: SkillType): void {
+    if (this.isOnCooldown(skillType)) {
+      // 視覺反饋：冷卻中提示
+      EventBus.emit(&#x27;SKILL_ON_COOLDOWN&#x27;, { skillType });
+      return;
+    }
+
+    const config = SKILL_CONFIG[skillType];
+    if (config.diamondCost &gt; 0) {
+      // 付費技能：需扣除鑽石（伺服器確認）
+      this.networkManager.send(&#x27;skill_activate&#x27;, { skillType });
+    } else {
+      // 免費技能：直接發送指令
+      this.networkManager.send(&#x27;skill_activate&#x27;, { skillType });
+    }
+
+    // 本地冷卻計時開始（伺服器也驗證；本地冷卻防止重複點擊）
+    this.startLocalCooldown(skillType);
+  }
+
+  // 技能效果由伺服器廣播後觸發（onMessage &#x27;skill_freeze&#x27;/&#x27;skill_bomb&#x27; 等）
+  onFreezeActivated(data: SkillFreezeMessage): void {
+    this.activeSkills.add(SkillType.FREEZE);
+    this.fishSystem.freezeAllFish(data.durationMs);
+    this.playFreezeEffect();
+    scheduler.schedule(() =&gt; {
+      this.activeSkills.delete(SkillType.FREEZE);
+      this.fishSystem.unfreezeAllFish();
+    }, data.durationMs / 1000);
+  }
+
+  onBombActivated(data: SkillBombMessage): void {
+    this.playBombEffect();
+    // 各魚的 HP 變化由 State Change 驅動（不需本地計算）
+  }
+
+  private isOnCooldown(skillType: SkillType): boolean {
+    return (this.cooldownTimers.get(skillType) ?? 0) &gt; 0;
+  }
+
+  private startLocalCooldown(skillType: SkillType): void {
+    const config = SKILL_CONFIG[skillType];
+    this.cooldownTimers.set(skillType, config.cooldownSeconds);
+    this.uiStateStore.skillCooldowns.set(skillType, config.cooldownSeconds);
+
+    const interval = setInterval(() =&gt; {
+      const remaining = (this.cooldownTimers.get(skillType) ?? 0) - 1;
+      this.cooldownTimers.set(skillType, remaining);
+      this.uiStateStore.skillCooldowns.set(skillType, remaining);
+      this.uiStateStore.notify(&#x27;skillCooldowns&#x27;);
+      if (remaining &lt;= 0) clearInterval(interval);
+    }, 1000);
+  }
+}</code></pre>
+<h3>5.5 RTP/Jackpot 客戶端邏輯</h3>
+<p><strong>核心原則：客戶端不計算 RTP，只播放視覺反饋</strong></p>
 <pre><code class="language-typescript">// RTP 引擎完全在伺服器端執行（EDD ADR-003）
-<p>
 // 客戶端只負責：
 // 1. 接收伺服器廣播的結果（fish_died / jackpot_trigger）
 // 2. 播放對應的視覺和音效反饋
-</p>
-<p>
+
 class RTPDisplayHandler {
-// 接收伺服器 fish_died 事件後的視覺處理
-onFishDied(data: FishDiedMessage): void {
-const { fishId, winnerId, coinsAwarded, multiplier, isJackpot } = data;
-</p>
-<p>
-if (isJackpot) {
-this.playJackpotSequence(data);
-return;
-}
-</p>
-<p>
-// 普通擊殺反饋
-this.shootingSystem.onFishDied(fishId, multiplier, coinsAwarded);
-this.audioManager.playSFX(multiplier &gt;= 100 ? &#x27;kill_boss&#x27; : &#x27;kill_normal&#x27;);
-}
-</p>
-<p>
-// Jackpot 觸發全屏特效（VDD §4.1 Boss 死亡特效規格）
-private playJackpotSequence(data: JackpotTriggerMessage): void {
-// 1. 全屏暗化（overlay）
-this.uiController.showOverlay();
-</p>
-<p>
-// 2. 全屏金光爆炸粒子（200+ 粒子，VDD §2.2 item 5 規格）
-const jackpotEffect = this.effectPoolManager.acquireJackpotEffect();
-jackpotEffect.getComponent(JackpotEffect)!.play({
-particleCount: 250,
-initialVelocityRange: [600, 1200],  // px/s
-gravityMultiplier: 0.3,
-spawnDuration: 1000,
-});
-</p>
-<p>
-// 3. 倍率數字衝屏（text-multiplier: 56px, font-weight-900）
-//    scale 0.5 → 3.0 → fade out 1s（VDD §4.2 Boss 死亡特效）
-const multiplierPopup = this.effectPoolManager.acquireMultiplierPopup();
-multiplierPopup.getComponent(MultiplierPopup)!.showJackpot(data.jackpotAmount);
-</p>
-<p>
-// 4. 更新玩家金幣（動態計數器效果）
-this.hudComponent.animateCoinCounter(data.jackpotAmount);
-</p>
-<p>
-// 5. Jackpot 進度條重置動畫
-this.hudComponent.resetJackpotBar();
-</p>
-<p>
-// 6. BGM 切換至 Jackpot 主題
-this.audioManager.playBGM(&#x27;jackpot_fanfare&#x27;);
-}
-}
-</code></pre>
-</p>
+  // 接收伺服器 fish_died 事件後的視覺處理
+  onFishDied(data: FishDiedMessage): void {
+    const { fishId, winnerId, coinsAwarded, multiplier, isJackpot } = data;
+
+    if (isJackpot) {
+      this.playJackpotSequence(data);
+      return;
+    }
+
+    // 普通擊殺反饋
+    this.shootingSystem.onFishDied(fishId, multiplier, coinsAwarded);
+    this.audioManager.playSFX(multiplier &gt;= 100 ? &#x27;kill_boss&#x27; : &#x27;kill_normal&#x27;);
+  }
+
+  // Jackpot 觸發全屏特效（VDD §4.1 Boss 死亡特效規格）
+  private playJackpotSequence(data: JackpotTriggerMessage): void {
+    // 1. 全屏暗化（overlay）
+    this.uiController.showOverlay();
+
+    // 2. 全屏金光爆炸粒子（200+ 粒子，VDD §2.2 item 5 規格）
+    const jackpotEffect = this.effectPoolManager.acquireJackpotEffect();
+    jackpotEffect.getComponent(JackpotEffect)!.play({
+      particleCount: 250,
+      initialVelocityRange: [600, 1200],  // px/s
+      gravityMultiplier: 0.3,
+      spawnDuration: 1000,
+    });
+
+    // 3. 倍率數字衝屏（text-multiplier: 56px, font-weight-900）
+    //    scale 0.5 → 3.0 → fade out 1s（VDD §4.2 Boss 死亡特效）
+    const multiplierPopup = this.effectPoolManager.acquireMultiplierPopup();
+    multiplierPopup.getComponent(MultiplierPopup)!.showJackpot(data.jackpotAmount);
+
+    // 4. 更新玩家金幣（動態計數器效果）
+    this.hudComponent.animateCoinCounter(data.jackpotAmount);
+
+    // 5. Jackpot 進度條重置動畫
+    this.hudComponent.resetJackpotBar();
+
+    // 6. BGM 切換至 Jackpot 主題
+    this.audioManager.playBGM(&#x27;jackpot_fanfare&#x27;);
+  }
+}</code></pre>
 <hr>
-<h2 id="6.-ui/ux-實作">6. UI/UX 實作</h2>
-<h3 id="6.1-場景列表-(scenes)">6.1 場景列表 (Scenes)</h3>
-<table><tr><th>Scene 名稱</th><th>功能</th><th>主要 UI 元件</th><th>對應 PDD §節</th></tr><tr><td>LoadingScene</td><td>啟動資源預載、版本檢查</td><td>Logo 動畫、進度條</td><td>§5.0</td></tr><tr><td>LoginScene</td><td>登入/註冊/年齡驗證</td><td>LoginForm, RegisterForm, AgeVerifyModal</td><td>§5.1, §5.2</td></tr><tr><td>OnboardingScene</td><td>新手引導（首次登入）</td><td>互動式引導氣泡、高亮遮罩</td><td>§5.2</td></tr><tr><td>LobbyScene</td><td>大廳、房間選擇、公告</td><td>RoomList, AnnouncementBanner, BottomNav</td><td>§5.3</td></tr><tr><td>CannonSelectScene</td><td>武器技能選擇</td><td>WeaponGrid, SkillGrid, ConfirmButton</td><td>§5.5</td></tr><tr><td>MatchmakingScene</td><td>配對等待（30s 倒數）</td><td>PlayerAvatarRow, CountdownTimer, CancelBtn</td><td>§5.9</td></tr><tr><td>GameScene</td><td>主遊戲（核心玩法）</td><td>HUD, JackpotBar, BossHPBar, SkillButtons</td><td>§5.4</td></tr><tr><td>SettlementScene</td><td>局結算、MVP 展示</td><td>ResultCard, MVPBadge, CoinSummary, ShareBtn</td><td>§5.8</td></tr></table>
-<h3 id="6.2-預製體-(prefabs)">6.2 預製體 (Prefabs)</h3>
-<p>
-<strong>魚類 Prefab 規格（對應 VDD §4.2）</strong>
-</p>
-<table><tr><th>Prefab</th><th>尺寸</th><th>Sprite Sheet</th><th>動畫狀態</th></tr><tr><td>NormalFish.prefab</td><td>64×48 px</td><td>8 幀 loop</td><td>Swim, Death</td></tr><tr><td>EliteFish.prefab</td><td>128×96 px</td><td>12 幀 loop + 4 幀受擊</td><td>Swim, Hit, Death</td></tr><tr><td>BossFish.prefab</td><td>320×240 px</td><td>進場16幀+攻擊8幀+死亡32幀</td><td>Spawn, Idle, Attack, Death</td></tr></table>
-<p>
-<strong>Prefab Component 架構</strong>
-</p>
+<h2>6. UI/UX 實作</h2>
+<h3>6.1 場景列表 (Scenes)</h3>
+<table>
+<tr><th>Scene 名稱</th><th>功能</th><th>主要 UI 元件</th><th>對應 PDD §節</th></tr>
+<tr><td>LoadingScene</td><td>啟動資源預載、版本檢查</td><td>Logo 動畫、進度條</td><td>§5.0</td></tr>
+<tr><td>LoginScene</td><td>登入/註冊/年齡驗證</td><td>LoginForm, RegisterForm, AgeVerifyModal</td><td>§5.1, §5.2</td></tr>
+<tr><td>OnboardingScene</td><td>新手引導（首次登入）</td><td>互動式引導氣泡、高亮遮罩</td><td>§5.2</td></tr>
+<tr><td>LobbyScene</td><td>大廳、房間選擇、公告</td><td>RoomList, AnnouncementBanner, BottomNav</td><td>§5.3</td></tr>
+<tr><td>CannonSelectScene</td><td>武器技能選擇</td><td>WeaponGrid, SkillGrid, ConfirmButton</td><td>§5.5</td></tr>
+<tr><td>MatchmakingScene</td><td>配對等待（30s 倒數）</td><td>PlayerAvatarRow, CountdownTimer, CancelBtn</td><td>§5.9</td></tr>
+<tr><td>GameScene</td><td>主遊戲（核心玩法）</td><td>HUD, JackpotBar, BossHPBar, SkillButtons</td><td>§5.4</td></tr>
+<tr><td>SettlementScene</td><td>局結算、MVP 展示</td><td>ResultCard, MVPBadge, CoinSummary, ShareBtn</td><td>§5.8</td></tr>
+</table>
+<h3>6.2 預製體 (Prefabs)</h3>
+<p><strong>魚類 Prefab 規格（對應 VDD §4.2）</strong></p>
+<table>
+<tr><th>Prefab</th><th>尺寸</th><th>Sprite Sheet</th><th>動畫狀態</th></tr>
+<tr><td>NormalFish.prefab</td><td>64×48 px</td><td>8 幀 loop</td><td>Swim, Death</td></tr>
+<tr><td>EliteFish.prefab</td><td>128×96 px</td><td>12 幀 loop + 4 幀受擊</td><td>Swim, Hit, Death</td></tr>
+<tr><td>BossFish.prefab</td><td>320×240 px</td><td>進場16幀+攻擊8幀+死亡32幀</td><td>Spawn, Idle, Attack, Death</td></tr>
+</table>
+<p><strong>Prefab Component 架構</strong></p>
 <pre><code class="language-typescript">// 每個 FishPrefab 掛載 FishComponent
-<p>
 @ccclass(&#x27;FishComponent&#x27;)
 export class FishComponent extends Component {
-@property(Animation) animator: Animation = null!;
-@property(ProgressBar) hpBar: ProgressBar = null!;
-@property(Label) fishLabel: Label = null!;
-</p>
-<p>
-private fishData: FishState | null = null;
-</p>
-<p>
-init(fishState: FishState): void {
-this.fishData = fishState;
-this.hpBar.node.active = fishState.fishType &gt; FishType.NORMAL;
-this.updateHPBar(fishState.hp, fishState.maxHp);
-}
-</p>
-<p>
-updateHPBar(hp: number, maxHp: number): void {
-this.hpBar.progress = hp / maxHp;
-// HP 顏色：#00FF88（高）→ #FFEB3B（中）→ #FF4444（低）
-const ratio = hp / maxHp;
-const color = ratio &gt; 0.6
-? new Color(0, 255, 136)
-: ratio &gt; 0.3
-? new Color(255, 235, 59)
-: new Color(255, 68, 68);
-this.hpBar.getComponent(Sprite)!.color = color;
-}
-</p>
-<p>
-playDeathAnimation(onComplete: () =&gt; void): void {
-this.animator.play(&#x27;Death&#x27;);
-this.animator.on(Animation.EventType.FINISHED, onComplete, this);
-}
-</p>
-<p>
-reset(): void {
-this.fishData = null;
-this.hpBar.progress = 1;
-this.animator.stop();
-}
-}
-</code></pre>
-</p>
-<h3 id="6.3-ui-框架與元件庫">6.3 UI 框架與元件庫</h3>
-<p>
-<strong>設計 Token 在 Cocos 中的實作</strong>
-</p>
-<p>
-VDD §6.1-6.3 的 CSS Custom Property 在 Cocos Creator 中以 TypeScript 常數物件實作：
-</p>
+  @property(Animation) animator: Animation = null!;
+  @property(ProgressBar) hpBar: ProgressBar = null!;
+  @property(Label) fishLabel: Label = null!;
+
+  private fishData: FishState | null = null;
+
+  init(fishState: FishState): void {
+    this.fishData = fishState;
+    this.hpBar.node.active = fishState.fishType &gt; FishType.NORMAL;
+    this.updateHPBar(fishState.hp, fishState.maxHp);
+  }
+
+  updateHPBar(hp: number, maxHp: number): void {
+    this.hpBar.progress = hp / maxHp;
+    // HP 顏色：#00FF88（高）→ #FFEB3B（中）→ #FF4444（低）
+    const ratio = hp / maxHp;
+    const color = ratio &gt; 0.6
+      ? new Color(0, 255, 136)
+      : ratio &gt; 0.3
+        ? new Color(255, 235, 59)
+        : new Color(255, 68, 68);
+    this.hpBar.getComponent(Sprite)!.color = color;
+  }
+
+  playDeathAnimation(onComplete: () =&gt; void): void {
+    this.animator.play(&#x27;Death&#x27;);
+    this.animator.on(Animation.EventType.FINISHED, onComplete, this);
+  }
+
+  reset(): void {
+    this.fishData = null;
+    this.hpBar.progress = 1;
+    this.animator.stop();
+  }
+}</code></pre>
+<h3>6.3 UI 框架與元件庫</h3>
+<p><strong>設計 Token 在 Cocos 中的實作</strong></p>
+<p>VDD §6.1-6.3 的 CSS Custom Property 在 Cocos Creator 中以 TypeScript 常數物件實作：</p>
 <pre><code class="language-typescript">// assets/scripts/data/constants/ui.constants.ts
-<p>
 // 直接映射自 VDD §6.1 Primitive Tokens
-</p>
-<p>
+
 export const COLOR = {
-// Brand
-GOLD_400: new Color(245, 200, 66, 255),      // #F5C842 — 主行動按鈕
-GOLD_600: new Color(201, 154, 0, 255),        // #C99A00 — Hover 狀態
-GOLD_900: new Color(122, 92, 0, 255),         // #7A5C00 — 按下狀態
-</p>
-<p>
-// Background
-OCEAN_900: new Color(5, 20, 40, 255),         // #051428 — 主背景
-OCEAN_800: new Color(10, 35, 64, 255),        // #0A2340 — 卡片/面板
-OCEAN_700: new Color(13, 51, 96, 255),        // #0D3360 — 次級面板
-</p>
-<p>
-// Neon
-NEON_BLUE:  new Color(0, 212, 255, 255),      // #00D4FF — 鑽石/技能
-NEON_GREEN: new Color(0, 255, 136, 255),      // #00FF88 — 成功/HP 高段
-</p>
-<p>
-// Feedback
-RED_500:    new Color(255, 68, 68, 255),      // #FF4444 — 錯誤/危急
-WHITE_100:  new Color(255, 255, 255, 255),
-</p>
-<p>
-// HP 條
-HP_HIGH:  new Color(0, 255, 136, 255),
-HP_MID:   new Color(255, 235, 59, 255),       // #FFEB3B — 中段純黃
-HP_LOW:   new Color(255, 68, 68, 255),
+  // Brand
+  GOLD_400: new Color(245, 200, 66, 255),      // #F5C842 — 主行動按鈕
+  GOLD_600: new Color(201, 154, 0, 255),        // #C99A00 — Hover 狀態
+  GOLD_900: new Color(122, 92, 0, 255),         // #7A5C00 — 按下狀態
+
+  // Background
+  OCEAN_900: new Color(5, 20, 40, 255),         // #051428 — 主背景
+  OCEAN_800: new Color(10, 35, 64, 255),        // #0A2340 — 卡片/面板
+  OCEAN_700: new Color(13, 51, 96, 255),        // #0D3360 — 次級面板
+
+  // Neon
+  NEON_BLUE:  new Color(0, 212, 255, 255),      // #00D4FF — 鑽石/技能
+  NEON_GREEN: new Color(0, 255, 136, 255),      // #00FF88 — 成功/HP 高段
+
+  // Feedback
+  RED_500:    new Color(255, 68, 68, 255),      // #FF4444 — 錯誤/危急
+  WHITE_100:  new Color(255, 255, 255, 255),
+
+  // HP 條
+  HP_HIGH:  new Color(0, 255, 136, 255),
+  HP_MID:   new Color(255, 235, 59, 255),       // #FFEB3B — 中段純黃
+  HP_LOW:   new Color(255, 68, 68, 255),
 } as const;
-</p>
-<p>
+
 export const FONT_SIZE = {
-CAPTION:    12,
-BODY_SM:    14,
-BODY:       16,
-BUTTON:     18,
-HUD_COUNTER: 20,
-H3:         20,
-H2:         24,
-HUD_SCORE:  28,
-H1:         32,
-HEADING_LG: 36,
-DISPLAY:    48,
-MULTIPLIER: 56,
+  CAPTION:    12,
+  BODY_SM:    14,
+  BODY:       16,
+  BUTTON:     18,
+  HUD_COUNTER: 20,
+  H3:         20,
+  H2:         24,
+  HUD_SCORE:  28,
+  H1:         32,
+  HEADING_LG: 36,
+  DISPLAY:    48,
+  MULTIPLIER: 56,
 } as const;
-</p>
-<p>
+
 export const DURATION_MS = {
-INSTANT: 0,
-FAST:    80,
-NORMAL:  200,
-SLOW:    500,
-XSLOW:   1000,
-JACKPOT: 3000,
+  INSTANT: 0,
+  FAST:    80,
+  NORMAL:  200,
+  SLOW:    500,
+  XSLOW:   1000,
+  JACKPOT: 3000,
 } as const;
-</p>
-<p>
+
 // Z-index（Cocos localZOrder 對應）
 export const Z_INDEX = {
-BG:       0,
-GAME:     1,
-HUD:      10,
-OVERLAY:  20,
-MODAL:    30,
-TOAST:    40,
-TUTORIAL: 50,
-} as const;
-</code></pre>
-</p>
-<p>
-<strong>通用元件規格</strong>
-</p>
+  BG:       0,
+  GAME:     1,
+  HUD:      10,
+  OVERLAY:  20,
+  MODAL:    30,
+  TOAST:    40,
+  TUTORIAL: 50,
+} as const;</code></pre>
+<p><strong>通用元件規格</strong></p>
 <pre><code class="language-typescript">// ToastComponent：全局通知（對應 VDD §5 HUD 系統）
-<p>
 @ccclass(&#x27;ToastComponent&#x27;)
 export class ToastComponent extends Component {
-static show(message: string, type: &#x27;success&#x27; | &#x27;error&#x27; | &#x27;info&#x27; = &#x27;info&#x27;): void {
-const colorMap = {
-success: COLOR.NEON_GREEN,
-error:   COLOR.RED_500,
-info:    COLOR.NEON_BLUE,
-};
-// 從全局 Toast 池取節點，播放滑入動畫（200ms ease-out），3s 後滑出
-}
-}
-</code></pre>
-</p>
-<h3 id="6.4-動畫系統">6.4 動畫系統</h3>
-<p>
-<strong>動畫分類與實作策略</strong>
-</p>
-<table><tr><th>動畫類型</th><th>工具</th><th>說明</th></tr><tr><td>介面進場/退場</td><td>Cocos Tween API</td><td>面板 scale/opacity 動畫（DURATION_MS.NORMAL = 200ms）</td></tr><tr><td>魚群游動</td><td>Cocos Animation</td><td>Sprite Sheet 幀動畫 + 路徑移動</td></tr><tr><td>特效粒子</td><td>Cocos ParticleSystem</td><td>金幣噴射、Jackpot 爆炸</td></tr><tr><td>數字跳動</td><td>自訂 Tween</td><td>金幣計數器動態遞增</td></tr><tr><td>VIP 光暈</td><td>Cocos Shader + Particle</td><td>環形旋轉光暈</td></tr><tr><td>Boss 進場</td><td>Cocos Animation + Camera Shake</td><td>16 幀進場 + 全屏震動 2s</td></tr></table>
-<p>
-<strong>緩動函數對應（VDD §6.1 Motion Tokens）</strong>
-</p>
+  static show(message: string, type: &#x27;success&#x27; | &#x27;error&#x27; | &#x27;info&#x27; = &#x27;info&#x27;): void {
+    const colorMap = {
+      success: COLOR.NEON_GREEN,
+      error:   COLOR.RED_500,
+      info:    COLOR.NEON_BLUE,
+    };
+    // 從全局 Toast 池取節點，播放滑入動畫（200ms ease-out），3s 後滑出
+  }
+}</code></pre>
+<h3>6.4 動畫系統</h3>
+<p><strong>動畫分類與實作策略</strong></p>
+<table>
+<tr><th>動畫類型</th><th>工具</th><th>說明</th></tr>
+<tr><td>介面進場/退場</td><td>Cocos Tween API</td><td>面板 scale/opacity 動畫（DURATION_MS.NORMAL = 200ms）</td></tr>
+<tr><td>魚群游動</td><td>Cocos Animation</td><td>Sprite Sheet 幀動畫 + 路徑移動</td></tr>
+<tr><td>特效粒子</td><td>Cocos ParticleSystem</td><td>金幣噴射、Jackpot 爆炸</td></tr>
+<tr><td>數字跳動</td><td>自訂 Tween</td><td>金幣計數器動態遞增</td></tr>
+<tr><td>VIP 光暈</td><td>Cocos Shader + Particle</td><td>環形旋轉光暈</td></tr>
+<tr><td>Boss 進場</td><td>Cocos Animation + Camera Shake</td><td>16 幀進場 + 全屏震動 2s</td></tr>
+</table>
+<p><strong>緩動函數對應（VDD §6.1 Motion Tokens）</strong></p>
 <pre><code class="language-typescript">// assets/scripts/utils/AnimationUtils.ts
-<p>
 import { tween, Node, Easing } from &#x27;cc&#x27;;
-</p>
-<p>
+
 export class AnimationUtils {
-// --easing-expo-out: cubic-bezier(0.16, 1, 0.3, 1) → Cocos: EXPO_OUT
-static showPanel(node: Node, durationMs = 200): Promise&lt;void&gt; {
-return new Promise(resolve =&gt; {
-node.active = true;
-node.setScale(0.8, 0.8, 1);
-tween(node)
-.to(durationMs / 1000, { scale: new Vec3(1, 1, 1) }, { easing: &#x27;expoOut&#x27; })
-.call(resolve)
-.start();
-});
-}
-</p>
-<p>
-static hidePanel(node: Node, durationMs = 150): Promise&lt;void&gt; {
-return new Promise(resolve =&gt; {
-tween(node)
-.to(durationMs / 1000,
-{ scale: new Vec3(0.8, 0.8, 1) },
-{ easing: &#x27;expoIn&#x27; }
-)
-.call(() =&gt; { node.active = false; resolve(); })
-.start();
-});
-}
-</p>
-<p>
-// 倍率爆字動畫（scale 0 → 1.2 → 1.0，VDD §2.4 多巴胺刺激感）
-static multiplierBurst(node: Node, durationMs = 400): Promise&lt;void&gt; {
-return new Promise(resolve =&gt; {
-tween(node)
-.set({ scale: new Vec3(0, 0, 1) })
-.to(durationMs * 0.6 / 1000, { scale: new Vec3(1.2, 1.2, 1) }, { easing: &#x27;backOut&#x27; })
-.to(durationMs * 0.4 / 1000, { scale: new Vec3(1, 1, 1) }, { easing: &#x27;sineOut&#x27; })
-.call(resolve)
-.start();
-});
-}
-</p>
-<p>
-// 金幣計數器動態遞增
-static animateCounter(
-label: Label,
-from: number,
-to: number,
-durationMs = 800
-): void {
-const startTime = Date.now();
-const update = () =&gt; {
-const elapsed = Date.now() - startTime;
-const progress = Math.min(elapsed / durationMs, 1);
-const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
-label.string = Math.floor(from + (to - from) * eased).toLocaleString();
-if (progress &lt; 1) requestAnimationFrame(update);
-};
-requestAnimationFrame(update);
-}
-}
-</code></pre>
-</p>
+  // --easing-expo-out: cubic-bezier(0.16, 1, 0.3, 1) → Cocos: EXPO_OUT
+  static showPanel(node: Node, durationMs = 200): Promise&lt;void&gt; {
+    return new Promise(resolve =&gt; {
+      node.active = true;
+      node.setScale(0.8, 0.8, 1);
+      tween(node)
+        .to(durationMs / 1000, { scale: new Vec3(1, 1, 1) }, { easing: &#x27;expoOut&#x27; })
+        .call(resolve)
+        .start();
+    });
+  }
+
+  static hidePanel(node: Node, durationMs = 150): Promise&lt;void&gt; {
+    return new Promise(resolve =&gt; {
+      tween(node)
+        .to(durationMs / 1000,
+          { scale: new Vec3(0.8, 0.8, 1) },
+          { easing: &#x27;expoIn&#x27; }
+        )
+        .call(() =&gt; { node.active = false; resolve(); })
+        .start();
+    });
+  }
+
+  // 倍率爆字動畫（scale 0 → 1.2 → 1.0，VDD §2.4 多巴胺刺激感）
+  static multiplierBurst(node: Node, durationMs = 400): Promise&lt;void&gt; {
+    return new Promise(resolve =&gt; {
+      tween(node)
+        .set({ scale: new Vec3(0, 0, 1) })
+        .to(durationMs * 0.6 / 1000, { scale: new Vec3(1.2, 1.2, 1) }, { easing: &#x27;backOut&#x27; })
+        .to(durationMs * 0.4 / 1000, { scale: new Vec3(1, 1, 1) }, { easing: &#x27;sineOut&#x27; })
+        .call(resolve)
+        .start();
+    });
+  }
+
+  // 金幣計數器動態遞增
+  static animateCounter(
+    label: Label,
+    from: number,
+    to: number,
+    durationMs = 800
+  ): void {
+    const startTime = Date.now();
+    const update = () =&gt; {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / durationMs, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
+      label.string = Math.floor(from + (to - from) * eased).toLocaleString();
+      if (progress &lt; 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+}</code></pre>
 <hr>
-<h2 id="7.-資源管理">7. 資源管理</h2>
-<h3 id="7.1-asset-bundle-規劃">7.1 Asset Bundle 規劃</h3>
-<table><tr><th>Bundle 名稱</th><th>包含資源</th><th>載入時機</th><th>預估大小</th></tr><tr><td><code>core</code></td><td>登入場景、大廳場景、共用 UI 紋理、核心 Script</td><td>啟動時必載</td><td>~3 MB</td></tr><tr><td><code>game</code></td><td>GameScene、所有魚類 Sprite、子彈特效、遊戲 BGM</td><td>進入配對前預載</td><td>~8 MB</td></tr><tr><td><code>shop</code></td><td>ShopDialog 相關紋理、商品圖片</td><td>首次開啟商城時按需載入</td><td>~2 MB</td></tr><tr><td><code>vip</code></td><td>VIP 光暈 Shader、等級徽章紋理</td><td>大廳載入後後台預載</td><td>~1 MB</td></tr></table>
-<p>
-<strong>Bundle 載入策略</strong>
-</p>
+<h2>7. 資源管理</h2>
+<h3>7.1 Asset Bundle 規劃</h3>
+<table>
+<tr><th>Bundle 名稱</th><th>包含資源</th><th>載入時機</th><th>預估大小</th></tr>
+<tr><td><code>core</code></td><td>登入場景、大廳場景、共用 UI 紋理、核心 Script</td><td>啟動時必載</td><td>~3 MB</td></tr>
+<tr><td><code>game</code></td><td>GameScene、所有魚類 Sprite、子彈特效、遊戲 BGM</td><td>進入配對前預載</td><td>~8 MB</td></tr>
+<tr><td><code>shop</code></td><td>ShopDialog 相關紋理、商品圖片</td><td>首次開啟商城時按需載入</td><td>~2 MB</td></tr>
+<tr><td><code>vip</code></td><td>VIP 光暈 Shader、等級徽章紋理</td><td>大廳載入後後台預載</td><td>~1 MB</td></tr>
+</table>
+<p><strong>Bundle 載入策略</strong></p>
 <pre><code class="language-typescript">class AssetBundleManager {
-<p>
-private loadedBundles: Set&lt;string&gt; = new Set();
-</p>
-<p>
-async loadBundle(bundleName: string): Promise&lt;AssetManager.Bundle&gt; {
-if (this.loadedBundles.has(bundleName)) {
-return assetManager.getBundle(bundleName)!;
-}
-const bundle = await new Promise&lt;AssetManager.Bundle&gt;((resolve, reject) =&gt; {
-assetManager.loadBundle(bundleName, (err, bundle) =&gt; {
-if (err) reject(err);
-else resolve(bundle);
-});
-});
-this.loadedBundles.add(bundleName);
-return bundle;
-}
-</p>
-<p>
-// 配對等待期間預載 game bundle（避免進場卡頓）
-async preloadGameBundle(): Promise&lt;void&gt; {
-await this.loadBundle(&#x27;game&#x27;);
-}
-</p>
-<p>
-// 釋放非當前場景的 Bundle（記憶體管理）
-releaseBundle(bundleName: string): void {
-const bundle = assetManager.getBundle(bundleName);
-if (bundle &amp;&amp; bundleName !== &#x27;core&#x27;) {
-bundle.releaseAll();
-this.loadedBundles.delete(bundleName);
-}
-}
-}
-</code></pre>
-</p>
-<h3 id="7.2-動態載入策略">7.2 動態載入策略</h3>
+  private loadedBundles: Set&lt;string&gt; = new Set();
+
+  async loadBundle(bundleName: string): Promise&lt;AssetManager.Bundle&gt; {
+    if (this.loadedBundles.has(bundleName)) {
+      return assetManager.getBundle(bundleName)!;
+    }
+    const bundle = await new Promise&lt;AssetManager.Bundle&gt;((resolve, reject) =&gt; {
+      assetManager.loadBundle(bundleName, (err, bundle) =&gt; {
+        if (err) reject(err);
+        else resolve(bundle);
+      });
+    });
+    this.loadedBundles.add(bundleName);
+    return bundle;
+  }
+
+  // 配對等待期間預載 game bundle（避免進場卡頓）
+  async preloadGameBundle(): Promise&lt;void&gt; {
+    await this.loadBundle(&#x27;game&#x27;);
+  }
+
+  // 釋放非當前場景的 Bundle（記憶體管理）
+  releaseBundle(bundleName: string): void {
+    const bundle = assetManager.getBundle(bundleName);
+    if (bundle &amp;&amp; bundleName !== &#x27;core&#x27;) {
+      bundle.releaseAll();
+      this.loadedBundles.delete(bundleName);
+    }
+  }
+}</code></pre>
+<h3>7.2 動態載入策略</h3>
 <pre><code class="language-typescript">// 魚類設定 JSON 動態載入（不硬編碼在程式碼中，方便運營調整）
-<p>
 async function loadFishConfigs(): Promise&lt;FishConfig[]&gt; {
-const bundle = await assetBundleManager.loadBundle(&#x27;core&#x27;);
-return new Promise((resolve, reject) =&gt; {
-bundle.loadDir(&#x27;fish-configs&#x27;, JsonAsset, (err, assets) =&gt; {
-if (err) reject(err);
-else resolve(assets.map(a =&gt; a.json as FishConfig));
-});
-});
+  const bundle = await assetBundleManager.loadBundle(&#x27;core&#x27;);
+  return new Promise((resolve, reject) =&gt; {
+    bundle.loadDir(&#x27;fish-configs&#x27;, JsonAsset, (err, assets) =&gt; {
+      if (err) reject(err);
+      else resolve(assets.map(a =&gt; a.json as FishConfig));
+    });
+  });
 }
-</p>
-<p>
+
 // 按需載入 Boss 魚特效（僅在 Boss 進場時才需要全解析度資源）
 async function preloadBossEffects(bossType: BossType): Promise&lt;void&gt; {
-const bundle = await assetBundleManager.loadBundle(&#x27;game&#x27;);
-const prefabPath = <code>prefabs/fish/${BOSS_PREFAB_MAP[bossType]}</code>;
-await new Promise&lt;void&gt;((resolve, reject) =&gt; {
-bundle.preload(prefabPath, Prefab, (err) =&gt; {
-if (err) reject(err);
-else resolve();
-});
-});
-}
-</code></pre>
-</p>
-<h3 id="7.3-記憶體管理">7.3 記憶體管理</h3>
-<p>
-<strong>目標：執行時記憶體 < 200 MB（中端設備）</strong>
-</p>
+  const bundle = await assetBundleManager.loadBundle(&#x27;game&#x27;);
+  const prefabPath = `prefabs/fish/${BOSS_PREFAB_MAP[bossType]}`;
+  await new Promise&lt;void&gt;((resolve, reject) =&gt; {
+    bundle.preload(prefabPath, Prefab, (err) =&gt; {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+}</code></pre>
+<h3>7.3 記憶體管理</h3>
+<p><strong>目標：執行時記憶體 &lt; 200 MB（中端設備）</strong></p>
 <pre><code class="language-typescript">class MemoryManager {
-<p>
-// 場景切換時釋放前場景資源
-onSceneUnload(sceneName: string): void {
-// 1. 釋放物件池中所有非活躍節點
-if (sceneName === &#x27;GameScene&#x27;) {
-fishPoolManager.releaseAll();
-bulletPoolManager.releaseAll();
-effectPoolManager.releaseAll();
-}
-</p>
-<p>
-// 2. 釋放非 core bundle
-if (sceneName === &#x27;GameScene&#x27;) {
-assetBundleManager.releaseBundle(&#x27;game&#x27;);
-}
-</p>
-<p>
-// 3. 強制 GC（Cocos 提供）
-if (sys.isNative) {
-sys.garbageCollect();
-}
-}
-</p>
-<p>
-// 紋理壓縮格式選擇（依平台）
-static getTextureCompression(): string {
-if (sys.os === sys.OS.IOS) return &#x27;ASTC&#x27;;        // iOS: ASTC 4x4
-if (sys.os === sys.OS.ANDROID) return &#x27;ETC2&#x27;;    // Android: ETC2
-return &#x27;WEBP&#x27;;                                    // H5: WebP
-}
-}
-</code></pre>
-</p>
+  // 場景切換時釋放前場景資源
+  onSceneUnload(sceneName: string): void {
+    // 1. 釋放物件池中所有非活躍節點
+    if (sceneName === &#x27;GameScene&#x27;) {
+      fishPoolManager.releaseAll();
+      bulletPoolManager.releaseAll();
+      effectPoolManager.releaseAll();
+    }
+
+    // 2. 釋放非 core bundle
+    if (sceneName === &#x27;GameScene&#x27;) {
+      assetBundleManager.releaseBundle(&#x27;game&#x27;);
+    }
+
+    // 3. 強制 GC（Cocos 提供）
+    if (sys.isNative) {
+      sys.garbageCollect();
+    }
+  }
+
+  // 紋理壓縮格式選擇（依平台）
+  static getTextureCompression(): string {
+    if (sys.os === sys.OS.IOS) return &#x27;ASTC&#x27;;        // iOS: ASTC 4x4
+    if (sys.os === sys.OS.ANDROID) return &#x27;ETC2&#x27;;    // Android: ETC2
+    return &#x27;WEBP&#x27;;                                    // H5: WebP
+  }
+}</code></pre>
 <hr>
-<h2 id="8.-效能最佳化">8. 效能最佳化</h2>
-<h3 id="8.1-渲染效能">8.1 渲染效能</h3>
-<p>
-<strong>目標：60 fps on 中端移動設備（高通 Snapdragon 730 / Apple A13 等級）</strong>
-</p>
+<h2>8. 效能最佳化</h2>
+<h3>8.1 渲染效能</h3>
+<p><strong>目標：60 fps on 中端移動設備（高通 Snapdragon 730 / Apple A13 等級）</strong></p>
 <pre><code class="language-typescript">// DrawCall 最佳化策略
-<p>
 // 1. 所有魚類紋理合入同一個 Sprite Atlas（TexturePacker 生成）
 //    → 同類魚的所有 Sprite 共享一個 Material → 減少 DrawCall
-</p>
-<p>
+
 // 2. UI 元素同樣使用 Atlas，避免逐個 Sprite 產生 DrawCall
 //    → HUD 所有圖示合入 ui-atlas.png
-</p>
-<p>
+
 // 3. 設定 Cocos 合批渲染（Batching）
 // 在 Project Settings → Graphics 啟用 Dynamic Batching
-</p>
-<p>
+
 // 4. 避免在遊戲主迴圈中使用 find() 搜尋節點
 //    → 所有頻繁訪問的節點在 onLoad 時快取
-</p>
-<p>
+
 @ccclass(&#x27;GameScene&#x27;)
 export class GameSceneComponent extends Component {
-// 快取關鍵節點（避免每幀 find）
-@property(Node) fishLayer: Node = null!;
-@property(Node) bulletLayer: Node = null!;
-@property(Node) effectLayer: Node = null!;
-@property(Node) hudLayer: Node = null!;
+  // 快取關鍵節點（避免每幀 find）
+  @property(Node) fishLayer: Node = null!;
+  @property(Node) bulletLayer: Node = null!;
+  @property(Node) effectLayer: Node = null!;
+  @property(Node) hudLayer: Node = null!;
 }
-</p>
-<p>
+
 // 5. 使用 Node.active 控制顯隱（而非 opacity = 0）
 //    → active = false 的節點不參與渲染管線
-</p>
-<p>
+
 // 6. 背景 Shader 優化：水波動畫使用 UV Scroll Shader（GPU 計算）
-//    → 不需要每幀更新 CPU 資料
-</code></pre>
-</p>
-<p>
-<strong>Frame Budget 分配（60 fps = 16.67 ms/frame）</strong>
-</p>
-<table><tr><th>任務</th><th>目標耗時</th><th>說明</th></tr><tr><td>遊戲邏輯更新（TS）</td><td>< 2 ms</td><td>物件池查詢、狀態更新</td></tr><tr><td>Colyseus Delta Apply</td><td>< 1 ms</td><td>Schema 差量更新</td></tr><tr><td>UI 更新</td><td>< 1 ms</td><td>HUD 數字更新</td></tr><tr><td>渲染（GPU）</td><td>< 8 ms</td><td>DrawCall 控制 < 50/frame</td></tr><tr><td>音效混音（Web Audio）</td><td>< 1 ms</td><td>SFX 觸發</td></tr><tr><td>緩衝</td><td>< 3.67 ms</td><td>系統調度緩衝</td></tr></table>
-<h3 id="8.2-物件池-(object-pool)">8.2 物件池 (Object Pool)</h3>
-<p>
-<strong>物件池規格（對應需求規格）</strong>
-</p>
-<table><tr><th>池類型</th><th>初始化大小</th><th>最大擴展</th><th>說明</th></tr><tr><td>FishNode（普通）</td><td>60</td><td>90</td><td>常規遊戲場景同時最多 50 條普通魚</td></tr><tr><td>FishNode（精英）</td><td>30</td><td>45</td><td>精英魚通常同時 5-10 條</td></tr><tr><td>FishNode（Boss）</td><td>5</td><td>5</td><td>Boss 同時最多 1-2 條，不擴展</td></tr><tr><td>BulletNode</td><td>200</td><td>300</td><td>4-6 人 × 高射速 × 在途子彈</td></tr><tr><td>HitEffect</td><td>50</td><td>80</td><td>命中特效（短時間播放即回收）</td></tr><tr><td>CoinEffect</td><td>100</td><td>150</td><td>金幣飛出特效</td></tr><tr><td>DamageNumber</td><td>60</td><td>100</td><td>傷害數字（顯示 0.5s 後回收）</td></tr><tr><td>MultiplierPopup</td><td>20</td><td>30</td><td>倍率爆字（大型特效）</td></tr></table>
+//    → 不需要每幀更新 CPU 資料</code></pre>
+<p><strong>Frame Budget 分配（60 fps = 16.67 ms/frame）</strong></p>
+<table>
+<tr><th>任務</th><th>目標耗時</th><th>說明</th></tr>
+<tr><td>遊戲邏輯更新（TS）</td><td>&lt; 2 ms</td><td>物件池查詢、狀態更新</td></tr>
+<tr><td>Colyseus Delta Apply</td><td>&lt; 1 ms</td><td>Schema 差量更新</td></tr>
+<tr><td>UI 更新</td><td>&lt; 1 ms</td><td>HUD 數字更新</td></tr>
+<tr><td>渲染（GPU）</td><td>&lt; 8 ms</td><td>DrawCall 控制 &lt; 50/frame</td></tr>
+<tr><td>音效混音（Web Audio）</td><td>&lt; 1 ms</td><td>SFX 觸發</td></tr>
+<tr><td>緩衝</td><td>&lt; 3.67 ms</td><td>系統調度緩衝</td></tr>
+</table>
+<h3>8.2 物件池 (Object Pool)</h3>
+<p><strong>物件池規格（對應需求規格）</strong></p>
+<table>
+<tr><th>池類型</th><th>初始化大小</th><th>最大擴展</th><th>說明</th></tr>
+<tr><td>FishNode（普通）</td><td>60</td><td>90</td><td>常規遊戲場景同時最多 50 條普通魚</td></tr>
+<tr><td>FishNode（精英）</td><td>30</td><td>45</td><td>精英魚通常同時 5-10 條</td></tr>
+<tr><td>FishNode（Boss）</td><td>5</td><td>5</td><td>Boss 同時最多 1-2 條，不擴展</td></tr>
+<tr><td>BulletNode</td><td>200</td><td>300</td><td>4-6 人 × 高射速 × 在途子彈</td></tr>
+<tr><td>HitEffect</td><td>50</td><td>80</td><td>命中特效（短時間播放即回收）</td></tr>
+<tr><td>CoinEffect</td><td>100</td><td>150</td><td>金幣飛出特效</td></tr>
+<tr><td>DamageNumber</td><td>60</td><td>100</td><td>傷害數字（顯示 0.5s 後回收）</td></tr>
+<tr><td>MultiplierPopup</td><td>20</td><td>30</td><td>倍率爆字（大型特效）</td></tr>
+</table>
 <pre><code class="language-typescript">// 通用物件池基類
-<p>
 class ObjectPool&lt;T extends Component&gt; {
-private pool: Node[] = [];
-private activeCount = 0;
-</p>
-<p>
-constructor(
-private prefab: Prefab,
-private parent: Node,
-private initialSize: number,
-private maxSize: number,
-private componentClass: new () =&gt; T,
-) {}
-</p>
-<p>
-async initialize(): Promise&lt;void&gt; {
-for (let i = 0; i &lt; this.initialSize; i++) {
-const node = instantiate(this.prefab);
-node.active = false;
-this.parent.addChild(node);
-this.pool.push(node);
-}
-}
-</p>
-<p>
-acquire(): Node {
-const node = this.pool.find(n =&gt; !n.active);
-if (!node) {
-if (this.pool.length &lt; this.maxSize) {
-const newNode = instantiate(this.prefab);
-newNode.active = false;
-this.parent.addChild(newNode);
-this.pool.push(newNode);
-return this.activate(newNode);
-}
-// 超出最大池：回收最舊的活躍節點
-console.warn(<code>[ObjectPool] Max size ${this.maxSize} reached, recycling oldest</code>);
-return this.activate(this.pool[0]);
-}
-return this.activate(node);
-}
-</p>
-<p>
-release(node: Node): void {
-node.active = false;
-node.getComponent(this.componentClass)?.reset?.();
-this.activeCount--;
-}
-</p>
-<p>
-releaseAll(): void {
-this.pool.forEach(n =&gt; { if (n.active) this.release(n); });
-}
-</p>
-<p>
-private activate(node: Node): Node {
-node.active = true;
-this.activeCount++;
-return node;
-}
-</p>
-<p>
-getActiveCount(): number { return this.activeCount; }
-getPoolSize(): number { return this.pool.length; }
-}
-</code></pre>
-</p>
-<h3 id="8.3-網路效能">8.3 網路效能</h3>
-<p>
-<strong>訊息頻率控制</strong>
-</p>
+  private pool: Node[] = [];
+  private activeCount = 0;
+
+  constructor(
+    private prefab: Prefab,
+    private parent: Node,
+    private initialSize: number,
+    private maxSize: number,
+    private componentClass: new () =&gt; T,
+  ) {}
+
+  async initialize(): Promise&lt;void&gt; {
+    for (let i = 0; i &lt; this.initialSize; i++) {
+      const node = instantiate(this.prefab);
+      node.active = false;
+      this.parent.addChild(node);
+      this.pool.push(node);
+    }
+  }
+
+  acquire(): Node {
+    const node = this.pool.find(n =&gt; !n.active);
+    if (!node) {
+      if (this.pool.length &lt; this.maxSize) {
+        const newNode = instantiate(this.prefab);
+        newNode.active = false;
+        this.parent.addChild(newNode);
+        this.pool.push(newNode);
+        return this.activate(newNode);
+      }
+      // 超出最大池：回收最舊的活躍節點
+      console.warn(`[ObjectPool] Max size ${this.maxSize} reached, recycling oldest`);
+      return this.activate(this.pool[0]);
+    }
+    return this.activate(node);
+  }
+
+  release(node: Node): void {
+    node.active = false;
+    node.getComponent(this.componentClass)?.reset?.();
+    this.activeCount--;
+  }
+
+  releaseAll(): void {
+    this.pool.forEach(n =&gt; { if (n.active) this.release(n); });
+  }
+
+  private activate(node: Node): Node {
+    node.active = true;
+    this.activeCount++;
+    return node;
+  }
+
+  getActiveCount(): number { return this.activeCount; }
+  getPoolSize(): number { return this.pool.length; }
+}</code></pre>
+<h3>8.3 網路效能</h3>
+<p><strong>訊息頻率控制</strong></p>
 <pre><code class="language-typescript">// 射擊訊息節流：防止玩家超頻率發送（伺服器端也有 60 msg/s 限制）
-<p>
 class ShootingSystem {
-private readonly MIN_SHOOT_INTERVAL_MS = 80; // 對應最快武器 Level 5 冷卻
-</p>
-<p>
-private lastSendTime = 0;
-</p>
-<p>
-shoot(targetFishId?: string): void {
-const now = Date.now();
-if (now - this.lastSendTime &lt; this.MIN_SHOOT_INTERVAL_MS) return;
-this.lastSendTime = now;
-// ... 發送邏輯
+  private readonly MIN_SHOOT_INTERVAL_MS = 80; // 對應最快武器 Level 5 冷卻
+
+  private lastSendTime = 0;
+
+  shoot(targetFishId?: string): void {
+    const now = Date.now();
+    if (now - this.lastSendTime &lt; this.MIN_SHOOT_INTERVAL_MS) return;
+    this.lastSendTime = now;
+    // ... 發送邏輯
+  }
 }
-}
-</p>
-<p>
+
 // 狀態更新批次處理：同一幀內多個 Schema 變更合併處理
 class FishSystem {
-private pendingUpdates: FishState[] = [];
-</p>
-<p>
-// Colyseus onChange 只收集變更
-queueFishUpdate(fish: FishState): void {
-this.pendingUpdates.push(fish);
-}
-</p>
-<p>
-// update() 每幀批次處理（減少 DOM/Canvas 操作次數）
-update(): void {
-if (this.pendingUpdates.length === 0) return;
-for (const fish of this.pendingUpdates) {
-this.applyFishUpdate(fish);
-}
-this.pendingUpdates.length = 0;
-}
-}
-</code></pre>
-</p>
+  private pendingUpdates: FishState[] = [];
+
+  // Colyseus onChange 只收集變更
+  queueFishUpdate(fish: FishState): void {
+    this.pendingUpdates.push(fish);
+  }
+
+  // update() 每幀批次處理（減少 DOM/Canvas 操作次數）
+  update(): void {
+    if (this.pendingUpdates.length === 0) return;
+    for (const fish of this.pendingUpdates) {
+      this.applyFishUpdate(fish);
+    }
+    this.pendingUpdates.length = 0;
+  }
+}</code></pre>
 <hr>
-<h2 id="9.-多平台支援">9. 多平台支援</h2>
-<h3 id="9.1-web-(h5)-平台">9.1 Web (H5) 平台</h3>
-<p>
-<strong>目標規格</strong>
-</p>
-<table><tr><th>指標</th><th>目標</th><th>說明</th></tr><tr><td>初始載入時間</td><td>< 5 秒（4G 網路）</td><td>core bundle < 3 MB，gzip 壓縮</td></tr><tr><td>首屏渲染</td><td>< 2 秒</td><td>Loading Scene 資源精簡</td></tr><tr><td>執行幀率</td><td>60 fps（Chrome / Safari）</td><td>WebGL 2.0 渲染</td></tr><tr><td>記憶體</td><td>< 200 MB</td><td>瀏覽器 Tab 穩定不崩潰</td></tr></table>
-<p>
-<strong>H5 特殊處理</strong>
-</p>
+<h2>9. 多平台支援</h2>
+<h3>9.1 Web (H5) 平台</h3>
+<p><strong>目標規格</strong></p>
+<table>
+<tr><th>指標</th><th>目標</th><th>說明</th></tr>
+<tr><td>初始載入時間</td><td>&lt; 5 秒（4G 網路）</td><td>core bundle &lt; 3 MB，gzip 壓縮</td></tr>
+<tr><td>首屏渲染</td><td>&lt; 2 秒</td><td>Loading Scene 資源精簡</td></tr>
+<tr><td>執行幀率</td><td>60 fps（Chrome / Safari）</td><td>WebGL 2.0 渲染</td></tr>
+<tr><td>記憶體</td><td>&lt; 200 MB</td><td>瀏覽器 Tab 穩定不崩潰</td></tr>
+</table>
+<p><strong>H5 特殊處理</strong></p>
 <pre><code class="language-typescript">// H5 平台音效：需要用戶手勢後才能播放（瀏覽器限制）
-<p>
 class AudioManager {
-private isAudioUnlocked = false;
-</p>
-<p>
-unlockAudio(): void {
-if (this.isAudioUnlocked) return;
-// 在用戶首次觸摸事件中解鎖 Web Audio Context
-const context = new AudioContext();
-context.resume().then(() =&gt; {
-this.isAudioUnlocked = true;
-});
+  private isAudioUnlocked = false;
+
+  unlockAudio(): void {
+    if (this.isAudioUnlocked) return;
+    // 在用戶首次觸摸事件中解鎖 Web Audio Context
+    const context = new AudioContext();
+    context.resume().then(() =&gt; {
+      this.isAudioUnlocked = true;
+    });
+  }
 }
-}
-</p>
-<p>
+
 // H5 全屏支援
 function requestFullscreen(): void {
-const canvas = document.getElementById(&#x27;GameCanvas&#x27;) as HTMLCanvasElement;
-if (canvas.requestFullscreen) {
-canvas.requestFullscreen();
+  const canvas = document.getElementById(&#x27;GameCanvas&#x27;) as HTMLCanvasElement;
+  if (canvas.requestFullscreen) {
+    canvas.requestFullscreen();
+  }
 }
-}
-</p>
-<p>
+
 // H5 安全區域（瀏覽器工具列）
 function applySafeArea(): void {
-// 偵測瀏覽器 URL bar 高度，調整 Canvas 尺寸
-const visualViewport = window.visualViewport;
-if (visualViewport) {
-visualViewport.addEventListener(&#x27;resize&#x27;, () =&gt; {
-cc.game.canvas.style.height = <code>${visualViewport.height}px</code>;
-});
-}
-}
-</code></pre>
-</p>
-<p>
-<strong>H5 Bundle 優化</strong>
-</p>
-<pre><code>// cocos.build.json（H5 構建設定）
-<p>
+  // 偵測瀏覽器 URL bar 高度，調整 Canvas 尺寸
+  const visualViewport = window.visualViewport;
+  if (visualViewport) {
+    visualViewport.addEventListener(&#x27;resize&#x27;, () =&gt; {
+      cc.game.canvas.style.height = `${visualViewport.height}px`;
+    });
+  }
+}</code></pre>
+<p><strong>H5 Bundle 優化</strong></p>
+<pre><code class="">// cocos.build.json（H5 構建設定）
 {
-&quot;platform&quot;: &quot;web-mobile&quot;,
-&quot;md5Cache&quot;: true,           // 資源 MD5 版本號（CDN 快取破除）
-&quot;useCompressTexture&quot;: true, // 啟用紋理壓縮（WebP）
-&quot;webgpu&quot;: false,            // 保持 WebGL 2.0 相容
-&quot;sourceMap&quot;: false,         // 生產環境不產生 source map
-&quot;inlineSpriteFrames&quot;: true, // 小圖示 Base64 內嵌
-}
-</code></pre>
-</p>
-<h3 id="9.2-ios-平台">9.2 iOS 平台</h3>
-<p>
-<strong>目標規格</strong>
-</p>
-<table><tr><th>指標</th><th>目標</th></tr><tr><td>最低支援</td><td>iOS 14+（iPhone SE 2nd gen 等級）</td></tr><tr><td>紋理壓縮</td><td>ASTC 4x4（PowerVR/Apple GPU）</td></tr><tr><td>記憶體</td><td>< 200 MB（防止 iOS 低記憶體 kill）</td></tr><tr><td>幀率</td><td>60 fps（ProMotion 裝置 120 fps 上限）</td></tr></table>
-<p>
-<strong>iOS 特殊處理</strong>
-</p>
+  &quot;platform&quot;: &quot;web-mobile&quot;,
+  &quot;md5Cache&quot;: true,           // 資源 MD5 版本號（CDN 快取破除）
+  &quot;useCompressTexture&quot;: true, // 啟用紋理壓縮（WebP）
+  &quot;webgpu&quot;: false,            // 保持 WebGL 2.0 相容
+  &quot;sourceMap&quot;: false,         // 生產環境不產生 source map
+  &quot;inlineSpriteFrames&quot;: true, // 小圖示 Base64 內嵌
+}</code></pre>
+<h3>9.2 iOS 平台</h3>
+<p><strong>目標規格</strong></p>
+<table>
+<tr><th>指標</th><th>目標</th></tr>
+<tr><td>最低支援</td><td>iOS 14+（iPhone SE 2nd gen 等級）</td></tr>
+<tr><td>紋理壓縮</td><td>ASTC 4x4（PowerVR/Apple GPU）</td></tr>
+<tr><td>記憶體</td><td>&lt; 200 MB（防止 iOS 低記憶體 kill）</td></tr>
+<tr><td>幀率</td><td>60 fps（ProMotion 裝置 120 fps 上限）</td></tr>
+</table>
+<p><strong>iOS 特殊處理</strong></p>
 <pre><code class="language-typescript">// 安全區域（劉海/Home Bar）
-<p>
 if (sys.os === sys.OS.IOS) {
-// 取得 safeAreaInsets
-const safeArea = sys.getSafeAreaRect();
-// 調整 HUD 位置，避開劉海和 Home Bar
-this.hudNode.setPosition(
-this.hudNode.position.x,
-this.hudNode.position.y - safeArea.y / 2,
-);
+  // 取得 safeAreaInsets
+  const safeArea = sys.getSafeAreaRect();
+  // 調整 HUD 位置，避開劉海和 Home Bar
+  this.hudNode.setPosition(
+    this.hudNode.position.x,
+    this.hudNode.position.y - safeArea.y / 2,
+  );
 }
-</p>
-<p>
+
 // Metal 後端（iOS 14+ 使用 Metal 而非 OpenGL ES）
-// Cocos 3.8 自動處理，無需手動切換
-</code></pre>
-</p>
-<h3 id="9.3-android-平台">9.3 Android 平台</h3>
-<p>
-<strong>目標規格</strong>
-</p>
-<table><tr><th>指標</th><th>目標</th></tr><tr><td>最低支援</td><td>Android 8.0（API Level 26）</td></tr><tr><td>紋理壓縮</td><td>ETC2（所有 OpenGL ES 3.0+ 裝置）</td></tr><tr><td>包體大小</td><td>APK < 80 MB（Google Play 限制）+ OBB/PAD</td></tr><tr><td>記憶體</td><td>< 200 MB（防止低記憶體殺程式）</td></tr></table>
-<p>
-<strong>Android 特殊處理</strong>
-</p>
+// Cocos 3.8 自動處理，無需手動切換</code></pre>
+<h3>9.3 Android 平台</h3>
+<p><strong>目標規格</strong></p>
+<table>
+<tr><th>指標</th><th>目標</th></tr>
+<tr><td>最低支援</td><td>Android 8.0（API Level 26）</td></tr>
+<tr><td>紋理壓縮</td><td>ETC2（所有 OpenGL ES 3.0+ 裝置）</td></tr>
+<tr><td>包體大小</td><td>APK &lt; 80 MB（Google Play 限制）+ OBB/PAD</td></tr>
+<tr><td>記憶體</td><td>&lt; 200 MB（防止低記憶體殺程式）</td></tr>
+</table>
+<p><strong>Android 特殊處理</strong></p>
 <pre><code class="language-typescript">// 返回鍵處理（Android 實體返回鍵）
-<p>
 if (sys.os === sys.OS.ANDROID) {
-input.on(Input.EventType.KEY_DOWN, (event) =&gt; {
-if (event.keyCode === KeyCode.ESCAPE) {
-this.handleAndroidBack();
+  input.on(Input.EventType.KEY_DOWN, (event) =&gt; {
+    if (event.keyCode === KeyCode.ESCAPE) {
+      this.handleAndroidBack();
+    }
+  });
 }
-});
-}
-</p>
-<p>
+
 function handleAndroidBack(): void {
-// 如果有 Dialog 開啟，先關閉 Dialog
-if (UIController.hasOpenDialog()) {
-UIController.closeTopDialog();
-return;
-}
-// 在大廳顯示退出確認
-if (SceneManager.currentScene === GameScene.LOBBY) {
-ConfirmDialog.show(&#x27;確定要退出遊戲嗎？&#x27;, () =&gt; {
-sys.exit();
-});
-}
-}
-</code></pre>
-</p>
-<h3 id="9.4-響應式適配">9.4 響應式適配</h3>
-<p>
-<strong>設計寬度：720 px FIXED_WIDTH（對應 VDD §0 設計規格）</strong>
-</p>
+  // 如果有 Dialog 開啟，先關閉 Dialog
+  if (UIController.hasOpenDialog()) {
+    UIController.closeTopDialog();
+    return;
+  }
+  // 在大廳顯示退出確認
+  if (SceneManager.currentScene === GameScene.LOBBY) {
+    ConfirmDialog.show(&#x27;確定要退出遊戲嗎？&#x27;, () =&gt; {
+      sys.exit();
+    });
+  }
+}</code></pre>
+<h3>9.4 響應式適配</h3>
+<p><strong>設計寬度：720 px FIXED_WIDTH（對應 VDD §0 設計規格）</strong></p>
 <pre><code class="language-typescript">// Canvas 自適應策略：FIXED_WIDTH
-<p>
 // 固定寬度 720 px，高度依設備螢幕比例浮動
 // 在 Cocos Project Settings 設定：
 // - Design Resolution: 720 × 1280
 // - Fit Width: true
 // - Fit Height: false（高度自適應）
-</p>
-<p>
+
 // 不同長寬比的適配
 const DESIGN_WIDTH  = 720;
 const DESIGN_HEIGHT = 1280;
-</p>
-<p>
+
 function getScaleFactor(): number {
-const screenWidth  = sys.windowSize.width;
-const screenHeight = sys.windowSize.height;
-return screenWidth / DESIGN_WIDTH;
+  const screenWidth  = sys.windowSize.width;
+  const screenHeight = sys.windowSize.height;
+  return screenWidth / DESIGN_WIDTH;
 }
-</p>
-<p>
+
 // HUD 元素位置適配
 function adaptHUDPositions(safeArea: Rect): void {
-const scale = getScaleFactor();
-const actualHeight = sys.windowSize.height / scale;
-</p>
-<p>
-// 底部 HUD 適配（考慮 Home Bar）
-bottomHUD.setPosition(0, -actualHeight / 2 + safeArea.y + 60);
-</p>
-<p>
-// 頂部 HUD 適配（考慮狀態欄）
-topHUD.setPosition(0, actualHeight / 2 - safeArea.height - 60);
-}
-</code></pre>
-</p>
+  const scale = getScaleFactor();
+  const actualHeight = sys.windowSize.height / scale;
+
+  // 底部 HUD 適配（考慮 Home Bar）
+  bottomHUD.setPosition(0, -actualHeight / 2 + safeArea.y + 60);
+
+  // 頂部 HUD 適配（考慮狀態欄）
+  topHUD.setPosition(0, actualHeight / 2 - safeArea.height - 60);
+}</code></pre>
 <hr>
-<h2 id="10.-安全性">10. 安全性</h2>
-<h3 id="10.1-前端安全原則">10.1 前端安全原則</h3>
-<p>
-<strong>遵循 EDD §4 Security 設計，前端實作以下原則：</strong>
-</p>
-<table><tr><th>原則</th><th>實作方式</th></tr><tr><td>JWT Token 安全儲存</td><td>access_token 存 memory（不寫 localStorage）；refresh_token 存 Cocos <code>sys.localStorage</code>（加密）</td></tr><tr><td>Token 自動刷新</td><td>access_token 過期前 60 秒自動呼叫 <code>/v1/auth/refresh</code>；失敗時導向登入頁</td></tr><tr><td>敏感資料不暴露</td><td>不在前端 log 中輸出 token、密碼、金幣絕對值</td></tr><tr><td>本地儲存加密</td><td>使用 AES-GCM 加密 refresh_token 後再存 localStorage</td></tr><tr><td>HTTPS Only</td><td>所有 REST API 強制 HTTPS；WebSocket 強制 WSS</td></tr></table>
+<h2>10. 安全性</h2>
+<h3>10.1 前端安全原則</h3>
+<p><strong>遵循 EDD §4 Security 設計，前端實作以下原則：</strong></p>
+<table>
+<tr><th>原則</th><th>實作方式</th></tr>
+<tr><td>JWT Token 安全儲存</td><td>access_token 存 memory（不寫 localStorage）；refresh_token 存 Cocos <code>sys.localStorage</code>（加密）</td></tr>
+<tr><td>Token 自動刷新</td><td>access_token 過期前 60 秒自動呼叫 <code>/v1/auth/refresh</code>；失敗時導向登入頁</td></tr>
+<tr><td>敏感資料不暴露</td><td>不在前端 log 中輸出 token、密碼、金幣絕對值</td></tr>
+<tr><td>本地儲存加密</td><td>使用 AES-GCM 加密 refresh_token 後再存 localStorage</td></tr>
+<tr><td>HTTPS Only</td><td>所有 REST API 強制 HTTPS；WebSocket 強制 WSS</td></tr>
+</table>
 <pre><code class="language-typescript">// Token 管理（安全儲存）
-<p>
 class AuthManager {
-private accessToken: string | null = null;     // 純 memory，頁面刷新後消失
-private readonly TOKEN_STORAGE_KEY = &#x27;rt_enc&#x27;; // 加密後的 refresh_token
-</p>
-<p>
-setTokens(accessToken: string, refreshToken: string): void {
-this.accessToken = accessToken;
-// refresh_token 加密存儲
-const encrypted = this.encrypt(refreshToken);
-sys.localStorage.setItem(this.TOKEN_STORAGE_KEY, encrypted);
-}
-</p>
-<p>
-getAccessToken(): string | null {
-return this.accessToken;
-}
-</p>
-<p>
-async getOrRefreshToken(): Promise&lt;string | null&gt; {
-if (this.accessToken &amp;&amp; !this.isTokenExpired(this.accessToken)) {
-return this.accessToken;
-}
-// Token 過期，嘗試刷新
-const encryptedRefreshToken = sys.localStorage.getItem(this.TOKEN_STORAGE_KEY);
-if (!encryptedRefreshToken) return null;
-</p>
-<p>
-try {
-const refreshToken = this.decrypt(encryptedRefreshToken);
-const response = await httpClient.refreshToken(refreshToken);
-this.accessToken = response.data.access_token;
-return this.accessToken;
-} catch {
-this.clearTokens();
-EventBus.emit(&#x27;AUTH_EXPIRED&#x27;);
-return null;
-}
-}
-</p>
-<p>
-clearTokens(): void {
-this.accessToken = null;
-sys.localStorage.removeItem(this.TOKEN_STORAGE_KEY);
-}
-</p>
-<p>
-private isTokenExpired(token: string): boolean {
-try {
-const payload = JSON.parse(atob(token.split(&#x27;.&#x27;)[1]));
-return Date.now() / 1000 &gt; payload.exp - 60; // 提前 60 秒判定過期
-} catch {
-return true;
-}
-}
-</p>
-<p>
-private encrypt(data: string): string { /<em> AES-GCM 加密 </em>/ return data; }
-private decrypt(data: string): string { /<em> AES-GCM 解密 </em>/ return data; }
-}
-</code></pre>
-</p>
-<h3 id="10.2-server-authoritative-設計">10.2 Server-Authoritative 設計</h3>
-<p>
-<strong>前端不信任、不計算任何影響金幣的邏輯（EDD ADR-003）：</strong>
-</p>
+  private accessToken: string | null = null;     // 純 memory，頁面刷新後消失
+  private readonly TOKEN_STORAGE_KEY = &#x27;rt_enc&#x27;; // 加密後的 refresh_token
+
+  setTokens(accessToken: string, refreshToken: string): void {
+    this.accessToken = accessToken;
+    // refresh_token 加密存儲
+    const encrypted = this.encrypt(refreshToken);
+    sys.localStorage.setItem(this.TOKEN_STORAGE_KEY, encrypted);
+  }
+
+  getAccessToken(): string | null {
+    return this.accessToken;
+  }
+
+  async getOrRefreshToken(): Promise&lt;string | null&gt; {
+    if (this.accessToken &amp;&amp; !this.isTokenExpired(this.accessToken)) {
+      return this.accessToken;
+    }
+    // Token 過期，嘗試刷新
+    const encryptedRefreshToken = sys.localStorage.getItem(this.TOKEN_STORAGE_KEY);
+    if (!encryptedRefreshToken) return null;
+
+    try {
+      const refreshToken = this.decrypt(encryptedRefreshToken);
+      const response = await httpClient.refreshToken(refreshToken);
+      this.accessToken = response.data.access_token;
+      return this.accessToken;
+    } catch {
+      this.clearTokens();
+      EventBus.emit(&#x27;AUTH_EXPIRED&#x27;);
+      return null;
+    }
+  }
+
+  clearTokens(): void {
+    this.accessToken = null;
+    sys.localStorage.removeItem(this.TOKEN_STORAGE_KEY);
+  }
+
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split(&#x27;.&#x27;)[1]));
+      return Date.now() / 1000 &gt; payload.exp - 60; // 提前 60 秒判定過期
+    } catch {
+      return true;
+    }
+  }
+
+  private encrypt(data: string): string { /* AES-GCM 加密 */ return data; }
+  private decrypt(data: string): string { /* AES-GCM 解密 */ return data; }
+}</code></pre>
+<h3>10.2 Server-Authoritative 設計</h3>
+<p><strong>前端不信任、不計算任何影響金幣的邏輯（EDD ADR-003）：</strong></p>
 <pre><code class="language-typescript">// 錯誤做法（絕對禁止）：
-<p>
 // ❌ 客戶端自行計算命中率
 // ❌ 客戶端本地修改 gold_balance
 // ❌ 客戶端快取 RTP 值並自行判斷命中
-</p>
-<p>
+
 // 正確做法：
 // ✅ 所有結果等待伺服器 onMessage 確認後才更新 UI
 // ✅ 金幣餘額以伺服器 Room Schema 中的 PlayerState.coins 為準
 // ✅ 技能冷卻本地計時只是 UX 優化，伺服器拒絕時顯示錯誤
-</p>
-<p>
+
 class ShootingSystem {
-// 伺服器拒絕射擊指令（例如金幣不足）時的處理
-onShootRejected(reason: ShootRejectReason): void {
-switch (reason) {
-case ShootRejectReason.INSUFFICIENT_FUNDS:
-// 引導至充值（自然變現，PDD §1.3 原則 3）
-UIController.showShopDialog(&#x27;not_enough_gold&#x27;);
-break;
-case ShootRejectReason.WEAPON_ON_COOLDOWN:
-// 靜默忽略（本地冷卻計時應已阻止，這裡是伺服器的雙重保障）
-break;
-case ShootRejectReason.ROOM_ENDED:
-UIController.showToast(&#x27;遊戲已結束&#x27;, &#x27;info&#x27;);
-break;
-}
-}
-}
-</code></pre>
-</p>
+  // 伺服器拒絕射擊指令（例如金幣不足）時的處理
+  onShootRejected(reason: ShootRejectReason): void {
+    switch (reason) {
+      case ShootRejectReason.INSUFFICIENT_FUNDS:
+        // 引導至充值（自然變現，PDD §1.3 原則 3）
+        UIController.showShopDialog(&#x27;not_enough_gold&#x27;);
+        break;
+      case ShootRejectReason.WEAPON_ON_COOLDOWN:
+        // 靜默忽略（本地冷卻計時應已阻止，這裡是伺服器的雙重保障）
+        break;
+      case ShootRejectReason.ROOM_ENDED:
+        UIController.showToast(&#x27;遊戲已結束&#x27;, &#x27;info&#x27;);
+        break;
+    }
+  }
+}</code></pre>
 <hr>
-<h2 id="11.-測試策略">11. 測試策略</h2>
-<h3 id="11.1-單元測試">11.1 單元測試</h3>
-<p>
-<strong>框架：Jest + ts-jest（對應 EDD §3.3 技術棧）</strong>
-</p>
-<p>
-<strong>測試範圍：純 TypeScript 邏輯（零 Cocos 依賴）</strong>
-</p>
+<h2>11. 測試策略</h2>
+<h3>11.1 單元測試</h3>
+<p><strong>框架：Jest + ts-jest（對應 EDD §3.3 技術棧）</strong></p>
+<p><strong>測試範圍：純 TypeScript 邏輯（零 Cocos 依賴）</strong></p>
 <pre><code class="language-typescript">// assets/scripts/utils/__tests__/AnimationUtils.test.ts
-<p>
 describe(&#x27;AnimationUtils&#x27;, () =&gt; {
-describe(&#x27;multiplierBurst&#x27;, () =&gt; {
-it(&#x27;should resolve after animation duration&#x27;, async () =&gt; {
-const mockNode = createMockNode();
-const startTime = Date.now();
-await AnimationUtils.multiplierBurst(mockNode, 400);
-expect(Date.now() - startTime).toBeGreaterThanOrEqual(380);
+  describe(&#x27;multiplierBurst&#x27;, () =&gt; {
+    it(&#x27;should resolve after animation duration&#x27;, async () =&gt; {
+      const mockNode = createMockNode();
+      const startTime = Date.now();
+      await AnimationUtils.multiplierBurst(mockNode, 400);
+      expect(Date.now() - startTime).toBeGreaterThanOrEqual(380);
+    });
+  });
 });
-});
-});
-</p>
-<p>
+
 // assets/scripts/game/systems/__tests__/ShootingSystem.test.ts
 describe(&#x27;ShootingSystem&#x27;, () =&gt; {
-describe(&#x27;canShoot&#x27;, () =&gt; {
-it(&#x27;returns false when within cooldown period&#x27;, () =&gt; {
-const system = new ShootingSystem(mockNetwork, mockBulletPool, mockEffectPool, mockUIStore);
-system.updateWeapon(WeaponType.NORMAL, 1);
-system.shoot();
-expect(system.canShoot()).toBe(false);
+  describe(&#x27;canShoot&#x27;, () =&gt; {
+    it(&#x27;returns false when within cooldown period&#x27;, () =&gt; {
+      const system = new ShootingSystem(mockNetwork, mockBulletPool, mockEffectPool, mockUIStore);
+      system.updateWeapon(WeaponType.NORMAL, 1);
+      system.shoot();
+      expect(system.canShoot()).toBe(false);
+    });
+
+    it(&#x27;returns true after cooldown expires&#x27;, async () =&gt; {
+      const system = new ShootingSystem(mockNetwork, mockBulletPool, mockEffectPool, mockUIStore);
+      system.updateWeapon(WeaponType.NORMAL, 1);
+      system.shoot();
+      await new Promise(r =&gt; setTimeout(r, 310)); // NORMAL Level 1 冷卻 300ms
+      expect(system.canShoot()).toBe(true);
+    });
+  });
+
+  describe(&#x27;onFishDied&#x27;, () =&gt; {
+    it(&#x27;increments playerGold in UIStateStore&#x27;, () =&gt; {
+      const mockUIStore = new UIStateStore();
+      mockUIStore.playerGold = 1000;
+      const system = new ShootingSystem(mockNetwork, mockBulletPool, mockEffectPool, mockUIStore);
+      system.onFishDied(&#x27;fish-001&#x27;, 10, 500);
+      expect(mockUIStore.playerGold).toBe(1500);
+    });
+  });
 });
-</p>
-<p>
-it(&#x27;returns true after cooldown expires&#x27;, async () =&gt; {
-const system = new ShootingSystem(mockNetwork, mockBulletPool, mockEffectPool, mockUIStore);
-system.updateWeapon(WeaponType.NORMAL, 1);
-system.shoot();
-await new Promise(r =&gt; setTimeout(r, 310)); // NORMAL Level 1 冷卻 300ms
-expect(system.canShoot()).toBe(true);
-});
-});
-</p>
-<p>
-describe(&#x27;onFishDied&#x27;, () =&gt; {
-it(&#x27;increments playerGold in UIStateStore&#x27;, () =&gt; {
-const mockUIStore = new UIStateStore();
-mockUIStore.playerGold = 1000;
-const system = new ShootingSystem(mockNetwork, mockBulletPool, mockEffectPool, mockUIStore);
-system.onFishDied(&#x27;fish-001&#x27;, 10, 500);
-expect(mockUIStore.playerGold).toBe(1500);
-});
-});
-});
-</p>
-<p>
+
 // assets/scripts/data/schemas/__tests__/GameRoomSchema.test.ts
 describe(&#x27;GameRoomState Schema&#x27;, () =&gt; {
-it(&#x27;should deserialize fish state correctly&#x27;, () =&gt; {
-const state = new GameRoomState();
-const fish = new FishState();
-fish.id = &#x27;fish-001&#x27;;
-fish.fishType = FishType.BOSS;
-fish.hp = 500;
-fish.maxHp = 1000;
-state.fishes.push(fish);
-</p>
-<p>
-expect(state.fishes[0].id).toBe(&#x27;fish-001&#x27;);
-expect(state.fishes[0].hp / state.fishes[0].maxHp).toBe(0.5);
-});
-});
-</code></pre>
-</p>
-<p>
-<strong>覆蓋率目標：≥ 80%（對應 common/testing.md 規範）</strong>
-</p>
-<pre><code>// jest.config.ts
-<p>
+  it(&#x27;should deserialize fish state correctly&#x27;, () =&gt; {
+    const state = new GameRoomState();
+    const fish = new FishState();
+    fish.id = &#x27;fish-001&#x27;;
+    fish.fishType = FishType.BOSS;
+    fish.hp = 500;
+    fish.maxHp = 1000;
+    state.fishes.push(fish);
+
+    expect(state.fishes[0].id).toBe(&#x27;fish-001&#x27;);
+    expect(state.fishes[0].hp / state.fishes[0].maxHp).toBe(0.5);
+  });
+});</code></pre>
+<p><strong>覆蓋率目標：≥ 80%（對應 common/testing.md 規範）</strong></p>
+<pre><code class="">// jest.config.ts
 export default {
-preset: &#x27;ts-jest&#x27;,
-testEnvironment: &#x27;node&#x27;,
-testMatch: [&#x27;<strong>/__tests__/</strong>/*.test.ts&#x27;],
-collectCoverageFrom: [
-&#x27;assets/scripts/<em>*/</em>.ts&#x27;,
-&#x27;!assets/scripts/<em>*/</em>.d.ts&#x27;,
-&#x27;!assets/scripts/<em>*/</em>.scene.ts&#x27;,  // 排除 Scene 入口（Cocos 依賴）
-],
-coverageThreshold: {
-global: {
-branches:   80,
-functions:  80,
-lines:      80,
-statements: 80,
-}
-},
-// Mock Cocos 模組
-moduleNameMapper: {
-&#x27;^cc$&#x27;: &#x27;&lt;rootDir&gt;/test-mocks/cocos-mock.ts&#x27;,
-},
-};
-</code></pre>
-</p>
-<h3 id="11.2-整合測試">11.2 整合測試</h3>
-<p>
-<strong>Colyseus Room 整合測試（使用 Colyseus Testing 工具）</strong>
-</p>
+  preset: &#x27;ts-jest&#x27;,
+  testEnvironment: &#x27;node&#x27;,
+  testMatch: [&#x27;**/__tests__/**/*.test.ts&#x27;],
+  collectCoverageFrom: [
+    &#x27;assets/scripts/**/*.ts&#x27;,
+    &#x27;!assets/scripts/**/*.d.ts&#x27;,
+    &#x27;!assets/scripts/**/*.scene.ts&#x27;,  // 排除 Scene 入口（Cocos 依賴）
+  ],
+  coverageThreshold: {
+    global: {
+      branches:   80,
+      functions:  80,
+      lines:      80,
+      statements: 80,
+    }
+  },
+  // Mock Cocos 模組
+  moduleNameMapper: {
+    &#x27;^cc$&#x27;: &#x27;&lt;rootDir&gt;/test-mocks/cocos-mock.ts&#x27;,
+  },
+};</code></pre>
+<h3>11.2 整合測試</h3>
+<p><strong>Colyseus Room 整合測試（使用 Colyseus Testing 工具）</strong></p>
 <pre><code class="language-typescript">// assets/scripts/network/__tests__/ColyseusIntegration.test.ts
-<p>
 import { ColyseusTestServer, Room } from &#x27;@colyseus/testing&#x27;;
-</p>
-<p>
+
 describe(&#x27;Colyseus Room Integration&#x27;, () =&gt; {
-let server: ColyseusTestServer;
-</p>
-<p>
-beforeAll(async () =&gt; {
-server = await ColyseusTestServer.create(gameServerApp);
-});
-</p>
-<p>
-afterAll(() =&gt; server.shutdown());
-</p>
-<p>
-it(&#x27;should sync fish state after fish spawn&#x27;, async () =&gt; {
-const client1 = await server.connectTo(&#x27;game_room&#x27;, { token: mockToken });
-const client2 = await server.connectTo(&#x27;game_room&#x27;, { token: mockToken2 });
-</p>
-<p>
-await server.waitForMessage(client1, &#x27;fish_spawn&#x27;);
-expect(client1.state.fishes.size).toBeGreaterThan(0);
-// 兩個客戶端應看到相同的魚群狀態
-expect(client1.state.fishes.size).toBe(client2.state.fishes.size);
-});
-</p>
-<p>
-it(&#x27;should broadcast fish_died after server hit detection&#x27;, async () =&gt; {
-const client = await server.connectTo(&#x27;game_room&#x27;, { token: mockToken });
-client.send(&#x27;shoot&#x27;, { weaponType: WeaponType.NORMAL, targetFishId: &#x27;fish-001&#x27; });
-</p>
-<p>
-const message = await server.waitForMessage(client, &#x27;fish_died&#x27;);
-expect(message).toMatchObject({
-fishId: &#x27;fish-001&#x27;,
-coinsAwarded: expect.any(Number),
-});
-});
-});
-</code></pre>
-</p>
-<p>
-<strong>HTTP API 整合測試</strong>
-</p>
+  let server: ColyseusTestServer;
+
+  beforeAll(async () =&gt; {
+    server = await ColyseusTestServer.create(gameServerApp);
+  });
+
+  afterAll(() =&gt; server.shutdown());
+
+  it(&#x27;should sync fish state after fish spawn&#x27;, async () =&gt; {
+    const client1 = await server.connectTo(&#x27;game_room&#x27;, { token: mockToken });
+    const client2 = await server.connectTo(&#x27;game_room&#x27;, { token: mockToken2 });
+
+    await server.waitForMessage(client1, &#x27;fish_spawn&#x27;);
+    expect(client1.state.fishes.size).toBeGreaterThan(0);
+    // 兩個客戶端應看到相同的魚群狀態
+    expect(client1.state.fishes.size).toBe(client2.state.fishes.size);
+  });
+
+  it(&#x27;should broadcast fish_died after server hit detection&#x27;, async () =&gt; {
+    const client = await server.connectTo(&#x27;game_room&#x27;, { token: mockToken });
+    client.send(&#x27;shoot&#x27;, { weaponType: WeaponType.NORMAL, targetFishId: &#x27;fish-001&#x27; });
+
+    const message = await server.waitForMessage(client, &#x27;fish_died&#x27;);
+    expect(message).toMatchObject({
+      fishId: &#x27;fish-001&#x27;,
+      coinsAwarded: expect.any(Number),
+    });
+  });
+});</code></pre>
+<p><strong>HTTP API 整合測試</strong></p>
 <pre><code class="language-typescript">// 驗證 HttpClient 與真實 API 的整合（staging 環境）
-<p>
 describe(&#x27;HttpClient Integration&#x27;, () =&gt; {
-const client = new HttpClient();
-</p>
-<p>
-it(&#x27;should login and receive JWT tokens&#x27;, async () =&gt; {
-const response = await client.login(
-process.env.TEST_USER_EMAIL!,
-process.env.TEST_USER_PASSWORD!
-);
-expect(response.data.access_token).toBeDefined();
-expect(response.data.refresh_token).toBeDefined();
-});
-});
-</code></pre>
-</p>
-<h3 id="11.3-效能測試">11.3 效能測試</h3>
-<p>
-<strong>幀率效能測試（60 fps 目標驗證）</strong>
-</p>
+  const client = new HttpClient();
+
+  it(&#x27;should login and receive JWT tokens&#x27;, async () =&gt; {
+    const response = await client.login(
+      process.env.TEST_USER_EMAIL!,
+      process.env.TEST_USER_PASSWORD!
+    );
+    expect(response.data.access_token).toBeDefined();
+    expect(response.data.refresh_token).toBeDefined();
+  });
+});</code></pre>
+<h3>11.3 效能測試</h3>
+<p><strong>幀率效能測試（60 fps 目標驗證）</strong></p>
 <pre><code class="language-typescript">// 自動化效能測試：在 GameScene 中監測幀率下限
-<p>
 class PerformanceMonitor extends Component {
-private fpsHistory: number[] = [];
-private readonly SAMPLE_DURATION_S = 30; // 採樣 30 秒
-</p>
-<p>
-update(dt: number): void {
-const fps = 1 / dt;
-this.fpsHistory.push(fps);
-</p>
-<p>
-if (this.fpsHistory.length &gt; this.SAMPLE_DURATION_S * 60) {
-this.reportPerformance();
-}
-}
-</p>
-<p>
-private reportPerformance(): void {
-const avg = this.fpsHistory.reduce((a, b) =&gt; a + b) / this.fpsHistory.length;
-const min = Math.min(...this.fpsHistory);
-const p5  = this.percentile(this.fpsHistory, 5);
-</p>
-<p>
-console.log(<code>[Perf] FPS: avg=${avg.toFixed(1)}, min=${min.toFixed(1)}, p5=${p5.toFixed(1)}</code>);
-</p>
-<p>
-// CI 中斷條件：p5 FPS &lt; 45 視為不通過
-if (process.env.CI &amp;&amp; p5 &lt; 45) {
-throw new Error(<code>Performance regression: p5 FPS ${p5.toFixed(1)} &amp;lt; 45</code>);
-}
-}
-</p>
-<p>
-private percentile(arr: number[], p: number): number {
-const sorted = [...arr].sort((a, b) =&gt; a - b);
-return sorted[Math.floor(sorted.length * p / 100)];
-}
-}
-</code></pre>
-</p>
-<p>
-<strong>記憶體洩漏檢測</strong>
-</p>
+  private fpsHistory: number[] = [];
+  private readonly SAMPLE_DURATION_S = 30; // 採樣 30 秒
+
+  update(dt: number): void {
+    const fps = 1 / dt;
+    this.fpsHistory.push(fps);
+
+    if (this.fpsHistory.length &gt; this.SAMPLE_DURATION_S * 60) {
+      this.reportPerformance();
+    }
+  }
+
+  private reportPerformance(): void {
+    const avg = this.fpsHistory.reduce((a, b) =&gt; a + b) / this.fpsHistory.length;
+    const min = Math.min(...this.fpsHistory);
+    const p5  = this.percentile(this.fpsHistory, 5);
+
+    console.log(`[Perf] FPS: avg=${avg.toFixed(1)}, min=${min.toFixed(1)}, p5=${p5.toFixed(1)}`);
+
+    // CI 中斷條件：p5 FPS &lt; 45 視為不通過
+    if (process.env.CI &amp;&amp; p5 &lt; 45) {
+      throw new Error(`Performance regression: p5 FPS ${p5.toFixed(1)} &lt; 45`);
+    }
+  }
+
+  private percentile(arr: number[], p: number): number {
+    const sorted = [...arr].sort((a, b) =&gt; a - b);
+    return sorted[Math.floor(sorted.length * p / 100)];
+  }
+}</code></pre>
+<p><strong>記憶體洩漏檢測</strong></p>
 <pre><code class="language-typescript">// 場景切換後驗證物件池已正確回收
-<p>
 describe(&#x27;Memory Management&#x27;, () =&gt; {
-it(&#x27;should release all pool nodes after scene unload&#x27;, async () =&gt; {
-await SceneManager.loadScene(GameScene.GAME);
-const fishPoolBefore = fishPoolManager.getPoolSize();
-</p>
-<p>
-// 模擬一局遊戲
-await simulateGameSession();
-</p>
-<p>
-await SceneManager.loadScene(GameScene.LOBBY);
-MemoryManager.onSceneUnload(&#x27;GameScene&#x27;);
-</p>
-<p>
-expect(fishPoolManager.getActiveCount()).toBe(0);
-expect(bulletPoolManager.getActiveCount()).toBe(0);
-});
-});
-</code></pre>
-</p>
+  it(&#x27;should release all pool nodes after scene unload&#x27;, async () =&gt; {
+    await SceneManager.loadScene(GameScene.GAME);
+    const fishPoolBefore = fishPoolManager.getPoolSize();
+
+    // 模擬一局遊戲
+    await simulateGameSession();
+
+    await SceneManager.loadScene(GameScene.LOBBY);
+    MemoryManager.onSceneUnload(&#x27;GameScene&#x27;);
+
+    expect(fishPoolManager.getActiveCount()).toBe(0);
+    expect(bulletPoolManager.getActiveCount()).toBe(0);
+  });
+});</code></pre>
 <hr>
-<h2 id="12.-關鍵技術決策-(adr)">12. 關鍵技術決策 (ADR)</h2>
-<h3 id="adr-fe-001：typescript-取代-lua-作為客戶端主語言">ADR-FE-001：TypeScript 取代 Lua 作為客戶端主語言</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr><tr><td><strong>背景</strong></td><td>Cocos Creator 3.8 同時支援 TypeScript 和 Lua。EDD §3.3 已確認伺服器端使用 TypeScript 5.4。</td></tr><tr><td><strong>決策</strong></td><td>全面採用 TypeScript，不使用 Lua</td></tr><tr><td><strong>理由</strong></td><td>(1) 客戶端/伺服器共享 Colyseus Schema 型別定義（型別安全）；(2) TypeScript IDE 支援優於 Lua；(3) 統一語言降低團隊學習成本；(4) Cocos Creator 3.8 對 TypeScript 的官方支援更完整</td></tr><tr><td><strong>後果</strong></td><td>需要在 CI 中執行 <code>tsc --noEmit</code> 型別檢查；Lua 模組無法直接複用（EDD 提及的 taishan6868 Lua 模組需要移植）</td></tr></table>
-<h3 id="adr-fe-002：物件池預分配策略">ADR-FE-002：物件池預分配策略</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr><tr><td><strong>背景</strong></td><td>捕魚遊戲需要頻繁建立/銷毀魚節點和特效節點，若使用 <code>instantiate()</code> 動態創建會造成 GC 壓力和幀率抖動</td></tr><tr><td><strong>決策</strong></td><td>所有遊戲物件使用預分配物件池（見 §8.2）</td></tr><tr><td><strong>理由</strong></td><td>消除運行時 instantiate/destroy 的 GC 壓力；場景進入時一次性分配完成；符合 60 fps 的幀時間預算</td></tr><tr><td><strong>後果</strong></td><td>增加初始載入時間（約 300-500ms）；需要在 CannonSelectScene 過場期間完成預分配</td></tr></table>
-<h3 id="adr-fe-003：樂觀更新-+-伺服器確認的射擊模式">ADR-FE-003：樂觀更新 + 伺服器確認的射擊模式</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr><tr><td><strong>背景</strong></td><td>Server-Authoritative 設計要求命中判定在伺服器執行，但玩家需要即時視覺反饋（否則感覺「輸入延遲」）</td></tr><tr><td><strong>決策</strong></td><td>射擊動畫和子彈飛行立即播放（樂觀更新），金幣獎勵等待伺服器 <code>fish_died</code> 事件後才更新 UI</td></tr><tr><td><strong>理由</strong></td><td>在伺服器確認延遲（P99 < 100ms，EDD §1.1）期間，用戶感受不到延遲；金幣作為真實資產需要伺服器確認</td></tr><tr><td><strong>後果</strong></td><td>偶發情況下本地動畫與伺服器結果不一致（射擊動畫播放但未命中）——視為正常博弈體驗</td></tr></table>
-<h3 id="adr-fe-004：asset-bundle-四分區策略">ADR-FE-004：Asset Bundle 四分區策略</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr><tr><td><strong>背景</strong></td><td>全部資源打入單一 Bundle 會導致首次載入時間過長（> 10 秒），影響新手留存</td></tr><tr><td><strong>決策</strong></td><td>分為 core / game / shop / vip 四個 Bundle（見 §7.1）</td></tr><tr><td><strong>理由</strong></td><td>core bundle < 3 MB 確保快速首屏；game bundle 在配對等待期間預載；shop/vip 按需載入</td></tr><tr><td><strong>後果</strong></td><td>Bundle 邊界需要謹慎設計（跨 Bundle 引用可能造成重複包含）；需要 CI 驗證 Bundle 大小</td></tr></table>
-<h3 id="adr-fe-005：設計-token-以-typescript-常數物件實作">ADR-FE-005：設計 Token 以 TypeScript 常數物件實作</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr><tr><td><strong>背景</strong></td><td>VDD 定義了完整的 CSS Custom Property Token，但 Cocos Creator 使用 Canvas/WebGL 渲染，不支援 CSS</td></tr><tr><td><strong>決策</strong></td><td>將 VDD §6.1-6.3 所有 Token 對應到 TypeScript 常數物件（<code>ui.constants.ts</code>）</td></tr><tr><td><strong>理由</strong></td><td>保持設計一致性；VDD Token 修改只需更新 <code>ui.constants.ts</code> 一個文件；TypeScript const 有型別安全</td></tr><tr><td><strong>後果</strong></td><td>需要人工同步 VDD CSS Token 與 TS 常數（建議建立 Token 同步腳本）</td></tr></table>
+<h2>12. 關鍵技術決策 (ADR)</h2>
+<h3>ADR-FE-001：TypeScript 取代 Lua 作為客戶端主語言</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr>
+<tr><td><strong>背景</strong></td><td>Cocos Creator 3.8 同時支援 TypeScript 和 Lua。EDD §3.3 已確認伺服器端使用 TypeScript 5.4。</td></tr>
+<tr><td><strong>決策</strong></td><td>全面採用 TypeScript，不使用 Lua</td></tr>
+<tr><td><strong>理由</strong></td><td>(1) 客戶端/伺服器共享 Colyseus Schema 型別定義（型別安全）；(2) TypeScript IDE 支援優於 Lua；(3) 統一語言降低團隊學習成本；(4) Cocos Creator 3.8 對 TypeScript 的官方支援更完整</td></tr>
+<tr><td><strong>後果</strong></td><td>需要在 CI 中執行 <code>tsc --noEmit</code> 型別檢查；Lua 模組無法直接複用（EDD 提及的 taishan6868 Lua 模組需要移植）</td></tr>
+</table>
+<h3>ADR-FE-002：物件池預分配策略</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr>
+<tr><td><strong>背景</strong></td><td>捕魚遊戲需要頻繁建立/銷毀魚節點和特效節點，若使用 <code>instantiate()</code> 動態創建會造成 GC 壓力和幀率抖動</td></tr>
+<tr><td><strong>決策</strong></td><td>所有遊戲物件使用預分配物件池（見 §8.2）</td></tr>
+<tr><td><strong>理由</strong></td><td>消除運行時 instantiate/destroy 的 GC 壓力；場景進入時一次性分配完成；符合 60 fps 的幀時間預算</td></tr>
+<tr><td><strong>後果</strong></td><td>增加初始載入時間（約 300-500ms）；需要在 CannonSelectScene 過場期間完成預分配</td></tr>
+</table>
+<h3>ADR-FE-003：樂觀更新 + 伺服器確認的射擊模式</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr>
+<tr><td><strong>背景</strong></td><td>Server-Authoritative 設計要求命中判定在伺服器執行，但玩家需要即時視覺反饋（否則感覺「輸入延遲」）</td></tr>
+<tr><td><strong>決策</strong></td><td>射擊動畫和子彈飛行立即播放（樂觀更新），金幣獎勵等待伺服器 <code>fish_died</code> 事件後才更新 UI</td></tr>
+<tr><td><strong>理由</strong></td><td>在伺服器確認延遲（P99 &lt; 100ms，EDD §1.1）期間，用戶感受不到延遲；金幣作為真實資產需要伺服器確認</td></tr>
+<tr><td><strong>後果</strong></td><td>偶發情況下本地動畫與伺服器結果不一致（射擊動畫播放但未命中）——視為正常博弈體驗</td></tr>
+</table>
+<h3>ADR-FE-004：Asset Bundle 四分區策略</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr>
+<tr><td><strong>背景</strong></td><td>全部資源打入單一 Bundle 會導致首次載入時間過長（&gt; 10 秒），影響新手留存</td></tr>
+<tr><td><strong>決策</strong></td><td>分為 core / game / shop / vip 四個 Bundle（見 §7.1）</td></tr>
+<tr><td><strong>理由</strong></td><td>core bundle &lt; 3 MB 確保快速首屏；game bundle 在配對等待期間預載；shop/vip 按需載入</td></tr>
+<tr><td><strong>後果</strong></td><td>Bundle 邊界需要謹慎設計（跨 Bundle 引用可能造成重複包含）；需要 CI 驗證 Bundle 大小</td></tr>
+</table>
+<h3>ADR-FE-005：設計 Token 以 TypeScript 常數物件實作</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>狀態</strong></td><td>ACCEPTED</td></tr>
+<tr><td><strong>背景</strong></td><td>VDD 定義了完整的 CSS Custom Property Token，但 Cocos Creator 使用 Canvas/WebGL 渲染，不支援 CSS</td></tr>
+<tr><td><strong>決策</strong></td><td>將 VDD §6.1-6.3 所有 Token 對應到 TypeScript 常數物件（<code>ui.constants.ts</code>）</td></tr>
+<tr><td><strong>理由</strong></td><td>保持設計一致性；VDD Token 修改只需更新 <code>ui.constants.ts</code> 一個文件；TypeScript const 有型別安全</td></tr>
+<tr><td><strong>後果</strong></td><td>需要人工同步 VDD CSS Token 與 TS 常數（建議建立 Token 同步腳本）</td></tr>
+</table>
 <hr>
-<h2 id="appendix-a:-api-response-型別定義">Appendix A: API Response 型別定義</h2>
+<h2>Appendix A: API Response 型別定義</h2>
 <pre><code class="language-typescript">// assets/scripts/data/types/api.types.ts
-<p>
 // 對應 API.md 全部 Endpoint Response Schema
-</p>
-<p>
+
 // ── 通用 Wrapper ──
 interface ApiResponse&lt;T&gt; {
-data: T;
-meta: {
-request_id: string;
-total?: number;    // 分頁用
-cursor?: string;   // Cursor-based 分頁
-};
+  data: T;
+  meta: {
+    request_id: string;
+    total?: number;    // 分頁用
+    cursor?: string;   // Cursor-based 分頁
+  };
 }
-</p>
-<p>
+
 interface ApiError {
-error: {
-code: string;
-message: string;
-errors?: Array&lt;{ field: string; message: string }&gt;; // VALIDATION_ERROR 詳情
-};
-meta: { request_id: string };
+  error: {
+    code: string;
+    message: string;
+    errors?: Array&lt;{ field: string; message: string }&gt;; // VALIDATION_ERROR 詳情
+  };
+  meta: { request_id: string };
 }
-</p>
-<p>
+
 // ── Auth ──
 interface AuthResponseData {
-access_token: string;
-refresh_token: string;
-expires_in: number;
-token_type: &#x27;Bearer&#x27;;
-user: {
-id: string;             // &#x27;usr_01HX...&#x27; 格式
-email: string;          // 遮罩格式：&#x27;p<em>*</em>@example.com&#x27;
-role: &#x27;player&#x27; | &#x27;operator&#x27; | &#x27;superadmin&#x27;;
-vip_tier: number;       // 0-10
-};
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  token_type: &#x27;Bearer&#x27;;
+  user: {
+    id: string;             // &#x27;usr_01HX...&#x27; 格式
+    email: string;          // 遮罩格式：&#x27;p***@example.com&#x27;
+    role: &#x27;player&#x27; | &#x27;operator&#x27; | &#x27;superadmin&#x27;;
+    vip_tier: number;       // 0-10
+  };
 }
 type AuthResponse = ApiResponse&lt;AuthResponseData&gt;;
-</p>
-<p>
+
 interface RegisterResponseData {
-user_id: string;
-email: string;
-display_name: string;
-age_verified: boolean;
-created_at: string;  // ISO 8601 UTC
+  user_id: string;
+  email: string;
+  display_name: string;
+  age_verified: boolean;
+  created_at: string;  // ISO 8601 UTC
 }
 type RegisterResponse = ApiResponse&lt;RegisterResponseData&gt;;
-</p>
-<p>
+
 interface RefreshTokenResponseData {
-access_token: string;
-expires_in: number;
+  access_token: string;
+  expires_in: number;
 }
 type RefreshTokenResponse = ApiResponse&lt;RefreshTokenResponseData&gt;;
-</p>
-<p>
+
 // ── Player Profile ──
 interface PlayerProfileData {
-id: string;
-email: string;
-display_name: string;
-avatar_url: string | null;
-role: &#x27;player&#x27; | &#x27;operator&#x27; | &#x27;superadmin&#x27;;
-vip_tier: number;
-vip_expires_at: string | null;
-age_verified: boolean;
-created_at: string;
+  id: string;
+  email: string;
+  display_name: string;
+  avatar_url: string | null;
+  role: &#x27;player&#x27; | &#x27;operator&#x27; | &#x27;superadmin&#x27;;
+  vip_tier: number;
+  vip_expires_at: string | null;
+  age_verified: boolean;
+  created_at: string;
 }
 type PlayerProfileResponse = ApiResponse&lt;PlayerProfileData&gt;;
-</p>
-<p>
+
 interface BalanceData {
-user_id: string;
-gold_balance: number;
-diamond_balance: number;
-updated_at: string;
+  user_id: string;
+  gold_balance: number;
+  diamond_balance: number;
+  updated_at: string;
 }
 type BalanceResponse = ApiResponse&lt;BalanceData&gt;;
-</p>
-<p>
+
 // ── Room ──
 interface RoomInfo {
-room_id: string;
-room_type: &#x27;normal&#x27; | &#x27;vip&#x27; | &#x27;high_roller&#x27;;
-current_players: number;
-max_players: number;   // 4-6
-status: &#x27;waiting&#x27; | &#x27;playing&#x27; | &#x27;full&#x27;;
-jackpot_pool: number;
-min_bet: number;
-created_at: string;
+  room_id: string;
+  room_type: &#x27;normal&#x27; | &#x27;vip&#x27; | &#x27;high_roller&#x27;;
+  current_players: number;
+  max_players: number;   // 4-6
+  status: &#x27;waiting&#x27; | &#x27;playing&#x27; | &#x27;full&#x27;;
+  jackpot_pool: number;
+  min_bet: number;
+  created_at: string;
 }
 type RoomListResponse = ApiResponse&lt;RoomInfo[]&gt;;
-</p>
-<p>
+
 // ── Shop / Commerce ──
 interface Product {
-product_id: string;     // &#x27;diamonds_330&#x27; 等
-name: string;
-description: string;
-diamonds: number;
-price_usd: number;
-price_display: string;  // 本地貨幣顯示：&#x27;NT$ 99&#x27;
-is_featured: boolean;
-bonus_diamonds?: number; // 首充/促銷加贈
+  product_id: string;     // &#x27;diamonds_330&#x27; 等
+  name: string;
+  description: string;
+  diamonds: number;
+  price_usd: number;
+  price_display: string;  // 本地貨幣顯示：&#x27;NT$ 99&#x27;
+  is_featured: boolean;
+  bonus_diamonds?: number; // 首充/促銷加贈
 }
 type ProductListResponse = ApiResponse&lt;Product[]&gt;;
-</p>
-<p>
+
 interface OrderData {
-order_id: string;         // UUID v4，冪等 ID
-user_id: string;
-product_id: string;
-status: &#x27;pending&#x27; | &#x27;completed&#x27; | &#x27;failed&#x27; | &#x27;refunded&#x27;;
-amount_usd: number;
-diamonds_granted: number;
-created_at: string;
-completed_at?: string;
+  order_id: string;         // UUID v4，冪等 ID
+  user_id: string;
+  product_id: string;
+  status: &#x27;pending&#x27; | &#x27;completed&#x27; | &#x27;failed&#x27; | &#x27;refunded&#x27;;
+  amount_usd: number;
+  diamonds_granted: number;
+  created_at: string;
+  completed_at?: string;
 }
 type OrderResponse = ApiResponse&lt;OrderData&gt;;
-</p>
-<p>
+
 interface TransactionResult {
-success: boolean;
-order_id: string;
-diamonds_granted: number;
-new_diamond_balance: number;
-transaction_at: string;
+  success: boolean;
+  order_id: string;
+  diamonds_granted: number;
+  new_diamond_balance: number;
+  transaction_at: string;
 }
 type TransactionResponse = ApiResponse&lt;TransactionResult&gt;;
-</p>
-<p>
+
 // ── VIP ──
 interface VIPSubscriptionData {
-subscription_id: string;
-user_id: string;
-vip_tier: number;
-status: &#x27;active&#x27; | &#x27;expired&#x27; | &#x27;cancelled&#x27;;
-activated_at: string;
-expires_at: string;
-daily_diamond_bonus: number;
-features: string[];
+  subscription_id: string;
+  user_id: string;
+  vip_tier: number;
+  status: &#x27;active&#x27; | &#x27;expired&#x27; | &#x27;cancelled&#x27;;
+  activated_at: string;
+  expires_at: string;
+  daily_diamond_bonus: number;
+  features: string[];
 }
 type VIPSubscriptionResponse = ApiResponse&lt;VIPSubscriptionData&gt;;
-</p>
-<p>
+
 // ── Colyseus Room Messages ──
 interface FishDiedMessage {
-fishId: string;
-winnerId: string;
-winnerNickname: string;
-fishType: number;
-multiplier: number;
-coinsAwarded: number;
-isJackpot: boolean;
+  fishId: string;
+  winnerId: string;
+  winnerNickname: string;
+  fishType: number;
+  multiplier: number;
+  coinsAwarded: number;
+  isJackpot: boolean;
 }
-</p>
-<p>
+
 interface JackpotTriggerMessage {
-winnerId: string;
-winnerNickname: string;
-jackpotAmount: number;
-newJackpotPool: number;  // 重置後的初始值
-triggeredAt: string;
+  winnerId: string;
+  winnerNickname: string;
+  jackpotAmount: number;
+  newJackpotPool: number;  // 重置後的初始值
+  triggeredAt: string;
 }
-</p>
-<p>
+
 interface MVPUpdateMessage {
-mvpPlayerId: string;
-score: number;
+  mvpPlayerId: string;
+  score: number;
 }
-</p>
-<p>
+
 interface BossSpawnMessage {
-fishId: string;
-bossType: number;
-hp: number;
-maxHp: number;
-x: number;
-y: number;
+  fishId: string;
+  bossType: number;
+  hp: number;
+  maxHp: number;
+  x: number;
+  y: number;
 }
-</p>
-<p>
+
 interface SkillFreezeMessage {
-casterId: string;
-durationMs: number;
+  casterId: string;
+  durationMs: number;
 }
-</p>
-<p>
+
 interface SkillBombMessage {
-casterId: string;
-affectedFishIds: string[];
+  casterId: string;
+  affectedFishIds: string[];
 }
-</p>
-<p>
+
 interface GameEndMessage {
-sessionId: string;
-results: Array&lt;{
-userId: string;
-nickname: string;
-score: number;
-coinsEarned: number;
-rank: number;
-isMvp: boolean;
-}&gt;;
-endedAt: string;
+  sessionId: string;
+  results: Array&lt;{
+    userId: string;
+    nickname: string;
+    score: number;
+    coinsEarned: number;
+    rank: number;
+    isMvp: boolean;
+  }&gt;;
+  endedAt: string;
 }
-</p>
-<p>
+
 // ── Register Payload ──
 interface RegisterPayload {
-email: string;
-password: string;
-display_name: string;
-birthdate: string;   // &#x27;YYYY-MM-DD&#x27;
-agree_terms: true;
+  email: string;
+  password: string;
+  display_name: string;
+  birthdate: string;   // &#x27;YYYY-MM-DD&#x27;
+  agree_terms: true;
 }
-</p>
-<p>
+
 // ── Create Order Payload ──
 interface CreateOrderPayload {
-product_id: string;
-order_id: string;    // Client-generated UUID v4（冪等）
-platform: &#x27;ios&#x27; | &#x27;android&#x27; | &#x27;web&#x27;;
+  product_id: string;
+  order_id: string;    // Client-generated UUID v4（冪等）
+  platform: &#x27;ios&#x27; | &#x27;android&#x27; | &#x27;web&#x27;;
 }
-</p>
-<p>
+
 // ── Weapon / Skill Enums（共享自 game.types.ts）──
 export enum WeaponType {
-NORMAL   = 0,
-LASER    = 1,
-SCATTER  = 2,
-LOCK_ON  = 3,
+  NORMAL   = 0,
+  LASER    = 1,
+  SCATTER  = 2,
+  LOCK_ON  = 3,
 }
-</p>
-<p>
+
 export enum SkillType {
-FREEZE    = 0,
-BOMB      = 1,
-AUTO_LOCK = 2,
+  FREEZE    = 0,
+  BOMB      = 1,
+  AUTO_LOCK = 2,
 }
-</p>
-<p>
+
 export enum FishType {
-NORMAL = 0,
-ELITE  = 1,
-BOSS   = 2,
+  NORMAL = 0,
+  ELITE  = 1,
+  BOSS   = 2,
 }
-</p>
-<p>
+
 export enum ShootRejectReason {
-INSUFFICIENT_FUNDS = &#x27;INSUFFICIENT_FUNDS&#x27;,
-WEAPON_ON_COOLDOWN = &#x27;WEAPON_ON_COOLDOWN&#x27;,
-ROOM_ENDED         = &#x27;ROOM_ENDED&#x27;,
-NOT_AUTHORIZED     = &#x27;NOT_AUTHORIZED&#x27;,
-}
-</code></pre>
-</p>
+  INSUFFICIENT_FUNDS = &#x27;INSUFFICIENT_FUNDS&#x27;,
+  WEAPON_ON_COOLDOWN = &#x27;WEAPON_ON_COOLDOWN&#x27;,
+  ROOM_ENDED         = &#x27;ROOM_ENDED&#x27;,
+  NOT_AUTHORIZED     = &#x27;NOT_AUTHORIZED&#x27;,
+}</code></pre>
 <hr>
-<h2 id="appendix-b:-colyseus-schema-型別">Appendix B: Colyseus Schema 型別</h2>
+<h2>Appendix B: Colyseus Schema 型別</h2>
 <pre><code class="language-typescript">// assets/scripts/data/schemas/GameRoomSchema.ts
-<p>
 // 客戶端 Colyseus Schema 鏡像（對應 EDD §3 GameRoomSchema）
 // 必須與伺服器端 Schema 定義完全一致
-</p>
-<p>
+
 import {
-Schema,
-MapSchema,
-ArraySchema,
-type,
+  Schema,
+  MapSchema,
+  ArraySchema,
+  type,
 } from &#x27;@colyseus/schema&#x27;;
-</p>
-<p>
+
 export class PlayerState extends Schema {
-@type(&#x27;string&#x27;)  id: string = &#x27;&#x27;;
-@type(&#x27;string&#x27;)  nickname: string = &#x27;&#x27;;
-@type(&#x27;uint32&#x27;)  level: number = 1;
-@type(&#x27;int64&#x27;)   coins: number = 0;         // 累積金幣（本局）
-@type(&#x27;int64&#x27;)   diamonds: number = 0;
-@type(&#x27;uint8&#x27;)   weaponLevel: number = 1;
-@type(&#x27;uint8&#x27;)   weaponType: number = 0;    // WeaponType enum
-@type(&#x27;uint8&#x27;)   vipTier: number = 0;       // 0-10
-@type(&#x27;int32&#x27;)   score: number = 0;         // 本局排名分數
-@type(&#x27;boolean&#x27;) isConnected: boolean = true;
-@type(&#x27;boolean&#x27;) isBot: boolean = false;    // Bot 補位標記
-@type(&#x27;string&#x27;)  avatarUrl: string = &#x27;&#x27;;
+  @type(&#x27;string&#x27;)  id: string = &#x27;&#x27;;
+  @type(&#x27;string&#x27;)  nickname: string = &#x27;&#x27;;
+  @type(&#x27;uint32&#x27;)  level: number = 1;
+  @type(&#x27;int64&#x27;)   coins: number = 0;         // 累積金幣（本局）
+  @type(&#x27;int64&#x27;)   diamonds: number = 0;
+  @type(&#x27;uint8&#x27;)   weaponLevel: number = 1;
+  @type(&#x27;uint8&#x27;)   weaponType: number = 0;    // WeaponType enum
+  @type(&#x27;uint8&#x27;)   vipTier: number = 0;       // 0-10
+  @type(&#x27;int32&#x27;)   score: number = 0;         // 本局排名分數
+  @type(&#x27;boolean&#x27;) isConnected: boolean = true;
+  @type(&#x27;boolean&#x27;) isBot: boolean = false;    // Bot 補位標記
+  @type(&#x27;string&#x27;)  avatarUrl: string = &#x27;&#x27;;
 }
-</p>
-<p>
+
 export class FishState extends Schema {
-@type(&#x27;string&#x27;)  id: string = &#x27;&#x27;;
-@type(&#x27;uint8&#x27;)   fishType: number = 0;      // FishType enum
-@type(&#x27;float32&#x27;) x: number = 0;
-@type(&#x27;float32&#x27;) y: number = 0;
-@type(&#x27;float32&#x27;) rotation: number = 0;
-@type(&#x27;uint32&#x27;)  hp: number = 1;
-@type(&#x27;uint32&#x27;)  maxHp: number = 1;
-@type(&#x27;uint8&#x27;)   status: number = 0;        // 0=active, 1=dying, 2=dead
-@type(&#x27;float32&#x27;) speed: number = 100;       // px/s
-@type(&#x27;uint16&#x27;)  multiplier: number = 1;    // 基礎倍率（1-1000）
-@type(&#x27;boolean&#x27;) isFrozen: boolean = false; // 冰凍技能狀態
+  @type(&#x27;string&#x27;)  id: string = &#x27;&#x27;;
+  @type(&#x27;uint8&#x27;)   fishType: number = 0;      // FishType enum
+  @type(&#x27;float32&#x27;) x: number = 0;
+  @type(&#x27;float32&#x27;) y: number = 0;
+  @type(&#x27;float32&#x27;) rotation: number = 0;
+  @type(&#x27;uint32&#x27;)  hp: number = 1;
+  @type(&#x27;uint32&#x27;)  maxHp: number = 1;
+  @type(&#x27;uint8&#x27;)   status: number = 0;        // 0=active, 1=dying, 2=dead
+  @type(&#x27;float32&#x27;) speed: number = 100;       // px/s
+  @type(&#x27;uint16&#x27;)  multiplier: number = 1;    // 基礎倍率（1-1000）
+  @type(&#x27;boolean&#x27;) isFrozen: boolean = false; // 冰凍技能狀態
 }
-</p>
-<p>
+
 export class BulletState extends Schema {
-@type(&#x27;string&#x27;)  id: string = &#x27;&#x27;;
-@type(&#x27;string&#x27;)  ownerId: string = &#x27;&#x27;;
-@type(&#x27;float32&#x27;) x: number = 0;
-@type(&#x27;float32&#x27;) y: number = 0;
-@type(&#x27;float32&#x27;) velocityX: number = 0;
-@type(&#x27;float32&#x27;) velocityY: number = 0;
-@type(&#x27;uint8&#x27;)   weaponType: number = 0;    // WeaponType enum
+  @type(&#x27;string&#x27;)  id: string = &#x27;&#x27;;
+  @type(&#x27;string&#x27;)  ownerId: string = &#x27;&#x27;;
+  @type(&#x27;float32&#x27;) x: number = 0;
+  @type(&#x27;float32&#x27;) y: number = 0;
+  @type(&#x27;float32&#x27;) velocityX: number = 0;
+  @type(&#x27;float32&#x27;) velocityY: number = 0;
+  @type(&#x27;uint8&#x27;)   weaponType: number = 0;    // WeaponType enum
 }
-</p>
-<p>
+
 export class GameRoomState extends Schema {
-@type({ map: PlayerState })
-players = new MapSchema&lt;PlayerState&gt;();
-</p>
-<p>
-@type({ array: FishState })
-fishes = new ArraySchema&lt;FishState&gt;();
-</p>
-<p>
-@type({ array: BulletState })
-bullets = new ArraySchema&lt;BulletState&gt;();
-</p>
-<p>
-// 房間狀態
-@type(&#x27;string&#x27;)  roomStatus: string = &#x27;waiting&#x27;;  // &#x27;waiting&#x27;|&#x27;playing&#x27;|&#x27;ending&#x27;
-@type(&#x27;string&#x27;)  roomType: string = &#x27;normal&#x27;;      // &#x27;normal&#x27;|&#x27;vip&#x27;|&#x27;high_roller&#x27;
-</p>
-<p>
-// Jackpot
-@type(&#x27;int64&#x27;)   jackpotPool: number = 1000;
-@type(&#x27;boolean&#x27;) jackpotActive: boolean = true;
-</p>
-<p>
-// 計時
-@type(&#x27;uint32&#x27;)  timeRemaining: number = 180;     // 秒數（預設 3 分鐘一局）
-@type(&#x27;uint32&#x27;)  roundNumber: number = 1;
-</p>
-<p>
-// 排名
-@type(&#x27;string&#x27;)  currentMvpId: string = &#x27;&#x27;;
-</p>
-<p>
-// Boss 狀態
-@type(&#x27;boolean&#x27;) bossActive: boolean = false;
-@type(&#x27;string&#x27;)  activeBossId: string = &#x27;&#x27;;
+  @type({ map: PlayerState })
+  players = new MapSchema&lt;PlayerState&gt;();
+
+  @type({ array: FishState })
+  fishes = new ArraySchema&lt;FishState&gt;();
+
+  @type({ array: BulletState })
+  bullets = new ArraySchema&lt;BulletState&gt;();
+
+  // 房間狀態
+  @type(&#x27;string&#x27;)  roomStatus: string = &#x27;waiting&#x27;;  // &#x27;waiting&#x27;|&#x27;playing&#x27;|&#x27;ending&#x27;
+  @type(&#x27;string&#x27;)  roomType: string = &#x27;normal&#x27;;      // &#x27;normal&#x27;|&#x27;vip&#x27;|&#x27;high_roller&#x27;
+
+  // Jackpot
+  @type(&#x27;int64&#x27;)   jackpotPool: number = 1000;
+  @type(&#x27;boolean&#x27;) jackpotActive: boolean = true;
+
+  // 計時
+  @type(&#x27;uint32&#x27;)  timeRemaining: number = 180;     // 秒數（預設 3 分鐘一局）
+  @type(&#x27;uint32&#x27;)  roundNumber: number = 1;
+
+  // 排名
+  @type(&#x27;string&#x27;)  currentMvpId: string = &#x27;&#x27;;
+
+  // Boss 狀態
+  @type(&#x27;boolean&#x27;) bossActive: boolean = false;
+  @type(&#x27;string&#x27;)  activeBossId: string = &#x27;&#x27;;
 }
-</p>
-<p>
+
 // ── 型別輔助 ──
-</p>
-<p>
+
 // 從 MapSchema 轉為普通陣列（排序/遍歷用）
 export function playersToArray(players: MapSchema&lt;PlayerState&gt;): PlayerState[] {
-const arr: PlayerState[] = [];
-players.forEach(p =&gt; arr.push(p));
-return arr;
+  const arr: PlayerState[] = [];
+  players.forEach(p =&gt; arr.push(p));
+  return arr;
 }
-</p>
-<p>
+
 // 取得排名陣列（依分數降序）
 export function getRanking(players: MapSchema&lt;PlayerState&gt;): PlayerState[] {
-return playersToArray(players).sort((a, b) =&gt; b.score - a.score);
+  return playersToArray(players).sort((a, b) =&gt; b.score - a.score);
 }
-</p>
-<p>
+
 // 取得活躍魚群（排除已死亡）
 export function getActiveFishes(fishes: ArraySchema&lt;FishState&gt;): FishState[] {
-return fishes.filter(f =&gt; f.status === 0);
+  return fishes.filter(f =&gt; f.status === 0);
 }
-</p>
-<p>
+
 // Boss 魚篩選
 export function getBossFishes(fishes: ArraySchema&lt;FishState&gt;): FishState[] {
-return fishes.filter(f =&gt; f.fishType === FishType.BOSS &amp;&amp; f.status === 0);
-}
-</code></pre>
-</p>
+  return fishes.filter(f =&gt; f.fishType === FishType.BOSS &amp;&amp; f.status === 0);
+}</code></pre>
 <hr>
-<p>
-<em>文件結束 — FRONTEND-FISHGAME-20260425 v1.0</em>
-</p></main>
-</div>
-<script src="assets/app.js"></script>
+<p><em>文件結束 — FRONTEND-FISHGAME-20260425 v1.0</em></p></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
 </body>
 </html>

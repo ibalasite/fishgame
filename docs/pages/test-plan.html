@@ -3,72 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>測試計劃 — fishing-arcade-game</title>
+  <title>測試計畫 (Test Plan) — fishgame</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({startOnLoad:true,theme:'default'});
-  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
-<nav class="top-nav">
-  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
-  <div class="nav-controls">
-    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
-    
-    <div class="search-wrap">
-      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
-      <div class="search-results"></div>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
     </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 測試計畫 (Test Plan)</p>
+    <h1 class="banner-title">測試計畫 (Test Plan)</h1>
   </div>
-</nav>
-<div class="doc-page-banner">
-  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › 測試計劃</div>
-  <h1 class="banner-title">測試計劃</h1>
-  <p class="banner-desc">Test Strategy & RTM</p>
-</div>
-<div class="page-wrapper">
-  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
 <a class="sidebar__link" href="index.html">🏠 首頁</a>
-<a class="sidebar__link" href="idea.html">💡 產品創意</a>
-<a class="sidebar__link" href="brd.html">📋 業務需求</a>
-<a class="sidebar__link" href="prd.html">📝 產品需求</a>
-<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
-<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
-<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
-<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
-<a class="sidebar__link" href="api.html">🔌 API 設計</a>
-<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
-<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
-<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
-<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
-<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
-<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
-<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
-<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link active" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
 <a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
-</div></nav>
-  <div class="sidebar-resizer" id="sidebarResizer"></div>
-  <main class="doc-content"><h1 id="test-plan-—-測試計畫">Test Plan — 測試計畫</h1>
-<p>
-<!-- SDLC Quality Engineering — Layer 7：Test Strategy & Plan -->
-<!-- 對應學術標準：IEEE 829 Test Plan；業界：Google Test Certified / ISTQB Test Plan -->
-<!-- 回答：如何驗證產品符合 BRD/PRD/EDD 定義的需求？測試範圍、工具、責任、時程為何？ -->
-</p>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>Test Plan — 測試計畫</h1>
+<p>&lt;!-- SDLC Quality Engineering — Layer 7：Test Strategy &amp; Plan --&gt;</p>
+<p>&lt;!-- 對應學術標準：IEEE 829 Test Plan；業界：Google Test Certified / ISTQB Test Plan --&gt;</p>
+<p>&lt;!-- 回答：如何驗證產品符合 BRD/PRD/EDD 定義的需求？測試範圍、工具、責任、時程為何？ --&gt;</p>
 <hr>
-<h2 id="document-control">Document Control</h2>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>DOC-ID</strong></td><td>TP-FISHGAME-20260424</td></tr><tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr><tr><td><strong>文件版本</strong></td><td>v1.0</td></tr><tr><td><strong>狀態</strong></td><td>DRAFT</td></tr><tr><td><strong>作者（QA Lead）</strong></td><td>AI Generated (gendoc D11-test-plan)</td></tr><tr><td><strong>日期</strong></td><td>2026-04-24</td></tr><tr><td><strong>上游 ARCH</strong></td><td><a href="ARCH.md">ARCH.md</a></td></tr><tr><td><strong>上游 API</strong></td><td><a href="API.md">API.md</a></td></tr><tr><td><strong>上游 SCHEMA</strong></td><td><a href="SCHEMA.md">SCHEMA.md</a></td></tr><tr><td><strong>上游 PRD</strong></td><td><a href="PRD.md">PRD.md</a></td></tr><tr><td><strong>下游 BDD</strong></td><td><a href="../features/">features/*.feature</a>（D12-BDD-server）</td></tr><tr><td><strong>審閱者</strong></td><td>QA Lead, Engineering Lead, Product Manager</td></tr><tr><td><strong>核准者</strong></td><td>Executive Sponsor（投資方/創辦人代表）</td></tr></table>
+<h2>Document Control</h2>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>DOC-ID</strong></td><td>TP-FISHGAME-20260424</td></tr>
+<tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr>
+<tr><td><strong>文件版本</strong></td><td>v1.0</td></tr>
+<tr><td><strong>狀態</strong></td><td>DRAFT</td></tr>
+<tr><td><strong>作者（QA Lead）</strong></td><td>AI Generated (gendoc D11-test-plan)</td></tr>
+<tr><td><strong>日期</strong></td><td>2026-04-24</td></tr>
+<tr><td><strong>上游 ARCH</strong></td><td><a href="ARCH.md" target="_blank" rel="noopener">ARCH.md</a></td></tr>
+<tr><td><strong>上游 API</strong></td><td><a href="API.md" target="_blank" rel="noopener">API.md</a></td></tr>
+<tr><td><strong>上游 SCHEMA</strong></td><td><a href="SCHEMA.md" target="_blank" rel="noopener">SCHEMA.md</a></td></tr>
+<tr><td><strong>上游 PRD</strong></td><td><a href="PRD.md" target="_blank" rel="noopener">PRD.md</a></td></tr>
+<tr><td><strong>下游 BDD</strong></td><td><a href="../features/" target="_blank" rel="noopener">features/*.feature</a>（D12-BDD-server）</td></tr>
+<tr><td><strong>審閱者</strong></td><td>QA Lead, Engineering Lead, Product Manager</td></tr>
+<tr><td><strong>核准者</strong></td><td>Executive Sponsor（投資方/創辦人代表）</td></tr>
+</table>
 <hr>
-<h2 id="change-log">Change Log</h2>
-<table><tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr><tr><td>v1.0</td><td>2026-04-24</td><td>AI Generated (gendoc D11-test-plan)</td><td>初稿（依 IEEE 829，21 節完整結構）</td></tr></table>
+<h2>Change Log</h2>
+<table>
+<tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr>
+<tr><td>v1.0</td><td>2026-04-24</td><td>AI Generated (gendoc D11-test-plan)</td><td>初稿（依 IEEE 829，21 節完整結構）</td></tr>
+</table>
 <hr>
-<h2 id="§1-executive-summary（測試目標與原則）">§1 Executive Summary（測試目標與原則）</h2>
-<h3 id="§1.1-測試目標">§1.1 測試目標</h3>
+<h2>§1 Executive Summary（測試目標與原則）</h2>
+<h3>§1.1 測試目標</h3>
 <ol><li><strong>功能驗證</strong>：確認所有 PRD Must-have AC（共 36 條 P0）與 Should-have AC（共 3 條 P1，US-VIP-001）通過自動化測試，P0 通過率達 100%，P1 通過率達 95%+。</li><li><strong>覆蓋率保障</strong>：所有服務（Account :3001 / Game :2567 / Shop :3002 / Admin :3003）Unit Test 行覆蓋率（Line Coverage）≥ 80%，RTP 引擎 / 支付邏輯 / 帳號認證等核心模組 ≥ 90%，於每次 PR merge 前由 CI gate 強制驗收。</li><li><strong>效能基準</strong>：REST API 在正常負載（500 RPS）下 P99 延遲 ≤ 500ms，WebSocket（Colyseus）事件延遲 P99 ≤ 100ms，Error Rate ≤ 0.1%，1,000 並發峰值壓測通過。</li><li><strong>安全合規</strong>：SAST（ESLint security plugin + Semgrep）、DAST（OWASP ZAP）掃描無 High/Critical 等級漏洞，OWASP Top 10 A01-A10 全數覆蓋，於進入 Staging 環境前完成；年齡驗證（US-AGE-001）合規測試通過 Legal 審查。</li><li><strong>使用者驗收</strong>：QA Lead + Engineering Lead + Product Owner 於 Release Candidate 確認後 5 個工作天內完成 UAT sign-off，無 P0/P1 open defect。</li></ol>
-<h3 id="§1.2-測試原則">§1.2 測試原則</h3>
-<table><tr><th>原則</th><th>說明</th><th>實踐方式</th></tr><tr><td><strong>Risk-Based Testing</strong></td><td>優先測試高風險、高業務價值的功能</td><td>參照 §9 Risk Matrix，P0 功能（RTP 引擎 / IAP 支付 / 帳號認證）加強測試深度</td></tr><tr><td><strong>Shift-Left</strong></td><td>將測試活動盡量前移到開發早期</td><td>Pre-commit hook 執行 Unit Tests；PR 觸發 Integration Tests；Feature Flag 隔離未完成功能</td></tr><tr><td><strong>Fail-Fast</strong></td><td>最快速找出最嚴重的問題</td><td>CI pipeline 先跑 Unit → Integration → E2E，任一層失敗即中止後續</td></tr><tr><td><strong>Test Isolation</strong></td><td>每個測試獨立執行，不依賴外部狀態</td><td>每個 Integration Test 自帶 testcontainers MySQL 8.0 + Redis 7 實例；E2E AfterEach 清理測試資料</td></tr><tr><td><strong>Automation First</strong></td><td>可自動化的測試必須自動化</td><td>目標：自動化率 ≥ 90%（E2E smoke 100%，regression 80%）；UAT 為唯一手動環節</td></tr><tr><td><strong>Living Documentation</strong></td><td>測試即文件，BDD scenarios 直接反映業務需求</td><td>Gherkin feature files 與 PRD AC 雙向追蹤（§15 RTM）</td></tr><tr><td><strong>WebSocket-First</strong></td><td>核心遊戲路徑為 WebSocket，測試策略需覆蓋 WS 事件流</td><td>Integration Test 覆蓋 Colyseus Room 狀態同步；k6 WebSocket 場景獨立定義</td></tr></table>
-<h3 id="§1.3-test-pyramid">§1.3 Test Pyramid</h3>
-<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+<h3>§1.2 測試原則</h3>
+<table>
+<tr><th>原則</th><th>說明</th><th>實踐方式</th></tr>
+<tr><td><strong>Risk-Based Testing</strong></td><td>優先測試高風險、高業務價值的功能</td><td>參照 §9 Risk Matrix，P0 功能（RTP 引擎 / IAP 支付 / 帳號認證）加強測試深度</td></tr>
+<tr><td><strong>Shift-Left</strong></td><td>將測試活動盡量前移到開發早期</td><td>Pre-commit hook 執行 Unit Tests；PR 觸發 Integration Tests；Feature Flag 隔離未完成功能</td></tr>
+<tr><td><strong>Fail-Fast</strong></td><td>最快速找出最嚴重的問題</td><td>CI pipeline 先跑 Unit → Integration → E2E，任一層失敗即中止後續</td></tr>
+<tr><td><strong>Test Isolation</strong></td><td>每個測試獨立執行，不依賴外部狀態</td><td>每個 Integration Test 自帶 testcontainers MySQL 8.0 + Redis 7 實例；E2E AfterEach 清理測試資料</td></tr>
+<tr><td><strong>Automation First</strong></td><td>可自動化的測試必須自動化</td><td>目標：自動化率 ≥ 90%（E2E smoke 100%，regression 80%）；UAT 為唯一手動環節</td></tr>
+<tr><td><strong>Living Documentation</strong></td><td>測試即文件，BDD scenarios 直接反映業務需求</td><td>Gherkin feature files 與 PRD AC 雙向追蹤（§15 RTM）</td></tr>
+<tr><td><strong>WebSocket-First</strong></td><td>核心遊戲路徑為 WebSocket，測試策略需覆蓋 WS 事件流</td><td>Integration Test 覆蓋 Colyseus Room 狀態同步；k6 WebSocket 場景獨立定義</td></tr>
+</table>
+<h3>§1.3 Test Pyramid</h3>
+<div class="diagram-container"><pre class="mermaid">graph TD
     E2E["🔺 E2E / BDD Tests<br/>約 10%<br/>Playwright（含 WS 驗證）<br/>Critical user flows：Happy Path<br/>執行時間：5-15 min"]
     INT["🔸 Integration Tests<br/>約 20%<br/>Supertest + testcontainers<br/>REST API + Colyseus WS + DB + Redis<br/>執行時間：2-5 min"]
     UNIT["🔷 Unit Tests<br/>約 70%<br/>Jest + istanbul<br/>RTP Engine / Payment Logic / Auth / Validation<br/>執行時間：< 60 sec"]
@@ -79,789 +128,1019 @@
     style E2E fill:#ff6b6b,color:#fff
     style INT fill:#ffa94d,color:#fff
     style UNIT fill:#339af0,color:#fff</pre></div>
-<blockquote><strong>比例說明</strong>：
-<ul><li><strong>Unit (70%)</strong>：覆蓋所有業務邏輯（RTP 計算、Jackpot 觸發、幂等邏輯、年齡驗證、貨幣扣減）。開發者本機秒級執行，無外部依賴。</li><li><strong>Integration (20%)</strong>：覆蓋 REST API contract（Account :3001, Shop :3002, Admin :3003）+ Colyseus WebSocket Room 狀態同步 + MySQL 8.0 + Redis 7 邊界操作，以 testcontainers 隔離。</li><li><strong>E2E (10%)</strong>：覆蓋 5 個 Critical User Flows（Happy Path）：帳號註冊/登入 → 快速匹配 → 遊戲局（射魚/競爭/結算）→ 充值鑽石 → VIP 訂閱，以 Playwright 驅動 Cocos Client 模擬頁面操作。</blockquote></li></ul><h3 id="§1.4-品質目標（quality-gates）">§1.4 品質目標（Quality Gates）</h3>
-<table><tr><th>指標</th><th>目標值</th><th>測量工具</th><th>頻率</th></tr><tr><td>Unit Test Line Coverage</td><td>≥ 80%（核心模組 ≥ 90%）</td><td>Jest + istanbul</td><td>每次 PR</td></tr><tr><td>Unit Test Branch Coverage</td><td>≥ 70%</td><td>Jest + istanbul</td><td>每次 PR</td></tr><tr><td>Integration Test Pass Rate</td><td>100%（PR merge 前）</td><td>Jest JUnit XML</td><td>每次 PR</td></tr><tr><td>E2E Smoke Pass Rate</td><td>100%</td><td>Playwright HTML Report</td><td>每次 PR merge</td></tr><tr><td>E2E Regression Pass Rate</td><td>≥ 95%</td><td>Playwright HTML Report</td><td>每日 Nightly</td></tr><tr><td>Defect Escape Rate (to Prod)</td><td>≤ 2 defects / sprint</td><td>Linear</td><td>每 Sprint</td></tr><tr><td>REST API P99 Latency（Normal Load 500 RPS）</td><td>≤ 500ms</td><td>k6</td><td>每週</td></tr><tr><td>WebSocket P99 Latency（Colyseus Events）</td><td>≤ 100ms</td><td>k6</td><td>每週</td></tr><tr><td>Error Rate（Normal Load）</td><td>≤ 0.1%</td><td>k6</td><td>每週</td></tr><tr><td>Security High/Critical Issues</td><td>0</td><td>ESLint security + Semgrep + OWASP ZAP</td><td>每次 PR</td></tr><tr><td>Flaky Test Rate</td><td>≤ 2%</td><td>CI Dashboard</td><td>每週</td></tr><tr><td>RTP 準確率（10,000 場模擬）</td><td>85%–95%，標準差 < 2%</td><td>Jest 數值模擬</td><td>每 Release</td></tr></table>
+<blockquote><p><strong>比例說明</strong>：</p></blockquote>
+<blockquote><p>- <strong>Unit (70%)</strong>：覆蓋所有業務邏輯（RTP 計算、Jackpot 觸發、幂等邏輯、年齡驗證、貨幣扣減）。開發者本機秒級執行，無外部依賴。</p></blockquote>
+<blockquote><p>- <strong>Integration (20%)</strong>：覆蓋 REST API contract（Account :3001, Shop :3002, Admin :3003）+ Colyseus WebSocket Room 狀態同步 + MySQL 8.0 + Redis 7 邊界操作，以 testcontainers 隔離。</p></blockquote>
+<blockquote><p>- <strong>E2E (10%)</strong>：覆蓋 5 個 Critical User Flows（Happy Path）：帳號註冊/登入 → 快速匹配 → 遊戲局（射魚/競爭/結算）→ 充值鑽石 → VIP 訂閱，以 Playwright 驅動 Cocos Client 模擬頁面操作。</p></blockquote>
+<h3>§1.4 品質目標（Quality Gates）</h3>
+<table>
+<tr><th>指標</th><th>目標值</th><th>測量工具</th><th>頻率</th></tr>
+<tr><td>Unit Test Line Coverage</td><td>≥ 80%（核心模組 ≥ 90%）</td><td>Jest + istanbul</td><td>每次 PR</td></tr>
+<tr><td>Unit Test Branch Coverage</td><td>≥ 70%</td><td>Jest + istanbul</td><td>每次 PR</td></tr>
+<tr><td>Integration Test Pass Rate</td><td>100%（PR merge 前）</td><td>Jest JUnit XML</td><td>每次 PR</td></tr>
+<tr><td>E2E Smoke Pass Rate</td><td>100%</td><td>Playwright HTML Report</td><td>每次 PR merge</td></tr>
+<tr><td>E2E Regression Pass Rate</td><td>≥ 95%</td><td>Playwright HTML Report</td><td>每日 Nightly</td></tr>
+<tr><td>Defect Escape Rate (to Prod)</td><td>≤ 2 defects / sprint</td><td>Linear</td><td>每 Sprint</td></tr>
+<tr><td>REST API P99 Latency（Normal Load 500 RPS）</td><td>≤ 500ms</td><td>k6</td><td>每週</td></tr>
+<tr><td>WebSocket P99 Latency（Colyseus Events）</td><td>≤ 100ms</td><td>k6</td><td>每週</td></tr>
+<tr><td>Error Rate（Normal Load）</td><td>≤ 0.1%</td><td>k6</td><td>每週</td></tr>
+<tr><td>Security High/Critical Issues</td><td>0</td><td>ESLint security + Semgrep + OWASP ZAP</td><td>每次 PR</td></tr>
+<tr><td>Flaky Test Rate</td><td>≤ 2%</td><td>CI Dashboard</td><td>每週</td></tr>
+<tr><td>RTP 準確率（10,000 場模擬）</td><td>85%–95%，標準差 &lt; 2%</td><td>Jest 數值模擬</td><td>每 Release</td></tr>
+</table>
 <hr>
-<h2 id="§2-test-scope">§2 Test Scope</h2>
-<h3 id="§2.1-in-scope（測試範圍內）">§2.1 In-Scope（測試範圍內）</h3>
-<p>
-<strong>Must-have 功能（P0，來自 PRD §5 Functional Requirements）：</strong>
-</p>
-<table><tr><th>功能模組</th><th>PRD REQ-ID</th><th>AC 數量</th><th>測試類型</th><th>備註</th></tr><tr><td>玩家帳號系統（註冊/登入/鎖定）</td><td>US-ACCT-001</td><td>5 ACs</td><td>Unit + Integration + E2E + Security</td><td>JWT 認證、bcrypt 雜湊、登入鎖定——安全敏感，全類型覆蓋</td></tr><tr><td>4–6 人即時多人競技房間</td><td>US-ROOM-001</td><td>7 ACs</td><td>Integration + E2E + Performance</td><td>Colyseus WebSocket 房間；WS P99 < 100ms 硬性 SLO</td></tr><tr><td>魚群系統（生成/競爭/Boss）</td><td>US-FISH-001</td><td>6 ACs</td><td>Unit + Integration + E2E</td><td>Redis 原子操作搶魚競爭；降級靜態魚群邏輯</td></tr><tr><td>武器系統＋技能系統</td><td>US-WPSK-001</td><td>4 ACs</td><td>Unit + E2E</td><td>冷卻邏輯、武器解鎖條件</td></tr><tr><td>RTP 控制系統＋Jackpot 大獎池</td><td>US-RTP-001</td><td>5 ACs</td><td>Unit（數值模擬）+ Integration</td><td>核心博弈合規邏輯；10,000 場數值模擬</td></tr><tr><td>雙貨幣系統＋IAP 商城</td><td>US-SHOP-001</td><td>6 ACs</td><td>Unit + Integration + E2E + Security</td><td>IAP 收據驗證、幂等防重複充值、退款處理</td></tr><tr><td>年齡限制合規（18 歲驗證）</td><td>US-AGE-001</td><td>3 ACs</td><td>Unit + Integration + E2E + Compliance</td><td>台灣個資法 + 東南亞未成年保護法規</td></tr></table>
-<p>
-<strong>Should-have 功能（P1）：</strong>
-</p>
-<table><tr><th>功能模組</th><th>PRD REQ-ID</th><th>AC 數量</th><th>測試類型</th><th>備註</th></tr><tr><td>VIP 訂閱系統（月費/每日補貼/到期降級）</td><td>US-VIP-001</td><td>3 ACs</td><td>Unit + Integration + E2E</td><td>依賴 US-SHOP-001 IAP 基礎設施；Feature Flag <code>vip_subscription_enabled</code> 控制</td></tr></table>
-<p>
-<strong>非功能性測試（NFR）：</strong>
-</p>
+<h2>§2 Test Scope</h2>
+<h3>§2.1 In-Scope（測試範圍內）</h3>
+<p><strong>Must-have 功能（P0，來自 PRD §5 Functional Requirements）：</strong></p>
+<table>
+<tr><th>功能模組</th><th>PRD REQ-ID</th><th>AC 數量</th><th>測試類型</th><th>備註</th></tr>
+<tr><td>玩家帳號系統（註冊/登入/鎖定）</td><td>US-ACCT-001</td><td>5 ACs</td><td>Unit + Integration + E2E + Security</td><td>JWT 認證、bcrypt 雜湊、登入鎖定——安全敏感，全類型覆蓋</td></tr>
+<tr><td>4–6 人即時多人競技房間</td><td>US-ROOM-001</td><td>7 ACs</td><td>Integration + E2E + Performance</td><td>Colyseus WebSocket 房間；WS P99 &lt; 100ms 硬性 SLO</td></tr>
+<tr><td>魚群系統（生成/競爭/Boss）</td><td>US-FISH-001</td><td>6 ACs</td><td>Unit + Integration + E2E</td><td>Redis 原子操作搶魚競爭；降級靜態魚群邏輯</td></tr>
+<tr><td>武器系統＋技能系統</td><td>US-WPSK-001</td><td>4 ACs</td><td>Unit + E2E</td><td>冷卻邏輯、武器解鎖條件</td></tr>
+<tr><td>RTP 控制系統＋Jackpot 大獎池</td><td>US-RTP-001</td><td>5 ACs</td><td>Unit（數值模擬）+ Integration</td><td>核心博弈合規邏輯；10,000 場數值模擬</td></tr>
+<tr><td>雙貨幣系統＋IAP 商城</td><td>US-SHOP-001</td><td>6 ACs</td><td>Unit + Integration + E2E + Security</td><td>IAP 收據驗證、幂等防重複充值、退款處理</td></tr>
+<tr><td>年齡限制合規（18 歲驗證）</td><td>US-AGE-001</td><td>3 ACs</td><td>Unit + Integration + E2E + Compliance</td><td>台灣個資法 + 東南亞未成年保護法規</td></tr>
+</table>
+<p><strong>Should-have 功能（P1）：</strong></p>
+<table>
+<tr><th>功能模組</th><th>PRD REQ-ID</th><th>AC 數量</th><th>測試類型</th><th>備註</th></tr>
+<tr><td>VIP 訂閱系統（月費/每日補貼/到期降級）</td><td>US-VIP-001</td><td>3 ACs</td><td>Unit + Integration + E2E</td><td>依賴 US-SHOP-001 IAP 基礎設施；Feature Flag <code>vip_subscription_enabled</code> 控制</td></tr>
+</table>
+<p><strong>非功能性測試（NFR）：</strong></p>
 <ul><li><strong>效能測試</strong>：所有 public REST API endpoints + Colyseus WebSocket 事件流</li><li><strong>安全測試</strong>：所有 authenticated endpoints、JWT 認證流程、IAP 支付流程、用戶 PII 處理</li><li><strong>UAT</strong>：所有 P0 Critical User Flows</li></ul>
-<h3 id="§2.2-out-of-scope（排除項目）">§2.2 Out-of-Scope（排除項目）</h3>
-<table><tr><th>排除項目</th><th>原因</th><th>替代方案</th></tr><tr><td>Apple App Store / Google Play IAP 內部邏輯</td><td>第三方平台責任，非本系統控制範圍</td><td>WireMock/MSW 模擬收據驗證端點；Integration Test 驗證 contract</td></tr><tr><td>Cocos Creator 引擎渲染核心</td><td>引擎層非業務程式碼，不可測試</td><td>測試遊戲邏輯（命中計算、狀態同步），而非渲染結果</td></tr><tr><td>iOS/Android 原生 App 安裝包</td><td>MVP 版本為 Web/H5，原生包在 Phase 2</td><td>§19 Mobile Testing 規劃</td></tr><tr><td>超過 3,000 並發的極端壓力測試</td><td>超出 MVP 部署規模（目標 1,000 並發），成本效益不足</td><td>Soak Test 覆蓋 1,000 並發 2 小時；Stress Test 至 1,500 VU（峰值 150%）</td></tr><tr><td>IE 11 / 舊版 Mobile Browser</td><td>目標市場瀏覽器市占 < 1%</td><td>Chrome/Firefox/Safari 三大瀏覽器矩陣（§3.3）</td></tr><tr><td>第三方 Analytics 平台（Mixpanel/Amplitude）內部邏輯</td><td>第三方服務，僅驗證事件觸發格式</td><td>Integration Test 驗證 event payload 格式</td></tr></table>
-<h3 id="§2.3-future-scope（後續版本規劃）">§2.3 Future Scope（後續版本規劃）</h3>
-<table><tr><th>功能</th><th>目標版本</th><th>測試需求說明</th></tr><tr><td>iOS/Android 原生包</td><td>Phase 2（2026-Q4）</td><td>需 §19 Mobile 裝置矩陣，Appium E2E，包體積 / 冷啟動效能預算</td></tr><tr><td>多語系（繁中/英/泰/越）</td><td>v1.5</td><td>需 locale-specific 測試資料、Visual Regression 多語言截圖</td></tr><tr><td>錦標賽模式（Tournament）</td><td>Phase 2</td><td>需新增房間排隊 + 多回合結算 E2E scenarios</td></tr><tr><td>社群功能（好友系統）</td><td>Phase 3</td><td>需新增 Social graph Integration Test</td></tr></table>
+<h3>§2.2 Out-of-Scope（排除項目）</h3>
+<table>
+<tr><th>排除項目</th><th>原因</th><th>替代方案</th></tr>
+<tr><td>Apple App Store / Google Play IAP 內部邏輯</td><td>第三方平台責任，非本系統控制範圍</td><td>WireMock/MSW 模擬收據驗證端點；Integration Test 驗證 contract</td></tr>
+<tr><td>Cocos Creator 引擎渲染核心</td><td>引擎層非業務程式碼，不可測試</td><td>測試遊戲邏輯（命中計算、狀態同步），而非渲染結果</td></tr>
+<tr><td>iOS/Android 原生 App 安裝包</td><td>MVP 版本為 Web/H5，原生包在 Phase 2</td><td>§19 Mobile Testing 規劃</td></tr>
+<tr><td>超過 3,000 並發的極端壓力測試</td><td>超出 MVP 部署規模（目標 1,000 並發），成本效益不足</td><td>Soak Test 覆蓋 1,000 並發 2 小時；Stress Test 至 1,500 VU（峰值 150%）</td></tr>
+<tr><td>IE 11 / 舊版 Mobile Browser</td><td>目標市場瀏覽器市占 &lt; 1%</td><td>Chrome/Firefox/Safari 三大瀏覽器矩陣（§3.3）</td></tr>
+<tr><td>第三方 Analytics 平台（Mixpanel/Amplitude）內部邏輯</td><td>第三方服務，僅驗證事件觸發格式</td><td>Integration Test 驗證 event payload 格式</td></tr>
+</table>
+<h3>§2.3 Future Scope（後續版本規劃）</h3>
+<table>
+<tr><th>功能</th><th>目標版本</th><th>測試需求說明</th></tr>
+<tr><td>iOS/Android 原生包</td><td>Phase 2（2026-Q4）</td><td>需 §19 Mobile 裝置矩陣，Appium E2E，包體積 / 冷啟動效能預算</td></tr>
+<tr><td>多語系（繁中/英/泰/越）</td><td>v1.5</td><td>需 locale-specific 測試資料、Visual Regression 多語言截圖</td></tr>
+<tr><td>錦標賽模式（Tournament）</td><td>Phase 2</td><td>需新增房間排隊 + 多回合結算 E2E scenarios</td></tr>
+<tr><td>社群功能（好友系統）</td><td>Phase 3</td><td>需新增 Social graph Integration Test</td></tr>
+</table>
 <hr>
-<h2 id="§3-test-types">§3 Test Types</h2>
-<h3 id="§3.1-unit-tests">§3.1 Unit Tests</h3>
-<p>
-<strong>工具</strong>：Jest 29.x + istanbul（nyc）
-</p>
-<p>
-<strong>覆蓋率目標</strong>：
-</p>
+<h2>§3 Test Types</h2>
+<h3>§3.1 Unit Tests</h3>
+<p><strong>工具</strong>：Jest 29.x + istanbul（nyc）</p>
+<p><strong>覆蓋率目標</strong>：</p>
 <ul><li>全體服務 Line Coverage ≥ 80%，Branch Coverage ≥ 70%</li><li>核心業務邏輯模組 ≥ 90%：RTP 引擎（<code>src/game/rtp/</code>）、支付邏輯（<code>src/shop/payment/</code>）、帳號認證（<code>src/account/auth/</code>）</li></ul>
-<p>
-<strong>主要測試模組</strong>：
-</p>
-<table><tr><th>模組</th><th>路徑（推斷）</th><th>測試重點</th><th>PRD AC</th></tr><tr><td>RTP 計算引擎</td><td><code>services/game/src/rtp/</code></td><td>85–95% 區間驗證（10,000 次模擬）、補償邏輯觸發條件</td><td>US-RTP-001/AC-1,AC-2</td></tr><tr><td>Jackpot 觸發邏輯</td><td><code>services/game/src/jackpot/</code></td><td>觸發條件、獎池重置、邊界值</td><td>US-RTP-001/AC-3</td></tr><tr><td>帳號認證（bcrypt/JWT）</td><td><code>services/account/src/auth/</code></td><td>bcrypt cost=12 雜湊、JWT 簽發/驗證、Token Rotation</td><td>US-ACCT-001/AC-2,AC-4</td></tr><tr><td>年齡驗證邏輯</td><td><code>services/account/src/compliance/</code></td><td>18 歲邊界、拒絕/允許路徑</td><td>US-AGE-001/AC-1,AC-2</td></tr><tr><td>貨幣扣減（金幣/鑽石）</td><td><code>services/shop/src/currency/</code></td><td>餘額不足、幂等扣減、倍率計算</td><td>US-SHOP-001/AC-2,AC-4</td></tr><tr><td>武器/技能冷卻邏輯</td><td><code>services/game/src/weapon/</code></td><td>冷卻計時、解鎖條件邊界值</td><td>US-WPSK-001/AC-3,AC-4</td></tr><tr><td>幂等訂單去重</td><td><code>services/shop/src/orders/</code></td><td>同一 order_id 多次提交</td><td>US-SHOP-001/AC-3</td></tr><tr><td>Input Validation（Zod）</td><td>各 service <code>src/validators/</code></td><td>Email RFC 5322、密碼強度規則邊界</td><td>US-ACCT-001/AC-5</td></tr></table>
-<p>
-<strong>執行策略</strong>：
-</p>
+<p><strong>主要測試模組</strong>：</p>
+<table>
+<tr><th>模組</th><th>路徑（推斷）</th><th>測試重點</th><th>PRD AC</th></tr>
+<tr><td>RTP 計算引擎</td><td><code>services/game/src/rtp/</code></td><td>85–95% 區間驗證（10,000 次模擬）、補償邏輯觸發條件</td><td>US-RTP-001/AC-1,AC-2</td></tr>
+<tr><td>Jackpot 觸發邏輯</td><td><code>services/game/src/jackpot/</code></td><td>觸發條件、獎池重置、邊界值</td><td>US-RTP-001/AC-3</td></tr>
+<tr><td>帳號認證（bcrypt/JWT）</td><td><code>services/account/src/auth/</code></td><td>bcrypt cost=12 雜湊、JWT 簽發/驗證、Token Rotation</td><td>US-ACCT-001/AC-2,AC-4</td></tr>
+<tr><td>年齡驗證邏輯</td><td><code>services/account/src/compliance/</code></td><td>18 歲邊界、拒絕/允許路徑</td><td>US-AGE-001/AC-1,AC-2</td></tr>
+<tr><td>貨幣扣減（金幣/鑽石）</td><td><code>services/shop/src/currency/</code></td><td>餘額不足、幂等扣減、倍率計算</td><td>US-SHOP-001/AC-2,AC-4</td></tr>
+<tr><td>武器/技能冷卻邏輯</td><td><code>services/game/src/weapon/</code></td><td>冷卻計時、解鎖條件邊界值</td><td>US-WPSK-001/AC-3,AC-4</td></tr>
+<tr><td>幂等訂單去重</td><td><code>services/shop/src/orders/</code></td><td>同一 order_id 多次提交</td><td>US-SHOP-001/AC-3</td></tr>
+<tr><td>Input Validation（Zod）</td><td>各 service <code>src/validators/</code></td><td>Email RFC 5322、密碼強度規則邊界</td><td>US-ACCT-001/AC-5</td></tr>
+</table>
+<p><strong>執行策略</strong>：</p>
 <ul><li>Pre-commit hook（Husky）執行受影響模組的 Unit Tests</li><li>PR CI 強制通過，coverage 低於閾值 block merge</li></ul>
-<p>
-<strong>排除項目</strong>：純 I/O 操作（Prisma ORM 查詢）、Colyseus Room lifecycle（改用 Integration Test 覆蓋）、第三方 SDK wrapper
-</p>
-<p>
-<strong>Jest 設定檔</strong>：<code>jest.config.ts</code>（各 service 各自）；coverage threshold 設定於 <code>jest.config.ts</code>：
-</p>
+<p><strong>排除項目</strong>：純 I/O 操作（Prisma ORM 查詢）、Colyseus Room lifecycle（改用 Integration Test 覆蓋）、第三方 SDK wrapper</p>
+<p><strong>Jest 設定檔</strong>：<code>jest.config.ts</code>（各 service 各自）；coverage threshold 設定於 <code>jest.config.ts</code>：</p>
 <pre><code class="language-typescript">// jest.config.ts（核心服務示例）
-<p>
 export default {
-preset: &#x27;ts-jest&#x27;,
-testEnvironment: &#x27;node&#x27;,
-collectCoverageFrom: [&#x27;src/<strong>/<em>.ts&#x27;, &#x27;!src/</strong>/</em>.d.ts&#x27;],
-coverageThresholds: {
-global: { lines: 80, branches: 70 },
-&#x27;./src/rtp/&#x27;: { lines: 90, branches: 85 },
-&#x27;./src/auth/&#x27;: { lines: 90, branches: 85 },
-&#x27;./src/payment/&#x27;: { lines: 90, branches: 85 },
-},
-};
-</code></pre>
-</p>
+  preset: &#x27;ts-jest&#x27;,
+  testEnvironment: &#x27;node&#x27;,
+  collectCoverageFrom: [&#x27;src/**/*.ts&#x27;, &#x27;!src/**/*.d.ts&#x27;],
+  coverageThresholds: {
+    global: { lines: 80, branches: 70 },
+    &#x27;./src/rtp/&#x27;: { lines: 90, branches: 85 },
+    &#x27;./src/auth/&#x27;: { lines: 90, branches: 85 },
+    &#x27;./src/payment/&#x27;: { lines: 90, branches: 85 },
+  },
+};</code></pre>
 <hr>
-<h3 id="§3.2-integration-tests">§3.2 Integration Tests</h3>
-<p>
-<strong>工具</strong>：Jest + Supertest 6.x + testcontainers-node（MySQL 8.0 + Redis 7 實際容器）
-</p>
-<p>
-<strong>Scope</strong>：ARCH 定義的所有 service boundaries（REST API 層 + Colyseus WebSocket Room + DB 操作 + Redis 原子操作）
-</p>
-<p>
-<strong>API Endpoint 覆蓋清單（來自 API.md）：</strong>
-</p>
-<p>
-每個 endpoint 覆蓋：200/201 成功 ・ 400 輸入驗證失敗 ・ 401/403 授權失敗 ・ 404 資源不存在 ・ 409 幂等衝突 ・ 422 業務規則失敗 ・ 503 外部依賴不可用
-</p>
-<table><tr><th>Service</th><th>Endpoint 群組</th><th>對應 PRD REQ-ID</th></tr><tr><td>Account :3001</td><td><code>POST /v1/auth/register</code>、<code>POST /v1/auth/login</code>、<code>POST /v1/auth/logout</code>、<code>POST /v1/auth/refresh</code>、<code>GET /v1/users/:id</code></td><td>US-ACCT-001, US-AGE-001</td></tr><tr><td>Account :3001</td><td><code>POST /v1/age-verification/confirm</code></td><td>US-AGE-001</td></tr><tr><td>Game :2567</td><td>Colyseus <code>matchmake/joinOrCreate</code> WebSocket 握手</td><td>US-ROOM-001</td></tr><tr><td>Game :2567</td><td>WebSocket 事件流：<code>fire</code>、<code>skill_activate</code>、<code>fish_kill</code>、<code>jackpot_trigger</code></td><td>US-FISH-001, US-WPSK-001, US-RTP-001</td></tr><tr><td>Shop :3002</td><td><code>POST /v1/shop/purchases</code>（IAP 充值）</td><td>US-SHOP-001/AC-1,AC-3,AC-5,AC-6</td></tr><tr><td>Shop :3002</td><td><code>POST /v1/vip/subscriptions</code>（VIP 訂閱）</td><td>US-VIP-001/AC-1,AC-3</td></tr><tr><td>Shop :3002</td><td><code>GET /v1/shop/products</code>、<code>GET /v1/users/:id/balance</code></td><td>US-SHOP-001/AC-2,AC-4</td></tr><tr><td>Admin :3003</td><td><code>POST /v1/game-configs</code>（RTP/Jackpot 參數設定）</td><td>US-RTP-001/AC-5</td></tr></table>
-<p>
-<strong>資料庫測試</strong>：使用 testcontainers 啟動真實 MySQL 8.0 InnoDB，執行完整 11 張表 schema migration 後測試；Redis 7 同樣使用 testcontainers 實例。
-</p>
-<p>
-<strong>外部服務 Mock（WireMock/nock）</strong>：
-</p>
+<h3>§3.2 Integration Tests</h3>
+<p><strong>工具</strong>：Jest + Supertest 6.x + testcontainers-node（MySQL 8.0 + Redis 7 實際容器）</p>
+<p><strong>Scope</strong>：ARCH 定義的所有 service boundaries（REST API 層 + Colyseus WebSocket Room + DB 操作 + Redis 原子操作）</p>
+<p><strong>API Endpoint 覆蓋清單（來自 API.md）：</strong></p>
+<p>每個 endpoint 覆蓋：200/201 成功 ・ 400 輸入驗證失敗 ・ 401/403 授權失敗 ・ 404 資源不存在 ・ 409 幂等衝突 ・ 422 業務規則失敗 ・ 503 外部依賴不可用</p>
+<table>
+<tr><th>Service</th><th>Endpoint 群組</th><th>對應 PRD REQ-ID</th></tr>
+<tr><td>Account :3001</td><td><code>POST /v1/auth/register</code>、<code>POST /v1/auth/login</code>、<code>POST /v1/auth/logout</code>、<code>POST /v1/auth/refresh</code>、<code>GET /v1/users/:id</code></td><td>US-ACCT-001, US-AGE-001</td></tr>
+<tr><td>Account :3001</td><td><code>POST /v1/age-verification/confirm</code></td><td>US-AGE-001</td></tr>
+<tr><td>Game :2567</td><td>Colyseus <code>matchmake/joinOrCreate</code> WebSocket 握手</td><td>US-ROOM-001</td></tr>
+<tr><td>Game :2567</td><td>WebSocket 事件流：<code>fire</code>、<code>skill_activate</code>、<code>fish_kill</code>、<code>jackpot_trigger</code></td><td>US-FISH-001, US-WPSK-001, US-RTP-001</td></tr>
+<tr><td>Shop :3002</td><td><code>POST /v1/shop/purchases</code>（IAP 充值）</td><td>US-SHOP-001/AC-1,AC-3,AC-5,AC-6</td></tr>
+<tr><td>Shop :3002</td><td><code>POST /v1/vip/subscriptions</code>（VIP 訂閱）</td><td>US-VIP-001/AC-1,AC-3</td></tr>
+<tr><td>Shop :3002</td><td><code>GET /v1/shop/products</code>、<code>GET /v1/users/:id/balance</code></td><td>US-SHOP-001/AC-2,AC-4</td></tr>
+<tr><td>Admin :3003</td><td><code>POST /v1/game-configs</code>（RTP/Jackpot 參數設定）</td><td>US-RTP-001/AC-5</td></tr>
+</table>
+<p><strong>資料庫測試</strong>：使用 testcontainers 啟動真實 MySQL 8.0 InnoDB，執行完整 11 張表 schema migration 後測試；Redis 7 同樣使用 testcontainers 實例。</p>
+<p><strong>外部服務 Mock（WireMock/nock）</strong>：</p>
 <ul><li>Apple/Google IAP <code>verifyReceipt</code> → 成功/失敗/21002 偽造收據三種 stub</li><li>Analytics 事件接收 → nock 攔截，驗證 event payload 格式</li></ul>
-<p>
-<strong>Circuit Breaker 測試</strong>：模擬 IAP 服務連續失敗 > 閾值，驗證 503 Circuit Open 回應（US-SHOP-001/AC-5）
-</p>
-<p>
-<strong>資料庫約束測試策略（DB Constraint Tests）：</strong>
-</p>
-<p>
-使用 testcontainers 啟動真實 MySQL 8.0 實例，執行 Prisma migration 後，驗證 SCHEMA.md 定義的所有 DB 層約束：
-</p>
-<table><tr><th>約束類型</th><th>測試場景</th><th>預期結果</th><th>TC-ID</th></tr><tr><td>FK ON DELETE SET NULL</td><td>刪除 <code>users</code> 記錄 → <code>session_players.user_id</code> 應自動設為 NULL（GDPR 用戶刪除不破壞遊戲歷史）</td><td><code>session_players</code> 記錄保留，<code>user_id = NULL</code></td><td>TC-INT-DB-001-S</td></tr><tr><td>VIP Trigger 唯一性</td><td>同一 <code>user_id</code> 插入第二筆 <code>status=active</code> 的 VIP 訂閱 → DB TRIGGER 應拋出 SQLSTATE 45000</td><td>MySQL error 1644 / TRIGGER fires, INSERT rejected</td><td>TC-INT-DB-002-E</td></tr><tr><td>NOT NULL 邊界</td><td>插入 <code>orders</code> 記錄時 <code>idempotency_key = NULL</code> → DB 應拒絕</td><td>MySQL error 1048（Column cannot be null）</td><td>TC-INT-DB-003-E</td></tr><tr><td>Migration 完整性</td><td>執行 <code>prisma migrate deploy</code> → 計算 schema hash，比對 SCHEMA.md §0 DOC-ID 版本</td><td><code>prisma migrate status</code> 顯示 "Database schema is up to date"，無 drift</td><td>TC-INT-DB-004-S</td></tr><tr><td>Migration 回滾</td><td>套用 migration 後執行 <code>prisma migrate reset --skip-seed</code> → 重新套用 → 驗證 11 張表結構完整</td><td>所有表存在，索引與 FK 如 SCHEMA.md 定義</td><td>TC-INT-DB-005-S</td></tr></table>
+<p><strong>Circuit Breaker 測試</strong>：模擬 IAP 服務連續失敗 &gt; 閾值，驗證 503 Circuit Open 回應（US-SHOP-001/AC-5）</p>
+<p><strong>資料庫約束測試策略（DB Constraint Tests）：</strong></p>
+<p>使用 testcontainers 啟動真實 MySQL 8.0 實例，執行 Prisma migration 後，驗證 SCHEMA.md 定義的所有 DB 層約束：</p>
+<table>
+<tr><th>約束類型</th><th>測試場景</th><th>預期結果</th><th>TC-ID</th></tr>
+<tr><td>FK ON DELETE SET NULL</td><td>刪除 <code>users</code> 記錄 → <code>session_players.user_id</code> 應自動設為 NULL（GDPR 用戶刪除不破壞遊戲歷史）</td><td><code>session_players</code> 記錄保留，<code>user_id = NULL</code></td><td>TC-INT-DB-001-S</td></tr>
+<tr><td>VIP Trigger 唯一性</td><td>同一 <code>user_id</code> 插入第二筆 <code>status=active</code> 的 VIP 訂閱 → DB TRIGGER 應拋出 SQLSTATE 45000</td><td>MySQL error 1644 / TRIGGER fires, INSERT rejected</td><td>TC-INT-DB-002-E</td></tr>
+<tr><td>NOT NULL 邊界</td><td>插入 <code>orders</code> 記錄時 <code>idempotency_key = NULL</code> → DB 應拒絕</td><td>MySQL error 1048（Column cannot be null）</td><td>TC-INT-DB-003-E</td></tr>
+<tr><td>Migration 完整性</td><td>執行 <code>prisma migrate deploy</code> → 計算 schema hash，比對 SCHEMA.md §0 DOC-ID 版本</td><td><code>prisma migrate status</code> 顯示 &quot;Database schema is up to date&quot;，無 drift</td><td>TC-INT-DB-004-S</td></tr>
+<tr><td>Migration 回滾</td><td>套用 migration 後執行 <code>prisma migrate reset --skip-seed</code> → 重新套用 → 驗證 11 張表結構完整</td><td>所有表存在，索引與 FK 如 SCHEMA.md 定義</td><td>TC-INT-DB-005-S</td></tr>
+</table>
 <pre><code class="language-typescript">// tests/integration/db-constraints.test.ts
-<p>
 describe(&#x27;DB Constraint Tests&#x27;, () =&gt; {
-it(&#x27;TC-INT-DB-001-S: FK ON DELETE SET NULL preserves session_players history&#x27;, async () =&gt; {
-// Arrange: create user, session, session_player
-// Act: DELETE FROM users WHERE id = userId
-// Assert: session_players row still exists with user_id = NULL
-});
-</p>
-<p>
-it(&#x27;TC-INT-DB-002-E: VIP trigger rejects second active subscription&#x27;, async () =&gt; {
-// Arrange: insert first active VIP subscription
-// Act: insert second active VIP subscription for same user
-// Assert: throws MySQL error SQLSTATE 45000
-});
-</p>
-<p>
-it(&#x27;TC-INT-DB-003-E: orders.idempotency_key NOT NULL enforced&#x27;, async () =&gt; {
-// Act: INSERT INTO orders (..., idempotency_key) VALUES (..., NULL)
-// Assert: MySQL error 1048
-});
-});
-</code></pre>
-</p>
+  it(&#x27;TC-INT-DB-001-S: FK ON DELETE SET NULL preserves session_players history&#x27;, async () =&gt; {
+    // Arrange: create user, session, session_player
+    // Act: DELETE FROM users WHERE id = userId
+    // Assert: session_players row still exists with user_id = NULL
+  });
+
+  it(&#x27;TC-INT-DB-002-E: VIP trigger rejects second active subscription&#x27;, async () =&gt; {
+    // Arrange: insert first active VIP subscription
+    // Act: insert second active VIP subscription for same user
+    // Assert: throws MySQL error SQLSTATE 45000
+  });
+
+  it(&#x27;TC-INT-DB-003-E: orders.idempotency_key NOT NULL enforced&#x27;, async () =&gt; {
+    // Act: INSERT INTO orders (..., idempotency_key) VALUES (..., NULL)
+    // Assert: MySQL error 1048
+  });
+});</code></pre>
 <hr>
-<h3 id="§3.3-e2e-tests">§3.3 E2E Tests</h3>
-<p>
-<strong>工具</strong>：Playwright 1.4x（TypeScript）
-</p>
-<p>
-<strong>Browser Matrix</strong>：
-</p>
+<h3>§3.3 E2E Tests</h3>
+<p><strong>工具</strong>：Playwright 1.4x（TypeScript）</p>
+<p><strong>Browser Matrix</strong>：</p>
 <ul><li>Chrome 120+（主要，自動化主力）</li><li>Firefox 120+（次要）</li><li>WebKit / Safari（MacOS，次要）</li></ul>
-<p>
-<strong>Critical User Flows（每個 Flow = 獨立 Playwright spec 檔）：</strong>
-</p>
-<table><tr><th>Flow ID</th><th>名稱</th><th>PRD AC 覆蓋</th><th>Spec 檔案</th></tr><tr><td>E2E-F01</td><td>帳號註冊 → 登入 → 大廳</td><td>US-ACCT-001/AC-1, AC-2; US-AGE-001/AC-1, AC-3</td><td><code>e2e/account-register-login.spec.ts</code></td></tr><tr><td>E2E-F02</td><td>快速匹配 → 進入競技房間 → 遊戲開始</td><td>US-ROOM-001/AC-1, AC-3</td><td><code>e2e/room-matchmaking.spec.ts</code></td></tr><tr><td>E2E-F03</td><td>射魚 → 命中/未命中 → 金幣更新 → 結算 MVP 獎勵</td><td>US-FISH-001/AC-2, AC-4; US-ROOM-001/AC-5</td><td><code>e2e/gameplay-core.spec.ts</code></td></tr><tr><td>E2E-F04</td><td>IAP 充值 USD 4.99 = 50 鑽石 → 餘額更新</td><td>US-SHOP-001/AC-1; US-AGE-001/AC-1</td><td><code>e2e/iap-purchase.spec.ts</code></td></tr><tr><td>E2E-F05</td><td>武器選擇（雷射炮）→ 冰凍技能觸發 → 冷卻計時</td><td>US-WPSK-001/AC-1, AC-2</td><td><code>e2e/weapon-skill.spec.ts</code></td></tr><tr><td>E2E-F06</td><td>VIP 訂閱 USD 9.99 → VIP 光環顯示 → 次日補貼</td><td>US-VIP-001/AC-1, AC-2</td><td><code>e2e/vip-subscribe.spec.ts</code></td></tr></table>
-<p>
-<strong>測試資料策略</strong>：
-</p>
+<p><strong>Critical User Flows（每個 Flow = 獨立 Playwright spec 檔）：</strong></p>
+<table>
+<tr><th>Flow ID</th><th>名稱</th><th>PRD AC 覆蓋</th><th>Spec 檔案</th></tr>
+<tr><td>E2E-F01</td><td>帳號註冊 → 登入 → 大廳</td><td>US-ACCT-001/AC-1, AC-2; US-AGE-001/AC-1, AC-3</td><td><code>e2e/account-register-login.spec.ts</code></td></tr>
+<tr><td>E2E-F02</td><td>快速匹配 → 進入競技房間 → 遊戲開始</td><td>US-ROOM-001/AC-1, AC-3</td><td><code>e2e/room-matchmaking.spec.ts</code></td></tr>
+<tr><td>E2E-F03</td><td>射魚 → 命中/未命中 → 金幣更新 → 結算 MVP 獎勵</td><td>US-FISH-001/AC-2, AC-4; US-ROOM-001/AC-5</td><td><code>e2e/gameplay-core.spec.ts</code></td></tr>
+<tr><td>E2E-F04</td><td>IAP 充值 USD 4.99 = 50 鑽石 → 餘額更新</td><td>US-SHOP-001/AC-1; US-AGE-001/AC-1</td><td><code>e2e/iap-purchase.spec.ts</code></td></tr>
+<tr><td>E2E-F05</td><td>武器選擇（雷射炮）→ 冰凍技能觸發 → 冷卻計時</td><td>US-WPSK-001/AC-1, AC-2</td><td><code>e2e/weapon-skill.spec.ts</code></td></tr>
+<tr><td>E2E-F06</td><td>VIP 訂閱 USD 9.99 → VIP 光環顯示 → 次日補貼</td><td>US-VIP-001/AC-1, AC-2</td><td><code>e2e/vip-subscribe.spec.ts</code></td></tr>
+</table>
+<p><strong>測試資料策略</strong>：</p>
 <ul><li><strong>Fixture</strong>：靜態測試帳號（<code>test-player-01@example.com</code>、<code>test-vip@example.com</code>）存於 Playwright <code>fixtures/</code> 目錄</li><li><strong>Factory</strong>：透過 API 動態建立遊戲房間、充值訂單（<code>e2e/helpers/factory.ts</code>）</li><li><strong>AfterEach</strong>：清理測試資料（DELETE 測試帳號、清空測試訂單），保證測試隔離</li></ul>
-<p>
-<strong>Selector 策略</strong>：優先使用 <code>data-testid</code> 屬性（如 <code>[data-testid=&quot;quick-match-btn&quot;]</code>）；禁止依賴 CSS class 或 XPath
-</p>
-<p>
-<strong>不測試範圍</strong>：Apple/Google 實際付款流程（mock IAP endpoint）；Email 寄送（nock 攔截）
-</p>
+<p><strong>Selector 策略</strong>：優先使用 <code>data-testid</code> 屬性（如 <code>[data-testid=&quot;quick-match-btn&quot;]</code>）；禁止依賴 CSS class 或 XPath</p>
+<p><strong>不測試範圍</strong>：Apple/Google 實際付款流程（mock IAP endpoint）；Email 寄送（nock 攔截）</p>
 <hr>
-<h3 id="§3.4-performance-tests">§3.4 Performance Tests</h3>
-<p>
-<strong>工具</strong>：k6 v0.50+（JavaScript）
-</p>
-<p>
-<strong>SLO Targets（來自 EDD §10.5）：</strong>
-</p>
-<table><tr><th>端點類型</th><th>P50</th><th>P95</th><th>P99</th><th>Max Error Rate</th></tr><tr><td>REST 讀取（GET）</td><td>< 50ms</td><td>< 200ms</td><td>< 500ms</td><td>< 0.1%</td></tr><tr><td>REST 寫入（POST/PUT）</td><td>< 100ms</td><td>< 300ms</td><td>< 500ms</td><td>< 0.1%</td></tr><tr><td>WebSocket 事件往返（Colyseus）</td><td>< 30ms</td><td>< 80ms</td><td>< 100ms</td><td>< 0.1%</td></tr><tr><td>IAP 充值（含外部驗證）</td><td>< 500ms</td><td>< 2s</td><td>< 3s</td><td>< 0.1%</td></tr><tr><td>Jackpot 觸發（Redis 原子）</td><td>< 50ms</td><td>< 150ms</td><td>< 300ms</td><td>< 0.01%</td></tr></table>
-<p>
-<strong>k6 Load Targets（來自 EDD §7 Capacity）：</strong>
-</p>
-<table><tr><th>場景</th><th>並發 VU</th><th>持續時間</th><th>目標 RPS</th></tr><tr><td>Smoke</td><td>1</td><td>1 min</td><td>1</td></tr><tr><td>Normal Load</td><td>1,000 VU（500 REST + 500 WS）</td><td>30 min</td><td>500 REST + 6,000 WS events/s</td></tr><tr><td>Peak Load（150%）</td><td>1,500 VU</td><td>10 min</td><td>750 REST</td></tr><tr><td>Soak</td><td>1,000 VU</td><td>120 min</td><td>500 REST</td></tr></table>
+<h3>§3.4 Performance Tests</h3>
+<p><strong>工具</strong>：k6 v0.50+（JavaScript）</p>
+<p><strong>SLO Targets（來自 EDD §10.5）：</strong></p>
+<table>
+<tr><th>端點類型</th><th>P50</th><th>P95</th><th>P99</th><th>Max Error Rate</th></tr>
+<tr><td>REST 讀取（GET）</td><td>&lt; 50ms</td><td>&lt; 200ms</td><td>&lt; 500ms</td><td>&lt; 0.1%</td></tr>
+<tr><td>REST 寫入（POST/PUT）</td><td>&lt; 100ms</td><td>&lt; 300ms</td><td>&lt; 500ms</td><td>&lt; 0.1%</td></tr>
+<tr><td>WebSocket 事件往返（Colyseus）</td><td>&lt; 30ms</td><td>&lt; 80ms</td><td>&lt; 100ms</td><td>&lt; 0.1%</td></tr>
+<tr><td>IAP 充值（含外部驗證）</td><td>&lt; 500ms</td><td>&lt; 2s</td><td>&lt; 3s</td><td>&lt; 0.1%</td></tr>
+<tr><td>Jackpot 觸發（Redis 原子）</td><td>&lt; 50ms</td><td>&lt; 150ms</td><td>&lt; 300ms</td><td>&lt; 0.01%</td></tr>
+</table>
+<p><strong>k6 Load Targets（來自 EDD §7 Capacity）：</strong></p>
+<table>
+<tr><th>場景</th><th>並發 VU</th><th>持續時間</th><th>目標 RPS</th></tr>
+<tr><td>Smoke</td><td>1</td><td>1 min</td><td>1</td></tr>
+<tr><td>Normal Load</td><td>1,000 VU（500 REST + 500 WS）</td><td>30 min</td><td>500 REST + 6,000 WS events/s</td></tr>
+<tr><td>Peak Load（150%）</td><td>1,500 VU</td><td>10 min</td><td>750 REST</td></tr>
+<tr><td>Soak</td><td>1,000 VU</td><td>120 min</td><td>500 REST</td></tr>
+</table>
 <hr>
-<h4 id="§3.4.1-smoke-test">§3.4.1 Smoke Test</h4>
+<h4>§3.4.1 Smoke Test</h4>
 <pre><code class="language-javascript">// tests/performance/smoke.k6.js
-<p>
 import http from &#x27;k6/http&#x27;;
 import { check } from &#x27;k6&#x27;;
-</p>
-<p>
+
 export const options = {
-vus: 1,
-duration: &#x27;1m&#x27;,
-thresholds: {
-http_req_failed: [&#x27;rate&lt;0.001&#x27;],
-http_req_duration: [&#x27;p(99)&lt;500&#x27;],
-},
+  vus: 1,
+  duration: &#x27;1m&#x27;,
+  thresholds: {
+    http_req_failed: [&#x27;rate&lt;0.001&#x27;],
+    http_req_duration: [&#x27;p(99)&lt;500&#x27;],
+  },
 };
-</p>
-<p>
+
 export default function () {
-const res = http.get(<code>${__ENV.API_URL}/v1/health</code>);
-check(res, { &#x27;status 200&#x27;: (r) =&gt; r.status === 200 });
-}
-</code></pre>
-</p>
-<p>
-<strong>目的</strong>：確認基本功能在生產配置下可運行。Pass Criteria：0 error，REST P99 < 500ms。
-</p>
+  const res = http.get(`${__ENV.API_URL}/v1/health`);
+  check(res, { &#x27;status 200&#x27;: (r) =&gt; r.status === 200 });
+}</code></pre>
+<p><strong>目的</strong>：確認基本功能在生產配置下可運行。Pass Criteria：0 error，REST P99 &lt; 500ms。</p>
 <hr>
-<h4 id="§3.4.2-load-test">§3.4.2 Load Test</h4>
+<h4>§3.4.2 Load Test</h4>
 <pre><code class="language-javascript">// tests/performance/load.k6.js
-<p>
 import http from &#x27;k6/http&#x27;;
 import ws from &#x27;k6/ws&#x27;;
 import { check, sleep } from &#x27;k6&#x27;;
-</p>
-<p>
+
 export const options = {
-stages: [
-{ duration: &#x27;5m&#x27;,  target: 1000 },  // ramp-up
-{ duration: &#x27;20m&#x27;, target: 1000 },  // steady-state
-{ duration: &#x27;5m&#x27;,  target: 0 },     // ramp-down
-],
-thresholds: {
-http_req_failed: [&#x27;rate&lt;0.001&#x27;],
-http_req_duration: [&#x27;p(50)&lt;100&#x27;, &#x27;p(95)&lt;300&#x27;, &#x27;p(99)&lt;500&#x27;],
-ws_session_duration: [&#x27;p(99)&lt;100&#x27;],
-},
+  stages: [
+    { duration: &#x27;5m&#x27;,  target: 1000 },  // ramp-up
+    { duration: &#x27;20m&#x27;, target: 1000 },  // steady-state
+    { duration: &#x27;5m&#x27;,  target: 0 },     // ramp-down
+  ],
+  thresholds: {
+    http_req_failed: [&#x27;rate&lt;0.001&#x27;],
+    http_req_duration: [&#x27;p(50)&lt;100&#x27;, &#x27;p(95)&lt;300&#x27;, &#x27;p(99)&lt;500&#x27;],
+    ws_session_duration: [&#x27;p(99)&lt;100&#x27;],
+  },
 };
-</p>
-<p>
+
 export default function () {
-// REST path（50% VU）
-if (__VU % 2 === 0) {
-const loginRes = http.post(<code>${__ENV.API_URL}/v1/auth/login</code>, JSON.stringify({
-email: <code>testplayer${__VU}@example.com</code>, password: &#x27;TestPass123!&#x27;
-}), { headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27; } });
-check(loginRes, { &#x27;login 200&#x27;: (r) =&gt; r.status === 200 });
-sleep(1);
-} else {
-// WebSocket path（50% VU）
-ws.connect(<code>${__ENV.WS_URL}</code>, {}, function (socket) {
-socket.on(&#x27;open&#x27;, () =&gt; { socket.send(JSON.stringify({ type: &#x27;fire&#x27;, x: 100, y: 200 })); });
-socket.on(&#x27;message&#x27;, (msg) =&gt; { check(msg, { &#x27;event received&#x27;: (m) =&gt; m.length &gt; 0 }); });
-socket.setTimeout(() =&gt; socket.close(), 5000);
-});
-}
-}
-</code></pre>
-</p>
-<p>
-<strong>Pass Criteria</strong>：REST P99 < 500ms，WebSocket P99 < 100ms，Error Rate < 0.1%。
-</p>
+  // REST path（50% VU）
+  if (__VU % 2 === 0) {
+    const loginRes = http.post(`${__ENV.API_URL}/v1/auth/login`, JSON.stringify({
+      email: `testplayer${__VU}@example.com`, password: &#x27;TestPass123!&#x27;
+    }), { headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27; } });
+    check(loginRes, { &#x27;login 200&#x27;: (r) =&gt; r.status === 200 });
+    sleep(1);
+  } else {
+    // WebSocket path（50% VU）
+    ws.connect(`${__ENV.WS_URL}`, {}, function (socket) {
+      socket.on(&#x27;open&#x27;, () =&gt; { socket.send(JSON.stringify({ type: &#x27;fire&#x27;, x: 100, y: 200 })); });
+      socket.on(&#x27;message&#x27;, (msg) =&gt; { check(msg, { &#x27;event received&#x27;: (m) =&gt; m.length &gt; 0 }); });
+      socket.setTimeout(() =&gt; socket.close(), 5000);
+    });
+  }
+}</code></pre>
+<p><strong>Pass Criteria</strong>：REST P99 &lt; 500ms，WebSocket P99 &lt; 100ms，Error Rate &lt; 0.1%。</p>
 <hr>
-<h4 id="§3.4.3-stress-test">§3.4.3 Stress Test</h4>
+<h4>§3.4.3 Stress Test</h4>
 <pre><code class="language-javascript">// tests/performance/stress.k6.js
-<p>
 export const options = {
-stages: [
-{ duration: &#x27;5m&#x27;,  target: 1000 },
-{ duration: &#x27;5m&#x27;,  target: 1500 },  // 超載 150%
-{ duration: &#x27;10m&#x27;, target: 1500 },  // 維持超載
-{ duration: &#x27;5m&#x27;,  target: 0 },     // 壓力釋放
-],
-thresholds: {
-http_req_failed: [&#x27;rate&lt;0.05&#x27;],     // 超載下允許 5% error
-},
-};
-</code></pre>
-</p>
-<p>
-<strong>目的</strong>：找出系統在超載下的崩潰點。Pass Criteria：壓力移除後 5 分鐘內 Error Rate 恢復至 < 0.1%，Memory 無 OOM，系統自動恢復正常運行。
-</p>
+  stages: [
+    { duration: &#x27;5m&#x27;,  target: 1000 },
+    { duration: &#x27;5m&#x27;,  target: 1500 },  // 超載 150%
+    { duration: &#x27;10m&#x27;, target: 1500 },  // 維持超載
+    { duration: &#x27;5m&#x27;,  target: 0 },     // 壓力釋放
+  ],
+  thresholds: {
+    http_req_failed: [&#x27;rate&lt;0.05&#x27;],     // 超載下允許 5% error
+  },
+};</code></pre>
+<p><strong>目的</strong>：找出系統在超載下的崩潰點。Pass Criteria：壓力移除後 5 分鐘內 Error Rate 恢復至 &lt; 0.1%，Memory 無 OOM，系統自動恢復正常運行。</p>
 <hr>
-<h4 id="§3.4.4-soak-test">§3.4.4 Soak Test</h4>
+<h4>§3.4.4 Soak Test</h4>
 <pre><code class="language-javascript">// tests/performance/soak.k6.js
-<p>
 export const options = {
-stages: [
-{ duration: &#x27;5m&#x27;,  target: 1000 },   // ramp-up
-{ duration: &#x27;110m&#x27;, target: 1000 },  // 2h 持續
-{ duration: &#x27;5m&#x27;,   target: 0 },     // ramp-down
-],
-thresholds: {
-http_req_failed: [&#x27;rate&lt;0.001&#x27;],
-http_req_duration: [&#x27;p(99)&lt;500&#x27;],
-},
-};
-</code></pre>
-</p>
-<p>
-<strong>目的</strong>：發現記憶體洩漏、連線池耗盡、資源累積問題（MySQL connection pool、Redis 連線數、Node.js V8 heap）。
-</p>
-<p>
-<strong>監測指標</strong>：Prometheus metrics（Grafana Dashboard）：
-</p>
+  stages: [
+    { duration: &#x27;5m&#x27;,  target: 1000 },   // ramp-up
+    { duration: &#x27;110m&#x27;, target: 1000 },  // 2h 持續
+    { duration: &#x27;5m&#x27;,   target: 0 },     // ramp-down
+  ],
+  thresholds: {
+    http_req_failed: [&#x27;rate&lt;0.001&#x27;],
+    http_req_duration: [&#x27;p(99)&lt;500&#x27;],
+  },
+};</code></pre>
+<p><strong>目的</strong>：發現記憶體洩漏、連線池耗盡、資源累積問題（MySQL connection pool、Redis 連線數、Node.js V8 heap）。</p>
+<p><strong>監測指標</strong>：Prometheus metrics（Grafana Dashboard）：</p>
 <ul><li><code>process_heap_used_bytes</code>（Node.js V8 heap，不應線性增長）</li><li><code>mysql_pool_connections_active</code>（不應趨近上限 50）</li><li><code>redis_connections_active</code>（不應持續增長）</li><li><code>error_rate_5xx</code>（不應有上升趨勢）</li></ul>
-<p>
-<strong>Pass Criteria</strong>：2 小時內 Error Rate 無上升趨勢，Memory heap 無線性增長（允許 ± 10% 波動），CPU 平均 < 80%。
-</p>
+<p><strong>Pass Criteria</strong>：2 小時內 Error Rate 無上升趨勢，Memory heap 無線性增長（允許 ± 10% 波動），CPU 平均 &lt; 80%。</p>
 <hr>
-<h3 id="§3.5-uat（user-acceptance-testing）">§3.5 UAT（User Acceptance Testing）</h3>
-<p>
-<strong>工具</strong>：手動測試 + 測試紀錄表（Google Sheets / TestRail）
-</p>
-<p>
-<strong>參與者</strong>：
-</p>
+<h3>§3.5 UAT（User Acceptance Testing）</h3>
+<p><strong>工具</strong>：手動測試 + 測試紀錄表（Google Sheets / TestRail）</p>
+<p><strong>參與者</strong>：</p>
 <ul><li>Product Owner（最終 sign-off 責任人）</li><li>QA Lead（測試協調）</li><li>代表性終端用戶（1–2 名台灣/東南亞玩家，Beta 封測招募）</li></ul>
-<p>
-<strong>驗收標準（直接來自 PRD §9.5 DoD）：</strong>
-</p>
-<p>
-<strong>Product DoD（PM 確認）：</strong>
-</p>
-<table><tr><th>#</th><th>驗收條件</th><th>驗證方式</th></tr><tr><td>1</td><td>所有 P0 AC（36 條）均已驗證通過，每條 AC 有對應測試記錄</td><td>審查 RTM §15 映射表，TC-001~TC-036 全部標記 PASS</td></tr><tr><td>2</td><td>Analytics Events（§7.8 所有事件）已在 Analytics Dashboard 確認觸發（每事件 ≥ 5 次觸發）</td><td>Mixpanel/Amplitude Dashboard 截圖</td></tr><tr><td>3</td><td>所有 Edge Case 和 Error State 已測試，UX 錯誤訊息文案已確認（繁中/英）</td><td>對照 PRD §5 各 AC Error Path 逐一確認</td></tr><tr><td>4</td><td>年齡驗證機制通過 Legal 審查，虛擬幣不可兌現聲明已顯示</td><td>Legal 書面核准文件</td></tr><tr><td>5</td><td>RTP Sandbox 模擬 10,000 場局，RTP 落在 85–95% 區間，標準差 < 2%</td><td>Unit Test 數值模擬報告（US-RTP-001/AC-1）</td></tr><tr><td>6</td><td>所有文案已提取為 i18n key，繁中/英文兩版文案審核通過</td><td>i18n.json 審核記錄</td></tr><tr><td>7</td><td>KPI Baseline 已記錄（Launch 前數據基準）</td><td>Analytics Dashboard 設定截圖</td></tr></table>
-<p>
-<strong>Engineering DoD（Engineering Lead 確認）：</strong>
-</p>
-<table><tr><th>#</th><th>驗收條件</th><th>驗證方式</th></tr><tr><td>1</td><td>單元測試覆蓋率 ≥ 80%，RTP/支付/帳號模組 100%</td><td>Istanbul coverage report（CI artifact）</td></tr><tr><td>2</td><td>所有 API endpoint 有 Integration Test</td><td>Swagger 對照 Jest test suite 清單</td></tr><tr><td>3</td><td>P0 Happy Path E2E 通過（帳號→匹配→遊戲→結算→充值完整流程）</td><td>Playwright HTML Report</td></tr><tr><td>4</td><td>PR 已通過 2 名 Reviewer 核准，無 CRITICAL 代碼問題</td><td>GitHub PR review 記錄</td></tr><tr><td>5</td><td>SAST 無 HIGH/CRITICAL 漏洞，dependencies 無 CVE > 7.0</td><td>Semgrep report + <code>npm audit</code></td></tr><tr><td>6</td><td>WebSocket P99 ≤ 100ms，API P99 ≤ 500ms（1,000 並發壓測驗證）</td><td>k6 Load Test HTML Report</td></tr><tr><td>7</td><td>Feature Flag 已設置，所有 P0 功能有 Kill Switch</td><td>Feature Flag 清單（PRD §10.2）確認</td></tr><tr><td>8</td><td>Runbook（操作手冊）已加入 docs/runbook.md，包含常見故障處置步驟</td><td>docs/runbook.md 存在且包含 § IAP 故障處置</td></tr></table>
-<p>
-<strong>通過條件</strong>：P0 功能 100% 通過，P1 功能 ≥ 95% 通過，無 Critical/High 嚴重度未解決缺陷。
-</p>
+<p><strong>驗收標準（直接來自 PRD §9.5 DoD）：</strong></p>
+<p><strong>Product DoD（PM 確認）：</strong></p>
+<table>
+<tr><th>#</th><th>驗收條件</th><th>驗證方式</th></tr>
+<tr><td>1</td><td>所有 P0 AC（36 條）均已驗證通過，每條 AC 有對應測試記錄</td><td>審查 RTM §15 映射表，TC-001~TC-036 全部標記 PASS</td></tr>
+<tr><td>2</td><td>Analytics Events（§7.8 所有事件）已在 Analytics Dashboard 確認觸發（每事件 ≥ 5 次觸發）</td><td>Mixpanel/Amplitude Dashboard 截圖</td></tr>
+<tr><td>3</td><td>所有 Edge Case 和 Error State 已測試，UX 錯誤訊息文案已確認（繁中/英）</td><td>對照 PRD §5 各 AC Error Path 逐一確認</td></tr>
+<tr><td>4</td><td>年齡驗證機制通過 Legal 審查，虛擬幣不可兌現聲明已顯示</td><td>Legal 書面核准文件</td></tr>
+<tr><td>5</td><td>RTP Sandbox 模擬 10,000 場局，RTP 落在 85–95% 區間，標準差 &lt; 2%</td><td>Unit Test 數值模擬報告（US-RTP-001/AC-1）</td></tr>
+<tr><td>6</td><td>所有文案已提取為 i18n key，繁中/英文兩版文案審核通過</td><td>i18n.json 審核記錄</td></tr>
+<tr><td>7</td><td>KPI Baseline 已記錄（Launch 前數據基準）</td><td>Analytics Dashboard 設定截圖</td></tr>
+</table>
+<p><strong>Engineering DoD（Engineering Lead 確認）：</strong></p>
+<table>
+<tr><th>#</th><th>驗收條件</th><th>驗證方式</th></tr>
+<tr><td>1</td><td>單元測試覆蓋率 ≥ 80%，RTP/支付/帳號模組 100%</td><td>Istanbul coverage report（CI artifact）</td></tr>
+<tr><td>2</td><td>所有 API endpoint 有 Integration Test</td><td>Swagger 對照 Jest test suite 清單</td></tr>
+<tr><td>3</td><td>P0 Happy Path E2E 通過（帳號→匹配→遊戲→結算→充值完整流程）</td><td>Playwright HTML Report</td></tr>
+<tr><td>4</td><td>PR 已通過 2 名 Reviewer 核准，無 CRITICAL 代碼問題</td><td>GitHub PR review 記錄</td></tr>
+<tr><td>5</td><td>SAST 無 HIGH/CRITICAL 漏洞，dependencies 無 CVE &gt; 7.0</td><td>Semgrep report + <code>npm audit</code></td></tr>
+<tr><td>6</td><td>WebSocket P99 ≤ 100ms，API P99 ≤ 500ms（1,000 並發壓測驗證）</td><td>k6 Load Test HTML Report</td></tr>
+<tr><td>7</td><td>Feature Flag 已設置，所有 P0 功能有 Kill Switch</td><td>Feature Flag 清單（PRD §10.2）確認</td></tr>
+<tr><td>8</td><td>Runbook（操作手冊）已加入 docs/runbook.md，包含常見故障處置步驟</td><td>docs/runbook.md 存在且包含 § IAP 故障處置</td></tr>
+</table>
+<p><strong>通過條件</strong>：P0 功能 100% 通過，P1 功能 ≥ 95% 通過，無 Critical/High 嚴重度未解決缺陷。</p>
 <hr>
-<h3 id="§3.6-security-tests">§3.6 Security Tests</h3>
-<p>
-<strong>工具</strong>：
-</p>
+<h3>§3.6 Security Tests</h3>
+<p><strong>工具</strong>：</p>
 <ul><li>SAST：ESLint security plugin（<code>eslint-plugin-security</code>）+ Semgrep（OWASP ruleset）</li><li>DAST：OWASP ZAP 2.14+（API Scan + Spider）</li><li>Dependency：<code>npm audit</code> + Snyk</li><li>WebSocket Security：k6 + 自定義 WS fuzz</li></ul>
-<p>
-<strong>OWASP Top 10 評估矩陣（A01–A10 全覆蓋）：</strong>
-</p>
-<table><tr><th>OWASP ID</th><th>名稱</th><th>適用性</th><th>測試方法</th><th>工具</th><th>負責人</th></tr><tr><td>A01</td><td>Broken Access Control</td><td><strong>高</strong>（房間進入門檻、Admin API、玩家資料隔離）</td><td>未授權 API 呼叫測試；Colyseus Room 越權加入測試</td><td>OWASP ZAP + Supertest</td><td>QA Lead</td></tr><tr><td>A02</td><td>Cryptographic Failures</td><td><strong>高</strong>（密碼 bcrypt、PII AES-256-GCM、HTTPS TLS 1.3+）</td><td>密碼以明文或弱雜湊存儲掃描；TLS 版本確認</td><td>Semgrep + testssl.sh</td><td>Security</td></tr><tr><td>A03</td><td>Injection</td><td><strong>高</strong>（SQL Injection：Prisma 參數化；NoSQL：Redis 命令注入）</td><td>SAST 掃描 + OWASP ZAP Active Scan；手動 SQL/NoSQL Fuzz</td><td>Semgrep + ZAP</td><td>QA Lead</td></tr><tr><td>A04</td><td>Insecure Design</td><td><strong>中</strong>（RTP 伺服器端計算、Jackpot 觸發邏輯）</td><td>Threat Modeling Review（EDD §4 STRIDE 模型）</td><td>架構審查</td><td>Architect</td></tr><tr><td>A05</td><td>Security Misconfiguration</td><td><strong>高</strong>（k8s RBAC、環境變數洩露、CORS 設定）</td><td>CI config scan；Helm chart 安全掃描；CORS 白名單確認</td><td>kubesec + Semgrep</td><td>DevOps</td></tr><tr><td>A06</td><td>Vulnerable Components</td><td><strong>高</strong>（npm dependencies CVE）</td><td>每次 PR <code>npm audit</code>；每日 Snyk 掃描</td><td>npm audit + Snyk</td><td>DevOps</td></tr><tr><td>A07</td><td>Auth & Session Failures</td><td><strong>高</strong>（JWT RS256、登入鎖定、WebSocket Auth）</td><td>登入鎖定 5 次測試（US-ACCT-001/AC-4）；JWT 偽造測試；WS 未帶 JWT 連線</td><td>Supertest + ZAP</td><td>Security</td></tr><tr><td>A08</td><td>Software Integrity Failures</td><td><strong>低</strong>（SBOM、npm package 完整性）</td><td>package-lock.json integrity hash 確認；CI 簽章驗證</td><td>npm ci + Semgrep</td><td>DevOps</td></tr><tr><td>A09</td><td>Logging Failures</td><td><strong>中</strong>（audit_logs 合規記錄、data_access_logs 敏感資料存取）</td><td>測試登入失敗/Jackpot 觸發後 audit_log 是否寫入；確認敏感資料不寫入應用程式 log</td><td>Integration Test + Log review</td><td>DevOps</td></tr><tr><td>A10</td><td>SSRF</td><td><strong>中</strong>（IAP verifyReceipt URL、Webhook callback）</td><td>DAST URL 注入測試；確認 IAP callback URL 白名單</td><td>OWASP ZAP SSRF Scanner</td><td>QA Lead</td></tr></table>
-<p>
-<strong>執行策略</strong>：
-</p>
+<p><strong>OWASP Top 10 評估矩陣（A01–A10 全覆蓋）：</strong></p>
+<table>
+<tr><th>OWASP ID</th><th>名稱</th><th>適用性</th><th>測試方法</th><th>工具</th><th>負責人</th></tr>
+<tr><td>A01</td><td>Broken Access Control</td><td><strong>高</strong>（房間進入門檻、Admin API、玩家資料隔離）</td><td>未授權 API 呼叫測試；Colyseus Room 越權加入測試</td><td>OWASP ZAP + Supertest</td><td>QA Lead</td></tr>
+<tr><td>A02</td><td>Cryptographic Failures</td><td><strong>高</strong>（密碼 bcrypt、PII AES-256-GCM、HTTPS TLS 1.3+）</td><td>密碼以明文或弱雜湊存儲掃描；TLS 版本確認</td><td>Semgrep + testssl.sh</td><td>Security</td></tr>
+<tr><td>A03</td><td>Injection</td><td><strong>高</strong>（SQL Injection：Prisma 參數化；NoSQL：Redis 命令注入）</td><td>SAST 掃描 + OWASP ZAP Active Scan；手動 SQL/NoSQL Fuzz</td><td>Semgrep + ZAP</td><td>QA Lead</td></tr>
+<tr><td>A04</td><td>Insecure Design</td><td><strong>中</strong>（RTP 伺服器端計算、Jackpot 觸發邏輯）</td><td>Threat Modeling Review（EDD §4 STRIDE 模型）</td><td>架構審查</td><td>Architect</td></tr>
+<tr><td>A05</td><td>Security Misconfiguration</td><td><strong>高</strong>（k8s RBAC、環境變數洩露、CORS 設定）</td><td>CI config scan；Helm chart 安全掃描；CORS 白名單確認</td><td>kubesec + Semgrep</td><td>DevOps</td></tr>
+<tr><td>A06</td><td>Vulnerable Components</td><td><strong>高</strong>（npm dependencies CVE）</td><td>每次 PR <code>npm audit</code>；每日 Snyk 掃描</td><td>npm audit + Snyk</td><td>DevOps</td></tr>
+<tr><td>A07</td><td>Auth &amp; Session Failures</td><td><strong>高</strong>（JWT RS256、登入鎖定、WebSocket Auth）</td><td>登入鎖定 5 次測試（US-ACCT-001/AC-4）；JWT 偽造測試；WS 未帶 JWT 連線</td><td>Supertest + ZAP</td><td>Security</td></tr>
+<tr><td>A08</td><td>Software Integrity Failures</td><td><strong>低</strong>（SBOM、npm package 完整性）</td><td>package-lock.json integrity hash 確認；CI 簽章驗證</td><td>npm ci + Semgrep</td><td>DevOps</td></tr>
+<tr><td>A09</td><td>Logging Failures</td><td><strong>中</strong>（audit_logs 合規記錄、data_access_logs 敏感資料存取）</td><td>測試登入失敗/Jackpot 觸發後 audit_log 是否寫入；確認敏感資料不寫入應用程式 log</td><td>Integration Test + Log review</td><td>DevOps</td></tr>
+<tr><td>A10</td><td>SSRF</td><td><strong>中</strong>（IAP verifyReceipt URL、Webhook callback）</td><td>DAST URL 注入測試；確認 IAP callback URL 白名單</td><td>OWASP ZAP SSRF Scanner</td><td>QA Lead</td></tr>
+</table>
+<p><strong>執行策略</strong>：</p>
 <ul><li>SAST（ESLint security plugin + Semgrep）：整合 PR CI，PR 觸發自動掃描，High/Critical 阻斷 merge</li><li>DAST（OWASP ZAP API Scan）：Staging 環境每週執行（Nightly Scheduler）</li><li>Dependency audit（npm audit + Snyk）：每次 PR + 每日 Nightly</li><li>WebSocket Security Fuzz：每週手動 + ZAP WebSocket Plugin</li></ul>
 <hr>
-<h2 id="§4-test-environment">§4 Test Environment</h2>
-<table><tr><th>環境</th><th>用途</th><th>資料策略</th><th>存取控制</th></tr><tr><td><strong>Local Dev</strong></td><td>開發者本機 Unit Test + 快速 Integration Test</td><td>testcontainers（按需啟動 MySQL 8.0 + Redis 7 容器）；WireMock 模擬 IAP</td><td>開發者本人</td></tr><tr><td><strong>Staging</strong></td><td>E2E / Performance / Security DAST / UAT</td><td>匿名化玩家資料 replica（PII 欄位 tokenization）；Sandbox IAP endpoint</td><td>QA Lead + Dev + PM</td></tr><tr><td><strong>Prod-like（Pre-Prod）</strong></td><td>Release Gate：Soak Test + Stress Test + 最終 UAT sign-off</td><td>完整生產資料副本（anonymized clone）；與生產相同 k8s 規模配置</td><td>QA Lead + DevOps Only</td></tr></table>
-<p>
-<strong>環境配置（對應 EDD §9 k8s 部署拓撲）：</strong>
-</p>
-<table><tr><th>Service</th><th>Local</th><th>Staging</th><th>Prod-like</th></tr><tr><td>Account :3001</td><td>本機 Docker</td><td>k8s Deployment（1 replica）</td><td>k8s Deployment（2 replicas）</td></tr><tr><td>Game :2567（Colyseus）</td><td>本機 Docker</td><td>k8s Deployment（2 replicas）</td><td>k8s Deployment（3 replicas）</td></tr><tr><td>Shop :3002</td><td>本機 Docker</td><td>k8s Deployment（1 replica）</td><td>k8s Deployment（2 replicas）</td></tr><tr><td>MySQL 8.0</td><td>testcontainers</td><td>專用 Staging DB（8GB RAM）</td><td>Prod-size DB（16GB RAM）</td></tr><tr><td>Redis 7</td><td>testcontainers</td><td>專用 Staging Redis（2GB）</td><td>Prod-size Redis（4GB）</td></tr></table>
+<h2>§4 Test Environment</h2>
+<table>
+<tr><th>環境</th><th>用途</th><th>資料策略</th><th>存取控制</th></tr>
+<tr><td><strong>Local Dev</strong></td><td>開發者本機 Unit Test + 快速 Integration Test</td><td>testcontainers（按需啟動 MySQL 8.0 + Redis 7 容器）；WireMock 模擬 IAP</td><td>開發者本人</td></tr>
+<tr><td><strong>Staging</strong></td><td>E2E / Performance / Security DAST / UAT</td><td>匿名化玩家資料 replica（PII 欄位 tokenization）；Sandbox IAP endpoint</td><td>QA Lead + Dev + PM</td></tr>
+<tr><td><strong>Prod-like（Pre-Prod）</strong></td><td>Release Gate：Soak Test + Stress Test + 最終 UAT sign-off</td><td>完整生產資料副本（anonymized clone）；與生產相同 k8s 規模配置</td><td>QA Lead + DevOps Only</td></tr>
+</table>
+<p><strong>環境配置（對應 EDD §9 k8s 部署拓撲）：</strong></p>
+<table>
+<tr><th>Service</th><th>Local</th><th>Staging</th><th>Prod-like</th></tr>
+<tr><td>Account :3001</td><td>本機 Docker</td><td>k8s Deployment（1 replica）</td><td>k8s Deployment（2 replicas）</td></tr>
+<tr><td>Game :2567（Colyseus）</td><td>本機 Docker</td><td>k8s Deployment（2 replicas）</td><td>k8s Deployment（3 replicas）</td></tr>
+<tr><td>Shop :3002</td><td>本機 Docker</td><td>k8s Deployment（1 replica）</td><td>k8s Deployment（2 replicas）</td></tr>
+<tr><td>MySQL 8.0</td><td>testcontainers</td><td>專用 Staging DB（8GB RAM）</td><td>Prod-size DB（16GB RAM）</td></tr>
+<tr><td>Redis 7</td><td>testcontainers</td><td>專用 Staging Redis（2GB）</td><td>Prod-size Redis（4GB）</td></tr>
+</table>
 <hr>
-<h2 id="§5-test-data-management">§5 Test Data Management</h2>
-<p>
-<strong>四種策略與適用場景：</strong>
-</p>
-<table><tr><th>策略</th><th>適用測試類型</th><th>實施方式</th><th>清理機制</th></tr><tr><td><strong>Factory（動態生成）</strong></td><td>Unit + Integration</td><td><code>factories/user.factory.ts</code>、<code>factories/order.factory.ts</code> — 每個 Test 獨立生成最小資料集</td><td>afterEach 刪除（Prisma transaction rollback）</td></tr><tr><td><strong>Fixture（靜態預設）</strong></td><td>E2E</td><td><code>fixtures/accounts.json</code>（固定測試帳號）、<code>fixtures/game-configs.json</code>（RTP 設定）</td><td>環境重建時由 seed script 重設</td></tr><tr><td><strong>Seed（DB 初始化）</strong></td><td>Staging 環境基礎資料</td><td><code>prisma/seed.ts</code>：game_configs（RTP 參數）/ products（商城商品）/ 10 個測試帳號</td><td>Staging re-deploy 時執行</td></tr><tr><td><strong>Mock（虛擬回應）</strong></td><td>Integration（外部 API）</td><td><code>nock</code>/<code>WireMock</code> stub：IAP verifyReceipt 成功/失敗/偽造收據三種場景；Analytics event sink</td><td>測試結束後 nock.cleanAll()</td></tr></table>
-<p>
-<strong>PII 處理原則（GDPR + 台灣個資法）：</strong>
-</p>
+<h2>§5 Test Data Management</h2>
+<p><strong>四種策略與適用場景：</strong></p>
+<table>
+<tr><th>策略</th><th>適用測試類型</th><th>實施方式</th><th>清理機制</th></tr>
+<tr><td><strong>Factory（動態生成）</strong></td><td>Unit + Integration</td><td><code>factories/user.factory.ts</code>、<code>factories/order.factory.ts</code> — 每個 Test 獨立生成最小資料集</td><td>afterEach 刪除（Prisma transaction rollback）</td></tr>
+<tr><td><strong>Fixture（靜態預設）</strong></td><td>E2E</td><td><code>fixtures/accounts.json</code>（固定測試帳號）、<code>fixtures/game-configs.json</code>（RTP 設定）</td><td>環境重建時由 seed script 重設</td></tr>
+<tr><td><strong>Seed（DB 初始化）</strong></td><td>Staging 環境基礎資料</td><td><code>prisma/seed.ts</code>：game_configs（RTP 參數）/ products（商城商品）/ 10 個測試帳號</td><td>Staging re-deploy 時執行</td></tr>
+<tr><td><strong>Mock（虛擬回應）</strong></td><td>Integration（外部 API）</td><td><code>nock</code>/<code>WireMock</code> stub：IAP verifyReceipt 成功/失敗/偽造收據三種場景；Analytics event sink</td><td>測試結束後 nock.cleanAll()</td></tr>
+</table>
+<p><strong>PII 處理原則（GDPR + 台灣個資法）：</strong></p>
 <ul><li>測試環境禁止使用真實玩家 PII（email / 出生日期 / IP）</li><li>Staging 資料必須先 tokenization：<code>email</code> → <code>test-{hash}@example.com</code>，<code>birthdate</code> → 隨機 1980–2000 年合法日期</li><li>測試帳號統一使用 <code>@example.com</code> 或 <code>@test.internal</code> 網域</li><li>Snapshot：生產資料副本匿名化流程由 <code>scripts/anonymize-db.sh</code> 執行，每次 Staging 刷新前運行</li></ul>
-<p>
-<strong>測試帳號矩陣：</strong>
-</p>
-<table><tr><th>帳號角色</th><th>Email</th><th>用途</th></tr><tr><td>一般玩家</td><td><code>player-01@example.com</code></td><td>P0 功能測試</td></tr><tr><td>高金幣玩家</td><td><code>rich-player@example.com</code></td><td>高倍率房間進入測試</td></tr><tr><td>未成年（拒絕）</td><td><code>minor-player@example.com</code></td><td>US-AGE-001/AC-2</td></tr><tr><td>鎖定帳號</td><td><code>locked-player@example.com</code></td><td>US-ACCT-001/AC-4</td></tr><tr><td>VIP 訂閱玩家</td><td><code>vip-player@example.com</code></td><td>US-VIP-001</td></tr><tr><td>管理員</td><td><code>admin@test.internal</code></td><td>Admin :3003 API 測試</td></tr></table>
+<p><strong>測試帳號矩陣：</strong></p>
+<table>
+<tr><th>帳號角色</th><th>Email</th><th>用途</th></tr>
+<tr><td>一般玩家</td><td><code>player-01@example.com</code></td><td>P0 功能測試</td></tr>
+<tr><td>高金幣玩家</td><td><code>rich-player@example.com</code></td><td>高倍率房間進入測試</td></tr>
+<tr><td>未成年（拒絕）</td><td><code>minor-player@example.com</code></td><td>US-AGE-001/AC-2</td></tr>
+<tr><td>鎖定帳號</td><td><code>locked-player@example.com</code></td><td>US-ACCT-001/AC-4</td></tr>
+<tr><td>VIP 訂閱玩家</td><td><code>vip-player@example.com</code></td><td>US-VIP-001</td></tr>
+<tr><td>管理員</td><td><code>admin@test.internal</code></td><td>Admin :3003 API 測試</td></tr>
+</table>
 <hr>
-<h2 id="§6-entry-&-exit-criteria">§6 Entry & Exit Criteria</h2>
-<h3 id="整體-test-entry-criteria（開始測試的前提條件）">整體 Test Entry Criteria（開始測試的前提條件）</h3>
-<ul><li>[ ] 功能開發完成，PR 已通過 2 名 Reviewer 核准並 merge 至 <code>main</code></li><li>[ ] Unit Test 100% 通過（CI green），覆蓋率達標</li><li>[ ] Build 成功，Docker image 已推送至 Container Registry</li><li>[ ] Staging 環境部署成功，Health Check 通過（<code>/v1/health</code> 回傳 200）</li><li>[ ] 測試資料 Seed 已執行，Fixture 帳號可正常登入</li><li>[ ] Feature Flag 已正確設置（P0 功能 Flag 開啟）</li></ul>
-<h3 id="各測試階段-exit-criteria（含-blocking-defect-定義）">各測試階段 Exit Criteria（含 Blocking Defect 定義）</h3>
-<table><tr><th>測試階段</th><th>通過條件</th><th>Blocking Defect 定義</th><th>非 Blocking（可帶 Ticket 上線）</th></tr><tr><td>Unit Test</td><td>Line Coverage ≥ 80%（核心模組 ≥ 90%），0 failure</td><td>任何 failure；任何核心模組 Coverage < 90%</td><td>Coverage < 80% 但 > 75%（附修復計畫）</td></tr><tr><td>Integration Test</td><td>所有 API endpoint 測試通過；WS 事件流驗證通過</td><td>任何 P0 功能 API failure；WS 斷線重連失敗</td><td>P1 功能 timeout（有 retry 機制）</td></tr><tr><td>E2E Test</td><td>5 個 Critical Flow 100% pass（Smoke）</td><td>任何 Happy Path Flow failure；帳號/支付流程失敗</td><td>次要 UI 視覺差異（附截圖 Ticket）</td></tr><tr><td>Performance Test</td><td>REST P99 < 500ms，WS P99 < 100ms，Error Rate < 0.1%</td><td>SLO 超標 50%（P99 > 750ms 或 WS > 150ms）</td><td>P95 超標 10%（附優化計畫）</td></tr><tr><td>Security Test</td><td>OWASP High/Critical 全數修復；<code>npm audit</code> 無 CVE > 7.0</td><td>任何 Critical/High 漏洞未修復</td><td>Medium severity（附修復日期）</td></tr><tr><td>UAT</td><td>P0 功能 100% pass，P1 功能 ≥ 95% pass，無 open Critical/High defect</td><td>任何 Critical defect open；Product DoD 任一條未達標</td><td>Low severity UI issue（附 Ticket）</td></tr></table>
-<h3 id="release-exit-criteria（上線決策閘門）">Release Exit Criteria（上線決策閘門）</h3>
-<ul><li>[ ] 所有測試階段 Exit Criteria 均達標</li><li>[ ] 所有 P0/P1 缺陷已修復並通過 Retest 驗證</li><li>[ ] Soak Test（2 小時）結果確認無記憶體洩漏跡象</li><li>[ ] RTP Sandbox 模擬 10,000 場局確認 RTP 在 85–95%（US-RTP-001/AC-1）</li><li>[ ] QA Lead + Engineering Lead + Product Owner 三方書面核准（§18 Sign-off）</li></ul>
+<h2>§6 Entry &amp; Exit Criteria</h2>
+<h3>整體 Test Entry Criteria（開始測試的前提條件）</h3>
+<ul><li style="list-style:none"><input type="checkbox" disabled> 功能開發完成，PR 已通過 2 名 Reviewer 核准並 merge 至 <code>main</code></li><li style="list-style:none"><input type="checkbox" disabled> Unit Test 100% 通過（CI green），覆蓋率達標</li><li style="list-style:none"><input type="checkbox" disabled> Build 成功，Docker image 已推送至 Container Registry</li><li style="list-style:none"><input type="checkbox" disabled> Staging 環境部署成功，Health Check 通過（<code>/v1/health</code> 回傳 200）</li><li style="list-style:none"><input type="checkbox" disabled> 測試資料 Seed 已執行，Fixture 帳號可正常登入</li><li style="list-style:none"><input type="checkbox" disabled> Feature Flag 已正確設置（P0 功能 Flag 開啟）</li></ul>
+<h3>各測試階段 Exit Criteria（含 Blocking Defect 定義）</h3>
+<table>
+<tr><th>測試階段</th><th>通過條件</th><th>Blocking Defect 定義</th><th>非 Blocking（可帶 Ticket 上線）</th></tr>
+<tr><td>Unit Test</td><td>Line Coverage ≥ 80%（核心模組 ≥ 90%），0 failure</td><td>任何 failure；任何核心模組 Coverage &lt; 90%</td><td>Coverage &lt; 80% 但 &gt; 75%（附修復計畫）</td></tr>
+<tr><td>Integration Test</td><td>所有 API endpoint 測試通過；WS 事件流驗證通過</td><td>任何 P0 功能 API failure；WS 斷線重連失敗</td><td>P1 功能 timeout（有 retry 機制）</td></tr>
+<tr><td>E2E Test</td><td>5 個 Critical Flow 100% pass（Smoke）</td><td>任何 Happy Path Flow failure；帳號/支付流程失敗</td><td>次要 UI 視覺差異（附截圖 Ticket）</td></tr>
+<tr><td>Performance Test</td><td>REST P99 &lt; 500ms，WS P99 &lt; 100ms，Error Rate &lt; 0.1%</td><td>SLO 超標 50%（P99 &gt; 750ms 或 WS &gt; 150ms）</td><td>P95 超標 10%（附優化計畫）</td></tr>
+<tr><td>Security Test</td><td>OWASP High/Critical 全數修復；<code>npm audit</code> 無 CVE &gt; 7.0</td><td>任何 Critical/High 漏洞未修復</td><td>Medium severity（附修復日期）</td></tr>
+<tr><td>UAT</td><td>P0 功能 100% pass，P1 功能 ≥ 95% pass，無 open Critical/High defect</td><td>任何 Critical defect open；Product DoD 任一條未達標</td><td>Low severity UI issue（附 Ticket）</td></tr>
+</table>
+<h3>Release Exit Criteria（上線決策閘門）</h3>
+<ul><li style="list-style:none"><input type="checkbox" disabled> 所有測試階段 Exit Criteria 均達標</li><li style="list-style:none"><input type="checkbox" disabled> 所有 P0/P1 缺陷已修復並通過 Retest 驗證</li><li style="list-style:none"><input type="checkbox" disabled> Soak Test（2 小時）結果確認無記憶體洩漏跡象</li><li style="list-style:none"><input type="checkbox" disabled> RTP Sandbox 模擬 10,000 場局確認 RTP 在 85–95%（US-RTP-001/AC-1）</li><li style="list-style:none"><input type="checkbox" disabled> QA Lead + Engineering Lead + Product Owner 三方書面核准（§18 Sign-off）</li></ul>
 <hr>
-<h2 id="§7-defect-management">§7 Defect Management</h2>
-<p>
-<strong>嚴重度定義與 SLA：</strong>
-</p>
-<table><tr><th>Priority</th><th>定義</th><th>典型案例</th><th>修復 SLA</th><th>驗證 SLA</th></tr><tr><td><strong>P0 Critical</strong></td><td>系統崩潰 / 資料遺失 / 安全漏洞 / 重複扣款</td><td>IAP 雙重扣款；JWT 偽造可通過；MySQL 資料遺失</td><td>4 小時</td><td>2 小時</td></tr><tr><td><strong>P1 High</strong></td><td>核心功能無法使用（無 workaround）</td><td>快速匹配失敗；充值成功但鑽石未到帳；WS P99 > 500ms</td><td>24 小時</td><td>4 小時</td></tr><tr><td><strong>P2 Medium</strong></td><td>功能受損但有 workaround</td><td>技能冷卻時間顯示錯誤；魚群偶發不同步</td><td>3 個工作天</td><td>1 個工作天</td></tr><tr><td><strong>P3 Low</strong></td><td>UI 問題 / 次要功能異常</td><td>金幣動畫播放時機略晚；字型對齊偏移</td><td>Next Sprint</td><td>Next Sprint</td></tr></table>
-<p>
-<strong>缺陷流程（Linear）：</strong>
-</p>
-<pre><code>新發現 → Bug Created（含截圖/trace/HTTP log）
-<p>
+<h2>§7 Defect Management</h2>
+<p><strong>嚴重度定義與 SLA：</strong></p>
+<table>
+<tr><th>Priority</th><th>定義</th><th>典型案例</th><th>修復 SLA</th><th>驗證 SLA</th></tr>
+<tr><td><strong>P0 Critical</strong></td><td>系統崩潰 / 資料遺失 / 安全漏洞 / 重複扣款</td><td>IAP 雙重扣款；JWT 偽造可通過；MySQL 資料遺失</td><td>4 小時</td><td>2 小時</td></tr>
+<tr><td><strong>P1 High</strong></td><td>核心功能無法使用（無 workaround）</td><td>快速匹配失敗；充值成功但鑽石未到帳；WS P99 &gt; 500ms</td><td>24 小時</td><td>4 小時</td></tr>
+<tr><td><strong>P2 Medium</strong></td><td>功能受損但有 workaround</td><td>技能冷卻時間顯示錯誤；魚群偶發不同步</td><td>3 個工作天</td><td>1 個工作天</td></tr>
+<tr><td><strong>P3 Low</strong></td><td>UI 問題 / 次要功能異常</td><td>金幣動畫播放時機略晚；字型對齊偏移</td><td>Next Sprint</td><td>Next Sprint</td></tr>
+</table>
+<p><strong>缺陷流程（Linear）：</strong></p>
+<pre><code class="">新發現 → Bug Created（含截圖/trace/HTTP log）
 → Triage（QA Lead + Engineering Lead，每日 10:00 am）
 → 指派開發（依優先度 SLA）
 → Fix Deployed（Staging）
 → Verified（QA Retest）
-→ Closed / Reopen
-</code></pre>
-</p>
-<p>
-<strong>Root Cause 分類標籤</strong>（Linear label）：logic-error / validation-gap / race-condition / environment / spec-ambiguity
-</p>
+→ Closed / Reopen</code></pre>
+<p><strong>Root Cause 分類標籤</strong>（Linear label）：logic-error / validation-gap / race-condition / environment / spec-ambiguity</p>
 <hr>
-<h2 id="§8-test-schedule">§8 Test Schedule</h2>
-<table><tr><th>測試階段</th><th>觸發條件</th><th>預計週期</th><th>執行方式</th><th>環境</th></tr><tr><td>Unit Test</td><td>每次 commit（pre-commit hook）+ PR CI</td><td>持續 < 60s</td><td>GitHub Actions 自動化</td><td>Local / CI</td></tr><tr><td>Integration Test</td><td>PR created → CI pipeline</td><td>持續 < 5 min</td><td>GitHub Actions 自動化</td><td>CI（testcontainers）</td></tr><tr><td>E2E Smoke</td><td>PR merged to main → CD pipeline</td><td>每次 merge < 15 min</td><td>GitHub Actions 自動化</td><td>Staging</td></tr><tr><td>E2E Regression</td><td>Daily Nightly（凌晨 2:00 UTC+8）</td><td>每日 < 30 min</td><td>GitHub Actions 排程</td><td>Staging</td></tr><tr><td>Performance（Load）</td><td>Weekly（週三 Nightly）+ Release PR</td><td>每週 1h</td><td>GitHub Actions 排程</td><td>Staging</td></tr><tr><td>Performance（Stress）</td><td>Release Gate 前</td><td>每次 Release</td><td>手動觸發 CI</td><td>Prod-like</td></tr><tr><td>Performance（Soak）</td><td>每週末（週六 22:00）+ Release Gate 前</td><td>每週 2h</td><td>GitHub Actions 排程</td><td>Prod-like</td></tr><tr><td>Security（SAST）</td><td>PR CI</td><td>每次 PR < 3 min</td><td>GitHub Actions 自動化</td><td>CI</td></tr><tr><td>Security（DAST + ZAP）</td><td>Weekly Nightly（週四 01:00）</td><td>每週 2h</td><td>GitHub Actions 排程</td><td>Staging</td></tr><tr><td>Dependency Audit</td><td>Daily Nightly（02:00）+ PR CI</td><td>每日</td><td>GitHub Actions 排程</td><td>CI</td></tr><tr><td>UAT</td><td>Release Candidate 確認後</td><td>3–5 個工作天</td><td>手動（QA Lead 協調）</td><td>Staging</td></tr></table>
+<h2>§8 Test Schedule</h2>
+<table>
+<tr><th>測試階段</th><th>觸發條件</th><th>預計週期</th><th>執行方式</th><th>環境</th></tr>
+<tr><td>Unit Test</td><td>每次 commit（pre-commit hook）+ PR CI</td><td>持續 &lt; 60s</td><td>GitHub Actions 自動化</td><td>Local / CI</td></tr>
+<tr><td>Integration Test</td><td>PR created → CI pipeline</td><td>持續 &lt; 5 min</td><td>GitHub Actions 自動化</td><td>CI（testcontainers）</td></tr>
+<tr><td>E2E Smoke</td><td>PR merged to main → CD pipeline</td><td>每次 merge &lt; 15 min</td><td>GitHub Actions 自動化</td><td>Staging</td></tr>
+<tr><td>E2E Regression</td><td>Daily Nightly（凌晨 2:00 UTC+8）</td><td>每日 &lt; 30 min</td><td>GitHub Actions 排程</td><td>Staging</td></tr>
+<tr><td>Performance（Load）</td><td>Weekly（週三 Nightly）+ Release PR</td><td>每週 1h</td><td>GitHub Actions 排程</td><td>Staging</td></tr>
+<tr><td>Performance（Stress）</td><td>Release Gate 前</td><td>每次 Release</td><td>手動觸發 CI</td><td>Prod-like</td></tr>
+<tr><td>Performance（Soak）</td><td>每週末（週六 22:00）+ Release Gate 前</td><td>每週 2h</td><td>GitHub Actions 排程</td><td>Prod-like</td></tr>
+<tr><td>Security（SAST）</td><td>PR CI</td><td>每次 PR &lt; 3 min</td><td>GitHub Actions 自動化</td><td>CI</td></tr>
+<tr><td>Security（DAST + ZAP）</td><td>Weekly Nightly（週四 01:00）</td><td>每週 2h</td><td>GitHub Actions 排程</td><td>Staging</td></tr>
+<tr><td>Dependency Audit</td><td>Daily Nightly（02:00）+ PR CI</td><td>每日</td><td>GitHub Actions 排程</td><td>CI</td></tr>
+<tr><td>UAT</td><td>Release Candidate 確認後</td><td>3–5 個工作天</td><td>手動（QA Lead 協調）</td><td>Staging</td></tr>
+</table>
 <hr>
-<h2 id="§9-risk-based-testing">§9 Risk-Based Testing</h2>
-<p>
-<strong>風險優先級對應矩陣（基於 BRD Must-have MoSCoW + 業務影響）：</strong>
-</p>
-<table><tr><th>功能</th><th>業務優先級</th><th>風險等級</th><th>風險原因</th><th>測試深度</th><th>覆蓋率目標</th></tr><tr><td>IAP 充值 + 退款（US-SHOP-001）</td><td>P0 Must-have</td><td><strong>Critical</strong></td><td>雙重扣款 / 退款未扣 → 直接財務損失</td><td>Unit + Integration + E2E + Security + Performance</td><td>≥ 95%</td></tr><tr><td>RTP 引擎 + Jackpot（US-RTP-001）</td><td>P0 Must-have</td><td><strong>Critical</strong></td><td>RTP 超出 85–95% → 合規風險 / 玩家投訴</td><td>Unit（10,000 場模擬）+ Integration</td><td>≥ 95%</td></tr><tr><td>JWT 認證 + 登入鎖定（US-ACCT-001）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>JWT 偽造 → 帳號劫持；登入鎖定失效 → 暴力破解</td><td>Unit + Integration + E2E + Security</td><td>≥ 90%</td></tr><tr><td>多人搶魚競爭（Redis 原子，US-FISH-001/AC-6）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>Redis 非原子操作 → 重複計算金幣 → 帳號餘額錯誤</td><td>Integration（並發測試）</td><td>≥ 90%</td></tr><tr><td>WebSocket Room 狀態同步（US-ROOM-001）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>WS P99 > 100ms → 遊戲體驗崩壞；斷線補位失敗</td><td>Integration + Performance（WS 負載）</td><td>≥ 90%</td></tr><tr><td>年齡驗證合規（US-AGE-001）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>未成年可進入付費功能 → 法律責任</td><td>Unit + Integration + E2E + Compliance</td><td>≥ 90%</td></tr><tr><td>魚群系統降級（US-FISH-001/AC-5）</td><td>P0 Must-have</td><td><strong>Medium</strong></td><td>魚群服務崩潰後遊戲中斷 → 玩家流失</td><td>Integration（chaos 降級）</td><td>≥ 80%</td></tr><tr><td>VIP 訂閱 + 每日補貼（US-VIP-001）</td><td>P1 Should-have</td><td><strong>Medium</strong></td><td>補貼重複發放 → 金幣通膨</td><td>Unit + Integration</td><td>≥ 80%</td></tr><tr><td>武器/技能 UI（US-WPSK-001）</td><td>P0 Must-have</td><td><strong>Low</strong></td><td>視覺 Bug，不影響後端計算</td><td>Unit（邏輯）+ E2E（Happy Path）</td><td>≥ 80%</td></tr></table>
-<p>
-<strong>高風險功能詳細 AC 清單（P0 Critical / High 風險）：</strong>
-</p>
+<h2>§9 Risk-Based Testing</h2>
+<p><strong>風險優先級對應矩陣（基於 BRD Must-have MoSCoW + 業務影響）：</strong></p>
+<table>
+<tr><th>功能</th><th>業務優先級</th><th>風險等級</th><th>風險原因</th><th>測試深度</th><th>覆蓋率目標</th></tr>
+<tr><td>IAP 充值 + 退款（US-SHOP-001）</td><td>P0 Must-have</td><td><strong>Critical</strong></td><td>雙重扣款 / 退款未扣 → 直接財務損失</td><td>Unit + Integration + E2E + Security + Performance</td><td>≥ 95%</td></tr>
+<tr><td>RTP 引擎 + Jackpot（US-RTP-001）</td><td>P0 Must-have</td><td><strong>Critical</strong></td><td>RTP 超出 85–95% → 合規風險 / 玩家投訴</td><td>Unit（10,000 場模擬）+ Integration</td><td>≥ 95%</td></tr>
+<tr><td>JWT 認證 + 登入鎖定（US-ACCT-001）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>JWT 偽造 → 帳號劫持；登入鎖定失效 → 暴力破解</td><td>Unit + Integration + E2E + Security</td><td>≥ 90%</td></tr>
+<tr><td>多人搶魚競爭（Redis 原子，US-FISH-001/AC-6）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>Redis 非原子操作 → 重複計算金幣 → 帳號餘額錯誤</td><td>Integration（並發測試）</td><td>≥ 90%</td></tr>
+<tr><td>WebSocket Room 狀態同步（US-ROOM-001）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>WS P99 &gt; 100ms → 遊戲體驗崩壞；斷線補位失敗</td><td>Integration + Performance（WS 負載）</td><td>≥ 90%</td></tr>
+<tr><td>年齡驗證合規（US-AGE-001）</td><td>P0 Must-have</td><td><strong>High</strong></td><td>未成年可進入付費功能 → 法律責任</td><td>Unit + Integration + E2E + Compliance</td><td>≥ 90%</td></tr>
+<tr><td>魚群系統降級（US-FISH-001/AC-5）</td><td>P0 Must-have</td><td><strong>Medium</strong></td><td>魚群服務崩潰後遊戲中斷 → 玩家流失</td><td>Integration（chaos 降級）</td><td>≥ 80%</td></tr>
+<tr><td>VIP 訂閱 + 每日補貼（US-VIP-001）</td><td>P1 Should-have</td><td><strong>Medium</strong></td><td>補貼重複發放 → 金幣通膨</td><td>Unit + Integration</td><td>≥ 80%</td></tr>
+<tr><td>武器/技能 UI（US-WPSK-001）</td><td>P0 Must-have</td><td><strong>Low</strong></td><td>視覺 Bug，不影響後端計算</td><td>Unit（邏輯）+ E2E（Happy Path）</td><td>≥ 80%</td></tr>
+</table>
+<p><strong>高風險功能詳細 AC 清單（P0 Critical / High 風險）：</strong></p>
 <ul><li><strong>US-SHOP-001/AC-3</strong>：幂等訂單去重（網路中斷重試場景）</li><li><strong>US-SHOP-001/AC-6</strong>：退款回調 → 鑽石扣除 / 負債標記</li><li><strong>US-RTP-001/AC-1</strong>：10,000 場統計 RTP 85–95%</li><li><strong>US-FISH-001/AC-6</strong>：6 玩家同時命中 → Redis SETNX 原子性</li><li><strong>US-ACCT-001/AC-4</strong>：連續 5 次登入失敗 → 15 分鐘鎖定</li></ul>
 <hr>
-<h2 id="§10-performance-testing-spec">§10 Performance Testing Spec</h2>
-<h3 id="§10.1-負載目標（load-targets）">§10.1 負載目標（Load Targets）</h3>
-<table><tr><th>場景</th><th>並發 VU</th><th>持續時間</th><th>目標 RPS</th><th>資料來源</th></tr><tr><td>Smoke</td><td>1</td><td>1 min</td><td>1</td><td>EDD §7</td></tr><tr><td>Normal Load</td><td>1,000（REST 500 + WS 500）</td><td>30 min</td><td>500 REST / 6,000 WS events/s</td><td>EDD §7 Capacity</td></tr><tr><td>Peak Load（150%）</td><td>1,500</td><td>10 min</td><td>750 REST</td><td>EDD §11 Scaling</td></tr><tr><td>Soak</td><td>1,000</td><td>120 min（2h）</td><td>500 REST</td><td>EDD §12 Chaos</td></tr></table>
-<h3 id="§10.2-slo-/-sli-矩陣（來自-edd-§10.5）">§10.2 SLO / SLI 矩陣（來自 EDD §10.5）</h3>
-<table><tr><th>Endpoint 類型</th><th>SLI 指標</th><th>P50 目標</th><th>P95 目標</th><th>P99 目標</th><th>Max Error Rate</th></tr><tr><td>REST 讀取（GET /users, /products）</td><td>回應時間</td><td>< 50ms</td><td>< 200ms</td><td>< 500ms</td><td>< 0.1%</td></tr><tr><td>REST 寫入（POST /auth/login, /purchases）</td><td>回應時間</td><td>< 100ms</td><td>< 300ms</td><td>< 500ms</td><td>< 0.1%</td></tr><tr><td>Colyseus WebSocket 遊戲事件</td><td>事件往返延遲</td><td>< 30ms</td><td>< 80ms</td><td>< 100ms</td><td>< 0.1%</td></tr><tr><td>Colyseus 快速匹配（matchmake）</td><td>匹配完成時間</td><td>< 5s</td><td>< 20s</td><td>< 30s</td><td>< 1%</td></tr><tr><td>IAP 充值（含外部驗證）</td><td>端到端回應時間</td><td>< 500ms</td><td>< 2s</td><td>< 3s</td><td>< 0.1%</td></tr><tr><td>Jackpot 觸發（Redis 原子）</td><td>觸發計算時間</td><td>< 30ms</td><td>< 80ms</td><td>< 200ms</td><td>< 0.01%</td></tr></table>
-<h3 id="§10.3-k6-thresholds-完整配置">§10.3 k6 Thresholds 完整配置</h3>
+<h2>§10 Performance Testing Spec</h2>
+<h3>§10.1 負載目標（Load Targets）</h3>
+<table>
+<tr><th>場景</th><th>並發 VU</th><th>持續時間</th><th>目標 RPS</th><th>資料來源</th></tr>
+<tr><td>Smoke</td><td>1</td><td>1 min</td><td>1</td><td>EDD §7</td></tr>
+<tr><td>Normal Load</td><td>1,000（REST 500 + WS 500）</td><td>30 min</td><td>500 REST / 6,000 WS events/s</td><td>EDD §7 Capacity</td></tr>
+<tr><td>Peak Load（150%）</td><td>1,500</td><td>10 min</td><td>750 REST</td><td>EDD §11 Scaling</td></tr>
+<tr><td>Soak</td><td>1,000</td><td>120 min（2h）</td><td>500 REST</td><td>EDD §12 Chaos</td></tr>
+</table>
+<h3>§10.2 SLO / SLI 矩陣（來自 EDD §10.5）</h3>
+<table>
+<tr><th>Endpoint 類型</th><th>SLI 指標</th><th>P50 目標</th><th>P95 目標</th><th>P99 目標</th><th>Max Error Rate</th></tr>
+<tr><td>REST 讀取（GET /users, /products）</td><td>回應時間</td><td>&lt; 50ms</td><td>&lt; 200ms</td><td>&lt; 500ms</td><td>&lt; 0.1%</td></tr>
+<tr><td>REST 寫入（POST /auth/login, /purchases）</td><td>回應時間</td><td>&lt; 100ms</td><td>&lt; 300ms</td><td>&lt; 500ms</td><td>&lt; 0.1%</td></tr>
+<tr><td>Colyseus WebSocket 遊戲事件</td><td>事件往返延遲</td><td>&lt; 30ms</td><td>&lt; 80ms</td><td>&lt; 100ms</td><td>&lt; 0.1%</td></tr>
+<tr><td>Colyseus 快速匹配（matchmake）</td><td>匹配完成時間</td><td>&lt; 5s</td><td>&lt; 20s</td><td>&lt; 30s</td><td>&lt; 1%</td></tr>
+<tr><td>IAP 充值（含外部驗證）</td><td>端到端回應時間</td><td>&lt; 500ms</td><td>&lt; 2s</td><td>&lt; 3s</td><td>&lt; 0.1%</td></tr>
+<tr><td>Jackpot 觸發（Redis 原子）</td><td>觸發計算時間</td><td>&lt; 30ms</td><td>&lt; 80ms</td><td>&lt; 200ms</td><td>&lt; 0.01%</td></tr>
+</table>
+<h3>§10.3 k6 Thresholds 完整配置</h3>
 <pre><code class="language-javascript">// tests/performance/thresholds.js（共用配置）
-<p>
 export const thresholds = {
-// REST API
-&#x27;http_req_duration{scenario:rest}&#x27;: [&#x27;p(50)&lt;100&#x27;, &#x27;p(95)&lt;300&#x27;, &#x27;p(99)&lt;500&#x27;],
-&#x27;http_req_failed{scenario:rest}&#x27;: [&#x27;rate&lt;0.001&#x27;],
-// WebSocket
-&#x27;ws_session_duration{scenario:ws}&#x27;: [&#x27;p(99)&lt;100&#x27;],
-&#x27;ws_msgs_received{scenario:ws}&#x27;: [&#x27;rate&gt;0&#x27;],
-// Colyseus matchmake
-&#x27;http_req_duration{name:matchmake}&#x27;: [&#x27;p(99)&lt;30000&#x27;],
-// IAP
-&#x27;http_req_duration{name:iap_purchase}&#x27;: [&#x27;p(99)&lt;3000&#x27;],
-};
-</code></pre>
-</p>
-<h3 id="§10.4-performance-test-執行命令與環境規格">§10.4 Performance Test 執行命令與環境規格</h3>
-<p>
-<strong>k6 執行命令（Staging 環境）：</strong>
-</p>
+  // REST API
+  &#x27;http_req_duration{scenario:rest}&#x27;: [&#x27;p(50)&lt;100&#x27;, &#x27;p(95)&lt;300&#x27;, &#x27;p(99)&lt;500&#x27;],
+  &#x27;http_req_failed{scenario:rest}&#x27;: [&#x27;rate&lt;0.001&#x27;],
+  // WebSocket
+  &#x27;ws_session_duration{scenario:ws}&#x27;: [&#x27;p(99)&lt;100&#x27;],
+  &#x27;ws_msgs_received{scenario:ws}&#x27;: [&#x27;rate&gt;0&#x27;],
+  // Colyseus matchmake
+  &#x27;http_req_duration{name:matchmake}&#x27;: [&#x27;p(99)&lt;30000&#x27;],
+  // IAP
+  &#x27;http_req_duration{name:iap_purchase}&#x27;: [&#x27;p(99)&lt;3000&#x27;],
+};</code></pre>
+<h3>§10.4 Performance Test 執行命令與環境規格</h3>
+<p><strong>k6 執行命令（Staging 環境）：</strong></p>
 <pre><code class="language-bash"># ① Smoke Test（1 VU × 1 min）— PR merge 後快速驗證
-<p>
 k6 run --vus 1 --duration 1m \
--e API_URL=https://staging.fishgame.internal \
--e WS_URL=wss://staging.fishgame.internal \
---out json=k6-report/smoke.json \
-tests/performance/smoke.k6.js
-</p>
-<h1 id="②-normal-load-test（1,000-vu-×-30-min）—-週三-nightly">② Normal Load Test（1,000 VU × 30 min）— 週三 Nightly</h1>
-<p>
+  -e API_URL=https://staging.fishgame.internal \
+  -e WS_URL=wss://staging.fishgame.internal \
+  --out json=k6-report/smoke.json \
+  tests/performance/smoke.k6.js
+
+# ② Normal Load Test（1,000 VU × 30 min）— 週三 Nightly
 k6 run \
--e API_URL=https://staging.fishgame.internal \
--e WS_URL=wss://staging.fishgame.internal \
---out json=k6-report/load.json \
---out influxdb=http://influxdb:8086/k6 \
-tests/performance/load.k6.js
-</p>
-<h1 id="options.stages-定義於-load.k6.js：5m-ramp-up-→-20m-steady-→-5m-ramp-down">options.stages 定義於 load.k6.js：5m ramp-up → 20m steady → 5m ramp-down</h1>
-<h1 id="③-stress-test（1,500-vu-×-10-min）—-release-gate-前">③ Stress Test（1,500 VU × 10 min）— Release Gate 前</h1>
-<p>
+  -e API_URL=https://staging.fishgame.internal \
+  -e WS_URL=wss://staging.fishgame.internal \
+  --out json=k6-report/load.json \
+  --out influxdb=http://influxdb:8086/k6 \
+  tests/performance/load.k6.js
+# options.stages 定義於 load.k6.js：5m ramp-up → 20m steady → 5m ramp-down
+
+# ③ Stress Test（1,500 VU × 10 min）— Release Gate 前
 k6 run --vus 1500 --duration 10m \
--e API_URL=https://staging.fishgame.internal \
--e WS_URL=wss://staging.fishgame.internal \
---out json=k6-report/stress.json \
-tests/performance/stress.k6.js
-</p>
-<h1 id="④-soak-test（1,000-vu-×-2h）—-週六-22:00">④ Soak Test（1,000 VU × 2h）— 週六 22:00</h1>
-<p>
+  -e API_URL=https://staging.fishgame.internal \
+  -e WS_URL=wss://staging.fishgame.internal \
+  --out json=k6-report/stress.json \
+  tests/performance/stress.k6.js
+
+# ④ Soak Test（1,000 VU × 2h）— 週六 22:00
 k6 run --vus 1000 --duration 2h \
--e API_URL=https://staging.fishgame.internal \
--e WS_URL=wss://staging.fishgame.internal \
---out json=k6-report/soak.json \
---out influxdb=http://influxdb:8086/k6 \
-tests/performance/soak.k6.js
-</code></pre>
-</p>
-<p>
-<strong>Performance Test 環境規格（Staging 專用節點）：</strong>
-</p>
-<table><tr><th>規格項目</th><th>最低需求</th><th>建議配置</th><th>備注</th></tr><tr><td>k6 執行機 vCPU</td><td>2 vCPU</td><td><strong>4 vCPU</strong></td><td>1,000 VU 約需 2.5 vCPU</td></tr><tr><td>k6 執行機 RAM</td><td>4GB</td><td><strong>8GB</strong></td><td>每 VU 約 2-4KB，1,000 VU ≈ 4MB；8GB 保留 headroom</td></tr><tr><td>網路頻寬</td><td>100Mbps</td><td><strong>1Gbps</strong></td><td>WS 高並發下 TCP 不積壓</td></tr><tr><td>可用區（AZ）</td><td>—</td><td><strong>與 Staging 服務同 AZ</strong></td><td>避免跨 AZ 網路抖動影響延遲測量</td></tr><tr><td>OS</td><td>Ubuntu 22.04 LTS</td><td>Ubuntu 22.04 LTS</td><td>k6 Linux amd64 binary</td></tr><tr><td>k6 版本</td><td>v0.50+</td><td>v0.50+</td><td>支援 Scenarios API + Prometheus output</td></tr></table>
-<p>
-<strong>Prometheus Metrics 監測（Performance Test 期間）：</strong>
-</p>
+  -e API_URL=https://staging.fishgame.internal \
+  -e WS_URL=wss://staging.fishgame.internal \
+  --out json=k6-report/soak.json \
+  --out influxdb=http://influxdb:8086/k6 \
+  tests/performance/soak.k6.js</code></pre>
+<p><strong>Performance Test 環境規格（Staging 專用節點）：</strong></p>
+<table>
+<tr><th>規格項目</th><th>最低需求</th><th>建議配置</th><th>備注</th></tr>
+<tr><td>k6 執行機 vCPU</td><td>2 vCPU</td><td><strong>4 vCPU</strong></td><td>1,000 VU 約需 2.5 vCPU</td></tr>
+<tr><td>k6 執行機 RAM</td><td>4GB</td><td><strong>8GB</strong></td><td>每 VU 約 2-4KB，1,000 VU ≈ 4MB；8GB 保留 headroom</td></tr>
+<tr><td>網路頻寬</td><td>100Mbps</td><td><strong>1Gbps</strong></td><td>WS 高並發下 TCP 不積壓</td></tr>
+<tr><td>可用區（AZ）</td><td>—</td><td><strong>與 Staging 服務同 AZ</strong></td><td>避免跨 AZ 網路抖動影響延遲測量</td></tr>
+<tr><td>OS</td><td>Ubuntu 22.04 LTS</td><td>Ubuntu 22.04 LTS</td><td>k6 Linux amd64 binary</td></tr>
+<tr><td>k6 版本</td><td>v0.50+</td><td>v0.50+</td><td>支援 Scenarios API + Prometheus output</td></tr>
+</table>
+<p><strong>Prometheus Metrics 監測（Performance Test 期間）：</strong></p>
 <pre><code class="language-yaml"># prometheus/alerts.yml（Performance Test 期間啟用告警）
-<ul><li>alert: HighAPILatency</li></ul>  expr: histogram_quantile(0.99, http_request_duration_seconds_bucket) &gt; 0.5
-<p>
-for: 2m
-</p>
-<ul><li>alert: WSHighLatency</li></ul>  expr: histogram_quantile(0.99, ws_event_duration_ms_bucket) &gt; 100
-<p>
-for: 1m
-</p>
-<ul><li>alert: ErrorRateSpike</li></ul>  expr: rate(http_requests_total{status=~&quot;5..&quot;}[5m]) / rate(http_requests_total[5m]) &gt; 0.001
-<p>
-for: 2m
-</code></pre>
-</p>
+- alert: HighAPILatency
+  expr: histogram_quantile(0.99, http_request_duration_seconds_bucket) &gt; 0.5
+  for: 2m
+
+- alert: WSHighLatency
+  expr: histogram_quantile(0.99, ws_event_duration_ms_bucket) &gt; 100
+  for: 1m
+
+- alert: ErrorRateSpike
+  expr: rate(http_requests_total{status=~&quot;5..&quot;}[5m]) / rate(http_requests_total[5m]) &gt; 0.001
+  for: 2m</code></pre>
 <hr>
-<h2 id="§11-ci/cd-integration">§11 CI/CD Integration</h2>
-<h3 id="§11.1-pipeline-測試閘門架構">§11.1 Pipeline 測試閘門架構</h3>
-<pre><code>PR Created
-<p>
-→ ① Unit Test（Jest + istanbul）           &lt; 60s  [parallel]
-→ ② SAST（ESLint security + Semgrep）      &lt; 180s [parallel with ①]
-→ ③ Build（tsc + docker build）            &lt; 120s [after ①② green]
-→ ④ Integration Test（Supertest + tc）     &lt; 300s [after ③]
-→ ⑤ Dependency Audit（npm audit）         &lt; 60s  [parallel with ④]
-→ Status: ALL GREEN → PR Mergeable
-</p>
-<p>
+<h2>§11 CI/CD Integration</h2>
+<h3>§11.1 Pipeline 測試閘門架構</h3>
+<pre><code class="">PR Created
+  → ① Unit Test（Jest + istanbul）           &lt; 60s  [parallel]
+  → ② SAST（ESLint security + Semgrep）      &lt; 180s [parallel with ①]
+  → ③ Build（tsc + docker build）            &lt; 120s [after ①② green]
+  → ④ Integration Test（Supertest + tc）     &lt; 300s [after ③]
+  → ⑤ Dependency Audit（npm audit）         &lt; 60s  [parallel with ④]
+  → Status: ALL GREEN → PR Mergeable
+
 PR Merged to main
-→ ⑥ Build &amp; Push Docker Image             &lt; 180s
-→ ⑦ Deploy to Staging                     &lt; 120s
-→ ⑧ E2E Smoke（Playwright）               &lt; 600s
-→ ⑨ Notify: Staging Ready
-</p>
-<p>
+  → ⑥ Build &amp; Push Docker Image             &lt; 180s
+  → ⑦ Deploy to Staging                     &lt; 120s
+  → ⑧ E2E Smoke（Playwright）               &lt; 600s
+  → ⑨ Notify: Staging Ready
+
 Daily Nightly（02:00 UTC+8）
-→ E2E Regression（Playwright full suite）  &lt; 1800s
-→ Dependency Audit（Snyk）                &lt; 300s
-→ Notify: Slack #qa-status
-</p>
-<p>
+  → E2E Regression（Playwright full suite）  &lt; 1800s
+  → Dependency Audit（Snyk）                &lt; 300s
+  → Notify: Slack #qa-status
+
 Weekly（Wednesday 22:00 UTC+8）
-→ Load Test（k6 Normal Load 30min）        &lt; 2100s [Staging]
-→ DAST OWASP ZAP API Scan                 &lt; 3600s [Staging]
-→ Report: Upload to CI artifact
-</p>
-<p>
+  → Load Test（k6 Normal Load 30min）        &lt; 2100s [Staging]
+  → DAST OWASP ZAP API Scan                 &lt; 3600s [Staging]
+  → Report: Upload to CI artifact
+
 Weekly（Saturday 22:00 UTC+8）
-→ Soak Test（k6 2h）                       &lt; 7800s [Prod-like]
-</p>
-<p>
+  → Soak Test（k6 2h）                       &lt; 7800s [Prod-like]
+
 Release Gate（手動觸發，Release RC 確認後）
-→ Stress Test（k6 150% Peak）              &lt; 1800s [Prod-like]
-→ Soak Test（k6 2h）                       &lt; 7800s [Prod-like]
-→ Full Security Scan（ZAP + Semgrep）       &lt; 3600s
-→ Notify: QA Lead for UAT entry
-</code></pre>
-</p>
-<h3 id="§11.2-deployment-smoke-test-checklist">§11.2 Deployment Smoke Test Checklist</h3>
-<p>
-每次 PR merge 觸發 CD 部署 Staging 後，必須在 <strong>5 分鐘內</strong> 完成以下 P0 驗收項目；任一失敗即觸發 Slack 告警並暫停後續 Nightly 排程：
-</p>
-<table><tr><th>#</th><th>驗收項目</th><th>執行命令 / 檢查方式</th><th>Pass 標準</th><th>執行時間估算</th></tr><tr><td>1</td><td>四服務健康檢查</td><td><code>curl -f https://staging.fishgame.internal/v1/health</code> × 4 services（Account :3001, Game :2567, Shop :3002, Admin :3003）</td><td>每個 endpoint 回應 <code>{&quot;status&quot;:&quot;ok&quot;}</code> HTTP 200</td><td>< 10s</td></tr><tr><td>2</td><td>帳號註冊 API</td><td><code>POST /v1/auth/register</code>（測試帳號 <code>smoke-test-${timestamp}@example.com</code>）</td><td>HTTP 201，回應含 <code>user_id</code></td><td>< 5s</td></tr><tr><td>3</td><td>JWT 登入取得 Token</td><td><code>POST /v1/auth/login</code>（上步驟帳號）</td><td>HTTP 200，<code>access_token</code> 非空</td><td>< 5s</td></tr><tr><td>4</td><td>Colyseus WebSocket 握手</td><td><code>ws://staging.fishgame.internal:2567</code> 執行 <code>matchmake/joinOrCreate fishingRoom</code></td><td>WS 連線建立，收到 <code>onJoin</code> 事件，延遲 < 1s</td><td>< 15s</td></tr><tr><td>5</td><td>商品清單查詢</td><td><code>GET /v1/shop/products</code>（Bearer Token）</td><td>HTTP 200，<code>products</code> 陣列含 ≥ 3 項（含 diamonds_50 / diamonds_330 / diamonds_1680）</td><td>< 5s</td></tr><tr><td>6</td><td>Redis 連線確認</td><td>Admin :3003 <code>GET /v1/admin/health/redis</code>（内部 endpoint）</td><td>回應 <code>{&quot;redis&quot;:&quot;PONG&quot;}</code></td><td>< 5s</td></tr><tr><td>7</td><td>清理測試帳號</td><td><code>DELETE /v1/users/:id</code>（smoke-test 帳號）</td><td>HTTP 204，確保測試資料不汙染 Staging DB</td><td>< 5s</td></tr></table>
-<p>
-<strong>目標總執行時間</strong>：≤ 5 分鐘（所有項目順序執行）
-</p>
+  → Stress Test（k6 150% Peak）              &lt; 1800s [Prod-like]
+  → Soak Test（k6 2h）                       &lt; 7800s [Prod-like]
+  → Full Security Scan（ZAP + Semgrep）       &lt; 3600s
+  → Notify: QA Lead for UAT entry</code></pre>
+<h3>§11.2 Deployment Smoke Test Checklist</h3>
+<p>每次 PR merge 觸發 CD 部署 Staging 後，必須在 <strong>5 分鐘內</strong> 完成以下 P0 驗收項目；任一失敗即觸發 Slack 告警並暫停後續 Nightly 排程：</p>
+<table>
+<tr><th>#</th><th>驗收項目</th><th>執行命令 / 檢查方式</th><th>Pass 標準</th><th>執行時間估算</th></tr>
+<tr><td>1</td><td>四服務健康檢查</td><td><code>curl -f https://staging.fishgame.internal/v1/health</code> × 4 services（Account :3001, Game :2567, Shop :3002, Admin :3003）</td><td>每個 endpoint 回應 <code>{&quot;status&quot;:&quot;ok&quot;}</code> HTTP 200</td><td>&lt; 10s</td></tr>
+<tr><td>2</td><td>帳號註冊 API</td><td><code>POST /v1/auth/register</code>（測試帳號 <code>smoke-test-${timestamp}@example.com</code>）</td><td>HTTP 201，回應含 <code>user_id</code></td><td>&lt; 5s</td></tr>
+<tr><td>3</td><td>JWT 登入取得 Token</td><td><code>POST /v1/auth/login</code>（上步驟帳號）</td><td>HTTP 200，<code>access_token</code> 非空</td><td>&lt; 5s</td></tr>
+<tr><td>4</td><td>Colyseus WebSocket 握手</td><td><code>ws://staging.fishgame.internal:2567</code> 執行 <code>matchmake/joinOrCreate fishingRoom</code></td><td>WS 連線建立，收到 <code>onJoin</code> 事件，延遲 &lt; 1s</td><td>&lt; 15s</td></tr>
+<tr><td>5</td><td>商品清單查詢</td><td><code>GET /v1/shop/products</code>（Bearer Token）</td><td>HTTP 200，<code>products</code> 陣列含 ≥ 3 項（含 diamonds_50 / diamonds_330 / diamonds_1680）</td><td>&lt; 5s</td></tr>
+<tr><td>6</td><td>Redis 連線確認</td><td>Admin :3003 <code>GET /v1/admin/health/redis</code>（内部 endpoint）</td><td>回應 <code>{&quot;redis&quot;:&quot;PONG&quot;}</code></td><td>&lt; 5s</td></tr>
+<tr><td>7</td><td>清理測試帳號</td><td><code>DELETE /v1/users/:id</code>（smoke-test 帳號）</td><td>HTTP 204，確保測試資料不汙染 Staging DB</td><td>&lt; 5s</td></tr>
+</table>
+<p><strong>目標總執行時間</strong>：≤ 5 分鐘（所有項目順序執行）</p>
 <pre><code class="language-bash"># scripts/smoke-test.sh（CD pipeline 步驟 ⑧ E2E Smoke 的前置 P0 快速驗收）
-<p>
 #!/bin/bash
 set -euo pipefail
 BASE=&quot;https://staging.fishgame.internal&quot;
 TS=$(date +%s)
-</p>
-<p>
+
 echo &quot;=== Deployment Smoke Test ===&quot;
-</p>
-<h1 id="1.-health-checks">1. Health checks</h1>
-<p>
+# 1. Health checks
 for port in 3001 2567 3002 3003; do
-curl -sf &quot;$BASE:$port/v1/health&quot; | grep -q &#x27;&quot;ok&quot;&#x27; &amp;&amp; echo &quot;✅ :$port healthy&quot; || { echo &quot;❌ :$port FAIL&quot;; exit 1; }
+  curl -sf &quot;$BASE:$port/v1/health&quot; | grep -q &#x27;&quot;ok&quot;&#x27; &amp;&amp; echo &quot;✅ :$port healthy&quot; || { echo &quot;❌ :$port FAIL&quot;; exit 1; }
 done
-</p>
-<h1 id="2-3.-register-+-login">2-3. Register + Login</h1>
-<p>
+# 2-3. Register + Login
 REGISTER=$(curl -sf -X POST &quot;$BASE/v1/auth/register&quot; -H &quot;Content-Type: application/json&quot; \
--d &quot;{\&quot;email\&quot;:\&quot;smoke-$TS@example.com\&quot;,\&quot;password\&quot;:\&quot;Test1234!\&quot;,\&quot;display_name\&quot;:\&quot;Smoke\&quot;,\&quot;birthdate\&quot;:\&quot;2000-01-01\&quot;,\&quot;agree_terms\&quot;:true}&quot;)
+  -d &quot;{\&quot;email\&quot;:\&quot;smoke-$TS@example.com\&quot;,\&quot;password\&quot;:\&quot;Test1234!\&quot;,\&quot;display_name\&quot;:\&quot;Smoke\&quot;,\&quot;birthdate\&quot;:\&quot;2000-01-01\&quot;,\&quot;agree_terms\&quot;:true}&quot;)
 USER_ID=$(echo &quot;$REGISTER&quot; | jq -r &#x27;.user_id&#x27;)
 TOKEN=$(curl -sf -X POST &quot;$BASE/v1/auth/login&quot; -H &quot;Content-Type: application/json&quot; \
--d &quot;{\&quot;email\&quot;:\&quot;smoke-$TS@example.com\&quot;,\&quot;password\&quot;:\&quot;Test1234!\&quot;}&quot; | jq -r &#x27;.access_token&#x27;)
+  -d &quot;{\&quot;email\&quot;:\&quot;smoke-$TS@example.com\&quot;,\&quot;password\&quot;:\&quot;Test1234!\&quot;}&quot; | jq -r &#x27;.access_token&#x27;)
 echo &quot;✅ Auth OK (user_id=$USER_ID)&quot;
-</p>
-<h1 id="4.-products">4. Products</h1>
-<p>
+# 4. Products
 curl -sf &quot;$BASE/v1/shop/products&quot; -H &quot;Authorization: Bearer $TOKEN&quot; | jq -e &#x27;.products | length &gt;= 3&#x27; &gt; /dev/null &amp;&amp; echo &quot;✅ Products OK&quot;
-</p>
-<h1 id="7.-cleanup">7. Cleanup</h1>
-<p>
+# 7. Cleanup
 curl -sf -X DELETE &quot;$BASE/v1/users/$USER_ID&quot; -H &quot;Authorization: Bearer $TOKEN&quot; -w &quot;%{http_code}&quot; | grep -q &quot;204&quot; &amp;&amp; echo &quot;✅ Cleanup OK&quot;
-echo &quot;=== Smoke Test PASSED ===&quot;
-</code></pre>
-</p>
-<h3 id="§11.3-github-actions-workflow（關鍵步驟）">§11.3 GitHub Actions Workflow（關鍵步驟）</h3>
+echo &quot;=== Smoke Test PASSED ===&quot;</code></pre>
+<h3>§11.3 GitHub Actions Workflow（關鍵步驟）</h3>
 <pre><code class="language-yaml"># .github/workflows/pr-ci.yml
-<p>
 name: PR CI
 on: [pull_request]
-</p>
-<p>
+
 jobs:
-unit-and-sast:
-runs-on: ubuntu-latest
-strategy:
-matrix:
-service: [account, game, shop, admin]
-steps:
-- uses: actions/checkout@v4
-- uses: actions/setup-node@v4
-with: { node-version: &#x27;20&#x27; }
-- run: cd services/${{ matrix.service }} &amp;&amp; npm ci
-- run: cd services/${{ matrix.service }} &amp;&amp; npm test -- --coverage
-- run: npx eslint --plugin security src/
-- run: npx semgrep --config=p/owasp-top-ten src/
-</p>
-<p>
-integration:
-needs: unit-and-sast
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- uses: actions/setup-node@v4
-with: { node-version: &#x27;20&#x27; }
-- run: npm ci
-- run: npm run test:integration  # 啟動 testcontainers
-env:
-DOCKER_HOST: unix:///var/run/docker.sock
-</code></pre>
-</p>
-<h3 id="§11.3-pr-ci-時間目標">§11.3 PR CI 時間目標</h3>
-<table><tr><th>步驟</th><th>目標時間</th><th>實際限制</th></tr><tr><td>Unit Test（4 service 並行）</td><td>< 60s</td><td>單 service < 15s</td></tr><tr><td>SAST Scan</td><td>< 180s</td><td>—</td></tr><tr><td>Build</td><td>< 120s</td><td>Docker layer cache</td></tr><tr><td>Integration Test</td><td>< 300s</td><td>testcontainers 啟動 < 30s</td></tr><tr><td>E2E Smoke（PR merged）</td><td>< 600s</td><td>Playwright headless Chrome</td></tr><tr><td><strong>PR CI 總時間</strong>（Unit+SAST+Build+Integration）</td><td><strong>< 10 min</strong></td><td>並行執行策略</td></tr></table>
+  unit-and-sast:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [account, game, shop, admin]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: &#x27;20&#x27; }
+      - run: cd services/${{ matrix.service }} &amp;&amp; npm ci
+      - run: cd services/${{ matrix.service }} &amp;&amp; npm test -- --coverage
+      - run: npx eslint --plugin security src/
+      - run: npx semgrep --config=p/owasp-top-ten src/
+
+  integration:
+    needs: unit-and-sast
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: &#x27;20&#x27; }
+      - run: npm ci
+      - run: npm run test:integration  # 啟動 testcontainers
+        env:
+          DOCKER_HOST: unix:///var/run/docker.sock</code></pre>
+<h3>§11.3 PR CI 時間目標</h3>
+<table>
+<tr><th>步驟</th><th>目標時間</th><th>實際限制</th></tr>
+<tr><td>Unit Test（4 service 並行）</td><td>&lt; 60s</td><td>單 service &lt; 15s</td></tr>
+<tr><td>SAST Scan</td><td>&lt; 180s</td><td>—</td></tr>
+<tr><td>Build</td><td>&lt; 120s</td><td>Docker layer cache</td></tr>
+<tr><td>Integration Test</td><td>&lt; 300s</td><td>testcontainers 啟動 &lt; 30s</td></tr>
+<tr><td>E2E Smoke（PR merged）</td><td>&lt; 600s</td><td>Playwright headless Chrome</td></tr>
+<tr><td><strong>PR CI 總時間</strong>（Unit+SAST+Build+Integration）</td><td><strong>&lt; 10 min</strong></td><td>並行執行策略</td></tr>
+</table>
 <hr>
-<h2 id="§12-tooling-matrix">§12 Tooling Matrix</h2>
-<table><tr><th>測試類型</th><th>工具</th><th>版本目標</th><th>設定檔位置</th></tr><tr><td>Unit Test</td><td>Jest</td><td>29.x</td><td><code>services/*/jest.config.ts</code></td></tr><tr><td>Coverage</td><td>istanbul（jest --coverage）</td><td>含於 Jest</td><td><code>jest.config.ts → coverageThresholds</code></td></tr><tr><td>Integration</td><td>Supertest</td><td>6.x</td><td><code>tests/integration/*.test.ts</code></td></tr><tr><td>DB 容器化</td><td>testcontainers-node</td><td>3.x</td><td><code>tests/helpers/containers.ts</code></td></tr><tr><td>E2E</td><td>Playwright</td><td>1.4x</td><td><code>playwright.config.ts</code></td></tr><tr><td>E2E Test Data</td><td>內建 Fixtures + Factory</td><td>—</td><td><code>e2e/fixtures/</code>、<code>e2e/helpers/factory.ts</code></td></tr><tr><td>Performance</td><td>k6</td><td>0.50+</td><td><code>tests/performance/*.k6.js</code></td></tr><tr><td>SAST</td><td>ESLint security plugin</td><td>latest</td><td><code>.eslintrc.js</code>（security rules）</td></tr><tr><td>SAST 規則集</td><td>Semgrep（OWASP ruleset）</td><td>latest</td><td><code>.semgrep.yml</code></td></tr><tr><td>DAST</td><td>OWASP ZAP</td><td>2.14+</td><td><code>zap/api-scan.yaml</code></td></tr><tr><td>Dependency Audit</td><td>npm audit + Snyk</td><td>latest</td><td>CI workflow</td></tr><tr><td>Mock（外部 API）</td><td>nock / WireMock</td><td>13.x / 3.x</td><td><code>tests/mocks/</code></td></tr><tr><td>ORM（測試 migration）</td><td>Prisma</td><td>5.x</td><td><code>prisma/schema.prisma</code></td></tr><tr><td>Type Check（CI gate）</td><td>tsc --noEmit</td><td>5.4</td><td><code>tsconfig.json</code></td></tr><tr><td>Test Runner（CI）</td><td>GitHub Actions</td><td>—</td><td><code>.github/workflows/</code></td></tr></table>
+<h2>§12 Tooling Matrix</h2>
+<table>
+<tr><th>測試類型</th><th>工具</th><th>版本目標</th><th>設定檔位置</th></tr>
+<tr><td>Unit Test</td><td>Jest</td><td>29.x</td><td><code>services/*/jest.config.ts</code></td></tr>
+<tr><td>Coverage</td><td>istanbul（jest --coverage）</td><td>含於 Jest</td><td><code>jest.config.ts → coverageThresholds</code></td></tr>
+<tr><td>Integration</td><td>Supertest</td><td>6.x</td><td><code>tests/integration/*.test.ts</code></td></tr>
+<tr><td>DB 容器化</td><td>testcontainers-node</td><td>3.x</td><td><code>tests/helpers/containers.ts</code></td></tr>
+<tr><td>E2E</td><td>Playwright</td><td>1.4x</td><td><code>playwright.config.ts</code></td></tr>
+<tr><td>E2E Test Data</td><td>內建 Fixtures + Factory</td><td>—</td><td><code>e2e/fixtures/</code>、<code>e2e/helpers/factory.ts</code></td></tr>
+<tr><td>Performance</td><td>k6</td><td>0.50+</td><td><code>tests/performance/*.k6.js</code></td></tr>
+<tr><td>SAST</td><td>ESLint security plugin</td><td>latest</td><td><code>.eslintrc.js</code>（security rules）</td></tr>
+<tr><td>SAST 規則集</td><td>Semgrep（OWASP ruleset）</td><td>latest</td><td><code>.semgrep.yml</code></td></tr>
+<tr><td>DAST</td><td>OWASP ZAP</td><td>2.14+</td><td><code>zap/api-scan.yaml</code></td></tr>
+<tr><td>Dependency Audit</td><td>npm audit + Snyk</td><td>latest</td><td>CI workflow</td></tr>
+<tr><td>Mock（外部 API）</td><td>nock / WireMock</td><td>13.x / 3.x</td><td><code>tests/mocks/</code></td></tr>
+<tr><td>ORM（測試 migration）</td><td>Prisma</td><td>5.x</td><td><code>prisma/schema.prisma</code></td></tr>
+<tr><td>Type Check（CI gate）</td><td>tsc --noEmit</td><td>5.4</td><td><code>tsconfig.json</code></td></tr>
+<tr><td>Test Runner（CI）</td><td>GitHub Actions</td><td>—</td><td><code>.github/workflows/</code></td></tr>
+</table>
 <hr>
-<h2 id="§13-reporting-&-metrics">§13 Reporting & Metrics</h2>
-<h3 id="§13.1-ci-報告輸出">§13.1 CI 報告輸出</h3>
-<table><tr><th>報告類型</th><th>格式</th><th>輸出位置</th><th>保留期限</th></tr><tr><td>Unit Test Coverage</td><td>HTML + JSON badge + JUnit XML</td><td>CI Artifact <code>coverage/</code></td><td>30 天</td></tr><tr><td>Integration Test Results</td><td>JUnit XML + Jest HTML</td><td>CI Artifact</td><td>30 天</td></tr><tr><td>E2E Results（Playwright）</td><td>HTML Report + 失敗截圖 + Playwright Trace</td><td>CI Artifact <code>playwright-report/</code></td><td>30 天</td></tr><tr><td>Performance Test（k6）</td><td>HTML Report + JSON metrics（P50/P95/P99 圖表）</td><td>CI Artifact <code>k6-report/</code></td><td>60 天</td></tr><tr><td>SAST / Semgrep</td><td>JSON + CI 失敗 log</td><td>CI Artifact + Linear bug</td><td>永久（Linear Ticket）</td></tr><tr><td>OWASP ZAP DAST</td><td>HTML Report + XML</td><td>CI Artifact <code>zap-report/</code></td><td>60 天</td></tr></table>
-<h3 id="§13.2-品質-dashboard-指標（每週更新，grafana）">§13.2 品質 Dashboard 指標（每週更新，Grafana）</h3>
-<table><tr><th>指標</th><th>計算方式</th><th>告警條件</th></tr><tr><td>測試覆蓋率趨勢（週對週）</td><td>Istanbul JSON badge</td><td>下降 > 5% → Slack #qa-status 告警</td></tr><tr><td>Defect Density（per feature）</td><td>Linear 缺陷數 / Feature AC 數</td><td>P0 Feature > 1 defect/AC → QA Lead 立即介入</td></tr><tr><td>MTTR（平均修復時間）</td><td>Linear 建立 → 關閉時間差</td><td>P0 > 4h → Engineering Lead 升級</td></tr><tr><td>Test Automation Rate</td><td>自動化 TC 數 / 總 TC 數</td><td>< 90% → Sprint Retrospective 討論</td></tr><tr><td>Flaky Test Rate</td><td>偶發失敗 TC / 總 TC</td><td>> 2% → @flaky 標記，1 週修復 SLA</td></tr><tr><td>Performance SLO 達標率</td><td>k6 P99 達標次數 / 總次數</td><td>連續 2 週 SLO 未達標 → P1 Ticket</td></tr></table>
+<h2>§13 Reporting &amp; Metrics</h2>
+<h3>§13.1 CI 報告輸出</h3>
+<table>
+<tr><th>報告類型</th><th>格式</th><th>輸出位置</th><th>保留期限</th></tr>
+<tr><td>Unit Test Coverage</td><td>HTML + JSON badge + JUnit XML</td><td>CI Artifact <code>coverage/</code></td><td>30 天</td></tr>
+<tr><td>Integration Test Results</td><td>JUnit XML + Jest HTML</td><td>CI Artifact</td><td>30 天</td></tr>
+<tr><td>E2E Results（Playwright）</td><td>HTML Report + 失敗截圖 + Playwright Trace</td><td>CI Artifact <code>playwright-report/</code></td><td>30 天</td></tr>
+<tr><td>Performance Test（k6）</td><td>HTML Report + JSON metrics（P50/P95/P99 圖表）</td><td>CI Artifact <code>k6-report/</code></td><td>60 天</td></tr>
+<tr><td>SAST / Semgrep</td><td>JSON + CI 失敗 log</td><td>CI Artifact + Linear bug</td><td>永久（Linear Ticket）</td></tr>
+<tr><td>OWASP ZAP DAST</td><td>HTML Report + XML</td><td>CI Artifact <code>zap-report/</code></td><td>60 天</td></tr>
+</table>
+<h3>§13.2 品質 Dashboard 指標（每週更新，Grafana）</h3>
+<table>
+<tr><th>指標</th><th>計算方式</th><th>告警條件</th></tr>
+<tr><td>測試覆蓋率趨勢（週對週）</td><td>Istanbul JSON badge</td><td>下降 &gt; 5% → Slack #qa-status 告警</td></tr>
+<tr><td>Defect Density（per feature）</td><td>Linear 缺陷數 / Feature AC 數</td><td>P0 Feature &gt; 1 defect/AC → QA Lead 立即介入</td></tr>
+<tr><td>MTTR（平均修復時間）</td><td>Linear 建立 → 關閉時間差</td><td>P0 &gt; 4h → Engineering Lead 升級</td></tr>
+<tr><td>Test Automation Rate</td><td>自動化 TC 數 / 總 TC 數</td><td>&lt; 90% → Sprint Retrospective 討論</td></tr>
+<tr><td>Flaky Test Rate</td><td>偶發失敗 TC / 總 TC</td><td>&gt; 2% → @flaky 標記，1 週修復 SLA</td></tr>
+<tr><td>Performance SLO 達標率</td><td>k6 P99 達標次數 / 總次數</td><td>連續 2 週 SLO 未達標 → P1 Ticket</td></tr>
+</table>
 <hr>
-<h2 id="§14-raci-matrix">§14 RACI Matrix</h2>
-<table><tr><th>活動</th><th>QA Lead</th><th>Dev</th><th>DevOps</th><th>PM</th><th>Product Owner</th></tr><tr><td>Unit Test 撰寫</td><td>Consulted</td><td><strong>Responsible</strong></td><td>—</td><td>—</td><td>—</td></tr><tr><td>Integration Test 撰寫</td><td><strong>Responsible</strong></td><td>Consulted</td><td>—</td><td>—</td><td>—</td></tr><tr><td>E2E Test 撰寫</td><td><strong>Responsible</strong></td><td>Consulted</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Performance Test 設計 + 執行</td><td><strong>Responsible</strong></td><td>Consulted</td><td>Consulted</td><td>—</td><td>—</td></tr><tr><td>CI Pipeline 設定 + 維護</td><td>Consulted</td><td>Consulted</td><td><strong>Responsible</strong></td><td>—</td><td>—</td></tr><tr><td>Security SAST/DAST 執行 + 報告</td><td><strong>Responsible</strong></td><td>Informed</td><td>Consulted</td><td>—</td><td>—</td></tr><tr><td>OWASP ZAP 掃描</td><td><strong>Responsible</strong></td><td>Informed</td><td>Consulted</td><td>—</td><td>—</td></tr><tr><td>Dependency Audit（Snyk/npm）</td><td>Informed</td><td>Informed</td><td><strong>Responsible</strong></td><td>—</td><td>—</td></tr><tr><td>UAT 協調 + 執行</td><td><strong>Responsible</strong></td><td>Informed</td><td>—</td><td>Consulted</td><td><strong>Accountable</strong></td></tr><tr><td>缺陷 Triage</td><td><strong>Responsible</strong></td><td>Consulted</td><td>—</td><td>Informed</td><td><strong>Accountable</strong></td></tr><tr><td>Release 核准（Go/No-Go）</td><td>Consulted</td><td>Informed</td><td>—</td><td><strong>Responsible</strong></td><td><strong>Accountable</strong></td></tr><tr><td>Test Plan 維護</td><td><strong>Responsible</strong></td><td>—</td><td>—</td><td>Informed</td><td>—</td></tr><tr><td>RTP 數值模擬驗證</td><td>Consulted</td><td><strong>Responsible</strong></td><td>—</td><td>Informed</td><td>—</td></tr><tr><td>Compliance（年齡驗證 Legal）</td><td>Informed</td><td>Informed</td><td>—</td><td><strong>Responsible</strong></td><td><strong>Accountable</strong></td></tr></table>
+<h2>§14 RACI Matrix</h2>
+<table>
+<tr><th>活動</th><th>QA Lead</th><th>Dev</th><th>DevOps</th><th>PM</th><th>Product Owner</th></tr>
+<tr><td>Unit Test 撰寫</td><td>Consulted</td><td><strong>Responsible</strong></td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Integration Test 撰寫</td><td><strong>Responsible</strong></td><td>Consulted</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>E2E Test 撰寫</td><td><strong>Responsible</strong></td><td>Consulted</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Performance Test 設計 + 執行</td><td><strong>Responsible</strong></td><td>Consulted</td><td>Consulted</td><td>—</td><td>—</td></tr>
+<tr><td>CI Pipeline 設定 + 維護</td><td>Consulted</td><td>Consulted</td><td><strong>Responsible</strong></td><td>—</td><td>—</td></tr>
+<tr><td>Security SAST/DAST 執行 + 報告</td><td><strong>Responsible</strong></td><td>Informed</td><td>Consulted</td><td>—</td><td>—</td></tr>
+<tr><td>OWASP ZAP 掃描</td><td><strong>Responsible</strong></td><td>Informed</td><td>Consulted</td><td>—</td><td>—</td></tr>
+<tr><td>Dependency Audit（Snyk/npm）</td><td>Informed</td><td>Informed</td><td><strong>Responsible</strong></td><td>—</td><td>—</td></tr>
+<tr><td>UAT 協調 + 執行</td><td><strong>Responsible</strong></td><td>Informed</td><td>—</td><td>Consulted</td><td><strong>Accountable</strong></td></tr>
+<tr><td>缺陷 Triage</td><td><strong>Responsible</strong></td><td>Consulted</td><td>—</td><td>Informed</td><td><strong>Accountable</strong></td></tr>
+<tr><td>Release 核准（Go/No-Go）</td><td>Consulted</td><td>Informed</td><td>—</td><td><strong>Responsible</strong></td><td><strong>Accountable</strong></td></tr>
+<tr><td>Test Plan 維護</td><td><strong>Responsible</strong></td><td>—</td><td>—</td><td>Informed</td><td>—</td></tr>
+<tr><td>RTP 數值模擬驗證</td><td>Consulted</td><td><strong>Responsible</strong></td><td>—</td><td>Informed</td><td>—</td></tr>
+<tr><td>Compliance（年齡驗證 Legal）</td><td>Informed</td><td>Informed</td><td>—</td><td><strong>Responsible</strong></td><td><strong>Accountable</strong></td></tr>
+</table>
 <hr>
-<h2 id="§15-requirements-traceability-matrix（rtm）">§15 Requirements Traceability Matrix（RTM）</h2>
-<blockquote>[WARNING] class-inventory.md 未找到，下方 Unit Test 路徑為從 EDD §4.5.2 classDiagram 推斷值。請執行 /gendoc-gen-diagrams 後更新 §15.2。</blockquote>
-<h3 id="§15.1-e2e-/-integration-rtm（prd-ac-→-tc-id-→-bdd-scenario）">§15.1 E2E / Integration RTM（PRD AC → TC-ID → BDD Scenario）</h3>
-<blockquote>TC-ID 命名格式：<code>TC-{TYPE}-{MODULE}-{SEQ}-{CASE}</code>
-<p>
-TYPE: E2E / INT（Integration）/ UNIT
-MODULE: ACCT / ROOM / FISH / WPSK / RTP / SHOP / AGE / VIP
-CASE: S（Success/Happy Path）/ E（Error Path）/ B（Boundary）</blockquote>
-</p>
-<table><tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC 描述摘要</th><th>BDD Scenario（features/）</th><th>測試類型</th><th>狀態</th></tr><tr><td>TC-E2E-ACCT-001-S</td><td>US-ACCT-001/AC-1</td><td>帳號註冊成功 → 自動登入 → 跳轉大廳</td><td><code>features/account_registration.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-INT-ACCT-002-S</td><td>US-ACCT-001/AC-2</td><td>登入成功 → JWT + Refresh Token 簽發</td><td><code>features/account_registration.feature</code>（S02）</td><td>E2E + Integration</td><td>待執行</td></tr><tr><td>TC-INT-ACCT-003-E</td><td>US-ACCT-001/AC-3</td><td>Email 已存在 → 409 EMAIL_ALREADY_EXISTS</td><td><code>features/account_registration.feature</code>（S03）</td><td>Unit + Integration</td><td>待執行</td></tr><tr><td>TC-INT-ACCT-004-E</td><td>US-ACCT-001/AC-4</td><td>連續 5 次登入失敗 → 帳號鎖定 15 分鐘</td><td><code>features/account_registration.feature</code>（S04）</td><td>Unit + Integration</td><td>待執行</td></tr><tr><td>TC-UNIT-ACCT-005-B</td><td>US-ACCT-001/AC-5</td><td>密碼強度 onBlur 即時驗證 → bcrypt cost=12</td><td><code>features/account_registration.feature</code>（S05）</td><td>Unit</td><td>待執行</td></tr><tr><td>TC-INT-ACCT-006-E</td><td>—</td><td><code>POST /v1/auth/login</code> 帶過期 JWT → 401 Unauthorized</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-ACCT-007-E</td><td>—</td><td><code>GET /v1/users/:id</code> 帶他人 user_id + 有效 JWT → 403 Forbidden</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-ROOM-001-S</td><td>US-ROOM-001/AC-1</td><td>快速匹配 30 秒內 → 4–6 人競技房間 → WS P99 < 200ms</td><td><code>features/multiplayer_room.feature</code>（S01）</td><td>E2E + Performance</td><td>待執行</td></tr><tr><td>TC-INT-ROOM-002-S</td><td>US-ROOM-001/AC-2</td><td>玩家 A 捕魚 → 魚從公共池消失 → 同步 < 100ms</td><td><code>features/multiplayer_room.feature</code>（S02）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-ROOM-003-S</td><td>US-ROOM-001/AC-3</td><td>等待 > 30s → Bot 補位 → 遊戲繼續</td><td><code>features/multiplayer_room.feature</code>（S03）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-INT-ROOM-004-E</td><td>US-ROOM-001/AC-4</td><td>WS 中斷 → 5s 重連 → 失敗後 Bot 接替</td><td><code>features/multiplayer_room.feature</code>（S04）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-ROOM-005-S</td><td>US-ROOM-001/AC-5</td><td>結算 → MVP 獎勵 +10% → 3s 內顯示</td><td><code>features/multiplayer_room.feature</code>（S05）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-INT-ROOM-006-E</td><td>US-ROOM-001/AC-6</td><td>Colyseus 503 → 提示重試 → 不建立空房間</td><td><code>features/multiplayer_room.feature</code>（S06）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-UNIT-ROOM-007-E</td><td>US-ROOM-001/AC-7</td><td>金幣不足 → 拒絕進入高倍率房間 → 引導</td><td><code>features/multiplayer_room.feature</code>（S07）</td><td>Unit</td><td>待執行</td></tr><tr><td>TC-INT-ROOM-008-E</td><td>—</td><td>Colyseus matchmake 帶無效 JWT → 401 拒絕連線</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-FISH-001-S</td><td>US-FISH-001/AC-1</td><td>魚群初始化 ≥ 3 種魚 ≥ 20 條</td><td><code>features/fish_system.feature</code>（S01）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-FISH-002-S</td><td>US-FISH-001/AC-2</td><td>命中普通魚 → RTP 動態計算 → 3s 內金幣更新</td><td><code>features/fish_system.feature</code>（S02）</td><td>Unit + E2E</td><td>待執行</td></tr><tr><td>TC-INT-FISH-003-B</td><td>US-FISH-001/AC-3</td><td>Boss 贏者通吃 → 非擊殺 0% → 逃跑 5% 安慰</td><td><code>features/fish_system.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-FISH-004-S</td><td>US-FISH-001/AC-4</td><td>Boss 血量歸零 → 2s 動畫 → 即時金幣更新</td><td><code>features/fish_system.feature</code>（S04）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-INT-FISH-005-E</td><td>US-FISH-001/AC-5</td><td>魚群服務崩潰 → 降級靜態波次 → 不中斷</td><td><code>features/fish_system.feature</code>（S05）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-FISH-006-B</td><td>US-FISH-001/AC-6</td><td>6 玩家同時命中 → Redis SETNX → 唯一計算</td><td><code>features/fish_system.feature</code>（S06）</td><td>Integration（並發）</td><td>待執行</td></tr><tr><td>TC-E2E-WPSK-001-S</td><td>US-WPSK-001/AC-1</td><td>選擇雷射炮 → 進房 → 直線穿透命中計算</td><td><code>features/weapon_skill.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-E2E-WPSK-002-S</td><td>US-WPSK-001/AC-2</td><td>冷卻結束 → 冰凍技能觸發 → 全屏 3s 停頓</td><td><code>features/weapon_skill.feature</code>（S02）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-UNIT-WPSK-003-E</td><td>US-WPSK-001/AC-3</td><td>冷卻中點擊技能 → 按鈕置灰 → 無效點擊</td><td><code>features/weapon_skill.feature</code>（S03）</td><td>Unit</td><td>待執行</td></tr><tr><td>TC-UNIT-WPSK-004-E</td><td>US-WPSK-001/AC-4</td><td>未解鎖鎖定炮 → 提示等級要求 → 不允許使用</td><td><code>features/weapon_skill.feature</code>（S04）</td><td>Unit</td><td>待執行</td></tr><tr><td>TC-UNIT-RTP-001-S</td><td>US-RTP-001/AC-1</td><td>10,000 場模擬 → RTP 85–95%，標準差 < 2%</td><td><code>features/rtp_jackpot.feature</code>（S01）</td><td>Unit（數值模擬）</td><td>待執行</td></tr><tr><td>TC-INT-RTP-002-S</td><td>US-RTP-001/AC-2</td><td>連敗 > 閾值 → 補償邏輯觸發 → 命中率動態提升</td><td><code>features/rtp_jackpot.feature</code>（S02）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-RTP-003-S</td><td>US-RTP-001/AC-3</td><td>Jackpot 觸發 → 動畫 ≥ 3s → 獎池重置</td><td><code>features/rtp_jackpot.feature</code>（S03）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-INT-RTP-004-S</td><td>US-RTP-001/AC-4</td><td>Jackpot 觸發 → 1s 內寫入後台審計日誌</td><td><code>features/rtp_jackpot.feature</code>（S04）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-RTP-005-E</td><td>US-RTP-001/AC-5</td><td>RTP 服務 Health Check 失敗 3 次 → 降級 80% 固定命中</td><td><code>features/rtp_jackpot.feature</code>（S05）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-RTP-006-E</td><td>—</td><td><code>POST /v1/game-configs</code> 帶非 Admin JWT → 403 Forbidden</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-SHOP-001-S</td><td>US-SHOP-001/AC-1</td><td>USD 4.99 = 50 鑽石充值 → 5s 內餘額更新</td><td><code>features/iap_purchase.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-UNIT-SHOP-002-E</td><td>US-SHOP-001/AC-2</td><td>鑽石不足 → 拒絕購買 → 餘額不變 → 引導充值</td><td><code>features/iap_purchase.feature</code>（S02）</td><td>Unit</td><td>待執行</td></tr><tr><td>TC-INT-SHOP-003-B</td><td>US-SHOP-001/AC-3</td><td>網路中斷重試 → 幂等 order_id → 不重複充值</td><td><code>features/iap_purchase.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-UNIT-SHOP-004-B</td><td>US-SHOP-001/AC-4</td><td>金幣倍率扣減 → 即時更新 → 歸零自動降回 1x</td><td><code>features/iap_purchase.feature</code>（S04）</td><td>Unit</td><td>待執行</td></tr><tr><td>TC-INT-SHOP-005-E</td><td>US-SHOP-001/AC-5</td><td>IAP 平台不可用 → Circuit Breaker Open → 503 提示</td><td><code>features/iap_purchase.feature</code>（S05）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-SHOP-006-E</td><td>US-SHOP-001/AC-6</td><td>IAP 退款回調 → 5s 內扣鑽 / 負債標記</td><td><code>features/iap_purchase.feature</code>（S06）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-SHOP-007-E</td><td>—</td><td><code>POST /v1/shop/purchases</code> 無 JWT → 401 Unauthorized</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-AGE-001-S</td><td>US-AGE-001/AC-1</td><td>首次開啟 → 強制年齡確認彈窗 → 拒絕 → 演示模式</td><td><code>features/age_verification.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-UNIT-AGE-002-E</td><td>US-AGE-001/AC-2</td><td>輸入未滿 18 歲 → 拒絕 → 付費功能鎖定</td><td><code>features/age_verification.feature</code>（S02）</td><td>Unit</td><td>待執行</td></tr><tr><td>TC-INT-AGE-003-S</td><td>US-AGE-001/AC-3</td><td>≥ 18 歲確認 → 記錄寫入 DB → 付費功能啟用</td><td><code>features/age_verification.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-AGE-004-E</td><td>—</td><td>未通過年齡驗證用戶呼叫 <code>POST /v1/shop/purchases</code> → 403 AGE_RESTRICTED</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-E2E-VIP-001-S</td><td>US-VIP-001/AC-1</td><td>VIP 月費訂閱 → VIP 等級即時顯示 → 首日 5 鑽石</td><td><code>features/vip_subscription.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr><tr><td>TC-INT-VIP-002-S</td><td>US-VIP-001/AC-2</td><td>VIP 每日第一次登入 → 自動補貼 → 不重複</td><td><code>features/vip_subscription.feature</code>（S02）</td><td>Integration</td><td>待執行</td></tr><tr><td>TC-INT-VIP-003-E</td><td>US-VIP-001/AC-3</td><td>VIP 到期 → 次日降 VIP 0 → 補貼停止</td><td><code>features/vip_subscription.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr></table>
-<h3 id="§15.2-unit-test-rtm（核心模組-class-覆蓋）">§15.2 Unit Test RTM（核心模組 Class 覆蓋）</h3>
-<blockquote>[WARNING] class-inventory.md 未找到，Class 路徑為從 EDD §4.5.2 classDiagram 推斷值。請執行 /gendoc-gen-diagrams 後更新。</blockquote>
-<table><tr><th>TC-ID</th><th>Class / Module</th><th>Src 路徑（推斷）</th><th>Test File（推斷）</th><th>測試場景</th><th>PRD AC</th></tr><tr><td>TC-UNIT-RTP-001-S</td><td>RtpEngine</td><td><code>services/game/src/rtp/RtpEngine.ts</code></td><td><code>tests/unit/rtp/RtpEngine.test.ts</code></td><td>10,000 次模擬 RTP 落在 85–95%</td><td>US-RTP-001/AC-1</td></tr><tr><td>TC-UNIT-RTP-001-E</td><td>RtpEngine</td><td>同上</td><td>同上</td><td>模擬統計異常（RTP < 80%）→ 觸發告警</td><td>US-RTP-001/AC-5</td></tr><tr><td>TC-UNIT-RTP-001-B</td><td>RtpEngine</td><td>同上</td><td>同上</td><td>連敗閾值邊界（N-1 次不補償，第 N 次補償）</td><td>US-RTP-001/AC-2</td></tr><tr><td>TC-UNIT-JACKPOT-001-S</td><td>JackpotService</td><td><code>services/game/src/jackpot/JackpotService.ts</code></td><td><code>tests/unit/jackpot/JackpotService.test.ts</code></td><td>Jackpot 觸發率符合設計規格</td><td>US-RTP-001/AC-3</td></tr><tr><td>TC-UNIT-JACKPOT-001-E</td><td>JackpotService</td><td>同上</td><td>同上</td><td>Redis 寫入失敗 → Jackpot 不觸發，狀態回滾</td><td>US-RTP-001/AC-4</td></tr><tr><td>TC-UNIT-JACKPOT-001-B</td><td>JackpotService</td><td>同上</td><td>同上</td><td>觸發率邊界（剛好達到 / 差 1 未達）</td><td>US-RTP-001/AC-3</td></tr><tr><td>TC-UNIT-AUTH-001-S</td><td>AuthService</td><td><code>services/account/src/auth/AuthService.ts</code></td><td><code>tests/unit/auth/AuthService.test.ts</code></td><td>正確密碼 bcrypt compare → JWT 簽發</td><td>US-ACCT-001/AC-2</td></tr><tr><td>TC-UNIT-AUTH-001-E</td><td>AuthService</td><td>同上</td><td>同上</td><td>第 5 次密碼錯誤 → lockAccount，Redis TTL 900s</td><td>US-ACCT-001/AC-4</td></tr><tr><td>TC-UNIT-AUTH-001-B</td><td>AuthService</td><td>同上</td><td>同上</td><td>第 4 次失敗不鎖 / 第 5 次鎖（邊界）</td><td>US-ACCT-001/AC-4</td></tr><tr><td>TC-UNIT-AGE-001-S</td><td>AgeVerificationService</td><td><code>services/account/src/compliance/AgeVerification.ts</code></td><td><code>tests/unit/compliance/AgeVerification.test.ts</code></td><td>出生 18 年前 → 通過驗證 → age_verified=true</td><td>US-AGE-001/AC-3</td></tr><tr><td>TC-UNIT-AGE-001-E</td><td>AgeVerificationService</td><td>同上</td><td>同上</td><td>出生 < 18 年 → 拒絕 → RESTRICTED 模式</td><td>US-AGE-001/AC-2</td></tr><tr><td>TC-UNIT-AGE-001-B</td><td>AgeVerificationService</td><td>同上</td><td>同上</td><td>今日滿 18 歲（邊界日期）</td><td>US-AGE-001/AC-1</td></tr><tr><td>TC-UNIT-FISH-001-S</td><td>FishKillResolver</td><td><code>services/game/src/fish/FishKillResolver.ts</code></td><td><code>tests/unit/fish/FishKillResolver.test.ts</code></td><td>第一名命中者獲金幣，其餘 0%</td><td>US-FISH-001/AC-3</td></tr><tr><td>TC-UNIT-FISH-001-E</td><td>FishKillResolver</td><td>同上</td><td>同上</td><td>Redis SETNX 失敗（競爭條件）→ 第二名不計算</td><td>US-FISH-001/AC-6</td></tr><tr><td>TC-UNIT-FISH-001-B</td><td>FishKillResolver</td><td>同上</td><td>同上</td><td>Boss 逃跑（血量未歸零）→ 全員 5% 安慰獎勵</td><td>US-FISH-001/AC-3</td></tr><tr><td>TC-UNIT-PAY-001-S</td><td>PaymentService</td><td><code>services/shop/src/payment/PaymentService.ts</code></td><td><code>tests/unit/payment/PaymentService.test.ts</code></td><td>幂等 order_id → 第二次提交回傳原始訂單</td><td>US-SHOP-001/AC-3</td></tr><tr><td>TC-UNIT-PAY-001-E</td><td>PaymentService</td><td>同上</td><td>同上</td><td>IAP verifyReceipt 失敗 → 訂單 status=failed</td><td>US-SHOP-001/AC-5</td></tr><tr><td>TC-UNIT-PAY-001-B</td><td>PaymentService</td><td>同上</td><td>同上</td><td>退款回調 + 鑽石餘額剛好用完（負債標記邊界）</td><td>US-SHOP-001/AC-6</td></tr><tr><td>TC-UNIT-CURR-001-S</td><td>CurrencyService</td><td><code>services/shop/src/currency/CurrencyService.ts</code></td><td><code>tests/unit/currency/CurrencyService.test.ts</code></td><td>扣減 10 金幣倍率 → 餘額正確更新</td><td>US-SHOP-001/AC-4</td></tr><tr><td>TC-UNIT-CURR-001-E</td><td>CurrencyService</td><td>同上</td><td>同上</td><td>鑽石餘額 0 → 購買失敗 → 餘額不變</td><td>US-SHOP-001/AC-2</td></tr><tr><td>TC-UNIT-CURR-001-B</td><td>CurrencyService</td><td>同上</td><td>同上</td><td>金幣剛好足夠（餘額 = 消耗量）/ 差 1 不足</td><td>US-SHOP-001/AC-4</td></tr><tr><td>TC-UNIT-WPSK-001-S</td><td>SkillCooldownManager</td><td><code>services/game/src/weapon/SkillCooldownManager.ts</code></td><td><code>tests/unit/weapon/SkillCooldownManager.test.ts</code></td><td>冷卻結束後可激活技能</td><td>US-WPSK-001/AC-2</td></tr><tr><td>TC-UNIT-WPSK-001-E</td><td>SkillCooldownManager</td><td>同上</td><td>同上</td><td>冷卻中點擊 → 技能不觸發</td><td>US-WPSK-001/AC-3</td></tr><tr><td>TC-UNIT-WPSK-001-B</td><td>SkillCooldownManager</td><td>同上</td><td>同上</td><td>冷卻計時器剛好到 0（邊界觸發）</td><td>US-WPSK-001/AC-2</td></tr></table>
+<h2>§15 Requirements Traceability Matrix（RTM）</h2>
+<blockquote><p>[WARNING] class-inventory.md 未找到，下方 Unit Test 路徑為從 EDD §4.5.2 classDiagram 推斷值。請執行 /gendoc-gen-diagrams 後更新 §15.2。</p></blockquote>
+<h3>§15.1 E2E / Integration RTM（PRD AC → TC-ID → BDD Scenario）</h3>
+<blockquote><p>TC-ID 命名格式：<code>TC-{TYPE}-{MODULE}-{SEQ}-{CASE}</code></p></blockquote>
+<blockquote><p>TYPE: E2E / INT（Integration）/ UNIT</p></blockquote>
+<blockquote><p>MODULE: ACCT / ROOM / FISH / WPSK / RTP / SHOP / AGE / VIP</p></blockquote>
+<blockquote><p>CASE: S（Success/Happy Path）/ E（Error Path）/ B（Boundary）</p></blockquote>
+<table>
+<tr><th>TC-ID</th><th>PRD REQ-ID</th><th>AC 描述摘要</th><th>BDD Scenario（features/）</th><th>測試類型</th><th>狀態</th></tr>
+<tr><td>TC-E2E-ACCT-001-S</td><td>US-ACCT-001/AC-1</td><td>帳號註冊成功 → 自動登入 → 跳轉大廳</td><td><code>features/account_registration.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-INT-ACCT-002-S</td><td>US-ACCT-001/AC-2</td><td>登入成功 → JWT + Refresh Token 簽發</td><td><code>features/account_registration.feature</code>（S02）</td><td>E2E + Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-ACCT-003-E</td><td>US-ACCT-001/AC-3</td><td>Email 已存在 → 409 EMAIL_ALREADY_EXISTS</td><td><code>features/account_registration.feature</code>（S03）</td><td>Unit + Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-ACCT-004-E</td><td>US-ACCT-001/AC-4</td><td>連續 5 次登入失敗 → 帳號鎖定 15 分鐘</td><td><code>features/account_registration.feature</code>（S04）</td><td>Unit + Integration</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-ACCT-005-B</td><td>US-ACCT-001/AC-5</td><td>密碼強度 onBlur 即時驗證 → bcrypt cost=12</td><td><code>features/account_registration.feature</code>（S05）</td><td>Unit</td><td>待執行</td></tr>
+<tr><td>TC-INT-ACCT-006-E</td><td>—</td><td><code>POST /v1/auth/login</code> 帶過期 JWT → 401 Unauthorized</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-ACCT-007-E</td><td>—</td><td><code>GET /v1/users/:id</code> 帶他人 user_id + 有效 JWT → 403 Forbidden</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-ROOM-001-S</td><td>US-ROOM-001/AC-1</td><td>快速匹配 30 秒內 → 4–6 人競技房間 → WS P99 &lt; 200ms</td><td><code>features/multiplayer_room.feature</code>（S01）</td><td>E2E + Performance</td><td>待執行</td></tr>
+<tr><td>TC-INT-ROOM-002-S</td><td>US-ROOM-001/AC-2</td><td>玩家 A 捕魚 → 魚從公共池消失 → 同步 &lt; 100ms</td><td><code>features/multiplayer_room.feature</code>（S02）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-ROOM-003-S</td><td>US-ROOM-001/AC-3</td><td>等待 &gt; 30s → Bot 補位 → 遊戲繼續</td><td><code>features/multiplayer_room.feature</code>（S03）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-INT-ROOM-004-E</td><td>US-ROOM-001/AC-4</td><td>WS 中斷 → 5s 重連 → 失敗後 Bot 接替</td><td><code>features/multiplayer_room.feature</code>（S04）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-ROOM-005-S</td><td>US-ROOM-001/AC-5</td><td>結算 → MVP 獎勵 +10% → 3s 內顯示</td><td><code>features/multiplayer_room.feature</code>（S05）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-INT-ROOM-006-E</td><td>US-ROOM-001/AC-6</td><td>Colyseus 503 → 提示重試 → 不建立空房間</td><td><code>features/multiplayer_room.feature</code>（S06）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-ROOM-007-E</td><td>US-ROOM-001/AC-7</td><td>金幣不足 → 拒絕進入高倍率房間 → 引導</td><td><code>features/multiplayer_room.feature</code>（S07）</td><td>Unit</td><td>待執行</td></tr>
+<tr><td>TC-INT-ROOM-008-E</td><td>—</td><td>Colyseus matchmake 帶無效 JWT → 401 拒絕連線</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-FISH-001-S</td><td>US-FISH-001/AC-1</td><td>魚群初始化 ≥ 3 種魚 ≥ 20 條</td><td><code>features/fish_system.feature</code>（S01）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-FISH-002-S</td><td>US-FISH-001/AC-2</td><td>命中普通魚 → RTP 動態計算 → 3s 內金幣更新</td><td><code>features/fish_system.feature</code>（S02）</td><td>Unit + E2E</td><td>待執行</td></tr>
+<tr><td>TC-INT-FISH-003-B</td><td>US-FISH-001/AC-3</td><td>Boss 贏者通吃 → 非擊殺 0% → 逃跑 5% 安慰</td><td><code>features/fish_system.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-FISH-004-S</td><td>US-FISH-001/AC-4</td><td>Boss 血量歸零 → 2s 動畫 → 即時金幣更新</td><td><code>features/fish_system.feature</code>（S04）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-INT-FISH-005-E</td><td>US-FISH-001/AC-5</td><td>魚群服務崩潰 → 降級靜態波次 → 不中斷</td><td><code>features/fish_system.feature</code>（S05）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-FISH-006-B</td><td>US-FISH-001/AC-6</td><td>6 玩家同時命中 → Redis SETNX → 唯一計算</td><td><code>features/fish_system.feature</code>（S06）</td><td>Integration（並發）</td><td>待執行</td></tr>
+<tr><td>TC-E2E-WPSK-001-S</td><td>US-WPSK-001/AC-1</td><td>選擇雷射炮 → 進房 → 直線穿透命中計算</td><td><code>features/weapon_skill.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-E2E-WPSK-002-S</td><td>US-WPSK-001/AC-2</td><td>冷卻結束 → 冰凍技能觸發 → 全屏 3s 停頓</td><td><code>features/weapon_skill.feature</code>（S02）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-WPSK-003-E</td><td>US-WPSK-001/AC-3</td><td>冷卻中點擊技能 → 按鈕置灰 → 無效點擊</td><td><code>features/weapon_skill.feature</code>（S03）</td><td>Unit</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-WPSK-004-E</td><td>US-WPSK-001/AC-4</td><td>未解鎖鎖定炮 → 提示等級要求 → 不允許使用</td><td><code>features/weapon_skill.feature</code>（S04）</td><td>Unit</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-RTP-001-S</td><td>US-RTP-001/AC-1</td><td>10,000 場模擬 → RTP 85–95%，標準差 &lt; 2%</td><td><code>features/rtp_jackpot.feature</code>（S01）</td><td>Unit（數值模擬）</td><td>待執行</td></tr>
+<tr><td>TC-INT-RTP-002-S</td><td>US-RTP-001/AC-2</td><td>連敗 &gt; 閾值 → 補償邏輯觸發 → 命中率動態提升</td><td><code>features/rtp_jackpot.feature</code>（S02）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-RTP-003-S</td><td>US-RTP-001/AC-3</td><td>Jackpot 觸發 → 動畫 ≥ 3s → 獎池重置</td><td><code>features/rtp_jackpot.feature</code>（S03）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-INT-RTP-004-S</td><td>US-RTP-001/AC-4</td><td>Jackpot 觸發 → 1s 內寫入後台審計日誌</td><td><code>features/rtp_jackpot.feature</code>（S04）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-RTP-005-E</td><td>US-RTP-001/AC-5</td><td>RTP 服務 Health Check 失敗 3 次 → 降級 80% 固定命中</td><td><code>features/rtp_jackpot.feature</code>（S05）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-RTP-006-E</td><td>—</td><td><code>POST /v1/game-configs</code> 帶非 Admin JWT → 403 Forbidden</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-SHOP-001-S</td><td>US-SHOP-001/AC-1</td><td>USD 4.99 = 50 鑽石充值 → 5s 內餘額更新</td><td><code>features/iap_purchase.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-SHOP-002-E</td><td>US-SHOP-001/AC-2</td><td>鑽石不足 → 拒絕購買 → 餘額不變 → 引導充值</td><td><code>features/iap_purchase.feature</code>（S02）</td><td>Unit</td><td>待執行</td></tr>
+<tr><td>TC-INT-SHOP-003-B</td><td>US-SHOP-001/AC-3</td><td>網路中斷重試 → 幂等 order_id → 不重複充值</td><td><code>features/iap_purchase.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-SHOP-004-B</td><td>US-SHOP-001/AC-4</td><td>金幣倍率扣減 → 即時更新 → 歸零自動降回 1x</td><td><code>features/iap_purchase.feature</code>（S04）</td><td>Unit</td><td>待執行</td></tr>
+<tr><td>TC-INT-SHOP-005-E</td><td>US-SHOP-001/AC-5</td><td>IAP 平台不可用 → Circuit Breaker Open → 503 提示</td><td><code>features/iap_purchase.feature</code>（S05）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-SHOP-006-E</td><td>US-SHOP-001/AC-6</td><td>IAP 退款回調 → 5s 內扣鑽 / 負債標記</td><td><code>features/iap_purchase.feature</code>（S06）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-SHOP-007-E</td><td>—</td><td><code>POST /v1/shop/purchases</code> 無 JWT → 401 Unauthorized</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-AGE-001-S</td><td>US-AGE-001/AC-1</td><td>首次開啟 → 強制年齡確認彈窗 → 拒絕 → 演示模式</td><td><code>features/age_verification.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-UNIT-AGE-002-E</td><td>US-AGE-001/AC-2</td><td>輸入未滿 18 歲 → 拒絕 → 付費功能鎖定</td><td><code>features/age_verification.feature</code>（S02）</td><td>Unit</td><td>待執行</td></tr>
+<tr><td>TC-INT-AGE-003-S</td><td>US-AGE-001/AC-3</td><td>≥ 18 歲確認 → 記錄寫入 DB → 付費功能啟用</td><td><code>features/age_verification.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-AGE-004-E</td><td>—</td><td>未通過年齡驗證用戶呼叫 <code>POST /v1/shop/purchases</code> → 403 AGE_RESTRICTED</td><td>無（Integration 直接測試）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-E2E-VIP-001-S</td><td>US-VIP-001/AC-1</td><td>VIP 月費訂閱 → VIP 等級即時顯示 → 首日 5 鑽石</td><td><code>features/vip_subscription.feature</code>（S01）</td><td>E2E</td><td>待執行</td></tr>
+<tr><td>TC-INT-VIP-002-S</td><td>US-VIP-001/AC-2</td><td>VIP 每日第一次登入 → 自動補貼 → 不重複</td><td><code>features/vip_subscription.feature</code>（S02）</td><td>Integration</td><td>待執行</td></tr>
+<tr><td>TC-INT-VIP-003-E</td><td>US-VIP-001/AC-3</td><td>VIP 到期 → 次日降 VIP 0 → 補貼停止</td><td><code>features/vip_subscription.feature</code>（S03）</td><td>Integration</td><td>待執行</td></tr>
+</table>
+<h3>§15.2 Unit Test RTM（核心模組 Class 覆蓋）</h3>
+<blockquote><p>[WARNING] class-inventory.md 未找到，Class 路徑為從 EDD §4.5.2 classDiagram 推斷值。請執行 /gendoc-gen-diagrams 後更新。</p></blockquote>
+<table>
+<tr><th>TC-ID</th><th>Class / Module</th><th>Src 路徑（推斷）</th><th>Test File（推斷）</th><th>測試場景</th><th>PRD AC</th></tr>
+<tr><td>TC-UNIT-RTP-001-S</td><td>RtpEngine</td><td><code>services/game/src/rtp/RtpEngine.ts</code></td><td><code>tests/unit/rtp/RtpEngine.test.ts</code></td><td>10,000 次模擬 RTP 落在 85–95%</td><td>US-RTP-001/AC-1</td></tr>
+<tr><td>TC-UNIT-RTP-001-E</td><td>RtpEngine</td><td>同上</td><td>同上</td><td>模擬統計異常（RTP &lt; 80%）→ 觸發告警</td><td>US-RTP-001/AC-5</td></tr>
+<tr><td>TC-UNIT-RTP-001-B</td><td>RtpEngine</td><td>同上</td><td>同上</td><td>連敗閾值邊界（N-1 次不補償，第 N 次補償）</td><td>US-RTP-001/AC-2</td></tr>
+<tr><td>TC-UNIT-JACKPOT-001-S</td><td>JackpotService</td><td><code>services/game/src/jackpot/JackpotService.ts</code></td><td><code>tests/unit/jackpot/JackpotService.test.ts</code></td><td>Jackpot 觸發率符合設計規格</td><td>US-RTP-001/AC-3</td></tr>
+<tr><td>TC-UNIT-JACKPOT-001-E</td><td>JackpotService</td><td>同上</td><td>同上</td><td>Redis 寫入失敗 → Jackpot 不觸發，狀態回滾</td><td>US-RTP-001/AC-4</td></tr>
+<tr><td>TC-UNIT-JACKPOT-001-B</td><td>JackpotService</td><td>同上</td><td>同上</td><td>觸發率邊界（剛好達到 / 差 1 未達）</td><td>US-RTP-001/AC-3</td></tr>
+<tr><td>TC-UNIT-AUTH-001-S</td><td>AuthService</td><td><code>services/account/src/auth/AuthService.ts</code></td><td><code>tests/unit/auth/AuthService.test.ts</code></td><td>正確密碼 bcrypt compare → JWT 簽發</td><td>US-ACCT-001/AC-2</td></tr>
+<tr><td>TC-UNIT-AUTH-001-E</td><td>AuthService</td><td>同上</td><td>同上</td><td>第 5 次密碼錯誤 → lockAccount，Redis TTL 900s</td><td>US-ACCT-001/AC-4</td></tr>
+<tr><td>TC-UNIT-AUTH-001-B</td><td>AuthService</td><td>同上</td><td>同上</td><td>第 4 次失敗不鎖 / 第 5 次鎖（邊界）</td><td>US-ACCT-001/AC-4</td></tr>
+<tr><td>TC-UNIT-AGE-001-S</td><td>AgeVerificationService</td><td><code>services/account/src/compliance/AgeVerification.ts</code></td><td><code>tests/unit/compliance/AgeVerification.test.ts</code></td><td>出生 18 年前 → 通過驗證 → age_verified=true</td><td>US-AGE-001/AC-3</td></tr>
+<tr><td>TC-UNIT-AGE-001-E</td><td>AgeVerificationService</td><td>同上</td><td>同上</td><td>出生 &lt; 18 年 → 拒絕 → RESTRICTED 模式</td><td>US-AGE-001/AC-2</td></tr>
+<tr><td>TC-UNIT-AGE-001-B</td><td>AgeVerificationService</td><td>同上</td><td>同上</td><td>今日滿 18 歲（邊界日期）</td><td>US-AGE-001/AC-1</td></tr>
+<tr><td>TC-UNIT-FISH-001-S</td><td>FishKillResolver</td><td><code>services/game/src/fish/FishKillResolver.ts</code></td><td><code>tests/unit/fish/FishKillResolver.test.ts</code></td><td>第一名命中者獲金幣，其餘 0%</td><td>US-FISH-001/AC-3</td></tr>
+<tr><td>TC-UNIT-FISH-001-E</td><td>FishKillResolver</td><td>同上</td><td>同上</td><td>Redis SETNX 失敗（競爭條件）→ 第二名不計算</td><td>US-FISH-001/AC-6</td></tr>
+<tr><td>TC-UNIT-FISH-001-B</td><td>FishKillResolver</td><td>同上</td><td>同上</td><td>Boss 逃跑（血量未歸零）→ 全員 5% 安慰獎勵</td><td>US-FISH-001/AC-3</td></tr>
+<tr><td>TC-UNIT-PAY-001-S</td><td>PaymentService</td><td><code>services/shop/src/payment/PaymentService.ts</code></td><td><code>tests/unit/payment/PaymentService.test.ts</code></td><td>幂等 order_id → 第二次提交回傳原始訂單</td><td>US-SHOP-001/AC-3</td></tr>
+<tr><td>TC-UNIT-PAY-001-E</td><td>PaymentService</td><td>同上</td><td>同上</td><td>IAP verifyReceipt 失敗 → 訂單 status=failed</td><td>US-SHOP-001/AC-5</td></tr>
+<tr><td>TC-UNIT-PAY-001-B</td><td>PaymentService</td><td>同上</td><td>同上</td><td>退款回調 + 鑽石餘額剛好用完（負債標記邊界）</td><td>US-SHOP-001/AC-6</td></tr>
+<tr><td>TC-UNIT-CURR-001-S</td><td>CurrencyService</td><td><code>services/shop/src/currency/CurrencyService.ts</code></td><td><code>tests/unit/currency/CurrencyService.test.ts</code></td><td>扣減 10 金幣倍率 → 餘額正確更新</td><td>US-SHOP-001/AC-4</td></tr>
+<tr><td>TC-UNIT-CURR-001-E</td><td>CurrencyService</td><td>同上</td><td>同上</td><td>鑽石餘額 0 → 購買失敗 → 餘額不變</td><td>US-SHOP-001/AC-2</td></tr>
+<tr><td>TC-UNIT-CURR-001-B</td><td>CurrencyService</td><td>同上</td><td>同上</td><td>金幣剛好足夠（餘額 = 消耗量）/ 差 1 不足</td><td>US-SHOP-001/AC-4</td></tr>
+<tr><td>TC-UNIT-WPSK-001-S</td><td>SkillCooldownManager</td><td><code>services/game/src/weapon/SkillCooldownManager.ts</code></td><td><code>tests/unit/weapon/SkillCooldownManager.test.ts</code></td><td>冷卻結束後可激活技能</td><td>US-WPSK-001/AC-2</td></tr>
+<tr><td>TC-UNIT-WPSK-001-E</td><td>SkillCooldownManager</td><td>同上</td><td>同上</td><td>冷卻中點擊 → 技能不觸發</td><td>US-WPSK-001/AC-3</td></tr>
+<tr><td>TC-UNIT-WPSK-001-B</td><td>SkillCooldownManager</td><td>同上</td><td>同上</td><td>冷卻計時器剛好到 0（邊界觸發）</td><td>US-WPSK-001/AC-2</td></tr>
+</table>
 <hr>
-<h2 id="§16-glossary">§16 Glossary</h2>
-<table><tr><th>術語</th><th>定義</th></tr><tr><td><strong>SLO</strong></td><td>Service Level Objective：對服務品質的目標承諾（如 REST P99 ≤ 500ms）</td></tr><tr><td><strong>SLI</strong></td><td>Service Level Indicator：衡量 SLO 達成度的指標（實際測量值）</td></tr><tr><td><strong>P99</strong></td><td>第 99 百分位數回應時間（99% 的請求在此時間內完成）</td></tr><tr><td><strong>P50 / P95</strong></td><td>第 50 / 第 95 百分位數回應時間</td></tr><tr><td><strong>Soak Test</strong></td><td>長時間低負載測試（2 小時），用於發現記憶體洩漏和資源累積問題</td></tr><tr><td><strong>SAST</strong></td><td>Static Application Security Testing：靜態應用程式安全測試（分析原始碼）</td></tr><tr><td><strong>DAST</strong></td><td>Dynamic Application Security Testing：動態應用程式安全測試（攻擊執行中的應用）</td></tr><tr><td><strong>RTM</strong></td><td>Requirements Traceability Matrix：需求追蹤矩陣（AC → TC-ID → BDD Scenario）</td></tr><tr><td><strong>VU</strong></td><td>Virtual User：虛擬用戶，k6 效能測試的並發單位</td></tr><tr><td><strong>DoD</strong></td><td>Definition of Done：功能完成的驗收標準</td></tr><tr><td><strong>RTP</strong></td><td>Return To Player：回報率，實際金幣收益佔所有玩家投入金幣的比例（目標 85–95%）</td></tr><tr><td><strong>Jackpot</strong></td><td>大獎池：累積獎池達到觸發條件時，全額發放給觸發玩家</td></tr><tr><td><strong>testcontainers</strong></td><td>按需啟動 Docker 容器的測試工具（MySQL 8.0、Redis 7）；Integration Test 使用真實 DB 而非 mock</td></tr><tr><td><strong>Colyseus Room</strong></td><td>Colyseus 框架的房間（Room）物件，管理多人 WebSocket 狀態同步和廣播</td></tr><tr><td><strong>幂等（Idempotent）</strong></td><td>同一操作多次執行結果相同（如同一 order_id 只扣款一次）</td></tr><tr><td><strong>IAP</strong></td><td>In-App Purchase：應用程式內購，透過 Apple App Store / Google Play 收取費用</td></tr><tr><td><strong>Circuit Breaker</strong></td><td>熔斷器：外部服務連續失敗超過閾值後自動開啟，停止發送請求（避免 cascade failure）</td></tr><tr><td><strong>GDPR</strong></td><td>General Data Protection Regulation：歐盟通用資料保護法規（台灣對應個人資料保護法）</td></tr><tr><td><strong>PII</strong></td><td>Personally Identifiable Information：個人可識別資訊（email、birthdate、IP）</td></tr><tr><td><strong>Semgrep</strong></td><td>開源靜態分析工具，支援 OWASP ruleset 掃描 JavaScript/TypeScript 安全漏洞</td></tr><tr><td><strong>Playwright</strong></td><td>Microsoft 開源 E2E 測試框架，支援 Chrome/Firefox/WebKit，API 測試 + UI 測試</td></tr><tr><td><strong>k6</strong></td><td>Grafana Labs 開源負載測試工具，使用 JavaScript 撰寫測試腳本，支援 WebSocket</td></tr><tr><td><strong>Flaky Test</strong></td><td>偶發性通過/失敗的不穩定測試，通常由時序、外部依賴或並發問題引起</td></tr></table>
+<h2>§16 Glossary</h2>
+<table>
+<tr><th>術語</th><th>定義</th></tr>
+<tr><td><strong>SLO</strong></td><td>Service Level Objective：對服務品質的目標承諾（如 REST P99 ≤ 500ms）</td></tr>
+<tr><td><strong>SLI</strong></td><td>Service Level Indicator：衡量 SLO 達成度的指標（實際測量值）</td></tr>
+<tr><td><strong>P99</strong></td><td>第 99 百分位數回應時間（99% 的請求在此時間內完成）</td></tr>
+<tr><td><strong>P50 / P95</strong></td><td>第 50 / 第 95 百分位數回應時間</td></tr>
+<tr><td><strong>Soak Test</strong></td><td>長時間低負載測試（2 小時），用於發現記憶體洩漏和資源累積問題</td></tr>
+<tr><td><strong>SAST</strong></td><td>Static Application Security Testing：靜態應用程式安全測試（分析原始碼）</td></tr>
+<tr><td><strong>DAST</strong></td><td>Dynamic Application Security Testing：動態應用程式安全測試（攻擊執行中的應用）</td></tr>
+<tr><td><strong>RTM</strong></td><td>Requirements Traceability Matrix：需求追蹤矩陣（AC → TC-ID → BDD Scenario）</td></tr>
+<tr><td><strong>VU</strong></td><td>Virtual User：虛擬用戶，k6 效能測試的並發單位</td></tr>
+<tr><td><strong>DoD</strong></td><td>Definition of Done：功能完成的驗收標準</td></tr>
+<tr><td><strong>RTP</strong></td><td>Return To Player：回報率，實際金幣收益佔所有玩家投入金幣的比例（目標 85–95%）</td></tr>
+<tr><td><strong>Jackpot</strong></td><td>大獎池：累積獎池達到觸發條件時，全額發放給觸發玩家</td></tr>
+<tr><td><strong>testcontainers</strong></td><td>按需啟動 Docker 容器的測試工具（MySQL 8.0、Redis 7）；Integration Test 使用真實 DB 而非 mock</td></tr>
+<tr><td><strong>Colyseus Room</strong></td><td>Colyseus 框架的房間（Room）物件，管理多人 WebSocket 狀態同步和廣播</td></tr>
+<tr><td><strong>幂等（Idempotent）</strong></td><td>同一操作多次執行結果相同（如同一 order_id 只扣款一次）</td></tr>
+<tr><td><strong>IAP</strong></td><td>In-App Purchase：應用程式內購，透過 Apple App Store / Google Play 收取費用</td></tr>
+<tr><td><strong>Circuit Breaker</strong></td><td>熔斷器：外部服務連續失敗超過閾值後自動開啟，停止發送請求（避免 cascade failure）</td></tr>
+<tr><td><strong>GDPR</strong></td><td>General Data Protection Regulation：歐盟通用資料保護法規（台灣對應個人資料保護法）</td></tr>
+<tr><td><strong>PII</strong></td><td>Personally Identifiable Information：個人可識別資訊（email、birthdate、IP）</td></tr>
+<tr><td><strong>Semgrep</strong></td><td>開源靜態分析工具，支援 OWASP ruleset 掃描 JavaScript/TypeScript 安全漏洞</td></tr>
+<tr><td><strong>Playwright</strong></td><td>Microsoft 開源 E2E 測試框架，支援 Chrome/Firefox/WebKit，API 測試 + UI 測試</td></tr>
+<tr><td><strong>k6</strong></td><td>Grafana Labs 開源負載測試工具，使用 JavaScript 撰寫測試腳本，支援 WebSocket</td></tr>
+<tr><td><strong>Flaky Test</strong></td><td>偶發性通過/失敗的不穩定測試，通常由時序、外部依賴或並發問題引起</td></tr>
+</table>
 <hr>
-<h2 id="§17-references">§17 References</h2>
-<table><tr><th>文件</th><th>位置</th><th>用途</th></tr><tr><td>PRD — Product Requirements Document</td><td><code>docs/PRD.md</code></td><td>AC 清單、DoD、Success Metrics 來源</td></tr><tr><td>EDD — Engineering Design Document</td><td><code>docs/EDD.md</code></td><td>技術棧選型、SLO/SLI、Capacity、STRIDE 威脅模型</td></tr><tr><td>ARCH — Architecture Document</td><td><code>docs/ARCH.md</code></td><td>Service 邊界、k8s 部署拓撲、Integration Test 環境</td></tr><tr><td>API — API Design Document</td><td><code>docs/API.md</code></td><td>REST API Endpoint 清單、Error Code 定義</td></tr><tr><td>SCHEMA — Database Schema Document</td><td><code>docs/SCHEMA.md</code></td><td>11 張資料表定義、索引策略、GDPR 設計</td></tr><tr><td>BDD Feature Files</td><td><code>features/*.feature</code></td><td>TC-ID → BDD Scenario 雙向映射（D12-BDD-server）</td></tr><tr><td>Colyseus 官方文件</td><td><code>https://docs.colyseus.io</code></td><td>WebSocket Room lifecycle、State Sync API</td></tr><tr><td>OWASP Top 10 2021</td><td><code>https://owasp.org/Top10/</code></td><td>A01–A10 安全測試矩陣依據</td></tr><tr><td>k6 文件</td><td><code>https://k6.io/docs/</code></td><td>Load Test Script 語法、WebSocket API</td></tr><tr><td>Playwright 文件</td><td><code>https://playwright.dev/docs/intro</code></td><td>E2E Test API、設定檔語法</td></tr><tr><td>IEEE 829-2008</td><td>測試計畫標準</td><td>本文件結構依據</td></tr><tr><td>EDD k6 thresholds</td><td><code>docs/EDD.md §7</code></td><td><code>http_req_duration: [&#x27;p(99)&lt;500&#x27;]</code>、<code>ws_session_duration: [&#x27;p(99)&lt;100&#x27;]</code></td></tr></table>
+<h2>§17 References</h2>
+<table>
+<tr><th>文件</th><th>位置</th><th>用途</th></tr>
+<tr><td>PRD — Product Requirements Document</td><td><code>docs/PRD.md</code></td><td>AC 清單、DoD、Success Metrics 來源</td></tr>
+<tr><td>EDD — Engineering Design Document</td><td><code>docs/EDD.md</code></td><td>技術棧選型、SLO/SLI、Capacity、STRIDE 威脅模型</td></tr>
+<tr><td>ARCH — Architecture Document</td><td><code>docs/ARCH.md</code></td><td>Service 邊界、k8s 部署拓撲、Integration Test 環境</td></tr>
+<tr><td>API — API Design Document</td><td><code>docs/API.md</code></td><td>REST API Endpoint 清單、Error Code 定義</td></tr>
+<tr><td>SCHEMA — Database Schema Document</td><td><code>docs/SCHEMA.md</code></td><td>11 張資料表定義、索引策略、GDPR 設計</td></tr>
+<tr><td>BDD Feature Files</td><td><code>features/*.feature</code></td><td>TC-ID → BDD Scenario 雙向映射（D12-BDD-server）</td></tr>
+<tr><td>Colyseus 官方文件</td><td><code>https://docs.colyseus.io</code></td><td>WebSocket Room lifecycle、State Sync API</td></tr>
+<tr><td>OWASP Top 10 2021</td><td><code>https://owasp.org/Top10/</code></td><td>A01–A10 安全測試矩陣依據</td></tr>
+<tr><td>k6 文件</td><td><code>https://k6.io/docs/</code></td><td>Load Test Script 語法、WebSocket API</td></tr>
+<tr><td>Playwright 文件</td><td><code>https://playwright.dev/docs/intro</code></td><td>E2E Test API、設定檔語法</td></tr>
+<tr><td>IEEE 829-2008</td><td>測試計畫標準</td><td>本文件結構依據</td></tr>
+<tr><td>EDD k6 thresholds</td><td><code>docs/EDD.md §7</code></td><td><code>http_req_duration: [&#x27;p(99)&lt;500&#x27;]</code>、<code>ws_session_duration: [&#x27;p(99)&lt;100&#x27;]</code></td></tr>
+</table>
 <hr>
-<h2 id="§18-approval-sign-off">§18 Approval Sign-off</h2>
-<table><tr><th>角色</th><th>姓名</th><th>簽核日期</th><th>版本</th><th>備註</th></tr><tr><td><strong>QA Lead</strong></td><td>（待填）</td><td>_______</td><td>v1.0</td><td>測試計畫品質確認</td></tr><tr><td><strong>Engineering Lead</strong></td><td>（待填）</td><td>_______</td><td>v1.0</td><td>技術可行性確認</td></tr><tr><td><strong>Product Manager</strong></td><td>（待填）</td><td>_______</td><td>v1.0</td><td>業務範疇確認</td></tr><tr><td><strong>Product Owner</strong></td><td>（待填）</td><td>_______</td><td>v1.0</td><td>最終 UAT 授權</td></tr></table>
-<p>
-<strong>Sign-off 條件</strong>：本測試計畫需獲得以上四個角色書面（email 或線上工具）核准後，方可進入正式測試執行階段。UAT 開始前須再次確認 §6 Entry Criteria 均已滿足。
-</p>
+<h2>§18 Approval Sign-off</h2>
+<table>
+<tr><th>角色</th><th>姓名</th><th>簽核日期</th><th>版本</th><th>備註</th></tr>
+<tr><td><strong>QA Lead</strong></td><td>（待填）</td><td><strong><em>_</em></strong></td><td>v1.0</td><td>測試計畫品質確認</td></tr>
+<tr><td><strong>Engineering Lead</strong></td><td>（待填）</td><td><strong><em>_</em></strong></td><td>v1.0</td><td>技術可行性確認</td></tr>
+<tr><td><strong>Product Manager</strong></td><td>（待填）</td><td><strong><em>_</em></strong></td><td>v1.0</td><td>業務範疇確認</td></tr>
+<tr><td><strong>Product Owner</strong></td><td>（待填）</td><td><strong><em>_</em></strong></td><td>v1.0</td><td>最終 UAT 授權</td></tr>
+</table>
+<p><strong>Sign-off 條件</strong>：本測試計畫需獲得以上四個角色書面（email 或線上工具）核准後，方可進入正式測試執行階段。UAT 開始前須再次確認 §6 Entry Criteria 均已滿足。</p>
 <hr>
-<h2 id="§19-mobile-testing-strategy">§19 Mobile Testing Strategy</h2>
-<h3 id="§19.1-適用範圍">§19.1 適用範圍</h3>
-<p>
-MVP 版本以 Web/H5（Cocos Creator Web export）為主要目標平台，iOS/Android 原生包列入 Phase 2 規劃。本章節定義 Web Mobile 瀏覽器測試策略，及 Phase 2 原生包測試準備。
-</p>
-<h3 id="§19.2-web-mobile-瀏覽器矩陣（mvp）">§19.2 Web Mobile 瀏覽器矩陣（MVP）</h3>
-<table><tr><th>優先級</th><th>平台</th><th>瀏覽器</th><th>目標版本</th><th>測試重點</th></tr><tr><td><strong>P0（主要）</strong></td><td>iOS 17+</td><td>Safari / WebKit</td><td>latest</td><td>Cocos Canvas 渲染、WebSocket 連線穩定性</td></tr><tr><td><strong>P0（主要）</strong></td><td>Android 12+</td><td>Chrome Mobile</td><td>latest</td><td>Touch 事件精確度、炮台拖拉手勢</td></tr><tr><td><strong>P1（次要）</strong></td><td>iOS 15–16</td><td>Safari</td><td>latest-1</td><td>降級相容性確認</td></tr><tr><td><strong>P1（次要）</strong></td><td>Android 10–11</td><td>Chrome Mobile</td><td>latest-1</td><td>WebGL 支援確認</td></tr><tr><td><strong>P2（相容）</strong></td><td>iOS 14</td><td>Safari</td><td>—</td><td>最低相容基線，基本功能可用</td></tr></table>
-<h3 id="§19.3-弱網環境測試（playwright-cdp-節流）">§19.3 弱網環境測試（Playwright CDP 節流）</h3>
+<h2>§19 Mobile Testing Strategy</h2>
+<h3>§19.1 適用範圍</h3>
+<p>MVP 版本以 Web/H5（Cocos Creator Web export）為主要目標平台，iOS/Android 原生包列入 Phase 2 規劃。本章節定義 Web Mobile 瀏覽器測試策略，及 Phase 2 原生包測試準備。</p>
+<h3>§19.2 Web Mobile 瀏覽器矩陣（MVP）</h3>
+<table>
+<tr><th>優先級</th><th>平台</th><th>瀏覽器</th><th>目標版本</th><th>測試重點</th></tr>
+<tr><td><strong>P0（主要）</strong></td><td>iOS 17+</td><td>Safari / WebKit</td><td>latest</td><td>Cocos Canvas 渲染、WebSocket 連線穩定性</td></tr>
+<tr><td><strong>P0（主要）</strong></td><td>Android 12+</td><td>Chrome Mobile</td><td>latest</td><td>Touch 事件精確度、炮台拖拉手勢</td></tr>
+<tr><td><strong>P1（次要）</strong></td><td>iOS 15–16</td><td>Safari</td><td>latest-1</td><td>降級相容性確認</td></tr>
+<tr><td><strong>P1（次要）</strong></td><td>Android 10–11</td><td>Chrome Mobile</td><td>latest-1</td><td>WebGL 支援確認</td></tr>
+<tr><td><strong>P2（相容）</strong></td><td>iOS 14</td><td>Safari</td><td>—</td><td>最低相容基線，基本功能可用</td></tr>
+</table>
+<h3>§19.3 弱網環境測試（Playwright CDP 節流）</h3>
 <pre><code class="language-typescript">// e2e/helpers/network-throttle.ts
-<p>
 import { BrowserContext } from &#x27;@playwright/test&#x27;;
-</p>
-<p>
+
 export async function setSlowNetwork(context: BrowserContext): Promise&lt;void&gt; {
-const cdpSession = await context.newCDPSession(await context.pages()[0]);
-await cdpSession.send(&#x27;Network.emulateNetworkConditions&#x27;, {
-offline: false,
-downloadThroughput: (750 * 1024) / 8,  // 3G: 750 Kbps
-uploadThroughput: (250 * 1024) / 8,
-latency: 150,                           // 150ms RTT
-});
+  const cdpSession = await context.newCDPSession(await context.pages()[0]);
+  await cdpSession.send(&#x27;Network.emulateNetworkConditions&#x27;, {
+    offline: false,
+    downloadThroughput: (750 * 1024) / 8,  // 3G: 750 Kbps
+    uploadThroughput: (250 * 1024) / 8,
+    latency: 150,                           // 150ms RTT
+  });
 }
-</p>
-<p>
+
 // 使用示例（E2E test）：
 test(&#x27;IAP 充值在 3G 環境完成&#x27;, async ({ context, page }) =&gt; {
-await setSlowNetwork(context);
-await page.goto(&#x27;/shop&#x27;);
-await page.click(&#x27;[data-testid=&quot;recharge-btn&quot;]&#x27;);
-await page.waitForSelector(&#x27;[data-testid=&quot;diamond-balance&quot;]&#x27;, { timeout: 10000 });
-});
-</code></pre>
-</p>
-<p>
-<strong>弱網測試場景</strong>：
-</p>
+  await setSlowNetwork(context);
+  await page.goto(&#x27;/shop&#x27;);
+  await page.click(&#x27;[data-testid=&quot;recharge-btn&quot;]&#x27;);
+  await page.waitForSelector(&#x27;[data-testid=&quot;diamond-balance&quot;]&#x27;, { timeout: 10000 });
+});</code></pre>
+<p><strong>弱網測試場景</strong>：</p>
 <ul><li>3G（150ms 延遲 + 10 秒載入超時）：IAP 充值流程、帳號登入</li><li>高延遲（500ms 延遲）：WebSocket 房間進入、魚群同步（驗證降級行為）</li></ul>
-<h3 id="§19.4-phase-2-原生包效能預算（預先定義）">§19.4 Phase 2 原生包效能預算（預先定義）</h3>
-<table><tr><th>指標</th><th>iOS 目標</th><th>Android 目標</th></tr><tr><td>冷啟動（App Launch）</td><td>≤ 2s</td><td>≤ 2s</td></tr><tr><td>熱啟動（Background Resume）</td><td>≤ 0.5s</td><td>≤ 0.5s</td></tr><tr><td>包體積（安裝包）</td><td>≤ 50MB</td><td>≤ 30MB</td></tr><tr><td>記憶體佔用（遊戲中）</td><td>≤ 300MB</td><td>≤ 250MB</td></tr></table>
-<h3 id="§19.5-phase-2-裝置矩陣（計畫）">§19.5 Phase 2 裝置矩陣（計畫）</h3>
-<table><tr><th>優先級</th><th>iOS 設備</th><th>Android 設備</th></tr><tr><td>P0（主力）</td><td>iPhone 15 Pro（iOS 17）</td><td>Samsung Galaxy S24 / Pixel 8</td></tr><tr><td>P1（次要）</td><td>iPhone 13（iOS 16）、iPhone SE 3（iOS 16）</td><td>Redmi Note 13 / OPPO A58</td></tr><tr><td>P2（相容）</td><td>iPhone 11（iOS 14）</td><td>低端機（Helio G85）</td></tr></table>
+<h3>§19.4 Phase 2 原生包效能預算（預先定義）</h3>
+<table>
+<tr><th>指標</th><th>iOS 目標</th><th>Android 目標</th></tr>
+<tr><td>冷啟動（App Launch）</td><td>≤ 2s</td><td>≤ 2s</td></tr>
+<tr><td>熱啟動（Background Resume）</td><td>≤ 0.5s</td><td>≤ 0.5s</td></tr>
+<tr><td>包體積（安裝包）</td><td>≤ 50MB</td><td>≤ 30MB</td></tr>
+<tr><td>記憶體佔用（遊戲中）</td><td>≤ 300MB</td><td>≤ 250MB</td></tr>
+</table>
+<h3>§19.5 Phase 2 裝置矩陣（計畫）</h3>
+<table>
+<tr><th>優先級</th><th>iOS 設備</th><th>Android 設備</th></tr>
+<tr><td>P0（主力）</td><td>iPhone 15 Pro（iOS 17）</td><td>Samsung Galaxy S24 / Pixel 8</td></tr>
+<tr><td>P1（次要）</td><td>iPhone 13（iOS 16）、iPhone SE 3（iOS 16）</td><td>Redmi Note 13 / OPPO A58</td></tr>
+<tr><td>P2（相容）</td><td>iPhone 11（iOS 14）</td><td>低端機（Helio G85）</td></tr>
+</table>
 <hr>
-<h2 id="§20-accessibility-testing-strategy">§20 Accessibility Testing Strategy</h2>
-<h3 id="§20.1-適用範圍">§20.1 適用範圍</h3>
-<p>
-捕魚遊戲的 Web 端 UI（遊戲大廳、帳號設定、年齡確認、商城）需符合 WCAG 2.1 AA 標準。遊戲 Canvas 區域（Cocos 渲染）由於是即時互動繪圖，部分 WCAG 標準不適用（標注為 Exception）。
-</p>
-<h3 id="§20.2-自動化掃描（axe-core-+-playwright）">§20.2 自動化掃描（axe-core + Playwright）</h3>
+<h2>§20 Accessibility Testing Strategy</h2>
+<h3>§20.1 適用範圍</h3>
+<p>捕魚遊戲的 Web 端 UI（遊戲大廳、帳號設定、年齡確認、商城）需符合 WCAG 2.1 AA 標準。遊戲 Canvas 區域（Cocos 渲染）由於是即時互動繪圖，部分 WCAG 標準不適用（標注為 Exception）。</p>
+<h3>§20.2 自動化掃描（axe-core + Playwright）</h3>
 <pre><code class="language-typescript">// e2e/accessibility.spec.ts
-<p>
 import { test, expect } from &#x27;@playwright/test&#x27;;
 import AxeBuilder from &#x27;@axe-core/playwright&#x27;;
-</p>
-<p>
+
 test.describe(&#x27;Accessibility — WCAG 2.1 AA&#x27;, () =&gt; {
-test(&#x27;帳號登入頁面無 critical/serious violations&#x27;, async ({ page }) =&gt; {
-await page.goto(&#x27;/login&#x27;);
-const results = await new AxeBuilder({ page })
-.withTags([&#x27;wcag2a&#x27;, &#x27;wcag2aa&#x27;, &#x27;wcag21aa&#x27;])
-.analyze();
-expect(results.violations.filter(v =&gt;
-[&#x27;critical&#x27;, &#x27;serious&#x27;].includes(v.impact ?? &#x27;&#x27;)
-)).toHaveLength(0);
-});
-</p>
-<p>
-test(&#x27;年齡確認彈窗無 critical violations&#x27;, async ({ page }) =&gt; {
-await page.goto(&#x27;/&#x27;);
-await page.waitForSelector(&#x27;[data-testid=&quot;age-modal&quot;]&#x27;);
-const results = await new AxeBuilder({ page })
-.include(&#x27;[data-testid=&quot;age-modal&quot;]&#x27;)
-.withTags([&#x27;wcag2a&#x27;, &#x27;wcag2aa&#x27;])
-.analyze();
-expect(results.violations.filter(v =&gt; v.impact === &#x27;critical&#x27;)).toHaveLength(0);
-});
-</p>
-<p>
-test(&#x27;商城頁面顏色對比度達標&#x27;, async ({ page }) =&gt; {
-await page.goto(&#x27;/shop&#x27;);
-const results = await new AxeBuilder({ page })
-.withTags([&#x27;wcag2aa&#x27;])
-.analyze();
-const contrastViolations = results.violations.filter(v =&gt; v.id === &#x27;color-contrast&#x27;);
-expect(contrastViolations).toHaveLength(0);
-});
-});
-</code></pre>
-</p>
-<p>
-<strong>CI Gate 設定</strong>：
-</p>
+  test(&#x27;帳號登入頁面無 critical/serious violations&#x27;, async ({ page }) =&gt; {
+    await page.goto(&#x27;/login&#x27;);
+    const results = await new AxeBuilder({ page })
+      .withTags([&#x27;wcag2a&#x27;, &#x27;wcag2aa&#x27;, &#x27;wcag21aa&#x27;])
+      .analyze();
+    expect(results.violations.filter(v =&gt;
+      [&#x27;critical&#x27;, &#x27;serious&#x27;].includes(v.impact ?? &#x27;&#x27;)
+    )).toHaveLength(0);
+  });
+
+  test(&#x27;年齡確認彈窗無 critical violations&#x27;, async ({ page }) =&gt; {
+    await page.goto(&#x27;/&#x27;);
+    await page.waitForSelector(&#x27;[data-testid=&quot;age-modal&quot;]&#x27;);
+    const results = await new AxeBuilder({ page })
+      .include(&#x27;[data-testid=&quot;age-modal&quot;]&#x27;)
+      .withTags([&#x27;wcag2a&#x27;, &#x27;wcag2aa&#x27;])
+      .analyze();
+    expect(results.violations.filter(v =&gt; v.impact === &#x27;critical&#x27;)).toHaveLength(0);
+  });
+
+  test(&#x27;商城頁面顏色對比度達標&#x27;, async ({ page }) =&gt; {
+    await page.goto(&#x27;/shop&#x27;);
+    const results = await new AxeBuilder({ page })
+      .withTags([&#x27;wcag2aa&#x27;])
+      .analyze();
+    const contrastViolations = results.violations.filter(v =&gt; v.id === &#x27;color-contrast&#x27;);
+    expect(contrastViolations).toHaveLength(0);
+  });
+});</code></pre>
+<p><strong>CI Gate 設定</strong>：</p>
 <pre><code class="language-yaml"># .github/workflows/accessibility.yml
-<p>
 name: Accessibility CI Gate
 on: [pull_request]
-</p>
-<p>
+
 jobs:
-a11y:
-runs-on: ubuntu-latest
-steps:
-- uses: actions/checkout@v4
-- name: Install Playwright
-run: npx playwright install chromium
-- name: Run Accessibility Tests
-run: npx playwright test e2e/accessibility.spec.ts
-- name: Upload A11y Report
-if: failure()
-uses: actions/upload-artifact@v4
-with:
-name: a11y-violations
-path: playwright-report/
-</code></pre>
-</p>
-<p>
-<strong>CI 規則</strong>：critical/serious violations 零容忍，阻斷 PR 合併。
-</p>
-<h3 id="§20.3-at-手動測試矩陣（輔助技術）">§20.3 AT 手動測試矩陣（輔助技術）</h3>
-<table><tr><th>組合</th><th>螢幕閱讀器</th><th>瀏覽器</th><th>測試頁面</th><th>頻率</th></tr><tr><td>組合 1</td><td>NVDA（Windows）</td><td>Chrome 120+</td><td>帳號登入 / 年齡確認 / 商城</td><td>每次 Release</td></tr><tr><td>組合 2</td><td>VoiceOver（macOS）</td><td>Safari</td><td>帳號登入 / 商城 / VIP 頁面</td><td>每次 Release</td></tr><tr><td>組合 3</td><td>TalkBack（Android）</td><td>Chrome Mobile</td><td>帳號登入 / 手機端年齡確認彈窗</td><td>每次 Release</td></tr></table>
-<p>
-<strong>測試重點</strong>：
-</p>
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Playwright
+        run: npx playwright install chromium
+      - name: Run Accessibility Tests
+        run: npx playwright test e2e/accessibility.spec.ts
+      - name: Upload A11y Report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-violations
+          path: playwright-report/</code></pre>
+<p><strong>CI 規則</strong>：critical/serious violations 零容忍，阻斷 PR 合併。</p>
+<h3>§20.3 AT 手動測試矩陣（輔助技術）</h3>
+<table>
+<tr><th>組合</th><th>螢幕閱讀器</th><th>瀏覽器</th><th>測試頁面</th><th>頻率</th></tr>
+<tr><td>組合 1</td><td>NVDA（Windows）</td><td>Chrome 120+</td><td>帳號登入 / 年齡確認 / 商城</td><td>每次 Release</td></tr>
+<tr><td>組合 2</td><td>VoiceOver（macOS）</td><td>Safari</td><td>帳號登入 / 商城 / VIP 頁面</td><td>每次 Release</td></tr>
+<tr><td>組合 3</td><td>TalkBack（Android）</td><td>Chrome Mobile</td><td>帳號登入 / 手機端年齡確認彈窗</td><td>每次 Release</td></tr>
+</table>
+<p><strong>測試重點</strong>：</p>
 <ul><li>年齡確認彈窗（US-AGE-001/AC-1）：鍵盤可聚焦，Tab 順序正確，aria-modal 屬性存在</li><li>帳號錯誤訊息（US-ACCT-001/AC-3）：aria-live region 正確播報 inline 錯誤</li><li>商城道具清單：img alt 文字描述正確</li><li>Cocos Canvas 遊戲區域：標注為 Exception，canvas 元素有 aria-label 說明</li></ul>
-<h3 id="§20.4-wcag-exception-登記">§20.4 WCAG Exception 登記</h3>
-<table><tr><th>元素</th><th>WCAG 條款</th><th>Exception 原因</th><th>替代方案</th></tr><tr><td>Cocos Canvas（遊戲主畫面）</td><td>1.1.1 Non-text Content</td><td>即時渲染 Canvas，無法提供靜態 alt text</td><td>canvas 元素有 aria-label="捕魚遊戲畫面"，遊戲事件透過 announcer div 播報</td></tr><tr><td>炮台射擊觸控區域</td><td>2.1.1 Keyboard</td><td>遊戲核心互動需要觸控/滑鼠</td><td>提供鍵盤輔助模式（Phase 2 考慮）</td></tr></table>
+<h3>§20.4 WCAG Exception 登記</h3>
+<table>
+<tr><th>元素</th><th>WCAG 條款</th><th>Exception 原因</th><th>替代方案</th></tr>
+<tr><td>Cocos Canvas（遊戲主畫面）</td><td>1.1.1 Non-text Content</td><td>即時渲染 Canvas，無法提供靜態 alt text</td><td>canvas 元素有 aria-label=&quot;捕魚遊戲畫面&quot;，遊戲事件透過 announcer div 播報</td></tr>
+<tr><td>炮台射擊觸控區域</td><td>2.1.1 Keyboard</td><td>遊戲核心互動需要觸控/滑鼠</td><td>提供鍵盤輔助模式（Phase 2 考慮）</td></tr>
+</table>
 <hr>
-<h2 id="§21-test-debt-management">§21 Test Debt Management</h2>
-<h3 id="§21.1-flaky-test-管理流程">§21.1 Flaky Test 管理流程</h3>
-<p>
-<strong>Flaky Test 識別標準</strong>：同一測試在 7 天內出現 ≥ 2 次偶發失敗（非代碼變更導致）。
-</p>
-<p>
-<strong>處置流程</strong>：
-</p>
-<pre><code>① CI 偶發失敗被偵測
-<p>
-→ 開發者確認「非 code change 導致」
-→ 在 Jest test 加上 @flaky tag（describe 區塊加入 &#x27;.flaky&#x27; 後綴）
-→ 建立 Linear Ticket（P2 Medium：Flaky Test - {test name}）
-→ 將該 test 移至 tests/flaky/ 目錄（從主要 CI pipeline 隔離）
-→ 設定 1 週修復 SLA（Linear due date）
-</p>
-<p>
+<h2>§21 Test Debt Management</h2>
+<h3>§21.1 Flaky Test 管理流程</h3>
+<p><strong>Flaky Test 識別標準</strong>：同一測試在 7 天內出現 ≥ 2 次偶發失敗（非代碼變更導致）。</p>
+<p><strong>處置流程</strong>：</p>
+<pre><code class="">① CI 偶發失敗被偵測
+   → 開發者確認「非 code change 導致」
+   → 在 Jest test 加上 @flaky tag（describe 區塊加入 &#x27;.flaky&#x27; 後綴）
+   → 建立 Linear Ticket（P2 Medium：Flaky Test - {test name}）
+   → 將該 test 移至 tests/flaky/ 目錄（從主要 CI pipeline 隔離）
+   → 設定 1 週修復 SLA（Linear due date）
+
 ② 修復過程
-→ 根因分析：時序問題（加 waitFor）/ 外部依賴（改用 mock）/ 並發問題（改加 lock）
-→ 修復後移回正常目錄，標記 Ticket closed
-</p>
-<p>
+   → 根因分析：時序問題（加 waitFor）/ 外部依賴（改用 mock）/ 並發問題（改加 lock）
+   → 修復後移回正常目錄，標記 Ticket closed
+
 ③ 超時自動處理
-→ 1 週 SLA 到期未修復 → 自動觸發 Slack 通知 QA Lead
-→ 2 週未修復 → 刪除該測試，要求從頭重寫，Linear Ticket 升級 P1
-</code></pre>
-</p>
-<p>
-<strong>Flaky Test 追蹤（CI Dashboard）</strong>：每週 Nightly 產出 <code>flaky-report.json</code>，追蹤 7 天滾動期偶發失敗率。
-</p>
-<h3 id="§21.2-測試健康儀表板（6-項週度指標）">§21.2 測試健康儀表板（6 項週度指標）</h3>
-<p>
-每週一 09:00 自動產出週報，發布至 Slack #qa-weekly：
-</p>
-<table><tr><th>#</th><th>指標</th><th>計算方式</th><th>健康閾值</th><th>告警條件</th></tr><tr><td>1</td><td>測試覆蓋率（行 / 分支）</td><td>Istanbul JSON badge</td><td>Line ≥ 80%，Branch ≥ 70%</td><td>下降 > 5%</td></tr><tr><td>2</td><td>Mutation Score</td><td>Stryker（可選引入，Phase 2）</td><td>≥ 70%</td><td>< 60% 觸發告警</td></tr><tr><td>3</td><td>Flaky Test 數量</td><td>tests/flaky/ 目錄檔案數</td><td>≤ 3 個</td><td>> 5 個 → P1 Sprint 目標</td></tr><tr><td>4</td><td>CI 平均執行時間</td><td>GitHub Actions run duration 7 日均值</td><td>PR CI < 10 分鐘</td><td>> 15 分鐘 → 優化 Action</td></tr><tr><td>5</td><td>測試失敗率</td><td>週期內 CI run failed / total</td><td>< 5%</td><td>> 10% → QA Lead 介入</td></tr><tr><td>6</td><td>Accessibility 違規數</td><td>axe-core critical/serious violations</td><td>0</td><td>> 0 阻斷 Release</td></tr></table>
-<h3 id="§21.3-測試技術債登記">§21.3 測試技術債登記</h3>
-<table><tr><th>技術債項目</th><th>優先級</th><th>說明</th><th>計畫解決版本</th></tr><tr><td>class-inventory.md 未建立，§15.2 路徑為推斷值</td><td>P2</td><td>執行 /gendoc-gen-diagrams 後更新 RTM Unit Test 路徑</td><td>v1.1（D16-ALIGN 後）</td></tr><tr><td>Mutation Testing（Stryker）未引入</td><td>P3</td><td>目前僅有 Line Coverage，Mutation Score 可提升測試品質</td><td>Phase 2</td></tr><tr><td>Cocos Canvas WebGL 渲染無法 E2E 截圖驗證</td><td>P2</td><td>Playwright 截圖在 Canvas 元素上為空，需評估 canvas 截圖方案</td><td>Phase 2</td></tr><tr><td>k6 WebSocket 腳本缺乏 Colyseus 協議封裝</td><td>P2</td><td>目前 WS 腳本為通用格式，需適配 Colyseus msgpack schema</td><td>v1.1</td></tr><tr><td>iOS/Android 原生包 E2E（Appium）尚未建立</td><td>P2</td><td>Phase 2 原生包上線前需完成</td><td>Phase 2</td></tr></table></main>
-</div>
-<script src="assets/app.js"></script>
+   → 1 週 SLA 到期未修復 → 自動觸發 Slack 通知 QA Lead
+   → 2 週未修復 → 刪除該測試，要求從頭重寫，Linear Ticket 升級 P1</code></pre>
+<p><strong>Flaky Test 追蹤（CI Dashboard）</strong>：每週 Nightly 產出 <code>flaky-report.json</code>，追蹤 7 天滾動期偶發失敗率。</p>
+<h3>§21.2 測試健康儀表板（6 項週度指標）</h3>
+<p>每週一 09:00 自動產出週報，發布至 Slack #qa-weekly：</p>
+<table>
+<tr><th>#</th><th>指標</th><th>計算方式</th><th>健康閾值</th><th>告警條件</th></tr>
+<tr><td>1</td><td>測試覆蓋率（行 / 分支）</td><td>Istanbul JSON badge</td><td>Line ≥ 80%，Branch ≥ 70%</td><td>下降 &gt; 5%</td></tr>
+<tr><td>2</td><td>Mutation Score</td><td>Stryker（可選引入，Phase 2）</td><td>≥ 70%</td><td>&lt; 60% 觸發告警</td></tr>
+<tr><td>3</td><td>Flaky Test 數量</td><td>tests/flaky/ 目錄檔案數</td><td>≤ 3 個</td><td>&gt; 5 個 → P1 Sprint 目標</td></tr>
+<tr><td>4</td><td>CI 平均執行時間</td><td>GitHub Actions run duration 7 日均值</td><td>PR CI &lt; 10 分鐘</td><td>&gt; 15 分鐘 → 優化 Action</td></tr>
+<tr><td>5</td><td>測試失敗率</td><td>週期內 CI run failed / total</td><td>&lt; 5%</td><td>&gt; 10% → QA Lead 介入</td></tr>
+<tr><td>6</td><td>Accessibility 違規數</td><td>axe-core critical/serious violations</td><td>0</td><td>&gt; 0 阻斷 Release</td></tr>
+</table>
+<h3>§21.3 測試技術債登記</h3>
+<table>
+<tr><th>技術債項目</th><th>優先級</th><th>說明</th><th>計畫解決版本</th></tr>
+<tr><td>class-inventory.md 未建立，§15.2 路徑為推斷值</td><td>P2</td><td>執行 /gendoc-gen-diagrams 後更新 RTM Unit Test 路徑</td><td>v1.1（D16-ALIGN 後）</td></tr>
+<tr><td>Mutation Testing（Stryker）未引入</td><td>P3</td><td>目前僅有 Line Coverage，Mutation Score 可提升測試品質</td><td>Phase 2</td></tr>
+<tr><td>Cocos Canvas WebGL 渲染無法 E2E 截圖驗證</td><td>P2</td><td>Playwright 截圖在 Canvas 元素上為空，需評估 canvas 截圖方案</td><td>Phase 2</td></tr>
+<tr><td>k6 WebSocket 腳本缺乏 Colyseus 協議封裝</td><td>P2</td><td>目前 WS 腳本為通用格式，需適配 Colyseus msgpack schema</td><td>v1.1</td></tr>
+<tr><td>iOS/Android 原生包 E2E（Appium）尚未建立</td><td>P2</td><td>Phase 2 原生包上線前需完成</td><td>Phase 2</td></tr>
+</table></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
 </body>
 </html>

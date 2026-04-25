@@ -3,360 +3,552 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>產品創意 — fishing-arcade-game</title>
+  <title>構想文件 (IDEA) — fishgame</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({startOnLoad:true,theme:'default'});
-  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
-<nav class="top-nav">
-  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
-  <div class="nav-controls">
-    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
-    
-    <div class="search-wrap">
-      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
-      <div class="search-results"></div>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
     </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 構想文件 (IDEA)</p>
+    <h1 class="banner-title">構想文件 (IDEA)</h1>
   </div>
-</nav>
-<div class="doc-page-banner">
-  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › 產品創意</div>
-  <h1 class="banner-title">產品創意</h1>
-  <p class="banner-desc">問題定義與初始概念</p>
-</div>
-<div class="page-wrapper">
-  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
 <a class="sidebar__link" href="index.html">🏠 首頁</a>
-<a class="sidebar__link" href="idea.html">💡 產品創意</a>
-<a class="sidebar__link" href="brd.html">📋 業務需求</a>
-<a class="sidebar__link" href="prd.html">📝 產品需求</a>
-<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
-<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
-<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
-<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
-<a class="sidebar__link" href="api.html">🔌 API 設計</a>
-<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
-<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
-<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
-<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
-<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
-<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
-<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
-<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link active" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
 <a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
-</div></nav>
-  <div class="sidebar-resizer" id="sidebarResizer"></div>
-  <main class="doc-content"><h1 id="idea-document">IDEA Document</h1>
-<p>
-<!-- SDLC Requirements Engineering — Layer 0：Idea Capture -->
-<!-- 此文件是需求鏈的起點（IDEA → BRD → PRD → PDD → EDD），記錄最原始的構想輸入 -->
-<!-- 由 /gendoc idea 自動填寫；未來需求變更時，此文件作為「原始意圖」比對基準 -->
-</p>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h1>IDEA Document</h1>
+<p>&lt;!-- SDLC Requirements Engineering — Layer 0：Idea Capture --&gt;</p>
+<p>&lt;!-- 此文件是需求鏈的起點（IDEA → BRD → PRD → PDD → EDD），記錄最原始的構想輸入 --&gt;</p>
+<p>&lt;!-- 由 /gendoc idea 自動填寫；未來需求變更時，此文件作為「原始意圖」比對基準 --&gt;</p>
 <hr>
-<h2 id="document-control">Document Control</h2>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>DOC-ID</strong></td><td>IDEA-FISHING-ARCADE-GAME-20260424</td></tr><tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr><tr><td><strong>文件版本</strong></td><td>v0.1-capture</td></tr><tr><td><strong>狀態</strong></td><td>DRAFT</td></tr><tr><td><strong>作者</strong></td><td>AI Generated (gendoc-gen-idea)</td></tr><tr><td><strong>建立日期</strong></td><td>2026-04-24</td></tr><tr><td><strong>最後更新</strong></td><td>2026-04-24</td></tr><tr><td><strong>輸入模式</strong></td><td>AI 自動填入（doc_local + codebase_git）</td></tr><tr><td><strong>建立方式</strong></td><td>/gendoc idea 自動捕捉；請執行 /reviewdoc brd 審查後方可升版</td></tr><tr><td><strong>下游文件</strong></td><td>docs/BRD.md（由本文件產生）</td></tr></table>
+<h2>Document Control</h2>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>DOC-ID</strong></td><td>IDEA-FISHING-ARCADE-GAME-20260424</td></tr>
+<tr><td><strong>專案名稱</strong></td><td>fishing-arcade-game（捕魚街機遊戲平台）</td></tr>
+<tr><td><strong>文件版本</strong></td><td>v0.1-capture</td></tr>
+<tr><td><strong>狀態</strong></td><td>DRAFT</td></tr>
+<tr><td><strong>作者</strong></td><td>AI Generated (gendoc-gen-idea)</td></tr>
+<tr><td><strong>建立日期</strong></td><td>2026-04-24</td></tr>
+<tr><td><strong>最後更新</strong></td><td>2026-04-24</td></tr>
+<tr><td><strong>輸入模式</strong></td><td>AI 自動填入（doc_local + codebase_git）</td></tr>
+<tr><td><strong>建立方式</strong></td><td>/gendoc idea 自動捕捉；請執行 /reviewdoc brd 審查後方可升版</td></tr>
+<tr><td><strong>下游文件</strong></td><td>docs/BRD.md（由本文件產生）</td></tr>
+</table>
 <hr>
-<h2 id="§0-input-source（輸入素材說明）">§0 Input Source（輸入素材說明）</h2>
-<p>
-<strong>輸入類型</strong>：<code>doc_local + codebase_git</code>
-</p>
-<p>
-以下 <code>docs/req/</code> 素材已全部讀取並關聯至對應章節：
-</p>
-<table><tr><th>素材檔案</th><th>類型</th><th>應用章節</th></tr><tr><td><code>docs/req/魚機遊戲募資企劃書.md</code></td><td>商業企劃書（市場/產品/財務/募資）</td><td>§1, §2, §3, §4, §7, §8, §9</td></tr><tr><td><code>docs/req/README.md</code></td><td>開源捕魚平台介紹（功能/技術/商業定位）</td><td>§1, §7</td></tr><tr><td><code>docs/req/idea-input.md</code></td><td>使用者原始需求輸入（捕魚遊戲描述）</td><td>§6 原始 IDEA</td></tr><tr><td><code>docs/req/codebase-tree.txt</code></td><td>參考 Codebase 目錄結構（Lua/Server 系統）</td><td>§5, §7 技術調研</td></tr><tr><td><code>docs/req/lua-files.txt</code></td><td>Lua 源碼檔案清單（UI/遊戲邏輯模組）</td><td>§5, §7 技術調研</td></tr></table>
-<p>
-<strong>Q1–Q5 澄清結果</strong>：已從 <code>.gendoc-state-tobala-main.json</code> 讀取（多輪 AI 自動推斷）。
-</p>
+<h2>§0 Input Source（輸入素材說明）</h2>
+<p><strong>輸入類型</strong>：<code>doc_local + codebase_git</code></p>
+<p>以下 <code>docs/req/</code> 素材已全部讀取並關聯至對應章節：</p>
+<table>
+<tr><th>素材檔案</th><th>類型</th><th>應用章節</th></tr>
+<tr><td><code>docs/req/魚機遊戲募資企劃書.md</code></td><td>商業企劃書（市場/產品/財務/募資）</td><td>§1, §2, §3, §4, §7, §8, §9</td></tr>
+<tr><td><code>docs/req/README.md</code></td><td>開源捕魚平台介紹（功能/技術/商業定位）</td><td>§1, §7</td></tr>
+<tr><td><code>docs/req/idea-input.md</code></td><td>使用者原始需求輸入（捕魚遊戲描述）</td><td>§6 原始 IDEA</td></tr>
+<tr><td><code>docs/req/codebase-tree.txt</code></td><td>參考 Codebase 目錄結構（Lua/Server 系統）</td><td>§5, §7 技術調研</td></tr>
+<tr><td><code>docs/req/lua-files.txt</code></td><td>Lua 源碼檔案清單（UI/遊戲邏輯模組）</td><td>§5, §7 技術調研</td></tr>
+</table>
+<p><strong>Q1–Q5 澄清結果</strong>：已從 <code>.gendoc-state-tobala-main.json</code> 讀取（多輪 AI 自動推斷）。</p>
 <hr>
-<h2 id="1.-idea-essence（核心本質）">1. Idea Essence（核心本質）</h2>
-<h3 id="1.1-一句話描述（elevator-pitch）">1.1 一句話描述（Elevator Pitch）</h3>
-<blockquote><strong>fishing-arcade-game 幫助亞洲市場休閒付費玩家（台灣/東南亞，18–45 歲）解決傳統捕魚遊戲缺乏社交競爭深度與技能策略空間、玩家快速流失的問題，方式是打造多人即時競技捕魚平台，結合精密 RTP 控制、Jackpot 大獎池與 VIP 訂閱體系，提供高爽感、高留存、高變現的完整街機遊戲體驗。</strong></blockquote>
-<p>
-<em>Elevator Pitch 5 句結構：</em>
-</p>
+<h2>1. Idea Essence（核心本質）</h2>
+<h3>1.1 一句話描述（Elevator Pitch）</h3>
+<blockquote><p><strong>fishing-arcade-game 幫助亞洲市場休閒付費玩家（台灣/東南亞，18–45 歲）解決傳統捕魚遊戲缺乏社交競爭深度與技能策略空間、玩家快速流失的問題，方式是打造多人即時競技捕魚平台，結合精密 RTP 控制、Jackpot 大獎池與 VIP 訂閱體系，提供高爽感、高留存、高變現的完整街機遊戲體驗。</strong></p></blockquote>
+<p><em>Elevator Pitch 5 句結構：</em></p>
 <ol><li><strong>Who</strong>：亞洲市場休閒付費玩家（台灣/東南亞），年齡 18–45 歲，偏好手機/網頁端即時娛樂</li><li><strong>Problem</strong>：傳統捕魚遊戲社交競爭薄弱、技能策略單一，玩家缺乏持續遊玩動力，留存率低</li><li><strong>Solution</strong>：多人即時（4–6 人同場）競技捕魚平台，含多元武器/技能/Boss 系統與雙貨幣經濟體系</li><li><strong>Why Now</strong>：亞洲手機娛樂市場持續成長，捕魚遊戲已驗證高付費轉化率，現有競品缺乏社交深度，市場窗口明確</li><li><strong>Key Differentiator</strong>：強化多人競爭搶魚機制 + 技能策略深度 + 精細化 RTP/Jackpot 數值系統，差異於市場主流「純爆金倍率」產品</li></ol>
 <hr>
-<h3 id="1.2-核心假說（lean-hypothesis）">1.2 核心假說（Lean Hypothesis）</h3>
-<blockquote><strong>If we build</strong> 一個具備 4–6 人即時競技、多元武器技能、雙貨幣 Jackpot 系統的捕魚街機遊戲平台，
-<p>
-<strong>then</strong> 亞洲市場 18–45 歲休閒付費玩家
-<strong>will</strong> 比傳統捕魚遊戲有更高的日活留存率與付費頻率，
-<strong>which will lead to</strong> DAU 10,000、付費率 5%、月營收 USD 10,000 的目標，並支撐 USD 200,000 的投資回報。</blockquote>
-</p>
+<h3>1.2 核心假說（Lean Hypothesis）</h3>
+<blockquote><p><strong>If we build</strong> 一個具備 4–6 人即時競技、多元武器技能、雙貨幣 Jackpot 系統的捕魚街機遊戲平台，</p></blockquote>
+<blockquote><p><strong>then</strong> 亞洲市場 18–45 歲休閒付費玩家</p></blockquote>
+<blockquote><p><strong>will</strong> 比傳統捕魚遊戲有更高的日活留存率與付費頻率，</p></blockquote>
+<blockquote><p><strong>which will lead to</strong> DAU 10,000、付費率 5%、月營收 USD 10,000 的目標，並支撐 USD 200,000 的投資回報。</p></blockquote>
 <hr>
-<h3 id="1.3-成功願景（success-vision）">1.3 成功願景（Success Vision）</h3>
-<p>
-<strong>12 個月後，若本專案成功，以下情境將成真：</strong>
-</p>
+<h3>1.3 成功願景（Success Vision）</h3>
+<p><strong>12 個月後，若本專案成功，以下情境將成真：</strong></p>
 <ul><li><strong>用戶維度</strong>：日活躍用戶穩定達 10,000 人，60 日留存率 ≥ 35%，付費玩家比例達 5% 以上，平均 ARPU USD 20/月</li><li><strong>業務維度</strong>：月營收 USD 10,000，道具內購 + VIP 訂閱為主要收入來源，每週活動驅動活躍高峰；投資方見到清晰的回本路徑</li><li><strong>技術維度</strong>：Cocos Creator 客戶端 + Node.js/Colyseus 伺服器穩定支撐 1,000 並發玩家，RTP 控制系統精度達設計目標（85–95%），Jackpot 觸發率符合數值設計</li></ul>
-<h3 id="1.4-innovation-type-classification（創新類型分類）">1.4 Innovation Type Classification（創新類型分類）</h3>
-<table><tr><th>類型</th><th>定義</th><th>是否適用</th></tr><tr><td><strong>Incremental</strong>（漸進式）</td><td>改善既有產品功能或流程效率</td><td>☑</td></tr><tr><td><strong>Sustaining</strong>（持續性）</td><td>在既有市場中競爭，提供更好的解法</td><td>☑</td></tr><tr><td><strong>Adjacent</strong>（鄰近式）</td><td>現有能力進入新市場或新用戶群</td><td>☐</td></tr><tr><td><strong>Disruptive</strong>（顛覆性）</td><td>從低端或全新市場切入，重塑現有市場</td><td>☐</td></tr><tr><td><strong>Radical / Breakthrough</strong>（突破性）</td><td>基於新技術或商業模式，創造新市場</td><td>☐</td></tr></table>
-<p>
-<strong>本 IDEA 的分類</strong>：Incremental + Sustaining
-</p>
-<p>
-<strong>分類依據</strong>：捕魚遊戲為亞洲市場已驗證的成熟品類（高付費轉化、長生命週期），本產品在既有玩法基礎上強化多人社交競爭與技能深度，屬於漸進改善型競爭，而非顛覆性創新。快速 ROI 路徑優先，預計 6 個月可上線。
-</p>
+<h3>1.4 Innovation Type Classification（創新類型分類）</h3>
+<table>
+<tr><th>類型</th><th>定義</th><th>是否適用</th></tr>
+<tr><td><strong>Incremental</strong>（漸進式）</td><td>改善既有產品功能或流程效率</td><td>☑</td></tr>
+<tr><td><strong>Sustaining</strong>（持續性）</td><td>在既有市場中競爭，提供更好的解法</td><td>☑</td></tr>
+<tr><td><strong>Adjacent</strong>（鄰近式）</td><td>現有能力進入新市場或新用戶群</td><td>☐</td></tr>
+<tr><td><strong>Disruptive</strong>（顛覆性）</td><td>從低端或全新市場切入，重塑現有市場</td><td>☐</td></tr>
+<tr><td><strong>Radical / Breakthrough</strong>（突破性）</td><td>基於新技術或商業模式，創造新市場</td><td>☐</td></tr>
+</table>
+<p><strong>本 IDEA 的分類</strong>：Incremental + Sustaining</p>
+<p><strong>分類依據</strong>：捕魚遊戲為亞洲市場已驗證的成熟品類（高付費轉化、長生命週期），本產品在既有玩法基礎上強化多人社交競爭與技能深度，屬於漸進改善型競爭，而非顛覆性創新。快速 ROI 路徑優先，預計 6 個月可上線。</p>
 <hr>
-<h2 id="2.-problem-statement（問題陳述）">2. Problem Statement（問題陳述）</h2>
-<h3 id="2.1-現狀描述（as-is-narrative）">2.1 現狀描述（As-Is Narrative）</h3>
-<p>
-目前市場主流捕魚遊戲（如傳統 H5 魚機、App 捕魚類產品）以下列模式運作：
-</p>
+<h2>2. Problem Statement（問題陳述）</h2>
+<h3>2.1 現狀描述（As-Is Narrative）</h3>
+<p>目前市場主流捕魚遊戲（如傳統 H5 魚機、App 捕魚類產品）以下列模式運作：</p>
 <ul><li>玩家使用單一砲台連續射擊固定路徑魚群，核心刺激來自「爆金倍率」數值飆升</li><li>社交互動極為薄弱：雖有多人同屏，但玩家間缺乏真實競爭（資源不爭搶、無搶魚機制、無 MVP 獎勵）</li><li>技能策略空間淺薄：大多遊戲只有倍率調整，無差異化武器或技能組合</li><li>玩家行為趨同：長期重複相同操作，新鮮感快速消耗，30 日留存率通常低於 25%</li><li>現有玩家的 workaround：頻繁更換遊戲平台尋找新鮮感，或參與限時活動維持動力</li></ul>
 <hr>
-<h3 id="2.2-根本原因分析（5-whys）">2.2 根本原因分析（5 Whys）</h3>
-<pre><code>問題現象：捕魚遊戲玩家留存率低，長期流失嚴重
-<p>
-Why 1：遊戲單調，玩家重複操作缺乏新鮮感
-Why 2：遊戲系統深度不足，無技能策略或社交競爭
-Why 3：多人同屏設計只是視覺呈現，缺乏真實競技機制（搶資源/MVP/排名）
-Why 4：現有產品以「爆金數值刺激」為核心，社交與技能設計被忽視
-Why 5（根本原因）：市場同質化嚴重，開發商優先追求短期變現（爆金刺激），
-未投資社交競爭深度與技能策略系統 ← 我們要解決的是這個
-</code></pre>
-</p>
+<h3>2.2 根本原因分析（5 Whys）</h3>
+<pre><code class="">問題現象：捕魚遊戲玩家留存率低，長期流失嚴重
+  Why 1：遊戲單調，玩家重複操作缺乏新鮮感
+    Why 2：遊戲系統深度不足，無技能策略或社交競爭
+      Why 3：多人同屏設計只是視覺呈現，缺乏真實競技機制（搶資源/MVP/排名）
+        Why 4：現有產品以「爆金數值刺激」為核心，社交與技能設計被忽視
+          Why 5（根本原因）：市場同質化嚴重，開發商優先追求短期變現（爆金刺激），
+                            未投資社交競爭深度與技能策略系統 ← 我們要解決的是這個</code></pre>
 <hr>
-<h3 id="2.3-問題規模（量化估算）">2.3 問題規模（量化估算）</h3>
-<table><tr><th>指標</th><th>估算數字</th><th>資料來源</th><th>信心水準</th></tr><tr><td>受影響使用者數（全球）</td><td>數億（亞洲手機遊戲用戶）</td><td>行業報告估算</td><td>低</td></tr><tr><td>受影響使用者數（目標市場）</td><td>台灣 + 東南亞，約 5,000 萬活躍手機遊戲用戶</td><td>市場估算</td><td>低</td></tr><tr><td>每月主動尋找捕魚遊戲的用戶</td><td>約 300–500 萬（東南亞+台灣）</td><td>企劃書市場分析推斷</td><td>低</td></tr><tr><td>可定址市場規模（TAM）</td><td>亞洲休閒手機遊戲市場，USD 數十億</td><td>行業報告</td><td>低</td></tr><tr><td>可服務市場規模（SAM）</td><td>捕魚遊戲細分，USD 數億</td><td>AI 推斷</td><td>低</td></tr><tr><td>可獲取市場規模（SOM，12 月）</td><td>DAU 10,000，月營收 USD 10,000</td><td>企劃書財務預估</td><td>中</td></tr></table>
+<h3>2.3 問題規模（量化估算）</h3>
+<table>
+<tr><th>指標</th><th>估算數字</th><th>資料來源</th><th>信心水準</th></tr>
+<tr><td>受影響使用者數（全球）</td><td>數億（亞洲手機遊戲用戶）</td><td>行業報告估算</td><td>低</td></tr>
+<tr><td>受影響使用者數（目標市場）</td><td>台灣 + 東南亞，約 5,000 萬活躍手機遊戲用戶</td><td>市場估算</td><td>低</td></tr>
+<tr><td>每月主動尋找捕魚遊戲的用戶</td><td>約 300–500 萬（東南亞+台灣）</td><td>企劃書市場分析推斷</td><td>低</td></tr>
+<tr><td>可定址市場規模（TAM）</td><td>亞洲休閒手機遊戲市場，USD 數十億</td><td>行業報告</td><td>低</td></tr>
+<tr><td>可服務市場規模（SAM）</td><td>捕魚遊戲細分，USD 數億</td><td>AI 推斷</td><td>低</td></tr>
+<tr><td>可獲取市場規模（SOM，12 月）</td><td>DAU 10,000，月營收 USD 10,000</td><td>企劃書財務預估</td><td>中</td></tr>
+</table>
 <hr>
-<h2 id="3.-target-users（目標使用者）">3. Target Users（目標使用者）</h2>
-<h3 id="3.1-主要使用者群（q1-澄清結果）">3.1 主要使用者群（Q1 澄清結果）</h3>
-<p>
-<strong>使用者描述</strong>：亞洲市場休閒付費玩家（台灣/東南亞），18–45 歲
-</p>
-<table><tr><th>屬性</th><th>描述</th></tr><tr><td>職業 / 角色</td><td>上班族、學生、個體戶；休閒娛樂用戶</td></tr><tr><td>行業 / 情境</td><td>碎片時間娛樂（通勤、午休、晚間）；手機或網頁端</td></tr><tr><td>技術成熟度</td><td>初學至中階（無需複雜操作，低學習門檻）</td></tr><tr><td>使用頻率</td><td>每日（目標），付費用戶每週至少 3 次活躍</td></tr><tr><td>決策角色</td><td>使用者（自行決策付費道具）；推薦者（社群口碑傳播）</td></tr></table>
+<h2>3. Target Users（目標使用者）</h2>
+<h3>3.1 主要使用者群（Q1 澄清結果）</h3>
+<p><strong>使用者描述</strong>：亞洲市場休閒付費玩家（台灣/東南亞），18–45 歲</p>
+<table>
+<tr><th>屬性</th><th>描述</th></tr>
+<tr><td>職業 / 角色</td><td>上班族、學生、個體戶；休閒娛樂用戶</td></tr>
+<tr><td>行業 / 情境</td><td>碎片時間娛樂（通勤、午休、晚間）；手機或網頁端</td></tr>
+<tr><td>技術成熟度</td><td>初學至中階（無需複雜操作，低學習門檻）</td></tr>
+<tr><td>使用頻率</td><td>每日（目標），付費用戶每週至少 3 次活躍</td></tr>
+<tr><td>決策角色</td><td>使用者（自行決策付費道具）；推薦者（社群口碑傳播）</td></tr>
+</table>
 <hr>
-<h3 id="3.2-jobs-to-be-done（用戶核心任務）">3.2 Jobs to Be Done（用戶核心任務）</h3>
-<table><tr><th>任務類型</th><th>用戶任務描述</th></tr><tr><td><strong>Functional</strong>（功能性）</td><td>當我有 10–30 分鐘碎片時間，我想要快速進入遊戲獲得即時金幣獎勵反饋，以便感受娛樂刺激並有機會觸發大獎。</td></tr><tr><td><strong>Emotional</strong>（情感性）</td><td>我希望在競技中感受「搶先捕獲 Boss 魚」的勝利爽感，以及 Jackpot 觸發時的驚喜感。</td></tr><tr><td><strong>Social</strong>（社交性）</td><td>我希望在多人同場中展示自己的技術和運氣，成為 MVP，並透過 VIP 等級彰顯地位。</td></tr></table>
+<h3>3.2 Jobs to Be Done（用戶核心任務）</h3>
+<table>
+<tr><th>任務類型</th><th>用戶任務描述</th></tr>
+<tr><td><strong>Functional</strong>（功能性）</td><td>當我有 10–30 分鐘碎片時間，我想要快速進入遊戲獲得即時金幣獎勵反饋，以便感受娛樂刺激並有機會觸發大獎。</td></tr>
+<tr><td><strong>Emotional</strong>（情感性）</td><td>我希望在競技中感受「搶先捕獲 Boss 魚」的勝利爽感，以及 Jackpot 觸發時的驚喜感。</td></tr>
+<tr><td><strong>Social</strong>（社交性）</td><td>我希望在多人同場中展示自己的技術和運氣，成為 MVP，並透過 VIP 等級彰顯地位。</td></tr>
+</table>
 <hr>
-<h3 id="3.3-非目標使用者（not-our-users）">3.3 非目標使用者（Not Our Users）</h3>
-<table><tr><th>排除群體</th><th>排除原因</th></tr><tr><td>❌ 未成年用戶（18 歲以下）</td><td>法規合規要求，付費類遊戲需年齡驗證</td></tr><tr><td>❌ 重度 MMORPG 玩家</td><td>本產品屬休閒街機類型，不提供深度角色扮演或長期養成內容</td></tr><tr><td>❌ 歐美市場為主要目標的用戶</td><td>捕魚街機玩法高度集中於亞洲文化圈，歐美市場驗證不足</td></tr></table>
+<h3>3.3 非目標使用者（Not Our Users）</h3>
+<table>
+<tr><th>排除群體</th><th>排除原因</th></tr>
+<tr><td>❌ 未成年用戶（18 歲以下）</td><td>法規合規要求，付費類遊戲需年齡驗證</td></tr>
+<tr><td>❌ 重度 MMORPG 玩家</td><td>本產品屬休閒街機類型，不提供深度角色扮演或長期養成內容</td></tr>
+<tr><td>❌ 歐美市場為主要目標的用戶</td><td>捕魚街機玩法高度集中於亞洲文化圈，歐美市場驗證不足</td></tr>
+</table>
 <hr>
-<h2 id="4.-value-hypothesis（價值假說）">4. Value Hypothesis（價值假說）</h2>
-<h3 id="4.1-核心價值主張（value-proposition-canvas）">4.1 核心價值主張（Value Proposition Canvas）</h3>
-<p>
-<strong>Pain Relievers（痛點緩解）：</strong>
-</p>
-<table><tr><th>使用者痛點</th><th>我們的緩解方式</th></tr><tr><td>傳統捕魚遊戲缺乏社交競爭，多人同屏只是視覺裝飾</td><td>4–6 人搶魚競技機制、MVP 獎勵、排行榜，讓每局都有真實對抗感</td></tr><tr><td>技能策略單一，長期操作無新鮮感</td><td>多元武器系統（基礎砲/雷射/散射/鎖定）+ 技能組合（冰凍/炸彈/自動鎖定）</td></tr><tr><td>爆金刺激短暫，缺乏長期留存動力</td><td>砲台升級成長線 + VIP 等級 + 限時 Boss 活動 + Jackpot 大獎池持續驅動回訪</td></tr></table>
-<p>
-<strong>Gain Creators（增益創造）：</strong>
-</p>
-<table><tr><th>使用者期望收益</th><th>我們如何創造</th></tr><tr><td>即時獎勵反饋（金幣收益感）</td><td>RTP 85–95% 確保穩定回報感，命中率動態調整維持爽感</td></tr><tr><td>長期成長感與地位彰顯</td><td>VIP 等級制度 + 砲台/技能升級 + 限定皮膚系統</td></tr></table>
+<h2>4. Value Hypothesis（價值假說）</h2>
+<h3>4.1 核心價值主張（Value Proposition Canvas）</h3>
+<p><strong>Pain Relievers（痛點緩解）：</strong></p>
+<table>
+<tr><th>使用者痛點</th><th>我們的緩解方式</th></tr>
+<tr><td>傳統捕魚遊戲缺乏社交競爭，多人同屏只是視覺裝飾</td><td>4–6 人搶魚競技機制、MVP 獎勵、排行榜，讓每局都有真實對抗感</td></tr>
+<tr><td>技能策略單一，長期操作無新鮮感</td><td>多元武器系統（基礎砲/雷射/散射/鎖定）+ 技能組合（冰凍/炸彈/自動鎖定）</td></tr>
+<tr><td>爆金刺激短暫，缺乏長期留存動力</td><td>砲台升級成長線 + VIP 等級 + 限時 Boss 活動 + Jackpot 大獎池持續驅動回訪</td></tr>
+</table>
+<p><strong>Gain Creators（增益創造）：</strong></p>
+<table>
+<tr><th>使用者期望收益</th><th>我們如何創造</th></tr>
+<tr><td>即時獎勵反饋（金幣收益感）</td><td>RTP 85–95% 確保穩定回報感，命中率動態調整維持爽感</td></tr>
+<tr><td>長期成長感與地位彰顯</td><td>VIP 等級制度 + 砲台/技能升級 + 限定皮膚系統</td></tr>
+</table>
 <hr>
-<h3 id="4.2-差異化定位">4.2 差異化定位</h3>
-<p>
-<strong>相對現有解法（競品 / 替代方案），本產品的獨特差異：</strong>
-</p>
-<blockquote>現有捕魚遊戲以「爆金倍率數值刺激」為核心，社交設計流於形式、技能系統缺乏策略深度。本產品核心差異在於：（1）<strong>真實多人競爭搶魚機制</strong>——資源有限、玩家真實搶奪；（2）<strong>技能策略深度</strong>——不同武器與技能組合產生差異化遊玩風格；（3）<strong>精細化經濟數值體系</strong>——RTP 控制 + Jackpot 大獎池 + 雙貨幣設計，延長玩家生命週期。</blockquote>
-<p>
-<strong>結構性壁壘評估：</strong>
-</p>
-<table><tr><th>壁壘類型</th><th>評估</th><th>說明</th></tr><tr><td><strong>數據優勢</strong>（Data Moat）</td><td>中期建立</td><td>玩家行為數值模型（命中率偏好、技能使用模式、付費觸發點）隨 DAU 積累形成競品難以複製的 RTP 調校資料集；上線 6 個月後預計形成初步優勢</td></tr><tr><td><strong>切換成本</strong>（Switching Cost）</td><td>中等</td><td>VIP 等級累積、砲台升級成長線、限定皮膚收藏產生留存黏性；玩家放棄已投入資源的意願較低</td></tr><tr><td><strong>網路效應</strong>（Network Effect）</td><td>弱（需監控）</td><td>4–6 人同場競技具備局部網路效應，朋友圈帶入新玩家有正向飛輪；但短期規模不足以形成強效應</td></tr><tr><td><strong>技術護城河</strong></td><td>弱（近期風險）</td><td>競技搶魚機制本身易被複製（見 §8.4 F2）；護城河依賴 RTP 數值模型精度與數據積累，而非獨佔技術</td></tr></table>
-<p>
-<strong>風險承認</strong>：技術護城河在早期不深，差異化策略為「以速度換壁壘」——6 個月內搶佔目標市場心智，利用先發數據優勢（玩家行為模型）在競品追趕前鞏固留存。若競品在 6 個月內以相同定位成功獲取 ≥ 50,000 DAU，觸發 §8.2 Kill Condition。
-</p>
+<h3>4.2 差異化定位</h3>
+<p><strong>相對現有解法（競品 / 替代方案），本產品的獨特差異：</strong></p>
+<blockquote><p>現有捕魚遊戲以「爆金倍率數值刺激」為核心，社交設計流於形式、技能系統缺乏策略深度。本產品核心差異在於：（1）<strong>真實多人競爭搶魚機制</strong>——資源有限、玩家真實搶奪；（2）<strong>技能策略深度</strong>——不同武器與技能組合產生差異化遊玩風格；（3）<strong>精細化經濟數值體系</strong>——RTP 控制 + Jackpot 大獎池 + 雙貨幣設計，延長玩家生命週期。</p></blockquote>
+<p><strong>結構性壁壘評估：</strong></p>
+<table>
+<tr><th>壁壘類型</th><th>評估</th><th>說明</th></tr>
+<tr><td><strong>數據優勢</strong>（Data Moat）</td><td>中期建立</td><td>玩家行為數值模型（命中率偏好、技能使用模式、付費觸發點）隨 DAU 積累形成競品難以複製的 RTP 調校資料集；上線 6 個月後預計形成初步優勢</td></tr>
+<tr><td><strong>切換成本</strong>（Switching Cost）</td><td>中等</td><td>VIP 等級累積、砲台升級成長線、限定皮膚收藏產生留存黏性；玩家放棄已投入資源的意願較低</td></tr>
+<tr><td><strong>網路效應</strong>（Network Effect）</td><td>弱（需監控）</td><td>4–6 人同場競技具備局部網路效應，朋友圈帶入新玩家有正向飛輪；但短期規模不足以形成強效應</td></tr>
+<tr><td><strong>技術護城河</strong></td><td>弱（近期風險）</td><td>競技搶魚機制本身易被複製（見 §8.4 F2）；護城河依賴 RTP 數值模型精度與數據積累，而非獨佔技術</td></tr>
+</table>
+<p><strong>風險承認</strong>：技術護城河在早期不深，差異化策略為「以速度換壁壘」——6 個月內搶佔目標市場心智，利用先發數據優勢（玩家行為模型）在競品追趕前鞏固留存。若競品在 6 個月內以相同定位成功獲取 ≥ 50,000 DAU，觸發 §8.2 Kill Condition。</p>
 <hr>
-<h2 id="5.-mvp-&-learning-plan（最小可行驗證計畫）">5. MVP & Learning Plan（最小可行驗證計畫）</h2>
-<h3 id="5.1-mvp-邊界定義">5.1 MVP 邊界定義</h3>
-<table><tr><th>MVP 功能</th><th>驗證假設</th><th>最低可接受標準</th></tr><tr><td>4 人即時多人房間（WebSocket + Colyseus）</td><td>玩家願意在有競爭的環境下持續遊玩</td><td>場均時長 ≥ 8 分鐘，次日留存 ≥ 30%</td></tr><tr><td>3 種魚類（普通/精英/Boss）+ 基礎砲台</td><td>魚類多樣性與倍率設計能產生足夠刺激感</td><td>用戶滿意度評分（1–5） ≥ 3.5</td></tr><tr><td>金幣 + 鑽石雙貨幣 + 基礎商城</td><td>付費點設計能有效轉化休閒玩家</td><td>MVP 期付費率 ≥ 2%（過渡目標）</td></tr><tr><td>RTP 控制系統（85–95%）+ 基礎 Jackpot</td><td>數值系統能維持玩家的「爽感」與留存意願</td><td>第 7 日留存率 ≥ 25%</td></tr></table>
-<p>
-<strong>明確不在 MVP 範圍（Non-MVP）：</strong>
-</p>
+<h2>5. MVP &amp; Learning Plan（最小可行驗證計畫）</h2>
+<h3>5.1 MVP 邊界定義</h3>
+<table>
+<tr><th>MVP 功能</th><th>驗證假設</th><th>最低可接受標準</th></tr>
+<tr><td>4 人即時多人房間（WebSocket + Colyseus）</td><td>玩家願意在有競爭的環境下持續遊玩</td><td>場均時長 ≥ 8 分鐘，次日留存 ≥ 30%</td></tr>
+<tr><td>3 種魚類（普通/精英/Boss）+ 基礎砲台</td><td>魚類多樣性與倍率設計能產生足夠刺激感</td><td>用戶滿意度評分（1–5） ≥ 3.5</td></tr>
+<tr><td>金幣 + 鑽石雙貨幣 + 基礎商城</td><td>付費點設計能有效轉化休閒玩家</td><td>MVP 期付費率 ≥ 2%（過渡目標）</td></tr>
+<tr><td>RTP 控制系統（85–95%）+ 基礎 Jackpot</td><td>數值系統能維持玩家的「爽感」與留存意願</td><td>第 7 日留存率 ≥ 25%</td></tr>
+</table>
+<p><strong>明確不在 MVP 範圍（Non-MVP）：</strong></p>
 <ul><li>❌ VIP 訂閱系統（推遲原因：需先驗證基礎付費意願）</li><li>❌ 寵物技能系統 FPetSkillHelp（推遲原因：增加開發複雜度，留存驗證優先）</li><li>❌ 換裝皮膚系統 FChangeSkinUI（推遲原因：為 P1 留存道具，MVP 階段聚焦核心玩法驗證）</li><li>❌ 社群好友系統 FFriendApply（推遲原因：MVP 先驗證陌生人競技體驗，社交後續疊加）</li></ul>
 <hr>
-<h3 id="5.2-validation-metrics（驗證指標，pre-brd-階段）">5.2 Validation Metrics（驗證指標，Pre-BRD 階段）</h3>
-<table><tr><th>指標</th><th>測量方式</th><th>通過閾值（Go）</th><th>失敗閾值（Pivot/Kill）</th><th>追蹤週期</th></tr><tr><td>問題確認率</td><td>用戶訪談：「傳統捕魚遊戲競爭感不足是您的核心痛點嗎？」</td><td>≥ 70% 答「是」</td><td>< 40%</td><td>週 1–2</td></tr><tr><td>付費意願</td><td>願意為進階武器/技能付費的受訪者比例</td><td>≥ 40%</td><td>< 20%</td><td>週 2–3</td></tr><tr><td>競品替代接受度</td><td>受訪者「願意從現有捕魚遊戲切換」比例</td><td>≥ 30%</td><td>< 15%</td><td>週 2–3</td></tr><tr><td>訪談完成數</td><td>完成深度訪談人數</td><td>≥ 10 人</td><td>< 5 人</td><td>週 1–3</td></tr><tr><td>緊迫程度分數</td><td>1–5 量表（「有多迫切需要更有競爭感的捕魚遊戲」）</td><td>平均 ≥ 3.5</td><td>平均 < 2.5</td><td>週 1–2</td></tr></table>
-<p>
-<strong>驗證計畫時程：</strong>
-</p>
-<pre><code>Week 1：用戶招募（目標 N ≥ 15 人），完成問卷調查
-<p>
+<h3>5.2 Validation Metrics（驗證指標，Pre-BRD 階段）</h3>
+<table>
+<tr><th>指標</th><th>測量方式</th><th>通過閾值（Go）</th><th>失敗閾值（Pivot/Kill）</th><th>追蹤週期</th></tr>
+<tr><td>問題確認率</td><td>用戶訪談：「傳統捕魚遊戲競爭感不足是您的核心痛點嗎？」</td><td>≥ 70% 答「是」</td><td>&lt; 40%</td><td>週 1–2</td></tr>
+<tr><td>付費意願</td><td>願意為進階武器/技能付費的受訪者比例</td><td>≥ 40%</td><td>&lt; 20%</td><td>週 2–3</td></tr>
+<tr><td>競品替代接受度</td><td>受訪者「願意從現有捕魚遊戲切換」比例</td><td>≥ 30%</td><td>&lt; 15%</td><td>週 2–3</td></tr>
+<tr><td>訪談完成數</td><td>完成深度訪談人數</td><td>≥ 10 人</td><td>&lt; 5 人</td><td>週 1–3</td></tr>
+<tr><td>緊迫程度分數</td><td>1–5 量表（「有多迫切需要更有競爭感的捕魚遊戲」）</td><td>平均 ≥ 3.5</td><td>平均 &lt; 2.5</td><td>週 1–2</td></tr>
+</table>
+<p><strong>驗證計畫時程：</strong></p>
+<pre><code class="">Week 1：用戶招募（目標 N ≥ 15 人），完成問卷調查
 Week 2：深度訪談（N ≥ 10），蒐集質化資料
-Week 3：數據分析，決策：Go（生成 BRD）/ Pivot（修改 IDEA）/ Kill（停止）
-</code></pre>
-</p>
+Week 3：數據分析，決策：Go（生成 BRD）/ Pivot（修改 IDEA）/ Kill（停止）</code></pre>
 <hr>
-<h3 id="5.3-riskiest-assumption（最高風險假設，leap-of-faith）">5.3 Riskiest Assumption（最高風險假設，Leap of Faith）</h3>
-<blockquote><strong>核心 Leap of Faith：</strong></blockquote>
-<blockquote>我們假設 <strong>亞洲休閒付費玩家在捕魚遊戲中對「社交競爭搶魚」的需求足夠強烈，願意為此付費並長期留存</strong>。
-<p>
-若此假設為假，則 <strong>玩家依然偏好獨自爆金刺激，多人競爭機制不產生額外留存或付費提升</strong>，專案應 <strong>Pivot 至純數值爆金路線，砍除多人競技系統</strong>。
-我們將透過 <strong>用戶訪談（N ≥ 10）+ MVP A/B 測試（競技 vs 非競技房間留存對比）</strong> 在 <strong>BRD 審查後 4 週內</strong> 驗證此假設。</blockquote>
-</p>
-<table><tr><th>假設</th><th>驗證方法</th><th>驗證期限</th><th>若錯誤的後果</th></tr><tr><td>玩家對多人競爭搶魚需求足夠強烈（最高風險）</td><td>用戶訪談 + MVP A/B 測試</td><td>BRD 後 4 週</td><td>根本性 Pivot：砍除競技機制，轉純單人爆金</td></tr><tr><td>雙貨幣 + Jackpot 設計能驅動付費轉化</td><td>MVP 付費率監控（目標 ≥ 2%）</td><td>MVP 上線後 2 週</td><td>調整付費點設計與定價策略</td></tr></table>
+<h3>5.3 Riskiest Assumption（最高風險假設，Leap of Faith）</h3>
+<blockquote><p><strong>核心 Leap of Faith：</strong></p></blockquote>
+<blockquote><p>我們假設 <strong>亞洲休閒付費玩家在捕魚遊戲中對「社交競爭搶魚」的需求足夠強烈，願意為此付費並長期留存</strong>。</p></blockquote>
+<blockquote><p>若此假設為假，則 <strong>玩家依然偏好獨自爆金刺激，多人競爭機制不產生額外留存或付費提升</strong>，專案應 <strong>Pivot 至純數值爆金路線，砍除多人競技系統</strong>。</p></blockquote>
+<blockquote><p>我們將透過 <strong>用戶訪談（N ≥ 10）+ MVP A/B 測試（競技 vs 非競技房間留存對比）</strong> 在 <strong>BRD 審查後 4 週內</strong> 驗證此假設。</p></blockquote>
+<table>
+<tr><th>假設</th><th>驗證方法</th><th>驗證期限</th><th>若錯誤的後果</th></tr>
+<tr><td>玩家對多人競爭搶魚需求足夠強烈（最高風險）</td><td>用戶訪談 + MVP A/B 測試</td><td>BRD 後 4 週</td><td>根本性 Pivot：砍除競技機制，轉純單人爆金</td></tr>
+<tr><td>雙貨幣 + Jackpot 設計能驅動付費轉化</td><td>MVP 付費率監控（目標 ≥ 2%）</td><td>MVP 上線後 2 週</td><td>調整付費點設計與定價策略</td></tr>
+</table>
 <hr>
-<h2 id="6.-clarification-interview-record（澄清訪談記錄）">6. Clarification Interview Record（澄清訪談記錄）</h2>
-<h3 id="q1-—-主要使用者">Q1 — 主要使用者</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>回答</strong></td><td>亞洲市場休閒付費玩家（台灣/東南亞），18–45 歲</td></tr><tr><td><strong>選擇方式</strong></td><td>AI 自動推斷（來自募資企劃書市場分析章節）</td></tr><tr><td><strong>影響範疇</strong></td><td>BRD §4 Stakeholders、PDD Persona、RTM 使用者欄位</td></tr></table>
+<h2>6. Clarification Interview Record（澄清訪談記錄）</h2>
+<h3>Q1 — 主要使用者</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>回答</strong></td><td>亞洲市場休閒付費玩家（台灣/東南亞），18–45 歲</td></tr>
+<tr><td><strong>選擇方式</strong></td><td>AI 自動推斷（來自募資企劃書市場分析章節）</td></tr>
+<tr><td><strong>影響範疇</strong></td><td>BRD §4 Stakeholders、PDD Persona、RTM 使用者欄位</td></tr>
+</table>
 <hr>
-<h3 id="q2-—-核心痛點">Q2 — 核心痛點</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>回答</strong></td><td>傳統捕魚遊戲缺乏社交競爭與技能深度，玩家容易流失</td></tr><tr><td><strong>選擇方式</strong></td><td>AI 自動推斷（來自企劃書競品分析及優化方向）</td></tr><tr><td><strong>影響範疇</strong></td><td>BRD §2 Problem Statement、§5 Proposed Solution、§7 Success Metrics</td></tr></table>
+<h3>Q2 — 核心痛點</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>回答</strong></td><td>傳統捕魚遊戲缺乏社交競爭與技能深度，玩家容易流失</td></tr>
+<tr><td><strong>選擇方式</strong></td><td>AI 自動推斷（來自企劃書競品分析及優化方向）</td></tr>
+<tr><td><strong>影響範疇</strong></td><td>BRD §2 Problem Statement、§5 Proposed Solution、§7 Success Metrics</td></tr>
+</table>
 <hr>
-<h3 id="q3-—-技術限制或偏好">Q3 — 技術限制或偏好</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>回答</strong></td><td>Cocos Creator + Node.js/Colyseus + Lua，需支援高併發多人即時</td></tr><tr><td><strong>選擇方式</strong></td><td>使用者自行指定（來自 idea-input.md + codebase 分析）</td></tr><tr><td><strong>影響範疇</strong></td><td>BRD §8 Constraints、EDD 技術選型、ARCH 架構設計</td></tr></table>
+<h3>Q3 — 技術限制或偏好</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>回答</strong></td><td>Cocos Creator + Node.js/Colyseus + Lua，需支援高併發多人即時</td></tr>
+<tr><td><strong>選擇方式</strong></td><td>使用者自行指定（來自 idea-input.md + codebase 分析）</td></tr>
+<tr><td><strong>影響範疇</strong></td><td>BRD §8 Constraints、EDD 技術選型、ARCH 架構設計</td></tr>
+</table>
 <hr>
-<h3 id="q4-—-預期使用規模">Q4 — 預期使用規模</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>回答</strong></td><td>中規模（DAU 10,000，付費率 5%，月營收 USD 10,000 目標）</td></tr><tr><td><strong>選項</strong></td><td>中規模（100–10,000 人日活）</td></tr><tr><td><strong>影響範疇</strong></td><td>ARCH 可擴展性設計、SCHEMA 分表策略、EDD 容量規劃</td></tr></table>
+<h3>Q4 — 預期使用規模</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>回答</strong></td><td>中規模（DAU 10,000，付費率 5%，月營收 USD 10,000 目標）</td></tr>
+<tr><td><strong>選項</strong></td><td>中規模（100–10,000 人日活）</td></tr>
+<tr><td><strong>影響範疇</strong></td><td>ARCH 可擴展性設計、SCHEMA 分表策略、EDD 容量規劃</td></tr>
+</table>
 <hr>
-<h3 id="q5-—-其他補充說明（動態追問）">Q5 — 其他補充說明（動態追問）</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>回答</strong></td><td>RTP 85–95%，需要完整商業變現系統，6 個月開發周期，USD 200,000 募資目標</td></tr><tr><td><strong>追問觸發原因</strong></td><td>商業模式與財務規模為投資者決策的關鍵資訊，自動補充</td></tr><tr><td><strong>影響範疇</strong></td><td>BRD §11 Business Model、EDD 數值系統、ARCH 容量規劃</td></tr></table>
+<h3>Q5 — 其他補充說明（動態追問）</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>回答</strong></td><td>RTP 85–95%，需要完整商業變現系統，6 個月開發周期，USD 200,000 募資目標</td></tr>
+<tr><td><strong>追問觸發原因</strong></td><td>商業模式與財務規模為投資者決策的關鍵資訊，自動補充</td></tr>
+<tr><td><strong>影響範疇</strong></td><td>BRD §11 Business Model、EDD 數值系統、ARCH 容量規劃</td></tr>
+</table>
 <hr>
-<h3 id="原始-idea（使用者輸入原文，逐字保留）">原始 IDEA（使用者輸入原文，逐字保留）</h3>
-<pre><code>魚機遊戲（捕魚遊戲）— 多人即時街機捕魚平台
-<p>
+<h3>原始 IDEA（使用者輸入原文，逐字保留）</h3>
+<pre><code class="">魚機遊戲（捕魚遊戲）— 多人即時街機捕魚平台
+
 輸入來源：
-</p>
-<ul><li>使用者描述：魚機遊戲</li><li>企劃書：魚機遊戲募資企劃書.md</li><li>參考 Codebase：https://github.com/taishan6868/Fishing-game-source-code.git</li></ul></code></pre>
+- 使用者描述：魚機遊戲
+- 企劃書：魚機遊戲募資企劃書.md
+- 參考 Codebase：https://github.com/taishan6868/Fishing-game-source-code.git</code></pre>
 <hr>
-<h2 id="7.-market-&-competitive-intelligence（市場與競品情報）">7. Market & Competitive Intelligence（市場與競品情報）</h2>
-<blockquote>注意：本節為靜態推斷（無即時 Web Research），基於 docs/req/ 素材中的競品描述與市場分析進行分析。</blockquote>
-<h3 id="7.1-競品-/-參考資源">7.1 競品 / 參考資源</h3>
-<table><tr><th>競品 / 工具</th><th>核心定位</th><th>優勢</th><th>劣勢</th><th>我們的差異</th></tr><tr><td>市場主流 H5 捕魚遊戲（傳統魚機）</td><td>爆金倍率刺激、快速付費轉化</td><td>玩法成熟、用戶認知度高、低門檻</td><td>社交設計薄弱、技能單一、留存率低</td><td>多人競技搶魚 + 技能策略深度 + 精細 RTP 系統</td></tr><tr><td>參考 Codebase（taishan6868/Fishing-game-source-code）</td><td>商業可授權完整捕魚系統（Lua+Cocos）</td><td>含 Boss/技能/皮膚 UI 等完整模組，代碼穩定</td><td>開源授權，無差異化競爭護城河</td><td>在其基礎上強化社交競爭與商業變現設計</td></tr><tr><td>App Store 捕魚類手遊（如各類東南亞捕魚 App）</td><td>移動端休閒捕魚，輕量化</td><td>分發管道廣（App Store/Google Play）</td><td>功能趨同，品質參差</td><td>定位多平台（手機+網頁）+ 更完整活動運營體系</td></tr></table>
+<h2>7. Market &amp; Competitive Intelligence（市場與競品情報）</h2>
+<blockquote><p>注意：本節為靜態推斷（無即時 Web Research），基於 docs/req/ 素材中的競品描述與市場分析進行分析。</p></blockquote>
+<h3>7.1 競品 / 參考資源</h3>
+<table>
+<tr><th>競品 / 工具</th><th>核心定位</th><th>優勢</th><th>劣勢</th><th>我們的差異</th></tr>
+<tr><td>市場主流 H5 捕魚遊戲（傳統魚機）</td><td>爆金倍率刺激、快速付費轉化</td><td>玩法成熟、用戶認知度高、低門檻</td><td>社交設計薄弱、技能單一、留存率低</td><td>多人競技搶魚 + 技能策略深度 + 精細 RTP 系統</td></tr>
+<tr><td>參考 Codebase（taishan6868/Fishing-game-source-code）</td><td>商業可授權完整捕魚系統（Lua+Cocos）</td><td>含 Boss/技能/皮膚 UI 等完整模組，代碼穩定</td><td>開源授權，無差異化競爭護城河</td><td>在其基礎上強化社交競爭與商業變現設計</td></tr>
+<tr><td>App Store 捕魚類手遊（如各類東南亞捕魚 App）</td><td>移動端休閒捕魚，輕量化</td><td>分發管道廣（App Store/Google Play）</td><td>功能趨同，品質參差</td><td>定位多平台（手機+網頁）+ 更完整活動運營體系</td></tr>
+</table>
 <hr>
-<h3 id="7.2-技術生態建議">7.2 技術生態建議</h3>
-<table><tr><th>層次</th><th>建議方案</th><th>選擇理由</th></tr><tr><td>客戶端框架</td><td>Cocos Creator（含 Lua 腳本）</td><td>使用者指定，已有完整參考 Codebase（FPond/FPondBG/Boss/技能模組），跨平台（手機+網頁）支援</td></tr><tr><td>即時伺服器</td><td>Node.js + Colyseus</td><td>使用者指定，專為多人即時遊戲設計，支援高併發 WebSocket 房間管理</td></tr><tr><td>資料庫</td><td>MySQL / Redis（推斷）</td><td>MySQL 儲存玩家數據/交易記錄，Redis 用於即時狀態同步與排行榜快取</td></tr><tr><td>核心套件</td><td>Colyseus（房間/狀態同步）、Lua（遊戲邏輯）</td><td>已被參考 Codebase 驗證，適合捕魚遊戲即時同步需求</td></tr><tr><td>基礎設施</td><td>雲端伺服器（AWS/GCP，東南亞區域）</td><td>低延遲（目標市場），可彈性擴容支援 DAU 10,000</td></tr></table>
-<p>
-<em>技術建議基於 Q3（Cocos Creator + Node.js/Colyseus + Lua）與 Q4（中規模 DAU 10,000）。</em>
-</p>
+<h3>7.2 技術生態建議</h3>
+<table>
+<tr><th>層次</th><th>建議方案</th><th>選擇理由</th></tr>
+<tr><td>客戶端框架</td><td>Cocos Creator（含 Lua 腳本）</td><td>使用者指定，已有完整參考 Codebase（FPond/FPondBG/Boss/技能模組），跨平台（手機+網頁）支援</td></tr>
+<tr><td>即時伺服器</td><td>Node.js + Colyseus</td><td>使用者指定，專為多人即時遊戲設計，支援高併發 WebSocket 房間管理</td></tr>
+<tr><td>資料庫</td><td>MySQL / Redis（推斷）</td><td>MySQL 儲存玩家數據/交易記錄，Redis 用於即時狀態同步與排行榜快取</td></tr>
+<tr><td>核心套件</td><td>Colyseus（房間/狀態同步）、Lua（遊戲邏輯）</td><td>已被參考 Codebase 驗證，適合捕魚遊戲即時同步需求</td></tr>
+<tr><td>基礎設施</td><td>雲端伺服器（AWS/GCP，東南亞區域）</td><td>低延遲（目標市場），可彈性擴容支援 DAU 10,000</td></tr>
+</table>
+<p><em>技術建議基於 Q3（Cocos Creator + Node.js/Colyseus + Lua）與 Q4（中規模 DAU 10,000）。</em></p>
 <hr>
-<h3 id="7.3-研究來源">7.3 研究來源</h3>
-<table><tr><th>搜尋關鍵字</th><th>主要發現</th><th>可信度</th></tr><tr><td>捕魚遊戲市場競品分析（靜態，來自企劃書）</td><td>市場主流強調爆金倍率，依賴 RTP 控制；競爭激烈但社交層面薄弱</td><td>中</td></tr><tr><td>Fishing-game-source-code Codebase 分析</td><td>完整 Lua+Cocos 架構，含 FPond/Boss/技能/皮膚模組，停服版本代碼穩定</td><td>高</td></tr><tr><td>Node.js + Colyseus 多人遊戲架構（靜態推斷）</td><td>成熟多人即時框架，支援房間狀態同步，適合 DAU 10,000 規模</td><td>中</td></tr></table>
+<h3>7.3 研究來源</h3>
+<table>
+<tr><th>搜尋關鍵字</th><th>主要發現</th><th>可信度</th></tr>
+<tr><td>捕魚遊戲市場競品分析（靜態，來自企劃書）</td><td>市場主流強調爆金倍率，依賴 RTP 控制；競爭激烈但社交層面薄弱</td><td>中</td></tr>
+<tr><td>Fishing-game-source-code Codebase 分析</td><td>完整 Lua+Cocos 架構，含 FPond/Boss/技能/皮膚模組，停服版本代碼穩定</td><td>高</td></tr>
+<tr><td>Node.js + Colyseus 多人遊戲架構（靜態推斷）</td><td>成熟多人即時框架，支援房間狀態同步，適合 DAU 10,000 規模</td><td>中</td></tr>
+</table>
 <hr>
-<h2 id="8.-initial-risk-assessment（初始風險評估）">8. Initial Risk Assessment（初始風險評估）</h2>
-<h3 id="8.1-風險矩陣">8.1 風險矩陣</h3>
-<table><tr><th>#</th><th>風險描述</th><th>類型</th><th>可能性</th><th>影響</th><th>風險等級</th><th>初步緩解策略</th></tr><tr><td>R1</td><td>市場競爭激烈，既有捕魚遊戲玩家習慣根深蒂固</td><td>市場</td><td>HIGH</td><td>HIGH</td><td>🔴 HIGH</td><td>強化差異化宣傳，聚焦競技社交玩法為核心 USP</td></tr><tr><td>R2</td><td>玩家留存不足，多人競爭假設未被驗證</td><td>市場/用戶</td><td>MEDIUM</td><td>HIGH</td><td>🔴 HIGH</td><td>MVP A/B 測試競技 vs 非競技房間；週活動驅動留存</td></tr><tr><td>R3</td><td>RTP/Jackpot 數值系統調校困難，影響玩家體驗</td><td>技術</td><td>MEDIUM</td><td>HIGH</td><td>🔴 HIGH</td><td>引入數值策劃專家，建立 Sandbox 測試環境</td></tr><tr><td>R4</td><td>法規風險：捕魚遊戲在部分亞洲市場涉及博彩合規</td><td>法規</td><td>MEDIUM</td><td>HIGH</td><td>🔴 HIGH</td><td>BRD 前進行目標市場法務審查（台灣/東南亞各國規定）</td></tr><tr><td>R5</td><td>開發速度低估，6 個月週期無法完成完整功能</td><td>執行</td><td>HIGH</td><td>MEDIUM</td><td>🟡 MEDIUM</td><td>嚴格 MVP 邊界定義，P1/P2 功能明確延後</td></tr></table>
+<h2>8. Initial Risk Assessment（初始風險評估）</h2>
+<h3>8.1 風險矩陣</h3>
+<table>
+<tr><th>#</th><th>風險描述</th><th>類型</th><th>可能性</th><th>影響</th><th>風險等級</th><th>初步緩解策略</th></tr>
+<tr><td>R1</td><td>市場競爭激烈，既有捕魚遊戲玩家習慣根深蒂固</td><td>市場</td><td>HIGH</td><td>HIGH</td><td>🔴 HIGH</td><td>強化差異化宣傳，聚焦競技社交玩法為核心 USP</td></tr>
+<tr><td>R2</td><td>玩家留存不足，多人競爭假設未被驗證</td><td>市場/用戶</td><td>MEDIUM</td><td>HIGH</td><td>🔴 HIGH</td><td>MVP A/B 測試競技 vs 非競技房間；週活動驅動留存</td></tr>
+<tr><td>R3</td><td>RTP/Jackpot 數值系統調校困難，影響玩家體驗</td><td>技術</td><td>MEDIUM</td><td>HIGH</td><td>🔴 HIGH</td><td>引入數值策劃專家，建立 Sandbox 測試環境</td></tr>
+<tr><td>R4</td><td>法規風險：捕魚遊戲在部分亞洲市場涉及博彩合規</td><td>法規</td><td>MEDIUM</td><td>HIGH</td><td>🔴 HIGH</td><td>BRD 前進行目標市場法務審查（台灣/東南亞各國規定）</td></tr>
+<tr><td>R5</td><td>開發速度低估，6 個月週期無法完成完整功能</td><td>執行</td><td>HIGH</td><td>MEDIUM</td><td>🟡 MEDIUM</td><td>嚴格 MVP 邊界定義，P1/P2 功能明確延後</td></tr>
+</table>
 <hr>
-<h3 id="8.2-kill-conditions（專案終止條件）">8.2 Kill Conditions（專案終止條件）</h3>
-<table><tr><th>終止條件</th><th>觸發閾值</th><th>檢查時機</th></tr><tr><td>用戶驗證失敗</td><td>用戶訪談中 ≥ 70% 目標用戶表示「不會付費或對競爭機制無感」</td><td>Discovery 完成後（Week 3）</td></tr><tr><td>技術不可行</td><td>RTP 控制系統 PoC 無法在 4 週內完成，或 Colyseus 並發測試無法支撐 200 人同時在線</td><td>PoC 完成後（BRD 前）</td></tr><tr><td>法規阻礙</td><td>法務評估後，主要目標市場（台灣或東南亞 2 個以上國家）認定核心功能涉及非法博彩</td><td>BRD 審查後</td></tr><tr><td>競品搶先且大獲成功</td><td>直接競品以相同「競技搶魚」定位已獲得 ≥ 50,000 DAU 並獲資</td><td>BRD 審查後</td></tr></table>
+<h3>8.2 Kill Conditions（專案終止條件）</h3>
+<table>
+<tr><th>終止條件</th><th>觸發閾值</th><th>檢查時機</th></tr>
+<tr><td>用戶驗證失敗</td><td>用戶訪談中 ≥ 70% 目標用戶表示「不會付費或對競爭機制無感」</td><td>Discovery 完成後（Week 3）</td></tr>
+<tr><td>技術不可行</td><td>RTP 控制系統 PoC 無法在 4 週內完成，或 Colyseus 並發測試無法支撐 200 人同時在線</td><td>PoC 完成後（BRD 前）</td></tr>
+<tr><td>法規阻礙</td><td>法務評估後，主要目標市場（台灣或東南亞 2 個以上國家）認定核心功能涉及非法博彩</td><td>BRD 審查後</td></tr>
+<tr><td>競品搶先且大獲成功</td><td>直接競品以相同「競技搶魚」定位已獲得 ≥ 50,000 DAU 並獲資</td><td>BRD 審查後</td></tr>
+</table>
 <hr>
-<h3 id="8.3-dependencies-&-external-risks（依賴與外部風險）">8.3 Dependencies & External Risks（依賴與外部風險）</h3>
-<table><tr><th>依賴項</th><th>類型</th><th>關鍵性</th><th>若失效的影響</th><th>備援方案</th></tr><tr><td>Node.js + Colyseus 框架穩定性</td><td>技術</td><td>高</td><td>即時同步核心功能受阻，上線延遲</td><td>評估 Socket.io 替代方案，或降級為非即時輪詢</td></tr><tr><td>參考 Codebase（taishan6868）授權與代碼品質</td><td>技術/法律</td><td>高</td><td>若代碼有授權問題，需從頭開發客戶端模組</td><td>以 Codebase 為參考設計而非直接複用，提前法務確認</td></tr><tr><td>亞洲雲端基礎設施（AWS/GCP 東南亞區域）</td><td>基礎設施</td><td>中</td><td>延遲高影響即時遊戲體驗</td><td>多雲備援，或評估本地 IDC 選項</td></tr><tr><td>遊戲策劃 + 數值設計人才招募</td><td>人員</td><td>高</td><td>數值設計不佳直接影響留存與付費轉化</td><td>企劃書規劃遊戲策劃 ×2，需在開發前到位</td></tr></table>
+<h3>8.3 Dependencies &amp; External Risks（依賴與外部風險）</h3>
+<table>
+<tr><th>依賴項</th><th>類型</th><th>關鍵性</th><th>若失效的影響</th><th>備援方案</th></tr>
+<tr><td>Node.js + Colyseus 框架穩定性</td><td>技術</td><td>高</td><td>即時同步核心功能受阻，上線延遲</td><td>評估 Socket.io 替代方案，或降級為非即時輪詢</td></tr>
+<tr><td>參考 Codebase（taishan6868）授權與代碼品質</td><td>技術/法律</td><td>高</td><td>若代碼有授權問題，需從頭開發客戶端模組</td><td>以 Codebase 為參考設計而非直接複用，提前法務確認</td></tr>
+<tr><td>亞洲雲端基礎設施（AWS/GCP 東南亞區域）</td><td>基礎設施</td><td>中</td><td>延遲高影響即時遊戲體驗</td><td>多雲備援，或評估本地 IDC 選項</td></tr>
+<tr><td>遊戲策劃 + 數值設計人才招募</td><td>人員</td><td>高</td><td>數值設計不佳直接影響留存與付費轉化</td><td>企劃書規劃遊戲策劃 ×2，需在開發前到位</td></tr>
+</table>
 <hr>
-<h3 id="8.4-pre-mortem-exercise（失敗前情境模擬）">8.4 Pre-mortem Exercise（失敗前情境模擬）</h3>
-<blockquote><strong>想象 12 個月後，這個專案已徹底失敗。最可能的失敗原因：</strong></blockquote>
-<table><tr><th>#</th><th>失敗情境</th><th>根本原因</th><th>預防措施</th><th>早期預警訊號</th></tr><tr><td>F1</td><td>玩家對競爭搶魚機制無感，留存率低於預期</td><td>核心假設（社交競爭需求）過於樂觀</td><td>Week 2 訪談驗證競爭機制付費意願</td><td>次日留存 < 20%，場均時長 < 5 分鐘</td></tr><tr><td>F2</td><td>競品快速複製競技搶魚機制，差異化消失</td><td>技術護城河不夠深（機制易複製）</td><td>疊加數據沉澱優勢（玩家行為數值模型）</td><td>競品 2 個月內推出相似功能</td></tr><tr><td>F3</td><td>RTP 數值調校失誤，玩家感覺「不公平」大量流失</td><td>數值策劃能力不足，測試不充分</td><td>PoC 階段建立數值 Sandbox 測試環境</td><td>首月 30 日留存率 < 15%</td></tr><tr><td>F4</td><td>法規問題導致主要市場（台灣/東南亞）無法合法上線</td><td>前期法務評估缺失</td><td>BRD 前法務提前介入，取得各市場合規意見</td><td>法務諮詢出現重大合規警告</td></tr><tr><td>F5</td><td>6 個月開發週期嚴重超期，USD 200,000 燒盡未上線</td><td>功能範圍未嚴格控制，技術債累積</td><td>MVP 邊界嚴格執行，每 2 週里程碑 Review</td><td>第 3 個月時完成度 < 40%</td></tr><tr><td>F6</td><td>DAU 目標過於樂觀，行銷預算（30%）不足以有效獲客</td><td>獲客成本（CAC）估算不足</td><td>BRD 階段明確獲客渠道與 CAC/LTV 模型</td><td>上線首月 DAU < 500</td></tr></table>
-<p>
-<strong>Pre-mortem 結論：</strong> 最可能的失敗路徑是 <strong>核心競爭機制假設未驗證 + 數值調校失誤 + 法規風險未提前排除</strong>，需在 BRD 階段優先設計：（1）競技機制用戶驗證計畫、（2）數值 Sandbox 測試框架、（3）法務前置審查流程。
-</p>
+<h3>8.4 Pre-mortem Exercise（失敗前情境模擬）</h3>
+<blockquote><p><strong>想象 12 個月後，這個專案已徹底失敗。最可能的失敗原因：</strong></p></blockquote>
+<table>
+<tr><th>#</th><th>失敗情境</th><th>根本原因</th><th>預防措施</th><th>早期預警訊號</th></tr>
+<tr><td>F1</td><td>玩家對競爭搶魚機制無感，留存率低於預期</td><td>核心假設（社交競爭需求）過於樂觀</td><td>Week 2 訪談驗證競爭機制付費意願</td><td>次日留存 &lt; 20%，場均時長 &lt; 5 分鐘</td></tr>
+<tr><td>F2</td><td>競品快速複製競技搶魚機制，差異化消失</td><td>技術護城河不夠深（機制易複製）</td><td>疊加數據沉澱優勢（玩家行為數值模型）</td><td>競品 2 個月內推出相似功能</td></tr>
+<tr><td>F3</td><td>RTP 數值調校失誤，玩家感覺「不公平」大量流失</td><td>數值策劃能力不足，測試不充分</td><td>PoC 階段建立數值 Sandbox 測試環境</td><td>首月 30 日留存率 &lt; 15%</td></tr>
+<tr><td>F4</td><td>法規問題導致主要市場（台灣/東南亞）無法合法上線</td><td>前期法務評估缺失</td><td>BRD 前法務提前介入，取得各市場合規意見</td><td>法務諮詢出現重大合規警告</td></tr>
+<tr><td>F5</td><td>6 個月開發週期嚴重超期，USD 200,000 燒盡未上線</td><td>功能範圍未嚴格控制，技術債累積</td><td>MVP 邊界嚴格執行，每 2 週里程碑 Review</td><td>第 3 個月時完成度 &lt; 40%</td></tr>
+<tr><td>F6</td><td>DAU 目標過於樂觀，行銷預算（30%）不足以有效獲客</td><td>獲客成本（CAC）估算不足</td><td>BRD 階段明確獲客渠道與 CAC/LTV 模型</td><td>上線首月 DAU &lt; 500</td></tr>
+</table>
+<p><strong>Pre-mortem 結論：</strong> 最可能的失敗路徑是 <strong>核心競爭機制假設未驗證 + 數值調校失誤 + 法規風險未提前排除</strong>，需在 BRD 階段優先設計：（1）競技機制用戶驗證計畫、（2）數值 Sandbox 測試框架、（3）法務前置審查流程。</p>
 <hr>
-<h2 id="9.-business-potential（初步商業潛力）">9. Business Potential（初步商業潛力）</h2>
-<h3 id="9.1-商業模式假說">9.1 商業模式假說</h3>
-<table><tr><th>項目</th><th>初步假設</th></tr><tr><td>收入來源</td><td>道具內購（高倍率砲台/技能道具/禮包/抽獎）+ VIP 訂閱 + 活動付費</td></tr><tr><td>主要定價策略</td><td>鑽石付費貨幣分級（小額/中額/大額充值包），VIP 月費制</td></tr><tr><td>主要成本驅動因子</td><td>人力成本（12 人團隊 6 個月）+ 伺服器費用 + 行銷推廣費</td></tr><tr><td>核心資源</td><td>數值策劃能力（RTP/Jackpot 設計）+ 技術團隊（Cocos + Node.js/Colyseus）+ 美術資源</td></tr><tr><td>獲客管道</td><td>亞洲社群媒體（LINE/Facebook）、遊戲平台/應用商店、口碑推薦、活動推廣</td></tr></table>
-<p>
-<strong>財務目標摘要（來自企劃書）：</strong>
-</p>
+<h2>9. Business Potential（初步商業潛力）</h2>
+<h3>9.1 商業模式假說</h3>
+<table>
+<tr><th>項目</th><th>初步假設</th></tr>
+<tr><td>收入來源</td><td>道具內購（高倍率砲台/技能道具/禮包/抽獎）+ VIP 訂閱 + 活動付費</td></tr>
+<tr><td>主要定價策略</td><td>鑽石付費貨幣分級（小額/中額/大額充值包），VIP 月費制</td></tr>
+<tr><td>主要成本驅動因子</td><td>人力成本（12 人團隊 6 個月）+ 伺服器費用 + 行銷推廣費</td></tr>
+<tr><td>核心資源</td><td>數值策劃能力（RTP/Jackpot 設計）+ 技術團隊（Cocos + Node.js/Colyseus）+ 美術資源</td></tr>
+<tr><td>獲客管道</td><td>亞洲社群媒體（LINE/Facebook）、遊戲平台/應用商店、口碑推薦、活動推廣</td></tr>
+</table>
+<p><strong>財務目標摘要（來自企劃書）：</strong></p>
 <ul><li>募資金額：USD 200,000</li><li>資金分配：產品開發 50%（USD 100,000）、行銷推廣 30%（USD 60,000）、營運與伺服器 20%（USD 40,000）</li><li>目標 DAU：10,000；付費率：5%；ARPU：USD 20/月；月營收目標：USD 10,000</li></ul>
 <hr>
-<h3 id="9.2-戰略對齊">9.2 戰略對齊</h3>
-<table><tr><th>公司策略目標</th><th>本 IDEA 的貢獻方式</th><th>對齊強度</th><th>對齊說明</th></tr><tr><td>打造亞洲市場高變現休閒遊戲產品</td><td>捕魚遊戲為亞洲已驗證高付費轉化品類，6 個月可完成可上線產品</td><td><strong>強</strong></td><td>直接命中：捕魚遊戲為亞洲市場已驗證品類，本 IDEA 的短期 ROI（6 個月上線、USD 200,000 募資）符合高變現快速回本定位</td></tr><tr><td>建立長期可營運的遊戲平台</td><td>雙貨幣 + VIP + 活動體系設計，支持持續運營與版本迭代</td><td><strong>中</strong></td><td>部分對齊：長期平台需持續版本更新與運營活動，本 IDEA 的運營體系設計（每週活動/節日活動/限時 Boss）已考量持續運營；但品牌護城河與跨平台策略尚未規劃，長期平台化能力有待 BRD 進一步確認</td></tr></table>
+<h3>9.2 戰略對齊</h3>
+<table>
+<tr><th>公司策略目標</th><th>本 IDEA 的貢獻方式</th><th>對齊強度</th><th>對齊說明</th></tr>
+<tr><td>打造亞洲市場高變現休閒遊戲產品</td><td>捕魚遊戲為亞洲已驗證高付費轉化品類，6 個月可完成可上線產品</td><td><strong>強</strong></td><td>直接命中：捕魚遊戲為亞洲市場已驗證品類，本 IDEA 的短期 ROI（6 個月上線、USD 200,000 募資）符合高變現快速回本定位</td></tr>
+<tr><td>建立長期可營運的遊戲平台</td><td>雙貨幣 + VIP + 活動體系設計，支持持續運營與版本迭代</td><td><strong>中</strong></td><td>部分對齊：長期平台需持續版本更新與運營活動，本 IDEA 的運營體系設計（每週活動/節日活動/限時 Boss）已考量持續運營；但品牌護城河與跨平台策略尚未規劃，長期平台化能力有待 BRD 進一步確認</td></tr>
+</table>
 <hr>
-<h2 id="10.-executive-sponsorship-&-stakeholder-alignment（執行贊助與關鍵利害關係人對齊）">10. Executive Sponsorship & Stakeholder Alignment（執行贊助與關鍵利害關係人對齊）</h2>
-<h3 id="10.1-executive-sponsor">10.1 Executive Sponsor</h3>
-<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>贊助人</strong></td><td>待確認（投資方/創辦人代表）</td></tr><tr><td><strong>贊助原因</strong></td><td>捕魚遊戲為已驗證高變現模型，符合亞洲市場快速 ROI 策略目標</td></tr><tr><td><strong>授權範圍</strong></td><td>預算上限 USD 200,000；MVP 功能範圍決策自主</td></tr><tr><td><strong>核可日期</strong></td><td>待 BRD 審查後確認</td></tr><tr><td><strong>升級路徑</strong></td><td>若遇阻礙，升級至投資方主要聯絡人</td></tr></table>
+<h2>10. Executive Sponsorship &amp; Stakeholder Alignment（執行贊助與關鍵利害關係人對齊）</h2>
+<h3>10.1 Executive Sponsor</h3>
+<table>
+<tr><th>欄位</th><th>內容</th></tr>
+<tr><td><strong>贊助人</strong></td><td>待確認（投資方/創辦人代表）</td></tr>
+<tr><td><strong>贊助原因</strong></td><td>捕魚遊戲為已驗證高變現模型，符合亞洲市場快速 ROI 策略目標</td></tr>
+<tr><td><strong>授權範圍</strong></td><td>預算上限 USD 200,000；MVP 功能範圍決策自主</td></tr>
+<tr><td><strong>核可日期</strong></td><td>待 BRD 審查後確認</td></tr>
+<tr><td><strong>升級路徑</strong></td><td>若遇阻礙，升級至投資方主要聯絡人</td></tr>
+</table>
 <hr>
-<h3 id="10.2-stakeholder-pre-alignment-matrix">10.2 Stakeholder Pre-alignment Matrix</h3>
-<table><tr><th>利害關係人</th><th>角色</th><th>對本 IDEA 的態度</th><th>主要顧慮</th><th>對齊策略</th><th>對齊期限</th></tr><tr><td>投資方</td><td>出資決策者</td><td>支持（企劃書已提交）</td><td>ROI 時程、市場競爭風險</td><td>提供詳細財務模型與 MVP 驗證里程碑</td><td>BRD 完成前</td></tr><tr><td>遊戲策劃（×2）</td><td>核心開發</td><td>支持</td><td>數值設計難度、RTP 調校</td><td>提前招募，PoC 階段介入</td><td>開發啟動前</td></tr><tr><td>客戶端工程師（×3）</td><td>核心開發</td><td>中立（待評估技術可行性）</td><td>Cocos + Lua 整合複雜度</td><td>參考 Codebase 降低技術風險</td><td>BRD 確認後</td></tr><tr><td>法務顧問</td><td>Legal</td><td>中立</td><td>亞洲各市場博彩法規合規</td><td>BRD 前提早法務審查</td><td>BRD 前</td></tr></table>
+<h3>10.2 Stakeholder Pre-alignment Matrix</h3>
+<table>
+<tr><th>利害關係人</th><th>角色</th><th>對本 IDEA 的態度</th><th>主要顧慮</th><th>對齊策略</th><th>對齊期限</th></tr>
+<tr><td>投資方</td><td>出資決策者</td><td>支持（企劃書已提交）</td><td>ROI 時程、市場競爭風險</td><td>提供詳細財務模型與 MVP 驗證里程碑</td><td>BRD 完成前</td></tr>
+<tr><td>遊戲策劃（×2）</td><td>核心開發</td><td>支持</td><td>數值設計難度、RTP 調校</td><td>提前招募，PoC 階段介入</td><td>開發啟動前</td></tr>
+<tr><td>客戶端工程師（×3）</td><td>核心開發</td><td>中立（待評估技術可行性）</td><td>Cocos + Lua 整合複雜度</td><td>參考 Codebase 降低技術風險</td><td>BRD 確認後</td></tr>
+<tr><td>法務顧問</td><td>Legal</td><td>中立</td><td>亞洲各市場博彩法規合規</td><td>BRD 前提早法務審查</td><td>BRD 前</td></tr>
+</table>
 <hr>
-<h3 id="10.3-communication-plan（溝通計畫）">10.3 Communication Plan（溝通計畫）</h3>
-<table><tr><th>里程碑</th><th>溝通對象</th><th>溝通形式</th><th>期限</th></tr><tr><td>IDEA 核准</td><td>投資方 / Executive Sponsor</td><td>1-pager 企劃書 + 口頭簡報</td><td>2026-05-01</td></tr><tr><td>BRD 完成</td><td>All Stakeholders</td><td>文件分享 + 審查會議</td><td>2026-05-15</td></tr><tr><td>PRD 核准</td><td>Product + Engineering</td><td>Sprint Planning</td><td>2026-06-01</td></tr></table>
+<h3>10.3 Communication Plan（溝通計畫）</h3>
+<table>
+<tr><th>里程碑</th><th>溝通對象</th><th>溝通形式</th><th>期限</th></tr>
+<tr><td>IDEA 核准</td><td>投資方 / Executive Sponsor</td><td>1-pager 企劃書 + 口頭簡報</td><td>2026-05-01</td></tr>
+<tr><td>BRD 完成</td><td>All Stakeholders</td><td>文件分享 + 審查會議</td><td>2026-05-15</td></tr>
+<tr><td>PRD 核准</td><td>Product + Engineering</td><td>Sprint Planning</td><td>2026-06-01</td></tr>
+</table>
 <hr>
-<h2 id="11.-idea-quality-score（構想品質評分）">11. IDEA Quality Score（構想品質評分）</h2>
-<p>
-<strong>整體評分</strong>：★★★★☆（4/5）
-</p>
-<table><tr><th>評分維度</th><th>分數</th><th>評估說明</th><th>改進建議</th></tr><tr><td>問題清晰度</td><td>1 / 1</td><td>競品缺乏社交競爭與技能深度的問題描述具體清晰，有企劃書與市場分析佐證</td><td>無需改進</td></tr><tr><td>使用者明確度</td><td>1 / 1</td><td>台灣/東南亞 18–45 歲休閒付費玩家描述具體，有明確排除群體</td><td>無需改進</td></tr><tr><td>痛點可量化</td><td>0.5 / 1</td><td>痛點描述清楚但量化數字（留存率/流失率）依賴行業通用估算，缺乏第一手數據</td><td>BRD 前完成 ≥ 10 人用戶訪談取得第一手數據</td></tr><tr><td>範圍邊界明確</td><td>1 / 1</td><td>MVP 邊界定義清晰，Non-MVP 項目明確列出，6 個月開發週期有分階段規劃</td><td>無需改進</td></tr><tr><td>技術可行性初判</td><td>0.5 / 1</td><td>技術棧已有完整參考 Codebase（taishan6868），但法規合規風險尚未評估</td><td>BRD 前完成法務前置評估</td></tr></table>
-<p>
-<strong>本次評分說明：</strong>
-</p>
-<pre><code>【IDEA 品質評分】★★★★☆（4/5）
-<p>
-優勢：市場定位清晰，技術棧有完整參考案例，商業模式已驗證，MVP 邊界明確
-缺口 1：痛點量化仍依賴估算，需用戶訪談第一手數據補強
-缺口 2：法規合規風險（亞洲各市場博彩規定）需提前排除，否則影響上線判斷
-建議：直接生成 BRD，同步啟動用戶訪談與法務評估，4/5 分具備開始 BRD 的條件
-</code></pre>
-</p>
+<h2>11. IDEA Quality Score（構想品質評分）</h2>
+<p><strong>整體評分</strong>：★★★★☆（4/5）</p>
+<table>
+<tr><th>評分維度</th><th>分數</th><th>評估說明</th><th>改進建議</th></tr>
+<tr><td>問題清晰度</td><td>1 / 1</td><td>競品缺乏社交競爭與技能深度的問題描述具體清晰，有企劃書與市場分析佐證</td><td>無需改進</td></tr>
+<tr><td>使用者明確度</td><td>1 / 1</td><td>台灣/東南亞 18–45 歲休閒付費玩家描述具體，有明確排除群體</td><td>無需改進</td></tr>
+<tr><td>痛點可量化</td><td>0.5 / 1</td><td>痛點描述清楚但量化數字（留存率/流失率）依賴行業通用估算，缺乏第一手數據</td><td>BRD 前完成 ≥ 10 人用戶訪談取得第一手數據</td></tr>
+<tr><td>範圍邊界明確</td><td>1 / 1</td><td>MVP 邊界定義清晰，Non-MVP 項目明確列出，6 個月開發週期有分階段規劃</td><td>無需改進</td></tr>
+<tr><td>技術可行性初判</td><td>0.5 / 1</td><td>技術棧已有完整參考 Codebase（taishan6868），但法規合規風險尚未評估</td><td>BRD 前完成法務前置評估</td></tr>
+</table>
+<p><strong>本次評分說明：</strong></p>
+<pre><code class="">【IDEA 品質評分】★★★★☆（4/5）
+  優勢：市場定位清晰，技術棧有完整參考案例，商業模式已驗證，MVP 邊界明確
+  缺口 1：痛點量化仍依賴估算，需用戶訪談第一手數據補強
+  缺口 2：法規合規風險（亞洲各市場博彩規定）需提前排除，否則影響上線判斷
+建議：直接生成 BRD，同步啟動用戶訪談與法務評估，4/5 分具備開始 BRD 的條件</code></pre>
 <hr>
-<h2 id="12.-critical-assumptions（關鍵假設清單）">12. Critical Assumptions（關鍵假設清單）</h2>
-<table><tr><th>#</th><th>假設陳述</th><th>影響層級</th><th>不確定性</th><th>驗證方式</th><th>驗證期限</th></tr><tr><td>A1</td><td>亞洲休閒付費玩家對「多人競技搶魚」的需求足夠強烈，願意為此付費（基於 Q2 痛點）</td><td>HIGH</td><td>HIGH</td><td>用戶訪談（N ≥ 10）+ MVP A/B 測試</td><td>Discovery 週 2–3</td></tr><tr><td>A2</td><td>DAU 10,000 在 6 個月內可透過 USD 60,000 行銷預算達成（基於 Q4 規模）</td><td>HIGH</td><td>MEDIUM</td><td>行銷 CAC/LTV 模型分析 + 先導市場測試</td><td>BRD 審查前</td></tr><tr><td>A3</td><td>Cocos Creator + Node.js/Colyseus 架構能支撐 1,000 人並發不崩潰（基於 Q3 技術）</td><td>MEDIUM</td><td>HIGH</td><td>PoC 壓力測試</td><td>EDD 完成前</td></tr><tr><td>A4</td><td>RTP 85–95% 設計能維持玩家「爽感」且不觸發合規問題</td><td>HIGH</td><td>MEDIUM</td><td>數值 Sandbox 測試 + 法務審查</td><td>BRD 確認前</td></tr></table>
-<p>
-<em>A1 若假設錯誤，專案應終止或根本性調整：砍除競技機制，轉向純爆金倍率路線。</em>
-</p>
+<h2>12. Critical Assumptions（關鍵假設清單）</h2>
+<table>
+<tr><th>#</th><th>假設陳述</th><th>影響層級</th><th>不確定性</th><th>驗證方式</th><th>驗證期限</th></tr>
+<tr><td>A1</td><td>亞洲休閒付費玩家對「多人競技搶魚」的需求足夠強烈，願意為此付費（基於 Q2 痛點）</td><td>HIGH</td><td>HIGH</td><td>用戶訪談（N ≥ 10）+ MVP A/B 測試</td><td>Discovery 週 2–3</td></tr>
+<tr><td>A2</td><td>DAU 10,000 在 6 個月內可透過 USD 60,000 行銷預算達成（基於 Q4 規模）</td><td>HIGH</td><td>MEDIUM</td><td>行銷 CAC/LTV 模型分析 + 先導市場測試</td><td>BRD 審查前</td></tr>
+<tr><td>A3</td><td>Cocos Creator + Node.js/Colyseus 架構能支撐 1,000 人並發不崩潰（基於 Q3 技術）</td><td>MEDIUM</td><td>HIGH</td><td>PoC 壓力測試</td><td>EDD 完成前</td></tr>
+<tr><td>A4</td><td>RTP 85–95% 設計能維持玩家「爽感」且不觸發合規問題</td><td>HIGH</td><td>MEDIUM</td><td>數值 Sandbox 測試 + 法務審查</td><td>BRD 確認前</td></tr>
+</table>
+<p><em>A1 若假設錯誤，專案應終止或根本性調整：砍除競技機制，轉向純爆金倍率路線。</em></p>
 <hr>
-<h2 id="13.-open-questions（待解問題）">13. Open Questions（待解問題）</h2>
-<table><tr><th>#</th><th>問題</th><th>影響層級</th><th>若不解決的後果</th><th>負責人</th><th>狀態</th></tr><tr><td>OQ1</td><td>亞洲各目標市場（台灣、泰國、越南、菲律賓）的博彩遊戲法規狀態各為何？本產品是否需要特別合規授權？</td><td>策略</td><td>可能導致主要市場無法上線，整體計畫需重構</td><td>Legal</td><td>🔲 OPEN</td></tr><tr><td>OQ2</td><td>參考 Codebase（taishan6868）的授權條款是否允許商業衍生使用？代碼品質是否達到生產標準？</td><td>範圍/法律</td><td>若不可商用，客戶端開發成本大幅增加，6 個月週期可能不足</td><td>Engineering + Legal</td><td>🔲 OPEN</td></tr><tr><td>OQ3</td><td>目標 DAU 10,000 的行銷獲客路徑（管道組合、CAC 估算）是否具體可行？</td><td>商業</td><td>若 CAC 過高，USD 60,000 行銷預算無法達成 DAU 目標，ROI 模型失效</td><td>PM + Marketing</td><td>🔲 OPEN</td></tr></table>
+<h2>13. Open Questions（待解問題）</h2>
+<table>
+<tr><th>#</th><th>問題</th><th>影響層級</th><th>若不解決的後果</th><th>負責人</th><th>狀態</th></tr>
+<tr><td>OQ1</td><td>亞洲各目標市場（台灣、泰國、越南、菲律賓）的博彩遊戲法規狀態各為何？本產品是否需要特別合規授權？</td><td>策略</td><td>可能導致主要市場無法上線，整體計畫需重構</td><td>Legal</td><td>🔲 OPEN</td></tr>
+<tr><td>OQ2</td><td>參考 Codebase（taishan6868）的授權條款是否允許商業衍生使用？代碼品質是否達到生產標準？</td><td>範圍/法律</td><td>若不可商用，客戶端開發成本大幅增加，6 個月週期可能不足</td><td>Engineering + Legal</td><td>🔲 OPEN</td></tr>
+<tr><td>OQ3</td><td>目標 DAU 10,000 的行銷獲客路徑（管道組合、CAC 估算）是否具體可行？</td><td>商業</td><td>若 CAC 過高，USD 60,000 行銷預算無法達成 DAU 目標，ROI 模型失效</td><td>PM + Marketing</td><td>🔲 OPEN</td></tr>
+</table>
 <hr>
-<h2 id="14.-idea-→-brd-handoff-checklist">14. IDEA → BRD Handoff Checklist</h2>
-<table><tr><th>#</th><th>Checklist 項目</th><th>狀態</th><th>負責人</th></tr><tr><td>C1</td><td>一句話描述（§1.1）已清晰表達，無模糊詞</td><td>✅</td><td>PM</td></tr><tr><td>C2</td><td>核心假說（§1.2）符合可測試格式</td><td>✅</td><td>PM</td></tr><tr><td>C3</td><td>Q1 使用者描述具體（非「所有人」）</td><td>✅</td><td>PM</td></tr><tr><td>C4</td><td>Q2 痛點已量化（時間 / 成本損失有初步估算）</td><td>⚠️ 部分</td><td>PM（需用戶訪談補強）</td></tr><tr><td>C5</td><td>Q4 規模已選定（影響架構決策）</td><td>✅</td><td>PM</td></tr><tr><td>C6</td><td>至少 1 個競品在 §7 已識別</td><td>✅（3 個競品）</td><td>PM</td></tr><tr><td>C7</td><td>至少 3 項風險在 §8 已識別</td><td>✅（5 項）</td><td>PM</td></tr><tr><td>C8</td><td>Kill Conditions（§8.2）已定義</td><td>✅（4 條）</td><td>PM</td></tr><tr><td>C9</td><td>關鍵假設 A1（§12）已識別並有驗證計畫</td><td>✅</td><td>PM</td></tr><tr><td>C10</td><td>IDEA Quality Score ≥ 3</td><td>✅（4/5）</td><td>AI 自動</td></tr><tr><td>C11</td><td>原始 IDEA 原文已逐字保留（§6 末段）</td><td>✅</td><td>AI 自動</td></tr><tr><td>C12</td><td>Open Questions 中無 P0 級別未解技術問題</td><td>⚠️ OQ2（Codebase 授權）需確認</td><td>Engineering</td></tr></table>
+<h2>14. IDEA → BRD Handoff Checklist</h2>
+<table>
+<tr><th>#</th><th>Checklist 項目</th><th>狀態</th><th>負責人</th></tr>
+<tr><td>C1</td><td>一句話描述（§1.1）已清晰表達，無模糊詞</td><td>✅</td><td>PM</td></tr>
+<tr><td>C2</td><td>核心假說（§1.2）符合可測試格式</td><td>✅</td><td>PM</td></tr>
+<tr><td>C3</td><td>Q1 使用者描述具體（非「所有人」）</td><td>✅</td><td>PM</td></tr>
+<tr><td>C4</td><td>Q2 痛點已量化（時間 / 成本損失有初步估算）</td><td>⚠️ 部分</td><td>PM（需用戶訪談補強）</td></tr>
+<tr><td>C5</td><td>Q4 規模已選定（影響架構決策）</td><td>✅</td><td>PM</td></tr>
+<tr><td>C6</td><td>至少 1 個競品在 §7 已識別</td><td>✅（3 個競品）</td><td>PM</td></tr>
+<tr><td>C7</td><td>至少 3 項風險在 §8 已識別</td><td>✅（5 項）</td><td>PM</td></tr>
+<tr><td>C8</td><td>Kill Conditions（§8.2）已定義</td><td>✅（4 條）</td><td>PM</td></tr>
+<tr><td>C9</td><td>關鍵假設 A1（§12）已識別並有驗證計畫</td><td>✅</td><td>PM</td></tr>
+<tr><td>C10</td><td>IDEA Quality Score ≥ 3</td><td>✅（4/5）</td><td>AI 自動</td></tr>
+<tr><td>C11</td><td>原始 IDEA 原文已逐字保留（§6 末段）</td><td>✅</td><td>AI 自動</td></tr>
+<tr><td>C12</td><td>Open Questions 中無 P0 級別未解技術問題</td><td>⚠️ OQ2（Codebase 授權）需確認</td><td>Engineering</td></tr>
+</table>
 <hr>
-<h2 id="15.-traceability-note（溯源說明）">15. Traceability Note（溯源說明）</h2>
-<p>
-<strong>向下追溯（Forward）：</strong>
-</p>
-<pre><code>IDEA.md （本文件）
-<p>
-└─► BRD.md       ← /gendoc brd（由 /gendoc-auto 自動生成）
-└─► PRD.md      ← /gendoc prd
-└─► PDD.md      ← /gendoc pdd
-└─► EDD.md      ← /gendoc edd
-└─► ARCH / API / SCHEMA / BDD → 實作
-</code></pre>
-</p>
-<p>
-<strong>需求變更判斷準則：</strong>
-</p>
-<table><tr><th>場景</th><th>對比依據</th><th>分類</th></tr><tr><td>功能行為與原始 IDEA Q1/Q2 一致但實作有誤</td><td>IDEA §6 原文</td><td><strong>BUG</strong>（修正，不需 ECR）</td></tr><tr><td>功能需求超出原始 Q1/Q2 描述範圍</td><td>IDEA §6 原文</td><td><strong>ECR</strong>（需人工評估變更範圍）</td></tr><tr><td>技術選型偏離 Q3（Cocos+Colyseus+Lua）且理由不足</td><td>IDEA §6 Q3</td><td><strong>ECR 或 ADR</strong>（需說明決策依據）</td></tr></table>
+<h2>15. Traceability Note（溯源說明）</h2>
+<p><strong>向下追溯（Forward）：</strong></p>
+<pre><code class="">IDEA.md （本文件）
+  └─► BRD.md       ← /gendoc brd（由 /gendoc-auto 自動生成）
+        └─► PRD.md      ← /gendoc prd
+              └─► PDD.md      ← /gendoc pdd
+                    └─► EDD.md      ← /gendoc edd
+                          └─► ARCH / API / SCHEMA / BDD → 實作</code></pre>
+<p><strong>需求變更判斷準則：</strong></p>
+<table>
+<tr><th>場景</th><th>對比依據</th><th>分類</th></tr>
+<tr><td>功能行為與原始 IDEA Q1/Q2 一致但實作有誤</td><td>IDEA §6 原文</td><td><strong>BUG</strong>（修正，不需 ECR）</td></tr>
+<tr><td>功能需求超出原始 Q1/Q2 描述範圍</td><td>IDEA §6 原文</td><td><strong>ECR</strong>（需人工評估變更範圍）</td></tr>
+<tr><td>技術選型偏離 Q3（Cocos+Colyseus+Lua）且理由不足</td><td>IDEA §6 Q3</td><td><strong>ECR 或 ADR</strong>（需說明決策依據）</td></tr>
+</table>
 <hr>
-<h2 id="appendix-a：research-raw-data（研究原始資料）">Appendix A：Research Raw Data（研究原始資料）</h2>
-<h3 id="搜尋-1：競品與市場分析（靜態，來自企劃書素材）">搜尋 1：競品與市場分析（靜態，來自企劃書素材）</h3>
-<pre><code>查詢：亞洲捕魚遊戲市場競品分析
-<p>
+<h2>Appendix A：Research Raw Data（研究原始資料）</h2>
+<h3>搜尋 1：競品與市場分析（靜態，來自企劃書素材）</h3>
+<pre><code class="">查詢：亞洲捕魚遊戲市場競品分析
 結果：
-</p>
-<ul><li>市場主流特點：強調爆金與倍率刺激，依賴數值控制（RTP），重活動與節慶營運</li><li>優化空間：本產品強化社交競爭、技能策略、精細經濟系統</li><li>主要風險：市場競爭激烈，玩家留存需活動驅動</li></ul>（資料來源：docs/req/魚機遊戲募資企劃書.md §二）
-<p>
-</code></pre>
-</p>
-<h3 id="搜尋-2：技術架構（靜態，來自-codebase-分析）">搜尋 2：技術架構（靜態，來自 Codebase 分析）</h3>
-<pre><code>查詢：Cocos Creator + Node.js Colyseus 捕魚遊戲架構
-<p>
+- 市場主流特點：強調爆金與倍率刺激，依賴數值控制（RTP），重活動與節慶營運
+- 優化空間：本產品強化社交競爭、技能策略、精細經濟系統
+- 主要風險：市場競爭激烈，玩家留存需活動驅動
+（資料來源：docs/req/魚機遊戲募資企劃書.md §二）</code></pre>
+<h3>搜尋 2：技術架構（靜態，來自 Codebase 分析）</h3>
+<pre><code class="">查詢：Cocos Creator + Node.js Colyseus 捕魚遊戲架構
 結果：
-</p>
-<ul><li>參考 Codebase 包含完整 Lua 模組：FPond（遊戲主場景）、FPondBG（背景系統）、</li></ul>  FBossRecordShare（Boss 記錄分享）、FCannonUnlockUI（砲台解鎖 UI）、
-<p>
-FChangeSkinUI（換裝 UI）、FDiamondLottery（鑽石抽獎）、FPetSkillHelp（寵物技能）
-</p>
-<ul><li>Server 端目錄存在，但未詳細列出（docs/req/codebase-tree.txt）</li><li>代碼結構成熟，為停服版本，品質精美</li></ul>（資料來源：docs/req/codebase-tree.txt、docs/req/lua-files.txt、docs/req/README.md）
-<p>
-</code></pre>
-</p>
-<h3 id="搜尋-3：商業模式與財務（靜態，來自企劃書素材）">搜尋 3：商業模式與財務（靜態，來自企劃書素材）</h3>
-<pre><code>查詢：捕魚遊戲商業變現模式
-<p>
+- 參考 Codebase 包含完整 Lua 模組：FPond（遊戲主場景）、FPondBG（背景系統）、
+  FBossRecordShare（Boss 記錄分享）、FCannonUnlockUI（砲台解鎖 UI）、
+  FChangeSkinUI（換裝 UI）、FDiamondLottery（鑽石抽獎）、FPetSkillHelp（寵物技能）
+- Server 端目錄存在，但未詳細列出（docs/req/codebase-tree.txt）
+- 代碼結構成熟，為停服版本，品質精美
+（資料來源：docs/req/codebase-tree.txt、docs/req/lua-files.txt、docs/req/README.md）</code></pre>
+<h3>搜尋 3：商業模式與財務（靜態，來自企劃書素材）</h3>
+<pre><code class="">查詢：捕魚遊戲商業變現模式
 結果：
-</p>
-<ul><li>收益來源：道具內購 + VIP 訂閱 + 活動付費</li><li>財務目標：DAU 10,000、付費率 5%、ARPU $20/月、月營收 USD 10,000</li><li>資金需求：USD 200,000（開發 50%、行銷 30%、營運 20%）</li><li>開發週期：6 個月（1-2 月核心玩法 → 3-4 月系統完善 → 5 月測試 → 6 月上線）</li></ul>（資料來源：docs/req/魚機遊戲募資企劃書.md §五/九/十）
-<p>
-</code></pre>
-</p>
+- 收益來源：道具內購 + VIP 訂閱 + 活動付費
+- 財務目標：DAU 10,000、付費率 5%、ARPU $20/月、月營收 USD 10,000
+- 資金需求：USD 200,000（開發 50%、行銷 30%、營運 20%）
+- 開發週期：6 個月（1-2 月核心玩法 → 3-4 月系統完善 → 5 月測試 → 6 月上線）
+（資料來源：docs/req/魚機遊戲募資企劃書.md §五/九/十）</code></pre>
 <hr>
-<h2 id="appendix-b：document-history">Appendix B：Document History</h2>
-<table><tr><th>版本</th><th>日期</th><th>作者</th><th>修改摘要</th></tr><tr><td>v0.1-capture</td><td>2026-04-24</td><td>/gendoc idea (AI Generated)</td><td>初始捕捉，依 Q1-Q5 澄清結果 + docs/req/ 素材自動生成</td></tr><tr><td>v0.2</td><td>—</td><td>—</td><td>—</td></tr></table>
+<h2>Appendix B：Document History</h2>
+<table>
+<tr><th>版本</th><th>日期</th><th>作者</th><th>修改摘要</th></tr>
+<tr><td>v0.1-capture</td><td>2026-04-24</td><td>/gendoc idea (AI Generated)</td><td>初始捕捉，依 Q1-Q5 澄清結果 + docs/req/ 素材自動生成</td></tr>
+<tr><td>v0.2</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
 <hr>
-<h2 id="appendix-c：素材清單（source-materials-index）">Appendix C：素材清單（Source Materials Index）</h2>
-<table><tr><th>檔案路徑</th><th>素材類型</th><th>應用於（對應章節）</th></tr><tr><td><code>docs/req/魚機遊戲募資企劃書.md</code></td><td>商業企劃書</td><td>§1 Idea Essence、§2 Problem Statement、§3 Target Users、§4 Value Hypothesis、§7 Market Intelligence、§8 Risk Assessment、§9 Business Potential</td></tr><tr><td><code>docs/req/README.md</code></td><td>開源平台介紹</td><td>§1 Idea Essence（功能清單）、§7 競品/參考資源（技術生態）</td></tr><tr><td><code>docs/req/idea-input.md</code></td><td>原始需求輸入</td><td>§6 Clarification Record（原始 IDEA 原文逐字保留）</td></tr><tr><td><code>docs/req/codebase-tree.txt</code></td><td>參考 Codebase 目錄結構</td><td>§5 Constraints（技術限制）、§7 技術生態（模組清單）、Appendix A 搜尋 2</td></tr><tr><td><code>docs/req/lua-files.txt</code></td><td>Lua 源碼模組清單</td><td>§5 Constraints（技術模組範圍）、Appendix A 搜尋 2</td></tr></table>
+<h2>Appendix C：素材清單（Source Materials Index）</h2>
+<table>
+<tr><th>檔案路徑</th><th>素材類型</th><th>應用於（對應章節）</th></tr>
+<tr><td><code>docs/req/魚機遊戲募資企劃書.md</code></td><td>商業企劃書</td><td>§1 Idea Essence、§2 Problem Statement、§3 Target Users、§4 Value Hypothesis、§7 Market Intelligence、§8 Risk Assessment、§9 Business Potential</td></tr>
+<tr><td><code>docs/req/README.md</code></td><td>開源平台介紹</td><td>§1 Idea Essence（功能清單）、§7 競品/參考資源（技術生態）</td></tr>
+<tr><td><code>docs/req/idea-input.md</code></td><td>原始需求輸入</td><td>§6 Clarification Record（原始 IDEA 原文逐字保留）</td></tr>
+<tr><td><code>docs/req/codebase-tree.txt</code></td><td>參考 Codebase 目錄結構</td><td>§5 Constraints（技術限制）、§7 技術生態（模組清單）、Appendix A 搜尋 2</td></tr>
+<tr><td><code>docs/req/lua-files.txt</code></td><td>Lua 源碼模組清單</td><td>§5 Constraints（技術模組範圍）、Appendix A 搜尋 2</td></tr>
+</table>
 <hr>
-<p>
-<em>此 IDEA.md 由 /gendoc idea 自動生成並保存。它記錄了需求探索過程的所有原始輸入、假設與品質評分，是未來 BUG vs ECR 判斷的一級依據。</em>
-</p>
-<p>
-<em>未來需求發生變化時，請先閱讀本文件 §6（原始 IDEA 原文）與 §12（關鍵假設），確認變更是否超出原始意圖範圍。</em>
-</p></main>
-</div>
-<script src="assets/app.js"></script>
+<p><em>此 IDEA.md 由 /gendoc idea 自動生成並保存。它記錄了需求探索過程的所有原始輸入、假設與品質評分，是未來 BUG vs ECR 判斷的一級依據。</em></p>
+<p><em>未來需求發生變化時，請先閱讀本文件 §6（原始 IDEA 原文）與 §12（關鍵假設），確認變更是否超出原始意圖範圍。</em></p><section style="margin-top:2rem;padding:1.5rem;background:#fff;border:1px solid var(--border);border-radius:8px;"><h2 style="margin-top:0">📎 附件與素材 (req/)</h2><p style="color:var(--text-muted);font-size:0.875rem;margin-bottom:0.75rem">共 5 個附件，點擊下載</p><ul style="list-style:none;padding:0;margin:0"><li style="padding:0.5rem 0;border-bottom:1px solid var(--border)">📎 <a href="../../docs/req/README.md" download="README.md" target="_blank" style="color:var(--accent)">README.md</a> <span style="color:var(--text-muted);font-size:0.8125rem">(5 KB)</span></li><li style="padding:0.5rem 0;border-bottom:1px solid var(--border)">📎 <a href="../../docs/req/codebase-tree.txt" download="codebase-tree.txt" target="_blank" style="color:var(--accent)">codebase-tree.txt</a> <span style="color:var(--text-muted);font-size:0.8125rem">(1 KB)</span></li><li style="padding:0.5rem 0;border-bottom:1px solid var(--border)">📎 <a href="../../docs/req/idea-input.md" download="idea-input.md" target="_blank" style="color:var(--accent)">idea-input.md</a> <span style="color:var(--text-muted);font-size:0.8125rem">(262 B)</span></li><li style="padding:0.5rem 0;border-bottom:1px solid var(--border)">📎 <a href="../../docs/req/lua-files.txt" download="lua-files.txt" target="_blank" style="color:var(--accent)">lua-files.txt</a> <span style="color:var(--text-muted);font-size:0.8125rem">(180 B)</span></li><li style="padding:0.5rem 0;border-bottom:1px solid var(--border)">📎 <a href="../../docs/req/魚機遊戲募資企劃書.md" download="魚機遊戲募資企劃書.md" target="_blank" style="color:var(--accent)">魚機遊戲募資企劃書.md</a> <span style="color:var(--text-muted);font-size:0.8125rem">(3 KB)</span></li></ul></section></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
 </body>
 </html>

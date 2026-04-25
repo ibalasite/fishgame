@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>活動圖：購買流程 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 活動圖：購買流程</p>
+    <h1 class="banner-title">活動圖：購買流程</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link active" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: activity-purchase</p>
+<p>uml-type: 活動圖（IAP 購買流程）</p>
+<p>source: EDD.md §5.5 Order Entity; PRD.md §4.1 US-SHOP-001; API.md §2.3</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<hr>
+<h1>Activity Diagram — IAP Purchase Flow（IAP 鑽石購買流程）</h1>
+<blockquote><p>來源：EDD.md §5.5 Order Entity；PRD.md §4.1 US-SHOP-001；API.md §2.3 Commerce</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+flowchart TD
+    subgraph Player["👤 Player (Cocos Creator)"]
+        P_OpenShop[開啟商城頁面]
+        P_SelectProduct[選擇鑽石套餐\n如: 330 鑽石 = USD 4.99]
+        P_InitiatePurchase[發起購買\n系統生成 orderId UUID v4]
+        P_PlatformPay[跳轉平台支付\nApp Store / Google Play]
+        P_WaitConfirm[等待支付確認]
+        P_Success[顯示購買成功\n鑽石 +330 動畫]
+        P_Retry[顯示重試提示]
+        P_Fail[顯示失敗原因]
+    end
+
+    subgraph ShopService["⚙️ ShopService (Node.js :3001)"]
+        SS_CheckIdempotency{檢查 orderId\n冪等性?}
+        SS_CreateOrder[建立訂單記錄\nstatus=PENDING]
+        SS_VerifyReceipt[呼叫 IAP Receipt 驗證\nPlatform-specific]
+        SS_CircuitBreaker{Circuit Breaker\n狀態?}
+        SS_GrantDiamonds[發放鑽石\npublish IAPPurchaseCompleted]
+        SS_UpdateOrder[更新訂單 status=COMPLETED]
+        SS_PendingRetry[訂單 status=PENDING\n異步重試排程]
+        SS_FailOrder[訂單 status=FAILED\n記錄錯誤原因]
+    end
+
+    subgraph PaymentGateway["💳 IAP Payment Gateway (External)"]
+        PG_VerifyApple[Apple: POST sandbox.itunes.apple.com\n驗證 Receipt]
+        PG_VerifyGoogle[Google: POST googleapis.com\n驗證 purchaseToken]
+        PG_ReceiptValid{Receipt 有效?}
+        PG_DupReceipt{Receipt 重複\n使用?}
+    end
+
+    subgraph AccountService["⚙️ AccountService (Node.js :3000)"]
+        AS_UpdateBalance[UPDATE users.diamond_balance += 330\n(via IAPPurchaseCompleted event)]
+        AS_NotifyPlayer[推送通知\n鑽石到帳確認]
+    end
+
+    subgraph Database["💾 Database (MySQL)"]
+        DB_CreateOrder[INSERT orders\n{orderId, userId, productId, status=PENDING}]
+        DB_CheckReceipt[SELECT orders WHERE\niap_receipt_hash=? 防重複]
+        DB_UpdateCompleted[UPDATE orders SET\nstatus=COMPLETED]
+        DB_UpdateFailed[UPDATE orders SET\nstatus=FAILED]
+    end
+
+    P_OpenShop --> P_SelectProduct --> P_InitiatePurchase
+    P_InitiatePurchase --> SS_CheckIdempotency
+
+    SS_CheckIdempotency -->|orderId 存在，已完成| P_Success
+    SS_CheckIdempotency -->|新請求| SS_CreateOrder
+    SS_CreateOrder --> DB_CreateOrder --> P_PlatformPay
+
+    P_PlatformPay --> P_WaitConfirm
+    P_WaitConfirm --> SS_VerifyReceipt
+
+    SS_VerifyReceipt --> SS_CircuitBreaker
+    SS_CircuitBreaker -->|CLOSED 正常| PG_VerifyApple
+    SS_CircuitBreaker -->|CLOSED 正常| PG_VerifyGoogle
+    SS_CircuitBreaker -->|OPEN 熔斷| SS_PendingRetry
+
+    PG_VerifyApple --> PG_ReceiptValid
+    PG_VerifyGoogle --> PG_ReceiptValid
+
+    PG_ReceiptValid -->|無效| SS_FailOrder
+    PG_ReceiptValid -->|有效| PG_DupReceipt
+
+    PG_DupReceipt -->|重複使用| SS_FailOrder
+    PG_DupReceipt -->|首次使用| DB_CheckReceipt
+
+    DB_CheckReceipt -->|重複 hash| SS_FailOrder
+    DB_CheckReceipt -->|全新 receipt| SS_GrantDiamonds
+
+    SS_GrantDiamonds --> SS_UpdateOrder --> DB_UpdateCompleted
+    SS_GrantDiamonds --> AS_UpdateBalance --> AS_NotifyPlayer --> P_Success
+
+    SS_FailOrder --> DB_UpdateFailed --> P_Fail
+    SS_PendingRetry -->|重試最多 3 次| SS_VerifyReceipt
+    SS_PendingRetry -->|3 次失敗| P_Retry
+
+    style P_Success fill:#1a472a,stroke:#2d8a50,color:#fff
+    style P_Fail fill:#4a1a1a,stroke:#8a2d2d,color:#fff
+    style P_Retry fill:#3a3a1a,stroke:#8a8a2d,color:#fff
+    style SS_PendingRetry fill:#2a2a4a,stroke:#4a4a8a,color:#fff</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

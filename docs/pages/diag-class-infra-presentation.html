@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>類別圖：基礎設施與呈現層 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 類別圖：基礎設施與呈現層</p>
+    <h1 class="banner-title">類別圖：基礎設施與呈現層</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link active" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: class-infra-presentation</p>
+<p>uml-type: 類別圖（基礎設施層 + 展示層）</p>
+<p>source: EDD.md §3.1; ARCH.md §2.2; SCHEMA.md §3</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<hr>
+<h1>Class Diagram — Infrastructure &amp; Presentation Layer（基礎設施層 + 展示層）</h1>
+<blockquote><p>來源：EDD.md §3.1 分層架構；ARCH.md §3.3 C4 Level 3；SCHEMA.md §3 資料表定義</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+classDiagram
+    direction TB
+
+    %% ==================== PRESENTATION LAYER — CONTROLLERS ====================
+
+    class GameController {
+        <<Controller>>
+        - gameService: GameService
+        + onJoin(client: Client, options: JoinOptions): void
+        + onLeave(client: Client, consented: bool): void
+        + onShoot(client: Client, msg: ShootMessage): void
+        + onSwitchWeapon(client: Client, msg: WeaponMessage): void
+        + onUseSkill(client: Client, msg: SkillMessage): void
+        + onCreate(options: RoomOptions): void
+        + onDispose(): void
+        + onAuth(token: string, options: any): JWTPayload
+    }
+
+    class ShopController {
+        <<Controller>>
+        - purchaseUseCase: PurchaseUseCase
+        - subscribeVIPUseCase: SubscribeVIPUseCase
+        - refundUseCase: RefundUseCase
+        + createPurchase(req: Request, res: Response): Promise~void~
+        + verifyReceipt(req: Request, res: Response): Promise~void~
+        + subscribeVIP(req: Request, res: Response): Promise~void~
+        + getOrders(req: Request, res: Response): Promise~void~
+        + requestRefund(req: Request, res: Response): Promise~void~
+    }
+
+    class AccountController {
+        <<Controller>>
+        - accountService: AccountService
+        + register(req: Request, res: Response): Promise~void~
+        + login(req: Request, res: Response): Promise~void~
+        + refreshToken(req: Request, res: Response): Promise~void~
+        + getProfile(req: Request, res: Response): Promise~void~
+        + updateProfile(req: Request, res: Response): Promise~void~
+        + verifyAge(req: Request, res: Response): Promise~void~
+    }
+
+    class AdminController {
+        <<Controller>>
+        - rtpService: RTPService
+        - jackpotService: JackpotApplicationService
+        + getRTPConfig(req: Request, res: Response): Promise~void~
+        + overrideRTP(req: Request, res: Response): Promise~void~
+        + disableJackpot(req: Request, res: Response): Promise~void~
+        + getKPI(req: Request, res: Response): Promise~void~
+        + getAuditLogs(req: Request, res: Response): Promise~void~
+        + banUser(req: Request, res: Response): Promise~void~
+    }
+
+    %% ==================== COLYSEUS SCHEMAS (RequestDTOs) ====================
+
+    class GameRoomSchema {
+        <<RequestDTO>>
+        + roomId: string
+        + roomType: string
+        + status: string
+        + playerCount: int
+        + jackpotPool: int
+        + startedAt: number
+        + players: MapSchema~PlayerStateSchema~
+        + fishes: MapSchema~FishStateSchema~
+        + encode(): ArrayBuffer
+        + decode(buffer: ArrayBuffer): void
+    }
+
+    class PlayerStateSchema {
+        <<RequestDTO>>
+        + id: string
+        + nickname: string
+        + coins: int
+        + level: int
+        + vipLevel: int
+        + status: string
+        + weaponType: string
+        + x: float
+        + y: float
+        + encode(): ArrayBuffer
+        + decode(buffer: ArrayBuffer): void
+    }
+
+    class FishStateSchema {
+        <<RequestDTO>>
+        + id: string
+        + fishType: string
+        + hp: int
+        + maxHp: int
+        + x: float
+        + y: float
+        + status: string
+        + multiplier: int
+        + encode(): ArrayBuffer
+        + decode(buffer: ArrayBuffer): void
+    }
+
+    class ShootMessage {
+        <<RequestDTO>>
+        + fishId: string
+        + weaponType: string
+        + positionX: float
+        + positionY: float
+    }
+
+    %% ==================== INFRASTRUCTURE — REPOSITORY IMPLEMENTATIONS ====================
+
+    class PlayerRepositoryImpl {
+        <<RepositoryImpl>>
+        - prisma: PrismaClient
+        - cache: RedisClient
+        + findById(id: string): Promise~Player?~
+        + findByEmail(email: string): Promise~Player?~
+        + save(player: Player): Promise~void~
+        + delete(id: string): Promise~void~
+        - toEntity(record: UserRecord): Player
+        - toPrismaModel(player: Player): UserRecord
+        - cachePlayer(player: Player, ttl: int): Promise~void~
+        - invalidateCache(playerId: string): Promise~void~
+    }
+
+    class RoomRepositoryImpl {
+        <<RepositoryImpl>>
+        - prisma: PrismaClient
+        - cache: RedisClient
+        + findById(id: string): Promise~Room?~
+        + findAvailable(): Promise~Room[]~
+        + save(room: Room): Promise~void~
+        + delete(id: string): Promise~void~
+        - toEntity(record: GameSessionRecord): Room
+    }
+
+    class FishKillRepositoryImpl {
+        <<RepositoryImpl>>
+        - prisma: PrismaClient
+        + recordKill(kill: FishKillRecord): Promise~void~
+        + findBySessionId(sessionId: string): Promise~FishKillRecord[]~
+        + findByPlayerId(playerId: string, limit: int): Promise~FishKillRecord[]~
+    }
+
+    class OrderRepositoryImpl {
+        <<RepositoryImpl>>
+        - prisma: PrismaClient
+        + findById(orderId: string): Promise~Transaction?~
+        + findByUserId(userId: string): Promise~Transaction[]~
+        + save(order: Transaction): Promise~void~
+        + findByReceiptHash(hash: string): Promise~Transaction?~
+    }
+
+    %% ==================== INFRASTRUCTURE — ADAPTERS ====================
+
+    class PaymentAdapter {
+        <<Adapter>>
+        - appleClient: AppleIAPClient
+        - googleClient: GoogleIAPClient
+        - circuitBreaker: CircuitBreaker
+        + verifyAppleReceipt(receipt: string): ReceiptVerifyResult
+        + verifyGoogleReceipt(receipt: string): ReceiptVerifyResult
+        + processRefund(orderId: string): RefundResult
+        - mapAppleResponse(raw: AppleResponse): ReceiptVerifyResult
+        - mapGoogleResponse(raw: GoogleResponse): ReceiptVerifyResult
+    }
+
+    class RedisAdapter {
+        <<Adapter>>
+        - client: RedisClient
+        - keyPrefix: string
+        + get(key: string): Promise~string?~
+        + set(key: string, value: string, ttlSeconds: int): Promise~void~
+        + delete(key: string): Promise~void~
+        + increment(key: string, by: int): Promise~int~
+        + atomicGetAndSet(key: string, value: string): Promise~string?~
+        + evalLua(script: string, keys: string[], args: string[]): Promise~any~
+        + publish(channel: string, message: string): Promise~void~
+        + subscribe(channel: string, handler: Function): void
+    }
+
+    class DomainEventBusImpl {
+        <<Adapter>>
+        - redis: RedisAdapter
+        - handlers: Map~string, EventHandler[]~
+        + publish(event: DomainEvent): Promise~void~
+        + subscribe(eventType: string, handler: EventHandler): void
+        - serialize(event: DomainEvent): string
+        - deserialize(json: string): DomainEvent
+    }
+
+    class NotificationAdapter {
+        <<Adapter>>
+        - fcmClient: FCMClient
+        - circuitBreaker: CircuitBreaker
+        + sendPushNotification(userId: string, message: string): Promise~void~
+        + broadcastJackpot(winnerId: string, amount: int): Promise~void~
+        + sendVIPActivated(userId: string, tier: int): Promise~void~
+    }
+
+    class FeatureFlagAdapter {
+        <<Adapter>>
+        - unleashClient: UnleashClient
+        - localCache: Map~string, bool~
+        - cacheTTLMs: int
+        + isEnabled(flagName: string): bool
+        + getVariant(flagName: string): string
+        - refreshCache(): void
+    }
+
+    class AnalyticsAdapter {
+        <<Adapter>>
+        - mixpanelClient: MixpanelClient
+        - buffer: DomainEvent[]
+        - maxBufferSize: int
+        + track(event: DomainEvent): void
+        + flush(): Promise~void~
+        - mapToMixpanelEvent(event: DomainEvent): MixpanelEvent
+    }
+
+    %% ==================== RELATIONSHIPS ====================
+
+    GameController --> GameRoomSchema : manages state
+    GameController ..> PlayerStateSchema : sync
+    GameController ..> FishStateSchema : sync
+    GameController ..> ShootMessage : receives
+
+    GameRoomSchema "1" *-- "0..*" PlayerStateSchema : players
+    GameRoomSchema "1" *-- "0..*" FishStateSchema : fishes
+
+    PlayerRepositoryImpl ..|> PlayerRepository : implements
+    RoomRepositoryImpl ..|> RoomRepository : implements
+    PaymentAdapter ..|> IPaymentPort : implements
+    RedisAdapter ..|> ICache : implements
+    DomainEventBusImpl ..|> IDomainEventBus : implements
+    NotificationAdapter ..|> INotificationPort : implements
+    FeatureFlagAdapter ..|> IFeatureFlag : implements
+
+    DomainEventBusImpl --> RedisAdapter : uses
+    PlayerRepositoryImpl --> RedisAdapter : caches
+    RoomRepositoryImpl --> RedisAdapter : caches
+
+    ShopController --> PurchaseUseCase : calls
+    ShopController --> SubscribeVIPUseCase : calls
+    ShopController --> RefundUseCase : calls
+    AccountController --> AccountService : calls
+    AdminController --> RTPService : calls
+    AdminController --> JackpotApplicationService : calls</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

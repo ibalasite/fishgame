@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BDD Scenarios — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › BDD Scenarios</p>
+    <h1 class="banner-title">BDD Scenarios</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link active" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><h2>auth/user_login.feature</h2>
+<pre><code class="language-gherkin"># features/auth/user_login.feature
+# 來源：PRD US-ACCT-001/AC-3,AC-4,AC-5
+# Risk Level：High（認證安全核心，Scenario 數量加倍）
+
+Feature: 使用者帳號登入與 JWT 認證
+  作為 已註冊的遊戲玩家
+  我希望 使用 email 和密碼安全登入
+  以便 取得 JWT Token 進行後續遊戲操作
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And 系統中存在有效帳號 email &quot;player-login@example.com&quot;，密碼 &quot;Valid1234!&quot;，age_verified=true
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p0 @smoke @regression @api @contract @TC-INT-ACCT-008-S
+  Scenario: 有效憑證成功登入並取得雙 Token
+    Given 帳號 &quot;player-login@example.com&quot; 存在且未被鎖定
+    When 使用者提交 POST /v1/auth/login，email=&quot;player-login@example.com&quot;，password=&quot;Valid1234!&quot;
+    Then API 回應狀態碼 200
+    And 回應包含 access_token（JWT，到期時間 15 分鐘）
+    And 回應包含 refresh_token（JWT，到期時間 7 天）
+    And 資料庫 users.last_login_at 已更新為當前時間
+
+  @p0 @smoke @regression @api @contract @TC-INT-ACCT-009-S
+  Scenario: 使用 Refresh Token 無縫更換 Access Token
+    Given 使用者持有有效的 refresh_token（未過期）
+    When 使用者提交 POST /v1/auth/refresh，帶上 refresh_token
+    Then API 回應狀態碼 200
+    And 回應包含新的 access_token（有效期重置為 15 分鐘）
+    And 舊的 refresh_token 已作廢（replay attack prevention）
+
+  @p0 @regression @api @contract @TC-INT-ACCT-010-S
+  Scenario: 成功登出後 Refresh Token 作廢
+    Given 使用者已登入，持有有效的 access_token 和 refresh_token
+    When 使用者提交 POST /v1/auth/logout，帶上 access_token
+    Then API 回應狀態碼 200
+    And 嘗試以已登出的 refresh_token 執行 POST /v1/auth/refresh 返回狀態碼 401
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-INT-ACCT-011-E
+  Scenario: 錯誤密碼登入返回認證失敗
+    Given 帳號 &quot;player-login@example.com&quot; 存在
+    When 使用者提交 POST /v1/auth/login，password=&quot;WrongPass!&quot;
+    Then API 回應狀態碼 401
+    And 回應錯誤碼為 &quot;INVALID_CREDENTIALS&quot;
+    And 回應不洩漏帳號是否存在
+
+  @p0 @regression @api @contract @TC-INT-ACCT-012-E
+  Scenario: 不存在的 email 登入返回認證失敗
+    Given email &quot;ghost@example.com&quot; 在系統中不存在
+    When 使用者提交 POST /v1/auth/login，email=&quot;ghost@example.com&quot;
+    Then API 回應狀態碼 401
+    And 回應錯誤碼為 &quot;INVALID_CREDENTIALS&quot;
+    And 回應與密碼錯誤的訊息完全相同（防止帳號枚舉攻擊）
+
+  @p0 @regression @api @contract @TC-INT-ACCT-004-E
+  Scenario: 24 小時內同一 IP 超過 100 次登入嘗試觸發 Rate Limit
+    Given 同一 IP 在過去 24 小時內已嘗試登入 100 次
+    When 該 IP 再次提交 POST /v1/auth/login
+    Then API 回應狀態碼 429
+    And 回應包含 Retry-After header，時間 ≥ 3600 秒
+    And 回應錯誤碼為 &quot;RATE_LIMITED&quot;
+
+  @p0 @regression @api @contract @TC-INT-ACCT-013-E
+  Scenario: 以撤銷的 Refresh Token 刷新 Token 被拒絕
+    Given 使用者的 refresh_token 已被撤銷（已登出或已使用一次）
+    When 使用者以該 refresh_token 提交 POST /v1/auth/refresh
+    Then API 回應狀態碼 401
+    And 回應錯誤碼為 &quot;TOKEN_REVOKED&quot;
+
+  @p0 @regression @api @TC-INT-ACCT-014-E
+  Scenario: 無 Token 存取受保護端點被拒絕
+    Given 使用者未攜帶任何 Authorization header
+    When 使用者發送 GET /v1/users/some-user-id
+    Then API 回應狀態碼 401
+    And 回應錯誤碼為 &quot;UNAUTHORIZED&quot;
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p0 @regression @api @TC-INT-ACCT-015-B
+  Scenario Outline: JWT Token 有效期邊界條件
+    Given 使用者取得了 &lt;token_type&gt;
+    And Token 在 &lt;elapsed_time&gt; 後被使用
+    When 使用者以該 Token 存取受保護端點
+    Then API 回應狀態碼為 &lt;expected_status&gt;
+
+    Examples:
+      | token_type    | elapsed_time | expected_status |
+      | access_token  | 14 分鐘      | 200             |
+      | access_token  | 16 分鐘      | 401             |
+      | refresh_token | 6 天         | 200             |
+      | refresh_token | 8 天         | 401             |
+</code></pre>
+<h2>auth/user_registration.feature</h2>
+<pre><code class="language-gherkin"># features/auth/user_registration.feature
+# 來源：PRD US-ACCT-001/AC-1,AC-2；US-AGE-001/AC-1,AC-2
+# Risk Level：High（帳號認證為核心安全功能，Scenario 數量加倍）
+
+Feature: 使用者帳號註冊
+  作為 遊戲新玩家
+  我希望 使用 email 和密碼完成帳號申請
+  以便 進入平台進行遊戲和消費
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And email &quot;test-new@example.com&quot; 在系統中不存在
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p0 @smoke @regression @api @contract @TC-E2E-ACCT-001-S
+  Scenario: 有效帳號資料成功註冊
+    Given 使用者備好 email &quot;player-001@example.com&quot;、密碼 &quot;Secure1234!&quot;、顯示名稱 &quot;Player001&quot;、出生日期 &quot;2000-06-15&quot;
+    When 使用者提交 POST /v1/auth/register 並帶上 agree_terms=true
+    Then API 回應狀態碼 201
+    And 回應包含 user_id（非空 UUID 格式）
+    And 回應的 email 已部分遮蔽（格式為 &quot;p***@example.com&quot;）
+    And 回應包含 age_verified=true
+    And 資料庫中存在對應 user 記錄，密碼以 bcrypt rounds=12 儲存
+
+  @p0 @smoke @regression @api @contract @TC-INT-ACCT-002-S
+  Scenario: 成功註冊後可以立即登入
+    Given email &quot;autotest-reg@example.com&quot; 已透過有效資料完成註冊
+    When 使用者以相同 email 和密碼執行 POST /v1/auth/login
+    Then API 回應狀態碼 200
+    And 回應包含有效的 access_token（JWT，15 分鐘到期）
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-INT-ACCT-003-E
+  Scenario: 重複 email 註冊返回衝突錯誤
+    Given email &quot;existing@example.com&quot; 已在系統中存在
+    When 使用者嘗試以 email &quot;existing@example.com&quot; 再次提交 POST /v1/auth/register
+    Then API 回應狀態碼 409
+    And 回應錯誤碼為 &quot;EMAIL_ALREADY_EXISTS&quot;
+
+  @p0 @regression @api @contract @TC-INT-ACCT-017-E
+  Scenario: 未勾選同意條款的帳號申請被拒絕
+    Given 使用者備好有效的帳號資料
+    When 使用者提交 POST /v1/auth/register 但 agree_terms=false
+    Then API 回應狀態碼 400
+    And 回應包含 VALIDATION_ERROR，欄位指向 agree_terms
+
+  @p0 @regression @api @TC-INT-ACCT-006-E
+  Scenario: 已過期 JWT Token 存取受保護資源被拒絕
+    Given 使用者持有一個已過期的 JWT access_token
+    When 使用者以該 Token 發送 GET /v1/users/:id 請求
+    Then API 回應狀態碼 401
+    And 回應錯誤碼為 &quot;TOKEN_EXPIRED&quot;
+
+  @p0 @regression @api @TC-INT-ACCT-007-E
+  Scenario: 使用者嘗試存取其他使用者的個人資料被禁止
+    Given 使用者 A 已登入並持有有效 JWT
+    And 系統中存在使用者 B（不同 user_id）
+    When 使用者 A 以自己的 Token 存取 GET /v1/users/{userB_id}
+    Then API 回應狀態碼 403
+    And 回應錯誤碼為 &quot;FORBIDDEN&quot;
+
+  @p0 @regression @api @TC-E2E-AGE-001-S
+  Scenario: 18 歲以下使用者嘗試註冊被拒絕（年齡限制）
+    Given 使用者出生日期為距今不足 18 年的日期 &quot;2010-01-01&quot;
+    When 使用者提交 POST /v1/auth/register 含該出生日期
+    Then API 回應狀態碼 422
+    And 回應錯誤碼為 &quot;AGE_RESTRICTION&quot;
+    And 資料庫中不存在該 email 的 user 記錄
+
+  @p0 @regression @api @TC-INT-AGE-002-S
+  Scenario: 18 歲以上使用者年齡驗證自動通過
+    Given 使用者出生日期為距今超過 18 年的日期 &quot;2000-01-01&quot;
+    When 使用者完成 POST /v1/auth/register
+    Then API 回應狀態碼 201
+    And 資料庫中 users.age_verified = true
+
+  @p0 @regression @api @TC-INT-AGE-003-E
+  Scenario: 未年齡驗證使用者無法進行付費操作
+    Given 使用者 age_verified=false（年齡驗證未通過）
+    When 使用者嘗試執行 POST /v1/shop/purchases
+    Then API 回應狀態碼 403
+    And 回應錯誤碼為 &quot;AGE_VERIFICATION_REQUIRED&quot;
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p0 @regression @api @TC-UNIT-ACCT-005-B
+  Scenario Outline: 帳號欄位格式驗證邊界條件
+    Given 系統已就緒，準備接受帳號申請
+    When 使用者提交 POST /v1/auth/register，其中 &lt;field&gt; 的值為 &quot;&lt;value&gt;&quot;
+    Then API 回應狀態碼 400
+    And 回應包含 VALIDATION_ERROR，欄位指向 &lt;field&gt;
+
+    Examples:
+      | field        | value               |
+      | password     | short               |
+      | password     | &lt;超過128字元的密碼&gt;  |
+      | email        | not-an-email        |
+      | display_name | x                   |
+      | birthdate    | 2000-13-01          |
+
+  @p0 @regression @api @TC-INT-ACCT-016-E
+  Scenario: Rate Limit — 同一 IP 單分鐘超過 5 次註冊請求返回 429
+    Given 同一 IP 在 1 分鐘內已發送 5 次 POST /v1/auth/register
+    When 同一 IP 再次發送第 6 次 POST /v1/auth/register
+    Then API 回應狀態碼 429
+    And 回應包含 Retry-After header
+</code></pre>
+<h2>client/fish_animation.feature</h2>
+<pre><code class="language-gherkin"># features/client/fish_animation.feature
+# 來源：PRD US-FISH-001；PDD §5.4 GameScene 魚群；VDD §4.2 NPC 魚類設計；FRONTEND.md §5 FishSystem / FishPoolManager
+# Client 層面：魚入場動畫、Idle 循環、命中特效、死亡動畫、Boss 進場、冰凍狀態
+
+Feature: 魚類動畫與視覺狀態
+  作為遊戲中的玩家
+  我希望看到流暢的魚類動畫和視覺效果
+  以便感受到遊戲世界的生動感與每次擊殺的多巴胺爽感
+
+  Background:
+    Given 玩家已進入 GameScene
+    And FishPoolManager 已初始化（100 個魚節點物件池）
+    And EffectPoolManager 已初始化（HitEffect×50、CoinEffect×100）
+
+  # ─── 魚入場動畫 ──────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 普通魚從屏幕邊緣游入（入場動畫）
+    When FishSystem 生成一條普通魚（School Fish，64×48 px）
+    Then 魚節點從屏幕任意邊緣（左/右/上）外側出現
+    And 魚以設定路徑游入（Tween 移動，500ms ease-in-out）
+    And 魚在游入過程中播放 8 幀擺尾 loop 動畫
+    And 魚入場時使用淡入效果（opacity 0→1，200ms）
+
+  @client @p0 @visual
+  Scenario: 精英魚入場有輪廓光效果
+    When FishSystem 生成一條精英魚（Elite Fish，128×96 px）
+    Then 精英魚從屏幕邊緣游入（Tween 動畫，600ms）
+    And 精英魚外框顯示 2px Outline Shader（顏色對應魚主色，例如 #E91E63）
+    And 精英魚同時顯示 HP 血條（顏色初始為 color-neon-green #00FF88）
+    And 入場動畫播放 12 幀（含鰭動）
+
+  @client @p0 @visual
+  Scenario: Boss 魚進場顯示史詩進場動畫序列
+    # VDD §4.2 NPC-03 Boss Fish：16 幀，全屏震動 + 海浪裂開 + 主題音效，1200ms
+    When FishSystem 生成一條 Boss 魚（320×240 px）
+    Then 畫面執行全屏震動效果（Tween shake，2s，振幅 8px）
+    And Boss 魚以 16 幀進場動畫從底部衝入屏幕中央
+    And 進場音效（Boss 主題 BGM 段落）觸發（AudioManager.playBGM）
+    And 進場動畫總時長 ≤ 1200ms
+    And Boss 大型 HP 血條置頂顯示（金框，Tween 300ms 緩衝入場）
+    And Boss 名稱標題（text-h1 32px）以 Fade In（300ms）顯示於血條下方
+
+  # ─── 魚 Idle 動畫循環 ─────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 普通魚在場景中保持游泳 Idle 動畫
+    Given 一條普通魚已進入屏幕並在游動路徑上
+    When 魚未被射擊
+    Then 魚持續播放 8 幀擺尾 loop 動畫（800ms/loop）
+    And 魚依預設路徑緩慢移動（路徑 Tween，方向感自然）
+
+  @client @p0 @visual
+  Scenario: 精英魚在場景中的 Idle 動畫含輪廓光閃爍
+    Given 一條精英魚已進入屏幕
+    When 精英魚未被射擊（Idle 狀態）
+    Then 精英魚播放 12 幀 loop 動畫（含鰭動）
+    And Outline Shader 以輕微脈衝（opacity 0.7→1.0，1s loop）呈現存在感
+
+  # ─── 命中特效（Hit Effect）──────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 子彈命中普通魚顯示受擊閃爍
+    Given 場景中有一條存活的普通魚
+    When 伺服器回傳命中事件（hit=true）
+    Then 魚播放受擊閃爍動畫（4 幀 / 80ms，白色閃光 Sprite Overlay）
+    And EffectPoolManager 在命中坐標生成小金幣粒子（3 枚，飛出 Tween 300ms）
+    And 命中音效觸發（短促金屬音）
+
+  @client @p0 @visual
+  Scenario: 精英魚多次被命中但未死亡時血條持續減少
+    Given 精英魚 HP = 10，當前血量 = 10（血條全滿 100%）
+    When 玩家射擊命中 3 次（每次 -1 HP）
+    Then 精英魚 HP 血條以 Tween（300ms）動畫從 100% 縮短至 70%
+    And 血條顏色保持 color-neon-green（HP &gt; 30%）
+    And 每次命中皆觸發受擊閃爍動畫（80ms）
+
+  @client @p1 @visual
+  Scenario: 精英魚血量低於 30% 時血條變紅警示
+    Given 精英魚 HP 血條顯示，血量剩餘 25%
+    When FishSystem 同步血量更新（Colyseus state patch）
+    Then 血條顏色從 color-neon-green（#00FF88）Tween 至 color-red-500（#FF4444）
+    And 血條邊框閃爍（1s pulse，color-red-500）
+    And Boss 魚血量低於 30% 時進一步觸發全場暗度降低至 60%（Boss 高亮效果）
+
+  # ─── 死亡動畫 ─────────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 普通魚死亡後顯示爆炸特效與金幣飛濺
+    # VDD §4.2 NPC-01：小爆炸，金幣 ×1–5 飛出，持續 300ms
+    Given 一條普通魚 HP 被打至 0（fish_killed Colyseus 事件）
+    When FishSystem 接收到死亡事件
+    Then 魚節點播放小爆炸特效（EffectPool 粒子，金色，300ms）
+    And CoinEffect 生成 1–5 枚金幣粒子從魚位置飛散（Tween 弧線，300ms）
+    And 魚節點在特效結束後返回 FishPoolManager 物件池（active = false）
+    And 金幣獎勵數字（例如 &quot;+5&quot;）以彈出動畫（scale 0→1.2→1.0，200ms）浮現
+
+  @client @p0 @visual
+  Scenario: 精英魚死亡後顯示大爆炸與金幣瀑布
+    # VDD §4.2 NPC-02：大爆炸，金幣瀑布（30–50 枚），持續 500ms
+    Given 一條精英魚 HP 被打至 0
+    When FishSystem 接收到精英魚死亡事件
+    Then 播放大爆炸特效（粒子系統，白色閃光 + 金色噴射，500ms）
+    And CoinEffect 生成 30–50 枚金幣粒子（弧線飛散，Tween 500ms）
+    And 精英魚 HP 血條以 Fade Out（200ms）消失
+    And 精英魚 Outline Shader 在死亡時放大（scale 1.0→2.0）後消失
+
+  @client @p0 @visual
+  Scenario: Boss 魚死亡觸發全屏金色爆炸與倍率爆字
+    # VDD §4.2 NPC-03：32 幀，全屏金色爆炸 + 倍率數字衝屏，持續 ≥ 3000ms
+    Given Boss 魚 HP 被打至 0（fish_killed，isBoss=true）
+    When FishSystem 接收到 Boss 死亡事件
+    Then 播放 32 幀全屏金色爆炸動畫（3000ms）
+    And 倍率數字爆字（例如 &quot;×1000&quot;）以 scale 0.5→3.0 衝屏並 Fade Out（1s）
+    And 爆字使用 VDD &quot;text-multiplier&quot;（56px / font-weight-900 / font-family-display）
+    And 爆字顏色為 color-gold-400（#F5C842）+ shadow-glow-neon（霓虹發光效果）
+    And Boss 死亡音效（史詩主題 SFX）觸發
+    And 所有玩家 HUD 短暫閃爍金光（200ms 全屏 Overlay）
+
+  # ─── 冰凍狀態（Frozen Fish）──────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: 魚被冰凍技能凍結後顯示冰霜視覺效果
+    # PDD §5.4：冰凍技能（控場）讓魚暫時靜止
+    Given 玩家或隊友使用冰凍技能（FreezeSkill 觸發，Colyseus fish_frozen 事件）
+    When 場景中的魚收到 frozen=true 狀態
+    Then 魚身覆蓋冰霜 Shader Overlay（半透明藍白色，opacity 0.7）
+    And 魚停止游泳動畫（暫停在當前幀）
+    And 魚停止移動路徑 Tween
+    And 冰凍特效粒子（藍色冰晶粒子，1s loop）在魚周圍持續顯示
+
+  @client @p1 @visual
+  Scenario: 冰凍效果結束後魚恢復正常動畫
+    Given 一條魚處於冰凍狀態（frozen=true）
+    When 冰凍持續時間到期（Colyseus fish_unfrozen 事件）
+    Then 冰霜 Shader 以 Fade Out（300ms）消失
+    And 魚恢復游泳 Idle 動畫（繼續從當前幀播放）
+    And 魚繼續沿路徑移動 Tween
+    And 冰晶粒子停止生成並 Fade Out
+
+  # ─── 錯誤狀態（資源未載入）──────────────────────────────────
+
+  @client @p2 @visual
+  Scenario: 魚 Prefab 資源載入失敗時顯示佔位圖
+    Given FishPoolManager 初始化時 NormalFish.prefab 載入失敗（資源缺失）
+    When FishSystem 嘗試生成普通魚
+    Then 使用 fallback 佔位 Sprite（純色矩形，64×48 px，灰色）替代魚外觀
+    And Console 輸出 warn 日誌（LogUtils.warn）：「NormalFish prefab missing, using fallback」
+    And 遊戲邏輯不中斷，射擊命中判定仍正常運作
+</code></pre>
+<h2>client/game_ui.feature</h2>
+<pre><code class="language-gherkin"># features/client/game_ui.feature
+# 來源：PRD US-FISH-001, US-ROOM-001；PDD §5.4 GameScene HUD；VDD §5.x；FRONTEND.md §6 UI/UX 實作
+# Client 層面：Cocos Creator HUD 顯示狀態、貨幣動畫、連線指示、玩家狀態
+
+Feature: 遊戲 HUD 顯示
+  作為一名玩家
+  我希望在遊戲中看到清晰且即時更新的 HUD 資訊
+  以便隨時掌握我的金幣餘額、排名與遊戲狀態
+
+  # HUD 四態：空態（等待中）/ 加載中 / 正常遊戲中 / 錯誤（中斷）
+
+  Background:
+    Given 玩家已登入且位於遊戲房間中
+    And 遊戲房間狀態為 &quot;PLAYING&quot;
+    And Colyseus WebSocket 連線狀態為 &quot;connected&quot;
+
+  # ─── 金幣餘額顯示 ────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: HUD 顯示玩家金幣餘額（正常態）
+    When 玩家進入遊戲房間
+    Then HUDComponent/CoinLabel 顯示玩家當前金幣餘額
+    And 金幣餘額以千分位格式顯示（例如 &quot;1,500&quot;）
+    And 金幣圖示（24×24 px Sprite）可見，使用 VDD token &quot;--color-gold-400&quot;（#F5C842）
+    And 金幣 Label 字型使用 &quot;text-hud-counter&quot;（20px / font-weight-600）
+
+  @client @p0 @interaction
+  Scenario: 金幣增加滾動動畫（Tween 更新）
+    Given 玩家當前金幣為 &quot;1000&quot;
+    When 玩家擊殺一條魚獲得 &quot;500&quot; 金幣（Colyseus state patch 到達）
+    Then HUD 金幣數字以 Tween 滾動動畫從 &quot;1000&quot; 更新至 &quot;1,500&quot;
+    And 動畫時長符合 VDD &quot;--duration-normal&quot;（300ms）
+    And 滾動動畫使用 easing expo-out
+    And 動畫完成後數字靜止顯示 &quot;1,500&quot;
+
+  @client @p0 @visual
+  Scenario: HUD 顯示鑽石餘額
+    When 玩家進入遊戲房間
+    Then HUDComponent/DiamondLabel 顯示玩家鑽石餘額
+    And 鑽石圖示（24×24 px）可見，顏色使用 VDD token &quot;--color-neon-blue&quot;（#00D4FF）
+    And 鑽石 Label 字型使用 &quot;text-hud-counter&quot;
+
+  @client @p0 @visual
+  Scenario: HUD 顯示當前武器等級
+    When 玩家進入遊戲房間
+    Then HUDComponent/WeaponLevelLabel 顯示當前武器倍率（例如 &quot;×3&quot;）
+    And 武器圖示（64×64 px）顯示對應武器類型（基礎砲 / 雷射炮 / 散射炮 / 鎖定炮）
+    And 武器等級文字使用 &quot;text-h3&quot;（20px / font-weight-600）
+
+  @client @p0 @visual
+  Scenario: HUD 顯示玩家名稱與即時排名
+    When 玩家進入遊戲房間
+    Then HUDComponent/PlayerNameLabel 顯示玩家帳號名稱
+    And HUDComponent/RankLabel 顯示當前局內排名（例如 &quot;No.1&quot;）
+    And 排名文字顏色：第 1 名使用 &quot;--color-gold-400&quot;，其他使用 &quot;--color-text-secondary&quot;
+
+  @client @p1 @interaction
+  Scenario: 排名變化時即時更新動畫
+    Given 玩家當前排名為 &quot;No.2&quot;
+    When 玩家超越對手排名上升為 &quot;No.1&quot;（Colyseus state 更新）
+    Then HUDComponent/RankLabel 以閃爍動畫（脈衝 2 次，200ms）更新至 &quot;No.1&quot;
+    And 排名文字切換為 &quot;--color-gold-400&quot; 金色
+
+  # ─── 連線狀態指示 ────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 連線中斷時顯示重連覆層
+    Given 玩家正在遊戲中
+    When Colyseus WebSocket 連線中斷（NetworkManager 偵測到 onLeave 事件）
+    Then HUD 顯示「連線中斷，嘗試重連...」覆層（半透明遮罩 + 進度 Spinner）
+    And 遮罩背景使用 VDD &quot;--modal-overlay&quot;（rgba(5,20,40,0.85) + backdrop-blur 8px）
+    And 遊戲場景畫面模糊（blur 4px）
+    And 玩家無法進行射擊操作
+
+  @client @p0 @interaction
+  Scenario: 5 秒內重連成功後恢復遊戲
+    Given HUD 正顯示「連線中斷，嘗試重連...」覆層
+    When NetworkManager 在 5 秒內成功重新建立 WebSocket 連線
+    Then 覆層以 Fade Out 動畫（300ms）消失
+    And 遊戲場景恢復清晰並繼續
+    And HUD 所有數值同步 Colyseus 最新 state
+
+  @client @p0 @interaction
+  Scenario: 超過 5 秒未重連後顯示斷線彈窗
+    Given HUD 正顯示重連覆層，已過 5 秒仍未成功
+    When NetworkManager 觸發連線永久中斷判定
+    Then 顯示 Modal 彈窗「已中斷連線，本局結果已儲存」
+    And Modal 提供「返回大廳」按鈕（Primary Button）
+    And 點擊後跳轉至 LobbyScene
+
+  @client @p1 @visual
+  Scenario: 載入狀態（正在進入房間）
+    When 玩家從配對完成進入 GameScene 載入過程中
+    Then HUD 所有元件以骨架佔位（Skeleton Loading 動畫）呈現
+    And LoadingComponent 顯示全屏旋轉 Spinner
+    And 背景顯示深海場景靜態底圖
+
+  # ─── FPS 計數器（開發模式）────────────────────────────────
+
+  @client @p2 @visual
+  Scenario: 開發模式顯示 FPS 計數器
+    Given 應用程式以 debug 模式啟動（`cocos build --debug`）
+    When 玩家進入 GameScene
+    Then HUD 右上角顯示 FPS 計數器（Roboto Mono 字型，12px）
+    And FPS 數值每 1 秒更新一次
+
+  @client @p2 @visual
+  Scenario: 正式版本不顯示 FPS 計數器
+    Given 應用程式以 release 模式啟動（`cocos build --release`）
+    When 玩家進入 GameScene
+    Then HUD 中不顯示 FPS 計數器節點
+
+  # ─── 錯誤態（Colyseus 房間異常）────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 伺服器維護時進入房間失敗顯示錯誤提示
+    Given 玩家嘗試快速匹配（Colyseus 服務回傳 503）
+    When MatchmakingUI 接收到連線失敗事件
+    Then HUD 顯示 Toast 訊息「伺服器忙碌，請稍後重試」
+    And Toast 使用 &quot;--color-feedback-warning&quot;（#FF8080）背景色
+    And Toast 在 3 秒後自動消失
+    And 「重試」按鈕可見
+</code></pre>
+<h2>client/jackpot_display.feature</h2>
+<pre><code class="language-gherkin"># features/client/jackpot_display.feature
+# 來源：PRD US-RTP-001；PDD §6.5 Jackpot 全屏特效微互動；VDD §2.4 情感色調映射（多巴胺刺激感）
+# FRONTEND.md §5 JackpotBar.ts；VDD §4.2 NPC-03 Boss 死亡特效規格
+# Client 層面：Jackpot 進度條、貢獻動畫、觸發全屏序列、返回正常 UI
+
+Feature: Jackpot 顯示與觸發動畫
+  作為遊戲中的玩家
+  我希望在大廳和遊戲中清楚看到 Jackpot 獎池累積進度
+  以便感受到每次射擊都在累積大獎的期待感，並在 Jackpot 觸發時享受全場沸騰的視覺盛宴
+
+  Background:
+    Given 玩家已登入
+    And Colyseus 服務狀態正常
+
+  # ─── 大廳 Jackpot 顯示 ──────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 大廳顯示當前 Jackpot 獎池金額（靜態顯示）
+    Given 玩家進入 LobbyScene
+    When LobbyUI 從 Colyseus 或 REST API 取得 Jackpot 狀態
+    Then 大廳頂部顯示 Jackpot 獎池金額（例如 &quot;¥1,234,567&quot;）
+    And 金額使用 VDD &quot;text-display&quot;（48px / font-weight-700 / font-family-display）
+    And 文字顏色使用 color-neon-blue（#00D4FF，--color-action-secondary）
+    And 「JACKPOT」標題文字使用 color-gold-400（#F5C842）
+    And 標題區域有輕微霓虹光暈（shadow-glow-neon）
+
+  @client @p0 @visual
+  Scenario: 遊戲中 HUD 底部顯示 Jackpot 進度條
+    Given 玩家已進入 GameScene
+    When JackpotBar 元件初始化並從 Colyseus state 讀取進度
+    Then HUD 底部顯示 Jackpot 進度條（寬度與屏幕同寬 720px，高度 8px）
+    And 進度條填充色使用 color-neon-blue（#00D4FF，漸層→color-gold-400）
+    And 進度條右端顯示當前 Jackpot 金額數字（text-hud-counter，20px）
+    And 進度條背景使用 color-bg-overlay（rgba(5,20,40,0.85)）
+
+  # ─── 其他玩家貢獻時進度條動畫 ────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 其他玩家射擊時 Jackpot 進度條跳動
+    Given GameScene Jackpot 進度條已顯示（當前進度 45%）
+    When 任意玩家命中魚（Colyseus jackpot_increment 事件）
+    Then 進度條以 Tween（150ms，ease-out）動畫向右延伸，新進度比例更新
+    And Jackpot 金額數字以滾動動畫（Tween 300ms）更新為新數值
+    And 進度條閃爍一次（opacity 1.0→0.7→1.0，200ms）
+
+  @client @p1 @visual
+  Scenario: Jackpot 進度接近滿格時進度條顏色警示
+    Given Jackpot 進度條當前進度為 90%
+    When Colyseus jackpot_increment 事件使進度更新至 95%
+    Then 進度條顏色從 color-neon-blue 漸變至 color-gold-400（#F5C842）
+    And 進度條邊緣顯示金色光暈（glow 效果，radius 4px）
+    And Jackpot 金額數字字體切換至 font-family-display（強調即將觸發）
+
+  # ─── Jackpot 觸發全屏動畫序列 ────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: Jackpot 觸發後播放全屏動畫序列（Happy Path）
+    # VDD §2.4 多巴胺刺激感：全屏 Jackpot 爆炸，200+ 金幣粒子，PDD §6.5
+    Given Jackpot 進度條達到 100%（jackpot_triggered Colyseus 事件）
+    When JackpotBar 接收到觸發事件
+    Then 遊戲場景暫停（魚群停止移動，砲台禁用操作）
+    And 全屏顯示 Jackpot 觸發動畫序列，共 5 階段：
+      | 階段 | 效果                                                  | 持續時間 |
+      | 1    | 全屏金色閃光（Fade to white，200ms）                   | 200ms    |
+      | 2    | 「JACKPOT！」大字爆出（text-multiplier 56px，scale 0.5→3.0） | 600ms    |
+      | 3    | 200+ 金幣粒子從屏幕中央向外噴射（初速 600–1200 px/s）  | 1000ms   |
+      | 4    | Jackpot 金額數字大字計數動畫（從 0 滾至最終金額）       | 2000ms   |
+      | 5    | 獲獎玩家名稱 + 特效 Banner                            | 1500ms   |
+    And 動畫序列總時長約 5300ms
+
+  @client @p0 @visual
+  Scenario: Jackpot 觸發後獎池金額計數動畫
+    # VDD §5.2 text-display（48px）+ font-family-display（Oswald）
+    Given Jackpot 觸發，獎池金額為 &quot;¥1,234,567&quot;
+    When 觸發動畫第 4 階段（金額計數滾動）
+    Then 金額數字以等寬字體（font-family-mono Roboto Mono）從 &quot;¥0&quot; 滾動至 &quot;¥1,234,567&quot;
+    And 滾動計數動畫時長 2000ms，使用 ease-in-out 緩動
+    And 數字每次更新時閃爍金色光暈（--shadow-glow-neon）
+    And 達到最終金額時數字「定格」動畫（scale 1.0→1.2→1.0，300ms）
+
+  @client @p0 @visual
+  Scenario: Jackpot 觸發期間其他玩家也能看到動畫
+    # Jackpot 特效對房間全體玩家廣播
+    Given 房間中有 4 名玩家，其中 player-001 觸發 Jackpot
+    When jackpot_triggered 事件廣播至所有客戶端
+    Then 所有 4 名玩家的 GameScene 均顯示全屏 Jackpot 動畫
+    And 觸發者名稱在 Jackpot Banner 中高亮顯示（color-gold-400，font-weight-700）
+    And 非觸發玩家顯示「[玩家名稱] 觸發了 JACKPOT！」的副標題
+
+  # ─── Jackpot 後恢復正常 UI ────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: Jackpot 動畫結束後遊戲自動恢復並重置進度條
+    Given Jackpot 全屏動畫序列已播完（約 5300ms）
+    When 動畫最後階段結束
+    Then 全屏 Jackpot 覆層以 Fade Out（500ms）消失
+    And 遊戲場景恢復（魚群重新開始移動，砲台恢復可操作）
+    And Jackpot 進度條重置至 0%（Tween 300ms 縮短至空）
+    And Jackpot 金額重置為初始種子值（Colyseus jackpot_reset 事件同步）
+    And HUD 所有元素恢復正常操作狀態
+
+  @client @p1 @interaction
+  Scenario: 玩家在 Jackpot 動畫播放中點擊屏幕不觸發射擊
+    Given Jackpot 全屏動畫正在播放（遊戲暫停狀態）
+    When 玩家多次點擊屏幕
+    Then ShootingSystem 不處理任何點擊事件（事件攔截）
+    And 無子彈節點生成
+    And 無射擊音效觸發
+
+  # ─── 大廳 Jackpot 金額即時更新 ──────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 大廳顯示時 Jackpot 金額因其他房間貢獻而更新
+    Given 玩家正在 LobbyScene 瀏覽房間列表
+    When 背景遊戲房間的 jackpot_increment 廣播事件到達
+    Then 大廳 Jackpot 金額以滾動動畫（Tween 500ms）更新為新數值
+    And 金額更新時大廳頂部 Jackpot 區域閃爍金色（pulse 效果，200ms）
+
+  # ─── 錯誤路徑 ─────────────────────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: Jackpot 資料載入失敗時進度條顯示空態
+    Given LobbyScene 嘗試取得 Jackpot 狀態但 API 回傳 503
+    When JackpotBar 接收到載入錯誤
+    Then Jackpot 進度條顯示灰色（disabled 狀態，opacity 0.5）
+    And 金額文字顯示「---」（表示資料不可用）
+    And 不顯示錯誤 Modal（非關鍵功能，靜默降級）
+    And 背景每 30 秒自動重試取得 Jackpot 狀態
+
+  @client @p1 @visual
+  Scenario: Jackpot 觸發動畫期間若 WebSocket 中斷則跳過動畫返回大廳
+    Given Jackpot 觸發全屏動畫正在播放
+    When Colyseus WebSocket 在動畫播放中突然中斷
+    Then 動畫立即停止（跳過剩餘幀）
+    And 顯示「連線中斷，已保存遊戲結果」Modal
+    And 點擊「返回大廳」按鈕後跳轉 LobbyScene
+    And 若 Jackpot 由當前玩家觸發，Toast 提示「Jackpot 獎勵將在重新登入後發放」
+</code></pre>
+<h2>client/login_ui.feature</h2>
+<pre><code class="language-gherkin"># features/client/login_ui.feature
+# 來源：PRD US-ACCT-001；PDD §5.1 LoginScene；VDD §5.3 按鈕規格 / §5.4 輸入欄位規格
+# FRONTEND.md §6 scenes/LoginScene.scene；HttpClient.ts
+# Client 層面：登入表單驗證、Loading 狀態、成功跳轉、失敗訊息、社交登入、欄位焦點樣式
+
+Feature: 登入 / 註冊 UI
+  作為遊戲新玩家或回訪玩家
+  我希望在登入畫面快速完成身份驗證並進入遊戲
+  以便不因繁瑣的帳號流程影響遊戲體驗
+
+  # LoginScene 四態：空態（初始未填）/ 加載中（API 等待）/ 錯誤（驗證失敗）/ 成功（跳轉大廳）
+
+  Background:
+    Given 玩家進入 LoginScene（應用程式啟動或登出後）
+    And LoginScene 已完整渲染（Background、LogoArea、FormPanel 均可見）
+
+  # ─── 初始空態 ─────────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: LoginScene 初始載入時顯示完整表單結構（空態）
+    When LoginScene 首次渲染
+    Then 遊戲 LOGO 動態粒子效果可見（LogoArea/LogoImage，240×80 px）
+    And 副標題「多人競技捕魚街機」以 text-h2（24px）顯示
+    And Email 輸入框（FormPanel/EmailInput）顯示 Placeholder「請輸入 Email」
+    And 密碼輸入框（FormPanel/PasswordInput）顯示 Placeholder「請輸入密碼」，預設遮罩（●●●）
+    And 「登入」Primary Button 處於 Default 狀態（可點擊）
+    And 「訪客模式」Secondary Button 可見
+    And 底部「還沒有帳號？立即註冊」連結可見
+
+  # ─── 表單欄位焦點樣式 ─────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: Email 輸入框獲得焦點後邊框變為金色（Focus State）
+    # VDD §5.4 輸入欄位 Focus 狀態：2px solid color-border-focus (#F5C842)
+    Given LoginScene 已顯示
+    When 玩家點擊（Tap）Email 輸入框
+    Then Email EditBox 顯示 Focus 狀態：
+      - 邊框加粗為 2px solid color-border-focus（#F5C842，金色）
+      - 背景微亮 rgba(255,255,255,0.08)
+    And 輸入框軟體鍵盤自動彈出（Cocos EditBox onEditingDidBegin）
+    And 動畫切換至 Focus 狀態（150ms Tween border-color）
+
+  @client @p0 @visual
+  Scenario: Email 輸入框失焦且格式不合法時顯示 Error 狀態
+    # VDD §5.4 Error 狀態：2px solid color-border-error (#FF4444)
+    Given 玩家在 Email 輸入框輸入「not-an-email」
+    When 玩家點擊其他區域（離開 Email 輸入框，onEditingDidEnd）
+    Then Email 輸入框邊框切換為 2px solid color-border-error（#FF4444，150ms）
+    And 輸入框下方顯示 Inline 錯誤文字「請輸入有效的 Email 格式」（text-body-sm，color-feedback-error）
+    And ErrorLabel（FormPanel/ErrorLabel）Fade In（200ms）
+
+  @client @p0 @visual
+  Scenario: 密碼輸入框顯示/隱藏密碼切換按鈕
+    Given 密碼輸入框顯示遮罩（●●●）
+    When 玩家點擊密碼輸入框右側眼睛圖示按鈕
+    Then 密碼文字切換為明文顯示（EditBox inputFlag 改變）
+    And 眼睛圖示切換為「眼睛劃線」圖示（表示隱藏已關閉）
+    When 玩家再次點擊眼睛按鈕
+    Then 密碼恢復遮罩顯示（●●●）
+
+  # ─── 登入按鈕 Loading 狀態 ────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 點擊登入按鈕後進入 Loading 狀態（防止重複提交）
+    Given Email 輸入「user@example.com&quot;，密碼輸入 &quot;Password123&quot;
+    When 玩家點擊「登入」Primary Button
+    Then 按鈕播放 Press 動畫（scale 0.95，100ms）
+    And 按鈕文字替換為 Loading Spinner（旋轉圓環圖示）
+    And 按鈕進入 Disabled 狀態（VDD Disabled：opacity 0.5，cursor not-allowed）
+    And Email / 密碼輸入框也進入 Disabled 狀態（防止修改）
+    And API 請求呼叫（HttpClient POST /v1/auth/login）
+
+  # ─── 登入成功跳轉 ──────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 登入成功後以 Fade Out/In 過渡跳轉至大廳
+    Given 玩家已填入有效 Email 和密碼並點擊登入
+    When API 回傳 JWT Token（HTTP 200）
+    Then 登入按鈕 Loading 狀態解除
+    And 整體 LoginScene 以 Fade Out 動畫（300ms）消失
+    And LobbyScene 以 Fade In 動畫（300ms）出現
+    And LobbyScene 顯示正確的金幣和鑽石餘額（從 API 回應中載入）
+
+  @client @p0 @interaction
+  Scenario: 記住登入態後重新開啟 App 自動跳過 LoginScene
+    Given 玩家前次成功登入且 Refresh Token 仍有效（7 天內）
+    When 玩家重新啟動 App 進入 LoginScene
+    Then GameBootstrap 偵測到有效 Refresh Token（StorageUtils.getToken）
+    And 自動執行 Silent Login（HttpClient 使用 Refresh Token 刷新 Access Token）
+    And LoginScene 不顯示（直接 Fade In LobbyScene，300ms）
+
+  # ─── 登入失敗 / 錯誤狀態 ─────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 登入失敗時按鈕恢復可點擊並顯示 Inline 錯誤
+    Given 玩家輸入錯誤密碼（API 回傳 HTTP 401）
+    When API 回應到達客戶端
+    Then 「登入」按鈕恢復 Default 狀態（Spinner 消失，文字恢復「登入」）
+    And Email / 密碼輸入框恢復 Enabled 狀態
+    And FormPanel/ErrorLabel 顯示「Email 或密碼不正確，請重試」（Fade In 200ms）
+    And ErrorLabel 文字顏色 color-feedback-error（#FF4444）
+    And 密碼輸入框自動清空（保留 Email 輸入）
+
+  @client @p0 @interaction
+  Scenario: 帳號被鎖定後顯示鎖定時間提示
+    # PRD AC-4：5 次失敗後鎖定 15 分鐘
+    Given 玩家連續登入失敗 5 次（API 回傳 HTTP 423 Locked）
+    When 第 5 次 API 回應到達
+    Then ErrorLabel 顯示「登入嘗試次數過多，帳號已暫時鎖定，請 15 分鐘後重試」
+    And 「登入」按鈕進入 Disabled 狀態並顯示倒數計時（15:00 倒數，font-family-mono）
+    And 倒數計時每秒更新（精度：分鐘:秒）
+    And 倒數歸零後按鈕自動恢復 Default 狀態
+
+  @client @p0 @interaction
+  Scenario: 表單驗證：Email 為空時點擊登入顯示必填提示
+    Given Email 輸入框為空，密碼已填
+    When 玩家點擊「登入」按鈕
+    Then 不發送任何 API 請求
+    And Email 輸入框切換為 Error 狀態（2px solid #FF4444）
+    And 顯示 Inline 錯誤「Email 不得為空」
+
+  @client @p0 @interaction
+  Scenario: 表單驗證：密碼為空時點擊登入顯示必填提示
+    Given Email 已填，密碼輸入框為空
+    When 玩家點擊「登入」按鈕
+    Then 不發送任何 API 請求
+    And 密碼輸入框切換為 Error 狀態
+    And 顯示 Inline 錯誤「密碼不得為空」
+
+  # ─── 訪客模式 ──────────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 點擊訪客模式快速進入（限制付費功能）
+    # PRD AC-5（Boundary）：遊客模式不允許購買鑽石或 VIP
+    Given LoginScene 顯示訪客模式按鈕（Secondary CTA）
+    When 玩家點擊「訪客模式」按鈕
+    Then 按鈕進入 Loading 狀態（Spinner）
+    And API 建立臨時遊客帳號（POST /v1/auth/guest）
+    And 成功後跳轉至 LobbyScene（Fade Out/In，300ms）
+    And LobbyScene 的商城圖示顯示鎖定狀態（Disabled + 掛鎖圖示）
+
+  # ─── 網路錯誤狀態 ─────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 登入 API 請求逾時後顯示網路錯誤提示
+    Given 玩家填入有效帳密並點擊登入，但網路請求逾時（&gt; 10s）
+    When HttpClient 觸發 timeout 事件
+    Then 「登入」按鈕恢復 Default 狀態
+    And ErrorLabel 顯示「網路連線不穩，請確認網路後重試」
+    And 顯示「重試」連結（可再次點擊觸發登入）
+
+  # ─── 社交登入按鈕 ──────────────────────────────────────────────
+
+  @client @p2 @visual
+  Scenario: 登入頁面顯示社交登入選項（Google / LINE）
+    Given LoginScene 已渲染
+    When 頁面分隔線「或」下方區域可見
+    Then 顯示 Google 登入按鈕（Google 官方標誌 + 白底，Secondary Button 規格）
+    And 顯示 LINE 登入按鈕（LINE 綠色品牌色 + 白字，Secondary Button 規格）
+    And 按鈕觸控熱區 ≥ 44×44 px（VDD 圖示按鈕規格）
+
+  @client @p2 @interaction
+  Scenario: 社交登入按鈕點擊後開啟對應 OAuth 流程
+    Given LoginScene 社交登入按鈕可見
+    When 玩家點擊 Google 登入按鈕
+    Then 開啟 WebView 或系統瀏覽器顯示 Google OAuth 授權頁面
+    And 登入按鈕進入 Loading 狀態（等待 OAuth 回調）
+</code></pre>
+<h2>client/room_selection_ui.feature</h2>
+<pre><code class="language-gherkin"># features/client/room_selection_ui.feature
+# 來源：PRD US-ROOM-001；PDD §5.3 LobbyScene、§5.9 MatchmakingScene（配對等待）；
+# PDD §4.1 主流程（快速匹配、Bot 補位）；FRONTEND.md §6 ui/lobby/LobbyUI.ts、MatchmakingUI.ts
+# Client 層面：房間列表顯示、快速匹配入口、配對等待 UI、Bot 補位提示、取消配對
+
+Feature: 房間選擇與配對等待 UI
+  作為一名玩家
+  我希望在大廳快速找到適合的房間並進入配對
+  以便在 30 秒內開始競技局而不因等待流程感到不耐
+
+  Background:
+    Given 玩家已登入並進入 LobbyScene
+    And Colyseus 伺服器狀態正常
+    And 玩家當前金幣餘額為 &quot;2000&quot;
+
+  # ─── 大廳載入狀態 ─────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 大廳進入時房間列表載入中顯示骨架屏（Loading 態）
+    When LobbyScene 首次進入，房間列表 API 尚未回應
+    Then 房間列表區域顯示 3 個骨架佔位卡片（Skeleton Loading，shimmer 光效 1.5s loop）
+    And 「快速匹配」Primary Button 處於 Loading 狀態（Disabled + Spinner）
+    And 背景顯示深海場景動態底圖（珊瑚、氣泡、裝飾魚群動畫）
+
+  @client @p0 @visual
+  Scenario: 房間列表成功載入後正確顯示各房間資訊（正常態）
+    When LobbyUI 成功取得房間列表（API GET /v1/rooms 回傳）
+    Then 骨架屏以 Fade Out（200ms）消失
+    And 每個房間卡片（RoomListItem）顯示：
+      - 房間名稱（text-h3，20px）
+      - 房間類型標籤（普通 / 競技，使用對應色標）
+      - 當前人數 / 最大人數（例如「3/6」，text-body）
+      - 入場費用（金幣數量，金幣圖示 + text-body-sm）
+      - 房間狀態（等待中 / 遊戲中）
+    And 「快速匹配」Primary Button 恢復可點擊狀態（color-action-primary #F5C842）
+    And CTA 按鈕是大廳最視覺突出的元素（符合 VDD §1.4 視覺層次規則）
+
+  # ─── 房間類型選擇 ─────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 選擇普通房間類型後過濾房間列表
+    Given 大廳顯示「普通」和「競技」房間切換標籤
+    When 玩家點擊「普通」標籤
+    Then 房間列表只顯示普通房間卡片
+    And「普通」標籤使用 Selected 狀態（color-action-primary 底色，scale 1.0 active）
+    And「競技」標籤恢復 Default 狀態
+
+  @client @p0 @interaction
+  Scenario: 選擇競技房間後金幣不足的房間顯示禁用狀態
+    Given 大廳顯示競技房間列表
+    And 某競技房間入場費為 &quot;5000&quot; 金幣，玩家金幣餘額為 &quot;2000&quot;
+    When 房間列表渲染完成
+    Then 該房間卡片顯示禁用外觀（opacity 0.5，按鈕 Disabled）
+    And 卡片顯示「金幣不足，需要 5000」提示文字（color-feedback-error，text-caption）
+    And 其他金幣足夠的房間正常顯示可點擊狀態
+
+  # ─── 快速匹配流程 ─────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 點擊快速匹配後進入砲台選擇介面
+    # PDD §4.1 主流程：S9 點擊「快速匹配」→ S8 砲台+技能選擇介面
+    Given 大廳「快速匹配」Primary Button 可點擊
+    When 玩家點擊「快速匹配」按鈕
+    Then 按鈕播放 Press 動畫（scale 0.95，100ms）
+    And LobbyScene 以 Fade Out（300ms）過渡至 CannonSelectScene
+
+  @client @p0 @interaction
+  Scenario: CannonSelectScene 顯示砲台與技能選擇後進入配對等待
+    Given 玩家已進入 CannonSelectScene
+    When 玩家選擇砲台並點擊「確認進入」按鈕
+    Then CannonSelectScene 過渡至 MatchmakingScene（Fade Out/In，300ms）
+    And MatchmakingUI 初始化並開始配對倒數（30 秒計時器啟動）
+
+  # ─── 配對等待 UI ──────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 配對等待畫面顯示倒數計時與玩家槽位（等待態）
+    Given 玩家進入 MatchmakingScene，配對進行中
+    When MatchmakingUI 渲染
+    Then 顯示 30 秒倒數計時器（font-family-mono Roboto Mono，text-hud-score 28px）
+    And 顯示 6 個玩家頭像槽位（已加入玩家顯示頭像 + 名稱，空槽位顯示灰色 Skeleton）
+    And 倒數計時器每秒更新（精度 1 秒）
+    And 進度指示條（細線，color-neon-blue）從 100% 隨時間縮短
+
+  @client @p0 @visual
+  Scenario: 新玩家加入配對時頭像飛入動畫
+    # PDD §5.9：玩家頭像飛入動畫傳遞「真人對戰」氛圍
+    Given 配對等待畫面顯示 2 個已加入玩家
+    When 第 3 名玩家完成配對加入（Colyseus onJoin 事件）
+    Then 第 3 名玩家頭像以飛入動畫（scale 0→1.0 + Fade In，300ms ease-out）出現在對應槽位
+    And 頭像飛入時播放輕微音效（chime SFX）
+    And 已加入玩家數更新（例如「3/6 人已就緒」）
+
+  @client @p1 @visual
+  Scenario: 配對達到最少人數（4 人）後顯示可開始遊戲提示
+    Given 配對等待畫面顯示 4 名玩家已加入（最少人數）
+    When 第 4 名玩家加入（Colyseus 狀態更新）
+    Then 顯示「已達最少人數！等待更多玩家或倒數開始」系統提示（text-body，color-neon-green）
+    And 已加入的 4 個頭像槽位邊框亮起（color-neon-green，pulse 動畫）
+
+  # ─── Bot 補位提示 ────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 配對超時後以 Bot 補位並顯示友好提示
+    # PDD §4.1：配對超時 → Bot 補位通知 → 房間就緒
+    Given 配對倒數已到 0 秒，玩家數量不足 4 人（例如只有 2 人）
+    When 倒數計時歸零
+    Then 空缺槽位以 Bot 玩家頭像填入（Bot 標識圖示，灰色名稱「AI 玩家」）
+    And 顯示系統提示「部分玩家由 AI 補位，準備開始！」（text-body，color-text-secondary）
+    And Bot 補位明確但語氣平和（不打擊玩家信心）
+    And 3 秒後自動進入 GameScene
+
+  @client @p1 @visual
+  Scenario: Bot 補位頭像外觀與真實玩家明確區分
+    Given Bot 補位完成，配對畫面顯示部分 Bot 頭像
+    When 配對畫面最終渲染
+    Then Bot 頭像顯示機器人圖示（或 AI 標識，color-text-secondary 灰色）
+    And Bot 名稱文字使用斜體或「AI」前綴以示區分
+    And 真實玩家頭像正常顯示（無 AI 標識）
+
+  # ─── 取消配對 ────────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 配對等待中點擊取消返回大廳
+    Given 玩家在 MatchmakingScene，配對進行中（15 秒倒數）
+    When 玩家點擊「取消配對」Secondary Button
+    Then Colyseus 發送 leave 事件（ColyseusClient.leaveRoom）
+    And MatchmakingScene 以 Fade Out（300ms）過渡回 LobbyScene
+    And 大廳房間列表重新載入（確保最新狀態）
+    And 已消耗的配對時間不影響玩家任何資源
+
+  @client @p1 @interaction
+  Scenario: 配對等待中誤按返回鍵顯示確認 Modal（防誤觸）
+    Given 玩家在 MatchmakingScene（Android 實體返回鍵 或 iOS 手勢）
+    When 玩家按下系統返回按鈕
+    Then 顯示確認 Modal「確定要取消配對嗎？」
+    And 提供「取消配對」Secondary Button 和「繼續等待」Primary Button
+    And 「繼續等待」為預設 focused 按鈕（防止誤觸）
+
+  # ─── 錯誤狀態 ─────────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 房間列表 API 失敗時顯示空態與重試入口（Error 態）
+    Given LobbyScene 取得房間列表 API 回傳 503
+    When 載入失敗
+    Then 房間列表顯示「載入失敗」空態圖示（灰色雲端 + X）
+    And 顯示「重新載入」Secondary Button（color-action-secondary #00D4FF）
+    And 「快速匹配」按鈕維持 Disabled（不允許在無房間資訊時操作）
+    And 不顯示骨架屏（已確認為錯誤狀態，非載入中）
+
+  @client @p1 @interaction
+  Scenario: 配對過程中 Colyseus 連線失敗時顯示錯誤並返回大廳
+    Given 配對等待進行中（10 秒倒數）
+    When Colyseus WebSocket 連線中斷（onError 事件）
+    Then MatchmakingUI 停止倒數計時
+    And 顯示 Modal「配對失敗，請稍後重試」（Fade In，200ms）
+    And 提供「返回大廳」Primary Button
+    And 玩家點擊後跳轉 LobbyScene（不消耗任何遊戲資源）
+
+  @client @p0 @interaction
+  Scenario: 大廳顯示空房間列表時提示引導（空態）
+    Given 當前伺服器無任何可加入的房間
+    When 房間列表 API 回傳空陣列
+    Then 房間列表顯示空態提示「目前沒有進行中的房間，快速匹配開始！」
+    And 空態圖示（魚群圖示，64×64 px，opacity 0.5）可見
+    And「快速匹配」Primary Button 仍可點擊（引導建立/加入新房間）
+</code></pre>
+<h2>client/settings_ui.feature</h2>
+<pre><code class="language-gherkin"># features/client/settings_ui.feature
+# 來源：PRD US-ACCT-001；PDD §5.10 設定面板（Settings Panel）；
+# PDD §3.2 導覽結構（設定面板採分類清單設計）
+# FRONTEND.md §6 dialogs/SettingsDialog.ts；StorageUtils.ts（本地偏好儲存）
+# Client 層面：音效/音樂設定、語言切換、帳號安全、即時預覽
+
+Feature: 設定 UI
+  作為遊戲玩家
+  我希望能在設定面板中快速調整音效、語言和帳號設定
+  以便自訂最適合我的遊戲體驗
+
+  Background:
+    Given 玩家已登入
+    And 設定面板（SettingsDialog）尚未開啟
+
+  # ─── 設定面板開啟 / 關閉 ────────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: 點擊設定圖示後設定面板開啟
+    Given 玩家在大廳或遊戲 HUD 中
+    When 玩家點擊設定圖示按鈕（Icon Button，40×40 px，齒輪圖示）
+    Then SettingsDialog 以 Slide Down 動畫（Tween translateY：-屏幕高度→0，250ms，ease-out）出現
+    And 背景以半透明遮罩覆蓋（color-bg-overlay：rgba(5,20,40,0.85)）
+    And 設定面板使用 VDD 標準面板規格（rgba(10,35,64,0.95) 底色，1px 金色邊框，24px 圓角）
+
+  @client @p1 @interaction
+  Scenario: 點擊關閉按鈕設定面板關閉並儲存偏好
+    Given SettingsDialog 已開啟，玩家修改了音效設定
+    When 玩家點擊右上角關閉（×）按鈕
+    Then SettingsDialog 以 Slide Up 動畫（Tween translateY：0→-屏幕高度，200ms）消失
+    And StorageUtils 持久化儲存最新偏好（音效狀態、音量等）
+    And 遊戲繼續，修改後的設定即時生效
+
+  # ─── 音效與音樂設定 ──────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 音效開關切換即時生效
+    Given SettingsDialog 已開啟，音效目前為「開啟」
+    When 玩家切換「音效」Toggle 為「關閉」
+    Then AudioManager.setSFXEnabled(false) 立即呼叫
+    And 後續射擊操作不觸發任何 SFX 音效
+    And Toggle 視覺狀態切換（從金色「開」狀態→灰色「關」狀態，150ms Tween）
+
+  @client @p1 @interaction
+  Scenario: 背景音樂開關切換即時停止或播放 BGM
+    Given SettingsDialog 已開啟，BGM 目前為「開啟」
+    When 玩家切換「背景音樂」Toggle 為「關閉」
+    Then AudioManager.stopBGM() 立即停止當前背景音樂（300ms 淡出）
+    And Toggle 視覺狀態切換為灰色「關」狀態
+    When 玩家再次切換 Toggle 為「開啟」
+    Then AudioManager.playBGM() 重新播放背景音樂（300ms 淡入）
+
+  @client @p1 @interaction
+  Scenario: 音量滑桿拖拽調整音效音量即時預覽
+    Given SettingsDialog 已開啟，顯示音效音量滑桿（0–100%）
+    When 玩家拖拽滑桿從 80% 至 40%
+    Then AudioManager.setSFXVolume(0.4) 即時呼叫（每次拖拽事件）
+    And 滑桿拖拽期間播放輕微 SFX 預覽音（每 0.2s 一次）
+    And 滑桿軌道填充使用 color-gold-400（已選段）和 color-bg-surface（未選段）
+
+  # ─── 語言切換 ─────────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 語言切換需二次確認 Modal（防誤觸）
+    # PDD §5.10：語言切換需確認 Modal
+    Given SettingsDialog 已開啟，當前語言為「繁體中文」
+    When 玩家點擊語言選項選擇「English」
+    Then 顯示確認 Modal「切換語言將重新載入介面，是否繼續？」
+    And Modal 提供「確認切換」Primary Button 和「取消」Secondary Button
+
+  @client @p1 @interaction
+  Scenario: 確認語言切換後介面文字即時更新
+    Given 語言切換確認 Modal 已顯示，當前語言為「繁體中文」
+    When 玩家點擊「確認切換」並選擇目標語言「English」
+    Then 確認 Modal 關閉
+    And StorageUtils 更新儲存語言偏好（&quot;en&quot;）
+    And 介面文字切換至英文（i18n 重新渲染，400ms Fade Out/In 過渡）
+    And SettingsDialog 自身文字也切換為英文
+
+  @client @p1 @interaction
+  Scenario: 取消語言切換後語言設定不變
+    Given 語言切換確認 Modal 已顯示
+    When 玩家點擊「取消」
+    Then 確認 Modal 關閉
+    And 當前語言保持「繁體中文」
+    And 語言選單視覺仍顯示「繁體中文」為已選取
+
+  # ─── 帳號安全操作 ──────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 修改密碼需進行二次身份驗證
+    # PDD §5.10：帳號安全操作需二次驗證
+    Given SettingsDialog 帳號安全分類已展開
+    When 玩家點擊「修改密碼」
+    Then 顯示二次驗證 Modal（輸入「當前密碼」驗證身份）
+    And 輸入欄位使用 VDD 輸入欄位規格（高度 52px，16px 圓角，金色 focus 邊框）
+    And 點擊「驗證並繼續」後呼叫 API 驗證當前密碼
+
+  @client @p1 @interaction
+  Scenario: 帳號安全二次驗證失敗時顯示 Inline 錯誤
+    Given 帳號安全二次驗證 Modal 已顯示
+    When 玩家輸入錯誤的當前密碼並提交
+    Then 輸入框邊框變為 color-feedback-error（#FF4444，2px）
+    And 輸入框下方顯示「密碼不正確，請重試」Inline 錯誤文字（text-body-sm，color-feedback-error）
+    And 不跳轉至修改密碼頁面
+
+  @client @p2 @interaction
+  Scenario: 登出帳號需確認 Modal 防止誤觸
+    Given SettingsDialog 帳號安全分類已展開
+    When 玩家點擊「登出」按鈕（Danger Button，#FF4444）
+    Then 顯示確認 Modal「確定要登出嗎？」
+    And 提供「確定登出」Danger Button 和「取消」Secondary Button
+    When 玩家確認登出
+    Then 清除本地 JWT Token 和 Session（StorageUtils.clear）
+    And 跳轉至 LoginScene（Fade Out→Fade In，300ms）
+
+  # ─── 設定面板分類導覽 ────────────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: 設定面板分類清單正確顯示四大分類
+    Given SettingsDialog 已開啟
+    When 面板完整渲染
+    Then 顯示四個設定分類（可折疊清單）：音效、語言、帳號安全、關於
+    And 每個分類標題使用 text-h3（20px / font-weight-600）
+    And 各分類以折疊/展開互動（Tween 高度動畫，200ms）
+    And 預設展開「音效」分類，其他分類收合
+
+  # ─── 錯誤狀態 ─────────────────────────────────────────────────
+
+  @client @p2 @interaction
+  Scenario: 設定儲存 API 失敗時顯示重試提示但本地設定仍生效
+    Given 玩家修改音效設定，StorageUtils 本地儲存成功但 API 同步失敗
+    When API 回傳 503
+    Then 音效設定在本地立即生效（StorageUtils 已儲存）
+    And 顯示 Toast「設定已在本機儲存，稍後同步至雲端」（color-feedback-warning，2s）
+    And 不阻擋玩家繼續操作
+</code></pre>
+<h2>client/shooting_interaction.feature</h2>
+<pre><code class="language-gherkin"># features/client/shooting_interaction.feature
+# 來源：PRD US-WPSK-001；PDD §5.4 GameScene 射擊互動；FRONTEND.md §5 ShootingSystem / WeaponSystem
+# Client 層面：點擊射擊、自動瞄準、武器 UI、子彈動畫、金幣不足狀態
+
+Feature: 射擊互動
+  作為遊戲中的玩家
+  我希望透過點擊屏幕發射子彈並得到即時視覺回饋
+  以便感受到操作的爽感並有效策略性地捕魚
+
+  Background:
+    Given 玩家已登入且在 GameScene 中
+    And 遊戲房間狀態為 &quot;PLAYING&quot;
+    And 玩家當前金幣餘額為 &quot;500&quot;
+    And 玩家裝備基礎砲台（Multiplier=1）
+
+  # ─── 點擊射擊基本流程 ────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 點擊屏幕發射子彈（Happy Path）
+    When 玩家點擊屏幕任意位置
+    Then BulletPoolManager 從物件池取得子彈節點（BulletPrefab）並在砲台位置 instantiate
+    And 子彈以直線動畫飛向點擊坐標（Tween 移動，80ms expo-out）
+    And 砲台播放 Fire 動畫（6 幀 / 120ms，炮口橘焰粒子噴射）
+    And 射擊音效觸發（AudioManager.playSFX）
+
+  @client @p0 @interaction
+  Scenario: 子彈命中魚後顯示命中特效
+    Given 場景中有一條普通魚（1x–5x 倍率）
+    When 玩家射擊並伺服器回傳 hit=true（fish_hit Colyseus 事件）
+    Then EffectPoolManager 在命中坐標 instantiate HitEffect（金色閃爍粒子，80ms）
+    And 魚播放受擊閃爍動畫（4 幀 / 80ms）
+    And 金幣數字（例如 &quot;+3&quot;）以 scale 0→1.2→1.0 彈出動畫浮現在命中點上方
+
+  @client @p0 @interaction
+  Scenario: 子彈飛出邊界後回收至物件池
+    When 子彈飛至屏幕邊界（超出 720px 設計寬度）
+    Then 子彈節點返回 BulletPoolManager 物件池（active = false）
+    And 不觸發任何命中音效或特效
+
+  @client @p1 @interaction
+  Scenario: 連續快速點擊射擊（多發子彈並行）
+    When 玩家在 500ms 內連續點擊屏幕 5 次
+    Then BulletPoolManager 同時維護最多 200 個子彈節點
+    And 每次點擊均觸發獨立的子彈 Tween 動畫
+    And 砲台每次發射皆播放炮口閃光（不因連擊疊加而跳過）
+
+  # ─── 自動瞄準（Auto-Aim）────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 玩家選定魚後自動瞄準高亮
+    Given 玩家使用鎖定炮（Lock-on 武器）
+    When 玩家長按屏幕上的精英魚
+    Then 精英魚外框顯示霓虹青鎖定光圈（2px Outline Shader，color-neon-blue #00D4FF）
+    And 砲台自動旋轉朝向目標魚方向（100ms 動畫）
+    And HUD 顯示鎖定目標的倍率提示（例如「×20」）
+
+  @client @p0 @interaction
+  Scenario: 鎖定目標死亡後自動解除鎖定
+    Given 玩家已鎖定一條精英魚
+    When 該精英魚因其他玩家射擊而死亡（Colyseus fish_killed 事件）
+    Then 鎖定光圈立即消失（Fade Out 150ms）
+    And 砲台恢復自由瞄準狀態
+    And 若還有其他魚則顯示「目標已被擊殺」Toast（1.5s）
+
+  # ─── 武器選擇視覺反饋 ────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 武器切換時 HUD 武器圖示即時更新
+    Given 玩家當前裝備基礎砲台
+    When 玩家在 CannonSelectScene 選擇雷射炮並確認進入遊戲
+    Then GameScene HUD 武器圖示（64×64 px）更新為雷射炮 Sprite
+    And 武器倍率標籤更新為「×3」
+    And 砲台 Sprite 更換為雷射炮外觀（Aim 動畫同步切換）
+
+  @client @p1 @interaction
+  Scenario: 遊戲中升級武器倍率時顯示升級視覺反饋
+    Given 玩家裝備基礎砲台（×1）
+    When 玩家通過消耗金幣升級砲台至（×2）
+    Then HUD 武器倍率標籤以 scale 1.0→1.5→1.0 彈出動畫更新
+    And 砲台周圍顯示金色光暈（glow ring，300ms Fade In/Out）
+    And 升級音效觸發（升調 SFX）
+
+  # ─── 金幣不足狀態 ────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 金幣餘額為 0 時射擊按鈕自動禁用
+    Given 玩家金幣餘額降為 &quot;0&quot;
+    When Colyseus state 同步餘額為 0
+    Then HUD 射擊區域以半透明遮罩（opacity 0.5）顯示禁用狀態
+    And 顯示「金幣不足」浮動提示（Toast，使用 color-feedback-error #FF4444）
+    And 點擊屏幕不觸發任何射擊動畫或音效
+
+  @client @p0 @interaction
+  Scenario: 金幣不足時顯示充值引導 CTA
+    Given 玩家金幣餘額為 &quot;0&quot;，遊戲仍在進行中
+    When 玩家點擊禁用射擊區域
+    Then 顯示「金幣不足，立即補充」提示橫幅（底部 Slide Up 動畫，300ms）
+    And 橫幅包含「前往商城」Primary Button（color-action-primary #F5C842）
+    And 點擊「前往商城」按鈕開啟 ShopDialog（不中斷遊戲背景）
+
+  # ─── 散射炮特效 ───────────────────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: 散射炮發射時顯示扇形子彈軌跡
+    Given 玩家裝備散射炮（Spread Shot 武器）
+    When 玩家點擊屏幕發射
+    Then 同時 instantiate 5 顆子彈節點，以扇形（±30° 角度分布）飛出
+    And 每顆子彈有獨立的 Tween 軌跡動畫
+    And 炮口播放較大的橘焰粒子爆發效果（2× 普通發射粒子量）
+
+  # ─── 技能按鈕啟動快捷操作 ─────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 長按技能按鈕顯示技能說明 Tooltip
+    Given 玩家進入 GameScene，技能按鈕可見
+    When 玩家長按技能按鈕（&gt; 500ms）
+    Then 顯示技能說明 Tooltip（技能名稱 + 效果描述，text-body-sm 14px）
+    And Tooltip 在 2 秒後自動消失或手指鬆開時消失
+
+  # ─── 錯誤路徑 ─────────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 射擊指令發送但 WebSocket 連線不穩導致無回應
+    Given Colyseus WebSocket 連線狀態為 &quot;reconnecting&quot;
+    When 玩家點擊屏幕嘗試射擊
+    Then 子彈動畫仍正常播放（Optimistic UI）
+    And HUD 顯示網路狀態警示圖示（黃色 WiFi 圖示，pulse 動畫）
+    And 若伺服器在 2s 內無回應，子彈節點消失並顯示「射擊未命中，請稍後重試」Toast
+
+  @client @p2 @interaction
+  Scenario: 玩家觸控熱區過小時仍能可靠射擊
+    # VDD 規範：所有互動觸控熱區 ≥ 44×44 px
+    Given GameScene 在小螢幕（320px 寬）裝置上執行
+    When 玩家點擊技能按鈕區域
+    Then 技能按鈕觸控熱區面積 ≥ 44×44 px（符合 VDD 圖示按鈕規格）
+    And 射擊操作不因螢幕尺寸縮放而遺失
+</code></pre>
+<h2>client/shop_ui.feature</h2>
+<pre><code class="language-gherkin"># features/client/shop_ui.feature
+# 來源：PRD US-SHOP-001；PDD §5.6 ShopScene；VDD §2.5 商店場景美術規格；
+# PDD §4.3.1 IAP 支付失敗流程；FRONTEND.md §6 dialogs/ShopDialog.ts
+# Client 層面：商城開啟動畫、套餐卡片顯示、購買確認、成功動畫、失敗狀態
+
+Feature: 商城 UI
+  作為遊戲玩家
+  我希望能在直覺的商城介面中快速選擇並完成鑽石充值
+  以便在 3 步驟內完成付費並繼續遊戲
+
+  Background:
+    Given 玩家已登入（JWT token 有效）
+    And 玩家年齡驗證通過（18+ 確認）
+    And 網路連線正常
+
+  # ─── 商城開啟動畫 ─────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 點擊商城入口後商城以 Slide Up 動畫開啟
+    Given 玩家在大廳（LobbyScene）或遊戲 HUD 點擊商城圖示
+    When ShopDialog.open() 被呼叫
+    Then ShopDialog 以 Slide Up 動畫（Tween translateY：屏幕高度→0，300ms，ease-out）出現
+    And 背景遊戲場景以半透明遮罩覆蓋（color-bg-overlay：rgba(5,20,40,0.85) + backdrop-blur 8px）
+    And 商城面板使用 VDD 商店場景底色（暗金色 #0F0A00，燈光舞台感）
+    And 動畫完成後商品卡片區域可見
+
+  @client @p0 @interaction
+  Scenario: 商城關閉後 Slide Down 動畫退出
+    Given 商城 ShopDialog 已開啟
+    When 玩家點擊右上角關閉按鈕（Icon Button，×）或點擊遮罩
+    Then ShopDialog 以 Slide Down 動畫（Tween translateY：0→屏幕高度，250ms，ease-in）消失
+    And 背景遮罩同時 Fade Out（250ms）
+    And 背景遊戲場景恢復清晰（blur 移除）
+
+  # ─── IAP 套餐卡片顯示 ──────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 商城正確顯示所有鑽石充值套餐卡片
+    Given ShopDialog 已開啟，API 取得套餐列表成功
+    When 商城內容區域載入完成
+    Then 顯示小額 / 中額 / 大額三種以上充值套餐卡片
+    And 每張卡片顯示：鑽石數量 / 原價 / 特惠價 / 套餐名稱
+    And 卡片使用 VDD shop-card 規格（rgba(15,10,0,0.9) 底色，1px 金色邊框，24px 圓角）
+    And 推薦套餐（最高價值感）以高亮面板（2px color-gold-400 邊框）凸顯
+    And 卡片上方顯示浮動金幣粒子環境動畫
+
+  @client @p1 @visual
+  Scenario: 特惠套餐顯示倒數計時標籤
+    Given 當前有限時特惠套餐（有效期剩餘 2 小時）
+    When 商城卡片渲染
+    Then 限時套餐卡片右上角顯示「限時優惠」紅色角標
+    And 角標包含倒數計時（font-family-mono，text-caption 12px，color-feedback-error #FF4444）
+    And 倒數計時每秒更新（精度：分鐘:秒）
+
+  @client @p0 @visual
+  Scenario: VIP 訂閱入口在商城中高亮顯示
+    Given ShopDialog 已開啟
+    When 商城內容完整渲染
+    Then VIP 訂閱卡片位於商城頂部或顯眼位置
+    And VIP 卡片使用高亮面板（2px color-gold-400 邊框 + shadow-glow）
+    And 「VIP 月費訂閱」標題使用 text-h2（24px / font-weight-600）+ color-gold-400
+    And 「立即訂閱」按鈕使用 Primary Button 規格（#F5C842 金色，56px 高）
+
+  # ─── 購買確認流程 ─────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 點擊購買套餐後顯示確認 Modal（Step 2：確認）
+    Given 商城 ShopDialog 已開啟，顯示多個套餐卡片
+    When 玩家點擊某套餐的「購買」按鈕（Primary Button）
+    Then 確認 ConfirmDialog 以淡入動畫（Fade In 200ms）顯示
+    And 確認 Modal 顯示：套餐名稱 / 鑽石數量 / 最終支付金額
+    And 提供「確認購買」Primary Button 和「取消」Secondary Button
+    And 兩按鈕均符合 VDD 觸控熱區規格（≥ 44×44 px）
+
+  @client @p0 @interaction
+  Scenario: 點擊取消後確認 Modal 關閉不執行購買
+    Given 確認 ConfirmDialog 已顯示
+    When 玩家點擊「取消」Secondary Button
+    Then ConfirmDialog 以 Fade Out（200ms）關閉
+    And 返回商城列表（ShopDialog 仍開啟）
+    And 不呼叫任何 IAP API
+
+  # ─── 購買成功動畫 ─────────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 確認購買後按鈕進入 Loading 狀態（Step 3：等待）
+    Given 確認 ConfirmDialog 已顯示，玩家點擊「確認購買」
+    When IAP API 呼叫進行中
+    Then 「確認購買」按鈕文字替換為 Loading Spinner（按鈕 scale 0.95，100ms press 動畫）
+    And 按鈕進入 Disabled 狀態（防止重複點擊）
+    And ConfirmDialog 背景遮罩保持
+
+  @client @p0 @visual
+  Scenario: IAP 購買成功後顯示鑽石發放動畫
+    # PDD §4.3.1：支付成功 → 後端收據驗證 → 發放鑽石 → Toast「鑽石已到帳 +XXX」
+    Given 玩家確認購買，IAP 支付成功，後端鑽石發放完成
+    When 客戶端收到鑽石發放確認（REST API 回應或 Colyseus 事件）
+    Then ConfirmDialog 關閉，ShopDialog 也關閉
+    And 鑽石圖示從商城卡片位置飛向 HUD 鑽石餘額位置（Tween 弧線飛行，500ms）
+    And HUD 鑽石餘額數字以 Tween 滾動動畫更新至新數值（300ms）
+    And Toast 顯示「鑽石已到帳 +{數量}」（color-feedback-success #00FF88，3s）
+    And 購買成功音效觸發（金幣叮噹聲）
+
+  # ─── 購買失敗 / 錯誤狀態 ─────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: IAP 支付失敗後顯示錯誤 Modal（非 Toast）
+    # PDD §4.3.1：支付失敗使用 Modal（需明確回應），錯誤文字友好語氣
+    Given 玩家確認購買，但 IAP 支付失敗（AppStore/Google Play 回傳錯誤）
+    When 客戶端收到支付失敗事件
+    Then 顯示錯誤 Modal（Fade In 200ms）：「付款遇到一點問題，請重試」
+    And Modal 提供「重試」Primary Button 和「取消」Secondary Button
+    And Modal 顯示訂單參考號（text-caption，color-text-secondary）供客服使用
+    And 不清空玩家已選套餐，方便重試
+
+  @client @p0 @interaction
+  Scenario: 點擊重試後再次觸發 IAP 支付流程
+    Given IAP 錯誤 Modal 正在顯示
+    When 玩家點擊「重試」按鈕
+    Then 錯誤 Modal 關閉
+    And 重新呼叫 IAP API（相同訂單參數）
+    And 「確認購買」按鈕再次進入 Loading 狀態
+
+  @client @p1 @interaction
+  Scenario: 後端收據驗證失敗時顯示異常訂單提示
+    # PDD §4.3.1：後端收據驗證失敗 → 「訂單異常，請聯絡客服」+ 訂單號
+    Given IAP 支付成功但後端收據驗證失敗
+    When 客戶端收到驗證失敗事件
+    Then 顯示 Modal「訂單異常，請聯絡客服」
+    And Modal 顯示訂單編號（方便客服追蹤）
+    And 提供「聯絡客服」按鈕（Secondary Button，連結至客服頁面）
+
+  # ─── 網路錯誤狀態 ─────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 商城套餐列表載入中顯示骨架屏
+    Given ShopDialog 開啟，API 請求尚未完成
+    When ShopDialog 內容區域處於載入中狀態
+    Then 商品卡片區域顯示骨架佔位動畫（3 張卡片大小的灰色 Skeleton）
+    And 骨架使用 shimmer 光效（左→右，1.5s loop）
+
+  @client @p1 @interaction
+  Scenario: 商城套餐列表 API 請求失敗時顯示重試入口
+    Given ShopDialog 開啟，API 回傳 503 或逾時
+    When 套餐列表載入失敗
+    Then 商品卡片區域顯示「載入失敗」空態圖示（灰色圖示 + 說明文字）
+    And 提供「重新載入」Secondary Button
+    And 點擊後重新發送 API 請求並再次顯示骨架屏
+
+  # ─── 演示模式（未成年用戶）──────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: 演示模式下商城入口顯示鎖定狀態
+    # PDD §4.3.2：演示模式 IAP 入口以灰色鎖定狀態顯示
+    Given 玩家年齡驗證為未滿 18 歲（演示模式）
+    When 玩家點擊商城圖示
+    Then 不開啟 ShopDialog
+    And 顯示 Toast「演示模式無法購買，請以成人身份登入」（color-text-secondary，2s）
+    And 商城圖示以灰色 + 掛鎖 Overlay 顯示（Disabled 狀態）
+</code></pre>
+<h2>client/skill_ui.feature</h2>
+<pre><code class="language-gherkin"># features/client/skill_ui.feature
+# 來源：PRD US-WPSK-001；PDD §5.4 GameScene HUD 技能按鈕（I-5 insight：技能冷卻不可見導致挫折）
+# VDD §5.x 按鈕規格；FRONTEND.md §5 SkillSystem.ts
+# Client 層面：技能按鈕狀態、冷卻弧、啟動動畫、多技能同時冷卻
+
+Feature: 技能 UI 互動
+  作為遊戲中的玩家
+  我希望技能按鈕清晰顯示冷卻狀態和可用狀態
+  以便在正確時機使用技能而不感到操作挫折
+
+  Background:
+    Given 玩家已進入 GameScene
+    And 遊戲房間狀態為 &quot;PLAYING&quot;
+    And HUD 技能按鈕區域已初始化（三個技能按鈕：冰凍 / 全屏炸彈 / 自動鎖定）
+
+  # ─── 技能就緒狀態 ─────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 技能按鈕就緒時顯示可用狀態（Ready State）
+    Given 玩家三個技能均已冷卻完畢
+    When 玩家進入 GameScene 或技能冷卻時間結束
+    Then 技能按鈕顯示完整圖示（技能圖示 64×64 px，全亮，opacity 1.0）
+    And 按鈕底色使用 VDD &quot;color-bg-surface&quot;（#0A2340）
+    And 無冷卻遮罩或弧形覆蓋
+    And 技能就緒音效輕微提示（短促 chime SFX，低音量）
+
+  # ─── 技能冷卻弧顯示 ──────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 使用技能後按鈕進入冷卻狀態（冷卻弧順時針縮短）
+    Given 冰凍技能按鈕處於就緒狀態
+    When 玩家點擊冰凍技能按鈕（SkillSystem 發送 skill_use 事件）
+    Then 技能按鈕圖示變暗（opacity 降至 0.4）
+    And 按鈕上覆蓋半透明灰色扇形遮罩（順時針從 360° 遞減至 0°）
+    And 遮罩背景使用 rgba(0,0,0,0.65)
+    And 按鈕中央顯示剩餘冷卻秒數（Roboto Mono 字型，text-h3 20px，白色）
+    And 冷卻弧持續動畫更新（每 100ms 刷新，精度 ≤ 0.1s）
+
+  @client @p0 @interaction
+  Scenario: 技能冷卻中點擊按鈕不觸發技能
+    Given 冰凍技能正在冷卻（剩餘 8 秒）
+    When 玩家點擊冷卻中的技能按鈕
+    Then SkillSystem 不發送任何 skill_use 事件
+    And 按鈕播放輕微震動動畫（shake，2 幀 50ms，不移動按鈕位置）
+    And 技能按鈕無音效（不觸發使用音效）
+    And 顯示短暫 Toast「冰凍技能冷卻中（8s）」（duration 1.5s，color-text-secondary 顏色）
+
+  @client @p0 @visual
+  Scenario: 冷卻時間到後按鈕從冷卻態切換至就緒態
+    Given 冰凍技能冷卻剩餘 1 秒
+    When 冷卻計時歸零（SkillSystem 本地計時 + Colyseus 狀態確認）
+    Then 冷卻遮罩以 Fade Out（200ms）消失
+    And 技能圖示亮度恢復（opacity Tween 0.4→1.0，200ms）
+    And 技能就緒提示動畫（按鈕 scale 1.0→1.15→1.0，300ms 彈入）
+    And 技能就緒音效觸發
+
+  # ─── 技能啟動動畫 ─────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 冰凍技能啟動後全場魚顯示冰凍特效視覺確認
+    Given 冰凍技能處於就緒狀態
+    When 玩家點擊冰凍技能按鈕
+    Then 技能按鈕播放激活動畫（scale 1.0→1.3→1.0，150ms，霓虹青光暈閃爍）
+    And 場景中所有存活魚觸發冰凍 Shader Overlay（藍白冰霜，FishSystem 統一處理）
+    And 畫面邊緣顯示冰藍色暈圈特效（全屏 Vignette，2s 後 Fade Out）
+    And 技能啟動音效（冰凍音效）觸發
+
+  @client @p0 @visual
+  Scenario: 全屏炸彈技能啟動顯示爆炸全屏特效
+    Given 全屏炸彈技能處於就緒狀態
+    When 玩家點擊全屏炸彈按鈕
+    Then 技能按鈕播放激活動畫（橘色光暈爆炸閃光，150ms）
+    And 全屏顯示炸彈爆炸特效（EffectPool 全屏粒子系統，橘黃色爆炸，500ms）
+    And 所有魚受到傷害（命中特效觸發）並 HUD 金幣計數快速滾動更新
+    And 爆炸音效（強烈低頻爆炸 SFX）觸發
+
+  @client @p1 @visual
+  Scenario: 自動鎖定技能啟動後炮台自動追蹤並瞄準目標
+    Given 自動鎖定技能處於就緒狀態，場景中有多條魚
+    When 玩家點擊自動鎖定按鈕
+    Then 技能按鈕邊框顯示霓虹青脈衝（color-neon-blue，1s pulse loop）
+    And 砲台開始自動旋轉追蹤場景中最高倍率魚
+    And 被鎖定目標顯示紅色準心圖示（32×32 px，crosshair 動畫旋轉）
+    And HUD 顯示「自動鎖定中」狀態標籤（Fade In，color-neon-blue）
+
+  # ─── 多技能同時冷卻 ──────────────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: 三個技能均在冷卻中獨立顯示各自進度
+    Given 玩家連續使用三個技能（冰凍 10s / 炸彈 15s / 自動鎖定 8s）
+    When 各技能按鈕進入冷卻狀態
+    Then 三個按鈕各自獨立顯示冷卻弧動畫
+    And 三個冷卻計時器互不影響（SkillSystem 維護獨立計時器）
+    And 各按鈕中央顯示對應的剩餘秒數（精度 1 位小數）
+    And 最短冷卻（8s）的技能按鈕最先恢復就緒狀態
+
+  @client @p1 @visual
+  Scenario: 技能冷卻期間 VFX 特效不影響按鈕可讀性
+    Given 全屏炸彈技能剛剛啟動（冷卻中）
+    And 場景中有大量粒子特效正在播放
+    When 玩家查看技能按鈕區域
+    Then 技能按鈕區域的 z-order 高於場景特效層（HUD z=3）
+    And 冷卻秒數文字在視覺上清晰可讀（color-white-100，WCAG 4.5:1 以上）
+    And 特效不遮擋任何技能按鈕
+
+  # ─── 技能不足 / 未解鎖 ──────────────────────────────────────
+
+  @client @p2 @visual
+  Scenario: 未解鎖技能按鈕顯示鎖定狀態
+    Given 玩家帳號未解鎖全屏炸彈技能
+    When 玩家進入 GameScene
+    Then 全屏炸彈按鈕顯示鎖定圖示（金色掛鎖 Sprite 覆蓋按鈕中央）
+    And 按鈕底色使用 disabled 狀態（opacity 0.5，color-bg-surface）
+    And 點擊鎖定技能按鈕時彈出「前往商城解鎖」Tooltip（text-body-sm，2s）
+
+  # ─── 錯誤路徑 ─────────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: 技能使用事件發送失敗時冷卻弧不啟動（Optimistic 防護）
+    Given 冰凍技能處於就緒狀態，WebSocket 連線不穩
+    When 玩家點擊技能按鈕，但 skill_use 事件 2 秒內無伺服器確認
+    Then 技能按鈕不進入冷卻狀態（冷卻弧不啟動）
+    And 顯示 Toast「技能使用失敗，請重試」（color-feedback-error，2s）
+    And 技能按鈕恢復就緒狀態（允許再次點擊）
+</code></pre>
+<h2>client/vip_ui.feature</h2>
+<pre><code class="language-gherkin"># features/client/vip_ui.feature
+# 來源：PRD US-VIP-001；PDD §5.7 VIP 光環設計；VDD §3.4 VIP 等級色系；
+# PDD §4.4 VIP 訂閱流程；FRONTEND.md §6 ui/common/VIPBadge.ts
+# Client 層面：VIP 徽章、房間內光環、訂閱 UI、等級進度顯示
+
+Feature: VIP UI 顯示
+  作為高付費的 VIP 玩家
+  我希望在遊戲中清楚展示我的 VIP 等級光環
+  以便讓其他玩家「看見」我的地位，並強化 VIP 特權的價值感
+
+  Background:
+    Given 玩家已登入
+    And VIPBadge 元件已初始化
+
+  # ─── VIP 徽章顯示 ─────────────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: VIP 1–2 等（銀牌）玩家徽章顯示靜態銀光環
+    Given 玩家 VIP 等級為 &quot;2&quot;（銀牌）
+    When 玩家進入 GameScene 或 LobbyScene
+    Then VIPBadge 顯示銀牌圖示（主色 #C0C0C0，次色 #E8E8E8）
+    And 光環為靜態銀光環（無動畫 loop）
+    And VIPBadge 尺寸符合規格（適配 HUD 顯示）
+    And 其他玩家砲台位置顯示對應的 VIPBadge（依各自等級）
+
+  @client @p0 @visual
+  Scenario: VIP 3–4 等（金牌）玩家徽章顯示緩慢旋轉金光環
+    # VDD §3.4：金牌 VIP 光環 6s loop 緩慢旋轉
+    Given 玩家 VIP 等級為 &quot;4&quot;（金牌）
+    When 玩家進入遊戲房間
+    Then VIPBadge 顯示金牌圖示（主色 #FFD700，次色 #FFF176）
+    And 光暈以 6 秒為週期緩慢旋轉 loop 動畫（Tween 或 Shader rotation）
+    And 金色光暈在深色背景上清晰可見
+
+  @client @p1 @visual
+  Scenario: VIP 7–8 等（紅鑽）玩家光環顯示紅色脈衝效果
+    # VDD §3.4：紅鑽 2s pulse 脈衝光暈
+    Given 玩家 VIP 等級為 &quot;8&quot;（紅鑽）
+    When 玩家在房間中可見
+    Then VIPBadge 顯示紅鑽圖示（主色 #FF1744，次色 #FF6B6B）
+    And 光暈以 2 秒週期做脈衝動畫（opacity 0.6→1.0→0.6，easing sine）
+    And 脈衝光暈範圍比金牌等級更大（視覺上更顯著）
+
+  @client @p1 @visual
+  Scenario: VIP 10 等（彩虹）玩家顯示彩虹流動光環與全屏小特效進場
+    # VDD §3.4：彩虹 3s loop + 進場爆炸
+    Given 玩家 VIP 等級為 &quot;10&quot;（彩虹）
+    When 玩家進入遊戲房間
+    Then VIPBadge 顯示彩虹流動漸層光環（#FF0080→#00D4FF→#00FF88，3s loop）
+    And 玩家進入房間時觸發小型全屏特效（彩虹粒子爆炸，1s，只觸發一次）
+    And 其他玩家看到「VIP LV.10 [玩家名稱] 加入了房間」系統提示
+
+  # ─── 房間內 VIP 光環可見性 ────────────────────────────────────
+
+  @client @p0 @visual
+  Scenario: 遊戲房間中所有玩家 VIP 光環同時可見
+    # PDD §5.7：VIP 光環在房間中顯眼可見（Persona B 核心需求）
+    Given 房間中有 4 名玩家，VIP 等級分別為：0 / 2（銀）/ 4（金）/ 8（紅鑽）
+    When 所有玩家進入 GameScene
+    Then 每個玩家砲台旁顯示對應的 VIPBadge（非 VIP 玩家不顯示徽章）
+    And VIP 光環不遮擋遊戲主要視野（z-order 管理，低於魚群場景層）
+    And VIP 等級越高的光環視覺越顯眼（符合 VDD §3.4 等級差異化規格）
+
+  @client @p0 @visual
+  Scenario: 非 VIP 玩家不顯示 VIP 徽章
+    Given 玩家 VIP 等級為 &quot;0&quot;（非 VIP）
+    When 玩家進入遊戲房間
+    Then 玩家砲台旁不顯示任何 VIPBadge
+    And 不顯示任何光暈特效
+
+  # ─── VIP 訂閱 UI 流程 ─────────────────────────────────────────
+
+  @client @p0 @interaction
+  Scenario: 商城中點擊 VIP 訂閱顯示 VIP 特權對比介紹
+    # PDD §4.4 VIP 訂閱流程
+    Given 玩家在 ShopDialog 或 ProfileScene 中
+    When 玩家點擊「VIP 訂閱」入口
+    Then 顯示 VIP 訂閱介紹頁面（Slide Up 或 Modal）
+    And 頁面顯示 VIP 等級 1–10 的特權對比表格（每日鑽石補貼 / 加成 / 光環等）
+    And 「訂閱 VIP 月費 USD 9.99」Primary Button 清晰可見（56px 高，金色）
+    And 頁面滾動展示各等級光環動畫預覽
+
+  @client @p0 @interaction
+  Scenario: VIP 訂閱確認後啟用動畫即時顯示光環
+    # PDD §4.4：訂閱成功 → VIP 等級啟用動畫 + 光環即時顯示
+    Given 玩家確認 VIP 訂閱並支付成功
+    When 後端 VIP 等級更新同步至客戶端（API 回應或 Colyseus 事件）
+    Then 顯示 VIP 啟用動畫（全屏金色光暈爆發，1s）
+    And VIPBadge 以動畫形式出現在玩家砲台旁（scale 0→1.0，500ms 彈入）
+    And Toast 顯示「VIP 已啟用！享受每日鑽石補貼」（color-feedback-success，3s）
+    And 大廳中玩家名稱旁即時顯示 VIP 等級標籤
+
+  @client @p1 @visual
+  Scenario: VIP 訂閱到期前 3 天顯示續費提醒
+    Given 玩家 VIP 訂閱剩餘 3 天到期
+    When 玩家進入 LobbyScene 或 ProfileScene
+    Then 顯示 VIP 到期提醒 Banner（橘色，頂部 Slide Down，4s 後自動收起）
+    And Banner 文字「VIP 將於 3 天後到期，立即續費保持特權」
+    And Banner 包含「立即續費」Secondary Button
+
+  # ─── VIP 等級進度顯示 ──────────────────────────────────────────
+
+  @client @p1 @visual
+  Scenario: ProfileScene 顯示 VIP 等級進度條
+    Given 玩家 VIP 等級為 &quot;3&quot;（金牌），累積點數為 350/500
+    When 玩家進入 ProfileScene（個人中心）
+    Then VIP 等級進度條顯示（當前 350/500 點，70% 進度）
+    And 進度條使用金色漸層填充（color-gold-400→color-gold-600）
+    And 顯示「距下一等級還差 150 點」文字（text-body-sm，color-text-secondary）
+    And VIP 等級圖示（金牌）在進度條左端顯示（與下一等級圖示對比）
+
+  # ─── 錯誤路徑 ─────────────────────────────────────────────────
+
+  @client @p1 @interaction
+  Scenario: VIP 訂閱支付失敗時顯示友好錯誤訊息
+    Given 玩家確認 VIP 訂閱，但 IAP 支付失敗
+    When 支付失敗事件到達客戶端
+    Then 顯示錯誤 Modal「訂閱遇到問題，請稍後重試」
+    And 不啟用 VIP 等級（不更新 VIPBadge）
+    And 提供「重試」Primary Button 和「聯絡客服」連結
+
+  @client @p2 @visual
+  Scenario: VIP Shader 資源載入失敗時光環降級顯示
+    Given VIP Shader（旋轉光環）資源載入失敗
+    When VIPBadge 嘗試渲染光暈效果
+    Then VIPBadge 以靜態金色邊框（fallback，2px solid #FFD700）顯示
+    And 不顯示動態光暈 Shader 效果
+    And Console 輸出 warn 日誌：「VIP shader load failed, using fallback border」
+    And 遊戲功能不受影響
+</code></pre>
+<h2>game/fishing_gameplay.feature</h2>
+<pre><code class="language-gherkin"># features/game/fishing_gameplay.feature
+# 來源：PRD US-FISH-001/AC-1,AC-2,AC-3,AC-4,AC-5,AC-6；US-ROOM-001/AC-5,AC-6
+# Risk Level：High（核心遊戲玩法與金幣獎勵，Scenario 數量加倍）
+
+Feature: 捕魚遊戲核心玩法與結算
+  作為 競技房間中的玩家
+  我希望 射擊不同魚種並獲得相應金幣獎勵
+  以便 在計時結束後以最高積分獲得 MVP 獎勵
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And 競技房間 &quot;fishingRoom-001&quot; 正在進行中，有 4 位玩家
+    And 玩家 &quot;player-001@example.com&quot; 已登入，初始金幣餘額 500
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p0 @smoke @regression @api @contract @TC-INT-FISH-001-S
+  Scenario: 射擊命中後金幣獎勵立即到帳（普通魚種 × 3 倍）
+    Given 房間中出現 HP=1 的普通魚種（倍率 3x）
+    And 玩家使用基本武器（Multiplier=1）發送 fire 事件
+    When 服務端判定命中（hit=true）
+    Then 玩家收到 fish_kill 事件，含 reward=3 金幣
+    And GET /v1/users/:id/balance 回應顯示餘額增加 3
+    And 資料庫 users.coin_balance 已更新為 503
+
+  @p0 @smoke @regression @api @TC-INT-FISH-002-S
+  Scenario: 射擊未命中消耗彈藥但金幣不減少
+    Given 玩家初始金幣餘額 500，彈藥充足
+    And 服務端判定本次射擊 hit=false
+    When 玩家發送 fire 事件
+    Then 玩家未收到 fish_kill 事件
+    And GET /v1/users/:id/balance 回應餘額仍為 500
+    And 彈藥數量減少 1
+
+  @p0 @regression @api @TC-INT-FISH-003-S
+  Scenario: 不同魚種倍率計算正確
+    Given 房間中存在 4 種魚種（倍率 3x/5x/10x/20x），各 HP=1
+    When 玩家使用基本武器（Multiplier=1）各命中一條
+    Then 分別獲得 3、5、10、20 金幣獎勵
+    And 最終餘額為 500 + 3 + 5 + 10 + 20 = 538
+
+  @p0 @regression @api @TC-INT-FISH-004-S
+  Scenario: 武器倍率疊加魚種倍率計算正確（雷射炮 × 高倍魚）
+    Given 玩家裝備雷射炮（Multiplier=3），房間有 20x 魚種（HP=1）
+    When 玩家命中該 20x 魚
+    Then 玩家獲得 60 金幣獎勵（3 × 20）
+    And 金幣餘額更新為 560
+
+  @p0 @regression @api @TC-INT-FISH-005-S
+  Scenario: 單局最少保底 10 金幣（即使全程未命中）
+    Given 玩家在整局遊戲中所有射擊均未命中
+    When 遊戲結算時間到
+    Then 玩家獲得保底獎勵 10 金幣
+    And 金幣餘額更新為 510
+
+  @p0 @regression @api @TC-E2E-ROOM-005-S @websocket
+  Scenario: 遊戲結束後顯示積分排名，最高分獲得 MVP 標記
+    Given 房間 4 位玩家遊戲結束，各自積分為 200、150、180、90
+    When 服務端發送 game_ended 事件
+    Then 所有玩家均收到 onMessage &quot;game_result&quot; 含 Top3 排名
+    And 積分 200 的玩家被標記為 MVP（is_mvp=true）
+    And 排名第 1 位積分顯示為 200，第 2 位為 180，第 3 位為 150
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-INT-FISH-006-B @websocket
+  Scenario: 遊戲未開始時發送射擊事件被忽略
+    Given 房間狀態為 &quot;waiting&quot;（遊戲未開始）
+    When 玩家發送 fire WebSocket 事件
+    Then 服務端回傳 onMessage &quot;error&quot;，訊息為 &quot;GAME_NOT_STARTED&quot;
+    And 金幣餘額不變
+
+  @p0 @regression @api @contract @TC-INT-FISH-007-E @websocket
+  Scenario: 射擊目標魚已被其他玩家擊殺時返回魚種不存在
+    Given 房間中某條魚 fish_id=&quot;fish-001&quot; 已被玩家 B 擊殺
+    When 玩家 A 發送 fire 事件，目標 target_id=&quot;fish-001&quot;
+    Then 服務端回傳 onMessage &quot;error&quot;，訊息為 &quot;TARGET_NOT_FOUND&quot;
+    And 玩家 A 金幣餘額不變
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p0 @regression @api @TC-INT-FISH-008-B
+  Scenario Outline: 不同魚種倍率邊界條件驗證
+    Given 房間中出現 &lt;fish_type&gt;（倍率 &lt;multiplier&gt;x）
+    And 玩家使用 &lt;weapon&gt;（Weapon Multiplier=&lt;weapon_mult&gt;）命中
+    When 服務端判定命中並計算獎勵
+    Then 玩家獲得 &lt;expected_reward&gt; 金幣
+
+    Examples:
+      | fish_type    | multiplier | weapon       | weapon_mult | expected_reward |
+      | 普通魚種     | 3          | 基本武器     | 1           | 3               |
+      | 中型魚種     | 5          | 散彈武器     | 2           | 10              |
+      | 大型魚種     | 10         | 雷射炮       | 3           | 30              |
+      | BOSS 魚種   | 20         | 等離子炮     | 5           | 100             |
+</code></pre>
+<h2>game/room_matchmaking.feature</h2>
+<pre><code class="language-gherkin"># features/game/room_matchmaking.feature
+# 來源：PRD US-ROOM-001/AC-1,AC-2,AC-4
+# 注意：AC-3（Bot 補位 E2E）、AC-6（Circuit Breaker）、AC-7（金幣限制）無對應 Scenario，見 RTM TC-E2E-ROOM-003-S, TC-INT-ROOM-006-E, TC-UNIT-ROOM-007-E
+# Risk Level：High（WebSocket 多人連線是核心體驗，Scenario 數量加倍）
+
+Feature: 多人競技房間快速匹配
+  作為 登入的遊戲玩家
+  我希望 透過快速匹配機制進入 4-6 人競技房間
+  以便 與其他玩家即時對戰捕魚
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And Colyseus Game Server 運行於 :2567
+    And 4 位測試玩家均已登入並持有有效 JWT
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p0 @smoke @regression @api @contract @TC-E2E-ROOM-001-S @websocket
+  Scenario: 4 位玩家在 30 秒內完成快速匹配並進入競技房間
+    Given 4 位玩家均呼叫 Colyseus matchmake joinOrCreate &quot;fishingRoom&quot;
+    When 所有玩家的 WebSocket 握手完成
+    Then 4 位玩家均收到 onJoin 事件，持有相同的 room_id
+    And 匹配完成時間 ≤ 30 秒
+    And 房間狀態為 &quot;waiting&quot;（等待更多玩家）或 &quot;game_started&quot;
+
+  @p0 @smoke @regression @api @TC-INT-ROOM-002-S @websocket
+  Scenario: 4-6 人連線就緒後房間狀態切換為 game_started
+    Given 房間 &quot;fishingRoom-001&quot; 中已有 4 位玩家連線且均 ready
+    When 房間中最後一位玩家發送 ready 訊息
+    Then 所有玩家均收到 onMessage &quot;game_started&quot; 廣播
+    And 房間 state.status 變更為 &quot;game_started&quot;
+    And 服務端開始計算魚群刷新週期
+
+  @p0 @regression @api @TC-INT-ROOM-003-S @websocket
+  Scenario: 玩家斷線後 10 秒內補入機器人維持遊戲進行
+    Given 房間 &quot;fishingRoom-001&quot; 有 4 位真實玩家，遊戲進行中
+    When 其中 1 位玩家 WebSocket 連線中斷
+    Then 10 秒內房間補入 1 個機器人玩家（is_bot=true）
+    And 剩餘真實玩家的遊戲未中斷，可繼續發送射擊指令
+    And 機器人玩家會以基礎射擊頻率持續參與
+
+  @p0 @regression @api @TC-INT-ROOM-004-S @websocket
+  Scenario: WebSocket 事件往返延遲 P99 &lt; 100ms
+    Given 房間中有 6 位玩家，遊戲進行中（正常負載）
+    When 玩家發送射擊事件並等待服務端廣播確認
+    Then 同一 AZ 內事件往返延遲 P99 ≤ 100ms（連續 100 次量測）
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-INT-ROOM-005-E @websocket
+  Scenario: 房間已滿 6 人時新玩家加入返回房間已滿錯誤
+    Given 房間 &quot;fishingRoom-001&quot; 已有 6 位玩家（滿員）
+    When 第 7 位玩家嘗試 joinOrCreate &quot;fishingRoom-001&quot;
+    Then API 回應業務錯誤 &quot;ROOM_FULL&quot;（對應 HTTP 422）
+    And 第 7 位玩家未被加入房間
+
+  @p0 @regression @api @contract @TC-INT-ROOM-006-E @websocket
+  Scenario: 玩家嘗試加入不存在的房間返回資源不存在
+    Given 房間 ID &quot;non-existent-room-999&quot; 不存在於系統
+    When 玩家嘗試 joinById &quot;non-existent-room-999&quot;
+    Then API 回應狀態碼 404
+    And 回應錯誤碼為 &quot;ROOM_NOT_FOUND&quot;
+
+  @p0 @regression @api @contract @TC-INT-ROOM-007-E @websocket
+  Scenario: 不帶 JWT Token 嘗試 WebSocket 連線被拒
+    Given 使用者未攜帶有效 JWT Token
+    When 使用者嘗試建立 WebSocket 連線至 Colyseus matchmake
+    Then WebSocket 握手階段返回 HTTP 401
+    And 連線未建立
+
+  @p0 @regression @api @contract @TC-INT-ROOM-008-E @websocket
+  Scenario: 帶無效 JWT Token 嘗試 WebSocket 連線被拒
+    Given 使用者攜帶已過期或偽造的 JWT Token
+    When 使用者嘗試建立 WebSocket 連線至 Colyseus matchmake
+    Then WebSocket 握手階段返回 HTTP 401
+    And 回應錯誤碼為 &quot;INVALID_TOKEN&quot;
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p0 @regression @api @TC-INT-ROOM-009-B
+  Scenario Outline: 房間人數邊界條件對遊戲狀態的影響
+    Given 房間中有 &lt;player_count&gt; 位玩家已連線
+    When 所有玩家發送 ready 訊息
+    Then 房間狀態為 &lt;expected_state&gt;
+
+    Examples:
+      | player_count | expected_state |
+      | 3            | waiting        |
+      | 4            | game_started   |
+      | 6            | game_started   |
+
+  @p0 @regression @api @TC-INT-ROOM-010-S @websocket
+  Scenario: 30 秒快速匹配超時後單人也能進入房間（等候中機制）
+    Given 只有 1 位玩家呼叫 joinOrCreate &quot;fishingRoom&quot;
+    When 等待 30 秒後仍無其他玩家加入
+    Then 系統補入機器人至 4 人並啟動遊戲
+    And 玩家收到 onMessage &quot;game_started&quot;
+</code></pre>
+<h2>game/rtp_jackpot.feature</h2>
+<pre><code class="language-gherkin"># features/game/rtp_jackpot.feature
+# 來源：PRD US-RTP-001/AC-1,AC-2,AC-3,AC-4,AC-5
+# Risk Level：High（RTP 設計 + Jackpot 觸發 = 直接財務影響，Scenario 數量加倍）
+
+Feature: RTP 引擎與 Jackpot 獎池系統
+  作為 遊戲營運方
+  我希望 RTP 系統嚴格維持 95%±2% 的長期回報率
+  以便 確保遊戲公平性和財務健全性
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And Jackpot 獎池初始金額為 10,000 金幣
+    And RTP 參數設定：base_rtp=0.95，jackpot_probability=0.001
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p0 @smoke @regression @api @contract @TC-UNIT-RTP-001-S
+  Scenario: RTP 引擎長期統計回報率維持在 95%±2%
+    Given RTP 引擎設定 base_rtp=0.95
+    When 模擬 10,000 局遊戲，計算總投注與總獎勵
+    Then 長期 RTP = 總獎勵 / 總投注，範圍在 [93%, 97%]
+    And 任何單一房間的 RTP 偏差不超過 ±5%（短期正常浮動）
+
+  @p0 @regression @api @contract @TC-UNIT-RTP-002-S
+  Scenario: Jackpot 觸發概率符合 ≤ 0.1% 設定
+    Given jackpot_probability=0.001（每局觸發概率）
+    When 執行 100,000 次 Jackpot 觸發檢查
+    Then 觸發次數在 [50, 150] 之間（期望值 100，3σ 範圍）
+    And 每次觸發均會清空獎池並廣播 jackpot_trigger 事件
+
+  @p0 @regression @api @TC-UNIT-RTP-003-S
+  Scenario: Jackpot 獎池金額正確累積（3% 投注比例）
+    Given Jackpot 獎池初始金額 10,000
+    And 玩家 A 投注 1,000 金幣，玩家 B 投注 2,000 金幣
+    When 兩局遊戲結束後查詢獎池金額
+    Then 獎池金額 = 10,000 + (1,000 × 3%) + (2,000 × 3%) = 10,090
+    And GET /v1/admin/game-config 返回 jackpot_min_pool 相關欄位，且獎池累積金額為 10090
+
+  @p0 @regression @api @contract @TC-INT-RTP-004-S
+  Scenario: Jackpot 觸發時玩家獲得全額獎池並獎池重置
+    Given 獎池金額 50,000，本局觸發 Jackpot
+    When 服務端廣播 jackpot_trigger 事件
+    Then 觸發玩家獲得 50,000 金幣獎勵
+    And 獎池重置為最低基礎值（如 10,000）
+    And 所有房間玩家均收到 jackpot_trigger 廣播事件
+
+  @p0 @regression @api @TC-INT-RTP-005-S
+  Scenario: Admin 調整 RTP 參數後 15 分鐘內生效
+    Given Admin 已登入並持有 admin 角色 JWT
+    When Admin 發送 PATCH /v1/admin/game-config，調整 base_rtp=0.92
+    Then API 回應狀態碼 200
+    And 15 分鐘後新的遊戲局使用 base_rtp=0.92 計算
+    And 資料庫 game_configs 記錄更新時間
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-INT-RTP-006-E
+  Scenario: 非 Admin 角色嘗試修改 RTP 參數被拒絕
+    Given 普通玩家（role=player）已登入並持有 JWT
+    When 普通玩家嘗試發送 PATCH /v1/admin/game-config
+    Then API 回應狀態碼 403
+    And 回應錯誤碼為 &quot;FORBIDDEN&quot;
+    And RTP 參數未被修改
+
+  @p0 @regression @api @contract @TC-INT-RTP-007-E
+  Scenario: RTP 參數超出有效範圍（&lt; 80% 或 &gt; 99%）被拒絕
+    Given Admin 已登入
+    When Admin 嘗試設定 base_rtp=0.79（低於最低限制 0.80）
+    Then API 回應狀態碼 422
+    And 回應錯誤碼為 &quot;RTP_OUT_OF_RANGE&quot;
+    And 回應說明有效範圍 [0.80, 0.99]
+
+  @p0 @regression @api @TC-INT-RTP-008-B
+  Scenario: Jackpot 觸發時 Redis 原子操作確保僅一位玩家獲得獎池
+    Given 獎池金額 100,000，同時 100 個房間各有觸發請求
+    When Redis GETSET 原子操作執行
+    Then 只有一個房間的玩家取得獎池獎勵
+    And 其他 99 個觸發請求獲得 jackpot_amount=0
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p0 @regression @api @TC-INT-RTP-009-B
+  Scenario Outline: RTP 參數邊界值驗證
+    Given Admin 已登入
+    When Admin 嘗試設定 base_rtp=&lt;value&gt;
+    Then API 回應狀態碼 &lt;expected_status&gt;
+
+    Examples:
+      | value | expected_status |
+      | 0.80  | 200             |
+      | 0.95  | 200             |
+      | 0.99  | 200             |
+      | 0.79  | 422             |
+      | 1.00  | 422             |
+</code></pre>
+<h2>game/weapon_skill.feature</h2>
+<pre><code class="language-gherkin"># features/game/weapon_skill.feature
+# 來源：PRD US-WPSK-001/AC-1,AC-2,AC-3,AC-4
+# Risk Level：Medium
+
+Feature: 武器選擇與技能系統
+  作為 競技房間中的玩家
+  我希望 選擇不同武器並使用特殊技能
+  以便 提高命中率和金幣收益
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And 玩家 &quot;player-weapon@example.com&quot; 已登入，持有有效 JWT
+    And 競技房間 &quot;fishingRoom-weapon&quot; 遊戲進行中
+    And 玩家初始鑽石餘額 100，金幣餘額 1000
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p0 @smoke @regression @api @contract @TC-E2E-WPSK-001-S @websocket
+  Scenario: 玩家選擇雷射炮後消費對應費用並生效
+    Given 房間提供 4 種武器：散彈炮（費用 10）、雷射炮（費用 30）、導彈炮（費用 50）、等離子炮（費用 100）
+    When 玩家透過 WebSocket 發送 weapon_select，weapon_id=&quot;laser_cannon&quot;
+    Then 玩家金幣餘額扣除 30，餘額更新為 970
+    And 服務端廣播玩家武器狀態更新 weapon=&quot;laser_cannon&quot;
+    And 玩家後續射擊倍率為 3x
+
+  @p0 @regression @api @TC-INT-WPSK-002-S @websocket
+  Scenario: 技能冷卻期間無法重複使用同一技能
+    Given 玩家已使用冰凍技能（cooldown=3 秒）
+    When 玩家在 2 秒後再次嘗試使用冰凍技能
+    Then 服務端回傳 onMessage &quot;error&quot;，訊息為 &quot;SKILL_COOLING_DOWN&quot;
+    And 回應包含剩餘冷卻時間（remaining_cooldown=1）
+    And 技能未生效，金幣不扣除
+
+  @p0 @regression @api @TC-INT-WPSK-003-S
+  Scenario: 冷卻期結束後可重新使用技能
+    Given 玩家已使用冰凍技能，冷卻 3 秒
+    When 3 秒後玩家再次使用冰凍技能
+    Then 服務端接受技能請求並廣播 skill_activated 事件
+    And 房間內所有魚速度降低（frozen_duration=3 秒）
+
+  @p0 @regression @api @TC-INT-WPSK-005-S
+  Scenario: 全屏炸彈技能命中所有存活魚並結算獎勵
+    Given 房間中有 10 條存活魚，玩家使用全屏炸彈技能（cooldown=5 秒）
+    When 玩家發送 skill_activate，skill_id=&quot;aoe_bomb&quot;
+    Then 服務端廣播 skill_activated，影響所有 10 條魚
+    And 所有命中的魚均觸發 fish_kill 事件（各自倍率計算）
+    And 玩家技能冷卻計時器設為 5 秒
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-UNIT-WPSK-004-E @websocket
+  Scenario: 金幣不足時選擇高費用武器被拒絕
+    Given 玩家金幣餘額僅剩 20
+    When 玩家嘗試選擇費用為 50 的導彈炮
+    Then 服務端回傳 onMessage &quot;error&quot;，訊息為 &quot;INSUFFICIENT_COINS&quot;
+    And 玩家武器保持原有設定，金幣不扣除
+
+  @p0 @regression @api @contract @TC-INT-WPSK-006-E @websocket
+  Scenario: 非 VIP 玩家嘗試使用 VIP 專屬武器升級被拒絕（US-WPSK-001/AC-4）
+    Given 玩家 vip_tier=0（非 VIP）
+    When 玩家嘗試裝備 VIP 專屬強化版武器 &quot;laser_cannon_vip&quot;
+    Then 服務端回傳 onMessage &quot;error&quot;，訊息為 &quot;VIP_REQUIRED&quot;
+    And 武器未升級
+
+  @p0 @regression @api @contract @TC-INT-WPSK-007-S
+  Scenario: VIP 玩家可成功裝備 VIP 專屬強化武器（US-WPSK-001/AC-4）
+    Given 玩家 vip_tier=1（VIP 月費訂閱有效）
+    When 玩家發送 weapon_select，weapon_id=&quot;laser_cannon_vip&quot;
+    Then 服務端廣播武器升級成功
+    And 玩家後續射擊倍率為 5x（VIP 強化）
+
+  @p0 @regression @api @TC-INT-WPSK-008-E
+  Scenario: 遊戲未開始時選擇武器被拒絕
+    Given 房間狀態為 &quot;waiting&quot;（遊戲未開始）
+    When 玩家發送 weapon_select 事件
+    Then 服務端回傳 &quot;error&quot;，訊息為 &quot;GAME_NOT_STARTED&quot;
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p0 @regression @api @TC-INT-WPSK-009-B
+  Scenario Outline: 技能冷卻邊界條件
+    Given 玩家已使用 &lt;skill&gt;，冷卻時間為 &lt;cooldown&gt; 秒
+    When 玩家在 &lt;elapsed&gt; 秒後嘗試再次使用
+    Then 技能操作結果為 &lt;result&gt;
+
+    Examples:
+      | skill         | cooldown | elapsed | result       |
+      | 冰凍技能      | 3        | 2       | COOLING_DOWN |
+      | 冰凍技能      | 3        | 3       | SUCCESS      |
+      | 全屏炸彈      | 5        | 4       | COOLING_DOWN |
+      | 全屏炸彈      | 5        | 5       | SUCCESS      |
+</code></pre>
+<h2>shop/iap_purchase.feature</h2>
+<pre><code class="language-gherkin"># features/shop/iap_purchase.feature
+# 來源：PRD US-SHOP-001/AC-1,AC-2,AC-3,AC-4,AC-5,AC-6
+# Risk Level：Critical（IAP 充值直接涉及真實金錢，Scenario 數量加倍）
+
+Feature: IAP 鑽石充值與金幣兌換
+  作為 已年齡驗證的遊戲玩家
+  我希望 透過 Apple/Google IAP 購買鑽石並兌換金幣
+  以便 取得遊戲內資源進行消費
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And 玩家 &quot;shopper@example.com&quot; 已登入，age_verified=true，JWT 有效
+    And 玩家初始鑽石餘額 0，金幣餘額 0
+    And Apple IAP 服務 mock 已就緒（verifyReceipt stub）
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p0 @smoke @regression @api @contract @TC-E2E-SHOP-001-S
+  Scenario: Apple IAP 收據驗證成功後鑽石即時到帳
+    Given Apple IAP mock 回應 {status:0, product_id:&quot;diamonds_330&quot;, transaction_id:&quot;TX-001&quot;}
+    And Idempotency-Key=&quot;idem-key-001&quot; 尚未使用
+    When 玩家發送 POST /v1/shop/purchases，platform=&quot;apple&quot;，product_id=&quot;diamonds_330&quot;，receipt=&quot;valid_receipt&quot;，idempotency_key=&quot;idem-key-001&quot;
+    Then API 回應狀態碼 201
+    And 回應包含 order_id，status=&quot;completed&quot;，diamonds_credited=330
+    And GET /v1/users/:id/balance 顯示 diamond_balance=330
+    And 資料庫 orders 記錄狀態為 &quot;completed&quot;
+
+  @p0 @smoke @regression @api @TC-INT-SHOP-002-S
+  Scenario: 鑽石兌換金幣匯率 1:10
+    Given 玩家 diamond_balance=50
+    When 玩家執行鑽石兌換操作，兌換 50 鑽石
+    Then 玩家 diamond_balance 減少 50（變為 0）
+    And 玩家 coin_balance 增加 500（50 × 10）
+    And 兌換操作在 1 秒內完成
+
+  @p0 @regression @api @TC-INT-SHOP-003-S
+  Scenario: Google Play IAP 收據驗證成功後鑽石到帳
+    Given Google Play IAP mock 回應驗證成功，product_id=&quot;diamonds_50&quot;
+    When 玩家發送 POST /v1/shop/purchases，platform=&quot;google&quot;，receipt=&quot;valid_google_receipt&quot;
+    Then API 回應狀態碼 201
+    And 回應 diamonds_credited=50
+    And 玩家 diamond_balance 更新為 50
+
+  @p0 @regression @api @TC-INT-SHOP-004-S
+  Scenario: 充值後金幣餘額即時更新，可立即使用
+    Given 玩家透過 IAP 成功充值獲得 330 鑽石，並兌換為 3,300 金幣
+    When 玩家立即使用 300 金幣購買武器
+    Then 武器購買成功，coin_balance=3,000
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-INT-SHOP-003-B
+  Scenario: 重複的 Idempotency-Key 返回 409 並回傳原始訂單
+    Given Idempotency-Key=&quot;idem-key-001&quot; 已被成功使用，對應 order_id=&quot;ORD-001&quot;
+    When 玩家以相同 Idempotency-Key=&quot;idem-key-001&quot; 再次發送 POST /v1/shop/purchases
+    Then API 回應狀態碼 409
+    And 回應錯誤碼為 &quot;DUPLICATE_PURCHASE&quot;
+    And 回應包含 original_order_id=&quot;ORD-001&quot;
+    And 鑽石未重複發放
+
+  @p0 @regression @api @contract @TC-INT-SHOP-010-E
+  Scenario: 偽造 IAP 收據返回收據無效錯誤
+    Given Apple IAP mock 回應 {status:21002}（收據格式錯誤）
+    When 玩家發送 POST /v1/shop/purchases，附上偽造 receipt
+    Then API 回應狀態碼 422
+    And 回應錯誤碼為 &quot;IAP_RECEIPT_INVALID&quot;
+    And 訂單未建立，鑽石未發放
+
+  @p0 @regression @api @contract @TC-INT-SHOP-007-E
+  Scenario: 未攜帶 JWT Token 的充值請求被拒絕
+    Given 請求未包含 Authorization header
+    When 匿名使用者發送 POST /v1/shop/purchases
+    Then API 回應狀態碼 401
+    And 回應錯誤碼為 &quot;UNAUTHORIZED&quot;
+
+  @p0 @regression @api @contract @TC-INT-SHOP-005-E
+  Scenario: IAP Circuit Breaker 觸發後返回服務不可用
+    Given Apple IAP 服務連續失敗次數已超過 Circuit Breaker 閾值
+    When 玩家發送 POST /v1/shop/purchases
+    Then API 回應狀態碼 503
+    And 回應錯誤碼為 &quot;IAP_SERVICE_UNAVAILABLE&quot;
+    And 回應包含 retry_after=30（秒）
+
+  @p0 @regression @api @contract @TC-INT-SHOP-006-E
+  Scenario: 退款 webhook 將訂單標記為 REFUNDED
+    Given 訂單 &quot;ORD-002&quot; 狀態為 &quot;completed&quot;，已發放 330 鑽石
+    When Apple 發送退款 webhook，transaction_id 對應 &quot;ORD-002&quot;
+    Then 資料庫 orders.status 更新為 &quot;REFUNDED&quot;
+    And 玩家 diamond_balance 相應扣除 330（若仍有足夠餘額）
+
+  @p0 @regression @api @TC-INT-AGE-004-E
+  Scenario: 年齡驗證未通過的用戶無法進行充值
+    Given 玩家 age_verified=false
+    When 玩家嘗試發送 POST /v1/shop/purchases
+    Then API 回應狀態碼 403
+    And 回應錯誤碼為 &quot;AGE_VERIFICATION_REQUIRED&quot;
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p0 @regression @api @TC-INT-SHOP-008-B
+  Scenario Outline: 不同充值方案的鑽石數量驗證
+    Given Apple IAP mock 回應 product_id=&quot;&lt;product_id&gt;&quot; 驗證成功
+    When 玩家發送 POST /v1/shop/purchases，product_id=&quot;&lt;product_id&gt;&quot;
+    Then API 回應 diamonds_credited=&lt;diamonds&gt;
+
+    Examples:
+      | product_id      | diamonds |
+      | diamonds_50     | 50       |
+      | diamonds_330    | 330      |
+      | diamonds_1680   | 1680     |
+      | diamonds_5800   | 5800     |
+
+  @p0 @regression @api @TC-INT-SHOP-009-E
+  Scenario: Rate Limit — 同一用戶 1 分鐘內超過 5 次充值請求返回 429
+    Given 玩家 1 分鐘內已發送 5 次 POST /v1/shop/purchases
+    When 玩家發送第 6 次請求
+    Then API 回應狀態碼 429
+    And 回應包含 Retry-After header
+</code></pre>
+<h2>shop/vip_subscription.feature</h2>
+<pre><code class="language-gherkin"># features/shop/vip_subscription.feature
+# 來源：PRD US-VIP-001/AC-1,AC-2,AC-3（P1 Should-have）
+# Risk Level：Medium（VIP 訂閱涉及鑽石消費和 tier 特權）
+
+Feature: VIP 月費訂閱系統
+  作為 有鑽石餘額的遊戲玩家
+  我希望 以月費 30 鑽石訂閱 VIP 方案
+  以便 享受武器升級和每日補貼等 VIP 特權
+
+  Background:
+    Given 資料庫已初始化（clean state）
+    And 玩家 &quot;vip-player@example.com&quot; 已登入，age_verified=true，JWT 有效
+    And 玩家初始鑽石餘額 100，vip_tier=0（非 VIP）
+
+  # ─── 正常路徑 ───────────────────────────────────────────
+
+  @p1 @smoke @regression @api @contract @TC-E2E-VIP-001-S
+  Scenario: 鑽石足夠時成功訂閱 VIP 月費方案
+    Given Idempotency-Key=&quot;vip-idem-001&quot; 尚未使用
+    When 玩家發送 POST /v1/vip/subscriptions，plan_id=&quot;vip_monthly&quot;，Idempotency-Key=&quot;vip-idem-001&quot;
+    Then API 回應狀態碼 201
+    And 回應包含 subscription_id，vip_tier=1，expires_at（當前時間 +30 天），diamonds_deducted=30
+    And 玩家 diamond_balance 更新為 70
+    And 資料庫 users.vip_tier=1，vip_expires_at 正確設定
+
+  @p1 @regression @api @TC-INT-VIP-008-S
+  Scenario: VIP 訂閱後可解鎖 VIP 專屬武器升級（US-WPSK-001/AC-4）
+    Given 玩家已成功訂閱 VIP，vip_tier=1
+    When 玩家在遊戲房間發送 weapon_select，weapon_id=&quot;laser_cannon_vip&quot;
+    Then 服務端廣播武器升級成功
+    And 玩家後續射擊倍率為 VIP 強化值（5x）
+
+  @p1 @regression @api @TC-INT-VIP-002-S
+  Scenario: VIP 訂閱後次日補貼 5 鑽石
+    Given 玩家已訂閱 VIP，vip_tier=1，當前鑽石餘額 70
+    When 24 小時後系統執行每日補貼 Job
+    Then 玩家 diamond_balance 增加 5，餘額更新為 75
+    And 資料庫記錄補貼發放記錄
+
+  # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p1 @regression @api @contract @TC-INT-VIP-009-E
+  Scenario: 鑽石不足 30 顆時訂閱 VIP 被拒絕
+    Given 玩家 diamond_balance=20（不足 30）
+    When 玩家嘗試發送 POST /v1/vip/subscriptions，plan_id=&quot;vip_monthly&quot;
+    Then API 回應狀態碼 422
+    And 回應錯誤碼為 &quot;INSUFFICIENT_DIAMONDS&quot;
+    And 鑽石餘額未扣除，vip_tier 未變更
+
+  @p1 @regression @api @contract @TC-INT-VIP-004-E
+  Scenario: 已是活躍 VIP 時重複訂閱返回衝突錯誤
+    Given 玩家已訂閱 VIP，vip_expires_at 在未來（訂閱有效）
+    When 玩家再次嘗試發送 POST /v1/vip/subscriptions
+    Then API 回應狀態碼 422
+    And 回應錯誤碼為 &quot;VIP_ALREADY_ACTIVE&quot;
+    And 鑽石未扣除
+
+  @p1 @regression @api @contract @TC-INT-VIP-005-E
+  Scenario: 重複的 Idempotency-Key 訂閱返回 409 並回傳原始訂閱
+    Given Idempotency-Key=&quot;vip-idem-001&quot; 已被成功用於建立訂閱 sub_id=&quot;SUB-001&quot;
+    When 玩家以相同 Idempotency-Key=&quot;vip-idem-001&quot; 再次發送訂閱請求
+    Then API 回應狀態碼 409
+    And 回應錯誤碼為 &quot;DUPLICATE_SUBSCRIPTION&quot;
+    And 回應包含 original_subscription_id=&quot;SUB-001&quot;
+    And 鑽石未重複扣除
+
+  @p1 @regression @api @TC-INT-VIP-006-E
+  Scenario: 未帶 JWT Token 的訂閱請求被拒絕
+    Given 請求未包含 Authorization header
+    When 匿名使用者發送 POST /v1/vip/subscriptions
+    Then API 回應狀態碼 401
+    And 回應錯誤碼為 &quot;UNAUTHORIZED&quot;
+
+  # ─── 邊界條件 ───────────────────────────────────────────
+
+  @p1 @regression @api @TC-INT-VIP-003-E
+  Scenario: VIP 到期後 vip_tier 自動重置為 0
+    Given 玩家 vip_tier=1，vip_expires_at 為昨日（已到期）
+    When 系統執行每日 VIP 到期檢查 Job
+    Then 玩家 vip_tier 更新為 0
+    And 玩家下次使用 VIP 專屬功能時被拒絕（&quot;VIP_REQUIRED&quot;）
+
+  @p1 @regression @api @TC-INT-VIP-007-B
+  Scenario Outline: VIP 訂閱前後鑽石餘額邊界驗證
+    Given 玩家 diamond_balance=&lt;initial_diamonds&gt;
+    When 玩家嘗試訂閱 VIP 月費方案（費用 30 鑽石）
+    Then 訂閱結果為 &lt;result&gt;，最終餘額為 &lt;final_balance&gt;
+
+    Examples:
+      | initial_diamonds | result  | final_balance |
+      | 30               | SUCCESS | 0             |
+      | 31               | SUCCESS | 1             |
+      | 29               | FAILED  | 29            |
+      | 0                | FAILED  | 0             |
+</code></pre></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

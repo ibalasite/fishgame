@@ -44,7 +44,8 @@
     "D12b-BDD-client",
     "D16-ALIGN-F",
     "D17-CONTRACTS",
-    "D18-MOCK"
+    "D18-MOCK",
+    "D19-HTML"
   ],
   "handoff": true,
   "idea_generated": true,
@@ -67,7 +68,7 @@
     "D10-FRONTEND",
     "D12b-BDD-client"
   ],
-  "last_completed": "D18-MOCK",
+  "last_completed": "D19-HTML",
   "review_progress": {
     "D03-PRD": {
       "rounds_done": 3,
@@ -252,7 +253,8 @@
     "D17-HTML": true,
     "D16-ALIGN-F": true,
     "D17-CONTRACTS": true,
-    "D18-MOCK": true
+    "D18-MOCK": true,
+    "D19-HTML": true
   },
   "client_type": "game",
   "client_type_source": "manual",

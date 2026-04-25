@@ -30,15 +30,21 @@
   --font: system-ui, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
-  /* 尺寸：sidebar 固定，content 填滿剩餘空間 */
+  /* 尺寸：sidebar 固定，content 填滿剩餘空間，無最大寬度上限（4K 友好） */
   --nav-h: 56px;
   --sidebar-w: 260px;
-  --content-pad-h: 3rem;
+  --content-pad-h: 3rem;  /* 內容左右 padding */
 }
 
-@media (min-width: 1440px) { :root { --sidebar-w: 280px; } }
-@media (min-width: 1920px) { :root { --sidebar-w: 300px; --content-pad-h: 4rem; } }
-@media (min-width: 2560px) { :root { --sidebar-w: 320px; --content-pad-h: 5rem; } }
+@media (min-width: 1440px) {
+  :root { --sidebar-w: 280px; }
+}
+@media (min-width: 1920px) {
+  :root { --sidebar-w: 300px; --content-pad-h: 4rem; }
+}
+@media (min-width: 2560px) {
+  :root { --sidebar-w: 320px; --content-pad-h: 5rem; }
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -52,7 +58,7 @@ body {
   min-height: 100vh;
 }
 
-/* ─── Top Navigation ─────────────────────────── */
+/* ─── Top Navigation（永遠深色） ─────────────────── */
 
 .top-nav {
   position: sticky;
@@ -79,6 +85,7 @@ body {
 
 .nav-controls { display: flex; align-items: center; gap: 0.75rem; }
 
+/* GitHub link in nav */
 .nav-gh-link {
   display: inline-flex;
   align-items: center;
@@ -98,7 +105,7 @@ body {
   border-color: var(--nav-accent);
 }
 
-/* ─── Search ──────────────────────────────────── */
+/* ─── Search ─────────────────────────────────────── */
 
 .search-wrap { position: relative; }
 
@@ -142,7 +149,7 @@ body {
 .search-result-item__title { font-weight: 600; font-size: 0.875rem; }
 .search-result-item__excerpt { color: var(--text-muted); font-size: 0.8125rem; margin-top: 2px; }
 
-/* ─── Page Banner ────────────────────────────── */
+/* ─── Page Banner（深色漸層） ────────────────────── */
 
 .doc-page-banner {
   background: linear-gradient(135deg, var(--banner-from) 0%, var(--banner-to) 100%);
@@ -156,7 +163,10 @@ body {
   color: var(--banner-link);
   margin-bottom: 0.5rem;
 }
-.banner-breadcrumb a { color: var(--banner-link); text-decoration: none; }
+.banner-breadcrumb a {
+  color: var(--banner-link);
+  text-decoration: none;
+}
 .banner-breadcrumb a:hover { text-decoration: underline; }
 
 .banner-title {
@@ -172,7 +182,7 @@ body {
   margin-top: 0.5rem;
 }
 
-/* ─── Page Wrapper ───────────────────────────── */
+/* ─── Page Wrapper ───────────────────────────────── */
 
 .page-wrapper {
   display: grid;
@@ -183,7 +193,7 @@ body {
   transition: grid-template-columns 200ms ease;
 }
 
-/* ─── Sidebar ────────────────────────────────── */
+/* ─── Sidebar ────────────────────────────────────── */
 
 .sidebar {
   background: var(--sidebar-bg);
@@ -229,11 +239,11 @@ body {
   font-weight: 500;
 }
 
-/* ─── Doc Content ────────────────────────────── */
+/* ─── Doc Content ────────────────────────────────── */
 
 .doc-content {
   padding: 2.5rem var(--content-pad-h);
-  width: 100%;
+  width: 100%;          /* 填滿 1fr，隨螢幕自動擴展，不設 max-width */
   background: transparent;
 }
 
@@ -420,7 +430,7 @@ body {
   .doc-content { padding: 1.5rem 1rem; }
   .search-input { width: 140px; }
   .doc-page-banner { padding: 1.5rem 1rem 1rem; }
-  .nav-gh-link { display: none; }
+  .nav-gh-link { display: none; }  /* 小螢幕隱藏，省空間 */
 }
 
 /* ─── Badge Fallback ─────────────────────────── */
@@ -435,7 +445,7 @@ body {
   vertical-align: middle;
 }
 
-/* ─── Sidebar Toggle ─────────────────────────── */
+/* ─── Sidebar Toggle Button ──────────────────── */
 .sidebar-toggle {
   background: transparent;
   border: 1px solid #374151;
@@ -463,7 +473,7 @@ body {
 .sidebar-resizer:hover,
 .sidebar-resizer.dragging { background: var(--accent); }
 
-/* ─── Sidebar Collapsed ──────────────────────── */
+/* ─── Sidebar Collapsed State ────────────────── */
 .page-wrapper.sidebar-collapsed {
   grid-template-columns: 0 4px 1fr;
 }
