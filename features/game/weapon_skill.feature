@@ -23,6 +23,17 @@ Feature: 武器選擇與技能系統
     And 服務端廣播玩家武器狀態更新 weapon="laser_cannon"
     And 玩家後續射擊倍率為 3x
 
+  @p0 @smoke @regression @api @TC-E2E-WPSK-002-S @websocket
+  Scenario: 冰凍技能 E2E — 使用後魚群速度降低，玩家可提升命中率
+    Given 房間遊戲進行中，魚群以正常速度游動
+    When 玩家發送 skill_activate，skill_id="freeze"
+    Then 服務端廣播 "skill_activated"，frozen_duration=3（秒）
+    And 所有房間內玩家均收到 "fish_frozen" 狀態更新
+    And 接下來 3 秒內魚群移動速度降至 50%
+    And 玩家可在凍結期間發送 fire 事件並命中，金幣正常結算
+    And 3 秒後 "fish_unfrozen" 廣播，魚群恢復正常速度
+    And 冰凍技能進入冷卻計時（cooldown=30 秒）
+
   @p0 @regression @api @TC-INT-WPSK-002-S @websocket
   Scenario: 技能冷卻期間無法重複使用同一技能
     Given 玩家已使用冰凍技能（cooldown=3 秒）

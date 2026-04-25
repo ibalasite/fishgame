@@ -88,6 +88,14 @@ Feature: IAP 鑽石充值與金幣兌換
     Then 資料庫 orders.status 更新為 "REFUNDED"
     And 玩家 diamond_balance 相應扣除 330（若仍有足夠餘額）
 
+  @p0 @regression @api @contract @TC-UNIT-SHOP-002-E
+  Scenario: 鑽石餘額不足時兌換金幣請求被拒絕
+    Given 玩家 diamond_balance=10
+    When 玩家呼叫 POST /v1/shop/exchanges，body={diamonds_to_exchange: 50}
+    Then API 回應狀態碼 402
+    And 回應錯誤碼為 "INSUFFICIENT_DIAMONDS"
+    And 玩家 diamond_balance 仍為 10，coin_balance 不變
+
   @p0 @regression @api @TC-INT-AGE-004-E
   Scenario: 年齡驗證未通過的用戶無法進行充值
     Given 玩家 age_verified=false
@@ -109,6 +117,20 @@ Feature: IAP 鑽石充值與金幣兌換
       | diamonds_330    | 330      |
       | diamonds_1680   | 1680     |
       | diamonds_5800   | 5800     |
+
+  @p0 @regression @api @TC-UNIT-SHOP-004-B
+  Scenario Outline: 鑽石兌換金幣邊界條件（1:10 匯率）
+    Given 玩家 diamond_balance=<initial_diamonds>
+    When 玩家呼叫 POST /v1/shop/exchanges，body={diamonds_to_exchange: <exchange_amount>}
+    Then API 回應狀態碼 <expected_status>
+    And <outcome>
+
+    Examples:
+      | initial_diamonds | exchange_amount | expected_status | outcome                                           |
+      | 1                | 1               | 200             | diamond_balance=0，coin_balance 增加 10           |
+      | 100              | 100             | 200             | diamond_balance=0，coin_balance 增加 1000         |
+      | 10               | 0               | 400             | 回應 VALIDATION_ERROR，欄位指向 diamonds_to_exchange |
+      | 10               | 11              | 402             | 回應 INSUFFICIENT_DIAMONDS                        |
 
   @p0 @regression @api @TC-INT-SHOP-009-E
   Scenario: Rate Limit — 同一用戶 1 分鐘內超過 5 次充值請求返回 429

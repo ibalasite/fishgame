@@ -28,6 +28,15 @@ Feature: RTP 引擎與 Jackpot 獎池系統
     Then 觸發次數在 [50, 150] 之間（期望值 100，3σ 範圍）
     And 每次觸發均會清空獎池並廣播 jackpot_trigger 事件
 
+  @p0 @regression @api @TC-INT-RTP-002-S
+  Scenario: 連敗補償機制在連續 10 次未命中後提升命中率
+    Given RTP 引擎啟用連敗補償（loss_streak_threshold=10）
+    And 玩家已連續 10 次射擊未命中
+    When 玩家發送第 11 次 fire 事件
+    Then 服務端計算命中率時應用補償係數（boost_factor > 1.0）
+    And 本次命中概率不低於 base_hit_rate × 1.5
+    And 補償機制在玩家成功命中後重置 loss_streak 計數器
+
   @p0 @regression @api @TC-UNIT-RTP-003-S
   Scenario: Jackpot 獎池金額正確累積（3% 投注比例）
     Given Jackpot 獎池初始金額 10,000
@@ -53,6 +62,14 @@ Feature: RTP 引擎與 Jackpot 獎池系統
     And 資料庫 game_configs 記錄更新時間
 
   # ─── 錯誤路徑 ───────────────────────────────────────────
+
+  @p0 @regression @api @contract @TC-INT-RTP-005-E
+  Scenario: RTP Health Check 失敗後系統降級為 80% 保底 RTP
+    Given RTP 引擎健康檢查端點連續 3 次回應超時或 500 錯誤
+    When 新一局遊戲開始，FishSpawnService 嘗試取得 RTP 參數
+    Then 系統降級為保底 base_rtp=0.80（最低安全 RTP）
+    And 服務端發出告警事件（rtp_health_check_failed）
+    And 告警通知 ops 人員，包含最近 3 次失敗時間戳
 
   @p0 @regression @api @contract @TC-INT-RTP-006-E
   Scenario: 非 Admin 角色嘗試修改 RTP 參數被拒絕
