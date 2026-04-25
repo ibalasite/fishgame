@@ -1723,7 +1723,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-text-error` | `color-red-500` | 錯誤文字 |
 | `color-text-tertiary` | `color-white-40` | 三級文字 |
 | `color-bg-overlay` | `rgba(5,20,40,0.85)` | 模態遮罩 |
-| `color-bg-scrim` | `rgba(0,0,0,0.6)` | 半透明深色遮罩 |
+| `color-bg-scrim` | `color-black-60` | 半透明深色遮罩 |
 | `color-accent-vip` | `color-vip-identity` | VIP 徽章強調色 |
 | `color-hp-high` | `color-neon-green` | HP 條高血量色 |
 | `color-hp-mid` | `color-yellow-400` | HP 條中血量色（#FFEB3B 純黃，視覺區別於品牌金）|
