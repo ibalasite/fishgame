@@ -83,6 +83,23 @@ Feature: 使用者帳號註冊
     Then API 回應狀態碼 403
     And 回應錯誤碼為 "AGE_RESTRICTED"
 
+  @p0 @regression @api @TC-INT-AGE-005-S
+  Scenario: DEMO_ONLY 用戶嘗試付費操作被導引至年齡驗證流程
+    Given 玩家已完成帳號註冊，age_status="DEMO_ONLY"（僅演示模式）
+    And 玩家可正常進入免費遊戲房間
+    When 玩家嘗試執行 POST /v1/shop/purchases（付費操作）
+    Then API 回應狀態碼 403
+    And 回應錯誤碼為 "AGE_RESTRICTED"
+    And 回應包含 hint="age_verification_required"，引導玩家完成年齡驗證
+
+  @p0 @regression @api @TC-INT-AGE-006-S
+  Scenario: DEMO_ONLY 用戶完成年齡驗證後狀態升級為 VERIFIED 並解鎖付費功能
+    Given 玩家 age_status="DEMO_ONLY"（僅演示模式）
+    When 玩家呼叫 POST /v1/auth/verify-age，提交生日確認（≥ 18 歲）
+    Then API 回應狀態碼 200
+    And 資料庫 users.age_status 更新為 "VERIFIED"
+    And 玩家重新嘗試 POST /v1/shop/purchases 時成功（200/201）
+
   # ─── 邊界條件 ───────────────────────────────────────────
 
   @p0 @regression @api @TC-UNIT-ACCT-005-B
