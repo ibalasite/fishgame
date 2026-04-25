@@ -34,7 +34,7 @@ Feature: RTP 引擎與 Jackpot 獎池系統
     And 玩家 A 投注 1,000 金幣，玩家 B 投注 2,000 金幣
     When 兩局遊戲結束後查詢獎池金額
     Then 獎池金額 = 10,000 + (1,000 × 3%) + (2,000 × 3%) = 10,090
-    And GET /v1/game-configs/jackpot 返回 jackpot_amount=10090
+    And GET /v1/admin/game-config 返回 jackpot_min_pool 相關欄位，且獎池累積金額為 10090
 
   @p0 @regression @api @contract @TC-INT-RTP-004-S
   Scenario: Jackpot 觸發時玩家獲得全額獎池並獎池重置
@@ -47,7 +47,7 @@ Feature: RTP 引擎與 Jackpot 獎池系統
   @p0 @regression @api @TC-INT-RTP-005-S
   Scenario: Admin 調整 RTP 參數後 15 分鐘內生效
     Given Admin 已登入並持有 admin 角色 JWT
-    When Admin 發送 POST /v1/game-configs，調整 base_rtp=0.92
+    When Admin 發送 PATCH /v1/admin/game-config，調整 base_rtp=0.92
     Then API 回應狀態碼 200
     And 15 分鐘後新的遊戲局使用 base_rtp=0.92 計算
     And 資料庫 game_configs 記錄更新時間
@@ -57,7 +57,7 @@ Feature: RTP 引擎與 Jackpot 獎池系統
   @p0 @regression @api @contract @TC-INT-RTP-006-E
   Scenario: 非 Admin 角色嘗試修改 RTP 參數被拒絕
     Given 普通玩家（role=player）已登入並持有 JWT
-    When 普通玩家嘗試發送 POST /v1/game-configs
+    When 普通玩家嘗試發送 PATCH /v1/admin/game-config
     Then API 回應狀態碼 403
     And 回應錯誤碼為 "FORBIDDEN"
     And RTP 參數未被修改
