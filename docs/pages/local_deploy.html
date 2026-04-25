@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>本地部署指南 — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -91,37 +99,33 @@ Install and verify every tool before proceeding. The setup will not work without
 └────────────────────────────────────────────────────────────────────────┘
 </code></pre>
 </p>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TB
-<p>
-Dev[&quot;Developer\n(localhost)&quot;]
-GameClient[&quot;Cocos Creator Client\n(外部連線)&quot;]
-Ingress[&quot;Ingress (traefik)\nfishing-arcade.local&quot;]
-</p>
-<p>
-subgraph K8s[&quot;K8s Namespace: fishing-arcade-local&quot;]
-AccountSvc[&quot;account-service\nDeployment\n:3001 (REST)&quot;]
-GameSvc[&quot;game-service\nDeployment\n:2567 (Colyseus WS)&quot;]
-ShopSvc[&quot;shop-service\nDeployment\n:3002 (REST)&quot;]
-DB[(&quot;mysql\nStatefulSet\n:3306&quot;)]
-Cache[(&quot;redis\nStatefulSet\n:6379&quot;)]
-IAPStub[&quot;iap-stub\nDeployment\n:8099&quot;]
-end
-</p>
-<p>
-Dev --&gt;|Ingress / port-forward| Ingress
-GameClient --&gt;|WSS ws://fishing-arcade.local/game| GameSvc
-Ingress --&gt;|/v1/account| AccountSvc
-Ingress --&gt;|/v1/shop| ShopSvc
-Ingress --&gt;|/game ws| GameSvc
-Dev --&gt;|kubectl port-forward| DB
-Dev --&gt;|kubectl port-forward| Cache
-AccountSvc --&gt;|ClusterIP| DB
-AccountSvc --&gt;|ClusterIP| Cache
-GameSvc --&gt;|ClusterIP| DB
-GameSvc --&gt;|ClusterIP| Cache
-ShopSvc --&gt;|ClusterIP| DB
-ShopSvc --&gt;|ClusterIP| IAPStub</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TB
+    Dev["Developer\n(localhost)"]
+    GameClient["Cocos Creator Client\n(外部連線)"]
+    Ingress["Ingress (traefik)\nfishing-arcade.local"]
+
+    subgraph K8s["K8s Namespace: fishing-arcade-local"]
+        AccountSvc["account-service\nDeployment\n:3001 (REST)"]
+        GameSvc["game-service\nDeployment\n:2567 (Colyseus WS)"]
+        ShopSvc["shop-service\nDeployment\n:3002 (REST)"]
+        DB[("mysql\nStatefulSet\n:3306")]
+        Cache[("redis\nStatefulSet\n:6379")]
+        IAPStub["iap-stub\nDeployment\n:8099"]
+    end
+
+    Dev -->|Ingress / port-forward| Ingress
+    GameClient -->|WSS ws://fishing-arcade.local/game| GameSvc
+    Ingress -->|/v1/account| AccountSvc
+    Ingress -->|/v1/shop| ShopSvc
+    Ingress -->|/game ws| GameSvc
+    Dev -->|kubectl port-forward| DB
+    Dev -->|kubectl port-forward| Cache
+    AccountSvc -->|ClusterIP| DB
+    AccountSvc -->|ClusterIP| Cache
+    GameSvc -->|ClusterIP| DB
+    GameSvc -->|ClusterIP| Cache
+    ShopSvc -->|ClusterIP| DB
+    ShopSvc -->|ClusterIP| IAPStub</pre></div>
 <p>
 <strong>K8s 資源對照：</strong>
 </p>
@@ -736,7 +740,6 @@ fishing-arcade-game/iap-stub:local
 </code></pre>
 </p></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

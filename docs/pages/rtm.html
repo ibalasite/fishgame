@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>需求追溯矩陣 — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -55,21 +63,17 @@
 <h3 id="§1.1-整體覆蓋率">§1.1 整體覆蓋率</h3>
 <table><tr><th>指標</th><th>數量</th><th>說明</th></tr><tr><td>PRD User Stories</td><td>8（P0: 7 / P1: 1）</td><td>US-ACCT/ROOM/FISH/WPSK/RTP/SHOP/AGE + VIP</td></tr><tr><td>PRD Acceptance Criteria</td><td>39（P0: 36 / P1: 3）</td><td>每條 AC 至少一個 TC</td></tr><tr><td>§15.1 E2E / Integration TCs</td><td>43</td><td>test-plan RTM 正式映射表</td></tr><tr><td>§15.2 Unit Test TCs</td><td>24</td><td>核心模組 Class-level 覆蓋</td></tr><tr><td>BDD 補充場景（features/）</td><td>50</td><td>§15.1 未涵蓋的邊界/錯誤路徑</td></tr><tr><td><strong>Total TC（含 BDD 補充）</strong></td><td><strong>~83</strong></td><td>詳見 §3–§5</td></tr><tr><td>AC 覆蓋率</td><td><strong>100%</strong>（39/39）</td><td>所有 P0 AC 均有對應 TC</td></tr><tr><td>初始執行狀態</td><td>0 / 83 PASS</td><td>全部 TODO（尚未執行）</td></tr></table>
 <h3 id="§1.2-測試類型分布">§1.2 測試類型分布</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">pie title TC 類型分布（§15.1 + §15.2）
-<p>
-&quot;E2E&quot; : 12
-&quot;Integration&quot; : 25
-&quot;Unit (§15.1)&quot; : 6
-&quot;Unit (§15.2 Class)&quot; : 24</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">pie title TC 類型分布（§15.1 + §15.2）
+  "E2E" : 12
+  "Integration" : 25
+  "Unit (§15.1)" : 6
+  "Unit (§15.2 Class)" : 24</pre></div>
 <h3 id="§1.3-模組覆蓋分布">§1.3 模組覆蓋分布</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">bar
-<p>
-title TC 數量 by 模組（§15.1 基準）
-x-axis [ACCT, ROOM, FISH, WPSK, RTP, SHOP, AGE, VIP]
-y-axis &quot;TC 數量&quot; 0 --&gt; 10
-bar [7, 8, 6, 4, 6, 7, 4, 3]</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">bar
+  title TC 數量 by 模組（§15.1 基準）
+  x-axis [ACCT, ROOM, FISH, WPSK, RTP, SHOP, AGE, VIP]
+  y-axis "TC 數量" 0 --> 10
+  bar [7, 8, 6, 4, 6, 7, 4, 3]</pre></div>
 <h3 id="§1.4-p0-ac-覆蓋狀態（36-條）">§1.4 P0 AC 覆蓋狀態（36 條）</h3>
 <table><tr><th>US</th><th>AC 數</th><th>TC 數（§15.1）</th><th>覆蓋 %</th></tr><tr><td>US-ACCT-001</td><td>5</td><td>7</td><td>100%</td></tr><tr><td>US-ROOM-001</td><td>7</td><td>8</td><td>100%</td></tr><tr><td>US-FISH-001</td><td>6</td><td>6</td><td>100%</td></tr><tr><td>US-WPSK-001</td><td>4</td><td>4</td><td>100%</td></tr><tr><td>US-RTP-001</td><td>5</td><td>6</td><td>100%</td></tr><tr><td>US-SHOP-001</td><td>6</td><td>7</td><td>100%</td></tr><tr><td>US-AGE-001</td><td>3</td><td>4</td><td>100%</td></tr><tr><td><strong>P0 小計</strong></td><td><strong>36</strong></td><td><strong>42</strong></td><td><strong>100%</strong></td></tr><tr><td>US-VIP-001（P1）</td><td>3</td><td>3</td><td>100%</td></tr><tr><td><strong>Total</strong></td><td><strong>39</strong></td><td><strong>45</strong></td><td><strong>100%</strong></td></tr></table>
 <hr>
@@ -205,7 +209,6 @@ Client → VipService.subscribe() → CurrencyService.deductDiamonds(30)
 _RTM 自動維護規則：每次 BDD feature file 新增 TC，同步更新本文件 §4/§5 對應表格及 §1 統計數字。_
 </p></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

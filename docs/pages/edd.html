@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>工程設計文件 — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -66,50 +74,43 @@
 <hr>
 <h2 id="2.-system-context">2. System Context</h2>
 <h3 id="2.1-系統上下文圖（c4-level-1）">2.1 系統上下文圖（C4 Level 1）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-Player[&quot;👤 休閒付費玩家\n台灣/東南亞 18–45 歲&quot;]
-Operator[&quot;👤 運營管理員&quot;]
-FishGame[&quot;🎮 fishing-arcade-game\n多人即時競技捕魚平台&quot;]
-IAP[&quot;💳 IAP 平台\nAppStore / Google Play&quot;]
-Analytics[&quot;📊 Analytics\nMixpanel / Amplitude&quot;]
-Cloud[&quot;☁️ AWS/GCP 東南亞\n低延遲基礎設施&quot;]
-</p>
-<p>
-Player --&gt;|&quot;HTTPS / WSS&quot;| FishGame
-Operator --&gt;|&quot;HTTPS 管理後台&quot;| FishGame
-FishGame --&gt;|&quot;Receipt 驗證&quot;| IAP
-FishGame --&gt;|&quot;事件埋點&quot;| Analytics
-FishGame --&gt;|&quot;部署執行&quot;| Cloud</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    Player["👤 休閒付費玩家\n台灣/東南亞 18–45 歲"]
+    Operator["👤 運營管理員"]
+    FishGame["🎮 fishing-arcade-game\n多人即時競技捕魚平台"]
+    IAP["💳 IAP 平台\nAppStore / Google Play"]
+    Analytics["📊 Analytics\nMixpanel / Amplitude"]
+    Cloud["☁️ AWS/GCP 東南亞\n低延遲基礎設施"]
+
+    Player -->|"HTTPS / WSS"| FishGame
+    Operator -->|"HTTPS 管理後台"| FishGame
+    FishGame -->|"Receipt 驗證"| IAP
+    FishGame -->|"事件埋點"| Analytics
+    FishGame -->|"部署執行"| Cloud</pre></div>
 <h3 id="2.2-container-圖（c4-level-2）">2.2 Container 圖（C4 Level 2）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-CocosClient[&quot;Cocos Creator 客戶端\nLua / TypeScript&quot;]
-</p>
-<p>
-subgraph FishGameSystem[&quot;fishing-arcade-game System&quot;]
-APIGateway[&quot;API Gateway\nJWT Auth / Rate Limit / Router\n(Node.js Express)&quot;]
-AccountSvc[&quot;Account Service\n帳號/認證/VIP\n(Node.js)&quot;]
-GameSvc[&quot;Game Service\nColyseus Room Server\n即時對戰/RTP/Jackpot\n(Node.js + Colyseus)&quot;]
-ShopSvc[&quot;Shop Service\n商城/IAP/訂單\n(Node.js)&quot;]
-AdminSvc[&quot;Admin Service\n後台管理/活動設定\n(Node.js)&quot;]
-MySQL[(&quot;MySQL 8.0\n玩家帳號/訂單/歷史&quot;)]
-Redis[(&quot;Redis 7\n即時遊戲狀態/Jackpot/Session&quot;)]
-end
-</p>
-<p>
-CocosClient --&gt;|&quot;HTTPS REST&quot;| APIGateway
-CocosClient --&gt;|&quot;WSS Colyseus&quot;| GameSvc
-APIGateway --&gt; AccountSvc
-APIGateway --&gt; ShopSvc
-APIGateway --&gt; AdminSvc
-AccountSvc --&gt; MySQL
-AccountSvc --&gt; Redis
-GameSvc --&gt; MySQL
-GameSvc --&gt; Redis
-ShopSvc --&gt; MySQL</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    CocosClient["Cocos Creator 客戶端\nLua / TypeScript"]
+
+    subgraph FishGameSystem["fishing-arcade-game System"]
+        APIGateway["API Gateway\nJWT Auth / Rate Limit / Router\n(Node.js Express)"]
+        AccountSvc["Account Service\n帳號/認證/VIP\n(Node.js)"]
+        GameSvc["Game Service\nColyseus Room Server\n即時對戰/RTP/Jackpot\n(Node.js + Colyseus)"]
+        ShopSvc["Shop Service\n商城/IAP/訂單\n(Node.js)"]
+        AdminSvc["Admin Service\n後台管理/活動設定\n(Node.js)"]
+        MySQL[("MySQL 8.0\n玩家帳號/訂單/歷史")]
+        Redis[("Redis 7\n即時遊戲狀態/Jackpot/Session")]
+    end
+
+    CocosClient -->|"HTTPS REST"| APIGateway
+    CocosClient -->|"WSS Colyseus"| GameSvc
+    APIGateway --> AccountSvc
+    APIGateway --> ShopSvc
+    APIGateway --> AdminSvc
+    AccountSvc --> MySQL
+    AccountSvc --> Redis
+    GameSvc --> MySQL
+    GameSvc --> Redis
+    ShopSvc --> MySQL</pre></div>
 <hr>
 <h2 id="3.-architecture-design">3. Architecture Design</h2>
 <h3 id="3.1-架構模式">3.1 架構模式</h3>
@@ -153,30 +154,27 @@ Infrastructure      — Repository（MySQL）/ Cache（Redis）/ IAP Client
 <h3 id="3.3-技術棧總覽">3.3 技術棧總覽</h3>
 <table><tr><th>層次</th><th>技術</th><th>版本</th><th>選型理由</th></tr><tr><td>後端語言</td><td>TypeScript</td><td>5.4</td><td>類型安全，Colyseus 官方支援</td></tr><tr><td>後端 Runtime</td><td>Node.js</td><td>20 LTS</td><td>Colyseus 官方推薦，LTS 穩定支援</td></tr><tr><td>即時框架</td><td>Colyseus</td><td>0.15</td><td>BRD 硬性約束，遊戲專用 Delta Sync</td></tr><tr><td>REST Framework</td><td>Express.js</td><td>4.x</td><td>輕量，Node.js 生態標準</td></tr><tr><td>ORM</td><td>Prisma</td><td>5.x</td><td>TypeScript-first，Migration 管理完善</td></tr><tr><td>資料庫</td><td>MySQL</td><td>8.0</td><td>PRD 指定；亞洲遊戲業標準</td></tr><tr><td>快取</td><td>Redis</td><td>7.x</td><td>即時狀態、Jackpot 原子操作、Session</td></tr><tr><td>認證</td><td>jsonwebtoken (RS256)</td><td>9.x</td><td>RS256 非對稱簽章，防偽造</td></tr><tr><td>容器</td><td>Docker (multi-stage)</td><td>26.x</td><td>標準化部署</td></tr><tr><td>容器編排</td><td>Kubernetes</td><td>1.29</td><td>Rancher Desktop 本地 + 雲端同一套設定</td></tr><tr><td>CI/CD</td><td>GitHub Actions</td><td>—</td><td>免費額度充足，與 GitHub 整合</td></tr><tr><td>單元測試</td><td>Jest + ts-jest</td><td>29.x</td><td>TypeScript 生態標準</td></tr><tr><td>整合測試</td><td>Supertest + Testcontainers</td><td>—</td><td>真實 DB，不 mock</td></tr><tr><td>負載測試</td><td>k6</td><td>—</td><td>JavaScript DSL，CI 整合友好</td></tr><tr><td>前端語言（客戶端）</td><td>TypeScript / Lua</td><td>—</td><td>Cocos Creator 3.x 支援</td></tr><tr><td>前端框架</td><td>Cocos Creator</td><td>3.8</td><td>BRD 硬性約束</td></tr><tr><td>訊息佇列</td><td>Redis Pub/Sub</td><td>7.x</td><td>輕量，遊戲事件廣播；Phase 2 可遷移至 NATS</td></tr></table>
 <h3 id="3.4-bounded-context-&-context-map（ddd）">3.4 Bounded Context & Context Map（DDD）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph LR
-<p>
-subgraph BC_Account[&quot;Account BC\n帳號/認證/VIP&quot;]
-User[&quot;User Aggregate&quot;]
-VipSubscription[&quot;VipSubscription Aggregate&quot;]
-end
-subgraph BC_Game[&quot;Game BC\n遊戲邏輯/RTP/Jackpot&quot;]
-GameRoom[&quot;GameRoom Aggregate&quot;]
-Fish[&quot;Fish Aggregate&quot;]
-Weapon[&quot;Weapon Value Object&quot;]
-end
-subgraph BC_Commerce[&quot;Commerce BC\n商城/IAP/訂單&quot;]
-Order[&quot;Order Aggregate&quot;]
-Product[&quot;Product Value Object&quot;]
-end
-subgraph BC_IAP[&quot;IAP Platform\n外部&quot;]
-IAPReceipt[&quot;Receipt Validation&quot;]
-end
-</p>
-<p>
-BC_Account --&gt;|&quot;Customer/Supplier\nGame 消費 Account 的用戶 Token&quot;| BC_Game
-BC_Commerce --&gt;|&quot;Conformist\n遵從 IAP Platform 的回條格式&quot;| BC_IAP
-BC_Game --&gt;|&quot;Published Language\nDomain Event 通知 Commerce 結算&quot;| BC_Commerce</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph LR
+    subgraph BC_Account["Account BC\n帳號/認證/VIP"]
+        User["User Aggregate"]
+        VipSubscription["VipSubscription Aggregate"]
+    end
+    subgraph BC_Game["Game BC\n遊戲邏輯/RTP/Jackpot"]
+        GameRoom["GameRoom Aggregate"]
+        Fish["Fish Aggregate"]
+        Weapon["Weapon Value Object"]
+    end
+    subgraph BC_Commerce["Commerce BC\n商城/IAP/訂單"]
+        Order["Order Aggregate"]
+        Product["Product Value Object"]
+    end
+    subgraph BC_IAP["IAP Platform\n外部"]
+        IAPReceipt["Receipt Validation"]
+    end
+
+    BC_Account -->|"Customer/Supplier\nGame 消費 Account 的用戶 Token"| BC_Game
+    BC_Commerce -->|"Conformist\n遵從 IAP Platform 的回條格式"| BC_IAP
+    BC_Game -->|"Published Language\nDomain Event 通知 Commerce 結算"| BC_Commerce</pre></div>
 <p>
 <strong>Context Map 關係說明</strong>
 </p>
@@ -292,83 +290,80 @@ Examples:
 <p>
 <strong>初步 ER 圖（Mermaid erDiagram）</strong>
 </p>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">erDiagram
-<p>
-users {
-BIGINT id PK
-VARCHAR email UK
-VARCHAR password_hash NOT_NULL
-ENUM age_status NOT_NULL
-TINYINT vip_tier DEFAULT_0
-BIGINT gold_balance DEFAULT_0
-INT diamond_balance DEFAULT_0
-DATETIME created_at NOT_NULL
-DATETIME deleted_at
-}
-game_sessions {
-BIGINT id PK
-VARCHAR room_id NOT_NULL
-ENUM status NOT_NULL
-DATETIME started_at NOT_NULL
-DATETIME ended_at
-TINYINT player_count
-}
-session_players {
-BIGINT id PK
-BIGINT session_id FK
-BIGINT user_id FK
-BIGINT final_gold DEFAULT_0
-BOOL is_mvp DEFAULT_0
-DATETIME joined_at NOT_NULL
-}
-fish_kills {
-BIGINT id PK
-BIGINT session_id FK
-BIGINT killer_id FK
-VARCHAR fish_type NOT_NULL
-BIGINT coins_awarded NOT_NULL
-DECIMAL rtp_snapshot
-DATETIME killed_at NOT_NULL
-}
-orders {
-CHAR order_id PK
-BIGINT user_id FK
-VARCHAR product_id NOT_NULL
-ENUM order_type NOT_NULL
-DECIMAL amount_usd
-ENUM status NOT_NULL
-VARCHAR iap_receipt_hash
-DATETIME created_at NOT_NULL
-}
-vip_subscriptions {
-BIGINT id PK
-BIGINT user_id FK
-TINYINT vip_tier NOT_NULL
-DATETIME activated_at NOT_NULL
-DATETIME expires_at NOT_NULL
-ENUM status NOT_NULL
-}
-audit_logs {
-BIGINT id PK
-VARCHAR event_type NOT_NULL
-BIGINT actor_user_id
-VARCHAR resource_type NOT_NULL
-VARCHAR resource_id NOT_NULL
-JSON before_json
-JSON after_json
-ENUM outcome NOT_NULL
-VARCHAR ip_hash
-DATETIME created_at NOT_NULL
-}
-</p>
-<p>
-users ||--o{ session_players : &quot;參與&quot;
-game_sessions ||--o{ session_players : &quot;包含&quot;
-game_sessions ||--o{ fish_kills : &quot;記錄&quot;
-users ||--o{ orders : &quot;產生&quot;
-users ||--o| vip_subscriptions : &quot;擁有&quot;
-users ||--o{ audit_logs : &quot;觸發&quot;</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">erDiagram
+    users {
+        BIGINT id PK
+        VARCHAR email UK
+        VARCHAR password_hash NOT_NULL
+        ENUM age_status NOT_NULL
+        TINYINT vip_tier DEFAULT_0
+        BIGINT gold_balance DEFAULT_0
+        INT diamond_balance DEFAULT_0
+        DATETIME created_at NOT_NULL
+        DATETIME deleted_at
+    }
+    game_sessions {
+        BIGINT id PK
+        VARCHAR room_id NOT_NULL
+        ENUM status NOT_NULL
+        DATETIME started_at NOT_NULL
+        DATETIME ended_at
+        TINYINT player_count
+    }
+    session_players {
+        BIGINT id PK
+        BIGINT session_id FK
+        BIGINT user_id FK
+        BIGINT final_gold DEFAULT_0
+        BOOL is_mvp DEFAULT_0
+        DATETIME joined_at NOT_NULL
+    }
+    fish_kills {
+        BIGINT id PK
+        BIGINT session_id FK
+        BIGINT killer_id FK
+        VARCHAR fish_type NOT_NULL
+        BIGINT coins_awarded NOT_NULL
+        DECIMAL rtp_snapshot
+        DATETIME killed_at NOT_NULL
+    }
+    orders {
+        CHAR order_id PK
+        BIGINT user_id FK
+        VARCHAR product_id NOT_NULL
+        ENUM order_type NOT_NULL
+        DECIMAL amount_usd
+        ENUM status NOT_NULL
+        VARCHAR iap_receipt_hash
+        DATETIME created_at NOT_NULL
+    }
+    vip_subscriptions {
+        BIGINT id PK
+        BIGINT user_id FK
+        TINYINT vip_tier NOT_NULL
+        DATETIME activated_at NOT_NULL
+        DATETIME expires_at NOT_NULL
+        ENUM status NOT_NULL
+    }
+    audit_logs {
+        BIGINT id PK
+        VARCHAR event_type NOT_NULL
+        BIGINT actor_user_id
+        VARCHAR resource_type NOT_NULL
+        VARCHAR resource_id NOT_NULL
+        JSON before_json
+        JSON after_json
+        ENUM outcome NOT_NULL
+        VARCHAR ip_hash
+        DATETIME created_at NOT_NULL
+    }
+
+    users ||--o{ session_players : "參與"
+    game_sessions ||--o{ session_players : "包含"
+    game_sessions ||--o{ fish_kills : "記錄"
+    users ||--o{ orders : "產生"
+    users ||--o| vip_subscriptions : "擁有"
+    users ||--o{ audit_logs : "觸發"</pre></div>
 <h3 id="5.5b-indexing-策略">5.5b Indexing 策略</h3>
 <blockquote>補充各主要 Entity 的索引設計，對應查詢模式。</blockquote>
 <table><tr><th>Entity</th><th>Index 欄位</th><th>Index 類型</th><th>對應查詢模式</th><th>說明</th></tr><tr><td><code>users</code></td><td><code>email</code></td><td>UNIQUE INDEX</td><td>登入查詢（<code>WHERE email = ?</code>）</td><td>確保唯一性；登入高頻查詢</td></tr><tr><td><code>users</code></td><td><code>deleted_at</code></td><td>INDEX</td><td>查詢活躍用戶（<code>WHERE deleted_at IS NULL</code>）</td><td>支援軟刪除過濾</td></tr><tr><td><code>game_sessions</code></td><td><code>status, started_at</code></td><td>COMPOSITE INDEX</td><td>查詢進行中房間列表（<code>WHERE status = &#x27;IN_PROGRESS&#x27; ORDER BY started_at DESC</code>）</td><td>玩家配對時高頻查詢</td></tr><tr><td><code>game_sessions</code></td><td><code>room_id</code></td><td>INDEX</td><td>Colyseus Room 對應查詢（<code>WHERE room_id = ?</code>）</td><td>遊戲事件觸發查詢</td></tr><tr><td><code>session_players</code></td><td><code>session_id</code></td><td>INDEX</td><td>查詢局內玩家列表（<code>WHERE session_id = ?</code>）</td><td>結算時批量查詢</td></tr><tr><td><code>session_players</code></td><td><code>user_id, joined_at</code></td><td>COMPOSITE INDEX</td><td>查詢玩家歷史對局（<code>WHERE user_id = ? ORDER BY joined_at DESC</code>）</td><td>個人戰績頁面查詢</td></tr><tr><td><code>fish_kills</code></td><td><code>session_id</code></td><td>INDEX</td><td>查詢局內擊殺記錄（<code>WHERE session_id = ?</code>）</td><td>結算計算用</td></tr><tr><td><code>fish_kills</code></td><td><code>killer_id, killed_at</code></td><td>COMPOSITE INDEX</td><td>查詢玩家捕魚歷史（<code>WHERE killer_id = ? ORDER BY killed_at DESC LIMIT 100</code>）</td><td>個人統計頁面</td></tr><tr><td><code>fish_kills</code></td><td><code>killed_at</code></td><td>INDEX（按月分區）</td><td>批量清理舊記錄（<code>WHERE killed_at &lt; ?</code>）</td><td>支援 RANGE 分區 + 歷史資料清理</td></tr><tr><td><code>orders</code></td><td><code>user_id, created_at</code></td><td>COMPOSITE INDEX</td><td>查詢用戶訂單列表（<code>WHERE user_id = ? ORDER BY created_at DESC</code>）</td><td>購買記錄頁面</td></tr><tr><td><code>orders</code></td><td><code>status, created_at</code></td><td>COMPOSITE INDEX</td><td>查詢 PENDING 待處理訂單（<code>WHERE status = &#x27;PENDING&#x27; ORDER BY created_at</code>）</td><td>異步重試任務掃描</td></tr><tr><td><code>orders</code></td><td><code>iap_receipt_hash</code></td><td>UNIQUE INDEX</td><td>IAP 重複驗證防護（<code>WHERE iap_receipt_hash = ?</code>）</td><td>防止 Receipt 重用</td></tr><tr><td><code>vip_subscriptions</code></td><td><code>user_id</code></td><td>UNIQUE INDEX</td><td>查詢用戶 VIP 狀態（<code>WHERE user_id = ?</code>）</td><td>一對一關係，高頻查詢</td></tr><tr><td><code>vip_subscriptions</code></td><td><code>expires_at, status</code></td><td>COMPOSITE INDEX</td><td>掃描即將到期的訂閱（<code>WHERE status = &#x27;ACTIVE&#x27; AND expires_at &lt; ?</code>）</td><td>訂閱到期定時任務</td></tr><tr><td><code>audit_logs</code></td><td><code>actor_user_id, created_at</code></td><td>COMPOSITE INDEX</td><td>查詢特定用戶操作記錄（<code>WHERE actor_user_id = ? ORDER BY created_at DESC</code>）</td><td>管理後台查詢</td></tr><tr><td><code>audit_logs</code></td><td><code>event_type, created_at</code></td><td>COMPOSITE INDEX</td><td>查詢特定事件類型（<code>WHERE event_type = ? AND created_at BETWEEN ? AND ?</code>）</td><td>稽核報表查詢</td></tr></table>
@@ -673,167 +668,146 @@ Controller → Service
 <hr>
 <h2 id="10.-mermaid-架構圖（9-種-uml）">10. Mermaid 架構圖（9 種 UML）</h2>
 <h3 id="10.1-component-diagram（系統元件依賴）">10.1 Component Diagram（系統元件依賴）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-subgraph Client[&quot;Cocos Creator 客戶端&quot;]
-CocosUI[&quot;UI Layer\nLua/TypeScript&quot;]
-NetworkMgr[&quot;Network Manager\nColyseus SDK&quot;]
-end
-</p>
-<p>
-subgraph GameServer[&quot;Node.js Game Server&quot;]
-ColyseusRoom[&quot;Colyseus Room\nFishPoolRoom&quot;]
-RTPEngine[&quot;RTP Engine\nIRTPStrategy&quot;]
-FishSpawner[&quot;Fish Spawner\nIFishSpawner&quot;]
-JackpotService[&quot;Jackpot Service\nRedis Lua Script&quot;]
-end
-</p>
-<p>
-subgraph APIServer[&quot;Node.js REST API&quot;]
-AuthMiddleware[&quot;Auth Middleware\nJWT RS256&quot;]
-AccountCtrl[&quot;Account Controller&quot;]
-ShopCtrl[&quot;Shop Controller&quot;]
-AdminCtrl[&quot;Admin Controller&quot;]
-end
-</p>
-<p>
-subgraph Storage[&quot;Storage Layer&quot;]
-MySQL[(&quot;MySQL 8.0&quot;)]
-Redis[(&quot;Redis 7&quot;)]
-end
-</p>
-<p>
-CocosUI --&gt; NetworkMgr
-NetworkMgr --&gt;|WSS| ColyseusRoom
-NetworkMgr --&gt;|HTTPS| AuthMiddleware
-ColyseusRoom --&gt; RTPEngine
-ColyseusRoom --&gt; FishSpawner
-ColyseusRoom --&gt; JackpotService
-JackpotService --&gt; Redis
-RTPEngine --&gt; Redis
-AuthMiddleware --&gt; AccountCtrl
-AuthMiddleware --&gt; ShopCtrl
-AccountCtrl --&gt; MySQL
-ShopCtrl --&gt; MySQL
-ColyseusRoom --&gt; MySQL</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    subgraph Client["Cocos Creator 客戶端"]
+        CocosUI["UI Layer\nLua/TypeScript"]
+        NetworkMgr["Network Manager\nColyseus SDK"]
+    end
+
+    subgraph GameServer["Node.js Game Server"]
+        ColyseusRoom["Colyseus Room\nFishPoolRoom"]
+        RTPEngine["RTP Engine\nIRTPStrategy"]
+        FishSpawner["Fish Spawner\nIFishSpawner"]
+        JackpotService["Jackpot Service\nRedis Lua Script"]
+    end
+
+    subgraph APIServer["Node.js REST API"]
+        AuthMiddleware["Auth Middleware\nJWT RS256"]
+        AccountCtrl["Account Controller"]
+        ShopCtrl["Shop Controller"]
+        AdminCtrl["Admin Controller"]
+    end
+
+    subgraph Storage["Storage Layer"]
+        MySQL[("MySQL 8.0")]
+        Redis[("Redis 7")]
+    end
+
+    CocosUI --> NetworkMgr
+    NetworkMgr -->|WSS| ColyseusRoom
+    NetworkMgr -->|HTTPS| AuthMiddleware
+    ColyseusRoom --> RTPEngine
+    ColyseusRoom --> FishSpawner
+    ColyseusRoom --> JackpotService
+    JackpotService --> Redis
+    RTPEngine --> Redis
+    AuthMiddleware --> AccountCtrl
+    AuthMiddleware --> ShopCtrl
+    AccountCtrl --> MySQL
+    ShopCtrl --> MySQL
+    ColyseusRoom --> MySQL</pre></div>
 <h3 id="10.2-sequence-diagram（happy-path：玩家捕魚流程）">10.2 Sequence Diagram（Happy Path：玩家捕魚流程）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">sequenceDiagram
-<p>
-participant Client as Cocos Client
-participant Room as Colyseus Room
-participant RTP as RTP Engine
-participant Redis as Redis
-participant MySQL as MySQL
-</p>
-<p>
-Client-&gt;&gt;Room: shootFish(fish_id, weapon_type)
-Room-&gt;&gt;RTP: calculateHit(user_id, fish_id, weapon)
-RTP-&gt;&gt;Redis: GET rtp_state:{user_id}
-Redis--&gt;&gt;RTP: {current_rtp: 87%}
-RTP--&gt;&gt;Room: HIT (coins: 50)
-Room-&gt;&gt;Redis: INCR jackpot_pool (by 5)
-Room-&gt;&gt;MySQL: INSERT fish_kills (session_id, killer_id, coins=50)
-Room-&gt;&gt;Room: broadcastStateChange()
-Room--&gt;&gt;Client: FishKilledEvent {winner_id, coins: 50, animation: &quot;EXPLODE&quot;}
-Room-&gt;&gt;Redis: SET rtp_state:{user_id} {current_rtp: 88%}</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">sequenceDiagram
+    participant Client as Cocos Client
+    participant Room as Colyseus Room
+    participant RTP as RTP Engine
+    participant Redis as Redis
+    participant MySQL as MySQL
+
+    Client->>Room: shootFish(fish_id, weapon_type)
+    Room->>RTP: calculateHit(user_id, fish_id, weapon)
+    RTP->>Redis: GET rtp_state:{user_id}
+    Redis-->>RTP: {current_rtp: 87%}
+    RTP-->>Room: HIT (coins: 50)
+    Room->>Redis: INCR jackpot_pool (by 5)
+    Room->>MySQL: INSERT fish_kills (session_id, killer_id, coins=50)
+    Room->>Room: broadcastStateChange()
+    Room-->>Client: FishKilledEvent {winner_id, coins: 50, animation: "EXPLODE"}
+    Room->>Redis: SET rtp_state:{user_id} {current_rtp: 88%}</pre></div>
 <h3 id="10.2b-sequence-diagram（error-path：rtp-服務降級）">10.2b Sequence Diagram（Error Path：RTP 服務降級）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">sequenceDiagram
-<p>
-participant Client as Cocos Client
-participant Room as Colyseus Room
-participant RTP as RTP Engine
-participant Redis as Redis
-participant Alert as Alerting
-</p>
-<p>
-Client-&gt;&gt;Room: shootFish(fish_id, weapon_type)
-Room-&gt;&gt;RTP: calculateHit(user_id, fish_id, weapon)
-RTP-&gt;&gt;Redis: GET rtp_state:{user_id}
-Redis--xRTP: Connection Timeout (&gt;50ms)
-RTP-&gt;&gt;RTP: Circuit Breaker OPEN
-RTP--&gt;&gt;Room: DEGRADED_HIT (fixed_rate: 80%)
-Room-&gt;&gt;Alert: RTPServiceDegraded P1 Alert
-Room--&gt;&gt;Client: FishKilledEvent (degraded mode, no RTP leak)
-Note over Alert: PagerDuty notified, SRE on-call</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">sequenceDiagram
+    participant Client as Cocos Client
+    participant Room as Colyseus Room
+    participant RTP as RTP Engine
+    participant Redis as Redis
+    participant Alert as Alerting
+
+    Client->>Room: shootFish(fish_id, weapon_type)
+    Room->>RTP: calculateHit(user_id, fish_id, weapon)
+    RTP->>Redis: GET rtp_state:{user_id}
+    Redis--xRTP: Connection Timeout (>50ms)
+    RTP->>RTP: Circuit Breaker OPEN
+    RTP-->>Room: DEGRADED_HIT (fixed_rate: 80%)
+    Room->>Alert: RTPServiceDegraded P1 Alert
+    Room-->>Client: FishKilledEvent (degraded mode, no RTP leak)
+    Note over Alert: PagerDuty notified, SRE on-call</pre></div>
 <h3 id="10.3-deployment-diagram（k8s-部署拓撲）">10.3 Deployment Diagram（k8s 部署拓撲）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-subgraph AWS_SEA[&quot;AWS ap-southeast-1&quot;]
-subgraph k8s[&quot;Kubernetes Cluster&quot;]
-subgraph GameNS[&quot;game-ns&quot;]
-GamePod1[&quot;Game Pod 1\nColyseus&quot;]
-GamePod2[&quot;Game Pod 2\nColyseus&quot;]
-GamePod3[&quot;Game Pod 3\nColyseus&quot;]
-HPA_Game[&quot;HPA: 3–20 replicas&quot;]
-end
-subgraph ApiNS[&quot;api-ns&quot;]
-APIPod1[&quot;API Pod 1\nAccount/Shop&quot;]
-APIPod2[&quot;API Pod 2\nAccount/Shop&quot;]
-HPA_API[&quot;HPA: 2–10 replicas&quot;]
-end
-Ingress[&quot;Nginx Ingress\nTLS Termination&quot;]
-end
-subgraph ManagedDB[&quot;Managed Services&quot;]
-RDS[&quot;RDS MySQL 8.0\nMulti-AZ&quot;]
-ElastiCache[&quot;ElastiCache Redis\nCluster Mode&quot;]
-end
-end
-</p>
-<p>
-Internet[&quot;Internet\n玩家 HTTPS/WSS&quot;] --&gt; Ingress
-Ingress --&gt;|/api/*| APIPod1
-Ingress --&gt;|/api/*| APIPod2
-Ingress --&gt;|ws://| GamePod1
-Ingress --&gt;|ws://| GamePod2
-Ingress --&gt;|ws://| GamePod3
-APIPod1 --&gt; RDS
-GamePod1 --&gt; RDS
-GamePod1 --&gt; ElastiCache
-APIPod1 --&gt; ElastiCache</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    subgraph AWS_SEA["AWS ap-southeast-1"]
+        subgraph k8s["Kubernetes Cluster"]
+            subgraph GameNS["game-ns"]
+                GamePod1["Game Pod 1\nColyseus"]
+                GamePod2["Game Pod 2\nColyseus"]
+                GamePod3["Game Pod 3\nColyseus"]
+                HPA_Game["HPA: 3–20 replicas"]
+            end
+            subgraph ApiNS["api-ns"]
+                APIPod1["API Pod 1\nAccount/Shop"]
+                APIPod2["API Pod 2\nAccount/Shop"]
+                HPA_API["HPA: 2–10 replicas"]
+            end
+            Ingress["Nginx Ingress\nTLS Termination"]
+        end
+        subgraph ManagedDB["Managed Services"]
+            RDS["RDS MySQL 8.0\nMulti-AZ"]
+            ElastiCache["ElastiCache Redis\nCluster Mode"]
+        end
+    end
+
+    Internet["Internet\n玩家 HTTPS/WSS"] --> Ingress
+    Ingress -->|/api/*| APIPod1
+    Ingress -->|/api/*| APIPod2
+    Ingress -->|ws://| GamePod1
+    Ingress -->|ws://| GamePod2
+    Ingress -->|ws://| GamePod3
+    APIPod1 --> RDS
+    GamePod1 --> RDS
+    GamePod1 --> ElastiCache
+    APIPod1 --> ElastiCache</pre></div>
 <h3 id="10.4-state-machine-diagram（gamesession-狀態機）">10.4 State Machine Diagram（GameSession 狀態機）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">stateDiagram-v2
-<p>
-[*] --&gt; WAITING: Room Created
-WAITING --&gt; MATCHING: Player Joins
-MATCHING --&gt; READY: 4–6 Players Joined
-MATCHING --&gt; READY: 30s Timeout (Bot Fill)
-READY --&gt; IN_PROGRESS: Countdown 3s Complete
-IN_PROGRESS --&gt; JACKPOT: Jackpot Triggered
-JACKPOT --&gt; IN_PROGRESS: Jackpot Animation Complete
-IN_PROGRESS --&gt; SETTLING: Time Limit Reached
-SETTLING --&gt; RESULT: All Balances Updated
-RESULT --&gt; [*]: Session Closed
-IN_PROGRESS --&gt; DISCONNECTED: Player WebSocket Drop
-DISCONNECTED --&gt; IN_PROGRESS: Reconnect Within 30s
-DISCONNECTED --&gt; IN_PROGRESS: Bot Replace After 30s</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">stateDiagram-v2
+    [*] --> WAITING: Room Created
+    WAITING --> MATCHING: Player Joins
+    MATCHING --> READY: 4–6 Players Joined
+    MATCHING --> READY: 30s Timeout (Bot Fill)
+    READY --> IN_PROGRESS: Countdown 3s Complete
+    IN_PROGRESS --> JACKPOT: Jackpot Triggered
+    JACKPOT --> IN_PROGRESS: Jackpot Animation Complete
+    IN_PROGRESS --> SETTLING: Time Limit Reached
+    SETTLING --> RESULT: All Balances Updated
+    RESULT --> [*]: Session Closed
+    IN_PROGRESS --> DISCONNECTED: Player WebSocket Drop
+    DISCONNECTED --> IN_PROGRESS: Reconnect Within 30s
+    DISCONNECTED --> IN_PROGRESS: Bot Replace After 30s</pre></div>
 <h3 id="10.5b-use-case-diagram">10.5b Use Case Diagram</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-Player[&quot;👤 玩家&quot;]
-Operator[&quot;👤 運營管理員&quot;]
-</p>
-<p>
-Player --&gt; UC1[&quot;帳號註冊/登入&quot;]
-Player --&gt; UC2[&quot;進入競技房間&quot;]
-Player --&gt; UC3[&quot;射擊/使用技能&quot;]
-Player --&gt; UC4[&quot;購買鑽石/武器&quot;]
-Player --&gt; UC5[&quot;訂閱 VIP&quot;]
-Player --&gt; UC6[&quot;年齡驗證&quot;]
-Operator --&gt; UC7[&quot;設定活動/數值&quot;]
-Operator --&gt; UC8[&quot;查看 KPI Dashboard&quot;]
-Operator --&gt; UC9[&quot;玩家帳號管理&quot;]
-</p>
-<p>
-UC2 --&gt; UC1
-UC3 --&gt; UC2
-UC4 --&gt; UC1
-UC5 --&gt; UC1</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    Player["👤 玩家"]
+    Operator["👤 運營管理員"]
+
+    Player --> UC1["帳號註冊/登入"]
+    Player --> UC2["進入競技房間"]
+    Player --> UC3["射擊/使用技能"]
+    Player --> UC4["購買鑽石/武器"]
+    Player --> UC5["訂閱 VIP"]
+    Player --> UC6["年齡驗證"]
+    Operator --> UC7["設定活動/數值"]
+    Operator --> UC8["查看 KPI Dashboard"]
+    Operator --> UC9["玩家帳號管理"]
+
+    UC2 --> UC1
+    UC3 --> UC2
+    UC4 --> UC1
+    UC5 --> UC1</pre></div>
 <h3 id="10.6-class-diagram（domain-layer-—-game-bc）">10.6 Class Diagram（Domain Layer — Game BC）</h3>
 <h4 id="accountservice-&-shopservice-公開介面定義">AccountService & ShopService 公開介面定義</h4>
 <pre><code class="language-typescript">// ─── AccountService 公開介面 ───────────────────────────────
@@ -959,116 +933,105 @@ has_next: boolean;
 </code></pre>
 </p>
 <h4 id="class-diagram（uml）">Class Diagram（UML）</h4>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">classDiagram
-<p>
-class IRTPEngine {
-&lt;&lt;interface&gt;&gt;
-+calculateHit(userId: string, fishId: string, weapon: Weapon): HitResult
-+getRTPState(userId: string): RTPState
-}
-class DefaultRTPEngine {
--redisClient: Redis
--targetRTP: number
-+calculateHit(userId, fishId, weapon): HitResult
-+getRTPState(userId): RTPState
-}
-class DegradedRTPEngine {
--fixedHitRate: number
-+calculateHit(userId, fishId, weapon): HitResult
-+getRTPState(userId): RTPState
-}
-class FishPoolRoom {
--schema: FishPoolState
--rtpEngine: IRTPEngine
--fishSpawner: IFishSpawner
--jackpotService: JackpotService
-+onCreate(options): void
-+onJoin(client, options): void
-+onLeave(client, consented): void
-+handleShoot(client, data): void
-}
-class JackpotService {
--redis: Redis
-+contribute(sessionId: string, amount: number): void
-+checkAndTrigger(sessionId: string): JackpotResult
-}
-class Fish {
-+id: string
-+type: FishType
-+baseValue: number
-+hitPoints: number
-+isAlive(): boolean
-+takeDamage(dmg: number): void
-}
-class BossFish {
-+escapeTimeout: number
-+consolationRate: number
-+onEscape(): ConsolationReward[]
-}
-</p>
-<p>
-IRTPEngine &lt;|.. DefaultRTPEngine
-IRTPEngine &lt;|.. DegradedRTPEngine
-FishPoolRoom --&gt; IRTPEngine
-FishPoolRoom --&gt; JackpotService
-Fish &lt;|-- BossFish</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">classDiagram
+    class IRTPEngine {
+        <<interface>>
+        +calculateHit(userId: string, fishId: string, weapon: Weapon): HitResult
+        +getRTPState(userId: string): RTPState
+    }
+    class DefaultRTPEngine {
+        -redisClient: Redis
+        -targetRTP: number
+        +calculateHit(userId, fishId, weapon): HitResult
+        +getRTPState(userId): RTPState
+    }
+    class DegradedRTPEngine {
+        -fixedHitRate: number
+        +calculateHit(userId, fishId, weapon): HitResult
+        +getRTPState(userId): RTPState
+    }
+    class FishPoolRoom {
+        -schema: FishPoolState
+        -rtpEngine: IRTPEngine
+        -fishSpawner: IFishSpawner
+        -jackpotService: JackpotService
+        +onCreate(options): void
+        +onJoin(client, options): void
+        +onLeave(client, consented): void
+        +handleShoot(client, data): void
+    }
+    class JackpotService {
+        -redis: Redis
+        +contribute(sessionId: string, amount: number): void
+        +checkAndTrigger(sessionId: string): JackpotResult
+    }
+    class Fish {
+        +id: string
+        +type: FishType
+        +baseValue: number
+        +hitPoints: number
+        +isAlive(): boolean
+        +takeDamage(dmg: number): void
+    }
+    class BossFish {
+        +escapeTimeout: number
+        +consolationRate: number
+        +onEscape(): ConsolationReward[]
+    }
+
+    IRTPEngine <|.. DefaultRTPEngine
+    IRTPEngine <|.. DegradedRTPEngine
+    FishPoolRoom --> IRTPEngine
+    FishPoolRoom --> JackpotService
+    Fish <|-- BossFish</pre></div>
 <h3 id="10.7-object-diagram（具體物件實例-—-一局遊戲）">10.7 Object Diagram（具體物件實例 — 一局遊戲）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph LR
-<p>
-session1[&quot;session-001\n(GameSession)\nstatus: IN_PROGRESS\nplayer_count: 5&quot;]
-player1[&quot;player-user001\n(SessionPlayer)\ngold_earned: 150\nis_mvp: false&quot;]
-player2[&quot;player-user002\n(SessionPlayer)\ngold_earned: 380\nis_mvp: true&quot;]
-boss1[&quot;boss-001\n(BossFish)\ntype: SHARK\nbase_value: 500\nhp: 3&quot;]
-jackpot1[&quot;jackpot-001\n(JackpotEvent)\namount: 50000\nwinner: user002&quot;]
-</p>
-<p>
-session1 --&gt; player1
-session1 --&gt; player2
-session1 --&gt; boss1
-session1 --&gt; jackpot1
-player2 --&gt; jackpot1</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph LR
+    session1["session-001\n(GameSession)\nstatus: IN_PROGRESS\nplayer_count: 5"]
+    player1["player-user001\n(SessionPlayer)\ngold_earned: 150\nis_mvp: false"]
+    player2["player-user002\n(SessionPlayer)\ngold_earned: 380\nis_mvp: true"]
+    boss1["boss-001\n(BossFish)\ntype: SHARK\nbase_value: 500\nhp: 3"]
+    jackpot1["jackpot-001\n(JackpotEvent)\namount: 50000\nwinner: user002"]
+
+    session1 --> player1
+    session1 --> player2
+    session1 --> boss1
+    session1 --> jackpot1
+    player2 --> jackpot1</pre></div>
 <h3 id="10.8-communication-diagram（jackpot-觸發訊息序列）">10.8 Communication Diagram（Jackpot 觸發訊息序列）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">sequenceDiagram
-<p>
-participant Room as FishPoolRoom
-participant Jackpot as JackpotService
-participant Redis as Redis
-participant Commerce as Commerce BC
-participant Analytics as Analytics
-</p>
-<p>
-Room-&gt;&gt;Jackpot: checkAndTrigger(sessionId, userId)
-Jackpot-&gt;&gt;Redis: EVALSHA lua_jackpot_lock (SETNX jackpot_lock)
-Redis--&gt;&gt;Jackpot: 1 (鎖取得成功)
-Jackpot-&gt;&gt;Redis: GET jackpot_pool_amount
-Redis--&gt;&gt;Jackpot: 50000
-Jackpot-&gt;&gt;Redis: SET jackpot_pool_amount 1000 (reset)
-Jackpot--&gt;&gt;Room: JackpotTriggered{winner: userId, amount: 50000}
-Room-&gt;&gt;Commerce: JackpotTriggered Event (via Redis Pub/Sub)
-Commerce-&gt;&gt;MySQL: UPDATE users SET gold_balance += 50000
-Room-&gt;&gt;Analytics: jackpot_triggered Event
-Room-&gt;&gt;Room: broadcastJackpotAnimation()</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">sequenceDiagram
+    participant Room as FishPoolRoom
+    participant Jackpot as JackpotService
+    participant Redis as Redis
+    participant Commerce as Commerce BC
+    participant Analytics as Analytics
+
+    Room->>Jackpot: checkAndTrigger(sessionId, userId)
+    Jackpot->>Redis: EVALSHA lua_jackpot_lock (SETNX jackpot_lock)
+    Redis-->>Jackpot: 1 (鎖取得成功)
+    Jackpot->>Redis: GET jackpot_pool_amount
+    Redis-->>Jackpot: 50000
+    Jackpot->>Redis: SET jackpot_pool_amount 1000 (reset)
+    Jackpot-->>Room: JackpotTriggered{winner: userId, amount: 50000}
+    Room->>Commerce: JackpotTriggered Event (via Redis Pub/Sub)
+    Commerce->>MySQL: UPDATE users SET gold_balance += 50000
+    Room->>Analytics: jackpot_triggered Event
+    Room->>Room: broadcastJackpotAnimation()</pre></div>
 <h3 id="10.9-activity-diagram（iap-購買流程）">10.9 Activity Diagram（IAP 購買流程）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-Start([玩家點擊購買]) --&gt; SelectProduct[選擇鑽石充值包]
-SelectProduct --&gt; RequestOrder[POST /orders 取得 order_id]
-RequestOrder --&gt; IAP[調用 IAP SDK 發起支付]
-IAP --&gt; IAPResult{IAP 回調}
-IAPResult --&gt;|成功| ValidateReceipt[POST /orders/:id/verify-receipt]
-IAPResult --&gt;|用戶取消| End1([結束 - 未扣費])
-IAPResult --&gt;|網路中斷| RetryWithSameOrderId[重試帶相同 order_id]
-RetryWithSameOrderId --&gt; ValidateReceipt
-ValidateReceipt --&gt; ServerValidate{伺服器驗證 Receipt}
-ServerValidate --&gt;|通過| CreditDiamonds[更新 diamond_balance]
-ServerValidate --&gt;|失敗| PendingRetry[訂單標記 PENDING 異步重試]
-CreditDiamonds --&gt; NotifyClient[回應 200 + 新鑽石餘額]
-NotifyClient --&gt; End2([完成])
-PendingRetry --&gt; End3([提示「支付處理中」])</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    Start([玩家點擊購買]) --> SelectProduct[選擇鑽石充值包]
+    SelectProduct --> RequestOrder[POST /orders 取得 order_id]
+    RequestOrder --> IAP[調用 IAP SDK 發起支付]
+    IAP --> IAPResult{IAP 回調}
+    IAPResult -->|成功| ValidateReceipt[POST /orders/:id/verify-receipt]
+    IAPResult -->|用戶取消| End1([結束 - 未扣費])
+    IAPResult -->|網路中斷| RetryWithSameOrderId[重試帶相同 order_id]
+    RetryWithSameOrderId --> ValidateReceipt
+    ValidateReceipt --> ServerValidate{伺服器驗證 Receipt}
+    ServerValidate -->|通過| CreditDiamonds[更新 diamond_balance]
+    ServerValidate -->|失敗| PendingRetry[訂單標記 PENDING 異步重試]
+    CreditDiamonds --> NotifyClient[回應 200 + 新鑽石餘額]
+    NotifyClient --> End2([完成])
+    PendingRetry --> End3([提示「支付處理中」])</pre></div>
 <h3 id="10.5-slo-/-sli-/-error-budget">10.5 SLO / SLI / Error Budget</h3>
 <p>
 <strong>SLI（量測指標）</strong>
@@ -1312,7 +1275,6 @@ span.setAttributes({
 <em>此文件由 gendoc 自動生成。版本：v1.0 | DOC-ID: EDD-FISHGAME-20260424</em>
 </p></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

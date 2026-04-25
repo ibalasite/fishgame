@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>業務需求文件 — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -164,28 +172,25 @@ Why 5（根本原因）：市場開發商優先追求短期變現最大化（爆
 <hr>
 <h2 id="4.-stakeholders-&-users">4. Stakeholders & Users</h2>
 <h3 id="4.1-stakeholder-map">4.1 Stakeholder Map</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-Exec[&quot;🏢 Executive Sponsor&lt;br/&gt;投資方/創辦人代表&lt;br/&gt;核准預算 &amp; 最終決策&quot;]
-PM[&quot;📋 Product Manager / 遊戲策劃&lt;br/&gt;需求定義 &amp; 數值設計&lt;br/&gt;（遊戲策劃 ×2）&quot;]
-Eng[&quot;⚙️ Engineering Lead&lt;br/&gt;技術可行性 &amp; 估算&lt;br/&gt;（客戶端 ×3 + 後端 ×2）&quot;]
-Art[&quot;🎨 Art Director&lt;br/&gt;美術風格 &amp; UI/UX&lt;br/&gt;（美術 ×3）&quot;]
-Legal[&quot;⚖️ Legal / Compliance&lt;br/&gt;博彩法規合規審查&lt;br/&gt;（外聘法務顧問）&quot;]
-Ops[&quot;📈 Operations&lt;br/&gt;活動運營 &amp; 玩家社群&lt;br/&gt;（運營 ×2）&quot;]
-Investors[&quot;💰 Investors&lt;br/&gt;出資決策者&lt;br/&gt;ROI 追蹤&quot;]
-Players[&quot;👥 End Users（玩家）&lt;br/&gt;台灣+東南亞 18-45 歲&lt;br/&gt;休閒付費玩家&quot;]
-</p>
-<p>
-Exec --&gt;|授權預算| PM
-Exec --&gt;|戰略決策| Eng
-Investors --&gt;|資金| Exec
-PM --&gt;|功能需求| Eng
-PM --&gt;|視覺方向| Art
-PM --&gt;|合規諮詢| Legal
-Ops --&gt;|運營數據| PM
-Players --&gt;|遊戲回饋| PM
-Players --&gt;|付費行為| Investors</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    Exec["🏢 Executive Sponsor<br/>投資方/創辦人代表<br/>核准預算 & 最終決策"]
+    PM["📋 Product Manager / 遊戲策劃<br/>需求定義 & 數值設計<br/>（遊戲策劃 ×2）"]
+    Eng["⚙️ Engineering Lead<br/>技術可行性 & 估算<br/>（客戶端 ×3 + 後端 ×2）"]
+    Art["🎨 Art Director<br/>美術風格 & UI/UX<br/>（美術 ×3）"]
+    Legal["⚖️ Legal / Compliance<br/>博彩法規合規審查<br/>（外聘法務顧問）"]
+    Ops["📈 Operations<br/>活動運營 & 玩家社群<br/>（運營 ×2）"]
+    Investors["💰 Investors<br/>出資決策者<br/>ROI 追蹤"]
+    Players["👥 End Users（玩家）<br/>台灣+東南亞 18-45 歲<br/>休閒付費玩家"]
+
+    Exec -->|授權預算| PM
+    Exec -->|戰略決策| Eng
+    Investors -->|資金| Exec
+    PM -->|功能需求| Eng
+    PM -->|視覺方向| Art
+    PM -->|合規諮詢| Legal
+    Ops -->|運營數據| PM
+    Players -->|遊戲回饋| PM
+    Players -->|付費行為| Investors</pre></div>
 <h3 id="4.2-target-users（業務層級描述）">4.2 Target Users（業務層級描述）</h3>
 <blockquote>資料來源：<code>docs/IDEA.md §3</code>、Q1 澄清結果</blockquote>
 <table><tr><th>用戶群</th><th>規模估算</th><th>核心需求</th><th>目前解法</th><th>痛點</th></tr><tr><td>主要：台灣/東南亞 18–45 歲休閒付費玩家</td><td>約 5,000 萬活躍手機遊戲用戶（市場估算）</td><td>碎片時間（10–30 分鐘）即時娛樂、金幣獎勵爽感、競爭勝利感</td><td>現有 H5 捕魚遊戲、App 捕魚類產品</td><td>社交競爭薄弱、技能單一、長期操作無新鮮感、30 日流失高</td></tr><tr><td>次要：VIP 核心付費玩家（重度消費者）</td><td>目標約 500 人（DAU 5% 付費比例）</td><td>彰顯地位（VIP 等級）、砲台/技能升級成長感、限定皮膚收藏</td><td>現有 VIP 制度（功能薄弱）或電商購買遊戲點數</td><td>缺乏真正的社群地位展示平台與有意義的成長曲線</td></tr></table>
@@ -338,25 +343,23 @@ Input（我們可控的行動）
 <table><tr><th>假設</th><th>重要性</th><th>驗證方式</th><th>驗證時間點</th></tr><tr><td>玩家願意為「進階武器/技能道具」付費（不只是免費遊玩）</td><td>關鍵</td><td>MVP 付費率監控（目標 ≥ 2% MVP 過渡）+ 用戶訪談付費意願調查</td><td>BRD 後 4 週 / MVP 上線後 2 週</td></tr><tr><td>VIP 訂閱月費（USD 9.99）能吸引活躍玩家訂閱</td><td>重要</td><td>VIP 上線後第 1 個月訂閱率監控（目標 ≥ 1% of DAU）</td><td>Launch + 1M</td></tr><tr><td>行銷 CAC ≤ USD 6/用戶（LINE/Facebook 廣告）</td><td>重要</td><td>小規模先導投放測試 3 個市場（台灣/泰國/越南），測量各管道 CAC</td><td>BRD 後 2 個月</td></tr><tr><td>Jackpot 機制能顯著提升付費轉化率（相較無 Jackpot 對照）</td><td>關鍵</td><td>A/B 測試（含 Jackpot vs 不含 Jackpot 房間的付費率對比）</td><td>MVP 上線後 3 週</td></tr></table>
 <hr>
 <h2 id="12.-high-level-roadmap">12. High-Level Roadmap</h2>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">timeline
-<p>
-title fishing-arcade-game 高層次里程碑（6 個月開發計畫）
-section Discovery &amp; Setup（月 0）
-2026-04-24 : BRD 完成，募資啟動
-2026-05-08 : 法務初審完成（台灣Jackpot合規）
-2026-05-15 : 用戶訪談完成（N≥10），MVP 假設驗證
-section 核心玩法開發（月 1–2）
-2026-05-30 : PRD 核准，開發啟動
-2026-06-30 : 核心玩法 Alpha（多人房間+基礎砲台+魚群）
-section 系統完善（月 3–4）
-2026-07-31 : 技能/武器/RTP/Jackpot 系統完成
-2026-08-31 : VIP+商城+成長系統完成，Beta 內測
-section 測試與上線（月 5–6）
-2026-09-30 : 壓力測試+數值調校+Bug Fix 完成
-2026-10-31 : GA 上線（台灣+東南亞）
-section Growth
-2026-12-31 : DAU 10,000 目標評估，v2.0 規劃</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">timeline
+    title fishing-arcade-game 高層次里程碑（6 個月開發計畫）
+    section Discovery & Setup（月 0）
+        2026-04-24 : BRD 完成，募資啟動
+        2026-05-08 : 法務初審完成（台灣Jackpot合規）
+        2026-05-15 : 用戶訪談完成（N≥10），MVP 假設驗證
+    section 核心玩法開發（月 1–2）
+        2026-05-30 : PRD 核准，開發啟動
+        2026-06-30 : 核心玩法 Alpha（多人房間+基礎砲台+魚群）
+    section 系統完善（月 3–4）
+        2026-07-31 : 技能/武器/RTP/Jackpot 系統完成
+        2026-08-31 : VIP+商城+成長系統完成，Beta 內測
+    section 測試與上線（月 5–6）
+        2026-09-30 : 壓力測試+數值調校+Bug Fix 完成
+        2026-10-31 : GA 上線（台灣+東南亞）
+    section Growth
+        2026-12-31 : DAU 10,000 目標評估，v2.0 規劃</pre></div>
 <hr>
 <h2 id="13.-dependencies">13. Dependencies</h2>
 <table><tr><th>依賴項</th><th>類型</th><th>負責方</th><th>預計就緒日</th><th>若延誤的影響</th></tr><tr><td>法務合規評估（台灣+東南亞博彩法規）</td><td>外部顧問</td><td>Legal</td><td>2026-05-15</td><td>上線計畫可能需重構，最壞情況停止特定市場進入</td></tr><tr><td>參考 Codebase 授權確認（taishan6868）</td><td>外部法律/技術</td><td>Engineering + Legal</td><td>2026-05-30</td><td>若不可用，客戶端開發成本增加，6 個月周期面臨超期</td></tr><tr><td>遊戲策劃人員招募（×2）</td><td>人員</td><td>HR/創辦人</td><td>2026-05-30（開發啟動前）</td><td>數值設計能力缺失，RTP/Jackpot 設計風險大增</td></tr><tr><td>美術資源（魚類/場景/特效）</td><td>內部/外包</td><td>Art Director</td><td>2026-06-30（Alpha 前）</td><td>延誤影響客戶端開發節奏，可能以 Placeholder 先行</td></tr><tr><td>雲端伺服器環境（AWS/GCP 東南亞）</td><td>外部服務</td><td>Engineering</td><td>2026-06-01</td><td>影響開發測試環境，可先用本地環境替代</td></tr><tr><td>支付平台整合（IAP）</td><td>外部服務</td><td>Engineering</td><td>2026-08-31（Beta 前）</td><td>延誤影響付費功能上線，商城功能需降級</td></tr><tr><td>Colyseus 並發 PoC 測試</td><td>技術驗證</td><td>Engineering</td><td>2026-06-15</td><td>若失敗，架構方案需重新評估</td></tr></table>
@@ -403,7 +406,6 @@ section Growth
 <em>下游：執行 <code>/gendoc prd</code> 生成產品需求文件（PRD.md）。</em>
 </p></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

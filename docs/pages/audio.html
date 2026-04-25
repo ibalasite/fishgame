@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音效設計文件 — fishing-arcade-game</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
+</head>
+<body>
+<nav class="top-nav">
+  <a class="nav-brand" href="index.html">fishing-arcade-game</a>
+  <div class="nav-controls">
+    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">&#9776;</button>
+    
+    <div class="search-wrap">
+      <input class="search-input" type="search" placeholder="搜尋文件…" autocomplete="off">
+      <div class="search-results"></div>
+    </div>
+  </div>
+</nav>
+<div class="doc-page-banner">
+  <div class="banner-breadcrumb"><a href="index.html">fishing-arcade-game</a> › 音效設計文件</div>
+  <h1 class="banner-title">音效設計文件</h1>
+  <p class="banner-desc">BGM/SFX Design</p>
+</div>
+<div class="page-wrapper">
+  <nav class="sidebar"><div class="sidebar__section"><div class="sidebar__label">文件導覽</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 產品創意</a>
+<a class="sidebar__link" href="brd.html">📋 業務需求</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
+<a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
+<a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 設計</a>
+<a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
+<a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
+<a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
+<a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+</div></nav>
+  <div class="sidebar-resizer" id="sidebarResizer"></div>
+  <main class="doc-content"><h1 id="audio-—-音效設計文件-(fishing-arcade-game)">AUDIO — 音效設計文件 (fishing-arcade-game)</h1>
+<p>
+<!-- 上游文件：PRD-FISHGAME-20260424 · EDD-FISHGAME-20260424 · PDD-FISHGAME-20260425 · VDD-FISHGAME-20260425 -->
+</p>
+<hr>
+<h2 id="document-control">Document Control</h2>
+<table><tr><th>欄位</th><th>內容</th></tr><tr><td><strong>DOC-ID</strong></td><td>AUDIO-FISHGAME-20260425</td></tr><tr><td><strong>版本</strong></td><td>1.0</td></tr><tr><td><strong>狀態</strong></td><td>APPROVED</td></tr><tr><td><strong>日期</strong></td><td>2026-04-25</td></tr><tr><td><strong>作者</strong></td><td>Audio Design (AI Generated)</td></tr><tr><td><strong>上游 PRD</strong></td><td><a href="PRD.md">PRD.md</a></td></tr><tr><td><strong>上游 EDD</strong></td><td><a href="EDD.md">EDD.md</a></td></tr><tr><td><strong>上游 PDD</strong></td><td><a href="PDD.md">PDD.md</a></td></tr><tr><td><strong>上游 VDD</strong></td><td><a href="VDD.md">VDD.md</a></td></tr><tr><td><strong>審閱者</strong></td><td>Art Director, Engineering Lead, 遊戲策劃 Lead</td></tr><tr><td><strong>核准者</strong></td><td>Executive Sponsor</td></tr></table>
+<hr>
+<h2 id="change-log">Change Log</h2>
+<table><tr><th>版本</th><th>日期</th><th>作者</th><th>變更摘要</th></tr><tr><td>1.0</td><td>2026-04-25</td><td>AI Generated</td><td>初始生成，涵蓋全部 10 章</td></tr></table>
+<hr>
+<h2 id="1.-音效設計概述">1. 音效設計概述</h2>
+<h3 id="1.1-音效設計理念">1.1 音效設計理念</h3>
+<p>
+FishGame 競技捕魚平台的視覺方向定位為「Dark Luxury × Casino Arcade」——深海奢華黑金美學搭配霓虹活力特效（VDD §1.3）。音效設計必須與此視覺方向形成一致的感官體驗，從聽覺維度強化每一個「多巴胺時刻」。
+</p>
+<p>
+<strong>三大設計支柱：</strong>
+</p>
+<h4 id="支柱-a-—-多巴胺驅動（dopamine-driven-audio）">支柱 A — 多巴胺驅動（Dopamine-Driven Audio）</h4>
+<p>
+每一發砲彈命中、每一條魚的死亡特效、每一次 Jackpot 觸發，音效必須即時、清晰、爽快。命中音效以隨機音高（pitch randomization）維持聽覺新鮮感，避免重複疲勞；Jackpot 觸發音效設計為「不可中斷的儀式感」——全屏視覺爆炸與音效衝擊同步，形成完整的獎勵感知閉環。
+</p>
+<h4 id="支柱-b-—-競技緊張感（competitive-tension）">支柱 B — 競技緊張感（Competitive Tension）</h4>
+<p>
+BGM 自適應系統隨場景動態調整：魚群密度升高時節奏加快，Boss 出現時音樂層疊切換，計時器倒數最後 10 秒配合視覺脈衝增加心跳壓迫感。音樂 BPM 與 VDD §2.4 中「競技緊張感」的視覺語言（Boss 進場全屏震動、計時器等寬字體倒數）相互呼應。
+</p>
+<h4 id="支柱-c-—-奢華地位感（luxury-status-audio）">支柱 C — 奢華地位感（Luxury Status Audio）</h4>
+<p>
+VIP 升級、Jackpot 大獎、Boss 死亡等高階事件使用管弦樂 + 電子音樂混合編曲，傳遞出別於普通手機遊戲的品質感。VIP 老闆（Persona B）在觸發 Jackpot 時需要「全場沸騰」的存在感，音效設計配合 VDD §3.4 VIP 光環視覺系統，為高付費玩家提供專屬的聽覺地位象徵。
+</p>
+<p>
+<strong>設計原則與 VDD 對照：</strong>
+</p>
+<table><tr><th>VDD 設計原則</th><th>音效對應實現</th></tr><tr><td>P1 多巴胺優先</td><td>命中/死亡/Jackpot 音效三層疊加（SFX + 環境殘響 + 旋律 Stinger）</td></tr><tr><td>P2 競爭可見</td><td>BGM 自適應強度反映場面緊張程度，Boss 出現使用壓制性 Stinger</td></tr><tr><td>P3 自然變現</td><td>VIP 升級、購買成功音效提供強烈正向回饋，強化付費感知價值</td></tr><tr><td>P4 3 秒理解</td><td>UI 音效即時回饋（< 16ms 延遲），按鈕點擊 / 對話框音效清晰可辨</td></tr></table>
+<h3 id="1.2-技術規格">1.2 技術規格</h3>
+<h4 id="bgm-格式規格">BGM 格式規格</h4>
+<table><tr><th>平台</th><th>格式</th><th>位元率</th><th>聲道</th><th>取樣率</th><th>迴圈</th></tr><tr><td>Web / H5</td><td>OGG Vorbis</td><td>128 kbps</td><td>Stereo</td><td>44.1 kHz</td><td>無縫迴圈</td></tr><tr><td>iOS</td><td>AAC (M4A)</td><td>128 kbps</td><td>Stereo</td><td>44.1 kHz</td><td>無縫迴圈</td></tr><tr><td>Android</td><td>OGG Vorbis</td><td>128 kbps</td><td>Stereo</td><td>44.1 kHz</td><td>無縫迴圈</td></tr></table>
+<p>
+<strong>無縫迴圈要求：</strong> 所有 BGM 必須在 DAW 中完成精確的 loop-in / loop-out 標記，避免爆音與靜音間隙。測試標準：耳聽 20 次連續迴圈，感知到切點則需重新剪輯。
+</p>
+<h4 id="sfx-格式規格">SFX 格式規格</h4>
+<table><tr><th>用途</th><th>格式</th><th>聲道</th><th>取樣率</th><th>位深</th></tr><tr><td>遊戲核心 SFX</td><td>OGG Vorbis</td><td>Mono</td><td>44.1 kHz</td><td>16-bit</td></tr><tr><td>UI 音效</td><td>OGG Vorbis</td><td>Mono</td><td>44.1 kHz</td><td>16-bit</td></tr><tr><td>環境音效</td><td>OGG Vorbis</td><td>Stereo</td><td>44.1 kHz</td><td>16-bit</td></tr><tr><td>語音 (VO)</td><td>OGG Vorbis</td><td>Mono</td><td>22.05 kHz</td><td>16-bit</td></tr><tr><td>製作中間格式</td><td>WAV</td><td>—</td><td>48 kHz</td><td>24-bit</td></tr></table>
+<h4 id="web-audiocontext-解鎖規範">Web AudioContext 解鎖規範</h4>
+<p>
+受瀏覽器自動播放政策（Autoplay Policy）限制，Web 平台必須在玩家首次互動後才能啟動 AudioContext：
+</p>
+<pre><code class="language-typescript">// AudioContext 解鎖入口 — 掛載在首次用戶互動事件
+<p>
+document.addEventListener(&#x27;touchstart&#x27;, unlockAudioContext, { once: true });
+document.addEventListener(&#x27;mousedown&#x27;, unlockAudioContext, { once: true });
+</p>
+<p>
+async function unlockAudioContext(): Promise&lt;void&gt; {
+const ctx = cc.director.getSystem(cc.AudioSystem) as any;
+if (ctx?.audioContext?.state === &#x27;suspended&#x27;) {
+await ctx.audioContext.resume();
+}
+// 播放靜音緩衝確保解鎖
+AudioManager.getInstance().playUnlockBuffer();
+}
+</code></pre>
+</p>
+<p>
+<strong>注意事項：</strong>
+</p>
+<ul><li>BGM 必須等待 AudioContext 解鎖後才能開始播放</li><li>解鎖前使用視覺動畫（Splash 畫面）填充等待時間</li><li>解鎖後立即開始 BGM 淡入（fadeDuration: 1000ms）</li></ul>
+<h3 id="1.3-音效架構">1.3 音效架構</h3>
+<pre><code>FishGame Audio Architecture
+<p>
+│
+├── BGM Layer（背景音樂層）
+│   ├── Base Loop（主旋律迴圈，可切換）
+│   ├── Intensity Overlay（強度疊加層，根據場景動態混合）
+│   └── Stinger Channel（Stinger 播放通道，非阻塞）
+│
+├── SFX Layer（音效層）
+│   ├── Core Game SFX Pool（遊戲核心音效池，32 通道上限）
+│   ├── UI SFX Channel（UI 音效通道，固定 2 通道）
+│   └── Ambient Channel（環境音效通道，2 通道）
+│
+├── VO Layer（語音層，預留）
+│   └── Announcer Channel（播報員語音，1 通道）
+│
+└── AudioManager（統一管理器）
+├── 音量控制（BGM / SFX / VO 分離）
+├── 音效開關（BGM / SFX 獨立）
+├── AudioContext 解鎖管理
+└── 設定持久化（localStorage）
+</code></pre>
+</p>
+<hr>
+<h2 id="2.-音樂系統-(bgm)">2. 音樂系統 (BGM)</h2>
+<h3 id="2.1-場景音樂列表">2.1 場景音樂列表</h3>
+<table><tr><th>場景</th><th>曲目名稱</th><th>風格描述</th><th>BPM</th><th>時長</th><th>迴圈</th><th>音量（正規化）</th><th>備注</th></tr><tr><td>啟動畫面 / Splash</td><td>bgm_splash</td><td>Deep Sea Ambient，水波聲 + 遠景鋼琴</td><td>70</td><td>0:45</td><td>No</td><td>-12 dBFS</td><td>隨 Splash 結束自動停止</td></tr><tr><td>主選單 (MainMenu)</td><td>bgm_main_menu</td><td>神秘海洋 Dark Jazz，低音貝斯 + 爵士鋼琴</td><td>90</td><td>3:00</td><td>Yes</td><td>-12 dBFS</td><td>含大廳 (Lobby) 場景</td></tr><tr><td>一般房間 (NormalRoom)</td><td>bgm_normal_room</td><td>Casino Electro Beat，合成器節拍 + 金屬打擊</td><td>120</td><td>4:00</td><td>Yes</td><td>-12 dBFS</td><td>普通房間預設 BGM</td></tr><tr><td>精英房間 (EliteRoom)</td><td>bgm_elite_room</td><td>Intense Electronic，加速節拍 + 低音炮掃頻</td><td>135</td><td>3:30</td><td>Yes</td><td>-12 dBFS</td><td>精英 / 競技房間</td></tr><tr><td>Boss 戰 (BossRoom)</td><td>bgm_boss_battle</td><td>Epic Orchestral，弦樂 + 電子鼓 + 合唱</td><td>150</td><td>2:00</td><td>Yes</td><td>-10 dBFS</td><td>Boss 存活期間循環播放</td></tr><tr><td>商店 (Shop)</td><td>bgm_shop</td><td>Relaxed Casino Lounge，爵士鋼琴 + 輕打擊</td><td>100</td><td>2:30</td><td>Yes</td><td>-14 dBFS</td><td>商城及個人中心共用</td></tr><tr><td>結算畫面 (Settlement)</td><td>bgm_settlement</td><td>Celebratory Fanfare，管弦 + 電子慶祝音效</td><td>120</td><td>0:30</td><td>No</td><td>-8 dBFS</td><td>一次性播放，不循環</td></tr><tr><td>MVP 結算</td><td>bgm_mvp_fanfare</td><td>Triumphant Fanfare，號角 + 鼓聲衝擊</td><td>140</td><td>0:20</td><td>No</td><td>-8 dBFS</td><td>MVP 獲得者觸發</td></tr><tr><td>Jackpot 爆獎</td><td>bgm_jackpot_climax</td><td>Full Orchestral Explosion，全樂器齊奏</td><td>160</td><td>1:30</td><td>No</td><td>-6 dBFS</td><td>替換所有 BGM，優先級最高</td></tr></table>
+<p>
+<strong>場景 BGM 切換規則：</strong>
+</p>
+<pre><code>Splash → bgm_splash（立即播放，無淡入）
+<p>
+Splash → MainMenu → bgm_main_menu（淡出 500ms → 淡入 1000ms）
+MainMenu → NormalRoom → bgm_normal_room（淡出 800ms → 淡入 500ms）
+MainMenu → EliteRoom → bgm_elite_room（淡出 800ms → 淡入 500ms）
+NormalRoom → Boss 進場 → bgm_boss_battle（Stinger sfx_boss_appear 壓制 → 淡入 200ms）
+Boss 死亡 → bgm_settlement（立即切換，無淡入淡出）
+Settlement → MainMenu → bgm_main_menu（淡出 1000ms → 淡入 1000ms）
+任意場景 → Jackpot 觸發 → bgm_jackpot_climax（立即切換，最高優先級）
+</code></pre>
+</p>
+<h3 id="2.2-自適應音樂系統">2.2 自適應音樂系統</h3>
+<p>
+自適應音樂系統（Adaptive Music System）根據遊戲場景的動態狀態即時調整 BGM 的強度與情緒層次，與 VDD §2.4 情感色調映射中「多巴胺刺激感」和「競技緊張感」的視覺設計保持聽覺一致。
+</p>
+<h4 id="魚群密度適應">魚群密度適應</h4>
+<table><tr><th>場內魚群數量</th><th>強度層級</th><th>音樂調整</th><th>過渡時間</th></tr><tr><td>≤ 5 條</td><td>Level 1（平靜）</td><td>僅主旋律 Base Loop，無附加層</td><td>3s 淡入</td></tr><tr><td>6–10 條</td><td>Level 2（活躍）</td><td>+ 輕量打擊樂 Overlay（音量 -8 dB）</td><td>2s 淡入</td></tr><tr><td>11–19 條</td><td>Level 3（熱烈）</td><td>+ 低音線 + 打擊樂全開（音量 -4 dB）</td><td>1.5s 淡入</td></tr><tr><td>≥ 20 條</td><td>Level 4（激烈）</td><td>全音軌播放，額外 synth fill（音量 0 dB）</td><td>1s 淡入</td></tr></table>
+<p>
+<strong>實作方式：</strong> 使用 Cocos AudioSource 的 <code>volume</code> 屬性動態調整各 Overlay 音軌音量，Base Loop 與 Overlay 音軌需精確對齊 BPM 時間格（Beat-aligned），確保切換在小節邊界進行，避免節奏錯位。
+</p>
+<h4 id="boss-出現適應">Boss 出現適應</h4>
+<pre><code>觸發條件：伺服器廣播 BossAppeared 事件（EDD §4.5）
+<p>
+觸發流程：
+1. sfx_boss_appear（2.0s Stinger，最高優先級，不可中斷）播放
+2. 同步觸發 VDD §4.3 Boss 進場動畫（全屏震動 2s）
+3. Stinger 播放完畢後自動切換至 bgm_boss_battle（淡入 200ms）
+4. bgm_boss_battle 持續循環至 Boss 死亡或逃跑
+</p>
+<p>
+Boss 死亡：
+1. sfx_boss_die（3.0s）播放
+2. bgm_boss_battle 立即靜音（無淡出）
+3. sfx_jackpot_trigger 接力播放（若觸發 Jackpot 條件）
+4. 切換至 bgm_settlement 或 bgm_normal_room（依結算狀態）
+</p>
+<p>
+Boss 逃跑：
+1. sfx_boss_escape（0.8s，與魚逃跑音效同音色但更低沉）播放
+2. 淡出 bgm_boss_battle（1000ms）
+3. 恢復原場景 BGM（bgm_normal_room / bgm_elite_room）
+</code></pre>
+</p>
+<h4 id="jackpot-自適應">Jackpot 自適應</h4>
+<pre><code>Jackpot 進度條 &lt; 80%：正常場景 BGM
+<p>
+Jackpot 進度條 80–99%：添加 jackpot_buildup_layer（持續低音 drone + 上升音調）
+Jackpot 觸發（100%）：
+1. sfx_jackpot_trigger（5.0s，不可中斷）立即切入
+2. 所有其他 BGM 靜音（不淡出，立即停止）
+3. sfx_jackpot_trigger 結束後自動接入 bgm_jackpot_climax
+4. bgm_jackpot_climax 播放完畢後播放 sfx_jackpot_rollup（Jackpot 數字滾動）
+5. 結算完成後切換至 bgm_settlement
+</code></pre>
+</p>
+<h3 id="2.3-音樂過渡設計">2.3 音樂過渡設計</h3>
+<table><tr><th>過渡類型</th><th>技術方法</th><th>時長</th><th>使用場景</th></tr><tr><td>硬切（Hard Cut）</td><td>停止當前 → 立即播放新曲</td><td>0ms</td><td>Jackpot 觸發、Boss 進場 Stinger</td></tr><tr><td>淡出淡入（Crossfade）</td><td>雙軌疊加，淡出+淡入</td><td>500–1000ms</td><td>一般場景切換（大廳→遊戲房間）</td></tr><tr><td>圖層混合（Layer Blend）</td><td>音量調整 Overlay 音軌</td><td>1000–3000ms</td><td>自適應強度變化</td></tr><tr><td>拍子對齊切換（Beat-Sync）</td><td>等待下一個小節邊界</td><td>0–2000ms</td><td>Overlay 音軌開關，防止節奏錯位</td></tr><tr><td>Stinger 接管（Stinger Takeover）</td><td>SFX 疊加在 BGM 上，BGM 音量降低 -12 dB</td><td>Stinger 時長</td><td>Boss 出現、Jackpot 觸發</td></tr></table>
+<p>
+<strong>Stinger 接管時 BGM 音量降低邏輯（閃避，Ducking）：</strong>
+</p>
+<pre><code class="language-typescript">// BGM Ducking — Stinger 播放期間降低 BGM 音量
+<p>
+const DUCK_VOLUME = 0.2;  // -14 dB 等效
+const DUCK_FADE_IN = 200;  // ms — 快速降低
+const DUCK_FADE_OUT = 800; // ms — 緩慢恢復
+</p>
+<p>
+AudioManager.getInstance().playStinger(&#x27;sfx_boss_appear&#x27;).then(() =&gt; {
+// Stinger 結束後 BGM 淡回原音量
+AudioManager.getInstance().restoreBGMVolume(DUCK_FADE_OUT);
+});
+AudioManager.getInstance().duckBGM(DUCK_VOLUME, DUCK_FADE_IN);
+</code></pre>
+</p>
+<hr>
+<h2 id="3.-音效系統-(sfx)">3. 音效系統 (SFX)</h2>
+<h3 id="3.1-遊戲核心音效">3.1 遊戲核心音效</h3>
+<table><tr><th>SFX ID</th><th>觸發事件</th><th>檔案名稱</th><th>時長</th><th>音高隨機</th><th>並發上限</th><th>備注</th></tr><tr><td>SFX-001</td><td>射擊普通砲（Cannon Fire）</td><td>sfx_shoot_normal</td><td>0.2s</td><td>±3%</td><td>8</td><td>可疊加，短爆發音效</td></tr><tr><td>SFX-002</td><td>射擊雷射（Laser Fire）</td><td>sfx_shoot_laser</td><td>0.5s</td><td>無</td><td>4</td><td>持續音，有開始/結束音效</td></tr><tr><td>SFX-003</td><td>射擊散射（Scatter Fire）</td><td>sfx_shoot_scatter</td><td>0.3s</td><td>±5%</td><td>4</td><td>3 連音序列（0ms / 50ms / 100ms 延遲）</td></tr><tr><td>SFX-004</td><td>命中普通魚</td><td>sfx_hit_normal</td><td>0.1s</td><td>0.9–1.1 隨機</td><td>16</td><td>音高隨機維持新鮮感</td></tr><tr><td>SFX-005</td><td>命中精英魚</td><td>sfx_hit_elite</td><td>0.2s</td><td>0.95–1.05 隨機</td><td>8</td><td>比普通命中更厚實</td></tr><tr><td>SFX-006</td><td>命中 Boss 魚</td><td>sfx_hit_boss</td><td>0.3s</td><td>無</td><td>4</td><td>金屬撞擊感，低頻沉重</td></tr><tr><td>SFX-007</td><td>魚死亡——普通</td><td>sfx_fish_die_normal</td><td>0.5s</td><td>±8%</td><td>8</td><td>爆炸 + 金幣飛散聲</td></tr><tr><td>SFX-008</td><td>魚死亡——精英</td><td>sfx_fish_die_elite</td><td>0.8s</td><td>±5%</td><td>4</td><td>大爆炸 + 金幣瀑布聲</td></tr><tr><td>SFX-009</td><td>Boss 出現</td><td>sfx_boss_appear</td><td>2.0s</td><td>無</td><td>1（不可中斷）</td><td>全屏震動 + 低頻 sub-bass 衝擊，壓制 BGM</td></tr><tr><td>SFX-010</td><td>Boss 死亡</td><td>sfx_boss_die</td><td>3.0s</td><td>無</td><td>1（不可中斷）</td><td>觸發 Jackpot 條件的前置音效，史詩感</td></tr><tr><td>SFX-011</td><td>Boss 逃跑</td><td>sfx_boss_escape</td><td>0.8s</td><td>無</td><td>1</td><td>失落感低沉音調</td></tr><tr><td>SFX-012</td><td>金幣收集</td><td>sfx_coin_collect</td><td>0.3s</td><td>隨倍率線性升高</td><td>16</td><td>低倍率 pitch 低，高倍率 pitch 高（1x=100%，最高 200%）</td></tr><tr><td>SFX-013</td><td>金幣瀑布（連續收集）</td><td>sfx_coin_stream</td><td>2.0s</td><td>無</td><td>2</td><td>循環播放，直到金幣收完</td></tr><tr><td>SFX-014</td><td>Jackpot 觸發</td><td>sfx_jackpot_trigger</td><td>5.0s</td><td>無</td><td>1（不可中斷）</td><td>全場最重要音效，5 秒完整播放，不允許被中斷或覆蓋</td></tr><tr><td>SFX-015</td><td>Jackpot 數字滾動</td><td>sfx_jackpot_rollup</td><td>3.0s</td><td>無</td><td>1（循環）</td><td>數字計數滾動聲，循環至結算完成</td></tr><tr><td>SFX-016</td><td>冰凍技能啟動</td><td>sfx_skill_freeze</td><td>1.0s</td><td>無</td><td>2</td><td>冰晶碎裂 + 低溫嗡聲</td></tr><tr><td>SFX-017</td><td>炸彈技能啟動</td><td>sfx_skill_bomb</td><td>1.5s</td><td>無</td><td>2</td><td>倒數嘀嗒 + 爆炸</td></tr><tr><td>SFX-018</td><td>鎖定技能啟動</td><td>sfx_skill_lock</td><td>0.5s</td><td>無</td><td>2</td><td>機械鎖定咔嗒聲</td></tr><tr><td>SFX-019</td><td>連擊 Combo（2–4 連擊）</td><td>sfx_combo_low</td><td>0.3s</td><td>線性升高</td><td>4</td><td>連擊數越高 pitch 越高</td></tr><tr><td>SFX-020</td><td>連擊 Combo（5+ 連擊）</td><td>sfx_combo_high</td><td>0.5s</td><td>無</td><td>2</td><td>達成 5 連擊的特別音效</td></tr><tr><td>SFX-021</td><td>MVP 獲得</td><td>sfx_mvp_award</td><td>1.5s</td><td>無</td><td>1</td><td>勝利感，號角 + 金幣噴射聲</td></tr><tr><td>SFX-022</td><td>搶魚成功（先手擊殺）</td><td>sfx_steal_kill</td><td>0.6s</td><td>無</td><td>4</td><td>競爭搶魚成功的特有滿足感音效</td></tr></table>
+<h3 id="3.2-ui-音效">3.2 UI 音效</h3>
+<table><tr><th>SFX ID</th><th>觸發事件</th><th>檔案名稱</th><th>時長</th><th>備注</th></tr><tr><td>SFX-101</td><td>按鈕點擊（主要 CTA）</td><td>sfx_btn_click_primary</td><td>0.1s</td><td>金屬感點擊，與金色按鈕視覺對應</td></tr><tr><td>SFX-102</td><td>按鈕點擊（次要）</td><td>sfx_btn_click_secondary</td><td>0.1s</td><td>輕柔點擊</td></tr><tr><td>SFX-103</td><td>按鈕懸停（Hover）</td><td>sfx_btn_hover</td><td>0.08s</td><td>極短輕聲，不影響體驗</td></tr><tr><td>SFX-104</td><td>按鈕禁用點擊</td><td>sfx_btn_disabled</td><td>0.1s</td><td>低沉無響聲，告知玩家不可用</td></tr><tr><td>SFX-105</td><td>對話框 / 面板開啟</td><td>sfx_dialog_open</td><td>0.2s</td><td>磨砂玻璃展開感（對應 VDD §5.5 面板）</td></tr><tr><td>SFX-106</td><td>對話框 / 面板關閉</td><td>sfx_dialog_close</td><td>0.2s</td><td>玻璃收縮聲</td></tr><tr><td>SFX-107</td><td>標籤頁切換</td><td>sfx_tab_switch</td><td>0.12s</td><td>短促滑動聲</td></tr><tr><td>SFX-108</td><td>滑動列 / 音量調節</td><td>sfx_slider_drag</td><td>0.05s</td><td>持續拖動音（每 step 觸發一次）</td></tr><tr><td>SFX-109</td><td>開關切換（Toggle On）</td><td>sfx_toggle_on</td><td>0.15s</td><td>清脆啟用聲</td></tr><tr><td>SFX-110</td><td>開關切換（Toggle Off）</td><td>sfx_toggle_off</td><td>0.15s</td><td>低沉關閉聲</td></tr><tr><td>SFX-111</td><td>配對成功（Match Found）</td><td>sfx_match_found</td><td>0.8s</td><td>電子嗶聲 + 上升音調，玩家頭像飛入時同步觸發（PDD §5.9）</td></tr><tr><td>SFX-112</td><td>配對倒數（每秒）</td><td>sfx_match_countdown</td><td>0.1s</td><td>節拍器滴答聲，配合 30s 倒數（PDD §5.9）</td></tr><tr><td>SFX-113</td><td>錯誤 / 操作失敗</td><td>sfx_error</td><td>0.3s</td><td>低沉警示聲，不使用刺耳音效</td></tr><tr><td>SFX-114</td><td>通知 / Toast 顯示</td><td>sfx_notification</td><td>0.25s</td><td>輕柔提示聲</td></tr><tr><td>SFX-115</td><td>VIP 升級</td><td>sfx_vip_upgrade</td><td>2.0s</td><td>奢華感升級音效，金幣噴射 + 光暈啟動聲（配合 VDD §3.4 VIP 等級色系進場動畫）</td></tr><tr><td>SFX-116</td><td>購買成功</td><td>sfx_purchase_success</td><td>0.8s</td><td>清脆成功聲 + 金幣音，對應商城 CVR 強化</td></tr><tr><td>SFX-117</td><td>鑽石充值成功</td><td>sfx_diamond_credited</td><td>1.0s</td><td>鑽石音色 + 數字計數聲（配合 VDD §3.6 鑽石圖示色 #00D4FF）</td></tr><tr><td>SFX-118</td><td>倒數計時警示（Boss 計時最後 10s）</td><td>sfx_timer_alert</td><td>0.3s</td><td>每秒觸發，音高逐漸升高，配合 VDD §2.4 紅色脈衝視覺</td></tr><tr><td>SFX-119</td><td>Jackpot 進度條充滿警示</td><td>sfx_jackpot_nearfull</td><td>0.5s</td><td>緊張顫音，提示玩家 Jackpot 即將觸發</td></tr><tr><td>SFX-120</td><td>排行榜順位上升</td><td>sfx_rank_up</td><td>0.4s</td><td>上升音調，即時排名 HUD 更新時觸發</td></tr><tr><td>SFX-121</td><td>訂單異常 / 支付失敗</td><td>sfx_payment_error</td><td>0.5s</td><td>明顯但不刺耳的警示聲（對應 PDD §4.3.1 IAP 失敗流程）</td></tr></table>
+<h3 id="3.3-環境音效">3.3 環境音效</h3>
+<table><tr><th>SFX ID</th><th>觸發事件</th><th>檔案名稱</th><th>時長</th><th>聲道</th><th>備注</th></tr><tr><td>AMB-001</td><td>海洋背景環境音</td><td>amb_ocean_base</td><td>60s</td><td>Stereo</td><td>全程持續循環，深海低頻水流聲</td></tr><tr><td>AMB-002</td><td>氣泡上升音效</td><td>amb_bubbles</td><td>5s</td><td>Stereo</td><td>隨機觸發（每 3–8s 一次），配合 VDD §4.3 近景層氣泡動畫</td></tr><tr><td>AMB-003</td><td>水流聲（動態水波）</td><td>amb_water_flow</td><td>30s</td><td>Stereo</td><td>隨 VDD §2.3 背景 Shader UV scroll 動態音量</td></tr><tr><td>AMB-004</td><td>魚群游動聲</td><td>amb_fish_school</td><td>8s</td><td>Stereo</td><td>大量魚群出現時觸發，隨機偶發</td></tr><tr><td>AMB-005</td><td>深海低鳴（Boss 房間氛圍）</td><td>amb_boss_room</td><td>20s</td><td>Stereo</td><td>僅在 Boss 房間 bgm_boss_battle 播放期間疊加</td></tr><tr><td>AMB-006</td><td>商城背景（玻璃杯碰撞 / 輕音樂廳環境）</td><td>amb_casino_lounge</td><td>30s</td><td>Stereo</td><td>商城場景（VDD §2.5 暗金色底場景氛圍）</td></tr><tr><td>AMB-007</td><td>大廳背景（珊瑚礁水波）</td><td>amb_lobby_ocean</td><td>45s</td><td>Stereo</td><td>大廳 / 主選單持續播放</td></tr></table>
+<p>
+<strong>環境音效混音規則：</strong>
+</p>
+<ul><li>環境音效音量固定為 SFX 音量的 30%（防止遮蓋遊戲核心音效）</li><li>環境音效不受玩家 SFX 開關控制（始終保持環境感，但受主音量控制）</li><li>游戲進行中，amb_ocean_base 音量動態降低至 20%，避免干擾遊戲 SFX</li></ul>
+<hr>
+<h2 id="4.-音效資源規格">4. 音效資源規格</h2>
+<h3 id="4.1-bgm-規格表">4.1 BGM 規格表</h3>
+<table><tr><th>檔案名稱</th><th>格式（Web）</th><th>格式（iOS）</th><th>格式（Android）</th><th>時長</th><th>迴圈標記</th><th>檔案大小（估算，OGG 128kbps）</th></tr><tr><td>bgm_splash.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>0:45</td><td>No</td><td>≈ 720 KB</td></tr><tr><td>bgm_main_menu.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>3:00</td><td>Yes</td><td>≈ 2.9 MB</td></tr><tr><td>bgm_normal_room.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>4:00</td><td>Yes</td><td>≈ 3.9 MB</td></tr><tr><td>bgm_elite_room.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>3:30</td><td>Yes</td><td>≈ 3.4 MB</td></tr><tr><td>bgm_boss_battle.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>2:00</td><td>Yes</td><td>≈ 1.9 MB</td></tr><tr><td>bgm_shop.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>2:30</td><td>Yes</td><td>≈ 2.4 MB</td></tr><tr><td>bgm_settlement.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>0:30</td><td>No</td><td>≈ 480 KB</td></tr><tr><td>bgm_mvp_fanfare.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>0:20</td><td>No</td><td>≈ 320 KB</td></tr><tr><td>bgm_jackpot_climax.ogg / .m4a</td><td>OGG</td><td>AAC</td><td>OGG</td><td>1:30</td><td>No</td><td>≈ 1.4 MB</td></tr></table>
+<p>
+<strong>BGM 總計（OGG 版本）：≈ 17.5 MB</strong>（流式載入，不全部預載入記憶體）
+</p>
+<p>
+<strong>BGM Overlay 音軌（自適應音樂系統用）：</strong>
+</p>
+<table><tr><th>檔案名稱</th><th>關聯主曲</th><th>時長</th><th>備注</th></tr><tr><td>bgm_normal_room_overlay_mid.ogg</td><td>bgm_normal_room</td><td>4:00</td><td>中等密度疊加層</td></tr><tr><td>bgm_normal_room_overlay_high.ogg</td><td>bgm_normal_room</td><td>4:00</td><td>高密度疊加層</td></tr><tr><td>bgm_elite_room_overlay_mid.ogg</td><td>bgm_elite_room</td><td>3:30</td><td>同上</td></tr><tr><td>bgm_elite_room_overlay_high.ogg</td><td>bgm_elite_room</td><td>3:30</td><td>同上</td></tr><tr><td>bgm_jackpot_buildup_layer.ogg</td><td>任意遊戲場景</td><td>60s</td><td>Jackpot 80% 觸發，循環</td></tr></table>
+<h3 id="4.2-sfx-規格表">4.2 SFX 規格表</h3>
+<table><tr><th>SFX ID</th><th>檔案名稱</th><th>格式</th><th>時長</th><th>大小（估算）</th><th>預載入</th></tr><tr><td>SFX-001</td><td>sfx_shoot_normal.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.2s</td><td>≈ 10 KB</td><td>Yes</td></tr><tr><td>SFX-002</td><td>sfx_shoot_laser.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.5s</td><td>≈ 25 KB</td><td>Yes</td></tr><tr><td>SFX-003</td><td>sfx_shoot_scatter.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.3s</td><td>≈ 15 KB</td><td>Yes</td></tr><tr><td>SFX-004</td><td>sfx_hit_normal.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.1s</td><td>≈ 5 KB</td><td>Yes</td></tr><tr><td>SFX-005</td><td>sfx_hit_elite.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.2s</td><td>≈ 10 KB</td><td>Yes</td></tr><tr><td>SFX-006</td><td>sfx_hit_boss.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.3s</td><td>≈ 15 KB</td><td>Yes</td></tr><tr><td>SFX-007</td><td>sfx_fish_die_normal.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.5s</td><td>≈ 25 KB</td><td>Yes</td></tr><tr><td>SFX-008</td><td>sfx_fish_die_elite.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.8s</td><td>≈ 40 KB</td><td>Yes</td></tr><tr><td>SFX-009</td><td>sfx_boss_appear.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>2.0s</td><td>≈ 100 KB</td><td>Yes</td></tr><tr><td>SFX-010</td><td>sfx_boss_die.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>3.0s</td><td>≈ 150 KB</td><td>Yes</td></tr><tr><td>SFX-011</td><td>sfx_boss_escape.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.8s</td><td>≈ 40 KB</td><td>Yes</td></tr><tr><td>SFX-012</td><td>sfx_coin_collect.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.3s</td><td>≈ 15 KB</td><td>Yes</td></tr><tr><td>SFX-013</td><td>sfx_coin_stream.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>2.0s</td><td>≈ 100 KB</td><td>Yes</td></tr><tr><td>SFX-014</td><td>sfx_jackpot_trigger.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>5.0s</td><td>≈ 500 KB</td><td>Yes</td></tr><tr><td>SFX-015</td><td>sfx_jackpot_rollup.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>3.0s</td><td>≈ 150 KB</td><td>Yes</td></tr><tr><td>SFX-016</td><td>sfx_skill_freeze.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>1.0s</td><td>≈ 50 KB</td><td>Yes</td></tr><tr><td>SFX-017</td><td>sfx_skill_bomb.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>1.5s</td><td>≈ 75 KB</td><td>Yes</td></tr><tr><td>SFX-018</td><td>sfx_skill_lock.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.5s</td><td>≈ 25 KB</td><td>Yes</td></tr><tr><td>SFX-019</td><td>sfx_combo_low.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.3s</td><td>≈ 15 KB</td><td>Yes</td></tr><tr><td>SFX-020</td><td>sfx_combo_high.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.5s</td><td>≈ 25 KB</td><td>Yes</td></tr><tr><td>SFX-021</td><td>sfx_mvp_award.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>1.5s</td><td>≈ 75 KB</td><td>Yes</td></tr><tr><td>SFX-022</td><td>sfx_steal_kill.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.6s</td><td>≈ 30 KB</td><td>Yes</td></tr><tr><td>SFX-101</td><td>sfx_btn_click_primary.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.1s</td><td>≈ 5 KB</td><td>Yes</td></tr><tr><td>SFX-102</td><td>sfx_btn_click_secondary.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.1s</td><td>≈ 5 KB</td><td>Yes</td></tr><tr><td>SFX-103</td><td>sfx_btn_hover.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.08s</td><td>≈ 4 KB</td><td>Yes</td></tr><tr><td>SFX-104</td><td>sfx_btn_disabled.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.1s</td><td>≈ 5 KB</td><td>Yes</td></tr><tr><td>SFX-105</td><td>sfx_dialog_open.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.2s</td><td>≈ 10 KB</td><td>Yes</td></tr><tr><td>SFX-106</td><td>sfx_dialog_close.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.2s</td><td>≈ 10 KB</td><td>Yes</td></tr><tr><td>SFX-107</td><td>sfx_tab_switch.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.12s</td><td>≈ 6 KB</td><td>Yes</td></tr><tr><td>SFX-108</td><td>sfx_slider_drag.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.05s</td><td>≈ 3 KB</td><td>Yes</td></tr><tr><td>SFX-109</td><td>sfx_toggle_on.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.15s</td><td>≈ 8 KB</td><td>Yes</td></tr><tr><td>SFX-110</td><td>sfx_toggle_off.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.15s</td><td>≈ 8 KB</td><td>Yes</td></tr><tr><td>SFX-111</td><td>sfx_match_found.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.8s</td><td>≈ 40 KB</td><td>Yes</td></tr><tr><td>SFX-112</td><td>sfx_match_countdown.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.1s</td><td>≈ 5 KB</td><td>Yes</td></tr><tr><td>SFX-113</td><td>sfx_error.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.3s</td><td>≈ 15 KB</td><td>Yes</td></tr><tr><td>SFX-114</td><td>sfx_notification.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.25s</td><td>≈ 12 KB</td><td>Yes</td></tr><tr><td>SFX-115</td><td>sfx_vip_upgrade.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>2.0s</td><td>≈ 200 KB</td><td>Yes</td></tr><tr><td>SFX-116</td><td>sfx_purchase_success.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.8s</td><td>≈ 40 KB</td><td>Yes</td></tr><tr><td>SFX-117</td><td>sfx_diamond_credited.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>1.0s</td><td>≈ 50 KB</td><td>Yes</td></tr><tr><td>SFX-118</td><td>sfx_timer_alert.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.3s</td><td>≈ 15 KB</td><td>Yes</td></tr><tr><td>SFX-119</td><td>sfx_jackpot_nearfull.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.5s</td><td>≈ 25 KB</td><td>Yes</td></tr><tr><td>SFX-120</td><td>sfx_rank_up.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.4s</td><td>≈ 20 KB</td><td>Yes</td></tr><tr><td>SFX-121</td><td>sfx_payment_error.ogg</td><td>OGG Mono 44.1kHz 16bit</td><td>0.5s</td><td>≈ 25 KB</td><td>Yes</td></tr><tr><td>AMB-001</td><td>amb_ocean_base.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>60s</td><td>≈ 1.8 MB</td><td>流式</td></tr><tr><td>AMB-002</td><td>amb_bubbles.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>5s</td><td>≈ 150 KB</td><td>Yes</td></tr><tr><td>AMB-003</td><td>amb_water_flow.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>30s</td><td>≈ 900 KB</td><td>流式</td></tr><tr><td>AMB-004</td><td>amb_fish_school.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>8s</td><td>≈ 240 KB</td><td>Lazy</td></tr><tr><td>AMB-005</td><td>amb_boss_room.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>20s</td><td>≈ 600 KB</td><td>Lazy</td></tr><tr><td>AMB-006</td><td>amb_casino_lounge.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>30s</td><td>≈ 900 KB</td><td>Lazy</td></tr><tr><td>AMB-007</td><td>amb_lobby_ocean.ogg</td><td>OGG Stereo 44.1kHz 16bit</td><td>45s</td><td>≈ 1.35 MB</td><td>流式</td></tr></table>
+<p>
+<strong>SFX 總快取估算：≈ 6.5 MB</strong>（預載入項目）
+<strong>環境音效流式項目：≈ 4.0 MB</strong>（不計入快取預算）
+</p>
+<h3 id="4.3-語音規格-(vo)">4.3 語音規格 (VO)</h3>
+<p>
+語音系統（VO）列為 P1 功能，MVP 版本預留架構介面，Phase 2 正式實作。
+</p>
+<p>
+<strong>語音類型規劃（Phase 2）：</strong>
+</p>
+<table><tr><th>VO ID</th><th>觸發場景</th><th>腳本範例（繁中）</th><th>腳本範例（泰文）</th><th>格式</th></tr><tr><td>VO-001</td><td>新手引導開始</td><td>「歡迎來到深海競技場！」</td><td>「ยินดีต้อนรับสู่สนามแข่งขันใต้ทะเลลึก！」</td><td>OGG Mono 22kHz</td></tr><tr><td>VO-002</td><td>Jackpot 觸發</td><td>「Jackpot！頭獎爆出！」</td><td>「แจ็คพอต！รางวัลใหญ่！」</td><td>OGG Mono 22kHz</td></tr><tr><td>VO-003</td><td>MVP 宣告</td><td>「本局 MVP 誕生！」</td><td>「MVP ของเกมนี้！」</td><td>OGG Mono 22kHz</td></tr><tr><td>VO-004</td><td>Boss 進場</td><td>「警告！Boss 出現！」</td><td>「คำเตือน！บอสปรากฏตัว！」</td><td>OGG Mono 22kHz</td></tr><tr><td>VO-005</td><td>VIP 升級</td><td>「恭喜升級 VIP！」</td><td>「ยินดีด้วย VIP！」</td><td>OGG Mono 22kHz</td></tr></table>
+<p>
+<strong>語音本地化優先順序（依目標市場）：</strong>
+</p>
+<ol><li>繁體中文（台灣，Persona A 主要市場）</li><li>泰文（東南亞，Persona B 主要市場）</li><li>越南文（Persona C 市場擴展）</li><li>英文（通用備選）</li></ol>
+<hr>
+<h2 id="5.-技術實作">5. 技術實作</h2>
+<h3 id="5.1-cocos-creator-audiomanager">5.1 Cocos Creator AudioManager</h3>
+<p>
+AudioManager 為全局單例，掛載於常駐場景節點，負責管理所有 BGM、SFX、VO 的生命週期。
+</p>
+<pre><code class="language-typescript">// audio/AudioManager.ts
+<p>
+import { _decorator, Component, AudioSource, AudioClip, Node, game } from &#x27;cc&#x27;;
+const { ccclass, property } = _decorator;
+</p>
+<p>
+export interface AudioSettings {
+bgmEnabled: boolean;
+sfxEnabled: boolean;
+bgmVolume: number;   // 0.0 – 1.0
+sfxVolume: number;   // 0.0 – 1.0
+}
+</p>
+<p>
+@ccclass(&#x27;AudioManager&#x27;)
+export class AudioManager extends Component {
+private static _instance: AudioManager | null = null;
+private _bgmSource: AudioSource | null = null;
+private _sfxPool: Map&lt;string, AudioSource[]&gt; = new Map();
+private _ambientSources: AudioSource[] = [];
+private _settings: AudioSettings = {
+bgmEnabled: true,
+sfxEnabled: true,
+bgmVolume: 0.8,
+sfxVolume: 1.0,
+};
+private _isAudioUnlocked: boolean = false;
+private _pendingBGM: string | null = null;
+</p>
+<p>
+static getInstance(): AudioManager {
+return AudioManager._instance!;
+}
+</p>
+<p>
+protected onLoad(): void {
+if (AudioManager._instance) {
+this.node.destroy();
+return;
+}
+AudioManager._instance = this;
+game.addPersistRootNode(this.node);
+this.loadSettings();
+this._initAudioSources();
+}
+</p>
+<p>
+// ── BGM ─────────────────────────────────────────────────────────────
+</p>
+<p>
+playBGM(bgmId: string, fadeDuration: number = 500): void {
+if (!this._isAudioUnlocked) {
+// 未解鎖時暫存，解鎖後自動播放
+this._pendingBGM = bgmId;
+return;
+}
+if (!this._settings.bgmEnabled) return;
+this._crossfadeBGM(bgmId, fadeDuration);
+}
+</p>
+<p>
+stopBGM(fadeDuration: number = 500): void {
+if (!this._bgmSource) return;
+this._fadeVolume(this._bgmSource, 0, fadeDuration, () =&gt; {
+this._bgmSource!.stop();
+});
+}
+</p>
+<p>
+setBGMVolume(volume: number): void {
+this._settings.bgmVolume = Math.max(0, Math.min(1, volume));
+if (this._bgmSource) {
+this._bgmSource.volume = this._settings.bgmVolume;
+}
+this.saveSettings();
+}
+</p>
+<p>
+duckBGM(targetVolume: number, fadeDuration: number): void {
+if (this._bgmSource) {
+this._fadeVolume(this._bgmSource, targetVolume * this._settings.bgmVolume, fadeDuration);
+}
+}
+</p>
+<p>
+restoreBGMVolume(fadeDuration: number): void {
+if (this._bgmSource) {
+this._fadeVolume(this._bgmSource, this._settings.bgmVolume, fadeDuration);
+}
+}
+</p>
+<p>
+// ── SFX ─────────────────────────────────────────────────────────────
+</p>
+<p>
+playSFX(sfxId: string, pitch: number = 1.0): void {
+if (!this._settings.sfxEnabled) return;
+const source = this._acquireSFXSource(sfxId);
+if (!source) return; // 超出並發上限
+source.volume = this._settings.sfxVolume;
+// Cocos Creator 3.x 使用 AudioSource.pitch（需確認版本支援）
+(source as any).pitch = pitch;
+source.play();
+}
+</p>
+<p>
+stopSFX(sfxId: string): void {
+const sources = this._sfxPool.get(sfxId);
+sources?.forEach(s =&gt; s.playing &amp;&amp; s.stop());
+}
+</p>
+<p>
+setSFXVolume(volume: number): void {
+this._settings.sfxVolume = Math.max(0, Math.min(1, volume));
+this.saveSettings();
+}
+</p>
+<p>
+// ── Stingers（不可中斷優先級） ───────────────────────────────────────
+</p>
+<p>
+async playStinger(stingerId: string): Promise&lt;void&gt; {
+return new Promise&lt;void&gt;((resolve) =&gt; {
+const source = this._acquireSFXSource(stingerId);
+if (!source) { resolve(); return; }
+source.volume = this._settings.sfxVolume;
+source.play();
+// 等待 Stinger 播放完畢
+const checkInterval = this.schedule(() =&gt; {
+if (!source.playing) {
+this.unschedule(checkInterval as unknown as () =&gt; void);
+resolve();
+}
+}, 0.05);
+});
+}
+</p>
+<p>
+// ── 音效解鎖（Web AudioContext）──────────────────────────────────────
+</p>
+<p>
+unlockAudio(): void {
+if (this._isAudioUnlocked) return;
+this._isAudioUnlocked = true;
+// 播放靜音緩衝，確保 AudioContext 解鎖
+this._playUnlockBuffer();
+// 播放等待中的 BGM
+if (this._pendingBGM) {
+this.playBGM(this._pendingBGM, 1000);
+this._pendingBGM = null;
+}
+}
+</p>
+<p>
+// ── 設定 ─────────────────────────────────────────────────────────────
+</p>
+<p>
+toggleBGM(enabled: boolean): void {
+this._settings.bgmEnabled = enabled;
+if (!enabled) this.stopBGM(300);
+else if (this._pendingBGM) this.playBGM(this._pendingBGM);
+this.saveSettings();
+}
+</p>
+<p>
+toggleSFX(enabled: boolean): void {
+this._settings.sfxEnabled = enabled;
+this.saveSettings();
+}
+</p>
+<p>
+saveSettings(): void {
+localStorage.setItem(&#x27;fishgame_audio_settings&#x27;, JSON.stringify(this._settings));
+}
+</p>
+<p>
+loadSettings(): void {
+const stored = localStorage.getItem(&#x27;fishgame_audio_settings&#x27;);
+if (stored) {
+try {
+this._settings = { ...this._settings, ...JSON.parse(stored) };
+} catch {
+// 讀取失敗使用預設值
+}
+}
+}
+</p>
+<p>
+getSettings(): Readonly&lt;AudioSettings&gt; {
+return { ...this._settings };
+}
+</p>
+<p>
+// ── 私有方法 ──────────────────────────────────────────────────────────
+</p>
+<p>
+private _crossfadeBGM(bgmId: string, duration: number): void {
+// 具體實現：載入新 BGM AudioClip → 淡出舊 → 淡入新
+// 略（由資源管理系統非同步載入）
+}
+</p>
+<p>
+private _fadeVolume(
+source: AudioSource,
+targetVolume: number,
+duration: number,
+onComplete?: () =&gt; void,
+): void {
+// 使用 Tween 漸變音量
+// 略
+}
+</p>
+<p>
+private _acquireSFXSource(sfxId: string): AudioSource | null {
+// 從音效池取得可用 AudioSource，超出限制回傳 null
+return this._sfxPool.get(sfxId)?.find(s =&gt; !s.playing) ?? null;
+}
+</p>
+<p>
+private _initAudioSources(): void {
+// 初始化 BGM AudioSource 和 SFX Pool
+}
+</p>
+<p>
+private _playUnlockBuffer(): void {
+// 播放無聲緩衝解鎖 AudioContext
+}
+}
+</code></pre>
+</p>
+<h3 id="5.2-音效池管理">5.2 音效池管理</h3>
+<p>
+音效池（Audio Pool）預先建立固定數量的 <code>AudioSource</code> 元件，避免執行期動態建立節點造成 GC 壓力。
+</p>
+<h4 id="並發上限配置">並發上限配置</h4>
+<table><tr><th>音效類別</th><th>並發上限</th><th>超出策略</th></tr><tr><td>射擊音效（sfx_shoot_*）</td><td>8</td><td>最舊的丟棄（Oldest-First Drop）</td></tr><tr><td>命中音效（sfx_hit_*）</td><td>16</td><td>最舊的丟棄</td></tr><tr><td>魚死亡音效（sfx_fish_die_*）</td><td>8</td><td>最舊的丟棄</td></tr><tr><td>Stinger（sfx_boss_appear, sfx_jackpot_trigger）</td><td>1（每種）</td><td>不可中斷，新請求等待</td></tr><tr><td>技能音效（sfx_skill_*）</td><td>2（每種）</td><td>重置播放起點</td></tr><tr><td>UI 音效（sfx_btn_<em>, sfx_dialog_</em>）</td><td>4</td><td>最舊的丟棄</td></tr><tr><td>環境音效（amb_*）</td><td>2（通道）</td><td>替換舊通道</td></tr><tr><td><strong>合計通道數上限</strong></td><td><strong>32</strong></td><td>—</td></tr></table>
+<pre><code class="language-typescript">// audio/SFXPool.ts — 音效池實作要點
+<p>
+interface PoolEntry {
+sources: AudioSource[];
+maxConcurrent: number;
+dropPolicy: &#x27;oldest&#x27; | &#x27;reject&#x27; | &#x27;restart&#x27;;
+}
+</p>
+<p>
+const SFX_POOL_CONFIG: Record&lt;string, Pick&lt;PoolEntry, &#x27;maxConcurrent&#x27; | &#x27;dropPolicy&#x27;&gt;&gt; = {
+sfx_shoot_normal:    { maxConcurrent: 8,  dropPolicy: &#x27;oldest&#x27; },
+sfx_shoot_laser:     { maxConcurrent: 4,  dropPolicy: &#x27;oldest&#x27; },
+sfx_shoot_scatter:   { maxConcurrent: 4,  dropPolicy: &#x27;oldest&#x27; },
+sfx_hit_normal:      { maxConcurrent: 16, dropPolicy: &#x27;oldest&#x27; },
+sfx_hit_elite:       { maxConcurrent: 8,  dropPolicy: &#x27;oldest&#x27; },
+sfx_hit_boss:        { maxConcurrent: 4,  dropPolicy: &#x27;oldest&#x27; },
+sfx_boss_appear:     { maxConcurrent: 1,  dropPolicy: &#x27;reject&#x27; },
+sfx_jackpot_trigger: { maxConcurrent: 1,  dropPolicy: &#x27;reject&#x27; },
+sfx_boss_die:        { maxConcurrent: 1,  dropPolicy: &#x27;reject&#x27; },
+// ... 其餘音效
+};
+</code></pre>
+</p>
+<h4 id="隨機音高實作">隨機音高實作</h4>
+<pre><code class="language-typescript">// 命中音效隨機音高（0.9–1.1），維持聽覺新鮮感
+<p>
+function playHitSFX(sfxId: string): void {
+const pitch = 0.9 + Math.random() * 0.2; // [0.9, 1.1]
+AudioManager.getInstance().playSFX(sfxId, pitch);
+}
+</p>
+<p>
+// 金幣收集音高隨倍率線性升高
+function playCoinSFX(multiplier: number): void {
+const maxMultiplier = 1000;
+const minPitch = 1.0;
+const maxPitch = 2.0;
+const pitch = minPitch + (Math.min(multiplier, maxMultiplier) / maxMultiplier) * (maxPitch - minPitch);
+AudioManager.getInstance().playSFX(&#x27;sfx_coin_collect&#x27;, pitch);
+}
+</code></pre>
+</p>
+<h3 id="5.3-空間音效-(2d/3d)">5.3 空間音效 (2D/3D)</h3>
+<p>
+本遊戲為固定視角 2D 俯視競技場景，採用<strong>偽 2D 空間音效</strong>（Pseudo-2D Spatialization），不使用 3D AudioListener：
+</p>
+<table><tr><th>音效類型</th><th>空間化方式</th><th>實作</th></tr><tr><td>魚死亡音效</td><td>基於螢幕 X 座標左右聲道平移（Pan）</td><td><code>panning = (fishScreenX / screenWidth) * 2 - 1</code> → 左 -1 / 右 +1</td></tr><tr><td>砲彈命中音效</td><td>同上</td><td>依命中點 X 座標計算</td></tr><tr><td>Boss 音效</td><td>置中（Pan = 0），低頻強化</td><td>Boss 佔螢幕中央 44%（VDD §4.2）</td></tr><tr><td>Jackpot / MVP 音效</td><td>置中 Stereo（全景）</td><td>重大事件不空間化，確保全場感知</td></tr><tr><td>UI 音效</td><td>無空間化</td><td>永遠置中</td></tr><tr><td>BGM / 環境音效</td><td>Stereo 置中</td><td>流式播放</td></tr></table>
+<pre><code class="language-typescript">// 偽 2D Pan 計算
+<p>
+function playPositionalSFX(sfxId: string, worldX: number): void {
+const canvas = cc.view.getVisibleSize();
+const screenX = worldX + canvas.width / 2; // 假設世界座標 0 = 螢幕中央
+const pan = (screenX / canvas.width) * 2 - 1; // -1（左）→ +1（右）
+const clampedPan = Math.max(-0.8, Math.min(0.8, pan)); // 限制極端 pan
+AudioManager.getInstance().playSFXWithPan(sfxId, 1.0, clampedPan);
+}
+</code></pre>
+</p>
+<h3 id="5.4-音效壓縮與打包">5.4 音效壓縮與打包</h3>
+<h4 id="bundle-策略">Bundle 策略</h4>
+<table><tr><th>Bundle 名稱</th><th>內容</th><th>載入時機</th><th>記憶體預算</th></tr><tr><td><code>audio-core</code></td><td>sfx_shoot_<em>, sfx_hit_</em>, sfx_fish_die_*, sfx_coin_collect, UI SFX 全部</td><td>遊戲首次載入（Splash）</td><td>≤ 3 MB</td></tr><tr><td><code>audio-events</code></td><td>sfx_boss_<em>, sfx_jackpot_</em>, sfx_skill_*, sfx_vip_upgrade, sfx_mvp_award</td><td>進入遊戲房間前預載</td><td>≤ 5 MB</td></tr><tr><td><code>audio-ambient</code></td><td>amb_ocean_base, amb_lobby_ocean, amb_water_flow</td><td>流式播放，不完整預載</td><td>≤ 2 MB</td></tr><tr><td><code>audio-ambient-lazy</code></td><td>amb_boss_room, amb_casino_lounge, amb_fish_school</td><td>懶載入（進入對應場景時）</td><td>≤ 2 MB</td></tr><tr><td><code>audio-bgm</code></td><td>所有 bgm_*.ogg</td><td>流式播放</td><td>≤ 2 MB（任何時刻最多 1–2 首在記憶體）</td></tr></table>
+<p>
+<strong>音效壓縮設定（Cocos Creator Build 設定）：</strong>
+</p>
+<pre><code class="language-json">{
+<p>
+&quot;audio&quot;: {
+&quot;forceOGG&quot;: true,
+&quot;quality&quot;: 0.7,
+&quot;sampleRate&quot;: 44100,
+&quot;channels&quot;: &quot;mono-where-possible&quot;
+}
+}
+</code></pre>
+</p>
+<hr>
+<h2 id="6.-平台適配">6. 平台適配</h2>
+<h3 id="6.1-web-/-h5-audiocontext">6.1 Web / H5 AudioContext</h3>
+<p>
+<strong>核心問題：</strong> 瀏覽器（Chrome 66+、Safari 11+）要求 AudioContext 必須在用戶手勢（touch / click）之後才能啟動。
+</p>
+<p>
+<strong>解決方案架構：</strong>
+</p>
+<pre><code class="language-typescript">// 掛載在 Splash Scene 的 AudioUnlockHandler
+<p>
+@ccclass(&#x27;AudioUnlockHandler&#x27;)
+export class AudioUnlockHandler extends Component {
+protected onLoad(): void {
+// 監聽首次互動事件（touchstart 優先，確保 iOS 相容）
+document.addEventListener(&#x27;touchstart&#x27;, this._onFirstInteraction, { once: true, passive: true });
+document.addEventListener(&#x27;mousedown&#x27;, this._onFirstInteraction, { once: true });
+}
+</p>
+<p>
+private _onFirstInteraction = (): void =&gt; {
+AudioManager.getInstance().unlockAudio();
+// 清除監聽器
+document.removeEventListener(&#x27;touchstart&#x27;, this._onFirstInteraction);
+document.removeEventListener(&#x27;mousedown&#x27;, this._onFirstInteraction);
+};
+}
+</code></pre>
+</p>
+<p>
+<strong>視覺補償設計（AudioContext 解鎖前）：</strong>
+</p>
+<ul><li>Splash 畫面播放品牌 Logo 動畫（VDD §3.5）</li><li>顯示「點擊任意位置開始」提示（無文字，圖示引導）</li><li>玩家點擊後 AudioContext 解鎖，BGM 開始淡入</li></ul>
+<p>
+<strong>已知 Web 音頻限制：</strong>
+</p>
+<table><tr><th>限制</th><th>影響</th><th>對策</th></tr><tr><td>Safari AudioContext 並發 4 個通道上限（舊版）</td><td>射擊密集時音效丟失</td><td>音效池優先級：Stinger > SFX > 環境音</td></tr><tr><td>Chrome 自動播放政策</td><td>頁面載入後 BGM 靜音</td><td>unlockAudio() + pendingBGM 機制</td></tr><tr><td>iOS Safari 音頻 interruption（電話 / Siri）</td><td>BGM 突然中斷</td><td>監聽 <code>pagehide</code> / <code>visibilitychange</code> 事件暫停恢復</td></tr><tr><td>記憶體限制（低端 Android）</td><td>OOM 崩潰風險</td><td>audio-ambient-lazy 懶載入 + BGM 流式播放</td></tr></table>
+<h3 id="6.2-ios-靜音模式">6.2 iOS 靜音模式</h3>
+<p>
+iOS 靜音撥片啟用時，系統音頻全部靜音，但 <strong>遊戲視覺回饋不受影響</strong>。
+</p>
+<p>
+<strong>靜音模式回饋補償設計：</strong>
+</p>
+<table><tr><th>遊戲事件</th><th>靜音模式補償視覺</th></tr><tr><td>射擊命中</td><td>炮口橘焰光暈（VDD §4.1 Fire 特效，120ms）</td></tr><tr><td>魚死亡</td><td>爆炸粒子特效（VDD §4.2 死亡特效，300–500ms）</td></tr><tr><td>Jackpot 觸發</td><td>全屏金色爆炸特效（VDD §4.3，≥ 3000ms）</td></tr><tr><td>Boss 出現</td><td>全屏震動 2s（VDD §2.4，device.vibrate 200ms）</td></tr><tr><td>VIP 升級</td><td>光暈動畫啟動（VDD §3.4）</td></tr><tr><td>按鈕點擊</td><td>按鈕 scale(0.98) → scale(1.03) 彈跳回饋（PDD §4）</td></tr></table>
+<p>
+<strong>iOS 振動回饋（Haptic Feedback）：</strong>
+</p>
+<pre><code class="language-typescript">// HapticManager.ts — iOS 振動
+<p>
+export class HapticManager {
+static light(): void {
+if (&#x27;vibrate&#x27; in navigator) navigator.vibrate(10);
+}
+static medium(): void {
+if (&#x27;vibrate&#x27; in navigator) navigator.vibrate(50);
+}
+static heavy(): void {
+if (&#x27;vibrate&#x27; in navigator) navigator.vibrate([100, 50, 100]);
+}
+</p>
+<p>
+// 對應遊戲事件
+static onShoot(): void { HapticManager.light(); }
+static onFishDie(): void { HapticManager.medium(); }
+static onBossAppear(): void { HapticManager.heavy(); }
+static onJackpot(): void { HapticManager.heavy(); }
+}
+</code></pre>
+</p>
+<p>
+<strong>技術備注：</strong> iOS Safari 的振動 API 支援有限，<code>navigator.vibrate()</code> 在部分 iOS 版本無效。建議搭配 Native Bridge（Phase 2 iOS App 版本）實作 UIImpactFeedbackGenerator。
+</p>
+<h3 id="6.3-android-音頻焦點">6.3 Android 音頻焦點</h3>
+<p>
+Android 系統的音頻焦點（Audio Focus）機制會在其他 App 播放音頻時中斷遊戲 BGM。
+</p>
+<p>
+<strong>音頻焦點處理策略：</strong>
+</p>
+<pre><code class="language-typescript">// 監聽 App 生命週期管理音頻焦點
+<p>
+export class AppLifecycleAudioHandler {
+static init(): void {
+// Cocos Creator 3.x 生命週期事件
+game.on(Game.EVENT_HIDE, AppLifecycleAudioHandler._onBackground);
+game.on(Game.EVENT_SHOW, AppLifecycleAudioHandler._onForeground);
+}
+</p>
+<p>
+private static _bgmVolumeBeforePause = 0;
+</p>
+<p>
+private static _onBackground(): void {
+const am = AudioManager.getInstance();
+AppLifecycleAudioHandler._bgmVolumeBeforePause = am.getSettings().bgmVolume;
+am.setBGMVolume(0); // 靜音（不停止，避免重新播放的延遲）
+}
+</p>
+<p>
+private static _onForeground(): void {
+const am = AudioManager.getInstance();
+am.setBGMVolume(AppLifecycleAudioHandler._bgmVolumeBeforePause);
+}
+}
+</code></pre>
+</p>
+<p>
+<strong>Android 音頻延遲（Audio Latency）注意事項：</strong>
+</p>
+<ul><li>Android 低端裝置（< 4GB RAM）可能存在 30–80ms 額外音頻延遲</li><li>射擊音效（SFX-001）需確保在 < 80ms 總延遲內播放（包含 16ms 目標 + 64ms 裝置容差）</li><li>環境音效（AMB）可接受較高延遲，不影響遊戲體驗</li></ul>
+<hr>
+<h2 id="7.-玩家偏好設定">7. 玩家偏好設定</h2>
+<h3 id="7.1-音量控制">7.1 音量控制</h3>
+<p>
+音量控制介面設計於設定面板（PDD §5.10 SettingScene），採分離音量控制策略。
+</p>
+<table><tr><th>控制項</th><th>範圍</th><th>預設值</th><th>控制 UI</th></tr><tr><td>主音量（Master Volume）</td><td>0–100%</td><td>80%</td><td>滑動條 + 數值顯示</td></tr><tr><td>BGM 音量</td><td>0–100%</td><td>80%</td><td>滑動條（受主音量影響）</td></tr><tr><td>SFX 音量</td><td>0–100%</td><td>100%</td><td>滑動條（受主音量影響）</td></tr><tr><td>語音音量（VO，Phase 2）</td><td>0–100%</td><td>100%</td><td>滑動條</td></tr></table>
+<p>
+<strong>音量關係：</strong>
+</p>
+<pre><code>實際 BGM 音量 = masterVolume × bgmVolume
+<p>
+實際 SFX 音量 = masterVolume × sfxVolume
+</code></pre>
+</p>
+<p>
+<strong>即時預覽：</strong> 拖動音量滑動條時（PDD §5.10 設計，SFX-108 sfx_slider_drag），即時更新播放中音效音量，讓玩家立即感知變化，無需退出設定面板。
+</p>
+<p>
+<strong>持久化方案：</strong>
+</p>
+<pre><code class="language-typescript">// 儲存至 localStorage（Web）/ PlayerPrefs（Native，Phase 2）
+<p>
+const AUDIO_SETTINGS_KEY = &#x27;fishgame_audio_settings&#x27;;
+</p>
+<p>
+interface AudioSettingsStorage {
+masterVolume: number;
+bgmVolume: number;
+sfxVolume: number;
+bgmEnabled: boolean;
+sfxEnabled: boolean;
+version: number; // 版本號，用於遷移
+}
+</code></pre>
+</p>
+<h3 id="7.2-音效開關">7.2 音效開關</h3>
+<table><tr><th>開關項目</th><th>預設</th><th>說明</th></tr><tr><td>BGM 開關</td><td>ON</td><td>關閉時停止 BGM，開啟時從當前場景 BGM 淡入</td></tr><tr><td>SFX 開關</td><td>ON</td><td>關閉時靜音所有 SFX（含 UI 音效），環境音效不受影響</td></tr><tr><td>環境音效開關</td><td>ON</td><td>獨立控制環境音效，不影響遊戲核心 SFX</td></tr><tr><td>語音開關（VO，Phase 2）</td><td>ON</td><td>獨立控制播報員語音</td></tr></table>
+<p>
+<strong>注意：</strong> 環境音效（AMB-001 至 AMB-007）設計為增強沉浸感，不建議預設關閉。環境音效音量固定為 SFX 音量的 30%，即使 SFX 音量較高也不會遮蓋遊戲核心音效。
+</p>
+<p>
+<strong>操作回饋一致性：</strong>
+</p>
+<ul><li>切換 BGM 開關時播放 sfx_toggle_on / sfx_toggle_off（即使 SFX 已關閉，此操作確認音效仍播放一次，讓玩家知道切換生效）</li><li>音量拖動期間播放 sfx_slider_drag（拖動步進每 5% 觸發一次）</li></ul>
+<hr>
+<h2 id="8.-效能最佳化">8. 效能最佳化</h2>
+<h3 id="8.1-記憶體管理">8.1 記憶體管理</h3>
+<p>
+<strong>記憶體預算：</strong>
+</p>
+<table><tr><th>類別</th><th>預算上限</th><th>說明</th></tr><tr><td>BGM（流式，最多 1–2 首同時在記憶體）</td><td>< 2 MB</td><td>流式載入，播放完即釋放</td></tr><tr><td>SFX 快取（audio-core + audio-events）</td><td>< 8 MB</td><td>預載入，常駐記憶體</td></tr><tr><td>環境音效快取（非流式部分）</td><td>< 4 MB</td><td>amb_bubbles + amb_fish_school 等短片段</td></tr><tr><td>環境音效流式（amb_ocean_base 等）</td><td>< 1 MB（緩衝區）</td><td>流式讀取，不全部載入</td></tr><tr><td><strong>音頻總計</strong></td><td><strong>< 15 MB</strong></td><td>目標：< 15 MB</td></tr></table>
+<p>
+<strong>記憶體釋放策略：</strong>
+</p>
+<pre><code class="language-typescript">// 場景切換時釋放不再需要的音效資源
+<p>
+export class SceneAudioManager {
+private static readonly PERSISTENT_SFX = [
+&#x27;sfx_shoot_normal&#x27;, &#x27;sfx_hit_normal&#x27;, &#x27;sfx_coin_collect&#x27;,
+&#x27;sfx_btn_click_primary&#x27;, &#x27;sfx_dialog_open&#x27;, &#x27;sfx_dialog_close&#x27;,
+// 核心 SFX 常駐，其餘場景切換時釋放
+];
+</p>
+<p>
+static onSceneUnload(sceneName: string): void {
+// 釋放非常駐音效資源
+// BGM 流式資源隨場景釋放
+}
+</p>
+<p>
+static preloadForScene(sceneName: string): Promise&lt;void&gt; {
+const sfxList = SCENE_SFX_MAP[sceneName] ?? [];
+return AudioManager.getInstance().preloadSFXBatch(sfxList);
+}
+}
+</p>
+<p>
+const SCENE_SFX_MAP: Record&lt;string, string[]&gt; = {
+&#x27;GameScene&#x27;:      [&#x27;sfx_boss_appear&#x27;, &#x27;sfx_boss_die&#x27;, &#x27;sfx_jackpot_trigger&#x27;, &#x27;sfx_skill_freeze&#x27;, &#x27;sfx_skill_bomb&#x27;, &#x27;sfx_skill_lock&#x27;, &#x27;sfx_mvp_award&#x27;],
+&#x27;ShopScene&#x27;:      [&#x27;sfx_purchase_success&#x27;, &#x27;sfx_diamond_credited&#x27;, &#x27;sfx_payment_error&#x27;],
+&#x27;SettlementScene&#x27;: [&#x27;sfx_mvp_award&#x27;, &#x27;sfx_jackpot_rollup&#x27;],
+};
+</code></pre>
+</p>
+<h3 id="8.2-音頻預載策略">8.2 音頻預載策略</h3>
+<p>
+<strong>三級載入策略：</strong>
+</p>
+<pre><code>Level 1 — 首次啟動預載（Splash 畫面期間，無阻塞）
+<p>
+目標：audio-core bundle（≤ 3 MB）
+內容：sfx_shoot_<em>, sfx_hit_</em>, sfx_coin_collect, 全部 UI SFX
+完成時間：&lt; 3s（4G 網路）
+</p>
+<p>
+Level 2 — 場景進入前預載（砲台選擇畫面 CannonSelectScene 期間）
+目標：audio-events bundle（≤ 5 MB）
+內容：sfx_boss_<em>, sfx_jackpot_</em>, sfx_skill_*, sfx_mvp_award
+完成時間：&lt; 5s（4G 網路，配對等待 30s 內有充裕時間）
+</p>
+<p>
+Level 3 — 懶載入（進入對應場景時，背景載入）
+目標：audio-ambient-lazy bundle（≤ 2 MB）
+內容：amb_boss_room, amb_casino_lounge
+觸發時機：進入 Boss 房間 / 商城場景
+</p>
+<p>
+BGM — 流式播放（Streaming）
+播放前預取 2s 緩衝，無需全檔預載
+BGM 切換：提前 2s 預取下一個 BGM 頭部資料
+</code></pre>
+</p>
+<p>
+<strong>載入進度與用戶體驗：</strong>
+</p>
+<ul><li>Level 1 預載期間，Splash 動畫（bgm_splash 靜音播放）填充等待感</li><li>Level 2 預載期間，砲台選擇 UI（CannonSelectScene）可正常互動，預載在背景執行</li><li>若預載未完成玩家已進入遊戲，使用 on-demand 載入（增加 < 100ms 延遲可接受）</li></ul>
+<hr>
+<h2 id="9.-音效命名規範">9. 音效命名規範</h2>
+<h3 id="9.1-命名格式">9.1 命名格式</h3>
+<pre><code>{類別前綴}_{場景/功能}_{動作/描述}[_{變體索引}]
+<p>
+類別前綴：
+bgm_    — 背景音樂
+sfx_    — 遊戲 / UI 音效
+amb_    — 環境音效
+vo_     — 語音
+sting_  — Stinger（短暫插入 BGM 的音效，≤ 5s）
+</p>
+<p>
+場景/功能：
+shoot, hit, fish, boss, jackpot, skill, coin,
+btn, dialog, tab, slider, toggle, match,
+vip, purchase, rank, timer,
+ocean, bubbles, water, casino, lobby,
+main_menu, normal_room, elite_room, boss_battle, shop, settlement
+</p>
+<p>
+動作/描述：
+normal, elite, boss, laser, scatter, freeze, bomb, lock,
+appear, die, escape, trigger, rollup, collect, stream,
+open, close, click, hover, on, off, found, countdown,
+upgrade, success, error, alert, nearfull, up, credited
+</p>
+<p>
+變體索引（可選）：
+_01, _02 — 多個音高 / 音色變體（隨機選一播放）
+</code></pre>
+</p>
+<h3 id="9.2-命名範例">9.2 命名範例</h3>
+<pre><code>bgm_main_menu.ogg           — 主選單 BGM
+<p>
+bgm_boss_battle.ogg         — Boss 戰 BGM
+sfx_shoot_normal.ogg        — 普通砲射擊
+sfx_shoot_laser.ogg         — 雷射砲射擊
+sfx_hit_normal.ogg          — 命中普通魚
+sfx_fish_die_elite.ogg      — 精英魚死亡
+sfx_boss_appear.ogg         — Boss 出現 Stinger
+sfx_jackpot_trigger.ogg     — Jackpot 觸發 Stinger
+sfx_skill_freeze.ogg        — 冰凍技能
+sfx_btn_click_primary.ogg   — 主要按鈕點擊
+sfx_dialog_open.ogg         — 對話框開啟
+sfx_vip_upgrade.ogg         — VIP 升級
+amb_ocean_base.ogg          — 海洋基礎環境音
+amb_bubbles.ogg             — 氣泡環境音
+vo_jackpot_zh.ogg           — Jackpot 語音（繁中版）
+vo_jackpot_th.ogg           — Jackpot 語音（泰文版）
+</code></pre>
+</p>
+<h3 id="9.3-目錄結構">9.3 目錄結構</h3>
+<pre><code>assets/
+<p>
+└── audio/
+├── bgm/
+│   ├── bgm_main_menu.ogg
+│   ├── bgm_main_menu.m4a
+│   ├── bgm_normal_room.ogg
+│   ├── bgm_normal_room_overlay_mid.ogg
+│   ├── bgm_normal_room_overlay_high.ogg
+│   ├── bgm_elite_room.ogg
+│   ├── bgm_boss_battle.ogg
+│   ├── bgm_shop.ogg
+│   ├── bgm_settlement.ogg
+│   ├── bgm_mvp_fanfare.ogg
+│   ├── bgm_jackpot_climax.ogg
+│   └── bgm_jackpot_buildup_layer.ogg
+├── sfx/
+│   ├── gameplay/
+│   │   ├── sfx_shoot_normal.ogg
+│   │   ├── sfx_shoot_laser.ogg
+│   │   ├── sfx_shoot_scatter.ogg
+│   │   ├── sfx_hit_normal.ogg
+│   │   ├── sfx_hit_elite.ogg
+│   │   ├── sfx_hit_boss.ogg
+│   │   ├── sfx_fish_die_normal.ogg
+│   │   ├── sfx_fish_die_elite.ogg
+│   │   ├── sfx_boss_appear.ogg
+│   │   ├── sfx_boss_die.ogg
+│   │   ├── sfx_boss_escape.ogg
+│   │   ├── sfx_coin_collect.ogg
+│   │   ├── sfx_coin_stream.ogg
+│   │   ├── sfx_jackpot_trigger.ogg
+│   │   ├── sfx_jackpot_rollup.ogg
+│   │   ├── sfx_skill_freeze.ogg
+│   │   ├── sfx_skill_bomb.ogg
+│   │   ├── sfx_skill_lock.ogg
+│   │   ├── sfx_combo_low.ogg
+│   │   ├── sfx_combo_high.ogg
+│   │   ├── sfx_mvp_award.ogg
+│   │   └── sfx_steal_kill.ogg
+│   └── ui/
+│       ├── sfx_btn_click_primary.ogg
+│       ├── sfx_btn_click_secondary.ogg
+│       ├── sfx_btn_hover.ogg
+│       ├── sfx_btn_disabled.ogg
+│       ├── sfx_dialog_open.ogg
+│       ├── sfx_dialog_close.ogg
+│       ├── sfx_tab_switch.ogg
+│       ├── sfx_slider_drag.ogg
+│       ├── sfx_toggle_on.ogg
+│       ├── sfx_toggle_off.ogg
+│       ├── sfx_match_found.ogg
+│       ├── sfx_match_countdown.ogg
+│       ├── sfx_error.ogg
+│       ├── sfx_notification.ogg
+│       ├── sfx_vip_upgrade.ogg
+│       ├── sfx_purchase_success.ogg
+│       ├── sfx_diamond_credited.ogg
+│       ├── sfx_timer_alert.ogg
+│       ├── sfx_jackpot_nearfull.ogg
+│       ├── sfx_rank_up.ogg
+│       └── sfx_payment_error.ogg
+├── ambient/
+│   ├── amb_ocean_base.ogg
+│   ├── amb_bubbles.ogg
+│   ├── amb_water_flow.ogg
+│   ├── amb_fish_school.ogg
+│   ├── amb_boss_room.ogg
+│   ├── amb_casino_lounge.ogg
+│   └── amb_lobby_ocean.ogg
+└── vo/                         # Phase 2 語音
+├── zh/
+│   ├── vo_welcome_zh.ogg
+│   ├── vo_jackpot_zh.ogg
+│   └── vo_mvp_zh.ogg
+└── th/
+├── vo_welcome_th.ogg
+├── vo_jackpot_th.ogg
+└── vo_mvp_th.ogg
+</code></pre>
+</p>
+<hr>
+<h2 id="10.-驗收標準">10. 驗收標準</h2>
+<h3 id="10.1-功能驗收">10.1 功能驗收</h3>
+<table><tr><th>驗收項目</th><th>標準</th><th>測試方法</th><th>優先級</th></tr><tr><td>射擊音效延遲</td><td>< 16ms（目標），< 80ms（Android 低端裝置容差）</td><td>音頻延遲測試工具（Web Audio Worklet 計時）</td><td>P0</td></tr><tr><td>BGM 循環無縫</td><td>無明顯切點，耳聽 20 次連續循環無感知</td><td>耳聽測試 + DAW 波形對齊檢查</td><td>P0</td></tr><tr><td>Web AudioContext 解鎖</td><td>首次用戶互動後 < 100ms 開始播放 BGM</td><td>H5 瀏覽器測試（Chrome / Safari / Firefox）</td><td>P0</td></tr><tr><td>iOS 靜音模式</td><td>靜音時有完整視覺回饋（爆炸特效 + 振動）</td><td>iPhone 實機靜音模式測試</td><td>P0</td></tr><tr><td>並發音效無爆音</td><td>32 通道同時觸發無削波（Clipping）或爆音</td><td>壓力測試腳本（自動化射擊 100 次/秒）</td><td>P0</td></tr><tr><td>記憶體占用</td><td>< 15 MB（SFX 快取），< 20 MB（含流式緩衝）</td><td>Chrome DevTools Memory Profiler / Android Profiler</td><td>P0</td></tr><tr><td>BGM 自適應切換</td><td>魚群密度變化後 3s 內 BGM 強度對應調整</td><td>自動化功能測試（模擬魚群密度 5→20+）</td><td>P0</td></tr><tr><td>Boss 音效不可中斷</td><td>sfx_boss_appear / sfx_jackpot_trigger 播放中不被其他 SFX 中斷</td><td>測試腳本：Stinger 播放中觸發高頻射擊</td><td>P0</td></tr><tr><td>設定持久化</td><td>重啟遊戲後音量設定正確恢復</td><td>localStorage 讀寫測試</td><td>P0</td></tr><tr><td>音效命名規範合規</td><td>所有音效檔案符合 §9.1 命名格式，無錯字</td><td>命名規範自動化掃描腳本</td><td>P1</td></tr><tr><td>音高隨機化</td><td>sfx_hit_normal 連續播放 20 次，音高分布在 0.9–1.1 範圍</td><td>頻譜分析工具</td><td>P1</td></tr><tr><td>金幣倍率音高</td><td>1x 倍率 pitch=1.0，1000x 倍率 pitch=2.0，線性關係</td><td>自動化單元測試</td><td>P1</td></tr><tr><td>BGM Ducking</td><td>Stinger 播放期間 BGM 音量降低至 20%，結束後 800ms 恢復</td><td>音量計量測試</td><td>P1</td></tr><tr><td>Android 背景靜音</td><td>App 切至背景時 BGM 靜音，回到前台後恢復</td><td>Android 實機切換後台測試</td><td>P1</td></tr><tr><td>語音本地化（Phase 2）</td><td>繁中 / 泰文 VO 根據系統語言自動切換</td><td>語言切換功能測試</td><td>P2</td></tr></table>
+<h3 id="10.2-音頻品質驗收">10.2 音頻品質驗收</h3>
+<table><tr><th>驗收項目</th><th>標準</th><th>工具</th></tr><tr><td>輸出電平（Loudness）</td><td>BGM：-14 LUFS（Streaming 標準）；SFX 峰值：< -6 dBFS</td><td>Loudness Meter（iZotope Insight / free tools）</td></tr><tr><td>削波（Clipping）</td><td>零削波（所有輸出峰值 < -0.1 dBFS）</td><td>True Peak Meter</td></tr><tr><td>底噪（Noise Floor）</td><td>< -80 dBFS（無音效時）</td><td>靜音片段量測</td></tr><tr><td>BGM 迴圈點無縫</td><td>迴圈前後 0 crossing 對齊，波形連續</td><td>DAW 波形觀測</td></tr><tr><td>SFX 音色一致性</td><td>同類音效（不同 Variant）音色感知一致，無明顯品質落差</td><td>耳聽 A/B 測試</td></tr><tr><td>壓縮比特率</td><td>OGG 128kbps 輸出感知品質可接受（A/B 對比原始 WAV 無明顯失真）</td><td>耳聽 A/B 測試</td></tr></table>
+<h3 id="10.3-效能驗收">10.3 效能驗收</h3>
+<table><tr><th>驗收項目</th><th>標準</th><th>測試環境</th></tr><tr><td>首次載入時間（audio-core）</td><td>< 3s（4G 網路，< 3 MB bundle）</td><td>Chrome DevTools Network Throttle</td></tr><tr><td>場景預載時間（audio-events）</td><td>< 5s（4G 網路，< 5 MB bundle）</td><td>配對等待 30s 內完成</td></tr><tr><td>SFX 播放延遲（觸發到出聲）</td><td>< 16ms（Chrome Desktop），< 80ms（低端 Android）</td><td>Web Audio API timing measurement</td></tr><tr><td>記憶體（SFX 快取）</td><td>< 8 MB</td><td>Chrome Memory Panel</td></tr><tr><td>記憶體（總音頻）</td><td>< 15 MB</td><td>Chrome / Android Profiler</td></tr><tr><td>BGM 流式緩衝延遲</td><td>首次播放 < 500ms，後續切換 < 1000ms</td><td>計時測試</td></tr><tr><td>CPU 占用（音頻相關）</td><td>< 5% CPU（60fps 遊戲進行中，低端 Android）</td><td>Android Profiler CPU</td></tr></table>
+<h3 id="10.4-跨平台驗收矩陣">10.4 跨平台驗收矩陣</h3>
+<table><tr><th>測試項目</th><th>Chrome（Desktop）</th><th>Chrome（Android）</th><th>Safari（iOS）</th><th>測試優先級</th></tr><tr><td>AudioContext 解鎖</td><td>✅</td><td>✅</td><td>✅（需 touchstart）</td><td>P0</td></tr><tr><td>BGM 播放 + 循環</td><td>✅</td><td>✅</td><td>✅</td><td>P0</td></tr><tr><td>SFX 並發 16+</td><td>✅</td><td>需測試</td><td>需測試</td><td>P0</td></tr><tr><td>iOS 靜音模式補償</td><td>N/A</td><td>N/A</td><td>✅ 視覺振動</td><td>P0</td></tr><tr><td>背景靜音 / 恢復</td><td>✅</td><td>✅</td><td>✅</td><td>P0</td></tr><tr><td>OGG 格式支援</td><td>✅</td><td>✅</td><td>✅（iOS 11+）</td><td>P0</td></tr><tr><td>AAC 格式備用</td><td>✅</td><td>✅</td><td>✅</td><td>P1</td></tr><tr><td>音量設定持久化</td><td>✅</td><td>✅</td><td>✅（Private Mode 除外）</td><td>P1</td></tr></table>
+<hr>
+<p>
+<em>本文件由 Audio Design（AI Generated）依據 PRD-FISHGAME-20260424、EDD-FISHGAME-20260424、PDD-FISHGAME-20260425、VDD-FISHGAME-20260425 生成。</em>
+</p></main>
+</div>
+<script src="assets/app.js"></script>
+</body>
+</html>

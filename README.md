@@ -1,119 +1,176 @@
-# fishing-arcade-game
+# 捕魚遊戲 (fishing-arcade-game)
 
-多人競技捕魚街機遊戲平台後端——支援 4-6 人即時競技房間、RTP 引擎、Jackpot 獎池、IAP 商城、VIP 訂閱，以及年齡驗證合規機制。
+**多人即時捕魚射擊遊戲**
 
-> **文件狀態**：設計完整，程式碼實作尚未開始。  
-> **文件中心**：[docs/pages/index.html](docs/pages/index.html)
-
----
-
-## 專案概述
-
-| 欄位 | 說明 |
-|------|------|
-| **專案名稱** | fishing-arcade-game（捕魚街機遊戲平台）|
-| **類型** | 多人即時競技遊戲後端 |
-| **目標市場** | 台灣、東南亞 |
-| **技術棧** | Node.js 20 LTS + TypeScript 5.4 + Colyseus 0.15 + Express 4.x + Prisma 5.x + MySQL 8.0 + Redis 7.x |
-| **客戶端** | Cocos Creator 3.x（獨立部署，不在本 repo）|
+Build Status: ![placeholder] | License: MIT | Version: v0.1.0-alpha
 
 ---
 
-## 服務架構
+## Overview
+
+fishing-arcade-game is a real-time multiplayer competitive fishing arcade platform targeting casual pay-to-play players in Taiwan and Southeast Asia (ages 18–45). Unlike existing fishing games where "multiplayer" is purely cosmetic, this platform implements genuine resource competition: 4–6 players fight over the same fish in shared rooms, armed with differentiated weapons and skill combinations. The platform pairs this competitive core with a precision RTP engine (85–95%), a shared Jackpot pool, a dual-currency economy, and a VIP subscription system designed to achieve DAU 10,000, a 5% pay rate, and USD 10,000/month in revenue.
+
+---
+
+## Key Features
+
+- **Real-Time Multiplayer Competition** — 4–6 players per room with genuine shared-resource competition; WebSocket state sync at P99 ≤ 100ms via Colyseus
+- **Fish Type System** — Normal, Elite, and Boss fish with distinct HP, multiplier, and escape behaviors; Boss escape triggers a consolation reward
+- **Weapons System** — Four cannon types (Basic / Laser / Scatter / Lock-on), each with distinct cost ranges (10–100 gold coins) and strategic trade-offs
+- **Skills System** — Freeze, Full-Screen Bomb, and Auto-Lock skills with server-enforced cooldown timers; skill use requires server-side ownership validation
+- **Dual-Currency Economy** — Gold coins (earned in-game) and Diamonds (purchased via IAP); all Diamond transactions are idempotent with UUID order IDs
+- **RTP Engine + Jackpot Pool** — Server-authoritative RTP control (85–95%), loss-streak compensation, and a Redis Lua Script atomic Jackpot trigger (probability ≤ 0.1%) with platform-wide broadcast
+- **VIP Subscription** — Monthly Diamond-deducted subscription; VIP players unlock exclusive weapons, skills, and in-room visual status effects
+- **Age Verification Compliance** — Three-state machine (UNVERIFIED → DEMO_ONLY → VERIFIED); under-18 accounts are locked from all paid features
+- **IAP Commerce** — Apple App Store and Google Play server-side receipt verification; Circuit Breaker fallback queues failed verifications for async retry
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Game Client** | Cocos Creator 3.8 (TypeScript / Lua scripts) — separate deployment |
+| **API Gateway** | Node.js 20 LTS + Express 4.x — JWT auth, rate limiting, routing |
+| **Real-Time Server** | Node.js 20 LTS + Colyseus 0.15 — WebSocket room state sync |
+| **Account Service** | Node.js 20 LTS + TypeScript 5.4 — auth, JWT RS256, VIP, age verification |
+| **Shop Service** | Node.js 20 LTS + TypeScript 5.4 — IAP, diamond top-up, idempotent orders |
+| **ORM** | Prisma 5.x |
+| **Primary Database** | PostgreSQL 16 (production target) / MySQL 8.0 (reference) — accounts, orders, history |
+| **Cache & Real-Time State** | Redis 7.x (Cluster Mode) — game state, Jackpot pool, session, leaderboard |
+| **Message Bus** | NATS — cross-service Domain Events (e.g., VipActivated, JackpotTriggered) |
+| **Infrastructure** | Docker + Kubernetes (k3d local / AWS or GCP Southeast Asia region) |
+| **Analytics** | Mixpanel / Amplitude — player behavior events, KPI dashboard |
+
+### Architecture Pattern
+
+Modular Monolith (not microservices). Three independently deployable services share a single codebase to minimize operational overhead for a 3–5 person engineering team. Services communicate in-process; cross-module events use Redis Pub/Sub.
 
 ```
 Cocos Creator Client
     │
-    ├── WSS :2567 ──► Game Service   (Colyseus Room, RTP, Jackpot)
+    ├── WSS :2567 ──► Game Service    (Colyseus Room, RTP Engine, Jackpot)
     ├── REST :3001 ─► Account Service (Auth, JWT, VIP, Age Verification)
-    └── REST :3002 ─► Shop Service    (IAP, Diamond Topup, Orders)
+    └── REST :3002 ─► Shop Service    (IAP, Diamond Top-up, Orders)
+                          │
+              ┌──────────┴──────────┐
+         MySQL/PostgreSQL          Redis 7
+         (persistent data)    (real-time state)
 ```
 
-**基礎設施**：MySQL 8.0 + Redis 7.x (Cluster Mode) + Docker / Kubernetes
+---
+
+## Business Targets
+
+| Metric | Target |
+|---|---|
+| Daily Active Users (DAU) | 10,000 |
+| Pay Rate | 5% |
+| Monthly Revenue | USD 10,000 |
+| ARPU (paying users) | USD 20/month |
+| D1 Retention | ≥ 35% |
+| D7 Retention | ≥ 25% |
+| Target Market | Taiwan, Southeast Asia (18–45 years old) |
+| Investment Requirement | USD 200,000 |
+| Time to Launch | 6 months (3 phases) |
 
 ---
 
-## 核心功能
+## Service Level Objectives
 
-| 功能 | 描述 |
-|------|------|
-| **多人競技房間** | 4-6 人快速匹配，WebSocket 即時同步，P99 ≤ 100ms |
-| **RTP 引擎** | 動態回報率控制（base_rtp=95%±2%），連敗補償機制 |
-| **Jackpot 獎池** | Redis Lua Script 原子鎖，觸發概率 ≤ 0.1%，全服廣播 |
-| **武器 & 技能系統** | 4 種武器（10-100 金幣），冰凍/全屏炸彈技能，冷卻機制 |
-| **IAP 商城** | Apple AppStore / Google Play 收據驗證，冪等訂單 |
-| **VIP 訂閱** | 月費訂閱（鑽石扣款），VIP 專屬武器 & 技能解鎖 |
-| **年齡驗證** | 三態狀態機（UNVERIFIED → DEMO_ONLY → VERIFIED），未成年付費鎖定 |
+| SLO | Target | Window |
+|---|---|---|
+| API Availability | ≥ 99.5% | 30-day rolling |
+| WebSocket P99 Latency | ≤ 100ms | Real-time |
+| REST API P99 Latency | ≤ 500ms | Real-time |
+| Error Rate | ≤ 0.1% | 5-minute |
 
----
-
-## SLO 目標
-
-| SLO | 目標 | 窗口 |
-|-----|------|------|
-| API 可用性 | ≥ 99.5% | 30 天滾動 |
-| WebSocket P99 延遲 | ≤ 100ms | 即時 |
-| REST API P99 延遲 | ≤ 500ms | 即時 |
-| 錯誤率 | ≤ 0.1% | 5 分鐘 |
-
-RTO ≤ 30 分鐘 ｜ RPO ≤ 5 分鐘
+RTO ≤ 30 minutes | RPO ≤ 5 minutes
 
 ---
 
-## 快速開始
+## Document Links
 
-> 尚無程式碼實作。詳細本地部署說明請參閱 [docs/LOCAL_DEPLOY.md](docs/LOCAL_DEPLOY.md)。
+| Document | Description | Path |
+|---|---|---|
+| BRD | Business Requirements — market analysis, ROI, business model | [docs/BRD.md](docs/BRD.md) |
+| PRD | Product Requirements — 8 User Stories, 39 Acceptance Criteria | [docs/PRD.md](docs/PRD.md) |
+| EDD | Engineering Design — architecture, data model, API contracts, SLO | [docs/EDD.md](docs/EDD.md) |
+| PDD | Product Design Document — UX flows, Cocos Creator scene design | [docs/PDD.md](docs/PDD.md) |
+| ARCH | Architecture — C4 diagrams, Bounded Context map | [docs/ARCH.md](docs/ARCH.md) |
+| API | REST API reference — 20 endpoints | [docs/API.md](docs/API.md) |
+| SCHEMA | Database schema — 11 tables | [docs/SCHEMA.md](docs/SCHEMA.md) |
+| test-plan | Test plan — unit, integration, E2E, RTP simulation | [docs/test-plan.md](docs/test-plan.md) |
+| RTM | Requirements Traceability Matrix (~80 test cases) | [docs/RTM.md](docs/RTM.md) |
+| RUNBOOK | Operations runbook — SLO alerts, incident response | [docs/RUNBOOK.md](docs/RUNBOOK.md) |
+| LOCAL_DEPLOY | Local development environment setup | [docs/LOCAL_DEPLOY.md](docs/LOCAL_DEPLOY.md) |
+| ALIGN_REPORT | Document alignment scan report (43 findings) | [docs/ALIGN_REPORT.md](docs/ALIGN_REPORT.md) |
 
-**環境需求**：Node.js 20 LTS、Docker Desktop、kubectl、k3d
+**BDD Feature Files** (8 files, 78 scenarios): `features/auth/`, `features/game/`, `features/shop/`
+
+---
+
+## Quick Start
+
+> Implementation has not yet begun. The commands below reflect the intended startup flow once `src/` is scaffolded. See [docs/LOCAL_DEPLOY.md](docs/LOCAL_DEPLOY.md) for the full local deployment guide.
+
+**Prerequisites:** Node.js 20 LTS, Docker Desktop, kubectl, k3d
 
 ```bash
-# 未來實作完成後的啟動流程（依 docs/LOCAL_DEPLOY.md §3）
+# Clone the repository
+git clone https://github.com/tbd-org/fishing-arcade-game.git
+cd fishing-arcade-game
+
+# Install dependencies
 npm install
+
+# Start local infrastructure (PostgreSQL + Redis via Docker)
+docker compose up -d
+
+# Run database migrations
 npx prisma migrate deploy
-npm run dev   # 同時啟動 account / game / shop 三個服務
+
+# Start all services in development mode
+npm run dev
+# Account Service → http://localhost:3001
+# Shop Service    → http://localhost:3002
+# Game Service    → ws://localhost:2567
+
+# Run tests
+npm test
+
+# Run BDD feature tests
+npx cucumber-js features/
 ```
 
 ---
 
-## 文件總覽
+## Compliance
 
-| 文件 | 說明 | 路徑 |
-|------|------|------|
-| BRD | 商業需求文件 | [docs/BRD.md](docs/BRD.md) |
-| PRD | 產品需求文件（8 個 User Story，39 個 AC）| [docs/PRD.md](docs/PRD.md) |
-| EDD | 工程設計文件（技術棧、架構、SLO）| [docs/EDD.md](docs/EDD.md) |
-| ARCH | 架構設計（C4 圖、Bounded Context）| [docs/ARCH.md](docs/ARCH.md) |
-| API | API 文件（20 個 REST Endpoint）| [docs/API.md](docs/API.md) |
-| SCHEMA | 資料庫 Schema（11 張資料表）| [docs/SCHEMA.md](docs/SCHEMA.md) |
-| test-plan | 測試計畫 | [docs/test-plan.md](docs/test-plan.md) |
-| RTM | 需求追溯矩陣（~80 個 TC）| [docs/RTM.md](docs/RTM.md) |
-| RUNBOOK | 維運手冊（SLO 告警、事故響應）| [docs/RUNBOOK.md](docs/RUNBOOK.md) |
-| LOCAL_DEPLOY | 本地開發環境部署指南 | [docs/LOCAL_DEPLOY.md](docs/LOCAL_DEPLOY.md) |
-| ALIGN_REPORT | 文件對齊掃描報告（43 個 findings）| [docs/ALIGN_REPORT.md](docs/ALIGN_REPORT.md) |
-
-**BDD Feature Files**（8 個，78 個 Scenarios）：`features/auth/`、`features/game/`、`features/shop/`
+- **Taiwan PDPA**: Player email fields encrypted with AES-256-GCM; `data_access_logs` table for audit trail
+- **Age Verification**: Three-state machine enforced server-side; under-18 accounts blocked from all paid features
+- **IAP Receipt Verification**: Server-side validation against Apple and Google APIs; no client-trusted purchase flows
+- **RTP Compliance**: `base_rtp` configurable within [0.80, 0.99]; modification restricted to Admin role with audit logging
+- **Anti-Cheat**: All game logic (hit detection, RTP, Jackpot trigger) is server-authoritative; client renders results only
 
 ---
 
-## 已知文件問題
+## Known Issues
 
-依 [docs/ALIGN_REPORT.md](docs/ALIGN_REPORT.md)，主要待修復項目：
+Per [docs/ALIGN_REPORT.md](docs/ALIGN_REPORT.md), the following inconsistencies are pending resolution:
 
-1. **CRITICAL**：API.md 登入鎖定閾值（10 次）與 PRD/EDD（5 次）不一致 → 需更新 API.md
-2. **CRITICAL**：API.md JWT Token 有效期（1h）與 PRD/EDD（15min）不一致 → 需更新 API.md
-3. **HIGH**：BDD feature 錯誤碼與 EDD §5.3 定義不一致（3 處）→ 需 ADR 確認後修改
-4. **HIGH**：age_status 設計：EDD 定義 ENUM 三態，SCHEMA 實作為 TINYINT(1) → 需 Schema Migration
-5. **尚未實作**：`src/` 和 `tests/` 目錄不存在，程式碼實作尚未開始
-
----
-
-## 合規說明
-
-- 台灣個資法（PDPA）：玩家 email 欄位 AES-256-GCM 加密，data_access_logs 稽核
-- 年齡驗證：三態狀態機，未成年（< 18 歲）完全限制付費功能
-- IAP 收據驗證：Apple/Google 雙平台伺服器端驗證，防偽造充值
-- RTP 合規：base_rtp 可調範圍 [0.80, 0.99]，僅 Admin 角色可調整
+1. **CRITICAL** — API.md login lock threshold (10 attempts) conflicts with PRD/EDD (5 attempts); API.md needs update
+2. **CRITICAL** — API.md JWT access token TTL (1h) conflicts with PRD/EDD (15min); API.md needs update
+3. **HIGH** — BDD feature error codes conflict with EDD §5.3 definitions at 3 locations; pending ADR confirmation
+4. **HIGH** — `age_status` design: EDD defines a 3-state ENUM; SCHEMA implements TINYINT(1); schema migration required
+5. **INFO** — `src/` and `tests/` directories do not yet exist; code implementation has not started
 
 ---
 
-*由 [gendoc](https://github.com/tobala/gendoc) 文件生成框架生成*
+## License
+
+MIT
+
+---
+
+*Documentation generated by the [gendoc](https://github.com/tobala/gendoc) documentation framework.*

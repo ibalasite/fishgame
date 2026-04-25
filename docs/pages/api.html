@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API 設計 — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -1041,55 +1049,47 @@ Token 有效期：<code>access_token</code> 1 小時；<code>refresh_token</code
 <h2 id="4.-api-呼叫序列圖">4. API 呼叫序列圖</h2>
 <blockquote>完整 Sequence Diagram 檔案（含 Happy Path + Error Paths）位於 <code>docs/diagrams/</code>：
 <ul><li><a href="diagrams/sequence-login.md">sequence-login.md</a> — POST /auth/login</li><li><a href="diagrams/sequence-register.md">sequence-register.md</a> — POST /auth/register</li><li><a href="diagrams/sequence-iap-purchase.md">sequence-iap-purchase.md</a> — POST /shop/purchases</li><li><a href="diagrams/sequence-vip-subscribe.md">sequence-vip-subscribe.md</a> — POST /vip/subscriptions</blockquote></li></ul><h3 id="4.1-iap-充值流程（write-path）">4.1 IAP 充值流程（Write Path）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">sequenceDiagram
-<p>
-participant Client as Cocos Client
-participant Ingress as Nginx Ingress
-participant Shop as Shop Service
-participant IAP as Apple/Google IAP
-participant MySQL as MySQL
-participant EventBus as Redis Pub/Sub
-participant Account as Account Service
-</p>
-<p>
-Client-&gt;&gt;Ingress: POST /v1/shop/purchases (Bearer JWT + receipt)
-Ingress-&gt;&gt;Shop: 路由 + JWT 驗證
-Shop-&gt;&gt;Shop: Zod 驗證 + idempotency_key 檢查
-Shop-&gt;&gt;IAP: HTTPS verifyReceipt(receipt)
-IAP--&gt;&gt;Shop: { status: 0, product_id, transaction_id }
-Shop-&gt;&gt;MySQL: INSERT orders (status=pending)
-Shop-&gt;&gt;MySQL: UPDATE orders SET status=completed
-Shop-&gt;&gt;EventBus: PUBLISH events:commerce IAPPurchaseCompleted
-EventBus--&gt;&gt;Account: 異步消費 → UPDATE users.diamond_balance += 330
-Shop--&gt;&gt;Client: 201 { order_id, diamonds_credited: 330 }</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">sequenceDiagram
+    participant Client as Cocos Client
+    participant Ingress as Nginx Ingress
+    participant Shop as Shop Service
+    participant IAP as Apple/Google IAP
+    participant MySQL as MySQL
+    participant EventBus as Redis Pub/Sub
+    participant Account as Account Service
+
+    Client->>Ingress: POST /v1/shop/purchases (Bearer JWT + receipt)
+    Ingress->>Shop: 路由 + JWT 驗證
+    Shop->>Shop: Zod 驗證 + idempotency_key 檢查
+    Shop->>IAP: HTTPS verifyReceipt(receipt)
+    IAP-->>Shop: { status: 0, product_id, transaction_id }
+    Shop->>MySQL: INSERT orders (status=pending)
+    Shop->>MySQL: UPDATE orders SET status=completed
+    Shop->>EventBus: PUBLISH events:commerce IAPPurchaseCompleted
+    EventBus-->>Account: 異步消費 → UPDATE users.diamond_balance += 330
+    Shop-->>Client: 201 { order_id, diamonds_credited: 330 }</pre></div>
 <h3 id="4.2-玩家登入-+-遊戲加入流程（read-+-websocket）">4.2 玩家登入 + 遊戲加入流程（Read + WebSocket）</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">sequenceDiagram
-<p>
-participant Client as Cocos Client
-participant Ingress as Nginx Ingress
-participant Account as Account Service
-participant Redis as Redis
-participant Game as Game Service (Colyseus)
-</p>
-<p>
-Client-&gt;&gt;Ingress: POST /v1/auth/login (email + password)
-Ingress-&gt;&gt;Account: 路由
-Account-&gt;&gt;Account: bcrypt.compare(password, hash)
-Account-&gt;&gt;Redis: SET session:{jti} (TTL 1h)
-Account--&gt;&gt;Client: 200 { access_token, refresh_token }
-</p>
-<p>
-Client-&gt;&gt;Ingress: GET /v1/game/rooms
-Ingress-&gt;&gt;Game: 路由 + JWT 驗證
-Game--&gt;&gt;Client: 200 [room 列表]
-</p>
-<p>
-Client-&gt;&gt;Ingress: WSS Upgrade (Authorization: Bearer token)
-Ingress-&gt;&gt;Game: Proxy WSS → Colyseus :2567
-Game-&gt;&gt;Game: onAuth() 驗證 JWT
-Game--&gt;&gt;Client: WebSocket Connected (room state sync)</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">sequenceDiagram
+    participant Client as Cocos Client
+    participant Ingress as Nginx Ingress
+    participant Account as Account Service
+    participant Redis as Redis
+    participant Game as Game Service (Colyseus)
+
+    Client->>Ingress: POST /v1/auth/login (email + password)
+    Ingress->>Account: 路由
+    Account->>Account: bcrypt.compare(password, hash)
+    Account->>Redis: SET session:{jti} (TTL 1h)
+    Account-->>Client: 200 { access_token, refresh_token }
+
+    Client->>Ingress: GET /v1/game/rooms
+    Ingress->>Game: 路由 + JWT 驗證
+    Game-->>Client: 200 [room 列表]
+
+    Client->>Ingress: WSS Upgrade (Authorization: Bearer token)
+    Ingress->>Game: Proxy WSS → Colyseus :2567
+    Game->>Game: onAuth() 驗證 JWT
+    Game-->>Client: WebSocket Connected (room state sync)</pre></div>
 <hr>
 <h2 id="5.-webhook-規範">5. Webhook 規範</h2>
 <p>
@@ -2204,7 +2204,6 @@ Error Budget 耗盡 → 啟動 Incident Review → 凍結非 Hotfix 部署
 <h2 id="18.-approval-sign-off">18. Approval Sign-off</h2>
 <table><tr><th>角色</th><th>姓名</th><th>審核日期</th><th>狀態</th></tr><tr><td>Backend Lead</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Security Engineer</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Product Manager</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr></table></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

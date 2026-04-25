@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>測試計劃 — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -60,21 +68,17 @@
 <h3 id="§1.2-測試原則">§1.2 測試原則</h3>
 <table><tr><th>原則</th><th>說明</th><th>實踐方式</th></tr><tr><td><strong>Risk-Based Testing</strong></td><td>優先測試高風險、高業務價值的功能</td><td>參照 §9 Risk Matrix，P0 功能（RTP 引擎 / IAP 支付 / 帳號認證）加強測試深度</td></tr><tr><td><strong>Shift-Left</strong></td><td>將測試活動盡量前移到開發早期</td><td>Pre-commit hook 執行 Unit Tests；PR 觸發 Integration Tests；Feature Flag 隔離未完成功能</td></tr><tr><td><strong>Fail-Fast</strong></td><td>最快速找出最嚴重的問題</td><td>CI pipeline 先跑 Unit → Integration → E2E，任一層失敗即中止後續</td></tr><tr><td><strong>Test Isolation</strong></td><td>每個測試獨立執行，不依賴外部狀態</td><td>每個 Integration Test 自帶 testcontainers MySQL 8.0 + Redis 7 實例；E2E AfterEach 清理測試資料</td></tr><tr><td><strong>Automation First</strong></td><td>可自動化的測試必須自動化</td><td>目標：自動化率 ≥ 90%（E2E smoke 100%，regression 80%）；UAT 為唯一手動環節</td></tr><tr><td><strong>Living Documentation</strong></td><td>測試即文件，BDD scenarios 直接反映業務需求</td><td>Gherkin feature files 與 PRD AC 雙向追蹤（§15 RTM）</td></tr><tr><td><strong>WebSocket-First</strong></td><td>核心遊戲路徑為 WebSocket，測試策略需覆蓋 WS 事件流</td><td>Integration Test 覆蓋 Colyseus Room 狀態同步；k6 WebSocket 場景獨立定義</td></tr></table>
 <h3 id="§1.3-test-pyramid">§1.3 Test Pyramid</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-E2E[&quot;🔺 E2E / BDD Tests&lt;br/&gt;約 10%&lt;br/&gt;Playwright（含 WS 驗證）&lt;br/&gt;Critical user flows：Happy Path&lt;br/&gt;執行時間：5-15 min&quot;]
-INT[&quot;🔸 Integration Tests&lt;br/&gt;約 20%&lt;br/&gt;Supertest + testcontainers&lt;br/&gt;REST API + Colyseus WS + DB + Redis&lt;br/&gt;執行時間：2-5 min&quot;]
-UNIT[&quot;🔷 Unit Tests&lt;br/&gt;約 70%&lt;br/&gt;Jest + istanbul&lt;br/&gt;RTP Engine / Payment Logic / Auth / Validation&lt;br/&gt;執行時間：&lt; 60 sec&quot;]
-</p>
-<p>
-E2E --&gt; INT
-INT --&gt; UNIT
-</p>
-<p>
-style E2E fill:#ff6b6b,color:#fff
-style INT fill:#ffa94d,color:#fff
-style UNIT fill:#339af0,color:#fff</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    E2E["🔺 E2E / BDD Tests<br/>約 10%<br/>Playwright（含 WS 驗證）<br/>Critical user flows：Happy Path<br/>執行時間：5-15 min"]
+    INT["🔸 Integration Tests<br/>約 20%<br/>Supertest + testcontainers<br/>REST API + Colyseus WS + DB + Redis<br/>執行時間：2-5 min"]
+    UNIT["🔷 Unit Tests<br/>約 70%<br/>Jest + istanbul<br/>RTP Engine / Payment Logic / Auth / Validation<br/>執行時間：< 60 sec"]
+
+    E2E --> INT
+    INT --> UNIT
+
+    style E2E fill:#ff6b6b,color:#fff
+    style INT fill:#ffa94d,color:#fff
+    style UNIT fill:#339af0,color:#fff</pre></div>
 <blockquote><strong>比例說明</strong>：
 <ul><li><strong>Unit (70%)</strong>：覆蓋所有業務邏輯（RTP 計算、Jackpot 觸發、幂等邏輯、年齡驗證、貨幣扣減）。開發者本機秒級執行，無外部依賴。</li><li><strong>Integration (20%)</strong>：覆蓋 REST API contract（Account :3001, Shop :3002, Admin :3003）+ Colyseus WebSocket Room 狀態同步 + MySQL 8.0 + Redis 7 邊界操作，以 testcontainers 隔離。</li><li><strong>E2E (10%)</strong>：覆蓋 5 個 Critical User Flows（Happy Path）：帳號註冊/登入 → 快速匹配 → 遊戲局（射魚/競爭/結算）→ 充值鑽石 → VIP 訂閱，以 Playwright 驅動 Cocos Client 模擬頁面操作。</blockquote></li></ul><h3 id="§1.4-品質目標（quality-gates）">§1.4 品質目標（Quality Gates）</h3>
 <table><tr><th>指標</th><th>目標值</th><th>測量工具</th><th>頻率</th></tr><tr><td>Unit Test Line Coverage</td><td>≥ 80%（核心模組 ≥ 90%）</td><td>Jest + istanbul</td><td>每次 PR</td></tr><tr><td>Unit Test Branch Coverage</td><td>≥ 70%</td><td>Jest + istanbul</td><td>每次 PR</td></tr><tr><td>Integration Test Pass Rate</td><td>100%（PR merge 前）</td><td>Jest JUnit XML</td><td>每次 PR</td></tr><tr><td>E2E Smoke Pass Rate</td><td>100%</td><td>Playwright HTML Report</td><td>每次 PR merge</td></tr><tr><td>E2E Regression Pass Rate</td><td>≥ 95%</td><td>Playwright HTML Report</td><td>每日 Nightly</td></tr><tr><td>Defect Escape Rate (to Prod)</td><td>≤ 2 defects / sprint</td><td>Linear</td><td>每 Sprint</td></tr><tr><td>REST API P99 Latency（Normal Load 500 RPS）</td><td>≤ 500ms</td><td>k6</td><td>每週</td></tr><tr><td>WebSocket P99 Latency（Colyseus Events）</td><td>≤ 100ms</td><td>k6</td><td>每週</td></tr><tr><td>Error Rate（Normal Load）</td><td>≤ 0.1%</td><td>k6</td><td>每週</td></tr><tr><td>Security High/Critical Issues</td><td>0</td><td>ESLint security + Semgrep + OWASP ZAP</td><td>每次 PR</td></tr><tr><td>Flaky Test Rate</td><td>≤ 2%</td><td>CI Dashboard</td><td>每週</td></tr><tr><td>RTP 準確率（10,000 場模擬）</td><td>85%–95%，標準差 < 2%</td><td>Jest 數值模擬</td><td>每 Release</td></tr></table>
@@ -858,7 +862,6 @@ path: playwright-report/
 <h3 id="§21.3-測試技術債登記">§21.3 測試技術債登記</h3>
 <table><tr><th>技術債項目</th><th>優先級</th><th>說明</th><th>計畫解決版本</th></tr><tr><td>class-inventory.md 未建立，§15.2 路徑為推斷值</td><td>P2</td><td>執行 /gendoc-gen-diagrams 後更新 RTM Unit Test 路徑</td><td>v1.1（D16-ALIGN 後）</td></tr><tr><td>Mutation Testing（Stryker）未引入</td><td>P3</td><td>目前僅有 Line Coverage，Mutation Score 可提升測試品質</td><td>Phase 2</td></tr><tr><td>Cocos Canvas WebGL 渲染無法 E2E 截圖驗證</td><td>P2</td><td>Playwright 截圖在 Canvas 元素上為空，需評估 canvas 截圖方案</td><td>Phase 2</td></tr><tr><td>k6 WebSocket 腳本缺乏 Colyseus 協議封裝</td><td>P2</td><td>目前 WS 腳本為通用格式，需適配 Colyseus msgpack schema</td><td>v1.1</td></tr><tr><td>iOS/Android 原生包 E2E（Appium）尚未建立</td><td>P2</td><td>Phase 2 原生包上線前需完成</td><td>Phase 2</td></tr></table></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

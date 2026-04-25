@@ -14,6 +14,16 @@
     "url": "prd.html",
     "excerpt": "PRD — Product Requirements Document < -- 對應學術標準：IEEE 830 (SRS)，對應業界：Google PRD / Amazon PRFAQ -- --- Document Control 欄位 內容 ------ ------ DOC-ID PRD-FISHGAME-20260424 產品名稱 fishing-arcade-game（捕魚街機遊戲平台） 文件版本 v0.1 狀態 DRAFT 作者（PM） AI Generated (gendoc-gen-prd) 日期 2026-04-24 上游 BRD BRD.md (BRD.md) §3.1,"
   },
+  "pdd.html": {
+    "title": "產品設計文件",
+    "url": "pdd.html",
+    "excerpt": "PDD — Product Design Document (UX / Interaction Design) < -- SDLC Requirements Engineering — Layer 3：UX / Interaction Design -- < -- 上游：PRD（System Requirements）→ 本文件 → 下游：EDD（Tech Spec） -- < -- Client 類型偵測結果：Cocos Creator（PRD §1 明確提及 Cocos Creator 3.x + TypeScript） -- --- < -- ⚠️ Platform Scope — 本文"
+  },
+  "vdd.html": {
+    "title": "視覺設計文件",
+    "url": "vdd.html",
+    "excerpt": "VDD — Visual Design Document FishGame 競技捕魚平台 --- §0 Document Control 欄位 值 ------ ----- DOC-ID VDD-FISHGAME-20260425 版本 1.0.0 狀態 IN REVIEW 作者 Visual Designer + Brand Designer + Design System Engineer 審查者 Art Director（TBD）/ Brand Strategist（TBD）/ Frontend Architect（TBD） 上游文件 BRD-FISHGAME-20260424 · PR"
+  },
   "edd.html": {
     "title": "工程設計文件",
     "url": "edd.html",
@@ -33,6 +43,21 @@
     "title": "資料庫 Schema",
     "url": "schema.html",
     "excerpt": "SCHEMA — 資料庫 Schema 設計文件 Document Control 欄位 值 ------ ----- DOC-ID SCHEMA-FISHGAME-20260424 版本 v1.0 狀態 DRAFT 作者 AI Generated (gendoc-gen-schema) 日期 2026-04-24 資料庫 MySQL 8.0.36（InnoDB） ORM Prisma 5.x（TypeScript） 上游 EDD EDD.md (EDD.md)（EDD-FISHGAME-20260424）§5.5 上游 ARCH ARCH.md (ARCH.md) 上游 API API.md"
+  },
+  "frontend.html": {
+    "title": "前端技術設計",
+    "url": "frontend.html",
+    "excerpt": "FRONTEND — 前端技術設計文件 (fishing-arcade-game) < -- 上游文件：PRD.md · EDD.md · ARCH.md · API.md · SCHEMA.md · PDD.md · VDD.md -- --- Document Control 欄位 內容 ------ ------ DOC-ID FRONTEND-FISHGAME-20260425 專案名稱 fishing-arcade-game（捕魚街機遊戲平台） 文件版本 v1.0 狀態 APPROVED 作者 Frontend Architect 日期 2026-04-25 上游 EDD EDD.m"
+  },
+  "audio.html": {
+    "title": "音效設計文件",
+    "url": "audio.html",
+    "excerpt": "AUDIO — 音效設計文件 (fishing-arcade-game) < -- 上游文件：PRD-FISHGAME-20260424 · EDD-FISHGAME-20260424 · PDD-FISHGAME-20260425 · VDD-FISHGAME-20260425 -- --- Document Control 欄位 內容 ------ ------ DOC-ID AUDIO-FISHGAME-20260425 版本 1.0 狀態 APPROVED 日期 2026-04-25 作者 Audio Design (AI Generated) 上游 PRD PRD.md (PRD.m"
+  },
+  "anim.html": {
+    "title": "動畫特效文件",
+    "url": "anim.html",
+    "excerpt": "ANIM — 動畫特效設計文件 (fishing-arcade-game) < -- 上游文件：PRD.md · EDD.md · PDD.md · VDD.md · FRONTEND.md -- --- Document Control 欄位 內容 ------ ------ DOC-ID ANIM-FISHGAME-20260425 專案名稱 fishing-arcade-game（捕魚街機遊戲平台） 文件版本 1.0 狀態 APPROVED 作者 Animation Design Specialist 日期 2026-04-25 上游 VDD VDD.md (VDD.md)（VDD-FI"
   },
   "test-plan.html": {
     "title": "測試計劃",

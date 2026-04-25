@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>資料庫 Schema — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -758,158 +766,145 @@ CHECK (expires_at &gt; activated_at)
 <ol><li>從 S3 下載最新 Full Backup</li><li>在隔離環境還原</li><li>執行 <code>SELECT COUNT(*) FROM users</code> / <code>orders</code> 驗證數量合理</li><li>執行 Prisma Schema Integrity Check</li><li>記錄 RTO 實測值</li></ol>
 <hr>
 <h2 id="12.-關聯圖（er-diagram）">12. 關聯圖（ER Diagram）</h2>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">erDiagram
-<p>
-users {
-char26 id PK
-varchar254 email UK &quot;PII&quot;
-varchar255 password_hash &quot;NOT NULL&quot;
-varchar30 display_name &quot;NOT NULL&quot;
-varchar512 avatar_url
-enum role &quot;player/operator/superadmin&quot;
-tinyint age_verified &quot;NOT NULL&quot;
-enum status &quot;active/suspended/banned&quot;
-tinyint_unsigned vip_tier &quot;DEFAULT 0&quot;
-datetime3 vip_expires_at
-bigint_unsigned gold_balance &quot;DEFAULT 0&quot;
-int_unsigned diamond_balance &quot;DEFAULT 0&quot;
-datetime3 last_login_at
-datetime3 created_at &quot;NOT NULL&quot;
-datetime3 deleted_at
-}
-</p>
-<p>
-game_sessions {
-bigint_unsigned id PK
-varchar36 room_id UK &quot;Colyseus Room ID&quot;
-enum status &quot;WAITING/IN_PROGRESS/COMPLETED&quot;
-tinyint_unsigned player_count
-bigint_unsigned jackpot_pool
-decimal5_4 rtp_actual
-datetime3 started_at &quot;NOT NULL&quot;
-datetime3 ended_at
-}
-</p>
-<p>
-session_players {
-bigint_unsigned id PK
-bigint_unsigned session_id FK &quot;NOT NULL&quot;
-char26 user_id FK &quot;NOT NULL&quot;
-bigint final_gold
-bigint_unsigned gold_earned
-bigint_unsigned gold_spent
-tinyint1 is_mvp
-datetime3 joined_at &quot;NOT NULL&quot;
-}
-</p>
-<p>
-fish_kills {
-bigint_unsigned id PK
-bigint_unsigned session_id FK &quot;NOT NULL&quot;
-char26 killer_id &quot;NOT NULL (denorm)&quot;
-varchar50 fish_type &quot;NOT NULL&quot;
-bigint_unsigned coins_awarded
-decimal5_4 rtp_snapshot
-datetime3 killed_at PK &quot;NOT NULL (分區鍵)&quot;
-}
-</p>
-<p>
-jackpot_events {
-char36 id PK &quot;UUID v4&quot;
-bigint_unsigned session_id FK &quot;NOT NULL&quot;
-char26 winner_user_id FK &quot;NOT NULL&quot;
-bigint_unsigned amount &quot;NOT NULL&quot;
-varchar36 room_id &quot;NOT NULL&quot;
-datetime3 triggered_at &quot;NOT NULL&quot;
-}
-</p>
-<p>
-orders {
-char36 id PK &quot;UUID v4 (order_id)&quot;
-char26 user_id FK &quot;NOT NULL&quot;
-varchar50 product_id &quot;NOT NULL&quot;
-enum platform &quot;apple/google&quot;
-enum status &quot;pending/completed/failed&quot;
-int_unsigned diamonds_credited
-decimal10_2 amount_usd &quot;NOT NULL&quot;
-varchar255 transaction_id
-varchar64 receipt_hash UK
-char36 idempotency_key UK &quot;NOT NULL&quot;
-datetime3 created_at &quot;NOT NULL&quot;
-datetime3 completed_at
-}
-</p>
-<p>
-vip_subscriptions {
-char36 id PK &quot;UUID v4&quot;
-char26 user_id FK &quot;NOT NULL&quot;
-varchar50 plan_id &quot;NOT NULL&quot;
-tinyint_unsigned vip_tier &quot;NOT NULL&quot;
-int_unsigned diamonds_deducted
-enum status &quot;active/expired/cancelled&quot;
-char36 idempotency_key UK &quot;NOT NULL&quot;
-datetime3 activated_at &quot;NOT NULL&quot;
-datetime3 expires_at &quot;NOT NULL&quot;
-}
-</p>
-<p>
-game_configs {
-tinyint_unsigned id PK &quot;固定=1&quot;
-decimal5_4 rtp_target_min &quot;NOT NULL&quot;
-decimal5_4 rtp_target_max &quot;NOT NULL&quot;
-decimal8_6 jackpot_trigger_probability &quot;NOT NULL&quot;
-char26 updated_by
-datetime3 updated_at &quot;NOT NULL&quot;
-}
-</p>
-<p>
-audit_logs {
-bigint_unsigned id PK
-varchar100 event_type &quot;NOT NULL&quot;
-char26 actor_user_id
-varchar50 resource_type &quot;NOT NULL&quot;
-varchar36 resource_id &quot;NOT NULL&quot;
-json before_json
-json after_json
-enum outcome &quot;SUCCESS/FAILURE&quot;
-varchar256 x_admin_reason
-datetime3 created_at &quot;NOT NULL&quot;
-}
-</p>
-<p>
-products {
-varchar50 product_id PK
-varchar100 name &quot;NOT NULL&quot;
-int_unsigned diamonds &quot;NOT NULL&quot;
-decimal10_2 price_usd &quot;NOT NULL&quot;
-tinyint1 is_active &quot;DEFAULT 1&quot;
-datetime3 updated_at &quot;NOT NULL&quot;
-}
-</p>
-<p>
-data_access_logs {
-bigint_unsigned id PK
-varchar100 table_name &quot;NOT NULL&quot;
-varchar36 record_id &quot;NOT NULL&quot;
-varchar100 field_name
-enum action &quot;SELECT/UPDATE/DELETE&quot;
-char26 actor_id
-varchar50 actor_type
-text reason
-varchar64 ip_hash &quot;SHA-256(IP)&quot;
-datetime3 accessed_at &quot;NOT NULL&quot;
-}
-</p>
-<p>
-users ||--o{ session_players : &quot;參與&quot;
-users ||--o{ orders : &quot;產生&quot;
-users ||--o{ vip_subscriptions : &quot;擁有&quot;
-users ||--o{ audit_logs : &quot;觸發（actor）&quot;
-users ||--o{ jackpot_events : &quot;獲獎&quot;
-game_sessions ||--o{ session_players : &quot;包含&quot;
-game_sessions ||--o{ fish_kills : &quot;記錄&quot;
-game_sessions ||--o{ jackpot_events : &quot;觸發&quot;</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">erDiagram
+    users {
+        char26 id PK
+        varchar254 email UK "PII"
+        varchar255 password_hash "NOT NULL"
+        varchar30 display_name "NOT NULL"
+        varchar512 avatar_url
+        enum role "player/operator/superadmin"
+        tinyint age_verified "NOT NULL"
+        enum status "active/suspended/banned"
+        tinyint_unsigned vip_tier "DEFAULT 0"
+        datetime3 vip_expires_at
+        bigint_unsigned gold_balance "DEFAULT 0"
+        int_unsigned diamond_balance "DEFAULT 0"
+        datetime3 last_login_at
+        datetime3 created_at "NOT NULL"
+        datetime3 deleted_at
+    }
+
+    game_sessions {
+        bigint_unsigned id PK
+        varchar36 room_id UK "Colyseus Room ID"
+        enum status "WAITING/IN_PROGRESS/COMPLETED"
+        tinyint_unsigned player_count
+        bigint_unsigned jackpot_pool
+        decimal5_4 rtp_actual
+        datetime3 started_at "NOT NULL"
+        datetime3 ended_at
+    }
+
+    session_players {
+        bigint_unsigned id PK
+        bigint_unsigned session_id FK "NOT NULL"
+        char26 user_id FK "NOT NULL"
+        bigint final_gold
+        bigint_unsigned gold_earned
+        bigint_unsigned gold_spent
+        tinyint1 is_mvp
+        datetime3 joined_at "NOT NULL"
+    }
+
+    fish_kills {
+        bigint_unsigned id PK
+        bigint_unsigned session_id FK "NOT NULL"
+        char26 killer_id "NOT NULL (denorm)"
+        varchar50 fish_type "NOT NULL"
+        bigint_unsigned coins_awarded
+        decimal5_4 rtp_snapshot
+        datetime3 killed_at PK "NOT NULL (分區鍵)"
+    }
+
+    jackpot_events {
+        char36 id PK "UUID v4"
+        bigint_unsigned session_id FK "NOT NULL"
+        char26 winner_user_id FK "NOT NULL"
+        bigint_unsigned amount "NOT NULL"
+        varchar36 room_id "NOT NULL"
+        datetime3 triggered_at "NOT NULL"
+    }
+
+    orders {
+        char36 id PK "UUID v4 (order_id)"
+        char26 user_id FK "NOT NULL"
+        varchar50 product_id "NOT NULL"
+        enum platform "apple/google"
+        enum status "pending/completed/failed"
+        int_unsigned diamonds_credited
+        decimal10_2 amount_usd "NOT NULL"
+        varchar255 transaction_id
+        varchar64 receipt_hash UK
+        char36 idempotency_key UK "NOT NULL"
+        datetime3 created_at "NOT NULL"
+        datetime3 completed_at
+    }
+
+    vip_subscriptions {
+        char36 id PK "UUID v4"
+        char26 user_id FK "NOT NULL"
+        varchar50 plan_id "NOT NULL"
+        tinyint_unsigned vip_tier "NOT NULL"
+        int_unsigned diamonds_deducted
+        enum status "active/expired/cancelled"
+        char36 idempotency_key UK "NOT NULL"
+        datetime3 activated_at "NOT NULL"
+        datetime3 expires_at "NOT NULL"
+    }
+
+    game_configs {
+        tinyint_unsigned id PK "固定=1"
+        decimal5_4 rtp_target_min "NOT NULL"
+        decimal5_4 rtp_target_max "NOT NULL"
+        decimal8_6 jackpot_trigger_probability "NOT NULL"
+        char26 updated_by
+        datetime3 updated_at "NOT NULL"
+    }
+
+    audit_logs {
+        bigint_unsigned id PK
+        varchar100 event_type "NOT NULL"
+        char26 actor_user_id
+        varchar50 resource_type "NOT NULL"
+        varchar36 resource_id "NOT NULL"
+        json before_json
+        json after_json
+        enum outcome "SUCCESS/FAILURE"
+        varchar256 x_admin_reason
+        datetime3 created_at "NOT NULL"
+    }
+
+    products {
+        varchar50 product_id PK
+        varchar100 name "NOT NULL"
+        int_unsigned diamonds "NOT NULL"
+        decimal10_2 price_usd "NOT NULL"
+        tinyint1 is_active "DEFAULT 1"
+        datetime3 updated_at "NOT NULL"
+    }
+
+    data_access_logs {
+        bigint_unsigned id PK
+        varchar100 table_name "NOT NULL"
+        varchar36 record_id "NOT NULL"
+        varchar100 field_name
+        enum action "SELECT/UPDATE/DELETE"
+        char26 actor_id
+        varchar50 actor_type
+        text reason
+        varchar64 ip_hash "SHA-256(IP)"
+        datetime3 accessed_at "NOT NULL"
+    }
+
+    users ||--o{ session_players : "參與"
+    users ||--o{ orders : "產生"
+    users ||--o{ vip_subscriptions : "擁有"
+    users ||--o{ audit_logs : "觸發（actor）"
+    users ||--o{ jackpot_events : "獲獎"
+    game_sessions ||--o{ session_players : "包含"
+    game_sessions ||--o{ fish_kills : "記錄"
+    game_sessions ||--o{ jackpot_events : "觸發"</pre></div>
 <hr>
 <h2 id="13.-資料量估算">13. 資料量估算</h2>
 <table><tr><th>資料表</th><th>初始量</th><th>年增量</th><th>5 年預估</th><th>分區/歸檔</th></tr><tr><td><code>users</code></td><td>1,000</td><td>+50,000</td><td>251,000</td><td>不需要</td></tr><tr><td><code>game_sessions</code></td><td>0</td><td>+365,000</td><td>1,825,000</td><td>考慮按年歸檔</td></tr><tr><td><code>session_players</code></td><td>0</td><td>+1,825,000</td><td>9,125,000</td><td>考慮按年歸檔</td></tr><tr><td><code>fish_kills</code></td><td>0</td><td><strong>+730,000,000</strong></td><td>>30 億</td><td><strong>月 RANGE 分區 + 6 個月滾動清理</strong></td></tr><tr><td><code>jackpot_events</code></td><td>0</td><td>+3,650</td><td>18,250</td><td>不需要</td></tr><tr><td><code>orders</code></td><td>0</td><td>+365,000</td><td>1,825,000</td><td>考慮按年歸檔（稅務保留 7 年）</td></tr><tr><td><code>vip_subscriptions</code></td><td>0</td><td>+100,000</td><td>500,000</td><td>不需要</td></tr><tr><td><code>audit_logs</code></td><td>0</td><td>+3,650,000</td><td>>1,800 萬</td><td>考慮按月分區或歸檔至冷存儲</td></tr></table>
@@ -1091,7 +1086,6 @@ WHERE trx_wait_started IS NOT NULL;
 <h2 id="19.-approval-sign-off">19. Approval Sign-off</h2>
 <table><tr><th>角色</th><th>姓名</th><th>審核日期</th><th>狀態</th></tr><tr><td>Database Architect</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Backend Lead</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr><tr><td>Security Engineer</td><td>TBD</td><td>—</td><td>⬜ PENDING</td></tr></table></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>

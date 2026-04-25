@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>運維手冊 — fishing-arcade-game</title>
   <link rel="stylesheet" href="assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default'});
+  </script>
 </head>
 <body>
 <nav class="top-nav">
@@ -30,10 +33,15 @@
 <a class="sidebar__link" href="idea.html">💡 產品創意</a>
 <a class="sidebar__link" href="brd.html">📋 業務需求</a>
 <a class="sidebar__link" href="prd.html">📝 產品需求</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計</a>
+<a class="sidebar__link" href="vdd.html">🖌️  視覺設計</a>
 <a class="sidebar__link" href="edd.html">⚙️  工程設計</a>
 <a class="sidebar__link" href="arch.html">🏗️  架構設計</a>
 <a class="sidebar__link" href="api.html">🔌 API 設計</a>
 <a class="sidebar__link" href="schema.html">🗄️  資料庫</a>
+<a class="sidebar__link" href="frontend.html">🖥️  前端設計</a>
+<a class="sidebar__link" href="audio.html">🎵 音效設計</a>
+<a class="sidebar__link" href="anim.html">✨ 動畫特效</a>
 <a class="sidebar__link" href="test-plan.html">🧪 測試計劃</a>
 <a class="sidebar__link" href="rtm.html">🔗 追溯矩陣</a>
 <a class="sidebar__link" href="runbook.html">📖 運維手冊</a>
@@ -79,43 +87,40 @@ Fishing Arcade Game 是一款以虛擬幣為媒介的多人即時捕魚競技遊
 <h2 id="§2-architecture">§2 Architecture</h2>
 <h3 id="§2.1-runtime-topology">§2.1 Runtime Topology</h3>
 <blockquote><strong>NOTE — Namespace 命名說明</strong>：下圖中的 "Game Services" 和 "API Services" 為<strong>邏輯分組</strong>，僅用於說明服務職責。實際 Kubernetes namespace 均為 <code>fishing-arcade-prod</code>（見 §2.2）。圖中未使用 <code>game-ns</code> / <code>api-ns</code> 命名，以避免與實際 namespace 混淆。</blockquote>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">graph TD
-<p>
-subgraph Internet[&quot;Internet（玩家 HTTPS/WSS）&quot;]
-Client[&quot;Cocos Creator Client&quot;]
-end
-subgraph AWS[&quot;AWS ap-southeast-1&quot;]
-subgraph k8s[&quot;Kubernetes（namespace: fishing-arcade-prod）&quot;]
-Ingress[&quot;Nginx Ingress\nTLS Termination&quot;]
-subgraph GameServices[&quot;Game Services（logical group）&quot;]
-GameSvc[&quot;game-service\n:2567 (Colyseus WSS)\nHPA 3–20 replicas&quot;]
-end
-subgraph ApiServices[&quot;API Services（logical group）&quot;]
-AccountSvc[&quot;account-service\n:3001 (REST)\nHPA 2–10 replicas&quot;]
-ShopSvc[&quot;shop-service\n:3002 (REST)\nHPA 2–10 replicas&quot;]
-end
-end
-subgraph Managed[&quot;Managed Services&quot;]
-RDS[&quot;RDS MySQL 8.0\nmysql.fishing-arcade-prod.svc:3306\nMulti-AZ (fishing_arcade DB)&quot;]
-Redis[&quot;ElastiCache Redis 7\nredis.fishing-arcade-prod.svc:6379\nCluster Mode&quot;]
-end
-IAP[&quot;Apple/Google IAP\nExternal API&quot;]
-end
-</p>
-<p>
-Client --&gt;|HTTPS /api/*| Ingress
-Client --&gt;|WSS /game/*| Ingress
-Ingress --&gt; AccountSvc
-Ingress --&gt; ShopSvc
-Ingress --&gt; GameSvc
-AccountSvc --&gt; RDS
-AccountSvc --&gt; Redis
-ShopSvc --&gt; RDS
-ShopSvc --&gt; Redis
-ShopSvc --&gt; IAP
-GameSvc --&gt; RDS
-GameSvc --&gt; Redis</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">graph TD
+    subgraph Internet["Internet（玩家 HTTPS/WSS）"]
+        Client["Cocos Creator Client"]
+    end
+    subgraph AWS["AWS ap-southeast-1"]
+        subgraph k8s["Kubernetes（namespace: fishing-arcade-prod）"]
+            Ingress["Nginx Ingress\nTLS Termination"]
+            subgraph GameServices["Game Services（logical group）"]
+                GameSvc["game-service\n:2567 (Colyseus WSS)\nHPA 3–20 replicas"]
+            end
+            subgraph ApiServices["API Services（logical group）"]
+                AccountSvc["account-service\n:3001 (REST)\nHPA 2–10 replicas"]
+                ShopSvc["shop-service\n:3002 (REST)\nHPA 2–10 replicas"]
+            end
+        end
+        subgraph Managed["Managed Services"]
+            RDS["RDS MySQL 8.0\nmysql.fishing-arcade-prod.svc:3306\nMulti-AZ (fishing_arcade DB)"]
+            Redis["ElastiCache Redis 7\nredis.fishing-arcade-prod.svc:6379\nCluster Mode"]
+        end
+        IAP["Apple/Google IAP\nExternal API"]
+    end
+
+    Client -->|HTTPS /api/*| Ingress
+    Client -->|WSS /game/*| Ingress
+    Ingress --> AccountSvc
+    Ingress --> ShopSvc
+    Ingress --> GameSvc
+    AccountSvc --> RDS
+    AccountSvc --> Redis
+    ShopSvc --> RDS
+    ShopSvc --> Redis
+    ShopSvc --> IAP
+    GameSvc --> RDS
+    GameSvc --> Redis</pre></div>
 <h3 id="§2.2-component-inventory">§2.2 Component Inventory</h3>
 <table><tr><th>Component</th><th>K8s Namespace</th><th>Deployment</th><th>Port</th><th>HPA</th><th>說明</th></tr><tr><td>Account Service</td><td><code>fishing-arcade-prod</code></td><td><code>account-service</code></td><td>3001</td><td>2–10</td><td>帳號/認證 REST API</td></tr><tr><td>Shop Service</td><td><code>fishing-arcade-prod</code></td><td><code>shop-service</code></td><td>3002</td><td>2–10</td><td>IAP 充值 / 鑽石兌換 REST API</td></tr><tr><td>Game Service</td><td><code>fishing-arcade-prod</code></td><td><code>game-service</code></td><td>2567</td><td>3–20</td><td>Colyseus WebSocket 遊戲伺服器</td></tr><tr><td>MySQL（RDS）</td><td>managed</td><td>—</td><td>3306</td><td>—</td><td>主資料庫 Multi-AZ</td></tr><tr><td>Redis（ElastiCache）</td><td>managed</td><td>—</td><td>6379</td><td>—</td><td>即時狀態 + Jackpot 原子鎖</td></tr><tr><td>Nginx Ingress</td><td><code>ingress-nginx</code></td><td><code>ingress-nginx-controller</code></td><td>80/443</td><td>—</td><td>TLS 終止 + 路由</td></tr></table>
 <h3 id="§2.3-network-and-port-reference">§2.3 Network and Port Reference</h3>
@@ -425,22 +430,20 @@ Post-Mortem 不以懲罰個人為目的。重點在系統和流程改善。
 <hr>
 <h2 id="§7-troubleshooting">§7 Troubleshooting</h2>
 <h3 id="§7.1-api-5xx-錯誤">§7.1 API 5xx 錯誤</h3>
-<div class="diagram-container" title="點擊放大"><div class="mermaid">flowchart TD
-<p>
-A[告警: high_error_rate] --&gt; B{哪個 service?}
-B --&gt;|account-service| C[kubectl logs -n fishing-arcade-prod\n-l app=account-service --tail=100]
-B --&gt;|shop-service| D[kubectl logs -n fishing-arcade-prod\n-l app=shop-service --tail=100]
-B --&gt;|game-service| E[kubectl logs -n fishing-arcade-prod\n-l app=game-service --tail=100]
-C --&gt; F{DB 連線錯誤?}
-D --&gt; F
-E --&gt; F
-F --&gt;|Yes| G[§7.5 Database Issues]
-F --&gt;|No| H{OOM / CrashLoop?}
-H --&gt;|Yes| I[§7.6 CrashLoopBackOff]
-H --&gt;|No| J{最近有 Deploy?}
-J --&gt;|Yes| K[§9.1 Rollback]
-J --&gt;|No| L[Jaeger Trace 追蹤具體錯誤]</div></div>
-</p>
+<div class="diagram-container" title="點擊放大"><pre class="mermaid">flowchart TD
+    A[告警: high_error_rate] --> B{哪個 service?}
+    B -->|account-service| C[kubectl logs -n fishing-arcade-prod\n-l app=account-service --tail=100]
+    B -->|shop-service| D[kubectl logs -n fishing-arcade-prod\n-l app=shop-service --tail=100]
+    B -->|game-service| E[kubectl logs -n fishing-arcade-prod\n-l app=game-service --tail=100]
+    C --> F{DB 連線錯誤?}
+    D --> F
+    E --> F
+    F -->|Yes| G[§7.5 Database Issues]
+    F -->|No| H{OOM / CrashLoop?}
+    H -->|Yes| I[§7.6 CrashLoopBackOff]
+    H -->|No| J{最近有 Deploy?}
+    J -->|Yes| K[§9.1 Rollback]
+    J -->|No| L[Jaeger Trace 追蹤具體錯誤]</pre></div>
 <pre><code class="language-bash"># Step 1: 確認錯誤集中在哪個 Pod
 <p>
 kubectl get pods -n fishing-arcade-prod -l app=account-service
@@ -1435,7 +1438,6 @@ PagerDuty: https://{{ORG}}.pagerduty.com/services/{{SERVICE_ID}}
 </p>
 <ul><li>T+15 內完成憑證撤銷並服務恢復正常</li><li>CrashLoop 緊急恢復在 5 分鐘內完成</li><li>Security Incident ticket 含完整資訊（洩漏時間窗口 + 受影響範圍評估）</li><li>演練後更新 Runbook 和 Incident Response Checklist（若有缺漏）</li></ul></main>
 </div>
-<script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
 <script src="assets/app.js"></script>
 </body>
 </html>
