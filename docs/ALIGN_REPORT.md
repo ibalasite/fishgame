@@ -33,7 +33,7 @@
 - D1 Doc→Doc：✅（22/22 全部修復）
 - D2 Doc→Code：🔴（尚無實作，設計完成度良好）
 - D3 Code→Test：🔴（尚無實作，設計完成度良好）
-- D4 Doc→Test：⚠️（7/9 已修復，剩餘：D4-001 BDD step definitions 待實作、D4-009 Analytics 降級無 BDD）
+- D4 Doc→Test：⚠️（8/9 已修復，剩餘：D4-001 BDD step definitions 待實作）
 - D5 UML/RTM 品質：⚠️（3/4 已修復，D5-001 PlantUML 檔案待生成）
 
 **修復進度**（align-fix 本次執行）：
@@ -549,6 +549,7 @@
   建議修復方向：明確標記「由 Integration Test 驗證」並更新 EDD §8.5；
     或新增 features/infra/observability.feature
   可自動修復：NO
+  [FIXED: TC-INT-INFRA-001-E 補充至 fishing_gameplay.feature — Analytics 超時期間玩家射魚金幣正常，事件 Buffer 後 Analytics 恢復自動重傳]
 ```
 
 ### LOW 問題（1 個）

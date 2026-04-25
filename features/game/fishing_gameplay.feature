@@ -87,6 +87,18 @@ Feature: 捕魚遊戲核心玩法與結算
     And 積分 200 的玩家被標記為 MVP（is_mvp=true）
     And 排名第 1 位積分顯示為 200，第 2 位為 180，第 3 位為 150
 
+  @p0 @regression @api @TC-INT-INFRA-001-E @websocket
+  Scenario: Analytics 平台超時，玩家遊戲不中斷，事件 Buffer 後自動重傳
+    Given 玩家正在競技房間遊戲中，Analytics 平台 HTTP 回應持續超時（> 1000ms）
+    When 玩家連續命中 5 條魚，觸發 5 個 FishKilled 事件
+    Then 每次命中均即時收到 fish_kill WebSocket 事件，金幣正確入帳
+    And GET /v1/users/:id/balance 回應正確餘額，遊戲操作完全不受影響
+    And 玩家介面未收到任何錯誤提示（Analytics 降級對玩家透明）
+    And 服務端將 5 個 FishKilled 事件寫入本地 Buffer（未丟失）
+    When Analytics 平台恢復正常（HTTP 回應 < 1000ms）
+    Then 服務端自動批量重傳 Buffer 中的 5 個事件至 Analytics 平台
+    And Analytics 平台收到所有 5 筆事件記錄（event_id 冪等，無重複）
+
   @p0 @regression @api @TC-INT-FISH-005-E @websocket
   Scenario: 魚群服務崩潰後降級為靜態魚波，玩家可繼續遊戲
     Given 房間遊戲進行中，動態魚群生成服務（FishSpawnService）出現異常
