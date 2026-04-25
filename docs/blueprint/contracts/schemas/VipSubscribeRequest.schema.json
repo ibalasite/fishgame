@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/VipSubscribeRequest",
+  "title": "VipSubscribeRequest",
+  "description": "VIP 訂閱請求 DTO",
+  "type": "object",
+  "required": ["plan_id"],
+  "additionalProperties": false,
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "enum": ["vip_monthly", "vip_quarterly"],
+      "description": "VIP 方案 ID",
+      "example": "vip_monthly"
+    }
+  },
+  "x-source": "docs/API.md §2.1 POST /vip/subscriptions",
+  "x-stereotype": "<<RequestDTO>>"
+}

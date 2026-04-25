@@ -1,0 +1,1613 @@
+openapi: 3.1.0
+info:
+  title: Fishing Arcade Game API
+  version: "1.0.0"
+  description: |
+    多人即時競技捕魚街機平台後端 REST API。
+    玩家可透過此 API 進行帳號管理、遊戲房間查詢、商城 IAP 充值及 VIP 訂閱。
+    遊戲即時通訊使用 Colyseus WebSocket（wss://game.fishing-arcade-game.com）。
+
+servers:
+  - url: https://api.fishing-arcade-game.com/v1
+    description: Production
+  - url: http://localhost:3000/v1
+    description: Local Development
+
+tags:
+  - name: Auth
+    description: 帳號認證與 Token 管理
+  - name: Users
+    description: 玩家個人資料與餘額
+  - name: Game
+    description: 遊戲房間與歷史記錄
+  - name: Shop
+    description: 商城商品與 IAP 訂單
+  - name: VIP
+    description: VIP 訂閱
+  - name: Admin
+    description: 後台管理（需 operator/superadmin 角色）
+
+paths:
+  /auth/register:
+    post:
+      summary: 玩家帳號註冊
+      operationId: registerUser
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: 註冊成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegisterResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: 電子郵件已被使用
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 年齡不符合法規要求（< 18 歲）
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /auth/login:
+    post:
+      summary: 玩家登入
+      operationId: loginUser
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: 登入成功，回傳 JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '423':
+          description: 帳號已鎖定（連續失敗 5 次）
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /auth/refresh:
+    post:
+      summary: 刷新 Access Token
+      operationId: refreshToken
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+      responses:
+        '200':
+          description: 回傳新 Access Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /auth/logout:
+    post:
+      summary: 登出（吊銷 Refresh Token）
+      operationId: logoutUser
+      tags:
+        - Auth
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutRequest'
+      responses:
+        '204':
+          description: 登出成功，無 body
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /users/me:
+    get:
+      summary: 取得當前玩家個人資料
+      operationId: getMyProfile
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 玩家個人資料
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    patch:
+      summary: 更新玩家個人資料（Partial Update）
+      operationId: updateMyProfile
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProfileResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: 顯示名稱已被使用
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /users/me/balance:
+    get:
+      summary: 取得玩家遊戲幣餘額
+      operationId: getMyBalance
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 玩家餘額資料
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /game/rooms:
+    get:
+      summary: 列出可加入的遊戲房間
+      operationId: listGameRooms
+      tags:
+        - Game
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Cursor（base64 encoded room_id）
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [waiting, active]
+            default: waiting
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [created_at, jackpot_pool]
+            default: created_at
+      responses:
+        '200':
+          description: 房間列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /game/history:
+    get:
+      summary: 取得玩家個人遊戲歷史記錄
+      operationId: getGameHistory
+      tags:
+        - Game
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [started_at, gold_earned]
+            default: started_at
+      responses:
+        '200':
+          description: 遊戲歷史記錄列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameHistoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /game/leaderboard:
+    get:
+      summary: 取得全服排行榜（金幣榜）
+      operationId: getLeaderboard
+      tags:
+        - Game
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [daily, weekly, all_time]
+            default: daily
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+      responses:
+        '200':
+          description: 排行榜資料
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /shop/products:
+    get:
+      summary: 取得商城商品列表（鑽石儲值包）
+      operationId: listProducts
+      tags:
+        - Shop
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 商品列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /shop/purchases:
+    post:
+      summary: 驗證 IAP 收據並充值鑽石
+      operationId: createPurchase
+      tags:
+        - Shop
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseRequest'
+      responses:
+        '201':
+          description: 充值成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: idempotency_key 已使用（重複請求）
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: IAP Receipt 驗證失敗或已使用
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '503':
+          description: IAP 平台暫時不可用
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /shop/orders:
+    get:
+      summary: 取得玩家訂單歷史
+      operationId: listOrders
+      tags:
+        - Shop
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [created_at]
+            default: created_at
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [completed, pending, failed]
+      responses:
+        '200':
+          description: 訂單列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /shop/orders/{order_id}:
+    get:
+      summary: 取得單筆訂單詳情
+      operationId: getOrder
+      tags:
+        - Shop
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: 訂單詳情
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetailResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /vip/subscriptions:
+    post:
+      summary: 購買 VIP 訂閱
+      operationId: subscribeVip
+      tags:
+        - VIP
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID v4，防重複訂閱（24h TTL）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VipSubscribeRequest'
+      responses:
+        '201':
+          description: VIP 訂閱成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VipSubscribeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: 相同 Idempotency-Key 已使用
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 鑽石餘額不足或 VIP 已啟用
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /admin/users:
+    get:
+      summary: 列出所有玩家（後台用）
+      operationId: adminListUsers
+      tags:
+        - Admin
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: after
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: vip_tier
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 3
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [active, suspended, banned]
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [created_at, last_login_at, gold_balance]
+            default: created_at
+      responses:
+        '200':
+          description: 玩家列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUserListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/users/{user_id}:
+    patch:
+      summary: 更新玩家帳號狀態（封禁/解封/調整餘額）
+      operationId: adminUpdateUser
+      tags:
+        - Admin
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 玩家 ID（CUID2 格式）
+        - name: X-Admin-Reason
+          in: header
+          required: false
+          schema:
+            type: string
+            maxLength: 256
+          description: 敏感操作理由（status 變更或 gold_adjustment 不為 0 時必填）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUpdateUserRequest'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUpdateUserResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          description: 不可修改管理員帳號
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /admin/game-config:
+    get:
+      summary: 取得遊戲設定（RTP 目標、Jackpot 觸發機率）
+      operationId: getGameConfig
+      tags:
+        - Admin
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 遊戲設定
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GameConfigResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+    patch:
+      summary: 更新遊戲設定
+      operationId: updateGameConfig
+      tags:
+        - Admin
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGameConfigRequest'
+      responses:
+        '200':
+          description: 設定更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateGameConfigResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          description: RTP 範圍無效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /admin/stats/kpi:
+    get:
+      summary: 取得 KPI 統計數據（DAU/MAU/Revenue）
+      operationId: getKpiStats
+      tags:
+        - Admin
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [today, 7d, 30d]
+            default: today
+      responses:
+        '200':
+          description: KPI 統計資料
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KpiStatsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: 請求格式錯誤
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: 未認證或 Token 無效
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: 權限不足
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: 資源不存在
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    TooManyRequests:
+      description: 超過 Rate Limit
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          description: 錯誤代碼
+          example: "INSUFFICIENT_DIAMONDS"
+        message:
+          type: string
+          description: 人類可讀錯誤訊息
+          example: "Insufficient diamond balance"
+        details:
+          type: object
+          additionalProperties: true
+          description: 結構化額外資訊
+
+    MetaResponse:
+      type: object
+      properties:
+        request_id:
+          type: string
+          example: "req_01HX..."
+
+    PaginationResponse:
+      type: object
+      properties:
+        next_cursor:
+          type: string
+          nullable: true
+        has_more:
+          type: boolean
+        total_count:
+          type: integer
+          nullable: true
+
+    # ── Auth Schemas ──────────────────────────────────────────
+
+    RegisterRequest:
+      type: object
+      required: [email, password, display_name, birthdate, agree_terms]
+      additionalProperties: false
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          description: RFC 5321 格式
+          example: "newplayer@example.com"
+        password:
+          type: string
+          minLength: 8
+          maxLength: 128
+          description: 需含大寫字母+數字
+          example: "Passw0rd!123"
+        display_name:
+          type: string
+          minLength: 2
+          maxLength: 30
+          description: 玩家顯示名稱，無特殊符號
+          example: "FishHunter88"
+        birthdate:
+          type: string
+          format: date
+          description: ISO 8601 日期（YYYY-MM-DD），年齡驗證用
+          example: "1995-03-15"
+        agree_terms:
+          type: boolean
+          description: 必須為 true
+          example: true
+
+    RegisterResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            user_id:
+              type: string
+              example: "usr_01HX..."
+            email:
+              type: string
+              example: "n***@example.com"
+            display_name:
+              type: string
+              example: "FishHunter88"
+            age_verified:
+              type: boolean
+              example: true
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-04-24T12:00:00Z"
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      additionalProperties: false
+      properties:
+        email:
+          type: string
+          format: email
+          example: "player@example.com"
+        password:
+          type: string
+          minLength: 8
+          maxLength: 128
+          example: "Passw0rd!123"
+
+    LoginResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+            refresh_token:
+              type: string
+              example: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+            expires_in:
+              type: integer
+              example: 900
+              description: Access Token 有效秒數
+            token_type:
+              type: string
+              example: "Bearer"
+            user:
+              $ref: '#/components/schemas/UserSummary'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    RefreshTokenRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token:
+          type: string
+          example: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+    RefreshTokenResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            access_token:
+              type: string
+            expires_in:
+              type: integer
+              example: 900
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    LogoutRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token:
+          type: string
+
+    # ── User Schemas ──────────────────────────────────────────
+
+    UserSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "usr_01HX..."
+        email:
+          type: string
+          description: 遮罩後的 email
+          example: "p***@example.com"
+        role:
+          type: string
+          enum: [player, operator, superadmin]
+          example: "player"
+        vip_tier:
+          type: integer
+          minimum: 0
+          maximum: 3
+          example: 0
+
+    UserProfileResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "usr_01HX..."
+            email:
+              type: string
+              example: "p***@example.com"
+            display_name:
+              type: string
+              example: "FishHunter88"
+            role:
+              type: string
+              enum: [player, operator, superadmin]
+            vip_tier:
+              type: integer
+              minimum: 0
+              maximum: 3
+            vip_expires_at:
+              type: string
+              format: date-time
+              nullable: true
+            age_verified:
+              type: boolean
+            created_at:
+              type: string
+              format: date-time
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    UpdateProfileRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        display_name:
+          type: string
+          minLength: 2
+          maxLength: 30
+          example: "SuperFishHunter"
+        avatar_url:
+          type: string
+          format: uri
+          maxLength: 512
+          example: "https://s3.amazonaws.com/fishgame/avatars/usr_01HX.jpg"
+
+    UpdateProfileResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            display_name:
+              type: string
+            updated_at:
+              type: string
+              format: date-time
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    BalanceResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            user_id:
+              type: string
+              example: "usr_01HX..."
+            gold_balance:
+              type: integer
+              minimum: 0
+              example: 12500
+            diamond_balance:
+              type: integer
+              minimum: 0
+              example: 80
+            updated_at:
+              type: string
+              format: date-time
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    # ── Game Schemas ──────────────────────────────────────────
+
+    RoomSummary:
+      type: object
+      properties:
+        room_id:
+          type: string
+          example: "room_01HX..."
+        room_name:
+          type: string
+          example: "Ocean Battle #42"
+        status:
+          type: string
+          enum: [waiting, active]
+        player_count:
+          type: integer
+          minimum: 0
+          maximum: 6
+        max_players:
+          type: integer
+          example: 6
+        jackpot_pool:
+          type: integer
+          minimum: 0
+          example: 15000
+        min_bet:
+          type: integer
+          minimum: 0
+          example: 10
+        created_at:
+          type: string
+          format: date-time
+
+    RoomListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomSummary'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    GameHistoryItem:
+      type: object
+      properties:
+        session_id:
+          type: string
+          example: "sess_01HX..."
+        room_id:
+          type: string
+          example: "room_01HX..."
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+          nullable: true
+        gold_earned:
+          type: integer
+          minimum: 0
+          example: 1200
+        gold_spent:
+          type: integer
+          minimum: 0
+          example: 800
+        fish_killed:
+          type: integer
+          minimum: 0
+          example: 47
+        jackpot_won:
+          type: integer
+          minimum: 0
+          example: 0
+        rtp_actual:
+          type: number
+          minimum: 0
+          maximum: 2
+          nullable: true
+          example: 0.88
+
+    GameHistoryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/GameHistoryItem'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    LeaderboardRanking:
+      type: object
+      properties:
+        rank:
+          type: integer
+          minimum: 1
+        user_id:
+          type: string
+        display_name:
+          type: string
+        gold_earned:
+          type: integer
+          minimum: 0
+        vip_tier:
+          type: integer
+          minimum: 0
+          maximum: 3
+
+    LeaderboardResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [daily, weekly, all_time]
+            period_start:
+              type: string
+              format: date-time
+            period_end:
+              type: string
+              format: date-time
+            rankings:
+              type: array
+              items:
+                $ref: '#/components/schemas/LeaderboardRanking'
+            my_rank:
+              type: object
+              nullable: true
+              properties:
+                rank:
+                  type: integer
+                gold_earned:
+                  type: integer
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    # ── Shop Schemas ──────────────────────────────────────────
+
+    ProductItem:
+      type: object
+      properties:
+        product_id:
+          type: string
+          example: "diamonds_330"
+        name:
+          type: string
+          example: "330 鑽石月包"
+        diamonds:
+          type: integer
+          minimum: 0
+          example: 300
+        bonus_diamonds:
+          type: integer
+          minimum: 0
+          example: 30
+        price_usd:
+          type: number
+          multipleOf: 0.01
+          minimum: 0
+          example: 4.99
+        apple_product_id:
+          type: string
+          nullable: true
+          example: "com.fishingarcade.diamonds330"
+        google_product_id:
+          type: string
+          nullable: true
+          example: "diamonds_330"
+        is_active:
+          type: boolean
+          example: true
+        badge:
+          type: string
+          nullable: true
+          enum: [BEST_VALUE, HOT, NEW]
+          example: "BEST_VALUE"
+
+    ProductListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductItem'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    PurchaseRequest:
+      type: object
+      required: [platform, product_id, receipt, idempotency_key]
+      additionalProperties: false
+      properties:
+        platform:
+          type: string
+          enum: [apple, google]
+          example: "apple"
+        product_id:
+          type: string
+          example: "diamonds_330"
+        receipt:
+          type: string
+          description: Apple: base64 receipt data；Google: purchaseToken
+          example: "MIIXXXXXXX..."
+        idempotency_key:
+          type: string
+          format: uuid
+          description: UUID v4，防重複充值
+          example: "550e8400-e29b-41d4-a716-446655440000"
+
+    PurchaseResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            order_id:
+              type: string
+              format: uuid
+              example: "ord_01HX..."
+            status:
+              type: string
+              enum: [pending, completed, failed, refunded]
+              example: "completed"
+            diamonds_credited:
+              type: integer
+              minimum: 0
+              example: 330
+            new_diamond_balance:
+              type: integer
+              minimum: 0
+              example: 410
+            transaction_id:
+              type: string
+              nullable: true
+              example: "1000000XXXXXX"
+            created_at:
+              type: string
+              format: date-time
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    OrderSummary:
+      type: object
+      properties:
+        order_id:
+          type: string
+          format: uuid
+        product_id:
+          type: string
+        platform:
+          type: string
+          enum: [apple, google]
+        status:
+          type: string
+          enum: [pending, completed, failed, refunded]
+        diamonds_credited:
+          type: integer
+          minimum: 0
+        amount_usd:
+          type: number
+          multipleOf: 0.01
+        created_at:
+          type: string
+          format: date-time
+
+    OrderListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderSummary'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    OrderDetailResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            order_id:
+              type: string
+              format: uuid
+            product_id:
+              type: string
+            platform:
+              type: string
+              enum: [apple, google]
+            transaction_id:
+              type: string
+              nullable: true
+            status:
+              type: string
+              enum: [pending, completed, failed, refunded]
+            diamonds_credited:
+              type: integer
+              minimum: 0
+            amount_usd:
+              type: number
+              multipleOf: 0.01
+            receipt_hash:
+              type: string
+              nullable: true
+            created_at:
+              type: string
+              format: date-time
+            completed_at:
+              type: string
+              format: date-time
+              nullable: true
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    # ── VIP Schemas ──────────────────────────────────────────
+
+    VipSubscribeRequest:
+      type: object
+      required: [plan_id]
+      additionalProperties: false
+      properties:
+        plan_id:
+          type: string
+          enum: [vip_monthly, vip_quarterly]
+          description: VIP 方案 ID
+          example: "vip_monthly"
+
+    VipSubscribeResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            subscription_id:
+              type: string
+              format: uuid
+              example: "sub_01HX..."
+            plan_id:
+              type: string
+              enum: [vip_monthly, vip_quarterly]
+            vip_tier:
+              type: integer
+              minimum: 1
+              maximum: 3
+              example: 1
+            activated_at:
+              type: string
+              format: date-time
+            expires_at:
+              type: string
+              format: date-time
+            diamonds_deducted:
+              type: integer
+              minimum: 0
+              example: 30
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    # ── Admin Schemas ──────────────────────────────────────────
+
+    AdminUserItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "usr_01HX..."
+        email:
+          type: string
+          example: "p***@example.com"
+        display_name:
+          type: string
+        role:
+          type: string
+          enum: [player, operator, superadmin]
+        vip_tier:
+          type: integer
+          minimum: 0
+          maximum: 3
+        gold_balance:
+          type: integer
+          minimum: 0
+        diamond_balance:
+          type: integer
+          minimum: 0
+        status:
+          type: string
+          enum: [active, suspended, banned]
+        created_at:
+          type: string
+          format: date-time
+        last_login_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    AdminUserListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdminUserItem'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    AdminUpdateUserRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum: [active, suspended, banned]
+        suspend_reason:
+          type: string
+          maxLength: 512
+          description: 封禁原因（status=suspended/banned 時必填）
+        gold_adjustment:
+          type: integer
+          description: 金幣調整量（正數加，負數扣；SuperAdmin 限定）
+        adjustment_reason:
+          type: string
+          description: gold_adjustment 不為 0 時必填
+
+    AdminUpdateUserResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            user_id:
+              type: string
+            status:
+              type: string
+              enum: [active, suspended, banned]
+            updated_at:
+              type: string
+              format: date-time
+            updated_by:
+              type: string
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    GameConfigResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            rtp_target_min:
+              type: number
+              minimum: 0.80
+              maximum: 0.95
+              example: 0.85
+            rtp_target_max:
+              type: number
+              minimum: 0.85
+              maximum: 0.98
+              example: 0.95
+            jackpot_trigger_probability:
+              type: number
+              minimum: 0.00001
+              maximum: 0.001
+              example: 0.0001
+            jackpot_min_pool:
+              type: integer
+              minimum: 0
+              example: 10000
+            fish_spawn_rate:
+              type: number
+              minimum: 0.5
+              maximum: 2.0
+              example: 1.0
+            max_players_per_room:
+              type: integer
+              minimum: 4
+              maximum: 6
+              example: 6
+            session_timeout_seconds:
+              type: integer
+              example: 1800
+            updated_at:
+              type: string
+              format: date-time
+            updated_by:
+              type: string
+              nullable: true
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    UpdateGameConfigRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        rtp_target_min:
+          type: number
+          minimum: 0.80
+          maximum: 0.95
+        rtp_target_max:
+          type: number
+          minimum: 0.80
+          maximum: 0.98
+        jackpot_trigger_probability:
+          type: number
+          minimum: 0.00001
+          maximum: 0.001
+        fish_spawn_rate:
+          type: number
+          minimum: 0.5
+          maximum: 2.0
+
+    UpdateGameConfigResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            rtp_target_min:
+              type: number
+            rtp_target_max:
+              type: number
+            effective_at:
+              type: string
+              format: date-time
+            updated_by:
+              type: string
+        meta:
+          $ref: '#/components/schemas/MetaResponse'
+
+    KpiStatsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            period:
+              type: string
+              enum: [today, 7d, 30d]
+            from:
+              type: string
+              format: date-time
+            to:
+              type: string
+              format: date-time
+            dau:
+              type: integer
+              minimum: 0
+            new_registrations:
+              type: integer
+              minimum: 0
+            active_rooms:
+              type: integer
+              minimum: 0
+            revenue_usd:
+              type: number
+              minimum: 0
+            iap_transactions:
+              type: integer
+              minimum: 0
+            jackpot_triggered_count:
+              type: integer
+              minimum: 0
+            avg_session_duration_minutes:
+              type: number
+              minimum: 0
+            avg_rtp_actual:
+              type: number
+              minimum: 0
+              maximum: 1
+        meta:
+          $ref: '#/components/schemas/MetaResponse'

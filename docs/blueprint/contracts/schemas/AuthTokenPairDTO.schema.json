@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/AuthTokenPairDTO",
+  "title": "AuthTokenPairDTO",
+  "description": "JWT Access + Refresh Token 組合，登入/刷新後回傳",
+  "type": "object",
+  "required": ["access_token", "refresh_token", "expires_in", "token_type"],
+  "properties": {
+    "access_token": {
+      "type": "string",
+      "description": "JWT Access Token（RS256 非對稱簽章，15 分鐘有效）",
+      "example": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+    },
+    "refresh_token": {
+      "type": "string",
+      "description": "JWT Refresh Token（7 天有效期）",
+      "example": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Access Token 有效秒數",
+      "example": 900
+    },
+    "token_type": {
+      "type": "string",
+      "enum": ["Bearer"],
+      "example": "Bearer"
+    }
+  },
+  "x-source": "docs/EDD.md §10.6 AuthTokenPairDTO",
+  "x-stereotype": "<<ResponseDTO>>"
+}

@@ -1,0 +1,192 @@
+{
+  "consumer": {"name": "CocosClient"},
+  "provider": {"name": "AccountService"},
+  "interactions": [
+    {
+      "description": "玩家帳號註冊",
+      "providerState": "email does not already exist in the system",
+      "request": {
+        "method": "POST",
+        "path": "/v1/auth/register",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "email": "newplayer@example.com",
+          "password": "Passw0rd!123",
+          "display_name": "FishHunter88",
+          "birthdate": "1995-03-15",
+          "agree_terms": true
+        },
+        "matchingRules": {
+          "$.body.email": {"match": "regex", "regex": "^[^@]+@[^@]+\\.[^@]+$"},
+          "$.body.password": {"match": "type"},
+          "$.body.display_name": {"match": "type"},
+          "$.body.birthdate": {"match": "regex", "regex": "^\\d{4}-\\d{2}-\\d{2}$"},
+          "$.body.agree_terms": {"match": "type"}
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "data": {
+            "user_id": "usr_01HX...",
+            "email": "n***@example.com",
+            "display_name": "FishHunter88",
+            "age_verified": true,
+            "created_at": "2026-04-24T12:00:00Z"
+          },
+          "meta": {"request_id": "req_01HX..."}
+        },
+        "matchingRules": {
+          "$.body.data.user_id": {"match": "type"},
+          "$.body.data.email": {"match": "type"},
+          "$.body.data.display_name": {"match": "type"},
+          "$.body.data.age_verified": {"match": "type"},
+          "$.body.data.created_at": {"match": "type"}
+        }
+      }
+    },
+    {
+      "description": "玩家帳號註冊 - 年齡不足",
+      "providerState": "birthdate indicates player is under 18",
+      "request": {
+        "method": "POST",
+        "path": "/v1/auth/register",
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "email": "underage@example.com",
+          "password": "Passw0rd!123",
+          "display_name": "YoungPlayer",
+          "birthdate": "2010-01-01",
+          "agree_terms": true
+        },
+        "matchingRules": {
+          "$.body.email": {"match": "type"},
+          "$.body.password": {"match": "type"},
+          "$.body.display_name": {"match": "type"},
+          "$.body.birthdate": {"match": "type"}
+        }
+      },
+      "response": {
+        "status": 422,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "code": "AGE_RESTRICTION",
+          "message": "Player must be at least 18 years old"
+        },
+        "matchingRules": {
+          "$.body.code": {"match": "type"},
+          "$.body.message": {"match": "type"}
+        }
+      }
+    },
+    {
+      "description": "玩家登入 - Happy Path",
+      "providerState": "player with email player@example.com exists and is active",
+      "request": {
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "email": "player@example.com",
+          "password": "Passw0rd!123"
+        },
+        "matchingRules": {
+          "$.body.email": {"match": "type"},
+          "$.body.password": {"match": "type"}
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "data": {
+            "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+            "expires_in": 900,
+            "token_type": "Bearer",
+            "user": {
+              "id": "usr_01HX...",
+              "email": "p***@example.com",
+              "role": "player",
+              "vip_tier": 0
+            }
+          }
+        },
+        "matchingRules": {
+          "$.body.data.access_token": {"match": "type"},
+          "$.body.data.refresh_token": {"match": "type"},
+          "$.body.data.expires_in": {"match": "integer", "min": 1},
+          "$.body.data.token_type": {"match": "regex", "regex": "Bearer"},
+          "$.body.data.user.id": {"match": "type"},
+          "$.body.data.user.role": {"match": "regex", "regex": "^(player|operator|superadmin)$"}
+        }
+      }
+    },
+    {
+      "description": "玩家登入 - 帳號鎖定",
+      "providerState": "player account is locked due to 5 failed login attempts",
+      "request": {
+        "method": "POST",
+        "path": "/v1/auth/login",
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "email": "locked@example.com",
+          "password": "Passw0rd!123"
+        },
+        "matchingRules": {
+          "$.body.email": {"match": "type"},
+          "$.body.password": {"match": "type"}
+        }
+      },
+      "response": {
+        "status": 423,
+        "body": {
+          "code": "ACCOUNT_LOCKED",
+          "message": "Account locked due to multiple failed login attempts"
+        },
+        "matchingRules": {
+          "$.body.code": {"match": "type"},
+          "$.body.message": {"match": "type"}
+        }
+      }
+    },
+    {
+      "description": "取得玩家餘額",
+      "providerState": "player with valid JWT token exists",
+      "request": {
+        "method": "GET",
+        "path": "/v1/users/me/balance",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJSUzI1NiJ9..."
+        },
+        "matchingRules": {
+          "$.headers.Authorization": {"match": "regex", "regex": "^Bearer .+$"}
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "data": {
+            "user_id": "usr_01HX...",
+            "gold_balance": 12500,
+            "diamond_balance": 80
+          }
+        },
+        "matchingRules": {
+          "$.body.data.user_id": {"match": "type"},
+          "$.body.data.gold_balance": {"match": "integer", "min": 0},
+          "$.body.data.diamond_balance": {"match": "integer", "min": 0}
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {"version": "2.0.0"},
+    "x-source": "docs/API.md §1, §2.1 / docs/EDD.md §10.2",
+    "x-generated-by": "gendoc-gen-contracts"
+  }
+}

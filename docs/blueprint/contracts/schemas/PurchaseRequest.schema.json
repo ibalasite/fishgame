@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/PurchaseRequest",
+  "title": "PurchaseRequest",
+  "description": "IAP 充值請求 DTO（驗證 Receipt 並充值鑽石）",
+  "type": "object",
+  "required": ["platform", "product_id", "receipt", "idempotency_key"],
+  "additionalProperties": false,
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": ["apple", "google"],
+      "description": "IAP 平台",
+      "example": "apple"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "商品業務 ID",
+      "example": "diamonds_330"
+    },
+    "receipt": {
+      "type": "string",
+      "description": "Apple: base64 receipt data；Google: purchaseToken",
+      "example": "MIIXXXXXXX..."
+    },
+    "idempotency_key": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4，防重複充值",
+      "example": "550e8400-e29b-41d4-a716-446655440000"
+    }
+  },
+  "x-source": "docs/API.md §2.3 POST /shop/purchases",
+  "x-stereotype": "<<RequestDTO>>"
+}

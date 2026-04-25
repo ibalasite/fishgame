@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/UserDTO",
+  "title": "UserDTO",
+  "description": "玩家資料 DTO（API 回傳，PII 欄位已遮罩）",
+  "type": "object",
+  "required": ["id", "email_masked", "age_status", "vip_tier", "gold_balance", "diamond_balance", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "玩家 CUID2 ID（前綴 usr_）",
+      "example": "usr_01HX..."
+    },
+    "email_masked": {
+      "type": "string",
+      "description": "遮罩後的 email（如 t***@***.com）",
+      "example": "p***@example.com"
+    },
+    "age_status": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "DEMO_ONLY", "VERIFIED"],
+      "description": "年齡驗證狀態",
+      "example": "VERIFIED"
+    },
+    "vip_tier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "VIP 等級：0=無 VIP，1=月費，2=季費，3=年費",
+      "example": 1
+    },
+    "gold_balance": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "遊戲金幣餘額（coin）",
+      "example": 12500
+    },
+    "diamond_balance": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "鑽石（充值貨幣）餘額",
+      "example": 80
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "帳號建立時間（UTC ISO 8601）",
+      "example": "2026-04-24T12:00:00Z"
+    }
+  },
+  "x-source": "docs/EDD.md §10.6 UserDTO",
+  "x-stereotype": "<<DTO>>"
+}

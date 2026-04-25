@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/VipSubscriptionDTO",
+  "title": "VipSubscriptionDTO",
+  "description": "VIP 訂閱狀態 DTO",
+  "type": "object",
+  "required": ["user_id", "vip_tier", "activated_at", "expires_at", "status"],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "玩家 CUID2 ID",
+      "example": "usr_01HX..."
+    },
+    "vip_tier": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3,
+      "description": "VIP 等級：1=月費，2=季費，3=年費",
+      "example": 1
+    },
+    "plan_id": {
+      "type": "string",
+      "enum": ["vip_monthly", "vip_quarterly"],
+      "description": "VIP 方案 ID",
+      "example": "vip_monthly"
+    },
+    "activated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "訂閱生效時間",
+      "example": "2026-04-24T12:00:00Z"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "訂閱到期時間（必須 > activated_at）",
+      "example": "2026-05-24T12:00:00Z"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "EXPIRED", "CANCELLED"],
+      "description": "訂閱狀態",
+      "example": "ACTIVE"
+    },
+    "diamonds_deducted": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "扣除的鑽石數量",
+      "example": 30
+    }
+  },
+  "x-source": "docs/EDD.md §10.6 VipSubscriptionDTO",
+  "x-stereotype": "<<DTO>>"
+}

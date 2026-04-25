@@ -1,0 +1,196 @@
+{
+  "consumer": {"name": "CocosClient"},
+  "provider": {"name": "ShopService"},
+  "interactions": [
+    {
+      "description": "取得商城商品列表",
+      "providerState": "active products exist in the catalog",
+      "request": {
+        "method": "GET",
+        "path": "/v1/shop/products",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJSUzI1NiJ9..."
+        },
+        "matchingRules": {
+          "$.headers.Authorization": {"match": "regex", "regex": "^Bearer .+$"}
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "data": [
+            {
+              "product_id": "diamonds_330",
+              "name": "330 鑽石月包",
+              "diamonds": 300,
+              "bonus_diamonds": 30,
+              "price_usd": 4.99,
+              "is_active": true,
+              "badge": "BEST_VALUE"
+            }
+          ]
+        },
+        "matchingRules": {
+          "$.body.data": {"match": "type", "min": 1},
+          "$.body.data[*].product_id": {"match": "type"},
+          "$.body.data[*].name": {"match": "type"},
+          "$.body.data[*].diamonds": {"match": "integer", "min": 0},
+          "$.body.data[*].price_usd": {"match": "decimal"}
+        }
+      }
+    },
+    {
+      "description": "IAP 充值 - Happy Path（Apple）",
+      "providerState": "user with sufficient balance and valid Apple receipt exists",
+      "request": {
+        "method": "POST",
+        "path": "/v1/shop/purchases",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJSUzI1NiJ9...",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "platform": "apple",
+          "product_id": "diamonds_330",
+          "receipt": "MIIXXXXXXX...",
+          "idempotency_key": "550e8400-e29b-41d4-a716-446655440000"
+        },
+        "matchingRules": {
+          "$.body.platform": {"match": "regex", "regex": "^(apple|google)$"},
+          "$.body.product_id": {"match": "type"},
+          "$.body.receipt": {"match": "type"},
+          "$.body.idempotency_key": {"match": "regex", "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"}
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "data": {
+            "order_id": "ord_01HX...",
+            "status": "completed",
+            "diamonds_credited": 330,
+            "new_diamond_balance": 410
+          }
+        },
+        "matchingRules": {
+          "$.body.data.order_id": {"match": "type"},
+          "$.body.data.status": {"match": "regex", "regex": "^(pending|completed|failed|refunded)$"},
+          "$.body.data.diamonds_credited": {"match": "integer", "min": 0},
+          "$.body.data.new_diamond_balance": {"match": "integer", "min": 0}
+        }
+      }
+    },
+    {
+      "description": "IAP 充值 - Receipt 已使用（重複提交）",
+      "providerState": "IAP receipt has already been used for a previous order",
+      "request": {
+        "method": "POST",
+        "path": "/v1/shop/purchases",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJSUzI1NiJ9...",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "platform": "apple",
+          "product_id": "diamonds_330",
+          "receipt": "MIIXXXXXXX_USED...",
+          "idempotency_key": "550e8400-e29b-41d4-a716-446655440099"
+        },
+        "matchingRules": {
+          "$.body.platform": {"match": "type"},
+          "$.body.product_id": {"match": "type"},
+          "$.body.receipt": {"match": "type"},
+          "$.body.idempotency_key": {"match": "type"}
+        }
+      },
+      "response": {
+        "status": 422,
+        "body": {
+          "code": "IAP_RECEIPT_USED",
+          "message": "This receipt has already been redeemed"
+        },
+        "matchingRules": {
+          "$.body.code": {"match": "type"},
+          "$.body.message": {"match": "type"}
+        }
+      }
+    },
+    {
+      "description": "VIP 訂閱 - Happy Path",
+      "providerState": "user has sufficient diamonds and no active VIP subscription",
+      "request": {
+        "method": "POST",
+        "path": "/v1/vip/subscriptions",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJSUzI1NiJ9...",
+          "Content-Type": "application/json",
+          "Idempotency-Key": "550e8400-e29b-41d4-a716-446655440001"
+        },
+        "body": {
+          "plan_id": "vip_monthly"
+        },
+        "matchingRules": {
+          "$.body.plan_id": {"match": "regex", "regex": "^(vip_monthly|vip_quarterly)$"},
+          "$.headers.Idempotency-Key": {"match": "regex", "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"}
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "data": {
+            "subscription_id": "sub_01HX...",
+            "plan_id": "vip_monthly",
+            "vip_tier": 1,
+            "activated_at": "2026-04-24T12:00:00Z",
+            "expires_at": "2026-05-24T12:00:00Z",
+            "diamonds_deducted": 30
+          }
+        },
+        "matchingRules": {
+          "$.body.data.subscription_id": {"match": "type"},
+          "$.body.data.plan_id": {"match": "type"},
+          "$.body.data.vip_tier": {"match": "integer", "min": 1},
+          "$.body.data.diamonds_deducted": {"match": "integer", "min": 0}
+        }
+      }
+    },
+    {
+      "description": "VIP 訂閱 - 鑽石不足",
+      "providerState": "user has insufficient diamonds for vip_monthly plan",
+      "request": {
+        "method": "POST",
+        "path": "/v1/vip/subscriptions",
+        "headers": {
+          "Authorization": "Bearer eyJhbGciOiJSUzI1NiJ9...",
+          "Content-Type": "application/json",
+          "Idempotency-Key": "550e8400-e29b-41d4-a716-446655440002"
+        },
+        "body": {
+          "plan_id": "vip_monthly"
+        },
+        "matchingRules": {
+          "$.body.plan_id": {"match": "type"}
+        }
+      },
+      "response": {
+        "status": 422,
+        "body": {
+          "code": "INSUFFICIENT_DIAMONDS",
+          "message": "Insufficient diamond balance for this VIP plan"
+        },
+        "matchingRules": {
+          "$.body.code": {"match": "type"},
+          "$.body.message": {"match": "type"}
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {"version": "2.0.0"},
+    "x-source": "docs/API.md §2.3 / docs/EDD.md §10.8",
+    "x-generated-by": "gendoc-gen-contracts"
+  }
+}

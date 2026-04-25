@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/LoginRequest",
+  "title": "LoginRequest",
+  "description": "玩家登入請求 DTO",
+  "type": "object",
+  "required": ["email", "password"],
+  "additionalProperties": false,
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "電子郵件（格式驗證）",
+      "example": "player@example.com"
+    },
+    "password": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128,
+      "description": "明文密碼（TLS 傳輸）",
+      "example": "Passw0rd!123"
+    }
+  },
+  "x-source": "docs/API.md §1.1 POST /auth/login",
+  "x-stereotype": "<<RequestDTO>>"
+}

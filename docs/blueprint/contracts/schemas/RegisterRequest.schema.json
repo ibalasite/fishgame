@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/RegisterRequest",
+  "title": "RegisterRequest",
+  "description": "玩家帳號註冊請求 DTO",
+  "type": "object",
+  "required": ["email", "password", "display_name", "birthdate", "agree_terms"],
+  "additionalProperties": false,
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 254,
+      "description": "RFC 5321 格式電子郵件，lowercase 儲存",
+      "example": "newplayer@example.com"
+    },
+    "password": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 128,
+      "description": "需含大寫字母+數字，TLS 傳輸",
+      "example": "Passw0rd!123"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 30,
+      "description": "玩家顯示名稱，無特殊符號",
+      "example": "FishHunter88"
+    },
+    "birthdate": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 日期（YYYY-MM-DD），年齡驗證用（需 >= 18 歲）",
+      "example": "1995-03-15"
+    },
+    "agree_terms": {
+      "type": "boolean",
+      "description": "服務條款同意，必須為 true",
+      "example": true
+    }
+  },
+  "x-source": "docs/API.md §2.1 POST /auth/register",
+  "x-stereotype": "<<RequestDTO>>"
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/OrderDTO",
+  "title": "OrderDTO",
+  "description": "IAP 充值訂單 DTO",
+  "type": "object",
+  "required": ["order_id", "user_id", "product_id", "order_type", "amount_usd", "status", "created_at"],
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4（冪等 key）",
+      "example": "550e8400-e29b-41d4-a716-446655440000"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "玩家 CUID2 ID",
+      "example": "usr_01HX..."
+    },
+    "product_id": {
+      "type": "string",
+      "description": "商品業務 ID",
+      "example": "diamonds_330"
+    },
+    "order_type": {
+      "type": "string",
+      "enum": ["DIAMOND_PACK", "VIP_SUBSCRIPTION", "WEAPON_PACK"],
+      "description": "訂單類型",
+      "example": "DIAMOND_PACK"
+    },
+    "amount_usd": {
+      "type": "number",
+      "multipleOf": 0.01,
+      "minimum": 0,
+      "description": "訂單金額（USD）",
+      "example": 4.99
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PENDING", "COMPLETED", "FAILED", "REFUNDED"],
+      "description": "訂單狀態",
+      "example": "COMPLETED"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "訂單建立時間（UTC ISO 8601）",
+      "example": "2026-04-24T12:00:00Z"
+    }
+  },
+  "x-source": "docs/EDD.md §10.6 OrderDTO",
+  "x-stereotype": "<<DTO>>"
+}

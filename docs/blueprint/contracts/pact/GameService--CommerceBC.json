@@ -1,0 +1,95 @@
+{
+  "consumer": {"name": "GameService"},
+  "provider": {"name": "CommerceBC"},
+  "interactions": [
+    {
+      "description": "Jackpot 觸發 - 通知 Commerce BC 更新玩家金幣",
+      "providerState": "user with winner_user_id exists and has valid gold_balance",
+      "request": {
+        "method": "POST",
+        "path": "/internal/jackpot-triggered",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Internal-Service": "game-service"
+        },
+        "body": {
+          "event_type": "JackpotTriggered",
+          "session_id": 12345,
+          "winner_user_id": "usr_01HX...",
+          "amount": 50000,
+          "room_id": "room_01HX...",
+          "triggered_at": "2026-04-24T12:00:00Z"
+        },
+        "matchingRules": {
+          "$.body.event_type": {"match": "regex", "regex": "JackpotTriggered"},
+          "$.body.session_id": {"match": "integer", "min": 1},
+          "$.body.winner_user_id": {"match": "type"},
+          "$.body.amount": {"match": "integer", "min": 1},
+          "$.body.room_id": {"match": "type"},
+          "$.body.triggered_at": {"match": "type"}
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": {
+          "success": true,
+          "new_gold_balance": 62500
+        },
+        "matchingRules": {
+          "$.body.success": {"match": "type"},
+          "$.body.new_gold_balance": {"match": "integer", "min": 0}
+        }
+      }
+    },
+    {
+      "description": "遊戲結算 - GameSessionEnded 事件通知 Commerce 更新玩家餘額",
+      "providerState": "game session has ended and players have valid accounts",
+      "request": {
+        "method": "POST",
+        "path": "/internal/game-session-ended",
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Internal-Service": "game-service"
+        },
+        "body": {
+          "event_type": "GameSessionEnded",
+          "session_id": 12345,
+          "player_results": [
+            {
+              "user_id": "usr_01HX...",
+              "gold_earned": 1200,
+              "gold_spent": 800,
+              "is_mvp": false
+            }
+          ]
+        },
+        "matchingRules": {
+          "$.body.event_type": {"match": "regex", "regex": "GameSessionEnded"},
+          "$.body.session_id": {"match": "integer", "min": 1},
+          "$.body.player_results": {"match": "type", "min": 1},
+          "$.body.player_results[*].user_id": {"match": "type"},
+          "$.body.player_results[*].gold_earned": {"match": "integer", "min": 0},
+          "$.body.player_results[*].gold_spent": {"match": "integer", "min": 0}
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "processed_count": 1
+        },
+        "matchingRules": {
+          "$.body.success": {"match": "type"},
+          "$.body.processed_count": {"match": "integer", "min": 0}
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {"version": "2.0.0"},
+    "x-source": "docs/EDD.md §10.8 Communication Diagram / §3.4 Context Map",
+    "x-generated-by": "gendoc-gen-contracts",
+    "x-note": "GameService → CommerceBC 通訊透過 Redis Pub/Sub 異步傳遞，此 Pact 描述邏輯合約語義"
+  }
+}

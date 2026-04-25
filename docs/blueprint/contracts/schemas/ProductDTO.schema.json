@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://fishing-arcade-game.contracts/ProductDTO",
+  "title": "ProductDTO",
+  "description": "商城商品 DTO（鑽石儲值包）",
+  "type": "object",
+  "required": ["product_id", "name", "diamonds", "bonus_diamonds", "price_usd", "is_active"],
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "商品業務 ID",
+      "example": "diamonds_330"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "商品名稱",
+      "example": "330 鑽石月包"
+    },
+    "diamonds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "基礎鑽石數量",
+      "example": 300
+    },
+    "bonus_diamonds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "贈品鑽石",
+      "example": 30
+    },
+    "price_usd": {
+      "type": "number",
+      "multipleOf": 0.01,
+      "minimum": 0,
+      "description": "商品 USD 定價",
+      "example": 4.99
+    },
+    "apple_product_id": {
+      "type": ["string", "null"],
+      "description": "App Store 商品 ID",
+      "example": "com.fishingarcade.diamonds330"
+    },
+    "google_product_id": {
+      "type": ["string", "null"],
+      "description": "Google Play 商品 ID",
+      "example": "diamonds_330"
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "商品是否上架",
+      "example": true
+    },
+    "badge": {
+      "type": ["string", "null"],
+      "enum": ["BEST_VALUE", "HOT", "NEW", null],
+      "description": "行銷標籤",
+      "example": "BEST_VALUE"
+    },
+    "sort_order": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "排序權重",
+      "example": 0
+    }
+  },
+  "x-source": "docs/SCHEMA.md §3.10 products",
+  "x-stereotype": "<<DTO>>"
+}
