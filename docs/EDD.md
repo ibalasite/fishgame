@@ -1311,12 +1311,29 @@ classDiagram
         +consolationRate: number
         +onEscape(): ConsolationReward[]
     }
+    class GameSession {
+        +id: string
+        +roomId: string
+        +status: GameStatus
+        +startedAt: Date
+        +endedAt: Date
+    }
+    class SessionPlayer {
+        +userId: string
+        +sessionId: string
+        +coinsEarned: number
+        +isMvp: boolean
+        +isBot: boolean
+    }
 
     IRTPEngine <|.. DefaultRTPEngine
     IRTPEngine <|.. DegradedRTPEngine
     FishPoolRoom --> IRTPEngine
     FishPoolRoom --> JackpotService
     Fish <|-- BossFish
+    FishPoolRoom *-- Fish : Composition（Room 生命週期內擁有 Fish 實例）
+    GameSession o-- SessionPlayer : Aggregation（Session 聚合多位玩家參與者）
+    FishPoolRoom --> GameSession
 ```
 
 ### 10.7 Object Diagram（具體物件實例 — 一局遊戲）
