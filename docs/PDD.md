@@ -1757,7 +1757,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `radius-md` | `radius-16` | 中圓角（充值卡片、面板容器）|
 | `radius-lg` | `radius-24` | 大圓角（Modal 彈窗、VIPPanel Banner）|
 
-> **VDD-Only Layer 2 Extensions（VDD §6.2）：** 以下 7 個語意 Token 在 VDD CSS Layer 2 中定義但不在上方 PDD Layer 2 主表中；均用於 UI 元件規格，引用上方 Layer 1 Primitives。
+> **VDD-Only Layer 2 Extensions（VDD §6.2）：** 以下 8 個語意 Token 在 VDD CSS Layer 2 中定義但不在上方 PDD Layer 2 主表中；均用於 UI 元件規格，引用上方 Layer 1 Primitives。
 >
 > | Token | 引用 Primitive | 用途 |
 > |-------|--------------|------|
@@ -1768,6 +1768,7 @@ const safeArea = cc.sys.getSafeAreaRect();
 > | `color-feedback-info` | `color-neon-blue`（#00D4FF）| 資訊提示色（公告 Toast 等）|
 > | `color-accent-success` | `color-neon-green`（#00FF88）| 命中成功強調色（擊殺 hit effect）|
 > | `color-border-active` | `color-neon-blue`（#00D4FF）| 選中/Active 狀態邊框（Tab Bar 高亮條、Dropdown 選中項輪廓）|
+> | `color-gold-border-subtle` | `rgba(245,200,66,0.55)` (color-gold-400 @ 55%) | 半透明金色玻璃面板邊框（HUD、卡片）；WCAG 1.4.11 ≥3:1 合規 |
 
 **Layer 3 — Component Tokens（元件層，引用 Semantic）**
 
