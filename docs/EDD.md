@@ -85,12 +85,15 @@ graph TD
     IAP["💳 IAP 平台\nAppStore / Google Play"]
     Analytics["📊 Analytics\nMixpanel / Amplitude"]
     Cloud["☁️ AWS/GCP 東南亞\n低延遲基礎設施"]
+    PushNotif["🔔 Push Notification\nFirebase FCM"]
 
     Player -->|"HTTPS / WSS"| FishGame
     Operator -->|"HTTPS 管理後台"| FishGame
     FishGame -->|"Receipt 驗證"| IAP
     FishGame -->|"事件埋點"| Analytics
     FishGame -->|"部署執行"| Cloud
+    FishGame -->|"Jackpot 廣播 / 系統通知"| PushNotif
+    PushNotif -->|"Push 通知"| Player
 ```
 
 ### 2.2 Container 圖（C4 Level 2）
@@ -98,6 +101,7 @@ graph TD
 ```mermaid
 graph TD
     CocosClient["Cocos Creator 客戶端\nLua / TypeScript"]
+    Unleash["Unleash Feature Flag Server\n（自建開源）"]
 
     subgraph FishGameSystem["fishing-arcade-game System"]
         APIGateway["API Gateway\nJWT Auth / Rate Limit / Router\n(Node.js Express)"]
@@ -119,6 +123,9 @@ graph TD
     GameSvc --> MySQL
     GameSvc --> Redis
     ShopSvc --> MySQL
+    AccountSvc -->|"Feature Flag 查詢"| Unleash
+    GameSvc -->|"Feature Flag 查詢"| Unleash
+    AdminSvc -->|"Feature Flag 管理"| Unleash
 ```
 
 ---
