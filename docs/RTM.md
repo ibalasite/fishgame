@@ -29,9 +29,10 @@
 | PRD Acceptance Criteria | 39（P0: 36 / P1: 3）| 每條 AC 至少一個 TC |
 | §15.1 E2E / Integration TCs | 43 | test-plan RTM 正式映射表 |
 | §15.2 Unit Test TCs | 24 | 核心模組 Class-level 覆蓋 |
-| BDD 補充場景（features/）| 50 | §15.1 未涵蓋的邊界/錯誤路徑 |
-| **Total TC（含 BDD 補充）** | **~83** | 詳見 §3–§5 |
-| AC 覆蓋率 | **100%**（39/39）| 所有 P0 AC 均有對應 TC |
+| BDD 補充場景（features/）| ~78（Scenario 宣告數）/ ~95（含 Outline 展開後 test cases）| 8 個 feature files，§15.1 未涵蓋之邊界/錯誤路徑；計算說明：含 Scenario Outline Examples 展開後為 95 個有效 test case |
+| **Total TC（含 BDD 補充）** | **~110**（Scenario 宣告）/ **~138**（含 Outline 展開）| 詳見 §3–§5；數量包含 §15.1 正式 TC + BDD 補充 |
+| TC 規劃覆蓋率 | **100%**（39/39）| 所有 P0 AC 均有對應 TC 規劃 |
+| BDD Scenario 覆蓋率 | **~67%**（26/39 AC 有實際 BDD Scenario）| 13 個 AC 的 BDD Feature 欄位為空，仍待補充 |
 | 初始執行狀態 | 0 / 83 PASS | 全部 TODO（尚未執行）|
 
 ### §1.2 測試類型分布
@@ -158,7 +159,7 @@ bar
 | TC-ID | PRD REQ-ID | AC / 場景摘要 | BDD Feature | 狀態 |
 |-------|-----------|-------------|-------------|------|
 | TC-INT-ROOM-002-S | US-ROOM-001/AC-2 | 玩家 A 捕魚 → 魚從公共池消失 → 同步 < 100ms | `features/game/room_matchmaking.feature` | TODO |
-| TC-INT-ROOM-003-S | — | 玩家斷線 → 10s 內 Bot 補位（is_bot=true）| `features/game/room_matchmaking.feature` | TODO |
+| TC-INT-ROOM-003-S | US-ROOM-001/AC-4 | 玩家斷線 → 10s 內 Bot 補位（is_bot=true）| `features/game/room_matchmaking.feature` | TODO |
 | TC-INT-ROOM-004-S | — | WS 事件往返延遲 P99 ≤ 100ms（同 AZ，連續 100 次）| `features/game/room_matchmaking.feature` | TODO |
 | TC-INT-ROOM-004-E | US-ROOM-001/AC-4 | WS 中斷 → 5s 重連失敗 → Bot 接替 | — | TODO |
 | TC-INT-ROOM-005-E | — | 房間已滿 6 人 → 422 ROOM_FULL | `features/game/room_matchmaking.feature` | TODO |
@@ -173,9 +174,9 @@ bar
 | TC-ID | PRD REQ-ID | AC / 場景摘要 | BDD Feature | 狀態 |
 |-------|-----------|-------------|-------------|------|
 | TC-INT-FISH-001-S | US-FISH-001/AC-1 | 射擊命中普通魚（3x）→ 金幣即時到帳 | `features/game/fishing_gameplay.feature` | TODO |
-| TC-INT-FISH-003-B | US-FISH-001/AC-3 | 命中/未命中/Boss 逃跑獎勵分配規則 | — | TODO |
-| TC-INT-FISH-005-E | US-FISH-001/AC-5 | 魚群服務崩潰 → 降級靜態波次 → 不中斷遊戲 | — | TODO |
-| TC-INT-FISH-006-B | US-FISH-001/AC-6 | 6 玩家同時命中同一魚 → Redis SETNX → 唯一計算 | — | TODO |
+| TC-INT-FISH-003-B | US-FISH-001/AC-3 | 命中/未命中/Boss 逃跑獎勵分配規則 | `features/game/fishing_gameplay.feature`（待補充 Scenario）| TODO |
+| TC-INT-FISH-005-E | US-FISH-001/AC-5 | 魚群服務崩潰 → 降級靜態波次 → 不中斷遊戲 | `features/game/fishing_gameplay.feature`（待補充 Scenario）| TODO |
+| TC-INT-FISH-006-B | US-FISH-001/AC-6 | 6 玩家同時命中同一魚 → Redis SETNX → 唯一計算 | `features/game/fishing_gameplay.feature`（待補充 Scenario）| TODO |
 | TC-INT-FISH-002-S | — | 未命中不扣金幣，彈藥數量 -1 | `features/game/fishing_gameplay.feature` | TODO |
 | TC-INT-FISH-003-S | — | 不同魚種倍率（3/5/10/20x）計算正確 | `features/game/fishing_gameplay.feature` | TODO |
 | TC-INT-FISH-004-S | — | 武器倍率 × 魚種倍率疊加（雷射炮 3x × 20x = 60 金幣）| `features/game/fishing_gameplay.feature` | TODO |
@@ -274,7 +275,7 @@ bar
 |-------|--------|-----|------------------------|
 | US-ACCT-001 | P0 | AC-1~5 | TC-E2E-ACCT-001-S, TC-INT-ACCT-002-S, TC-INT-ACCT-003-E, TC-INT-ACCT-004-E, TC-UNIT-ACCT-005-B, TC-INT-ACCT-006-E, TC-INT-ACCT-007-E |
 | US-ROOM-001 | P0 | AC-1~7 | TC-E2E-ROOM-001-S, TC-INT-ROOM-002-S, TC-E2E-ROOM-003-S, TC-INT-ROOM-004-E, TC-E2E-ROOM-005-S, TC-INT-ROOM-006-E, TC-UNIT-ROOM-007-E, TC-INT-ROOM-008-E |
-| US-FISH-001 | P0 | AC-1~6 | TC-INT-FISH-001-S, TC-E2E-FISH-002-S, TC-INT-FISH-003-B, TC-E2E-FISH-004-S, TC-INT-FISH-005-E, TC-INT-FISH-006-B |
+| US-FISH-001 | P0 | AC-1~6 | TC-INT-FISH-001-S, TC-E2E-FISH-002-S, TC-INT-FISH-003-B, TC-INT-FISH-003-S, TC-E2E-FISH-004-S, TC-INT-FISH-004-S, TC-INT-FISH-005-E, TC-INT-FISH-005-S, TC-INT-FISH-006-B |
 | US-WPSK-001 | P0 | AC-1~4 | TC-E2E-WPSK-001-S, TC-E2E-WPSK-002-S, TC-UNIT-WPSK-003-E, TC-UNIT-WPSK-004-E |
 | US-RTP-001 | P0 | AC-1~5 | TC-UNIT-RTP-001-S, TC-INT-RTP-002-S, TC-E2E-RTP-003-S, TC-INT-RTP-004-S, TC-INT-RTP-005-E, TC-INT-RTP-006-E |
 | US-SHOP-001 | P0 | AC-1~6 | TC-E2E-SHOP-001-S, TC-UNIT-SHOP-002-E, TC-INT-SHOP-003-B, TC-UNIT-SHOP-004-B, TC-INT-SHOP-005-E, TC-INT-SHOP-006-E, TC-INT-SHOP-007-E |
