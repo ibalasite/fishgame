@@ -1,5 +1,6 @@
 # features/game/room_matchmaking.feature
-# 來源：PRD US-ROOM-001/AC-1,AC-2,AC-3,AC-4,AC-7
+# 來源：PRD US-ROOM-001/AC-1,AC-2,AC-4
+# 注意：AC-3（Bot 補位 E2E）、AC-6（Circuit Breaker）、AC-7（金幣限制）無對應 Scenario，見 RTM TC-E2E-ROOM-003-S, TC-INT-ROOM-006-E, TC-UNIT-ROOM-007-E
 # Risk Level：High（WebSocket 多人連線是核心體驗，Scenario 數量加倍）
 
 Feature: 多人競技房間快速匹配
