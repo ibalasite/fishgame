@@ -147,28 +147,41 @@ stateDiagram-v2
 
     state "NORMAL FISH" as NF {
         [*] --> NF_alive : spawn
-        NF_alive --> NF_dead : 1 hit (hp=20)
+        NF_alive --> NF_dead : 1 hit [hp=20]
         NF_dead --> [*]
-        note right of NF_alive : multiplier=2, speed=2.0\ncoins = 20\nno escape
     }
 
     state "ELITE FISH" as EF {
         [*] --> EF_alive : spawn
-        EF_alive --> EF_alive : partial hits [hp>0]
-        EF_alive --> EF_dead : final hit (hp=0)
+        EF_alive --> EF_alive : partialHit [hp>0]
+        EF_alive --> EF_dead : finalHit [hp=0]
         EF_dead --> [*]
-        note right of EF_alive : multiplier=10, speed=1.5\nmaxHp=100\nno escape
     }
 
     state "BOSS FISH" as BF {
-        [*] --> BF_alive : spawn (rare wave)
-        BF_alive --> BF_alive : partial hits [hp>0]
-        BF_alive --> BF_dead : final hit [hp<=0]
-        BF_alive --> BF_escaped : escapeTimer=60s expires
+        [*] --> BF_alive : spawn [rareWave]
+        BF_alive --> BF_alive : partialHit [hp>0]
+        BF_alive --> BF_dead : finalHit [hp<=0]
+        BF_alive --> BF_escaped : escapeTimer [60s expires]
         BF_dead --> [*]
         BF_escaped --> [*]
-        note right of BF_alive : multiplier=50, speed=0.8\nmaxHp=500, escapeTimer=60s\nBoss kill = winner-takes-all
-    }</pre></div></main>
+    }
+
+    note right of NF_alive
+        multiplier=2, speed=2.0
+        coins=20, no escape
+    end note
+
+    note right of EF_alive
+        multiplier=10, speed=1.5
+        maxHp=100, no escape
+    end note
+
+    note right of BF_alive
+        multiplier=50, speed=0.8
+        maxHp=500, escapeTimer=60s
+        Boss kill = winner-takes-all
+    end note</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

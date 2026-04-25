@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#051428">
+  <meta name="description" content="FishGame 競技捕魚 — Interactive Prototype">
+  <title>FishGame 競技捕魚 — Interactive Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/prototype.css">
+  <style>
+    /* Inline critical above-fold styles */
+    html, body { height: 100%; }
+    #proto-content { position: relative; z-index: 1; min-height: 100vh; padding-top: 48px; }
+  </style>
+</head>
+<body>
+
+  <!-- Prototype Navigation Bar -->
+  <nav id="proto-nav">
+    <button onclick="router.back()" id="back-btn" title="返回上一頁">← 返回</button>
+    <span id="proto-breadcrumb">FishGame Prototype</span>
+    <button onclick="showFlowMap()" title="查看流程地圖">📍 流程地圖</button>
+  </nav>
+
+  <!-- Screen Container -->
+  <main id="proto-content" role="main" aria-live="polite"></main>
+
+  <!-- Flow Map Modal -->
+  <div id="flow-map-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-label="畫面流程地圖">
+    <div class="modal-content" style="max-width:500px;width:100%;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <h2 class="text-gold" style="font-size:18px;font-weight:800;">📍 畫面流程地圖</h2>
+        <button onclick="document.getElementById('flow-map-modal').style.display='none'"
+          style="background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:20px;padding:4px;">✕</button>
+      </div>
+      <p style="font-size:12px;color:rgba(255,255,255,0.35);margin-bottom:16px;">點擊任意畫面直接跳轉</p>
+      <div id="screen-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;"></div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+        <p style="font-size:11px;color:rgba(255,255,255,0.25);text-align:center;">
+          FishGame 競技捕魚 · Interactive Prototype · 版本 1.0.0
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" style="position:fixed;top:60px;right:16px;z-index:9999;" role="status" aria-live="polite"></div>
+
+  <!-- FX Canvas (particle effects overlay) -->
+  <canvas id="fx-canvas"
+    style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;"
+    aria-hidden="true"></canvas>
+
+  <!-- Audio Unlock Button (iOS Safari) -->
+  <button id="audio-unlock-btn"
+    onclick="audioEngine.unlock()"
+    class="btn-secondary"
+    style="display:none;position:fixed;bottom:80px;right:16px;z-index:9999;font-size:12px;padding:8px 14px;"
+    aria-label="開啟遊戲音效">
+    🔊 開啟音效
+  </button>
+
+  <!-- Module bootstrap: import engines and expose to window -->
+  <script type="module">
+    import mockData from './assets/mock-data.js';
+    import { audioEngine } from './assets/audio-engine.js';
+    import { fxEngine } from './assets/fx-engine.js';
+
+    // Expose to global scope for inline handlers and prototype.js
+    window.mockData = mockData;
+    window.audioEngine = audioEngine;
+    window.fxEngine = fxEngine;
+
+    // Initialize FX Canvas
+    const fxCanvas = document.getElementById('fx-canvas');
+    fxEngine.init(fxCanvas);
+
+    // iOS audio unlock hint
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    if (isIOS || isSafari) {
+      document.getElementById('audio-unlock-btn').style.display = 'block';
+      // Auto-unlock on first interaction
+      document.addEventListener('touchend', function unlockOnce() {
+        audioEngine.unlock();
+        document.removeEventListener('touchend', unlockOnce);
+      }, { once: true });
+    }
+
+    // First click anywhere unlocks audio context on desktop too
+    document.addEventListener('click', function unlockDesktop() {
+      audioEngine.unlock();
+      document.removeEventListener('click', unlockDesktop);
+    }, { once: true });
+
+    console.log('[FishGame Prototype] Engines loaded:', {
+      mockData: !!mockData,
+      audioEngine: !!audioEngine,
+      fxEngine: !!fxEngine
+    });
+  </script>
+
+  <!-- Main prototype logic (non-module for global scope access) -->
+  <script src="assets/prototype.js"></script>
+
+</body>
+</html>

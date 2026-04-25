@@ -123,17 +123,25 @@
 <tr><td>初始執行狀態</td><td>0 / 83 PASS</td><td>全部 TODO（尚未執行）</td></tr>
 </table>
 <h3>§1.2 測試類型分布</h3>
-<div class="diagram-container"><pre class="mermaid">pie title TC 類型分布（§15.1 + §15.2）
-  "E2E" : 12
-  "Integration" : 25
-  "Unit (§15.1)" : 6
-  "Unit (§15.2 Class)" : 24</pre></div>
+<table>
+<tr><th>TC 類型</th><th>數量</th><th>比例</th></tr>
+<tr><td>E2E</td><td>12</td><td>18%</td></tr>
+<tr><td>Integration</td><td>25</td><td>37%</td></tr>
+<tr><td>Unit (§15.1)</td><td>6</td><td>9%</td></tr>
+<tr><td>Unit (§15.2 Class)</td><td>24</td><td>36%</td></tr>
+<tr><td><strong>合計</strong></td><td><strong>67</strong></td><td><strong>100%</strong></td></tr>
+</table>
 <h3>§1.3 模組覆蓋分布</h3>
-<div class="diagram-container"><pre class="mermaid">bar
-  title TC 數量 by 模組（§15.1 基準）
-  x-axis [ACCT, ROOM, FISH, WPSK, RTP, SHOP, AGE, VIP]
-  y-axis "TC 數量" 0 --> 10
-  bar [7, 8, 6, 4, 6, 7, 4, 3]</pre></div>
+<div class="diagram-container"><pre class="mermaid">%%{init: {"theme": "dark"}}%%
+graph LR
+    ACCT["ACCT: 7 TC"]
+    ROOM["ROOM: 8 TC"]
+    FISH["FISH: 6 TC"]
+    WPSK["WPSK: 4 TC"]
+    RTP["RTP: 6 TC"]
+    SHOP["SHOP: 7 TC"]
+    AGE["AGE: 4 TC"]
+    VIP["VIP: 3 TC"]</pre></div>
 <h3>§1.4 P0 AC 覆蓋狀態（36 條）</h3>
 <table>
 <tr><th>US</th><th>AC 數</th><th>TC 數（§15.1）</th><th>覆蓋 %</th></tr>
