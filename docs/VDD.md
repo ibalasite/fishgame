@@ -416,7 +416,7 @@
 | Default | `var(--color-action-danger)` = #FF4444 | #FFFFFF | 無 | — |
 | Hover | `var(--color-red-700)` = #CC0000 | #FFFFFF | 無 | scale(1.02) |
 | Active | `var(--color-red-700)` = #CC0000 | #FFFFFF | 無 | scale(0.98)，inset 0 2px 4px rgba(0,0,0,0.4) |
-| Focus | #FF4444 | #FFFFFF | 3px solid #051428 + 2px outline #FF4444 | Ring 4.6:1 AA |
+| Focus | `var(--color-action-danger)` (#FF4444) | #FFFFFF | 3px solid #051428 + 2px outline `var(--color-action-danger)` (#FF4444) | Ring 4.6:1 AA |
 | Disabled | #FF4444 opacity 0.5 | rgba(255,255,255,0.4) | 無 | cursor: not-allowed |
 
 **尺寸**：高度 48 px，水平 Padding 20 px，圓角 `--radius-md`（16px）；字型：`text-button-label`（18 px / 22 px / 500）
@@ -437,17 +437,17 @@
 
 | 類型 | 背景 | 邊框 | 圓角 | 陰影 |
 |------|------|------|------|------|
-| 標準面板 | rgba(10,35,64,0.95) | 1px solid `var(--card-border)` (= rgba(245,200,66,0.55)) | `--radius-lg`（24px） | 0 8px 32px rgba(0,0,0,0.6) |
+| 標準面板 | `var(--card-bg)` (rgba(10,35,64,0.95)) | 1px solid `var(--card-border)` (= rgba(245,200,66,0.55)) | `--radius-lg`（24px） | 0 8px 32px rgba(0,0,0,0.6) |
 | 高亮面板（VIP/特殊） | rgba(10,35,64,0.98) | 2px solid #F5C842 | `--radius-lg`（24px） | 0 0 24px rgba(245,200,66,0.4) |
-| 模態背景遮罩 | rgba(5,20,40,0.85) backdrop-blur 8px | — | — | — |
-| 武器選擇卡 | rgba(13,51,96,0.9) | 2px solid rgba(245,200,66,0.5) | `--radius-md`（16px） | inset 0 1px 0 rgba(255,255,255,0.1) |
+| 模態背景遮罩 | `var(--modal-overlay)` (rgba(5,20,40,0.85)) backdrop-blur 8px | — | — | — |
+| 武器選擇卡 | `var(--weapon-card-bg)` (rgba(13,51,96,0.9)) | 2px solid `var(--weapon-card-border)` (rgba(245,200,66,0.5)) | `--radius-md`（16px） | inset 0 1px 0 rgba(255,255,255,0.1) |
 | 商品卡片 | `var(--shop-card-bg)` (rgba(15,10,0,0.9)) | 1px solid `var(--shop-card-border)` (rgba(245,200,66,0.5)) | `--radius-lg`（24px） | 0 4px 16px rgba(0,0,0,0.5) |
 
 ### 5.6 HUD 元素規格
 
 | 元素 | 位置 | 尺寸 | 顏色 | 字級 |
 |------|------|------|------|------|
-| 玩家分數 | 各角落（1P 左下，2P 右下，3P 左上，4P 右上） | 120×40 px | bg #0A2340 80%，文字 #FFFFFF | text-hud-score 28px |
+| 玩家分數 | 各角落（1P 左下，2P 右下，3P 左上，4P 右上） | 120×40 px | bg `var(--hud-bg)` (rgba(10,35,64,0.8))，文字 #FFFFFF | text-hud-score 28px |
 | 金幣計數器 | 分數框右側 | 80×32 px | 圖示 #F5C842，數字 #FFFFFF | text-hud-counter 20px |
 | 鑽石計數器 | 金幣右側 | 80×32 px | 圖示 #00D4FF，數字 #FFFFFF | text-hud-counter 20px |
 | Jackpot 進度條 | 頂部居中 | 360×24 px | 底 #0A2340，填充 #00D4FF→#F5C842 漸層 | — |
@@ -1147,7 +1147,7 @@ Y=840  ~ Y=1280: 底部安全區
 
 | 元素 | 規格 |
 |------|------|
-| 背景 | 黑色漸層 overlay 全屏（rgba(0,0,0,0.8)）+ 金幣粒子飄落（勝利時）|
+| 背景 | 黑色漸層 overlay 全屏（`var(--color-black-80)` = rgba(0,0,0,0.8)）+ 金幣粒子飄落（勝利時）|
 | 勝利狀態標題 | text-display，「恭喜！」#F5C842，scale 0→1.2→1.0 彈入，500ms |
 | 失敗狀態標題 | text-h1，「遊戲結束」，rgba(255,255,255,0.8) |
 | 本局總收益 | text-display，數字 #F5C842，帶 count-up 數字滾動動畫（duration 800ms）|
