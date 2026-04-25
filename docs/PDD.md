@@ -1555,13 +1555,16 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-ocean-700` | `#0D3360` |
 | `color-neon-blue` | `#00D4FF` |
 | `color-neon-green` | `#00FF88` |
+| `color-red-700` | `#CC0000` |
 | `color-red-500` | `#FF4444` |
 | `color-red-300` | `#FF8080` |
+| `color-neon-purple` | `#A020F0`（Boss 魔法效果）|
+| `color-black-80` | `rgba(0,0,0,0.8)`（技能冷卻遮罩）|
+| `color-black-900` | `#000000` |
 | `color-white-100` | `#FFFFFF` |
 | `color-white-60` | `rgba(255,255,255,0.6)` |
 | `color-white-45` | `rgba(255,255,255,0.45)` |
 | `color-white-35` | `rgba(255,255,255,0.35)` |
-| `color-black-80` | `rgba(0,0,0,0.8)` |
 | `color-vip-silver` | `#C0C0C0` |
 | `color-vip-gold` | `#FFD700` |
 | `color-vip-platinum` | `#E5E4E2` |
@@ -1596,9 +1599,19 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `spacing-24` | `24px`（VDD CSS 別名：`--space-6`）|
 | `spacing-32` | `32px`（VDD CSS 別名：`--space-8`）|
 | `spacing-48` | `48px`（VDD CSS 別名：`--space-12`）|
+
+> **VDD-Only Spacing Extensions（VDD §6.1）：** VDD 另定義以下 3 個 CSS Custom Property 作為補充間距；這些值在 PDD 的 spacing-N 體系中無對應命名，僅供 CSS/Web 層使用，Cocos Creator 端直接使用數值。
+>
+> | VDD CSS 變數 | 像素值 | 主要用途 |
+> |-------------|-------|---------|
+> | `--space-5` | `20px` | 中等元件內距（技能按鈕 padding）|
+> | `--space-10` | `40px` | 大間距（Modal 內容區塊間距）|
+> | `--space-16` | `64px` | 超大頁面間距（ProfileScene 安全區頂部）|
+
 | `radius-8` | `8px` |
 | `radius-16` | `16px` |
 | `radius-24` | `24px` |
+| `radius-icon` | `20px`（圖示按鈕圓角，VDD §5.3）|
 | `radius-full` | `9999px` |
 | `shadow-glow-gold` | `0 0 12px rgba(245,200,66,0.8)` |
 | `shadow-glow-neon` | `0 0 8px rgba(0,212,255,0.6)` |
@@ -1614,6 +1627,40 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `easing-standard` | `cubic-bezier(0.4, 0, 0.6, 1)` |
 | `easing-ease-out` | `cubic-bezier(0.0, 0, 0.58, 1)` |
 | `easing-material` | `cubic-bezier(0.4, 0, 0.2, 1)` |
+
+> **VDD-Only Primitive Extensions（VDD §6.1）：** 以下 Token 在 VDD CSS Layer 中定義，但不在 PDD Primitive 表格中；Cocos Creator 端直接使用 Motion 物件常數（tokens.ts）或數值，無需 CSS Custom Property。
+>
+> **Motion（遊戲特效動畫）**
+>
+> | Token | 值 | 用途 |
+> |-------|---|------|
+> | `duration-instant` | `0ms` | `prefers-reduced-motion` 替代值；所有動畫在 reduced-motion 下替換為此值 |
+> | `duration-xslow` | `1000ms` | Boss 進場全屏震動、倍率爆字出現 |
+> | `duration-jackpot` | `3000ms` | Jackpot 爆炸特效最短播放時間 |
+> | `easing-linear` | `linear` | 等速進度條（血量/裝填）|
+> | `easing-ease-in` | `cubic-bezier(0.4, 0, 1, 1)` | 元素退出動畫 |
+> | `easing-bounce` | `cubic-bezier(0.68, -0.55, 0.265, 1.55)` | 按鈕按下後彈回 |
+>
+> **Shadow（遊戲光暈效果）**
+>
+> | Token | 值 | 用途 |
+> |-------|---|------|
+> | `shadow-glow-green` | `0 0 12px rgba(0,255,136,0.8)` | 命中魚群霓虹綠光暈 |
+> | `shadow-glow-red` | `0 0 12px rgba(255,68,68,0.7)` | 危急 HP / 危險狀態紅色光暈 |
+> | `shadow-card` | `0 8px 32px rgba(0,0,0,0.6)` | 卡片/Dropdown 懸浮陰影 |
+> | `shadow-inset` | `inset 0 2px 4px rgba(0,0,0,0.4)` | 輸入框/進度槽內凹陰影 |
+>
+> **Z-Index Tier（層疊秩序）**
+>
+> | Token | 值 | 層級說明 |
+> |-------|---|---------|
+> | `z-bg` | `0` | 背景元素（海底背景、場景裝飾）|
+> | `z-game` | `1` | 遊戲主體（魚群、砲台）|
+> | `z-hud` | `10` | HUD 顯示層（分數、計時器）|
+> | `z-overlay` | `20` | 遊戲內疊加層（技能特效 overlay）|
+> | `z-modal` | `30` | Modal / Panel（充值面板、設定頁）|
+> | `z-toast` | `40` | 短暫提示（Toast 通知）|
+> | `z-tutorial` | `50` | 教學引導遮罩（最高層）|
 
 **Layer 2 — Semantic Tokens（語意層，引用 Primitive）**
 
@@ -1634,8 +1681,26 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `color-feedback-warning` | `color-red-300` | 警告（金幣不足）|
 | `color-accent-neon` | `color-neon-blue` | 強調色（Jackpot 進度條、技能特效）|
 | `color-vip-identity` | `color-vip-gold` | VIP 標準金色（VIP 5 以下）|
+| `color-action-danger` | `color-red-500` | 危險操作 CTA（刪除、登出）|
+| `color-action-secondary-hover` | `color-neon-blue-light` | 次要 CTA 懸停態（#40DFFF）|
+| `color-action-secondary-active` | `color-neon-blue-dark` | 次要 CTA 按壓態（#00A8CC）|
+| `color-text-inverse` | `color-ocean-900` | 淺色文字反轉（按鈕上深色文字）|
+| `color-text-brand` | `color-gold-400` | 品牌色文字 |
+| `color-text-accent` | `color-neon-blue` | 強調文字（鑽石、Jackpot 槽）|
+| `color-text-success` | `color-neon-green` | 成功文字（命中提示）|
+| `color-text-error` | `color-red-500` | 錯誤文字 |
+| `color-text-tertiary` | `color-white-40` | 三級文字 |
+| `color-bg-elevated` | `color-ocean-700` | 懸浮面板背景 |
+| `color-bg-overlay` | `rgba(5,20,40,0.85)` | 模態遮罩 |
+| `color-bg-scrim` | `rgba(0,0,0,0.6)` | 半透明深色遮罩 |
+| `color-accent-vip` | `color-vip-identity` | VIP 徽章強調色 |
+| `color-hp-high` | `color-neon-green` | HP 條高血量色 |
+| `color-hp-mid` | `color-gold-400` | HP 條中血量色 |
+| `color-hp-low` | `color-red-500` | HP 條低血量色（危急）|
 | `color-border-default` | `color-white-45` | 預設邊框 |
 | `color-border-focus` | `color-gold-400` | 焦點邊框 |
+| `color-border-subtle` | `color-white-20` | 次要邊框 |
+| `color-border-brand` | `color-gold-400` | 品牌邊框（VIP 卡片）|
 | `spacing-hud-gap` | `spacing-8` | HUD 元件間距 |
 | `spacing-card-padding` | `spacing-16` | 卡片內距 |
 | `spacing-section-gap` | `spacing-24` | 區塊間距 |
@@ -1643,6 +1708,14 @@ const safeArea = cc.sys.getSafeAreaRect();
 | `spacing-page-padding` | `spacing-48` | 頁面頂層大間距（如 ProfileScene 頭像區頂部）|
 | `shadow-button-glow` | `shadow-glow-gold` | CTA 按鈕金色光暈 |
 | `shadow-skill-ready` | `shadow-glow-neon` | 技能就緒光暈 |
+| `text-display` | `font-size-48` + `font-weight-bold` + `line-height-tight` | Jackpot 爆字、大倍率數字（VIPPanel 等級 Display）|
+| `text-h1` | `font-size-32` + `font-weight-bold` + `line-height-tight` | 面板主標題、Boss 名稱 |
+| `text-h2` | `font-size-24` + `font-weight-semibold` + `line-height-tight` | 卡片標題、VIP 等級 |
+| `text-h3` | `font-size-20` + `font-weight-semibold` + `line-height-tight` | 子標題、武器名稱 |
+| `text-body` | `font-size-16` + `font-weight-regular` + `line-height-normal` | 正文、規則說明 |
+| `text-hud-score` | `font-size-28` + `font-weight-bold` + `line-height-tight` | HUD 分數顯示（等寬字體）|
+| `text-hud-counter` | `font-size-20` + `font-weight-semibold` + `line-height-tight` | HUD 金幣／鑽石計數器 |
+| `text-multiplier` | `font-size-56` + `font-weight-black` + `line-height-tight` | 倍率爆字（Display 字體，max-size）|
 | `text-heading-lg` | `font-size-36` + `font-weight-bold` + `line-height-tight` | 大標題（結算 MVP、Jackpot 標題）|
 | `text-heading-md` | `font-size-24` + `font-weight-bold` + `line-height-tight` | 中標題（面板標題、VIP 等級）|
 | `text-body-md` | `font-size-18` + `font-weight-regular` + `line-height-normal` | 正文（說明文字、清單項目）|
