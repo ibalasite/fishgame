@@ -198,5 +198,85 @@
     "url": "diag-use-case.html",
     "title": "用例圖 (Use Case)",
     "excerpt": "\ndiagram: use-case\numl-type: 使用案例圖\nsource: PRD.md §3, §4; EDD.md §4.1\ngenerated: 2026-04-25T00:00:00Z\n\nUse Case Diagram — 使用案例圖\n來源：PRD.md §3.2 User Pe"
+  },
+  "diag-frontend-activity-gameplay.html": {
+    "url": "diag-frontend-activity-gameplay.html",
+    "title": "前端活動圖：遊戲主流程",
+    "excerpt": "\ndiagram: frontend-activity-gameplay\numl-type: 遊戲主流程活動圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3."
+  },
+  "diag-frontend-activity-init.html": {
+    "url": "diag-frontend-activity-init.html",
+    "title": "前端活動圖：初始化",
+    "excerpt": "\ndiagram: frontend-activity-init\numl-type: 遊戲初始化流程活動圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n"
+  },
+  "diag-frontend-activity-ui.html": {
+    "url": "diag-frontend-activity-ui.html",
+    "title": "前端活動圖：UI 互動",
+    "excerpt": "\ndiagram: frontend-activity-ui\numl-type: 大廳→遊戲 UI 流程活動圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3."
+  },
+  "diag-frontend-class-component.html": {
+    "url": "diag-frontend-class-component.html",
+    "title": "前端類別圖：元件",
+    "excerpt": "\ndiagram: frontend-class-component\numl-type: 前端類別圖：UI 元件層\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator "
+  },
+  "diag-frontend-class-scene.html": {
+    "url": "diag-frontend-class-scene.html",
+    "title": "前端類別圖：場景控制器",
+    "excerpt": "\ndiagram: frontend-class-scene\numl-type: 前端類別圖：Scene 腳本層\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3"
+  },
+  "diag-frontend-class-services.html": {
+    "url": "diag-frontend-class-services.html",
+    "title": "前端類別圖：Client 服務",
+    "excerpt": "\ndiagram: frontend-class-services\numl-type: 前端類別圖：Service/System 層\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos"
+  },
+  "diag-frontend-communication.html": {
+    "url": "diag-frontend-communication.html",
+    "title": "前端協作圖：WS 協議",
+    "excerpt": "\ndiagram: frontend-communication\numl-type: 前端通訊圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\n前端通訊"
+  },
+  "diag-frontend-component.html": {
+    "url": "diag-frontend-component.html",
+    "title": "前端元件圖：Cocos 節點樹",
+    "excerpt": "\ndiagram: frontend-component\numl-type: 前端元件圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\n前端元件圖：Co"
+  },
+  "diag-frontend-deployment.html": {
+    "url": "diag-frontend-deployment.html",
+    "title": "前端部署圖：建構管線",
+    "excerpt": "\ndiagram: frontend-deployment\numl-type: 前端部署管道圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\n前端部署管"
+  },
+  "diag-frontend-object-snapshot.html": {
+    "url": "diag-frontend-object-snapshot.html",
+    "title": "前端物件圖：UI 快照",
+    "excerpt": "\ndiagram: frontend-object-snapshot\numl-type: 前端物件快照\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\n前"
+  },
+  "diag-frontend-sequence-scene.html": {
+    "url": "diag-frontend-sequence-scene.html",
+    "title": "前端循序圖：場景切換",
+    "excerpt": "\ndiagram: frontend-sequence-scene\numl-type: Scene 切換序列圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3."
+  },
+  "diag-frontend-sequence-shoot.html": {
+    "url": "diag-frontend-sequence-shoot.html",
+    "title": "前端循序圖：射擊流程",
+    "excerpt": "\ndiagram: frontend-sequence-shoot\numl-type: 射擊動作序列圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\n射"
+  },
+  "diag-frontend-sequence-ws.html": {
+    "url": "diag-frontend-sequence-ws.html",
+    "title": "前端循序圖：WS 協議",
+    "excerpt": "\ndiagram: frontend-sequence-ws\numl-type: WebSocket 連線與 Colyseus Room 加入序列圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengin"
+  },
+  "diag-frontend-state-scene.html": {
+    "url": "diag-frontend-state-scene.html",
+    "title": "前端狀態機：場景",
+    "excerpt": "\ndiagram: frontend-state-scene\numl-type: Scene 狀態機\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\nSc"
+  },
+  "diag-frontend-state-ui.html": {
+    "url": "diag-frontend-state-ui.html",
+    "title": "前端狀態機：UI",
+    "excerpt": "\ndiagram: frontend-state-ui\numl-type: 遊戲 UI 狀態機\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\n遊戲 UI"
+  },
+  "diag-frontend-use-case.html": {
+    "url": "diag-frontend-use-case.html",
+    "title": "前端用例圖",
+    "excerpt": "\ndiagram: frontend-use-case\numl-type: 前端用例圖\nsource: FRONTEND.md + PDD.md + VDD.md\ngenerated: 2026-04-25T00:00:00Z\nengine: Cocos Creator 3.8\n\n前端用例圖\n來源："
   }
 }

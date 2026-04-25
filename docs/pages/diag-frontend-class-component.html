@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端類別圖：元件 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      <a class="nav-gh-link" href="https://github.com/ibalasite/fishgame" target="_blank" rel="noopener">⌥ GitHub</a>
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 前端類別圖：元件</p>
+    <h1 class="banner-title">前端類別圖：元件</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Frontend UML</div>
+<a class="sidebar__link" href="diag-frontend-activity-gameplay.html">📊 前端活動圖：遊戲主流程</a>
+<a class="sidebar__link" href="diag-frontend-activity-init.html">🚀 前端活動圖：初始化</a>
+<a class="sidebar__link" href="diag-frontend-activity-ui.html">🖱️ 前端活動圖：UI 互動</a>
+<a class="sidebar__link active" href="diag-frontend-class-component.html">🗂️ 前端類別圖：元件</a>
+<a class="sidebar__link" href="diag-frontend-class-scene.html">🎬 前端類別圖：場景控制器</a>
+<a class="sidebar__link" href="diag-frontend-class-services.html">⚙️ 前端類別圖：Client 服務</a>
+<a class="sidebar__link" href="diag-frontend-communication.html">🤝 前端協作圖：WS 協議</a>
+<a class="sidebar__link" href="diag-frontend-component.html">🧩 前端元件圖：Cocos 節點樹</a>
+<a class="sidebar__link" href="diag-frontend-deployment.html">☁️ 前端部署圖：建構管線</a>
+<a class="sidebar__link" href="diag-frontend-object-snapshot.html">📸 前端物件圖：UI 快照</a>
+<a class="sidebar__link" href="diag-frontend-sequence-scene.html">🔄 前端循序圖：場景切換</a>
+<a class="sidebar__link" href="diag-frontend-sequence-shoot.html">🎯 前端循序圖：射擊流程</a>
+<a class="sidebar__link" href="diag-frontend-sequence-ws.html">🔌 前端循序圖：WS 協議</a>
+<a class="sidebar__link" href="diag-frontend-state-scene.html">🔀 前端狀態機：場景</a>
+<a class="sidebar__link" href="diag-frontend-state-ui.html">🖥️ 前端狀態機：UI</a>
+<a class="sidebar__link" href="diag-frontend-use-case.html">👤 前端用例圖</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: frontend-class-component</p>
+<p>uml-type: 前端類別圖：UI 元件層</p>
+<p>source: FRONTEND.md + PDD.md + VDD.md</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<p>engine: Cocos Creator 3.8</p>
+<hr>
+<h1>前端類別圖：UI 元件層</h1>
+<blockquote><p>來源：FRONTEND.md §ui/hud / §ui/dialogs / §ui/lobby / §ui/common</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">classDiagram
+    class CCComponent {
+        <<abstract>>
+        +onLoad() void
+        +start() void
+        +onDestroy() void
+        +update(dt: number) void
+    }
+
+    class HUDComponent {
+        <<Component>>
+        +@property coinBalanceLabel: Label
+        +@property diamondBalanceLabel: Label
+        +@property rankLabel: Label
+        +@property scoreLabel: Label
+        -_coinBalance: number
+        -_score: number
+        +onLoad() void
+        +start() void
+        +onDestroy() void
+        +updateCoinBalance(amount: number) void
+        +updateScore(score: number) void
+        +updateRank(rank: number) void
+        +refreshAll(state: PlayerState) void
+    }
+
+    class JackpotBar {
+        <<Component>>
+        +@property progressBar: ProgressBar
+        +@property jackpotLabel: Label
+        +@property triggerEffect: ParticleSystem
+        -_progress: number
+        -_jackpotPool: number
+        +onLoad() void
+        +start() void
+        +onDestroy() void
+        +setProgress(value: number) void
+        +setJackpotPool(amount: number) void
+        +playTriggerAnimation() void
+    }
+
+    class BossHPBar {
+        <<Component>>
+        <<Component>>
+        +@property hpBar: ProgressBar
+        +@property bossNameLabel: Label
+        +@property bossIcon: Sprite
+        -_maxHp: number
+        -_currentHp: number
+        +onLoad() void
+        +start() void
+        +onDestroy() void
+        +showBossHP(bossType: string, maxHp: number) void
+        +updateHP(currentHp: number) void
+        +hideBossHP() void
+        +playDamageFlash() void
+    }
+
+    class WeaponCooldown {
+        <<Component>>
+        +@property cooldownMask: Sprite
+        +@property weaponIcon: Sprite
+        +@property levelLabel: Label
+        -_cooldownDuration: number
+        -_elapsed: number
+        -_isReady: boolean
+        +onLoad() void
+        +start() void
+        +update(dt: number) void
+        +onDestroy() void
+        +startCooldown(duration: number) void
+        +isReady() boolean
+        +setWeaponIcon(weaponId: number) void
+    }
+
+    class ShopDialog {
+        <<Component>>
+        +@property itemList: ScrollView
+        +@property coinLabel: Label
+        +@property closeButton: Button
+        -_items: ShopItem[]
+        +onLoad() void
+        +start() void
+        +onDestroy() void
+        +show() void
+        +hide() void
+        +loadShopItems() Promise~void~
+        +onPurchaseItem(itemId: string) void
+        +refreshBalance(amount: number) void
+    }
+
+    class SettingsDialog {
+        <<Component>>
+        +@property bgmSlider: Slider
+        +@property sfxSlider: Slider
+        +@property qualityToggle: Toggle
+        +@property closeButton: Button
+        -_bgmVolume: number
+        -_sfxVolume: number
+        +onLoad() void
+        +start() void
+        +onDestroy() void
+        +show() void
+        +hide() void
+        +onBGMChanged(value: number) void
+        +onSFXChanged(value: number) void
+        +saveSettings() void
+    }
+
+    class ConfirmDialog {
+        <<Component>>
+        +@property titleLabel: Label
+        +@property messageLabel: Label
+        +@property confirmButton: Button
+        +@property cancelButton: Button
+        -_onConfirm: Function
+        -_onCancel: Function
+        +onLoad() void
+        +onDestroy() void
+        +show(title: string, message: string, onConfirm: Function, onCancel: Function) void
+        +hide() void
+    }
+
+    class LobbyUI {
+        <<Component>>
+        +@property roomListContainer: Node
+        +@property quickMatchButton: Button
+        +@property playerInfoPanel: Node
+        -_rooms: RoomInfo[]
+        +onLoad() void
+        +start() void
+        +onDestroy() void
+        +loadRoomList() Promise~void~
+        +refreshRoomList(rooms: RoomInfo[]) void
+        +onQuickMatch() void
+        +onSelectRoom(roomId: string) void
+    }
+
+    class RoomListItem {
+        <<Component>>
+        +@property roomNameLabel: Label
+        +@property playerCountLabel: Label
+        +@property roomIcon: Sprite
+        +@property joinButton: Button
+        -_roomId: string
+        -_roomInfo: RoomInfo
+        +onLoad() void
+        +onDestroy() void
+        +setRoomInfo(info: RoomInfo) void
+        +onJoinClick() void
+    }
+
+    class MatchmakingUI {
+        <<Component>>
+        +@property playerAvatars: Node[]
+        +@property countdownBar: ProgressBar
+        +@property statusLabel: Label
+        +@property cancelButton: Button
+        -_countdown: number
+        -_totalTime: number
+        +onLoad() void
+        +start() void
+        +update(dt: number) void
+        +onDestroy() void
+        +startMatchmaking(totalTime: number) void
+        +addPlayerAvatar(playerInfo: PlayerInfo) void
+        +onMatchSuccess() void
+        +onMatchTimeout() void
+    }
+
+    class ToastComponent {
+        <<Component>>
+        +@property toastLabel: Label
+        +@property toastBg: Sprite
+        -_queue: ToastMessage[]
+        -_isShowing: boolean
+        +onLoad() void
+        +onDestroy() void
+        +show(message: string, type: ToastType, duration: number) void
+        -_processQueue() void
+        -_playShowAnimation() Promise~void~
+    }
+
+    class LoadingComponent {
+        <<Component>>
+        +@property spinner: Animation
+        +@property progressLabel: Label
+        +@property tipLabel: Label
+        -_visible: boolean
+        +onLoad() void
+        +onDestroy() void
+        +show(tip: string) void
+        +hide() void
+        +setProgress(progress: number) void
+    }
+
+    class VIPBadge {
+        <<Component>>
+        +@property badgeSprite: Sprite
+        +@property glowEffect: ParticleSystem
+        -_isVIP: boolean
+        -_vipLevel: number
+        +onLoad() void
+        +onDestroy() void
+        +setVIPStatus(isVIP: boolean, level: number) void
+        +playGlowAnimation() void
+    }
+
+    CCComponent <|-- HUDComponent
+    CCComponent <|-- JackpotBar
+    CCComponent <|-- BossHPBar
+    CCComponent <|-- WeaponCooldown
+    CCComponent <|-- ShopDialog
+    CCComponent <|-- SettingsDialog
+    CCComponent <|-- ConfirmDialog
+    CCComponent <|-- LobbyUI
+    CCComponent <|-- RoomListItem
+    CCComponent <|-- MatchmakingUI
+    CCComponent <|-- ToastComponent
+    CCComponent <|-- LoadingComponent
+    CCComponent <|-- VIPBadge
+
+    LobbyUI "1" *-- "0..*" RoomListItem : contains
+    HUDComponent "1" *-- "1" JackpotBar : owns
+    HUDComponent "1" *-- "0..1" BossHPBar : owns
+    HUDComponent "1" *-- "1" WeaponCooldown : owns</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

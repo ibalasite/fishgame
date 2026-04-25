@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端協作圖：WS 協議 — fishgame</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="nav-brand">fishgame</a>
+    <div class="nav-controls">
+      <div class="search-wrap">
+        <input class="search-input" type="search" placeholder="搜尋文件...">
+        <div class="search-results"></div>
+      </div>
+      <a class="nav-gh-link" href="https://github.com/ibalasite/fishgame" target="_blank" rel="noopener">⌥ GitHub</a>
+      <button class="sidebar-toggle" id="sidebarToggle" title="收合/展開側欄">☰</button>
+    </div>
+  </header>
+  <div class="doc-page-banner">
+    <p class="banner-breadcrumb"><a href="index.html">fishgame</a> › 前端協作圖：WS 協議</p>
+    <h1 class="banner-title">前端協作圖：WS 協議</h1>
+  </div>
+  <div class="page-wrapper">
+    <aside class="sidebar" aria-label="文件導覽">
+      <div class="sidebar__section">
+<div class="sidebar__label">文件</div>
+<a class="sidebar__link" href="index.html">🏠 首頁</a>
+<a class="sidebar__link" href="idea.html">💡 構想文件 (IDEA)</a>
+<a class="sidebar__link" href="brd.html">📋 商業需求文件 (BRD)</a>
+<a class="sidebar__link" href="prd.html">📝 產品需求文件 (PRD)</a>
+<a class="sidebar__link" href="pdd.html">🎨 產品設計文件 (PDD)</a>
+<a class="sidebar__link" href="vdd.html">🖼️ 視覺設計文件 (VDD)</a>
+<a class="sidebar__link" href="edd.html">🏗️ 工程設計文件 (EDD)</a>
+<a class="sidebar__link" href="arch.html">🧩 架構設計</a>
+<a class="sidebar__link" href="api.html">🔌 API 文件</a>
+<a class="sidebar__link" href="schema.html">🗄️ Schema 文件</a>
+<a class="sidebar__link" href="frontend.html">🖥️ 前端設計文件</a>
+<a class="sidebar__link" href="audio.html">🔊 音效設計文件</a>
+<a class="sidebar__link" href="anim.html">🎬 動畫特效文件</a>
+<a class="sidebar__link" href="test-plan.html">✅ 測試計畫 (Test Plan)</a>
+<a class="sidebar__link" href="runbook.html">📖 Runbook</a>
+<a class="sidebar__link" href="local_deploy.html">🚀 本地部署指南</a>
+<a class="sidebar__link" href="rtm.html">🗂️ 需求追蹤矩陣 (RTM)</a>
+<a class="sidebar__link" href="align_report.html">🔍 對齊報告</a>
+<a class="sidebar__link" href="contracts.html">📜 合約文件</a>
+<a class="sidebar__link" href="bdd.html">🧪 BDD Scenarios</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Server UML</div>
+<a class="sidebar__link" href="diag-activity-gameplay.html">🎮 活動圖：遊戲流程</a>
+<a class="sidebar__link" href="diag-activity-purchase.html">💳 活動圖：購買流程</a>
+<a class="sidebar__link" href="diag-activity-refund.html">↩️ 活動圖：退款流程</a>
+<a class="sidebar__link" href="diag-class-application.html">⚙️ 類別圖：應用層</a>
+<a class="sidebar__link" href="diag-class-domain.html">🗂️ 類別圖：領域模型</a>
+<a class="sidebar__link" href="diag-class-infra-presentation.html">🏗️ 類別圖：基礎設施與呈現層</a>
+<a class="sidebar__link" href="diag-communication.html">🤝 協作圖</a>
+<a class="sidebar__link" href="diag-component.html">🧩 元件圖</a>
+<a class="sidebar__link" href="diag-deployment.html">☁️ 部署圖</a>
+<a class="sidebar__link" href="diag-er-diagram.html">🗃️ ER 關聯圖</a>
+<a class="sidebar__link" href="diag-object-snapshot.html">📸 物件圖：快照</a>
+<a class="sidebar__link" href="diag-sequence-iap-purchase.html">💳 循序圖：IAP 購買</a>
+<a class="sidebar__link" href="diag-sequence-login.html">🔐 循序圖：登入</a>
+<a class="sidebar__link" href="diag-sequence-register.html">📝 循序圖：註冊</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish-error.html">⚠️ 循序圖：射擊魚群（錯誤）</a>
+<a class="sidebar__link" href="diag-sequence-shoot-fish.html">🎯 循序圖：射擊魚群</a>
+<a class="sidebar__link" href="diag-sequence-vip-subscribe.html">⭐ 循序圖：VIP 訂閱</a>
+<a class="sidebar__link" href="diag-state-machine-bullet.html">🔫 狀態機圖：子彈生命週期</a>
+<a class="sidebar__link" href="diag-state-machine-fish.html">🐟 狀態機圖：魚群生命週期</a>
+<a class="sidebar__link" href="diag-use-case.html">👤 用例圖 (Use Case)</a>
+</div>
+<div class="sidebar__section">
+<div class="sidebar__label">Frontend UML</div>
+<a class="sidebar__link" href="diag-frontend-activity-gameplay.html">📊 前端活動圖：遊戲主流程</a>
+<a class="sidebar__link" href="diag-frontend-activity-init.html">🚀 前端活動圖：初始化</a>
+<a class="sidebar__link" href="diag-frontend-activity-ui.html">🖱️ 前端活動圖：UI 互動</a>
+<a class="sidebar__link" href="diag-frontend-class-component.html">🗂️ 前端類別圖：元件</a>
+<a class="sidebar__link" href="diag-frontend-class-scene.html">🎬 前端類別圖：場景控制器</a>
+<a class="sidebar__link" href="diag-frontend-class-services.html">⚙️ 前端類別圖：Client 服務</a>
+<a class="sidebar__link active" href="diag-frontend-communication.html">🤝 前端協作圖：WS 協議</a>
+<a class="sidebar__link" href="diag-frontend-component.html">🧩 前端元件圖：Cocos 節點樹</a>
+<a class="sidebar__link" href="diag-frontend-deployment.html">☁️ 前端部署圖：建構管線</a>
+<a class="sidebar__link" href="diag-frontend-object-snapshot.html">📸 前端物件圖：UI 快照</a>
+<a class="sidebar__link" href="diag-frontend-sequence-scene.html">🔄 前端循序圖：場景切換</a>
+<a class="sidebar__link" href="diag-frontend-sequence-shoot.html">🎯 前端循序圖：射擊流程</a>
+<a class="sidebar__link" href="diag-frontend-sequence-ws.html">🔌 前端循序圖：WS 協議</a>
+<a class="sidebar__link" href="diag-frontend-state-scene.html">🔀 前端狀態機：場景</a>
+<a class="sidebar__link" href="diag-frontend-state-ui.html">🖥️ 前端狀態機：UI</a>
+<a class="sidebar__link" href="diag-frontend-use-case.html">👤 前端用例圖</a>
+</div>
+    </aside>
+    <div class="sidebar-resizer" id="sidebarResizer"></div>
+    <main class="doc-content"><hr>
+<p>diagram: frontend-communication</p>
+<p>uml-type: 前端通訊圖</p>
+<p>source: FRONTEND.md + PDD.md + VDD.md</p>
+<p>generated: 2026-04-25T00:00:00Z</p>
+<p>engine: Cocos Creator 3.8</p>
+<hr>
+<h1>前端通訊圖：Cocos Creator 客戶端所有通訊流</h1>
+<blockquote><p>來源：FRONTEND.md §network / §game/managers / §utils/StorageUtils</p></blockquote>
+<div class="diagram-container"><pre class="mermaid">flowchart LR
+    subgraph CocosClient["🎮 Cocos Creator 3.8 Client"]
+        CC["ColyseusClient\nnetwork/ColyseusClient.ts"]
+        HC["HttpClient\nnetwork/HttpClient.ts"]
+        AM["AudioManager\ngame/managers/AudioManager.ts"]
+        SU["StorageUtils\nutils/StorageUtils.ts"]
+        EPM["EffectPoolManager\ngame/managers/EffectPoolManager.ts"]
+        NM["NetworkManager\nnetwork/NetworkManager.ts"]
+    end
+
+    subgraph RemoteWS["🌐 WebSocket Server"]
+        GR["GameRoom\nColyseus 0.15\nws://game.fishgame.io:3001"]
+    end
+
+    subgraph RemoteHTTP["☁️ REST API Server"]
+        RAPI["REST API\nNestJS + Fastify\nhttps://api.fishgame.io:443"]
+    end
+
+    subgraph LocalAssets["📦 Local Assets\nCocos Bundle Cache"]
+        BGM["BGM Assets\nassets/audio/bgm/"]
+        SFX["SFX Assets\nassets/audio/sfx/"]
+    end
+
+    subgraph BrowserStorage["💾 Browser Storage"]
+        LS["LocalStorage\n瀏覽器 / App 本地存儲"]
+    end
+
+    subgraph GPU["🖥️ GPU / Render"]
+        WEBGL["WebGL 2.0\nParticle + Sprite Render"]
+    end
+
+    NM --> CC
+    NM --> HC
+
+    CC -->|"1. joinRoom(roomId)\nWS Handshake\nGET /colyseus?token=JWT"| GR
+    GR -->|"2. onJoin / onStateChange\nColyseus Delta Sync Protocol"| CC
+    CC -->|"3. sendMessage: shoot\n{targetFishId, weaponId}\nWS:3001"| GR
+    GR -->|"4. onMessage: fish_hit\n{fishId, damage, newHp}\nWS:3001"| CC
+    GR -->|"5. onMessage: fish_died\n{fishId, coins, score}\nWS:3001"| CC
+    GR -->|"6. onMessage: jackpot_triggered\n{jackpotAmount}\nWS:3001"| CC
+    GR -->|"7. onMessage: boss_appeared\n{bossId, bossType, maxHp}\nWS:3001"| CC
+
+    HC -->|"8. POST /api/v1/auth/login\n{phone, password} → {jwt, refreshToken}\nHTTPS:443"| RAPI
+    HC -->|"9. GET /api/v1/rooms\n→ RoomInfo[]\nHTTPS:443"| RAPI
+    HC -->|"10. POST /api/v1/match/join\n{cannonId, skillId} → {matchToken}\nHTTPS:443"| RAPI
+    HC -->|"11. POST /api/v1/shop/purchase\n{itemId, quantity} → {receipt}\nHTTPS:443"| RAPI
+    HC -->|"12. GET /api/v1/game/history\n?sessionId=xxx → GameResult\nHTTPS:443"| RAPI
+    HC -->|"13. POST /api/v1/vip/subscribe\n{planId} → {vipStatus}\nHTTPS:443"| RAPI
+
+    AM -->|"14. loadAudioClip: bgm_game.mp3\nfile:// Bundle Cache"| BGM
+    AM -->|"15. playSFX: sfx_shoot.mp3\nfile:// Bundle Cache"| SFX
+
+    SU -->|"16. setAuthToken / getAuthToken\nlocalStorage.setItem / getItem"| LS
+    SU -->|"17. setUserSettings / getUserSettings\nlocalStorage key: userSettings"| LS
+
+    EPM -->|"18. HitEffect.play / CoinEffect.play\nParticleSystem → WebGL Draw Call"| WEBGL</pre></div></main>
+  </div>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true,theme:'default',
+      flowchart:{curve:'basis',nodeSpacing:60,rankSpacing:80},
+      er:{layoutDirection:'TD',minEntityWidth:100,fontSize:12},
+      sequence:{actorMargin:60,messageMargin:30}});
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-go.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
