@@ -15,14 +15,14 @@ generated: 2026-04-25T00:00:00Z
 %%{init: {"theme": "dark"}}%%
 sequenceDiagram
     autonumber
-    participant CC as Cocos Creator<br/>Client
-    participant CR as GameController<br/>(Colyseus Room)
+    participant CC as CocosCreator Client
+    participant CR as GameController
     participant SUC as ShootFishUseCase
     participant RTP as RTPService
-    participant CB as CircuitBreaker<br/>(opossum)
-    participant Redis as Redis<br/>:6379
-    participant MySQL as MySQL<br/>:3306
-    participant Alert as Alert System<br/>(Prometheus)
+    participant CB as CircuitBreaker
+    participant Redis as Redis:6379
+    participant MySQL as MySQL:3306
+    participant Alert as AlertSystem
 
     CC->>+CR: WSS SHOOT {fishId, weaponType}
     CR->>+SUC: execute(ShootCommand)
@@ -30,13 +30,13 @@ sequenceDiagram
     RTP->>+CB: callWithBreaker(() => redis.get(rtp_state))
     CB->>+Redis: GET rtp_state:{playerId}
     Redis--xCB: CONNECTION TIMEOUT (>50ms)
-    CB->>CB: recordFailure()<br/>failureCount: 3→4→5
+    CB->>CB: recordFailure(): failureCount 3→4→5
     CB->>CB: errorRate > 50% → OPEN circuit
 
     Note over CB,RTP: Circuit Breaker 開路 → 降級模式
     CB-->>-RTP: CircuitBreakerOpenError
-    RTP->>RTP: isRTPDegraded() == true<br/>fallback: fixedHitRate = 0.80
-    RTP->>RTP: rollDice(probability=0.80)<br/>isHit = true (degraded)
+    RTP->>RTP: isRTPDegraded==true; fallback fixedHitRate=0.80
+    RTP->>RTP: rollDice(0.80) → isHit=true (degraded)
     RTP-->>-SUC: HitResult{isHit: true, degraded: true, coinsAwarded: 300}
     SUC->>+MySQL: INSERT fish_kills {degraded: true}
     MySQL-->>-SUC: OK
@@ -54,11 +54,11 @@ sequenceDiagram
 %%{init: {"theme": "dark"}}%%
 sequenceDiagram
     autonumber
-    participant CC_A as Client A<br/>(Alice)
-    participant CC_B as Client B<br/>(Bob)
-    participant CR as GameController<br/>(Colyseus Room)
+    participant CC_A as ClientA (Alice)
+    participant CC_B as ClientB (Bob)
+    participant CR as GameController
     participant SUC as ShootFishUseCase
-    participant Redis as Redis<br/>:6379
+    participant Redis as Redis:6379
 
     Note over CC_A,CC_B: Alice 和 Bob 同時射擊 fish_boss_001
     par Alice shoots
@@ -91,17 +91,17 @@ sequenceDiagram
 %%{init: {"theme": "dark"}}%%
 sequenceDiagram
     autonumber
-    participant CC as Cocos Creator<br/>Client
-    participant CR as GameController<br/>(Colyseus Room)
+    participant CC as CocosCreator Client
+    participant CR as GameController
     participant SUC as ShootFishUseCase
 
     CC->>+CR: WSS SHOOT {fishId, weaponType: LOCK}
     Note over CR: LOCK 武器費用 100 coins，玩家餘額 50 coins
     CR->>+SUC: execute(ShootCommand{weaponType: LOCK})
-    SUC->>SUC: player.canUseWeapon(LOCK_weapon)<br/>player.coins(50) < weapon.cost(100) → false
+    SUC->>SUC: canUseWeapon(LOCK): coins(50) < cost(100) → false
     SUC-->>-CR: ValidationError{code: INSUFFICIENT_COINS}
     CR-->>-CC: WSS ERROR {code: INSUFFICIENT_COINS, message: "金幣不足"}
-    CC->>CC: showInsufficientCoinsDialog()<br/>prompt purchase flow
+    CC->>CC: showInsufficientCoinsDialog + promptPurchaseFlow
 ```
 
 ## Error Flow 4：玩家斷線重連
@@ -110,9 +110,9 @@ sequenceDiagram
 %%{init: {"theme": "dark"}}%%
 sequenceDiagram
     autonumber
-    participant CC as Cocos Creator<br/>Client
-    participant CR as GameController<br/>(Colyseus Room)
-    participant Redis as Redis<br/>:6379
+    participant CC as CocosCreator Client
+    participant CR as GameController
+    participant Redis as Redis:6379
 
     Note over CC,CR: 網路中斷
     CC--xCR: Connection dropped

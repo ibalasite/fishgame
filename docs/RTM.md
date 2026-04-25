@@ -37,22 +37,27 @@
 
 ### §1.2 測試類型分布
 
-```mermaid
-pie title TC 類型分布（§15.1 + §15.2）
-  "E2E" : 12
-  "Integration" : 25
-  "Unit (§15.1)" : 6
-  "Unit (§15.2 Class)" : 24
-```
+| TC 類型 | 數量 | 比例 |
+|---------|------|------|
+| E2E | 12 | 18% |
+| Integration | 25 | 37% |
+| Unit (§15.1) | 6 | 9% |
+| Unit (§15.2 Class) | 24 | 36% |
+| **合計** | **67** | **100%** |
 
 ### §1.3 模組覆蓋分布
 
 ```mermaid
-bar
-  title TC 數量 by 模組（§15.1 基準）
-  x-axis [ACCT, ROOM, FISH, WPSK, RTP, SHOP, AGE, VIP]
-  y-axis "TC 數量" 0 --> 10
-  bar [7, 8, 6, 4, 6, 7, 4, 3]
+%%{init: {"theme": "dark"}}%%
+graph LR
+    ACCT["ACCT: 7 TC"]
+    ROOM["ROOM: 8 TC"]
+    FISH["FISH: 6 TC"]
+    WPSK["WPSK: 4 TC"]
+    RTP["RTP: 6 TC"]
+    SHOP["SHOP: 7 TC"]
+    AGE["AGE: 4 TC"]
+    VIP["VIP: 3 TC"]
 ```
 
 ### §1.4 P0 AC 覆蓋狀態（36 條）

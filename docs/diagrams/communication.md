@@ -13,13 +13,13 @@ generated: 2026-04-25T00:00:00Z
 %%{init: {"theme": "dark"}}%%
 sequenceDiagram
     autonumber
-    participant Client as CocosCratorClient<br/>Cocos Creator 3.8
-    participant GS as GameServer<br/>Node.js + Colyseus :2567
-    participant Redis as Redis<br/>:6379
-    participant NATS as DomainEventBus<br/>(Redis Pub/Sub) :6379
-    participant Auth as AuthService<br/>:3000
-    participant Shop as ShopService<br/>:3001
-    participant PG as PostgreSQL/MySQL<br/>:3306
+    participant Client as CocosCreator 3.8
+    participant GS as GameServer:2567
+    participant Redis as Redis:6379
+    participant NATS as DomainEventBus
+    participant Auth as AuthService:3000
+    participant Shop as ShopService:3001
+    participant PG as PostgreSQL:3306
 
     Note over Client,Auth: 1. 建立連線與認證
     Client->>+Auth: 1: POST /v1/auth/login (HTTPS:3000)
