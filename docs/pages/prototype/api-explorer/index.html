@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FishGame API Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base:    #030B1A;
+      --bg-sidebar: #051428;
+      --bg-panel:   #071C3A;
+      --bg-card:    rgba(10,35,64,0.85);
+      --bg-input:   rgba(255,255,255,0.05);
+      --color-gold:    #F5C842;
+      --color-neon:    #00F5D4;
+      --color-error:   #FF4444;
+      --color-warn:    #FF8800;
+      --color-success: #00FF88;
+      --color-text:    #E8EDF5;
+      --color-dim:     rgba(232,237,245,0.55);
+      --color-mute:    rgba(232,237,245,0.3);
+      --color-border:  rgba(245,200,66,0.15);
+      --color-border2: rgba(255,255,255,0.07);
+      --font-ui:   'Noto Sans TC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+      --sidebar-w: 260px;
+      --radius:    8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-ui);
+      background: var(--bg-base);
+      color: var(--color-text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--color-border2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--color-border2);
+      flex-shrink: 0;
+    }
+
+    .sidebar-header h1 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-header p {
+      font-size: 11px;
+      color: var(--color-mute);
+    }
+
+    .search-box {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--color-border2);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--color-border2);
+      border-radius: var(--radius);
+      padding: 7px 10px;
+      color: var(--color-text);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .search-input::placeholder { color: var(--color-mute); }
+    .search-input:focus { border-color: var(--color-gold); }
+
+    .nav-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+
+    .nav-list::-webkit-scrollbar { width: 3px; }
+    .nav-list::-webkit-scrollbar-thumb { background: rgba(245,200,66,0.2); border-radius: 2px; }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px 5px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .group-header:hover { background: rgba(255,255,255,0.03); }
+
+    .group-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .group-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .group-count {
+      font-size: 10px;
+      background: rgba(255,255,255,0.08);
+      padding: 1px 6px;
+      border-radius: 10px;
+      color: var(--color-mute);
+    }
+
+    .group-arrow {
+      font-size: 10px;
+      color: var(--color-mute);
+      transition: transform 0.2s;
+    }
+
+    .group-arrow.open { transform: rotate(90deg); }
+
+    .group-endpoints {
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .ep-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px 6px 24px;
+      cursor: pointer;
+      transition: background 0.12s;
+      border-left: 2px solid transparent;
+    }
+
+    .ep-item:hover { background: rgba(255,255,255,0.04); }
+    .ep-item.active { background: rgba(245,200,66,0.07); border-left-color: var(--color-gold); }
+
+    .method-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 5px;
+      border-radius: 4px;
+      min-width: 36px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .method-GET    { background: rgba(0,255,136,0.15);  color: #00FF88; }
+    .method-POST   { background: rgba(245,200,66,0.15); color: #F5C842; }
+    .method-PATCH  { background: rgba(0,245,212,0.15);  color: #00F5D4; }
+    .method-DELETE { background: rgba(255,68,68,0.15);  color: #FF4444; }
+    .method-PUT    { background: rgba(255,136,0,0.15);  color: #FF8800; }
+
+    .ep-path {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    /* Main Panel */
+    .main-panel {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg-base);
+    }
+
+    .main-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--color-border2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      background: var(--bg-sidebar);
+    }
+
+    .main-header h2 { font-size: 13px; font-weight: 600; color: var(--color-mute); }
+
+    .auth-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .auth-input {
+      background: var(--bg-input);
+      border: 1px solid var(--color-border2);
+      border-radius: var(--radius);
+      padding: 5px 10px;
+      color: var(--color-text);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      outline: none;
+      width: 200px;
+      transition: border-color 0.15s;
+    }
+
+    .auth-input:focus { border-color: var(--color-gold); }
+    .auth-input::placeholder { color: var(--color-mute); }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .main-content::-webkit-scrollbar { width: 4px; }
+    .main-content::-webkit-scrollbar-thumb { background: rgba(245,200,66,0.2); border-radius: 2px; }
+
+    /* Welcome / empty state */
+    .welcome-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      opacity: 0.5;
+    }
+
+    .welcome-state .icon { font-size: 64px; margin-bottom: 16px; }
+    .welcome-state h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--color-gold); }
+    .welcome-state p { font-size: 13px; color: var(--color-mute); }
+
+    /* Endpoint detail */
+    .ep-detail {}
+
+    .ep-title {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .ep-title .method-badge { font-size: 13px; padding: 4px 10px; }
+
+    .ep-title-info h3 {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+
+    .ep-title-info p { font-size: 13px; color: var(--color-dim); }
+
+    /* Sections */
+    .section {
+      background: var(--bg-panel);
+      border: 1px solid var(--color-border2);
+      border-radius: 10px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .section-title {
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--color-mute);
+      border-bottom: 1px solid var(--color-border2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-body { padding: 16px; }
+
+    /* Params table */
+    .params-table { width: 100%; border-collapse: collapse; }
+
+    .params-table th {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 6px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border2);
+    }
+
+    .params-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: top;
+    }
+
+    .params-table tr:last-child td { border-bottom: none; }
+
+    .param-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-neon);
+    }
+
+    .param-type {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-gold);
+      background: rgba(245,200,66,0.08);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    .param-required {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--color-error);
+      background: rgba(255,68,68,0.1);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .param-optional {
+      font-size: 10px;
+      color: var(--color-mute);
+      background: rgba(255,255,255,0.05);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .param-desc { font-size: 12px; color: var(--color-dim); }
+
+    /* Try It form */
+    .param-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--color-border2);
+      border-radius: 6px;
+      padding: 6px 10px;
+      color: var(--color-text);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .param-input:focus { border-color: var(--color-gold); }
+    .param-input::placeholder { color: var(--color-mute); }
+
+    textarea.param-input {
+      resize: vertical;
+      min-height: 80px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* Buttons */
+    .btn-try {
+      background: linear-gradient(135deg, #F5C842, #E0A800);
+      color: #1A1000;
+      border: none;
+      border-radius: var(--radius);
+      padding: 10px 24px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-try:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(245,200,66,0.3); }
+    .btn-try:active { transform: translateY(0); }
+    .btn-try:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-copy {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--color-border2);
+      color: var(--color-dim);
+      border-radius: var(--radius);
+      padding: 5px 12px;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-copy:hover { background: rgba(255,255,255,0.1); color: var(--color-text); }
+
+    /* Response panel */
+    .response-panel { display: none; }
+    .response-panel.visible { display: block; }
+
+    .status-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+
+    .status-2xx { background: rgba(0,255,136,0.15); color: #00FF88; }
+    .status-4xx { background: rgba(255,136,0,0.15); color: #FF8800; }
+    .status-5xx { background: rgba(255,68,68,0.15); color: #FF4444; }
+
+    .json-view {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--color-border2);
+      border-radius: var(--radius);
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .json-view::-webkit-scrollbar { width: 3px; height: 3px; }
+    .json-view::-webkit-scrollbar-thumb { background: rgba(245,200,66,0.2); border-radius: 2px; }
+
+    /* JSON syntax highlight */
+    .json-key    { color: #00F5D4; }
+    .json-string { color: #A8E6A3; }
+    .json-number { color: #F5C842; }
+    .json-bool   { color: #FF8800; }
+    .json-null   { color: #888; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #1A1000;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Tab switcher for responses */
+    .response-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .response-tab {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--color-border2);
+      background: transparent;
+      color: var(--color-mute);
+      font-family: var(--font-ui);
+      transition: all 0.15s;
+    }
+
+    .response-tab.active { background: rgba(245,200,66,0.1); border-color: var(--color-gold); color: var(--color-gold); }
+
+    /* Toast */
+    .api-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--bg-panel);
+      border: 1px solid rgba(0,255,136,0.3);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      font-size: 12px;
+      color: #00FF88;
+      z-index: 9999;
+      animation: slideUp 0.2s ease both;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(10px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>🐟 FishGame API</h1>
+      <p>v1.0 · Interactive Explorer</p>
+    </div>
+
+    <div class="search-box">
+      <input type="text" class="search-input" id="search-input"
+        placeholder="搜尋 endpoint..."
+        oninput="filterEndpoints(this.value)"
+        autocomplete="off">
+    </div>
+
+    <nav class="nav-list" id="nav-list"></nav>
+  </aside>
+
+  <!-- ==================== MAIN PANEL ==================== -->
+  <div class="main-panel">
+    <header class="main-header">
+      <h2 id="main-title">選擇左側 Endpoint 開始</h2>
+      <div class="auth-section">
+        <span style="font-size:11px;color:var(--color-mute);">Bearer Token</span>
+        <input type="text" class="auth-input" id="auth-token"
+          placeholder="貼上 access_token..."
+          title="認證 Token"
+          value="eyJhbGciOiJIUzI1NiJ9.mocktoken.fishgame">
+        <button class="btn-copy" onclick="saveToken()">儲存</button>
+      </div>
+    </header>
+
+    <div class="main-content" id="main-content">
+      <div class="welcome-state">
+        <div class="icon">🎣</div>
+        <h3>FishGame API Explorer</h3>
+        <p>從左側選擇一個 API Endpoint<br>即可查看規格並即時測試</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// API Definitions
+// ============================================================
+const ENDPOINTS = [
+  // --- Auth ---
+  {
+    id: 'auth-login',
+    group: 'Auth',
+    method: 'POST',
+    path: '/v1/auth/login',
+    summary: '用戶登入',
+    description: '使用帳號密碼登入，回傳 access_token 及用戶基本資訊。',
+    params: [],
+    body: [
+      { name: 'username', type: 'string', required: true, default: 'fishking2024', desc: '用戶帳號' },
+      { name: 'password', type: 'string', required: true, default: 'pass1234', desc: '用戶密碼' }
+    ],
+    responses: {
+      200: { success: true, data: { access_token: 'eyJhbGciOiJIUzI1NiJ9.mocktoken.fishgame', token_type: 'Bearer', expires_in: 86400, user: { id: 'usr001', nickname: '炮手王', level: 38, vip_level: 3 } }, error: null },
+      401: { success: false, data: null, error: { code: 'INVALID_CREDENTIALS', message: '帳號或密碼錯誤' } },
+      400: { success: false, data: null, error: { code: 'VALIDATION_ERROR', message: '請填寫所有必填欄位' } }
+    }
+  },
+  {
+    id: 'auth-register',
+    group: 'Auth',
+    method: 'POST',
+    path: '/v1/auth/register',
+    summary: '用戶註冊',
+    description: '建立新用戶帳號，自動贈送新手禮包 5000 金幣。',
+    params: [],
+    body: [
+      { name: 'username',  type: 'string', required: true,  default: 'newplayer001', desc: '登入帳號（6-20字元）' },
+      { name: 'password',  type: 'string', required: true,  default: 'securepass', desc: '密碼（至少8字元）' },
+      { name: 'nickname',  type: 'string', required: true,  default: '深海新手', desc: '遊戲暱稱（2-12字元）' },
+      { name: 'email',     type: 'string', required: false, default: 'user@example.com', desc: 'Email（選填）' }
+    ],
+    responses: {
+      200: { success: true, data: { user_id: 'usr_new001', nickname: '深海新手', welcome_coins: 5000, access_token: 'eyJhbGciOiJIUzI1NiJ9.newtoken.fishgame' }, error: null },
+      400: { success: false, data: null, error: { code: 'USERNAME_TAKEN', message: '此帳號已被使用' } }
+    }
+  },
+  {
+    id: 'auth-logout',
+    group: 'Auth',
+    method: 'POST',
+    path: '/v1/auth/logout',
+    summary: '用戶登出',
+    description: '使當前 access_token 失效，清除伺服器端 session。',
+    params: [],
+    body: [],
+    responses: {
+      200: { success: true, data: { message: '已成功登出' }, error: null },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+
+  // --- Users ---
+  {
+    id: 'users-me',
+    group: 'Users',
+    method: 'GET',
+    path: '/v1/users/me',
+    summary: '取得當前用戶資訊',
+    description: '回傳已登入用戶的完整個人資料、等級、VIP 狀態等。',
+    params: [],
+    body: [],
+    responses: {
+      200: { success: true, data: { id: 'usr001', username: 'fishking2024', nickname: '炮手王', level: 38, exp: 4820, exp_to_next: 5000, vip_level: 3, vip_expires_at: '2024-05-25T00:00:00Z', coin_balance: 58300, diamond_balance: 420, avatar_url: null, win_rate: 0.68, total_games: 412, created_at: '2023-11-10T08:00:00Z' }, error: null },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: 'Token 無效或已過期' } }
+    }
+  },
+  {
+    id: 'users-me-update',
+    group: 'Users',
+    method: 'PATCH',
+    path: '/v1/users/me',
+    summary: '更新用戶資料',
+    description: '更新暱稱、頭像等個人資料。',
+    params: [],
+    body: [
+      { name: 'nickname',   type: 'string', required: false, default: '新暱稱', desc: '遊戲暱稱（2-12字元）' },
+      { name: 'avatar_url', type: 'string', required: false, default: 'https://cdn.example.com/avatar.jpg', desc: '頭像圖片 URL' }
+    ],
+    responses: {
+      200: { success: true, data: { id: 'usr001', nickname: '新暱稱', updated_at: '2024-04-25T12:00:00Z' }, error: null },
+      400: { success: false, data: null, error: { code: 'NICKNAME_TAKEN', message: '此暱稱已被使用' } },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: 'Token 無效' } }
+    }
+  },
+  {
+    id: 'users-balance',
+    group: 'Users',
+    method: 'GET',
+    path: '/v1/users/me/balance',
+    summary: '查詢用戶餘額',
+    description: '取得用戶金幣和鑽石的即時餘額。',
+    params: [],
+    body: [],
+    responses: {
+      200: { success: true, data: { coin_balance: 58300, diamond_balance: 420, last_updated: '2024-04-25T11:59:00Z' }, error: null },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+
+  // --- VIP ---
+  {
+    id: 'vip-subscribe',
+    group: 'VIP',
+    method: 'POST',
+    path: '/v1/vip/subscriptions',
+    summary: '購買 VIP 訂閱',
+    description: '使用鑽石或現金購買 VIP 月卡/週卡，立即生效。',
+    params: [],
+    body: [
+      { name: 'product_id',     type: 'string', required: true,  default: 'prod006', desc: 'VIP 商品 ID' },
+      { name: 'payment_method', type: 'string', required: true,  default: 'diamond', desc: '支付方式：diamond / iap' }
+    ],
+    responses: {
+      200: { success: true, data: { subscription_id: 'sub_001', vip_level: 3, expires_at: '2024-05-25T00:00:00Z', remaining_diamonds: 220 }, error: null },
+      400: { success: false, data: null, error: { code: 'INSUFFICIENT_BALANCE', message: '鑽石餘額不足' } },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+
+  // --- Game ---
+  {
+    id: 'game-rooms',
+    group: 'Game',
+    method: 'GET',
+    path: '/v1/game/rooms',
+    summary: '取得房間列表',
+    description: '回傳所有可用遊戲房間，包含即時在線人數和狀態。',
+    params: [
+      { name: 'status',   type: 'string',  required: false, default: '',  desc: '篩選狀態：waiting / playing / full' },
+      { name: 'min_bet',  type: 'integer', required: false, default: '',  desc: '最低賭注篩選' },
+      { name: 'page',     type: 'integer', required: false, default: '1', desc: '頁碼' },
+      { name: 'per_page', type: 'integer', required: false, default: '20', desc: '每頁筆數（max 50）' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { rooms: [{ id: 'room001', name: '新手灣', min_bet: 100, max_bet: 500, online: 4, capacity: 6, status: 'waiting' }, { id: 'room002', name: '珊瑚礁', min_bet: 500, max_bet: 2000, online: 6, capacity: 6, status: 'full' }, { id: 'room003', name: '深海峽谷', min_bet: 2000, max_bet: 10000, online: 3, capacity: 6, status: 'playing' }], total: 4, page: 1, per_page: 20 }, error: null },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+  {
+    id: 'game-history',
+    group: 'Game',
+    method: 'GET',
+    path: '/v1/game/history',
+    summary: '取得遊戲記錄',
+    description: '回傳當前用戶的歷史對局記錄，支援分頁。',
+    params: [
+      { name: 'page',     type: 'integer', required: false, default: '1',  desc: '頁碼' },
+      { name: 'per_page', type: 'integer', required: false, default: '20', desc: '每頁筆數' },
+      { name: 'room_id',  type: 'string',  required: false, default: '',   desc: '篩選特定房間' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { records: [{ session_id: 'sess_001', room: '深海峽谷', rank: 2, score: 1240, coins_earned: 380, played_at: '2024-04-25T10:30:00Z', duration: 180 }, { session_id: 'sess_002', room: '新手灣', rank: 1, score: 800, coins_earned: 250, played_at: '2024-04-24T15:00:00Z', duration: 150 }], total: 412, page: 1, per_page: 20 }, error: null },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+  {
+    id: 'game-leaderboard',
+    group: 'Game',
+    method: 'GET',
+    path: '/v1/game/leaderboard',
+    summary: '取得排行榜',
+    description: '全服排行榜，支援日榜/週榜/總榜。',
+    params: [
+      { name: 'period', type: 'string',  required: false, default: 'all', desc: '排行類型：daily / weekly / all' },
+      { name: 'limit',  type: 'integer', required: false, default: '50', desc: '返回筆數（max 100）' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { period: 'all', rankings: [{ rank: 1, user_id: 'usr002', nickname: '海底霸主', score: 89500, vip_level: 5 }, { rank: 2, user_id: 'usr008', nickname: '砲轟大師', score: 56700, vip_level: 4 }, { rank: 3, user_id: 'usr004', nickname: '魚王傳說', score: 42100, vip_level: 4 }], my_rank: 5, updated_at: '2024-04-25T12:00:00Z' }, error: null },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+
+  // --- Shop ---
+  {
+    id: 'shop-products',
+    group: 'Shop',
+    method: 'GET',
+    path: '/v1/shop/products',
+    summary: '取得商品列表',
+    description: '回傳所有上架商品，包含鑽石禮包和 VIP 訂閱商品。',
+    params: [
+      { name: 'type',   type: 'string', required: false, default: '', desc: '商品類型：diamond / vip' },
+      { name: 'active', type: 'boolean', required: false, default: 'true', desc: '只顯示上架商品' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { products: [{ id: 'prod001', name: '60 鑽石', type: 'diamond', diamonds: 60, price: 0.99, currency: 'USD', tag: null }, { id: 'prod002', name: '300 鑽石', type: 'diamond', diamonds: 300, bonus: 30, price: 4.99, currency: 'USD', tag: '熱銷' }, { id: 'prod006', name: 'VIP 月卡', type: 'vip', vip_level: 3, duration_days: 30, price: 9.99, currency: 'USD', tag: '最受歡迎' }], total: 6 }, error: null }
+    }
+  },
+  {
+    id: 'shop-purchase',
+    group: 'Shop',
+    method: 'POST',
+    path: '/v1/shop/purchases',
+    summary: '購買商品',
+    description: '下單購買指定商品，支援應用內購付款（IAP）和鑽石消費。',
+    params: [],
+    body: [
+      { name: 'product_id',        type: 'string', required: true,  default: 'prod002', desc: '商品 ID' },
+      { name: 'payment_method',    type: 'string', required: true,  default: 'iap',     desc: '支付方式：iap / diamond' },
+      { name: 'iap_receipt',       type: 'string', required: false, default: '',        desc: 'Apple/Google IAP 收據（iap 時必填）' },
+      { name: 'quantity',          type: 'integer', required: false, default: '1',      desc: '購買數量' }
+    ],
+    responses: {
+      200: { success: true, data: { order_id: 'ord_20240425001', product: '300 鑽石', diamonds_added: 330, new_diamond_balance: 750, status: 'completed', purchased_at: '2024-04-25T12:00:00Z' }, error: null },
+      400: { success: false, data: null, error: { code: 'PAYMENT_FAILED', message: 'IAP 驗證失敗，請重試' } },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+  {
+    id: 'shop-orders',
+    group: 'Shop',
+    method: 'GET',
+    path: '/v1/shop/orders',
+    summary: '查詢訂單列表',
+    description: '取得當前用戶的購買記錄，支援分頁。',
+    params: [
+      { name: 'page',     type: 'integer', required: false, default: '1',  desc: '頁碼' },
+      { name: 'per_page', type: 'integer', required: false, default: '20', desc: '每頁筆數' },
+      { name: 'status',   type: 'string',  required: false, default: '',   desc: '訂單狀態：completed / pending / failed' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { orders: [{ id: 'ord_001', product: '300 鑽石 +30贈', amount: 4.99, currency: 'USD', status: 'completed', created_at: '2024-04-20T09:00:00Z' }, { id: 'ord_002', product: 'VIP 月卡', amount: 9.99, currency: 'USD', status: 'completed', created_at: '2024-03-25T14:30:00Z' }], total: 12, page: 1 }, error: null },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+  {
+    id: 'shop-order-detail',
+    group: 'Shop',
+    method: 'GET',
+    path: '/v1/shop/orders/:order_id',
+    summary: '查詢單筆訂單',
+    description: '依訂單 ID 取得詳細資訊。',
+    params: [
+      { name: 'order_id', type: 'string', required: true, default: 'ord_001', desc: '訂單 ID（路徑參數）' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { id: 'ord_001', product_id: 'prod002', product_name: '300 鑽石', diamonds: 300, bonus: 30, amount: 4.99, currency: 'USD', payment_method: 'iap', status: 'completed', created_at: '2024-04-20T09:00:00Z', completed_at: '2024-04-20T09:00:05Z' }, error: null },
+      404: { success: false, data: null, error: { code: 'ORDER_NOT_FOUND', message: '找不到此訂單' } },
+      401: { success: false, data: null, error: { code: 'UNAUTHORIZED', message: '請先登入' } }
+    }
+  },
+
+  // --- Admin ---
+  {
+    id: 'admin-users',
+    group: 'Admin',
+    method: 'GET',
+    path: '/v1/admin/users',
+    summary: '管理員：用戶列表',
+    description: '（管理員限定）查詢全部用戶，支援搜尋和篩選。',
+    params: [
+      { name: 'search',    type: 'string',  required: false, default: '',    desc: '搜尋暱稱或帳號' },
+      { name: 'vip_level', type: 'integer', required: false, default: '',    desc: '篩選 VIP 等級' },
+      { name: 'page',      type: 'integer', required: false, default: '1',   desc: '頁碼' },
+      { name: 'per_page',  type: 'integer', required: false, default: '50',  desc: '每頁筆數' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { users: [{ id: 'usr001', nickname: '炮手王', level: 38, vip_level: 3, coin_balance: 58300, status: 'active', last_login: '2024-04-25T10:00:00Z' }, { id: 'usr002', nickname: '海底霸主', level: 92, vip_level: 5, coin_balance: 520000, status: 'active', last_login: '2024-04-25T11:30:00Z' }], total: 8, page: 1 }, error: null },
+      403: { success: false, data: null, error: { code: 'FORBIDDEN', message: '需要管理員權限' } }
+    }
+  },
+  {
+    id: 'admin-user-update',
+    group: 'Admin',
+    method: 'PATCH',
+    path: '/v1/admin/users/:user_id',
+    summary: '管理員：修改用戶',
+    description: '（管理員限定）修改用戶資料、VIP 等級、封禁狀態等。',
+    params: [
+      { name: 'user_id', type: 'string', required: true, default: 'usr001', desc: '用戶 ID（路徑參數）' }
+    ],
+    body: [
+      { name: 'vip_level',     type: 'integer', required: false, default: '3',      desc: '設定 VIP 等級（0-5）' },
+      { name: 'coin_balance',  type: 'integer', required: false, default: '10000',  desc: '設定金幣餘額' },
+      { name: 'status',        type: 'string',  required: false, default: 'active', desc: '帳號狀態：active / banned / suspended' },
+      { name: 'ban_reason',    type: 'string',  required: false, default: '',       desc: '封禁原因（status=banned 時填寫）' }
+    ],
+    responses: {
+      200: { success: true, data: { user_id: 'usr001', updated_fields: ['vip_level'], updated_at: '2024-04-25T12:00:00Z' }, error: null },
+      403: { success: false, data: null, error: { code: 'FORBIDDEN', message: '需要管理員權限' } },
+      404: { success: false, data: null, error: { code: 'USER_NOT_FOUND', message: '找不到此用戶' } }
+    }
+  },
+  {
+    id: 'admin-game-config',
+    group: 'Admin',
+    method: 'GET',
+    path: '/v1/admin/game-config',
+    summary: '管理員：遊戲設定',
+    description: '（管理員限定）取得全局遊戲設定，包含魚種倍率和 Jackpot 設定。',
+    params: [],
+    body: [],
+    responses: {
+      200: { success: true, data: { jackpot_threshold: 40000, jackpot_fill_rate: 0.02, fish_multipliers: { fish001: 2, fish002: 5, fish003: 15, fish004: 20, fish005: 30, fish006: 80 }, boss_spawn_interval: 300, max_bet_multiplier: 10, maintenance_mode: false }, error: null },
+      403: { success: false, data: null, error: { code: 'FORBIDDEN', message: '需要管理員權限' } }
+    }
+  },
+  {
+    id: 'admin-game-config-update',
+    group: 'Admin',
+    method: 'PATCH',
+    path: '/v1/admin/game-config',
+    summary: '管理員：更新遊戲設定',
+    description: '（管理員限定）即時更新遊戲參數，無需重啟伺服器。',
+    params: [],
+    body: [
+      { name: 'jackpot_threshold',  type: 'integer', required: false, default: '40000', desc: 'Jackpot 觸發門檻（金幣）' },
+      { name: 'jackpot_fill_rate',  type: 'number',  required: false, default: '0.02',  desc: '每次射擊填充比率（0.01-0.1）' },
+      { name: 'maintenance_mode',   type: 'boolean', required: false, default: 'false', desc: '維護模式（true=全服暫停）' }
+    ],
+    responses: {
+      200: { success: true, data: { message: '設定已更新並即時生效', updated_at: '2024-04-25T12:00:00Z' }, error: null },
+      403: { success: false, data: null, error: { code: 'FORBIDDEN', message: '需要管理員權限' } }
+    }
+  },
+  {
+    id: 'admin-stats-kpi',
+    group: 'Admin',
+    method: 'GET',
+    path: '/v1/admin/stats/kpi',
+    summary: '管理員：KPI 統計',
+    description: '（管理員限定）取得平台關鍵指標：DAU、收入、Jackpot 觸發次數等。',
+    params: [
+      { name: 'date',   type: 'string', required: false, default: '2024-04-25', desc: '統計日期（YYYY-MM-DD），預設今日' },
+      { name: 'period', type: 'string', required: false, default: 'daily',      desc: '統計週期：daily / weekly / monthly' }
+    ],
+    body: [],
+    responses: {
+      200: { success: true, data: { date: '2024-04-25', period: 'daily', dau: 1284, new_users: 38, active_sessions: 42, revenue_usd: 2156.8, coins_circulated: 3840000, jackpot_triggers: 7, avg_session_minutes: 18.4, top_room: '深海峽谷' }, error: null },
+      403: { success: false, data: null, error: { code: 'FORBIDDEN', message: '需要管理員權限' } }
+    }
+  }
+];
+
+// ============================================================
+// Group config
+// ============================================================
+const GROUPS = [
+  { id: 'Auth',  label: 'Auth',  color: '#F5C842', desc: '認證' },
+  { id: 'Users', label: 'Users', color: '#00F5D4', desc: '用戶' },
+  { id: 'VIP',   label: 'VIP',   color: '#FF00AA', desc: 'VIP訂閱' },
+  { id: 'Game',  label: 'Game',  color: '#00FF88', desc: '遊戲' },
+  { id: 'Shop',  label: 'Shop',  color: '#FF8800', desc: '商城' },
+  { id: 'Admin', label: 'Admin', color: '#FF4444', desc: '管理後台' }
+];
+
+// ============================================================
+// Security helpers
+// ============================================================
+
+// Escape HTML special characters before injecting into innerHTML
+function esc(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Escape a value for use inside an HTML attribute delimited by double-quotes
+function escAttr(str) {
+  return esc(str);
+}
+
+// Escape single-quote characters for shell single-quoted strings.
+// In POSIX sh, a single quote cannot appear inside a single-quoted string;
+// the safe way is to end the quote, insert an escaped quote, then reopen.
+function escShell(str) {
+  return String(str == null ? '' : str).replace(/'/g, "'\\''");
+}
+
+// Validate that a stored token only contains characters valid in a
+// Bearer token (RFC 6750 §2.1: visible ASCII excluding spaces / delimiters).
+function isValidToken(str) {
+  return typeof str === 'string' && /^[\x21\x23-\x7E]{1,2048}$/.test(str);
+}
+
+// ============================================================
+// State
+// ============================================================
+let currentEndpoint = null;
+let openGroups = new Set(['Auth', 'Users', 'Game']);
+let authToken = localStorage.getItem('fishgame_api_token') || 'eyJhbGciOiJIUzI1NiJ9.mocktoken.fishgame';
+let activeResponseTab = '200';
+
+// ============================================================
+// Build sidebar
+// ============================================================
+function buildSidebar(filter) {
+  const nav = document.getElementById('nav-list');
+  nav.innerHTML = '';
+
+  GROUPS.forEach(group => {
+    const eps = ENDPOINTS.filter(e => {
+      if (e.group !== group.id) return false;
+      if (!filter) return true;
+      const q = filter.toLowerCase();
+      return e.path.toLowerCase().includes(q) ||
+             e.summary.toLowerCase().includes(q) ||
+             e.method.toLowerCase().includes(q);
+    });
+
+    if (eps.length === 0) return;
+
+    const isOpen = openGroups.has(group.id);
+
+    const groupEl = document.createElement('div');
+    groupEl.className = 'group-wrapper';
+
+    const header = document.createElement('div');
+    header.className = 'group-header';
+    header.innerHTML = `
+      <div class="group-label">
+        <div class="group-dot" style="background:${escAttr(group.color)};box-shadow:0 0 6px ${escAttr(group.color)}40;"></div>
+        <span style="color:${escAttr(group.color)};">${esc(group.label)}</span>
+        <span class="group-count">${esc(String(eps.length))}</span>
+      </div>
+      <span class="group-arrow ${isOpen ? 'open' : ''}">▶</span>
+    `;
+    header.onclick = () => toggleGroup(group.id, groupEl);
+
+    const epList = document.createElement('div');
+    epList.className = 'group-endpoints';
+    epList.style.maxHeight = isOpen ? '9999px' : '0';
+
+    eps.forEach(ep => {
+      const item = document.createElement('div');
+      item.className = `ep-item${currentEndpoint && currentEndpoint.id === ep.id ? ' active' : ''}`;
+      item.dataset.epId = ep.id;
+      item.innerHTML = `
+        <span class="method-badge method-${escAttr(ep.method)}">${esc(ep.method)}</span>
+        <span class="ep-path" title="${escAttr(ep.path)}">${esc(ep.path)}</span>
+      `;
+      item.onclick = () => selectEndpoint(ep.id);
+      epList.appendChild(item);
+    });
+
+    groupEl.appendChild(header);
+    groupEl.appendChild(epList);
+    nav.appendChild(groupEl);
+  });
+}
+
+function toggleGroup(groupId, groupEl) {
+  const epList = groupEl.querySelector('.group-endpoints');
+  const arrow = groupEl.querySelector('.group-arrow');
+  const isOpen = openGroups.has(groupId);
+
+  if (isOpen) {
+    openGroups.delete(groupId);
+    epList.style.maxHeight = '0';
+    arrow.classList.remove('open');
+  } else {
+    openGroups.add(groupId);
+    epList.style.maxHeight = '9999px';
+    arrow.classList.add('open');
+  }
+}
+
+function filterEndpoints(q) {
+  buildSidebar(q.trim());
+}
+
+// ============================================================
+// Select endpoint
+// ============================================================
+function selectEndpoint(id) {
+  currentEndpoint = ENDPOINTS.find(e => e.id === id);
+  if (!currentEndpoint) return;
+  activeResponseTab = '200';
+
+  // Update active state in sidebar
+  document.querySelectorAll('.ep-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.epId === id);
+  });
+
+  const title = document.getElementById('main-title');
+  if (title) title.textContent = `${currentEndpoint.method} ${currentEndpoint.path}`;
+
+  renderEndpointDetail(currentEndpoint);
+
+  window.location.hash = `endpoint-${id}`;
+}
+
+// ============================================================
+// Render endpoint detail
+// ============================================================
+function renderEndpointDetail(ep) {
+  const content = document.getElementById('main-content');
+  const group = GROUPS.find(g => g.id === ep.group);
+  const groupColor = group ? group.color : '#888';
+
+  const hasBody = ep.body && ep.body.length > 0;
+  const hasParams = ep.params && ep.params.length > 0;
+
+  const statusCodes = Object.keys(ep.responses);
+
+  content.innerHTML = `
+    <div class="ep-detail">
+
+      <!-- Title -->
+      <div class="ep-title">
+        <span class="method-badge method-${escAttr(ep.method)}" style="font-size:14px;padding:5px 12px;">${esc(ep.method)}</span>
+        <div class="ep-title-info">
+          <h3>${esc(ep.path)}</h3>
+          <p>${esc(ep.summary)} — <span style="color:${escAttr(groupColor)}">${esc(ep.group)}</span></p>
+        </div>
+      </div>
+
+      ${ep.description ? `<p style="font-size:13px;color:var(--color-dim);margin-bottom:20px;line-height:1.6;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:8px;border-left:3px solid ${escAttr(groupColor)}40;">${esc(ep.description)}</p>` : ''}
+
+      <!-- Query Params -->
+      ${hasParams ? `
+      <div class="section">
+        <div class="section-title">📋 Query Parameters</div>
+        <div class="section-body" style="padding:0;">
+          <table class="params-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Description</th>
+                <th style="min-width:140px;">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${ep.params.map(p => `
+                <tr>
+                  <td><span class="param-name">${esc(p.name)}</span></td>
+                  <td><span class="param-type">${esc(p.type)}</span></td>
+                  <td>${p.required ? '<span class="param-required">必填</span>' : '<span class="param-optional">選填</span>'}</td>
+                  <td><span class="param-desc">${esc(p.desc)}</span></td>
+                  <td><input class="param-input" id="param-${escAttr(p.name)}" type="text" placeholder="${escAttr(p.default || '')}" value="${escAttr(p.default || '')}"></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Request Body -->
+      ${hasBody ? `
+      <div class="section">
+        <div class="section-title" style="justify-content:space-between;">
+          <span>📦 Request Body</span>
+          <span style="font-size:10px;font-weight:400;color:var(--color-mute);">application/json</span>
+        </div>
+        <div class="section-body">
+          ${ep.body.map(p => `
+            <div style="display:grid;grid-template-columns:120px 80px 1fr;gap:10px;align-items:start;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.04);">
+              <div>
+                <div class="param-name" style="margin-bottom:3px;">${esc(p.name)}</div>
+                <span class="param-type">${esc(p.type)}</span>
+              </div>
+              <div style="padding-top:2px;">
+                ${p.required ? '<span class="param-required">必填</span>' : '<span class="param-optional">選填</span>'}
+              </div>
+              <div>
+                <p style="font-size:11px;color:var(--color-mute);margin-bottom:5px;">${esc(p.desc)}</p>
+                <input class="param-input" id="body-${escAttr(p.name)}" type="text" placeholder="${escAttr(p.default || '')}" value="${escAttr(p.default || '')}">
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Try It -->
+      <div class="section">
+        <div class="section-title">⚡ Try It</div>
+        <div class="section-body">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+            <button class="btn-try" id="try-btn" onclick="executeRequest()">
+              <span id="try-btn-inner">▶ 發送請求</span>
+            </button>
+            <button class="btn-copy" onclick="copyCurl()">📋 Copy as cURL</button>
+            <div style="font-size:12px;color:var(--color-mute);">
+              Base URL: <code style="font-family:var(--font-mono);color:var(--color-neon);font-size:11px;">https://api.fishgame.example.com</code>
+            </div>
+          </div>
+
+          <!-- Response Panel -->
+          <div class="response-panel" id="response-panel">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+              <span style="font-size:12px;font-weight:600;color:var(--color-mute);">Response</span>
+              <span id="status-badge" class="status-badge"></span>
+              <span id="response-time" style="font-size:11px;color:var(--color-mute);"></span>
+            </div>
+
+            <!-- Example tabs -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+              <div class="response-tabs" id="response-tabs">
+                ${statusCodes.map(code => `
+                  <button class="response-tab${esc(code) === '200' ? ' active' : ''}" onclick="switchResponseTab('${escAttr(code)}')">${esc(code)}</button>
+                `).join('')}
+              </div>
+              <button class="btn-copy" id="copy-response-btn" onclick="copyResponse()" style="display:none;">複製</button>
+            </div>
+
+            <div class="json-view" id="response-json">等待發送請求...</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  // Show example for first status code
+  showResponseExample(statusCodes[0]);
+}
+
+function showResponseExample(code) {
+  activeResponseTab = code;
+  if (!currentEndpoint) return;
+
+  const tabButtons = document.querySelectorAll('.response-tab');
+  tabButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim() === code);
+  });
+
+  const panel = document.getElementById('response-panel');
+  const jsonEl = document.getElementById('response-json');
+  const statusEl = document.getElementById('status-badge');
+  const copyBtn = document.getElementById('copy-response-btn');
+
+  if (panel) panel.classList.add('visible');
+  if (copyBtn) copyBtn.style.display = 'block';
+
+  const resp = currentEndpoint.responses[code];
+  if (resp && jsonEl) {
+    jsonEl.innerHTML = syntaxHighlight(JSON.stringify(resp, null, 2));
+  }
+
+  if (statusEl) {
+    const numCode = parseInt(code);
+    const cls = numCode < 300 ? 'status-2xx' : numCode < 500 ? 'status-4xx' : 'status-5xx';
+    statusEl.className = `status-badge ${cls}`;
+    statusEl.textContent = code + (numCode < 300 ? ' OK' : numCode === 400 ? ' Bad Request' : numCode === 401 ? ' Unauthorized' : numCode === 403 ? ' Forbidden' : numCode === 404 ? ' Not Found' : ' Error');
+  }
+}
+
+window.switchResponseTab = function(code) {
+  showResponseExample(code);
+};
+
+// ============================================================
+// Execute mock request
+// ============================================================
+function executeRequest() {
+  if (!currentEndpoint) return;
+
+  const btn = document.getElementById('try-btn');
+  const btnInner = document.getElementById('try-btn-inner');
+  if (btn) btn.disabled = true;
+  if (btnInner) btnInner.innerHTML = '<span class="spinner"></span> 請求中...';
+
+  const start = Date.now();
+
+  setTimeout(() => {
+    if (btn) btn.disabled = false;
+    if (btnInner) btnInner.textContent = '▶ 發送請求';
+
+    const elapsed = Date.now() - start;
+    const panel = document.getElementById('response-panel');
+    const jsonEl = document.getElementById('response-json');
+    const statusEl = document.getElementById('status-badge');
+    const timeEl = document.getElementById('response-time');
+    const copyBtn = document.getElementById('copy-response-btn');
+
+    if (panel) panel.classList.add('visible');
+    if (copyBtn) copyBtn.style.display = 'block';
+
+    // Simulate auth check
+    const token = document.getElementById('auth-token').value;
+    const isAuthed = token && token.length > 10;
+
+    // Determine which response to show
+    let statusCode = '200';
+    if (!isAuthed && currentEndpoint.responses['401']) {
+      statusCode = '401';
+    }
+
+    const resp = currentEndpoint.responses[statusCode];
+    if (resp && jsonEl) {
+      jsonEl.innerHTML = syntaxHighlight(JSON.stringify(resp, null, 2));
+    }
+
+    if (statusEl) {
+      const numCode = parseInt(statusCode);
+      const cls = numCode < 300 ? 'status-2xx' : numCode < 500 ? 'status-4xx' : 'status-5xx';
+      statusEl.className = `status-badge ${cls}`;
+      statusEl.textContent = statusCode + (numCode < 300 ? ' OK' : numCode === 401 ? ' Unauthorized' : ' Error');
+    }
+
+    if (timeEl) timeEl.textContent = `${elapsed}ms`;
+
+    // Update tabs
+    const tabs = document.getElementById('response-tabs');
+    if (tabs) {
+      tabs.querySelectorAll('.response-tab').forEach(t => {
+        t.classList.toggle('active', t.textContent.trim() === statusCode);
+      });
+    }
+    activeResponseTab = statusCode;
+
+  }, 150 + Math.random() * 100);
+}
+
+// ============================================================
+// Copy cURL
+// ============================================================
+function copyCurl() {
+  if (!currentEndpoint) return;
+  const ep = currentEndpoint;
+  const token = document.getElementById('auth-token').value || 'YOUR_TOKEN';
+  const base = 'https://api.fishgame.example.com';
+
+  // Build query string
+  const queryParts = (ep.params || []).map(p => {
+    const el = document.getElementById('param-' + p.name);
+    const val = el ? el.value : p.default;
+    return val ? `${p.name}=${encodeURIComponent(val)}` : '';
+  }).filter(Boolean);
+
+  const qs = queryParts.length ? '?' + queryParts.join('&') : '';
+  let path = ep.path;
+
+  // Replace path params — percent-encode the substituted value so it cannot
+  // break out of the URL or introduce path-traversal sequences.
+  (ep.params || []).forEach(p => {
+    const el = document.getElementById('param-' + p.name);
+    const val = el ? el.value : p.default;
+    if (val && path.includes(':' + p.name)) {
+      path = path.replace(':' + p.name, encodeURIComponent(val));
+    }
+  });
+
+  // Build body — JSON.stringify produces valid JSON; shell-escape the whole
+  // string so that embedded single-quotes cannot break the shell quoting.
+  const bodyObj = {};
+  (ep.body || []).forEach(p => {
+    const el = document.getElementById('body-' + p.name);
+    if (el && el.value) bodyObj[p.name] = el.value;
+  });
+  const bodyStr = Object.keys(bodyObj).length
+    ? ` \\\n  -d '${escShell(JSON.stringify(bodyObj))}'`
+    : '';
+  const contentType = ep.body && ep.body.length ? " \\\n  -H 'Content-Type: application/json'" : '';
+
+  // Validate the token before embedding it in a shell-quoted string.
+  const safeToken = isValidToken(token) ? escShell(token) : 'INVALID_TOKEN';
+  const curl = `curl -X ${ep.method} '${base}${path}${ep.method === 'GET' ? qs : ''}' \\\n  -H 'Authorization: Bearer ${safeToken}'${contentType}${bodyStr}`;
+
+  navigator.clipboard.writeText(curl).then(() => {
+    showApiToast('cURL 已複製到剪貼板');
+  }).catch(() => {
+    prompt('複製此 cURL 命令:', curl);
+  });
+}
+
+function copyResponse() {
+  const jsonEl = document.getElementById('response-json');
+  if (!jsonEl) return;
+  const text = jsonEl.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    showApiToast('回應已複製');
+  }).catch(() => {});
+}
+
+// ============================================================
+// Save token
+// ============================================================
+function saveToken() {
+  const val = document.getElementById('auth-token').value;
+  if (!isValidToken(val)) {
+    showApiToast('Token 格式無效，請重新輸入');
+    return;
+  }
+  authToken = val;
+  localStorage.setItem('fishgame_api_token', val);
+  showApiToast('Token 已儲存');
+}
+
+// ============================================================
+// JSON syntax highlight
+// ============================================================
+function syntaxHighlight(json) {
+  // HTML-escape the raw JSON first so embedded < > & in string values
+  // cannot inject markup, then wrap tokens in safe <span> elements.
+  const escaped = esc(json);
+  return escaped.replace(/(&quot;(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\&])*&quot;(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+    let cls = 'json-number';
+    if (/^&quot;/.test(match)) {
+      if (/:$/.test(match)) {
+        cls = 'json-key';
+        return `<span class="${cls}">${match}</span>`;
+      } else {
+        cls = 'json-string';
+      }
+    } else if (/true|false/.test(match)) {
+      cls = 'json-bool';
+    } else if (/null/.test(match)) {
+      cls = 'json-null';
+    }
+    return `<span class="${cls}">${match}</span>`;
+  });
+}
+
+// ============================================================
+// Toast
+// ============================================================
+function showApiToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'api-toast';
+  t.textContent = '✓ ' + msg;
+  document.body.appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(10px)';
+    t.style.transition = 'all 0.2s';
+    setTimeout(() => t.remove(), 200);
+  }, 2000);
+}
+
+// ============================================================
+// Init
+// ============================================================
+(function init() {
+  // Restore saved token
+  const saved = localStorage.getItem('fishgame_api_token');
+  if (saved) {
+    const el = document.getElementById('auth-token');
+    if (el) el.value = saved;
+  }
+
+  buildSidebar();
+
+  // Handle deep link hash
+  const hash = window.location.hash.replace('#endpoint-', '');
+  if (hash && ENDPOINTS.find(e => e.id === hash)) {
+    openGroups.add(ENDPOINTS.find(e => e.id === hash).group);
+    buildSidebar();
+    selectEndpoint(hash);
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -89,6 +89,17 @@ RTO ≤ 30 minutes | RPO ≤ 5 minutes
 
 ---
 
+## Interactive Prototype
+
+| Link | Description |
+|---|---|
+| [📱 UI Prototype](docs/pages/prototype/index.html) | 可點擊的前端原型（8 個畫面，含動畫音效）|
+| [🔌 API Explorer](docs/pages/prototype/api-explorer/index.html) | 互動式 API 試打介面（19 個 endpoint，JavaScript Mock）|
+
+> GitHub Pages 線上版：[UI Prototype ↗](https://ibalasite.github.io/fishgame/prototype/) · [API Explorer ↗](https://ibalasite.github.io/fishgame/prototype/api-explorer/)
+
+---
+
 ## Document Links
 
 | Document | Description | Path |
