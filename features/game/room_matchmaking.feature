@@ -1,6 +1,6 @@
 # features/game/room_matchmaking.feature
-# 來源：PRD US-ROOM-001/AC-1,AC-2,AC-4
-# 注意：AC-3（Bot 補位 E2E）、AC-6（Circuit Breaker）、AC-7（金幣限制）無對應 Scenario，見 RTM TC-E2E-ROOM-003-S, TC-INT-ROOM-006-E, TC-UNIT-ROOM-007-E
+# 來源：PRD US-ROOM-001/AC-1,AC-2,AC-3,AC-4,AC-6
+# 注意：AC-7（金幣限制）無對應 Scenario，見 RTM TC-UNIT-ROOM-007-E
 # Risk Level：High（WebSocket 多人連線是核心體驗，Scenario 數量加倍）
 
 Feature: 多人競技房間快速匹配
@@ -31,6 +31,15 @@ Feature: 多人競技房間快速匹配
     And 房間 state.status 變更為 "game_started"
     And 服務端開始計算魚群刷新週期
 
+  @p0 @smoke @regression @api @TC-E2E-ROOM-003-S @websocket
+  Scenario: Bot 補位 E2E — 匹配逾時後補入機器人並成功開局
+    Given 只有 1 位玩家呼叫 joinOrCreate "fishingRoom"
+    When 等待 30 秒後仍無其他玩家加入
+    Then 系統補入 3 個機器人至 4 人（is_bot=true）並啟動房間
+    And 玩家收到 onMessage "game_started"，房間狀態為 "game_started"
+    And 機器人以基礎射擊頻率持續參與，不影響玩家正常遊戲
+    And 玩家可正常發送 fire 事件並獲得金幣獎勵
+
   @p0 @regression @api @TC-INT-ROOM-003-S @websocket
   Scenario: 玩家斷線後 10 秒內補入機器人維持遊戲進行
     Given 房間 "fishingRoom-001" 有 4 位真實玩家，遊戲進行中
@@ -47,6 +56,15 @@ Feature: 多人競技房間快速匹配
 
   # ─── 錯誤路徑 ───────────────────────────────────────────
 
+  @p0 @regression @api @TC-INT-ROOM-004-E @websocket
+  Scenario: WS 斷線後 5 秒內未重連，機器人永久接管席位
+    Given 房間 "fishingRoom-001" 有 4 位真實玩家，遊戲進行中
+    And 玩家 "player-001@example.com" WebSocket 連線中斷
+    When 5 秒重連視窗關閉，玩家未嘗試重新連線
+    Then 系統補入機器人永久接管該席位（is_bot=true）
+    And 玩家無法再以舊 session_id 重連回該房間（返回 "RECONNECT_WINDOW_EXPIRED"）
+    And 剩餘 3 位真實玩家遊戲不中斷
+
   @p0 @regression @api @contract @TC-INT-ROOM-005-E @websocket
   Scenario: 房間已滿 6 人時新玩家加入返回房間已滿錯誤
     Given 房間 "fishingRoom-001" 已有 6 位玩家（滿員）
@@ -55,6 +73,14 @@ Feature: 多人競技房間快速匹配
     And 第 7 位玩家未被加入房間
 
   @p0 @regression @api @contract @TC-INT-ROOM-006-E @websocket
+  Scenario: Colyseus 匹配服務 Circuit Breaker 觸發後返回服務不可用
+    Given Colyseus Game Server 連續故障次數超過 Circuit Breaker 閾值
+    When 玩家發送 POST /v1/rooms/matchmake（joinOrCreate 請求）
+    Then API 回應狀態碼 503
+    And 回應錯誤碼為 "MATCHMAKING_SERVICE_UNAVAILABLE"
+    And 回應包含 retry_after（秒）
+
+  @p0 @regression @api @contract @TC-INT-ROOM-012-E @websocket
   Scenario: 玩家嘗試加入不存在的房間返回資源不存在
     Given 房間 ID "non-existent-room-999" 不存在於系統
     When 玩家嘗試 joinById "non-existent-room-999"
