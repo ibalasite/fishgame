@@ -267,24 +267,24 @@
 <h2>4. Stakeholders &amp; Users</h2>
 <h3>4.1 Stakeholder Map</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
-    Exec["🏢 Executive Sponsor<br/>投資方/創辦人代表<br/>核准預算 & 最終決策"]
-    PM["📋 Product Manager / 遊戲策劃<br/>需求定義 & 數值設計<br/>（遊戲策劃 ×2）"]
-    Eng["⚙️ Engineering Lead<br/>技術可行性 & 估算<br/>（客戶端 ×3 + 後端 ×2）"]
-    Art["🎨 Art Director<br/>美術風格 & UI/UX<br/>（美術 ×3）"]
-    Legal["⚖️ Legal / Compliance<br/>博彩法規合規審查<br/>（外聘法務顧問）"]
-    Ops["📈 Operations<br/>活動運營 & 玩家社群<br/>（運營 ×2）"]
-    Investors["💰 Investors<br/>出資決策者<br/>ROI 追蹤"]
-    Players["👥 End Users（玩家）<br/>台灣+東南亞 18-45 歲<br/>休閒付費玩家"]
+    Exec["🏢 Executive Sponsor&lt;br/&gt;投資方/創辦人代表&lt;br/&gt;核准預算 &amp; 最終決策"]
+    PM["📋 Product Manager / 遊戲策劃&lt;br/&gt;需求定義 &amp; 數值設計&lt;br/&gt;（遊戲策劃 ×2）"]
+    Eng["⚙️ Engineering Lead&lt;br/&gt;技術可行性 &amp; 估算&lt;br/&gt;（客戶端 ×3 + 後端 ×2）"]
+    Art["🎨 Art Director&lt;br/&gt;美術風格 &amp; UI/UX&lt;br/&gt;（美術 ×3）"]
+    Legal["⚖️ Legal / Compliance&lt;br/&gt;博彩法規合規審查&lt;br/&gt;（外聘法務顧問）"]
+    Ops["📈 Operations&lt;br/&gt;活動運營 &amp; 玩家社群&lt;br/&gt;（運營 ×2）"]
+    Investors["💰 Investors&lt;br/&gt;出資決策者&lt;br/&gt;ROI 追蹤"]
+    Players["👥 End Users（玩家）&lt;br/&gt;台灣+東南亞 18-45 歲&lt;br/&gt;休閒付費玩家"]
 
-    Exec -->|授權預算| PM
-    Exec -->|戰略決策| Eng
-    Investors -->|資金| Exec
-    PM -->|功能需求| Eng
-    PM -->|視覺方向| Art
-    PM -->|合規諮詢| Legal
-    Ops -->|運營數據| PM
-    Players -->|遊戲回饋| PM
-    Players -->|付費行為| Investors</pre></div>
+    Exec --&gt;|授權預算| PM
+    Exec --&gt;|戰略決策| Eng
+    Investors --&gt;|資金| Exec
+    PM --&gt;|功能需求| Eng
+    PM --&gt;|視覺方向| Art
+    PM --&gt;|合規諮詢| Legal
+    Ops --&gt;|運營數據| PM
+    Players --&gt;|遊戲回饋| PM
+    Players --&gt;|付費行為| Investors</pre></div>
 <h3>4.2 Target Users（業務層級描述）</h3>
 <blockquote><p>資料來源：<code>docs/IDEA.md §3</code>、Q1 澄清結果</p></blockquote>
 <table>
@@ -545,7 +545,7 @@ Input（我們可控的行動）
 <h2>12. High-Level Roadmap</h2>
 <div class="diagram-container"><pre class="mermaid">timeline
     title fishing-arcade-game 高層次里程碑（6 個月開發計畫）
-    section Discovery & Setup（月 0）
+    section Discovery &amp; Setup（月 0）
         2026-04-24 : BRD 完成，募資啟動
         2026-05-08 : 法務初審完成（台灣Jackpot合規）
         2026-05-15 : 用戶訪談完成（N≥10），MVP 假設驗證

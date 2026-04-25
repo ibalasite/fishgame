@@ -107,7 +107,7 @@ classDiagram
     %% ==================== COMMANDS (DTOs) ====================
 
     class ShootCommand {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + playerId: string
         + roomId: string
         + fishId: string
@@ -117,14 +117,14 @@ classDiagram
     }
 
     class EnterRoomCommand {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + playerId: string
         + roomType: string
         + preferredTableId: string?
     }
 
     class PurchaseCommand {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + playerId: string
         + productId: string
         + orderId: string
@@ -134,7 +134,7 @@ classDiagram
     }
 
     class SubscribeVIPCommand {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + playerId: string
         + vipTier: int
         + orderId: string
@@ -142,7 +142,7 @@ classDiagram
     }
 
     class RefundCommand {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + orderId: string
         + playerId: string
         + reason: string
@@ -152,7 +152,7 @@ classDiagram
     %% ==================== RESULTS (DTOs) ====================
 
     class HitResult {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + isHit: bool
         + coinsAwarded: int
         + rtpSnapshot: float
@@ -162,7 +162,7 @@ classDiagram
     }
 
     class SessionResult {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + sessionId: string
         + playerId: string
         + finalCoins: int
@@ -172,7 +172,7 @@ classDiagram
     }
 
     class PurchaseResult {
-        <<DTO>>
+        &lt;&lt;DTO&gt;&gt;
         + orderId: string
         + success: bool
         + diamondsGranted: int
@@ -183,7 +183,7 @@ classDiagram
     %% ==================== USE CASES ====================
 
     class ShootFishUseCase {
-        <<UseCase>>
+        &lt;&lt;UseCase&gt;&gt;
         - playerRepo: PlayerRepository
         - roomRepo: RoomRepository
         - rtpEngine: RTPEngine
@@ -198,7 +198,7 @@ classDiagram
     }
 
     class EnterRoomUseCase {
-        <<UseCase>>
+        &lt;&lt;UseCase&gt;&gt;
         - playerRepo: PlayerRepository
         - roomRepo: RoomRepository
         - eventBus: IDomainEventBus
@@ -209,7 +209,7 @@ classDiagram
     }
 
     class PurchaseUseCase {
-        <<UseCase>>
+        &lt;&lt;UseCase&gt;&gt;
         - playerRepo: PlayerRepository
         - paymentPort: IPaymentPort
         - eventBus: IDomainEventBus
@@ -221,7 +221,7 @@ classDiagram
     }
 
     class SubscribeVIPUseCase {
-        <<UseCase>>
+        &lt;&lt;UseCase&gt;&gt;
         - playerRepo: PlayerRepository
         - paymentPort: IPaymentPort
         - notificationPort: INotificationPort
@@ -233,7 +233,7 @@ classDiagram
     }
 
     class RefundUseCase {
-        <<UseCase>>
+        &lt;&lt;UseCase&gt;&gt;
         - playerRepo: PlayerRepository
         - paymentPort: IPaymentPort
         - eventBus: IDomainEventBus
@@ -245,7 +245,7 @@ classDiagram
     }
 
     class LeaveRoomUseCase {
-        <<UseCase>>
+        &lt;&lt;UseCase&gt;&gt;
         - playerRepo: PlayerRepository
         - roomRepo: RoomRepository
         - eventBus: IDomainEventBus
@@ -253,7 +253,7 @@ classDiagram
     }
 
     class SessionSettleUseCase {
-        <<UseCase>>
+        &lt;&lt;UseCase&gt;&gt;
         - playerRepo: PlayerRepository
         - roomRepo: RoomRepository
         - eventBus: IDomainEventBus
@@ -265,7 +265,7 @@ classDiagram
     %% ==================== APPLICATION SERVICES ====================
 
     class GameService {
-        <<ApplicationService>>
+        &lt;&lt;ApplicationService&gt;&gt;
         - shootFishUseCase: ShootFishUseCase
         - enterRoomUseCase: EnterRoomUseCase
         - leaveRoomUseCase: LeaveRoomUseCase
@@ -279,7 +279,7 @@ classDiagram
     }
 
     class RTPService {
-        <<ApplicationService>>
+        &lt;&lt;ApplicationService&gt;&gt;
         - rtpEngine: RTPEngine
         - cache: ICache
         - featureFlag: IFeatureFlag
@@ -291,7 +291,7 @@ classDiagram
     }
 
     class JackpotApplicationService {
-        <<ApplicationService>>
+        &lt;&lt;ApplicationService&gt;&gt;
         - jackpotService: JackpotService
         - cache: ICache
         - eventBus: IDomainEventBus
@@ -302,7 +302,7 @@ classDiagram
     }
 
     class AccountService {
-        <<ApplicationService>>
+        &lt;&lt;ApplicationService&gt;&gt;
         - playerRepo: PlayerRepository
         - tokenService: ITokenService
         - cache: ICache
@@ -316,27 +316,27 @@ classDiagram
     %% ==================== PORTS (Interfaces) ====================
 
     class IPaymentPort {
-        <<Port>>
+        &lt;&lt;Port&gt;&gt;
         + verifyAppleReceipt(receipt: string): ReceiptVerifyResult
         + verifyGoogleReceipt(receipt: string): ReceiptVerifyResult
         + processRefund(orderId: string): RefundResult
     }
 
     class INotificationPort {
-        <<Port>>
+        &lt;&lt;Port&gt;&gt;
         + sendPushNotification(userId: string, message: string): void
         + broadcastJackpot(winnerId: string, amount: int): void
         + sendVIPActivated(userId: string, tier: int): void
     }
 
     class IDomainEventBus {
-        <<Port>>
+        &lt;&lt;Port&gt;&gt;
         + publish(event: DomainEvent): void
         + subscribe(eventType: string, handler: EventHandler): void
     }
 
     class ICache {
-        <<Port>>
+        &lt;&lt;Port&gt;&gt;
         + get(key: string): string?
         + set(key: string, value: string, ttlSeconds: int): void
         + delete(key: string): void
@@ -345,13 +345,13 @@ classDiagram
     }
 
     class IFeatureFlag {
-        <<Port>>
+        &lt;&lt;Port&gt;&gt;
         + isEnabled(flagName: string): bool
         + getVariant(flagName: string): string
     }
 
     class ITokenService {
-        <<Port>>
+        &lt;&lt;Port&gt;&gt;
         + sign(payload: JWTPayload): TokenPair
         + verify(token: string): JWTPayload
         + revoke(jti: string): void
@@ -359,36 +359,36 @@ classDiagram
 
     %% ==================== RELATIONSHIPS ====================
 
-    ShootFishUseCase ..> ShootCommand : input
-    ShootFishUseCase ..> HitResult : output
-    EnterRoomUseCase ..> EnterRoomCommand : input
-    PurchaseUseCase ..> PurchaseCommand : input
-    PurchaseUseCase ..> PurchaseResult : output
-    SubscribeVIPUseCase ..> SubscribeVIPCommand : input
-    RefundUseCase ..> RefundCommand : input
-    SessionSettleUseCase ..> SessionResult : output
+    ShootFishUseCase ..&gt; ShootCommand : input
+    ShootFishUseCase ..&gt; HitResult : output
+    EnterRoomUseCase ..&gt; EnterRoomCommand : input
+    PurchaseUseCase ..&gt; PurchaseCommand : input
+    PurchaseUseCase ..&gt; PurchaseResult : output
+    SubscribeVIPUseCase ..&gt; SubscribeVIPCommand : input
+    RefundUseCase ..&gt; RefundCommand : input
+    SessionSettleUseCase ..&gt; SessionResult : output
 
-    GameService --> ShootFishUseCase : delegates
-    GameService --> EnterRoomUseCase : delegates
-    GameService --> LeaveRoomUseCase : delegates
-    GameService --> SessionSettleUseCase : delegates
-    GameService --> RTPService : uses
-    GameService --> JackpotApplicationService : uses
+    GameService --&gt; ShootFishUseCase : delegates
+    GameService --&gt; EnterRoomUseCase : delegates
+    GameService --&gt; LeaveRoomUseCase : delegates
+    GameService --&gt; SessionSettleUseCase : delegates
+    GameService --&gt; RTPService : uses
+    GameService --&gt; JackpotApplicationService : uses
 
-    ShootFishUseCase --> IPaymentPort : uses
-    ShootFishUseCase --> IDomainEventBus : publishes
-    PurchaseUseCase --> IPaymentPort : uses
-    PurchaseUseCase --> IDomainEventBus : publishes
-    SubscribeVIPUseCase --> IPaymentPort : uses
-    SubscribeVIPUseCase --> INotificationPort : uses
-    RefundUseCase --> IPaymentPort : uses
+    ShootFishUseCase --&gt; IPaymentPort : uses
+    ShootFishUseCase --&gt; IDomainEventBus : publishes
+    PurchaseUseCase --&gt; IPaymentPort : uses
+    PurchaseUseCase --&gt; IDomainEventBus : publishes
+    SubscribeVIPUseCase --&gt; IPaymentPort : uses
+    SubscribeVIPUseCase --&gt; INotificationPort : uses
+    RefundUseCase --&gt; IPaymentPort : uses
 
-    AccountService --> ITokenService : uses
-    AccountService --> ICache : uses
-    RTPService --> ICache : uses
-    RTPService --> IFeatureFlag : uses
-    JackpotApplicationService --> ICache : uses
-    JackpotApplicationService --> IDomainEventBus : publishes</pre></div></main>
+    AccountService --&gt; ITokenService : uses
+    AccountService --&gt; ICache : uses
+    RTPService --&gt; ICache : uses
+    RTPService --&gt; IFeatureFlag : uses
+    JackpotApplicationService --&gt; ICache : uses
+    JackpotApplicationService --&gt; IDomainEventBus : publishes</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

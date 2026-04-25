@@ -154,43 +154,43 @@ graph LR
         UC_SessionSettle["遊戲結算"]
     end
 
-    Player --> UC_Register
-    Player --> UC_Login
-    Player --> UC_AgeVerify
-    Player --> UC_ViewProfile
-    Player --> UC_UpdateProfile
-    Player --> UC_JoinRoom
-    Player --> UC_ShootFish
-    Player --> UC_SwitchWeapon
-    Player --> UC_UseSkill
-    Player --> UC_ViewRanking
-    Player --> UC_Reconnect
-    Player --> UC_BuyDiamonds
-    Player --> UC_BuyWeapon
-    Player --> UC_SubscribeVIP
-    Player --> UC_ViewOrders
+    Player --&gt; UC_Register
+    Player --&gt; UC_Login
+    Player --&gt; UC_AgeVerify
+    Player --&gt; UC_ViewProfile
+    Player --&gt; UC_UpdateProfile
+    Player --&gt; UC_JoinRoom
+    Player --&gt; UC_ShootFish
+    Player --&gt; UC_SwitchWeapon
+    Player --&gt; UC_UseSkill
+    Player --&gt; UC_ViewRanking
+    Player --&gt; UC_Reconnect
+    Player --&gt; UC_BuyDiamonds
+    Player --&gt; UC_BuyWeapon
+    Player --&gt; UC_SubscribeVIP
+    Player --&gt; UC_ViewOrders
 
-    VIPPlayer --> UC_JoinVIPRoom
-    VIPPlayer --> UC_HighMultiplier
-    VIPPlayer -.->|extends| Player
+    VIPPlayer --&gt; UC_JoinVIPRoom
+    VIPPlayer --&gt; UC_HighMultiplier
+    VIPPlayer -.-&gt;|extends| Player
 
-    Admin --> UC_ConfigRTP
-    Admin --> UC_ViewKPI
-    Admin --> UC_ManageUsers
-    Admin --> UC_ConfigActivity
-    Admin --> UC_ViewAuditLog
-    Admin --> UC_DisableJackpot
+    Admin --&gt; UC_ConfigRTP
+    Admin --&gt; UC_ViewKPI
+    Admin --&gt; UC_ManageUsers
+    Admin --&gt; UC_ConfigActivity
+    Admin --&gt; UC_ViewAuditLog
+    Admin --&gt; UC_DisableJackpot
 
-    PaymentSystem --> UC_VerifyReceipt
+    PaymentSystem --&gt; UC_VerifyReceipt
 
-    System --> UC_BotFill
-    System --> UC_JackpotTrigger
-    System --> UC_RTPCalc
-    System --> UC_SessionSettle
+    System --&gt; UC_BotFill
+    System --&gt; UC_JackpotTrigger
+    System --&gt; UC_RTPCalc
+    System --&gt; UC_SessionSettle
 
-    UC_ShootFish --> UC_RTPCalc
-    UC_BuyDiamonds --> UC_VerifyReceipt
-    UC_SubscribeVIP --> UC_VerifyReceipt</pre></div></main>
+    UC_ShootFish --&gt; UC_RTPCalc
+    UC_BuyDiamonds --&gt; UC_VerifyReceipt
+    UC_SubscribeVIP --&gt; UC_VerifyReceipt</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

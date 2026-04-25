@@ -139,36 +139,36 @@
         D4[Bot 填補空位\n回傳 roomId + botPlayers]
     end
 
-    A1 --> B1
-    B1 --> B2
-    B2 --> A2
-    A2 -- 選房間 --> A3
-    A2 -- 快速配對 --> A4
-    A3 --> B3
-    B3 -- 已滿 --> B4
-    B4 --> A1
-    B3 -- 有空位 --> B5
-    A4 --> B6
-    B6 --> C1
-    C1 --> D1
-    D1 --> C2
-    C2 --> D2
-    D2 -- 是 --> D3
-    D2 -- 否，等待中... --> C3
-    C3 -- 超時 --> C4
-    C4 --> D4
-    D4 --> C5
-    D3 --> C5
-    C5 -- 成功 --> C6
-    C6 --> B5
-    B5 --> A9
-    A9 --> A10
-    A10 -- 是 --> A11
-    A11 --> A9
-    A10 -- 否 --> A12
-    A12 --> C1
-    C1 --> C5
-    C5 -- 成功 --> A17</pre></div></main>
+    A1 --&gt; B1
+    B1 --&gt; B2
+    B2 --&gt; A2
+    A2 -- 選房間 --&gt; A3
+    A2 -- 快速配對 --&gt; A4
+    A3 --&gt; B3
+    B3 -- 已滿 --&gt; B4
+    B4 --&gt; A1
+    B3 -- 有空位 --&gt; B5
+    A4 --&gt; B6
+    B6 --&gt; C1
+    C1 --&gt; D1
+    D1 --&gt; C2
+    C2 --&gt; D2
+    D2 -- 是 --&gt; D3
+    D2 -- 否，等待中... --&gt; C3
+    C3 -- 超時 --&gt; C4
+    C4 --&gt; D4
+    D4 --&gt; C5
+    D3 --&gt; C5
+    C5 -- 成功 --&gt; C6
+    C6 --&gt; B5
+    B5 --&gt; A9
+    A9 --&gt; A10
+    A10 -- 是 --&gt; A11
+    A11 --&gt; A9
+    A10 -- 否 --&gt; A12
+    A12 --&gt; C1
+    C1 --&gt; C5
+    C5 -- 成功 --&gt; A17</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

@@ -202,12 +202,12 @@
     PushNotif["🔔 Push Notification\nFirebase FCM"]
     AWS["☁️ AWS ap-southeast-1\nEKS + RDS + ElastiCache"]
 
-    Player -->|"HTTPS + WSS"| FishGame
-    Operator -->|"HTTPS 管理後台"| FishGame
-    FishGame -->|"IAP Receipt 驗證"| IAP
-    FishGame -->|"業務事件埋點"| Analytics
-    FishGame -->|"推送通知"| PushNotif
-    FishGame -->|"部署執行"| AWS</pre></div>
+    Player --&gt;|"HTTPS + WSS"| FishGame
+    Operator --&gt;|"HTTPS 管理後台"| FishGame
+    FishGame --&gt;|"IAP Receipt 驗證"| IAP
+    FishGame --&gt;|"業務事件埋點"| Analytics
+    FishGame --&gt;|"推送通知"| PushNotif
+    FishGame --&gt;|"部署執行"| AWS</pre></div>
 <h3>3.2 C4 Model — Container（L2）</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
     CocosClient["Cocos Creator 客戶端\nLua / TypeScript\n(iOS / Android / Web)"]
@@ -223,22 +223,22 @@
         Unleash["Unleash\nFeature Flag Server\n(Private Subnet)"]
     end
 
-    CocosClient -->|"HTTPS REST /v1/"| NginxIngress
-    CocosClient -->|"WSS Colyseus :2567"| NginxIngress
-    NginxIngress -->|"HTTP /v1/auth/* /v1/users/*"| AccountSvc
-    NginxIngress -->|"WSS ws://"| GameSvc
-    NginxIngress -->|"HTTP /v1/shop/*"| ShopSvc
-    NginxIngress -->|"HTTP /v1/admin/*"| AdminSvc
-    AccountSvc -->|"MySQL TLS :3306 READ/WRITE"| MySQL
-    AccountSvc -->|"Redis TLS :6379 GET/SET/DEL"| Redis
-    GameSvc -->|"MySQL TLS :3306 INSERT fish_kills"| MySQL
-    GameSvc -->|"Redis TLS :6379 INCR/LUA SCRIPT"| Redis
-    ShopSvc -->|"MySQL TLS :3306 READ/WRITE"| MySQL
-    ShopSvc -->|"Redis TLS :6379 GET/SET"| Redis
-    AdminSvc -->|"MySQL TLS :3306 READ/WRITE"| MySQL
-    AccountSvc -->|"HTTP :4242 GET flags"| Unleash
-    GameSvc -->|"HTTP :4242 GET flags"| Unleash
-    ShopSvc -->|"HTTP :4242 GET flags"| Unleash</pre></div>
+    CocosClient --&gt;|"HTTPS REST /v1/"| NginxIngress
+    CocosClient --&gt;|"WSS Colyseus :2567"| NginxIngress
+    NginxIngress --&gt;|"HTTP /v1/auth/* /v1/users/*"| AccountSvc
+    NginxIngress --&gt;|"WSS ws://"| GameSvc
+    NginxIngress --&gt;|"HTTP /v1/shop/*"| ShopSvc
+    NginxIngress --&gt;|"HTTP /v1/admin/*"| AdminSvc
+    AccountSvc --&gt;|"MySQL TLS :3306 READ/WRITE"| MySQL
+    AccountSvc --&gt;|"Redis TLS :6379 GET/SET/DEL"| Redis
+    GameSvc --&gt;|"MySQL TLS :3306 INSERT fish_kills"| MySQL
+    GameSvc --&gt;|"Redis TLS :6379 INCR/LUA SCRIPT"| Redis
+    ShopSvc --&gt;|"MySQL TLS :3306 READ/WRITE"| MySQL
+    ShopSvc --&gt;|"Redis TLS :6379 GET/SET"| Redis
+    AdminSvc --&gt;|"MySQL TLS :3306 READ/WRITE"| MySQL
+    AccountSvc --&gt;|"HTTP :4242 GET flags"| Unleash
+    GameSvc --&gt;|"HTTP :4242 GET flags"| Unleash
+    ShopSvc --&gt;|"HTTP :4242 GET flags"| Unleash</pre></div>
 <h3>3.3 C4 Model — Component（L3 — Game Service 內部）</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
     subgraph GameServiceContainer["Game Service（Node.js + Colyseus）"]
@@ -251,15 +251,15 @@
         GameRepo["Game Repository\n(IGameRepository)\nMySQL 讀寫"]
     end
 
-    ColyseusMonitor --> FishPoolRoom
-    FishPoolRoom --> RTPEngine
-    FishPoolRoom --> FishSpawner
-    FishPoolRoom --> JackpotService
-    FishPoolRoom --> DomainEventBus
-    FishPoolRoom --> GameRepo
-    RTPEngine -->|"RTP State"| Redis_ext["Redis"]
-    JackpotService -->|"Lua Script"| Redis_ext
-    GameRepo --> MySQL_ext["MySQL"]</pre></div>
+    ColyseusMonitor --&gt; FishPoolRoom
+    FishPoolRoom --&gt; RTPEngine
+    FishPoolRoom --&gt; FishSpawner
+    FishPoolRoom --&gt; JackpotService
+    FishPoolRoom --&gt; DomainEventBus
+    FishPoolRoom --&gt; GameRepo
+    RTPEngine --&gt;|"RTP State"| Redis_ext["Redis"]
+    JackpotService --&gt;|"Lua Script"| Redis_ext
+    GameRepo --&gt; MySQL_ext["MySQL"]</pre></div>
 <h3>3.4 Data Flow Diagram（Write Path — 捕魚結算）</h3>
 <div class="diagram-container"><pre class="mermaid">sequenceDiagram
     participant Client as Cocos Client
@@ -270,17 +270,17 @@
     participant MySQL as MySQL
     participant EventBus as Domain Event Bus
 
-    Client->>Ingress: WSS shootFish(fish_id, weapon_type)
-    Ingress->>Game: 路由至 FishPoolRoom
-    Game->>RTP: calculateHit(user_id, fish_id)
-    RTP->>Redis: GET rtp_state:{user_id}
-    Redis-->>RTP: {current_rtp: 87%}
-    RTP-->>Game: HIT {coins: 50}
-    Game->>Redis: INCR jackpot_pool:global (by 5)
-    Game->>MySQL: INSERT fish_kills (session_id, killer_id, coins=50, rtp_snapshot=87%)
-    Game->>EventBus: PUBLISH FishKilled {session_id, killer_id, coins=50}
-    EventBus-->>Commerce: 異步消費 → UPDATE users.gold_balance += 50
-    Game-->>Client: FishKilledEvent {winner_id, coins=50, animation="EXPLODE"}</pre></div>
+    Client-&gt;&gt;Ingress: WSS shootFish(fish_id, weapon_type)
+    Ingress-&gt;&gt;Game: 路由至 FishPoolRoom
+    Game-&gt;&gt;RTP: calculateHit(user_id, fish_id)
+    RTP-&gt;&gt;Redis: GET rtp_state:{user_id}
+    Redis--&gt;&gt;RTP: {current_rtp: 87%}
+    RTP--&gt;&gt;Game: HIT {coins: 50}
+    Game-&gt;&gt;Redis: INCR jackpot_pool:global (by 5)
+    Game-&gt;&gt;MySQL: INSERT fish_kills (session_id, killer_id, coins=50, rtp_snapshot=87%)
+    Game-&gt;&gt;EventBus: PUBLISH FishKilled {session_id, killer_id, coins=50}
+    EventBus--&gt;&gt;Commerce: 異步消費 → UPDATE users.gold_balance += 50
+    Game--&gt;&gt;Client: FishKilledEvent {winner_id, coins=50, animation="EXPLODE"}</pre></div>
 <p><strong>PII 敏感資料流向表</strong></p>
 <table>
 <tr><th>PII 資料類型</th><th>流經元件</th><th>儲存位置</th><th>Masking 規則</th><th>加密措施</th></tr>
@@ -314,9 +314,9 @@
         Receipt["Receipt Validation API"]
     end
 
-    BC_Account -->|"Customer/Supplier\nGame 消費 Account JWT User ID\nAccount 保證 Token API 穩定"| BC_Game
-    BC_Game -->|"Published Language\nDomain Event（FishKilled/JackpotTriggered）\n通知 Commerce 更新金幣餘額"| BC_Commerce
-    BC_Commerce -->|"Conformist\n遵從 IAP Platform Receipt 格式\n無法修改外部 API 契約"| BC_IAP</pre></div>
+    BC_Account --&gt;|"Customer/Supplier\nGame 消費 Account JWT User ID\nAccount 保證 Token API 穩定"| BC_Game
+    BC_Game --&gt;|"Published Language\nDomain Event（FishKilled/JackpotTriggered）\n通知 Commerce 更新金幣餘額"| BC_Commerce
+    BC_Commerce --&gt;|"Conformist\n遵從 IAP Platform Receipt 格式\n無法修改外部 API 契約"| BC_IAP</pre></div>
 <h3>4.2 Anti-Corruption Layer（ACL）設計</h3>
 <table>
 <tr><th>外部系統</th><th>ACL 位置</th><th>轉換邏輯</th></tr>
@@ -475,12 +475,12 @@ readinessProbe:
         PrismaORM["Prisma Parameterized Query\n防 SQL Injection"]
     end
 
-    CloudFront --> Nginx --> AuthMW --> RTPServer --> Encryption
-    AuthMW --> ZodValidation
-    AuthMW --> RateLimit
-    RTPServer --> IdempotentWrite
-    Encryption --> AuditLog
-    Encryption --> PrismaORM</pre></div>
+    CloudFront --&gt; Nginx --&gt; AuthMW --&gt; RTPServer --&gt; Encryption
+    AuthMW --&gt; ZodValidation
+    AuthMW --&gt; RateLimit
+    RTPServer --&gt; IdempotentWrite
+    Encryption --&gt; AuditLog
+    Encryption --&gt; PrismaORM</pre></div>
 <h3>9.2 Zero-Trust 網路策略</h3>
 <p><strong>原則</strong>：任何服務都不因位於同一 VPC 而天然信任。每個服務間通訊都需驗證。</p>
 <table>
@@ -527,15 +527,15 @@ readinessProbe:
         Bastion["Bastion Host (SSH Jump)\n(Public Subnet, Single)"]
     end
 
-    Internet -->|"HTTPS/WSS"| CloudFrontWAF
-    CloudFrontWAF --> ALB
-    ALB --> EKSNodes
-    EKSNodes --> RDS
-    EKSNodes --> ElastiCache
-    EKSNodes --> UnleashPod
-    EKSNodes --> NatGW
-    NatGW -->|"Apple/Google IAP API\nMixpanel/Amplitude"| Internet
-    Bastion -->|"SSH"| EKSNodes</pre></div>
+    Internet --&gt;|"HTTPS/WSS"| CloudFrontWAF
+    CloudFrontWAF --&gt; ALB
+    ALB --&gt; EKSNodes
+    EKSNodes --&gt; RDS
+    EKSNodes --&gt; ElastiCache
+    EKSNodes --&gt; UnleashPod
+    EKSNodes --&gt; NatGW
+    NatGW --&gt;|"Apple/Google IAP API\nMixpanel/Amplitude"| Internet
+    Bastion --&gt;|"SSH"| EKSNodes</pre></div>
 <p><strong>Security Group 規則表</strong></p>
 <table>
 <tr><th>Security Group</th><th>允許 Inbound</th><th>允許 Outbound</th><th>備註</th></tr>

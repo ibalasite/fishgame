@@ -176,51 +176,51 @@ graph TB
 
     %% ===== CONNECTION FLOWS =====
 
-    Players -->|"HTTPS/WSS"| CloudFront
-    Admin -->|"HTTPS"| CloudFront
-    CloudFront --> ALB --> Ingress
+    Players --&gt;|"HTTPS/WSS"| CloudFront
+    Admin --&gt;|"HTTPS"| CloudFront
+    CloudFront --&gt; ALB --&gt; Ingress
 
-    Ingress -->|"WSS :2567"| GameServer
-    Ingress -->|"HTTP /v1/auth/* :3000"| AuthService
-    Ingress -->|"HTTP /v1/shop/* :3001"| ShopService
-    Ingress -->|"HTTP /v1/admin/* :3003"| AdminService
+    Ingress --&gt;|"WSS :2567"| GameServer
+    Ingress --&gt;|"HTTP /v1/auth/* :3000"| AuthService
+    Ingress --&gt;|"HTTP /v1/shop/* :3001"| ShopService
+    Ingress --&gt;|"HTTP /v1/admin/* :3003"| AdminService
 
-    CocosClient -->|"WSS Colyseus"| GameServer
-    CocosClient -->|"HTTPS REST"| Ingress
-    CocosClient -->|"HTTPS CDN"| AWSS3
+    CocosClient --&gt;|"WSS Colyseus"| GameServer
+    CocosClient --&gt;|"HTTPS REST"| Ingress
+    CocosClient --&gt;|"HTTPS CDN"| AWSS3
 
-    GameServer --> FishPoolRoom --> RTPEngineComp
-    FishPoolRoom --> FishSpawnerComp
-    FishPoolRoom --> JackpotServiceComp
-    FishPoolRoom --> DomainEventBusComp
+    GameServer --&gt; FishPoolRoom --&gt; RTPEngineComp
+    FishPoolRoom --&gt; FishSpawnerComp
+    FishPoolRoom --&gt; JackpotServiceComp
+    FishPoolRoom --&gt; DomainEventBusComp
 
-    GameServer -->|"TCP :3306"| PostgreSQL
-    GameServer -->|"TCP :6379"| Redis
-    AuthService -->|"TCP :3306"| PostgreSQL
-    AuthService -->|"TCP :6379"| Redis
-    ShopService -->|"TCP :3306"| PostgreSQL
-    ShopService -->|"TCP :6379"| Redis
-    AdminService -->|"TCP :3306"| PostgreSQL
+    GameServer --&gt;|"TCP :3306"| PostgreSQL
+    GameServer --&gt;|"TCP :6379"| Redis
+    AuthService --&gt;|"TCP :3306"| PostgreSQL
+    AuthService --&gt;|"TCP :6379"| Redis
+    ShopService --&gt;|"TCP :3306"| PostgreSQL
+    ShopService --&gt;|"TCP :6379"| Redis
+    AdminService --&gt;|"TCP :3306"| PostgreSQL
 
-    GameServer -->|"HTTP :4242"| Unleash
-    AuthService -->|"HTTP :4242"| Unleash
-    ShopService -->|"HTTP :4242"| Unleash
+    GameServer --&gt;|"HTTP :4242"| Unleash
+    AuthService --&gt;|"HTTP :4242"| Unleash
+    ShopService --&gt;|"HTTP :4242"| Unleash
 
-    JackpotServiceComp -->|"Lua Script"| Redis
-    DomainEventBusComp -->|"Pub/Sub TCP :6379"| Redis
+    JackpotServiceComp --&gt;|"Lua Script"| Redis
+    DomainEventBusComp --&gt;|"Pub/Sub TCP :6379"| Redis
 
-    ShopService --> AppleIAPClient -->|"HTTPS"| PaymentGateway
-    ShopService --> GoogleIAPClient -->|"HTTPS"| PaymentGateway
+    ShopService --&gt; AppleIAPClient --&gt;|"HTTPS"| PaymentGateway
+    ShopService --&gt; GoogleIAPClient --&gt;|"HTTPS"| PaymentGateway
 
-    GameServer -->|"HTTPS"| AnalyticsService
-    AdminService -->|"HTTPS"| FCM
+    GameServer --&gt;|"HTTPS"| AnalyticsService
+    AdminService --&gt;|"HTTPS"| FCM
 
-    GameServer -->|"metrics :9090"| Prometheus
-    AuthService -->|"metrics :9090"| Prometheus
-    ShopService -->|"metrics :9090"| Prometheus
-    Prometheus --> Grafana
-    GameServer -->|"traces"| Jaeger
-    Loki --> Grafana</pre></div></main>
+    GameServer --&gt;|"metrics :9090"| Prometheus
+    AuthService --&gt;|"metrics :9090"| Prometheus
+    ShopService --&gt;|"metrics :9090"| Prometheus
+    Prometheus --&gt; Grafana
+    GameServer --&gt;|"traces"| Jaeger
+    Loki --&gt; Grafana</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

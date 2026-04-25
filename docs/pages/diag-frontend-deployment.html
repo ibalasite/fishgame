@@ -146,27 +146,27 @@
         ANDROID_PLAYER["Android 玩家\nAndroid 8.0+\nOpenGL ES 3.0"]
     end
 
-    DEV -->|"git push origin main\ntag: v2.0.0"| GIT
-    GIT -->|"webhook trigger\non: push tags"| CI
+    DEV --&gt;|"git push origin main\ntag: v2.0.0"| GIT
+    GIT --&gt;|"webhook trigger\non: push tags"| CI
 
-    CI --> BuildH5
-    CI --> BuildiOS
-    CI --> BuildAndroid
+    CI --&gt; BuildH5
+    CI --&gt; BuildiOS
+    CI --&gt; BuildAndroid
 
-    BH5 --> BH5_OUT
-    BIOS --> BIOS_SIGN --> BIOS_IPA
-    BAND --> BAND_SIGN --> BAND_AAB
+    BH5 --&gt; BH5_OUT
+    BIOS --&gt; BIOS_SIGN --&gt; BIOS_IPA
+    BAND --&gt; BAND_SIGN --&gt; BAND_AAB
 
-    BH5_OUT -->|"aws s3 sync + invalidation"| CDN
-    CDN --> NGINX
-    BIOS_IPA -->|"xcrun altool upload"| TF
-    TF -->|"人工審查通過"| AS
-    BAND_AAB -->|"fastlane supply"| GPC
-    GPC -->|"分階段推送 20% → 100%"| GP
+    BH5_OUT --&gt;|"aws s3 sync + invalidation"| CDN
+    CDN --&gt; NGINX
+    BIOS_IPA --&gt;|"xcrun altool upload"| TF
+    TF --&gt;|"人工審查通過"| AS
+    BAND_AAB --&gt;|"fastlane supply"| GPC
+    GPC --&gt;|"分階段推送 20% → 100%"| GP
 
-    NGINX --> H5_PLAYER
-    AS --> IOS_PLAYER
-    GP --> ANDROID_PLAYER</pre></div></main>
+    NGINX --&gt; H5_PLAYER
+    AS --&gt; IOS_PLAYER
+    GP --&gt; ANDROID_PLAYER</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

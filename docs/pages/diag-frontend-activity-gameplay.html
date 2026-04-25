@@ -118,12 +118,12 @@
         B6{命中判定回調？}
         B7[FishSystem.updateFishHP]
         B8[EffectPoolManager.getHitEffect.play]
-        B9{魚 HP <= 0？}
+        B9{魚 HP &lt;= 0？}
         B10[FishSystem.removeFish]
         B11[EffectPoolManager.getCoinEffect.play]
         B12[HUDComponent.updateScore\nHUDComponent.updateCoinBalance]
         B13[JackpotBar.setProgress]
-        B14{Jackpot 進度 >= 1.0？}
+        B14{Jackpot 進度 &gt;= 1.0？}
         B15[JackpotBar.playTriggerAnimation\n觸發 JACKPOT UI 狀態]
         B16[播放水花 Miss 特效]
     end
@@ -139,40 +139,40 @@
         C8[廣播 shoot_miss]
     end
 
-    A1 --> A2
-    A2 --> B1
-    B1 -- 冷卻中 --> B2
-    B2 --> A1
-    B1 -- 就緒 --> A7
-    A7 -- 是 --> A8
-    A8 --> A1
-    A7 -- 否 --> B4
-    B4 --> B3
-    B3 --> B5
-    B5 --> C1
-    C1 --> C2
-    C2 --> C3
-    C3 -- 命中 --> C4
-    C3 -- 未命中 --> C8
-    C4 --> B6
-    C8 --> B16
-    B6 -- fish_hit --> B7
-    B7 --> B8
-    B8 --> B9
-    B9 -- 否 --> B13
-    B9 -- 是 --> B10
-    B10 --> B11
-    B11 --> B12
-    B12 --> B13
-    B13 --> B14
-    B14 -- 否 --> A1
-    B14 -- 是 --> B15
-    B15 --> A1
+    A1 --&gt; A2
+    A2 --&gt; B1
+    B1 -- 冷卻中 --&gt; B2
+    B2 --&gt; A1
+    B1 -- 就緒 --&gt; A7
+    A7 -- 是 --&gt; A8
+    A8 --&gt; A1
+    A7 -- 否 --&gt; B4
+    B4 --&gt; B3
+    B3 --&gt; B5
+    B5 --&gt; C1
+    C1 --&gt; C2
+    C2 --&gt; C3
+    C3 -- 命中 --&gt; C4
+    C3 -- 未命中 --&gt; C8
+    C4 --&gt; B6
+    C8 --&gt; B16
+    B6 -- fish_hit --&gt; B7
+    B7 --&gt; B8
+    B8 --&gt; B9
+    B9 -- 否 --&gt; B13
+    B9 -- 是 --&gt; B10
+    B10 --&gt; B11
+    B11 --&gt; B12
+    B12 --&gt; B13
+    B13 --&gt; B14
+    B14 -- 否 --&gt; A1
+    B14 -- 是 --&gt; B15
+    B15 --&gt; A1
 
-    B9 -- Boss 死亡檢查 --> C6
-    C6 -- 是 --> C7
-    C6 -- 否 --> B12
-    C7 --> B12</pre></div></main>
+    B9 -- Boss 死亡檢查 --&gt; C6
+    C6 -- 是 --&gt; C7
+    C6 -- 否 --&gt; B12
+    C7 --&gt; B12</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

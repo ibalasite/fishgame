@@ -122,7 +122,7 @@ flowchart TD
     subgraph GameServer["⚙️ GameServer (Colyseus + Node.js)"]
         GS_Auth[驗證 JWT Token\nonAuth()]
         GS_FindRoom[查詢可用房間\nFindOrCreate]
-        GS_WaitPlayers{玩家數 >= 4?}
+        GS_WaitPlayers{玩家數 &gt;= 4?}
         GS_AddBot[補 Bot\naddBot()]
         GS_StartSession[建立 GameSession\nstartSession()]
         GS_SpawnFish[生成魚群波次\nFishSpawner.scheduleWave()]
@@ -130,11 +130,11 @@ flowchart TD
         GS_RTPCalc[RTP 引擎計算命中\nServer-Authoritative]
         GS_ContributeJP[Jackpot 貢獻\nREDIS INCR +5]
         GS_HitFish[魚扣血\nfish.applyDamage()]
-        GS_CheckDead{fish.hp <= 0?}
+        GS_CheckDead{fish.hp &lt;= 0?}
         GS_KillFish[標記 DEAD\n發布 FishKilled]
         GS_BroadcastHit[廣播命中結果\n STATE_UPDATE delta]
         GS_BroadcastMiss[廣播未命中\nMISS to shooter]
-        GS_CheckSession{對局時間 >= 10min?}
+        GS_CheckSession{對局時間 &gt;= 10min?}
         GS_SettleSession[結算 SessionSettleUseCase\n計算 MVP]
         GS_BroadcastResults[廣播對局結果\n RESULTS to all]
     end
@@ -146,44 +146,44 @@ flowchart TD
         DB_SessionEnd[UPDATE game_sessions.status=ENDED]
     end
 
-    P_Start --> P_OpenApp --> P_SelectRoom
-    P_SelectRoom --> P_WaitMatch
-    P_WaitMatch --> GS_Auth
-    GS_Auth --> GS_FindRoom
-    GS_FindRoom --> GS_WaitPlayers
-    GS_WaitPlayers -->|是| GS_StartSession
-    GS_WaitPlayers -->|30s 超時| GS_AddBot --> GS_StartSession
-    GS_StartSession --> DB_Session
-    DB_Session --> GS_SpawnFish
-    GS_SpawnFish --> P_ChooseWeapon
+    P_Start --&gt; P_OpenApp --&gt; P_SelectRoom
+    P_SelectRoom --&gt; P_WaitMatch
+    P_WaitMatch --&gt; GS_Auth
+    GS_Auth --&gt; GS_FindRoom
+    GS_FindRoom --&gt; GS_WaitPlayers
+    GS_WaitPlayers --&gt;|是| GS_StartSession
+    GS_WaitPlayers --&gt;|30s 超時| GS_AddBot --&gt; GS_StartSession
+    GS_StartSession --&gt; DB_Session
+    DB_Session --&gt; GS_SpawnFish
+    GS_SpawnFish --&gt; P_ChooseWeapon
 
-    P_ChooseWeapon --> P_Observe
-    P_Observe --> P_Shoot
-    P_Observe --> P_UseSkill
-    P_UseSkill --> P_Observe
+    P_ChooseWeapon --&gt; P_Observe
+    P_Observe --&gt; P_Shoot
+    P_Observe --&gt; P_UseSkill
+    P_UseSkill --&gt; P_Observe
 
-    P_Shoot --> GS_ValidateShoot
-    GS_ValidateShoot -->|驗證失敗| P_ViewMiss
-    GS_ValidateShoot -->|驗證通過| GS_RTPCalc
-    GS_RTPCalc -->|命中| GS_ContributeJP --> GS_HitFish
-    GS_RTPCalc -->|未命中| GS_BroadcastMiss --> P_ViewMiss
-    GS_HitFish --> GS_CheckDead
-    GS_CheckDead -->|存活| GS_BroadcastHit
-    GS_CheckDead -->|死亡| GS_KillFish --> DB_Kill --> DB_Balance
-    GS_KillFish --> GS_BroadcastHit
+    P_Shoot --&gt; GS_ValidateShoot
+    GS_ValidateShoot --&gt;|驗證失敗| P_ViewMiss
+    GS_ValidateShoot --&gt;|驗證通過| GS_RTPCalc
+    GS_RTPCalc --&gt;|命中| GS_ContributeJP --&gt; GS_HitFish
+    GS_RTPCalc --&gt;|未命中| GS_BroadcastMiss --&gt; P_ViewMiss
+    GS_HitFish --&gt; GS_CheckDead
+    GS_CheckDead --&gt;|存活| GS_BroadcastHit
+    GS_CheckDead --&gt;|死亡| GS_KillFish --&gt; DB_Kill --&gt; DB_Balance
+    GS_KillFish --&gt; GS_BroadcastHit
 
-    GS_BroadcastHit --> P_WaitResult --> P_ViewHit
-    P_ViewMiss --> P_Observe
-    P_ViewHit --> P_Observe
+    GS_BroadcastHit --&gt; P_WaitResult --&gt; P_ViewHit
+    P_ViewMiss --&gt; P_Observe
+    P_ViewHit --&gt; P_Observe
 
-    P_Observe --> GS_CheckSession
-    GS_CheckSession -->|繼續| GS_SpawnFish
-    GS_CheckSession -->|結束| GS_SettleSession --> DB_SessionEnd
-    GS_SettleSession --> GS_BroadcastResults --> P_ViewResults
+    P_Observe --&gt; GS_CheckSession
+    GS_CheckSession --&gt;|繼續| GS_SpawnFish
+    GS_CheckSession --&gt;|結束| GS_SettleSession --&gt; DB_SessionEnd
+    GS_SettleSession --&gt; GS_BroadcastResults --&gt; P_ViewResults
 
-    P_ViewResults --> P_Continue
-    P_Continue -->|是| P_SelectRoom
-    P_Continue -->|否| P_End</pre></div></main>
+    P_ViewResults --&gt; P_Continue
+    P_Continue --&gt;|是| P_SelectRoom
+    P_Continue --&gt;|否| P_End</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

@@ -137,12 +137,12 @@
 </table>
 <h3>§1.3 Test Pyramid</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
-    E2E["🔺 E2E / BDD Tests<br/>約 10%<br/>Playwright（含 WS 驗證）<br/>Critical user flows：Happy Path<br/>執行時間：5-15 min"]
-    INT["🔸 Integration Tests<br/>約 20%<br/>Supertest + testcontainers<br/>REST API + Colyseus WS + DB + Redis<br/>執行時間：2-5 min"]
-    UNIT["🔷 Unit Tests<br/>約 70%<br/>Jest + istanbul<br/>RTP Engine / Payment Logic / Auth / Validation<br/>執行時間：< 60 sec"]
+    E2E["🔺 E2E / BDD Tests&lt;br/&gt;約 10%&lt;br/&gt;Playwright（含 WS 驗證）&lt;br/&gt;Critical user flows：Happy Path&lt;br/&gt;執行時間：5-15 min"]
+    INT["🔸 Integration Tests&lt;br/&gt;約 20%&lt;br/&gt;Supertest + testcontainers&lt;br/&gt;REST API + Colyseus WS + DB + Redis&lt;br/&gt;執行時間：2-5 min"]
+    UNIT["🔷 Unit Tests&lt;br/&gt;約 70%&lt;br/&gt;Jest + istanbul&lt;br/&gt;RTP Engine / Payment Logic / Auth / Validation&lt;br/&gt;執行時間：&lt; 60 sec"]
 
-    E2E --> INT
-    INT --> UNIT
+    E2E --&gt; INT
+    INT --&gt; UNIT
 
     style E2E fill:#ff6b6b,color:#fff
     style INT fill:#ffa94d,color:#fff

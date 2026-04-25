@@ -166,7 +166,7 @@ graph TB
 
             subgraph RDSCluster["RDS MySQL 8.0 (Multi-AZ)"]
                 RDSPrimary["🗄️ RDS Primary\nap-southeast-1a\ndb.r6g.large\n500GB gp3\nPort: 3306"]
-                RDSStandby["🗄️ RDS Standby\nap-southeast-1b\n(Auto Failover < 60s)"]
+                RDSStandby["🗄️ RDS Standby\nap-southeast-1b\n(Auto Failover &lt; 60s)"]
             end
 
             subgraph ElastiCacheCluster["ElastiCache Redis 7 (Cluster Mode)"]
@@ -190,43 +190,43 @@ graph TB
         FCMService["🔔 Firebase FCM\nfcm.googleapis.com"]
     end
 
-    Internet -->|"HTTPS/WSS :443"| CloudFrontWAF
-    CloudFrontWAF --> ALB
-    ALB -->|"HTTP :80"| NginxIngress
-    NginxIngress -->|"WSS :2567"| GamePod1
-    NginxIngress -->|"WSS :2567"| GamePod2
-    NginxIngress -->|"WSS :2567"| GamePod3
-    NginxIngress -->|"HTTP :3000"| AuthPod1
-    NginxIngress -->|"HTTP :3000"| AuthPod2
-    NginxIngress -->|"HTTP :3001"| ShopPod1
-    NginxIngress -->|"HTTP :3001"| ShopPod2
-    NginxIngress -->|"HTTP :3003"| AdminPod
+    Internet --&gt;|"HTTPS/WSS :443"| CloudFrontWAF
+    CloudFrontWAF --&gt; ALB
+    ALB --&gt;|"HTTP :80"| NginxIngress
+    NginxIngress --&gt;|"WSS :2567"| GamePod1
+    NginxIngress --&gt;|"WSS :2567"| GamePod2
+    NginxIngress --&gt;|"WSS :2567"| GamePod3
+    NginxIngress --&gt;|"HTTP :3000"| AuthPod1
+    NginxIngress --&gt;|"HTTP :3000"| AuthPod2
+    NginxIngress --&gt;|"HTTP :3001"| ShopPod1
+    NginxIngress --&gt;|"HTTP :3001"| ShopPod2
+    NginxIngress --&gt;|"HTTP :3003"| AdminPod
 
-    GamePod1 & GamePod2 & GamePod3 -->|"TCP :3306 TLS"| RDSPrimary
-    GamePod1 & GamePod2 & GamePod3 -->|"TCP :6379 TLS"| RedisShard1
-    AuthPod1 & AuthPod2 -->|"TCP :3306 TLS"| RDSPrimary
-    AuthPod1 & AuthPod2 -->|"TCP :6379 TLS"| RedisShard2
-    ShopPod1 & ShopPod2 -->|"TCP :3306 TLS"| RDSPrimary
-    ShopPod1 & ShopPod2 -->|"TCP :6379 TLS"| RedisShard3
-    AdminPod -->|"TCP :3306 TLS"| RDSPrimary
+    GamePod1 &amp; GamePod2 &amp; GamePod3 --&gt;|"TCP :3306 TLS"| RDSPrimary
+    GamePod1 &amp; GamePod2 &amp; GamePod3 --&gt;|"TCP :6379 TLS"| RedisShard1
+    AuthPod1 &amp; AuthPod2 --&gt;|"TCP :3306 TLS"| RDSPrimary
+    AuthPod1 &amp; AuthPod2 --&gt;|"TCP :6379 TLS"| RedisShard2
+    ShopPod1 &amp; ShopPod2 --&gt;|"TCP :3306 TLS"| RDSPrimary
+    ShopPod1 &amp; ShopPod2 --&gt;|"TCP :6379 TLS"| RedisShard3
+    AdminPod --&gt;|"TCP :3306 TLS"| RDSPrimary
 
-    RDSPrimary -.->|"sync replication"| RDSStandby
+    RDSPrimary -.-&gt;|"sync replication"| RDSStandby
 
-    GamePod1 -->|"HTTP :4242"| UnleashPod
-    AuthPod1 -->|"HTTP :4242"| UnleashPod
-    ShopPod1 -->|"HTTP :4242"| UnleashPod
+    GamePod1 --&gt;|"HTTP :4242"| UnleashPod
+    AuthPod1 --&gt;|"HTTP :4242"| UnleashPod
+    ShopPod1 --&gt;|"HTTP :4242"| UnleashPod
 
-    NAT -->|"HTTPS outbound"| AppleIAP
-    NAT -->|"HTTPS outbound"| GoogleIAP
-    NAT -->|"HTTPS outbound"| Mixpanel
-    NAT -->|"HTTPS outbound"| FCMService
+    NAT --&gt;|"HTTPS outbound"| AppleIAP
+    NAT --&gt;|"HTTPS outbound"| GoogleIAP
+    NAT --&gt;|"HTTPS outbound"| Mixpanel
+    NAT --&gt;|"HTTPS outbound"| FCMService
 
-    ShopPod1 & ShopPod2 --> NAT
-    AdminPod --> NAT
+    ShopPod1 &amp; ShopPod2 --&gt; NAT
+    AdminPod --&gt; NAT
 
-    S3Bucket --> CDNDistrib
-    Internet -->|"CDN Assets"| CDNDistrib
-    Bastion -->|"SSH"| GamePod1</pre></div></main>
+    S3Bucket --&gt; CDNDistrib
+    Internet --&gt;|"CDN Assets"| CDNDistrib
+    Bastion --&gt;|"SSH"| GamePod1</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

@@ -412,111 +412,111 @@
 <h2>6. User Flows</h2>
 <h3>6.1 主流程（Happy Path）— 玩家首次進入競技局並收益</h3>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    A([玩家開啟遊戲]) --> B[登入 / 快速訪客登入]
-    B --> C{首次使用？}
-    C -->|是| D[年齡驗證彈窗 18+]
-    D --> E{年齡 ≥ 18？}
-    E -->|否| F[鎖定付費功能 / 遊戲演示模式]
-    E -->|是| G[記錄年齡確認]
-    C -->|否| G
-    G --> H[進入遊戲大廳]
-    H --> I[選擇房間類型：普通 / 競技]
-    I --> J[選擇武器 + 技能組合]
-    J --> K[點擊「快速匹配」]
-    K --> L{配對完成？}
-    L -->|30 秒內| M[4–6 人房間就緒]
-    L -->|超時| N[Bot 補位，房間就緒]
-    M --> O[遊戲開始：射擊魚群]
-    N --> O
-    O --> P{命中計算 RTP}
-    P -->|命中| Q[金幣收益 + 動畫]
-    P -->|未命中| R[繼續射擊]
-    Q --> S{Jackpot 觸發？}
-    S -->|是| T[Jackpot 大獎特效 + 超大獎勵]
-    S -->|否| R
-    T --> U[局結束 / 時間到]
-    R --> U
-    U --> V[結算介面：排名 + 金幣]
-    V --> W{MVP 玩家？}
-    W -->|是| X[+10% MVP 獎勵加成]
-    W -->|否| Y[標準結算]
-    X --> Z[返回大廳 / 再來一局]
-    Y --> Z</pre></div>
+    A([玩家開啟遊戲]) --&gt; B[登入 / 快速訪客登入]
+    B --&gt; C{首次使用？}
+    C --&gt;|是| D[年齡驗證彈窗 18+]
+    D --&gt; E{年齡 ≥ 18？}
+    E --&gt;|否| F[鎖定付費功能 / 遊戲演示模式]
+    E --&gt;|是| G[記錄年齡確認]
+    C --&gt;|否| G
+    G --&gt; H[進入遊戲大廳]
+    H --&gt; I[選擇房間類型：普通 / 競技]
+    I --&gt; J[選擇武器 + 技能組合]
+    J --&gt; K[點擊「快速匹配」]
+    K --&gt; L{配對完成？}
+    L --&gt;|30 秒內| M[4–6 人房間就緒]
+    L --&gt;|超時| N[Bot 補位，房間就緒]
+    M --&gt; O[遊戲開始：射擊魚群]
+    N --&gt; O
+    O --&gt; P{命中計算 RTP}
+    P --&gt;|命中| Q[金幣收益 + 動畫]
+    P --&gt;|未命中| R[繼續射擊]
+    Q --&gt; S{Jackpot 觸發？}
+    S --&gt;|是| T[Jackpot 大獎特效 + 超大獎勵]
+    S --&gt;|否| R
+    T --&gt; U[局結束 / 時間到]
+    R --&gt; U
+    U --&gt; V[結算介面：排名 + 金幣]
+    V --&gt; W{MVP 玩家？}
+    W --&gt;|是| X[+10% MVP 獎勵加成]
+    W --&gt;|否| Y[標準結算]
+    X --&gt; Z[返回大廳 / 再來一局]
+    Y --&gt; Z</pre></div>
 <h3>6.2 錯誤流程 — 付費失敗與房間異常</h3>
 <div class="diagram-container"><pre class="mermaid">flowchart TD
-    A[玩家嘗試購買鑽石] --> B{IAP 支付請求}
-    B -->|支付成功| C[鑽石發放 + 餘額更新]
-    B -->|支付失敗：餘額不足| D[顯示「付款方式餘額不足，請確認支付帳號」]
-    B -->|支付失敗：網路中斷| E[顯示「網路連線不穩，訂單保留 24 小時，請稍後重試」]
-    B -->|支付超時 30s| F[訂單標記 PENDING，鑽石暫不發放，提示「訂單確認中」]
-    D --> G[引導至重試 / 更換支付方式]
-    E --> G
-    F --> H[後台異步確認訂單狀態]
-    H -->|確認成功| I[補發鑽石並通知玩家]
-    H -->|確認失敗 / 超時 24h| J[自動取消訂單，發送退款申請提示]
+    A[玩家嘗試購買鑽石] --&gt; B{IAP 支付請求}
+    B --&gt;|支付成功| C[鑽石發放 + 餘額更新]
+    B --&gt;|支付失敗：餘額不足| D[顯示「付款方式餘額不足，請確認支付帳號」]
+    B --&gt;|支付失敗：網路中斷| E[顯示「網路連線不穩，訂單保留 24 小時，請稍後重試」]
+    B --&gt;|支付超時 30s| F[訂單標記 PENDING，鑽石暫不發放，提示「訂單確認中」]
+    D --&gt; G[引導至重試 / 更換支付方式]
+    E --&gt; G
+    F --&gt; H[後台異步確認訂單狀態]
+    H --&gt;|確認成功| I[補發鑽石並通知玩家]
+    H --&gt;|確認失敗 / 超時 24h| J[自動取消訂單，發送退款申請提示]
     
     subgraph 房間異常流程
-        K[玩家在房間中] --> L{WebSocket 連線狀態}
-        L -->|正常| M[繼續遊戲]
-        L -->|斷線| N[顯示「連線中斷，嘗試重連...」]
-        N --> O{5 秒內重連成功？}
-        O -->|是| M
-        O -->|否| P[伺服器將玩家標記離線，Bot 接替位置]
-        P --> Q[玩家返回後顯示「您已離開上一局，損失金幣不補償」]
+        K[玩家在房間中] --&gt; L{WebSocket 連線狀態}
+        L --&gt;|正常| M[繼續遊戲]
+        L --&gt;|斷線| N[顯示「連線中斷，嘗試重連...」]
+        N --&gt; O{5 秒內重連成功？}
+        O --&gt;|是| M
+        O --&gt;|否| P[伺服器將玩家標記離線，Bot 接替位置]
+        P --&gt; Q[玩家返回後顯示「您已離開上一局，損失金幣不補償」]
     end
 
     subgraph RTP 服務降級流程
-        R1[玩家射擊觸發命中計算] --> R2{RTP 服務健康？}
-        R2 -->|正常| R3[動態 RTP 引擎計算命中率]
-        R2 -->|異常：Health Check 失敗 3 次| R4[自動切換至固定命中率模式 80%]
-        R4 --> R5[遊戲繼續正常運行，不中斷]
-        R4 --> R6[後台觸發 P1 告警：RTPServiceDegraded]
-        R5 --> R7{RTP 服務恢復？}
-        R7 -->|是| R3
-        R7 -->|持續異常| R5
+        R1[玩家射擊觸發命中計算] --&gt; R2{RTP 服務健康？}
+        R2 --&gt;|正常| R3[動態 RTP 引擎計算命中率]
+        R2 --&gt;|異常：Health Check 失敗 3 次| R4[自動切換至固定命中率模式 80%]
+        R4 --&gt; R5[遊戲繼續正常運行，不中斷]
+        R4 --&gt; R6[後台觸發 P1 告警：RTPServiceDegraded]
+        R5 --&gt; R7{RTP 服務恢復？}
+        R7 --&gt;|是| R3
+        R7 --&gt;|持續異常| R5
     end
 
     subgraph 結算超時流程
-        S1[局時間到，結算觸發] --> S2{結算 API 回應時間}
-        S2 -->|< 3000ms| S3[正常顯示結算介面]
-        S2 -->|3000ms–5000ms| S4[顯示「結算計算中，請稍候...」Loading 介面]
-        S2 -->|> 5000ms 或 API 失敗| S5[顯示「結算服務暫時異常，您的金幣已安全保存」]
-        S5 --> S6[後台非同步重試結算計算，完成後推播通知玩家]
-        S5 --> S7[玩家可自由退出，不被強制等待]
+        S1[局時間到，結算觸發] --&gt; S2{結算 API 回應時間}
+        S2 --&gt;|&lt; 3000ms| S3[正常顯示結算介面]
+        S2 --&gt;|3000ms–5000ms| S4[顯示「結算計算中，請稍候...」Loading 介面]
+        S2 --&gt;|&gt; 5000ms 或 API 失敗| S5[顯示「結算服務暫時異常，您的金幣已安全保存」]
+        S5 --&gt; S6[後台非同步重試結算計算，完成後推播通知玩家]
+        S5 --&gt; S7[玩家可自由退出，不被強制等待]
     end
 
     subgraph 配對網路失敗流程
-        M1[玩家點擊快速匹配] --> M2{Colyseus 房間服務連線}
-        M2 -->|連線正常| M3[進行配對流程]
-        M2 -->|連線失敗：503 / 逾時| M4[顯示「遊戲伺服器連線失敗，請檢查網路後重試」]
-        M4 --> M5[提供「重試」按鈕]
-        M5 --> M6{重試後連線正常？}
-        M6 -->|是| M3
-        M6 -->|仍失敗（連續 3 次）| M7[顯示「目前伺服器維護中，請稍後再試」並回到大廳]
+        M1[玩家點擊快速匹配] --&gt; M2{Colyseus 房間服務連線}
+        M2 --&gt;|連線正常| M3[進行配對流程]
+        M2 --&gt;|連線失敗：503 / 逾時| M4[顯示「遊戲伺服器連線失敗，請檢查網路後重試」]
+        M4 --&gt; M5[提供「重試」按鈕]
+        M5 --&gt; M6{重試後連線正常？}
+        M6 --&gt;|是| M3
+        M6 --&gt;|仍失敗（連續 3 次）| M7[顯示「目前伺服器維護中，請稍後再試」並回到大廳]
     end</pre></div>
 <h3>6.3 狀態機 — 玩家帳號狀態 &amp; 遊戲局狀態</h3>
 <div class="diagram-container"><pre class="mermaid">stateDiagram-v2
-    [*] --> UNREGISTERED: 首次開啟 App
-    UNREGISTERED --> AGE_PENDING: 進入年齡驗證
-    AGE_PENDING --> ACTIVE: 年齡驗證通過（≥ 18）
-    AGE_PENDING --> RESTRICTED: 年齡未達 18 歲
-    RESTRICTED --> [*]: 無法使用付費功能
-    ACTIVE --> VIP: 購買 VIP 訂閱
-    VIP --> ACTIVE: VIP 訂閱到期
-    ACTIVE --> SUSPENDED: 違規封禁（作弊/異常）
-    SUSPENDED --> ACTIVE: 申訴成功解封
-    ACTIVE --> [*]: 帳號刪除（用戶申請）
+    [*] --&gt; UNREGISTERED: 首次開啟 App
+    UNREGISTERED --&gt; AGE_PENDING: 進入年齡驗證
+    AGE_PENDING --&gt; ACTIVE: 年齡驗證通過（≥ 18）
+    AGE_PENDING --&gt; RESTRICTED: 年齡未達 18 歲
+    RESTRICTED --&gt; [*]: 無法使用付費功能
+    ACTIVE --&gt; VIP: 購買 VIP 訂閱
+    VIP --&gt; ACTIVE: VIP 訂閱到期
+    ACTIVE --&gt; SUSPENDED: 違規封禁（作弊/異常）
+    SUSPENDED --&gt; ACTIVE: 申訴成功解封
+    ACTIVE --&gt; [*]: 帳號刪除（用戶申請）
 
     state 遊戲局狀態 {
-        [*] --> MATCHING: 玩家點擊快速匹配
-        MATCHING --> ROOM_READY: 配對完成（4–6 人）
-        MATCHING --> ROOM_READY: 超時 Bot 補位
-        ROOM_READY --> IN_PROGRESS: 倒數 3 秒後開始
-        IN_PROGRESS --> JACKPOT: Jackpot 觸發條件達成
-        JACKPOT --> IN_PROGRESS: Jackpot 動畫結束
-        IN_PROGRESS --> SETTLING: 局時間到（預設 3–5 分鐘）
-        SETTLING --> RESULT: 結算計算完成
-        RESULT --> [*]: 玩家確認結算後離開
+        [*] --&gt; MATCHING: 玩家點擊快速匹配
+        MATCHING --&gt; ROOM_READY: 配對完成（4–6 人）
+        MATCHING --&gt; ROOM_READY: 超時 Bot 補位
+        ROOM_READY --&gt; IN_PROGRESS: 倒數 3 秒後開始
+        IN_PROGRESS --&gt; JACKPOT: Jackpot 觸發條件達成
+        JACKPOT --&gt; IN_PROGRESS: Jackpot 動畫結束
+        IN_PROGRESS --&gt; SETTLING: 局時間到（預設 3–5 分鐘）
+        SETTLING --&gt; RESULT: 結算計算完成
+        RESULT --&gt; [*]: 玩家確認結算後離開
     }</pre></div>
 <hr>
 <h2>7. Non-Functional Requirements（NFR）</h2>

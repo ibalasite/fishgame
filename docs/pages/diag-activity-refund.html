@@ -140,46 +140,46 @@ flowchart TD
         DB_CheckStatus[確認 status=COMPLETED\n且未退款]
         DB_UpdateRefunded[UPDATE orders SET status=REFUNDED\n記錄 refunded_at]
         DB_AuditLog[INSERT audit_logs\n{event=REFUND, before, after}]
-        DB_DeductBalance[UPDATE users.diamond_balance -= N\n確保 balance >= 0]
+        DB_DeductBalance[UPDATE users.diamond_balance -= N\n確保 balance &gt;= 0]
     end
 
-    P_RequestRefund --> SS_FindOrder
-    SS_FindOrder --> DB_FindOrder --> DB_CheckStatus
+    P_RequestRefund --&gt; SS_FindOrder
+    SS_FindOrder --&gt; DB_FindOrder --&gt; DB_CheckStatus
 
-    DB_CheckStatus -->|訂單不存在| SS_DenyRefund
-    DB_CheckStatus -->|訂單存在| SS_ValidateOwner
+    DB_CheckStatus --&gt;|訂單不存在| SS_DenyRefund
+    DB_CheckStatus --&gt;|訂單存在| SS_ValidateOwner
 
-    SS_ValidateOwner -->|不是本人| SS_DenyRefund
-    SS_ValidateOwner -->|本人| SS_CheckEligibility
+    SS_ValidateOwner --&gt;|不是本人| SS_DenyRefund
+    SS_ValidateOwner --&gt;|本人| SS_CheckEligibility
 
-    SS_CheckEligibility -->|訂單 status != COMPLETED| SS_DenyRefund
-    SS_CheckEligibility -->|在退款期限內 7天| SS_CheckDiamondsSpent
+    SS_CheckEligibility --&gt;|訂單 status != COMPLETED| SS_DenyRefund
+    SS_CheckEligibility --&gt;|在退款期限內 7天| SS_CheckDiamondsSpent
 
-    SS_CheckDiamondsSpent -->|已用 <= 50%| SS_FullRefund
-    SS_CheckDiamondsSpent -->|已用 > 50%| SS_PartialRefund
+    SS_CheckDiamondsSpent --&gt;|已用 &lt;= 50%| SS_FullRefund
+    SS_CheckDiamondsSpent --&gt;|已用 &gt; 50%| SS_PartialRefund
 
-    SS_FullRefund --> SS_CallPlatformRefund
-    SS_PartialRefund --> SS_CallPlatformRefund
+    SS_FullRefund --&gt; SS_CallPlatformRefund
+    SS_PartialRefund --&gt; SS_CallPlatformRefund
 
-    SS_CallPlatformRefund --> PG_ProcessRefund
-    PG_ProcessRefund --> PG_ConfirmRefund
-    PG_ConfirmRefund --> SS_PlatformResult
+    SS_CallPlatformRefund --&gt; PG_ProcessRefund
+    PG_ProcessRefund --&gt; PG_ConfirmRefund
+    PG_ConfirmRefund --&gt; SS_PlatformResult
 
-    SS_PlatformResult -->|失敗| SS_DenyRefund
-    SS_PlatformResult -->|成功| SS_DeductDiamonds
+    SS_PlatformResult --&gt;|失敗| SS_DenyRefund
+    SS_PlatformResult --&gt;|成功| SS_DeductDiamonds
 
-    SS_DeductDiamonds --> DB_DeductBalance
-    SS_DeductDiamonds --> SS_UpdateRefunded
-    SS_UpdateRefunded --> DB_UpdateRefunded
-    SS_UpdateRefunded --> SS_LogAudit
-    SS_LogAudit --> DB_AuditLog
-    SS_LogAudit --> SS_NotifyPlayer
+    SS_DeductDiamonds --&gt; DB_DeductBalance
+    SS_DeductDiamonds --&gt; SS_UpdateRefunded
+    SS_UpdateRefunded --&gt; DB_UpdateRefunded
+    SS_UpdateRefunded --&gt; SS_LogAudit
+    SS_LogAudit --&gt; DB_AuditLog
+    SS_LogAudit --&gt; SS_NotifyPlayer
 
-    SS_NotifyPlayer --> P_WaitProcessing --> P_RefundSuccess
-    SS_DenyRefund --> P_RefundDenied
+    SS_NotifyPlayer --&gt; P_WaitProcessing --&gt; P_RefundSuccess
+    SS_DenyRefund --&gt; P_RefundDenied
 
     Note1["管理員手動退款路徑"]
-    AS_ManualRefund --> AS_ApproveRefund --> SS_DeductDiamonds
+    AS_ManualRefund --&gt; AS_ApproveRefund --&gt; SS_DeductDiamonds
 
     style P_RefundSuccess fill:#1a472a,stroke:#2d8a50,color:#fff
     style P_RefundDenied fill:#4a1a1a,stroke:#8a2d2d,color:#fff

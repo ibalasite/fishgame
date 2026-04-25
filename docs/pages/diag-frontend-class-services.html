@@ -103,7 +103,7 @@
 <blockquote><p>來源：FRONTEND.md §game/systems / §game/managers / §network</p></blockquote>
 <div class="diagram-container"><pre class="mermaid">classDiagram
     class NetworkManager {
-        <<singleton>>
+        &lt;&lt;singleton&gt;&gt;
         -static _instance: NetworkManager
         -_colyseusClient: ColyseusClient
         -_httpClient: HttpClient
@@ -157,7 +157,7 @@
     }
 
     class ShootingSystem {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         -_networkManager: NetworkManager
         -_bulletPoolManager: BulletPoolManager
         -_cooldownMap: Map~number_number~
@@ -172,7 +172,7 @@
     }
 
     class FishSystem {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         -_networkManager: NetworkManager
         -_fishPoolManager: FishPoolManager
         -_activeFishes: Map~string_FishNode~
@@ -187,7 +187,7 @@
     }
 
     class WeaponSystem {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         -_networkManager: NetworkManager
         -_currentWeaponId: number
         -_weapons: WeaponConfig[]
@@ -202,7 +202,7 @@
     }
 
     class SkillSystem {
-        <<Component>>
+        &lt;&lt;Component&gt;&gt;
         -_networkManager: NetworkManager
         -_activeSkillId: number
         -_skillCooldowns: Map~number_number~
@@ -217,7 +217,7 @@
     }
 
     class FishPoolManager {
-        <<singleton>>
+        &lt;&lt;singleton&gt;&gt;
         -static _instance: FishPoolManager
         -_pool: NodePool
         -_poolSize: number
@@ -231,7 +231,7 @@
     }
 
     class BulletPoolManager {
-        <<singleton>>
+        &lt;&lt;singleton&gt;&gt;
         -static _instance: BulletPoolManager
         -_pool: NodePool
         -_activeCount: number
@@ -243,7 +243,7 @@
     }
 
     class EffectPoolManager {
-        <<singleton>>
+        &lt;&lt;singleton&gt;&gt;
         -static _instance: EffectPoolManager
         -_hitEffectPool: NodePool
         -_coinEffectPool: NodePool
@@ -255,7 +255,7 @@
     }
 
     class AudioManager {
-        <<singleton>>
+        &lt;&lt;singleton&gt;&gt;
         -static _instance: AudioManager
         -_bgmVolume: number
         -_sfxVolume: number
@@ -271,7 +271,7 @@
     }
 
     class StorageUtils {
-        <<utility>>
+        &lt;&lt;utility&gt;&gt;
         +static save(key: string, value: any) void
         +static load(key: string, defaultValue: any) any
         +static remove(key: string) void
@@ -286,16 +286,16 @@
     NetworkManager "1" *-- "1" HttpClient : owns
     NetworkManager "1" *-- "1" MessageQueue : owns
 
-    ShootingSystem --> NetworkManager : uses
-    FishSystem --> NetworkManager : uses
-    WeaponSystem --> NetworkManager : uses
-    SkillSystem --> NetworkManager : uses
+    ShootingSystem --&gt; NetworkManager : uses
+    FishSystem --&gt; NetworkManager : uses
+    WeaponSystem --&gt; NetworkManager : uses
+    SkillSystem --&gt; NetworkManager : uses
 
-    ShootingSystem --> BulletPoolManager : uses
-    FishSystem --> FishPoolManager : uses
-    ShootingSystem --> EffectPoolManager : uses
+    ShootingSystem --&gt; BulletPoolManager : uses
+    FishSystem --&gt; FishPoolManager : uses
+    ShootingSystem --&gt; EffectPoolManager : uses
 
-    StorageUtils ..> HttpClient : configures token</pre></div></main>
+    StorageUtils ..&gt; HttpClient : configures token</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

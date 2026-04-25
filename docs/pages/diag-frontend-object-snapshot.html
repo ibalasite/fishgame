@@ -103,7 +103,7 @@
 <blockquote><p>來源：FRONTEND.md §狀態分層 / §Colyseus Schemas</p></blockquote>
 <div class="diagram-container"><pre class="mermaid">classDiagram
     class gameController_inst {
-        <<object: GameController>>
+        &lt;&lt;object: GameController&gt;&gt;
         gamePhase = "playing"
         localScore = 1250
         sessionStartTime = 1745510400000
@@ -111,7 +111,7 @@
     }
 
     class networkManager_inst {
-        <<object: NetworkManager>>
+        &lt;&lt;object: NetworkManager&gt;&gt;
         connected = true
         roomId = "room_abc123"
         wsUrl = "ws://game.fishgame.io:3001"
@@ -119,7 +119,7 @@
     }
 
     class colyseusClient_inst {
-        <<object: ColyseusClient>>
+        &lt;&lt;object: ColyseusClient&gt;&gt;
         roomId = "room_abc123"
         reconnectToken = "tok_xyz789"
         sessionId = "sess_00042"
@@ -127,7 +127,7 @@
     }
 
     class hudComponent_inst {
-        <<object: HUDComponent>>
+        &lt;&lt;object: HUDComponent&gt;&gt;
         coinBalance = 5420
         diamondBalance = 120
         jackpotProgress = 0.73
@@ -136,14 +136,14 @@
     }
 
     class fishPoolManager_inst {
-        <<object: FishPoolManager>>
+        &lt;&lt;object: FishPoolManager&gt;&gt;
         poolSize = 100
         activeCount = 42
         preloadComplete = true
     }
 
     class playerState_inst {
-        <<object: PlayerState>>
+        &lt;&lt;object: PlayerState&gt;&gt;
         playerId = "player_00042"
         nickname = "炮手王"
         score = 1250
@@ -153,7 +153,7 @@
     }
 
     class fishState_boss_inst {
-        <<object: FishState>>
+        &lt;&lt;object: FishState&gt;&gt;
         fishId = "fish_boss_001"
         fishType = "boss"
         hp = 3200
@@ -163,22 +163,22 @@
     }
 
     class weaponSystem_inst {
-        <<object: WeaponSystem>>
+        &lt;&lt;object: WeaponSystem&gt;&gt;
         currentWeaponId = 3
         weaponName = "雷霆炮"
         cooldownDuration = 0.8
         bulletCost = 10
     }
 
-    gameController_inst --> networkManager_inst : references
-    gameController_inst --> hudComponent_inst : drives
-    networkManager_inst --> colyseusClient_inst : owns
-    colyseusClient_inst --> playerState_inst : synced from server
-    colyseusClient_inst --> fishState_boss_inst : synced from server
-    fishPoolManager_inst --> fishState_boss_inst : renders
-    hudComponent_inst --> playerState_inst : displays
-    gameController_inst --> weaponSystem_inst : owns
-    gameController_inst --> fishPoolManager_inst : manages</pre></div></main>
+    gameController_inst --&gt; networkManager_inst : references
+    gameController_inst --&gt; hudComponent_inst : drives
+    networkManager_inst --&gt; colyseusClient_inst : owns
+    colyseusClient_inst --&gt; playerState_inst : synced from server
+    colyseusClient_inst --&gt; fishState_boss_inst : synced from server
+    fishPoolManager_inst --&gt; fishState_boss_inst : renders
+    hudComponent_inst --&gt; playerState_inst : displays
+    gameController_inst --&gt; weaponSystem_inst : owns
+    gameController_inst --&gt; fishPoolManager_inst : manages</pre></div></main>
   </div>
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

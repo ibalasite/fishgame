@@ -114,8 +114,8 @@ erDiagram
         VARCHAR_512 suspend_reason NULL
         TINYINT_UNSIGNED vip_tier NOT_NULL "0=無VIP, 1-3=月/季/年"
         DATETIME_3 vip_expires_at NULL
-        BIGINT_UNSIGNED gold_balance NOT_NULL "金幣餘額 >= 0"
-        INT_UNSIGNED diamond_balance NOT_NULL "鑽石餘額 >= 0"
+        BIGINT_UNSIGNED gold_balance NOT_NULL "金幣餘額 &gt;= 0"
+        INT_UNSIGNED diamond_balance NOT_NULL "鑽石餘額 &gt;= 0"
         TINYINT_UNSIGNED failed_login_count NOT_NULL
         DATETIME_3 locked_at NULL
         DATETIME_3 last_login_at NULL

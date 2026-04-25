@@ -160,13 +160,13 @@
     Cloud["☁️ AWS/GCP 東南亞\n低延遲基礎設施"]
     PushNotif["🔔 Push Notification\nFirebase FCM"]
 
-    Player -->|"HTTPS / WSS"| FishGame
-    Operator -->|"HTTPS 管理後台"| FishGame
-    FishGame -->|"Receipt 驗證"| IAP
-    FishGame -->|"事件埋點"| Analytics
-    FishGame -->|"部署執行"| Cloud
-    FishGame -->|"Jackpot 廣播 / 系統通知"| PushNotif
-    PushNotif -->|"Push 通知"| Player</pre></div>
+    Player --&gt;|"HTTPS / WSS"| FishGame
+    Operator --&gt;|"HTTPS 管理後台"| FishGame
+    FishGame --&gt;|"Receipt 驗證"| IAP
+    FishGame --&gt;|"事件埋點"| Analytics
+    FishGame --&gt;|"部署執行"| Cloud
+    FishGame --&gt;|"Jackpot 廣播 / 系統通知"| PushNotif
+    PushNotif --&gt;|"Push 通知"| Player</pre></div>
 <h3>2.2 Container 圖（C4 Level 2）</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
     CocosClient["Cocos Creator 客戶端\nLua / TypeScript"]
@@ -182,19 +182,19 @@
         Redis[("Redis 7\n即時遊戲狀態/Jackpot/Session")]
     end
 
-    CocosClient -->|"HTTPS REST"| APIGateway
-    CocosClient -->|"WSS Colyseus"| GameSvc
-    APIGateway --> AccountSvc
-    APIGateway --> ShopSvc
-    APIGateway --> AdminSvc
-    AccountSvc --> MySQL
-    AccountSvc --> Redis
-    GameSvc --> MySQL
-    GameSvc --> Redis
-    ShopSvc --> MySQL
-    AccountSvc -->|"Feature Flag 查詢"| Unleash
-    GameSvc -->|"Feature Flag 查詢"| Unleash
-    AdminSvc -->|"Feature Flag 管理"| Unleash</pre></div>
+    CocosClient --&gt;|"HTTPS REST"| APIGateway
+    CocosClient --&gt;|"WSS Colyseus"| GameSvc
+    APIGateway --&gt; AccountSvc
+    APIGateway --&gt; ShopSvc
+    APIGateway --&gt; AdminSvc
+    AccountSvc --&gt; MySQL
+    AccountSvc --&gt; Redis
+    GameSvc --&gt; MySQL
+    GameSvc --&gt; Redis
+    ShopSvc --&gt; MySQL
+    AccountSvc --&gt;|"Feature Flag 查詢"| Unleash
+    GameSvc --&gt;|"Feature Flag 查詢"| Unleash
+    AdminSvc --&gt;|"Feature Flag 管理"| Unleash</pre></div>
 <hr>
 <h2>3. Architecture Design</h2>
 <h3>3.1 架構模式</h3>
@@ -298,9 +298,9 @@ Infrastructure      — Repository（MySQL）/ Cache（Redis）/ IAP Client</cod
         IAPReceipt["Receipt Validation"]
     end
 
-    BC_Account -->|"Customer/Supplier\nGame 消費 Account 的用戶 Token"| BC_Game
-    BC_Commerce -->|"Conformist\n遵從 IAP Platform 的回條格式"| BC_IAP
-    BC_Game -->|"Published Language\nDomain Event 通知 Commerce 結算"| BC_Commerce</pre></div>
+    BC_Account --&gt;|"Customer/Supplier\nGame 消費 Account 的用戶 Token"| BC_Game
+    BC_Commerce --&gt;|"Conformist\n遵從 IAP Platform 的回條格式"| BC_IAP
+    BC_Game --&gt;|"Published Language\nDomain Event 通知 Commerce 結算"| BC_Commerce</pre></div>
 <p><strong>Context Map 關係說明</strong></p>
 <table>
 <tr><th>上游 BC</th><th>下游 BC</th><th>整合模式</th><th>說明</th></tr>
@@ -907,19 +907,19 @@ Controller → Service</code></pre>
         Redis[("Redis 7")]
     end
 
-    CocosUI --> NetworkMgr
-    NetworkMgr -->|WSS| ColyseusRoom
-    NetworkMgr -->|HTTPS| AuthMiddleware
-    ColyseusRoom --> RTPEngine
-    ColyseusRoom --> FishSpawner
-    ColyseusRoom --> JackpotService
-    JackpotService --> Redis
-    RTPEngine --> Redis
-    AuthMiddleware --> AccountCtrl
-    AuthMiddleware --> ShopCtrl
-    AccountCtrl --> MySQL
-    ShopCtrl --> MySQL
-    ColyseusRoom --> MySQL</pre></div>
+    CocosUI --&gt; NetworkMgr
+    NetworkMgr --&gt;|WSS| ColyseusRoom
+    NetworkMgr --&gt;|HTTPS| AuthMiddleware
+    ColyseusRoom --&gt; RTPEngine
+    ColyseusRoom --&gt; FishSpawner
+    ColyseusRoom --&gt; JackpotService
+    JackpotService --&gt; Redis
+    RTPEngine --&gt; Redis
+    AuthMiddleware --&gt; AccountCtrl
+    AuthMiddleware --&gt; ShopCtrl
+    AccountCtrl --&gt; MySQL
+    ShopCtrl --&gt; MySQL
+    ColyseusRoom --&gt; MySQL</pre></div>
 <h3>10.2 Sequence Diagram（Happy Path：玩家捕魚流程）</h3>
 <div class="diagram-container"><pre class="mermaid">sequenceDiagram
     participant Client as Cocos Client
@@ -928,16 +928,16 @@ Controller → Service</code></pre>
     participant Redis as Redis
     participant MySQL as MySQL
 
-    Client->>Room: shootFish(fish_id, weapon_type)
-    Room->>RTP: calculateHit(user_id, fish_id, weapon)
-    RTP->>Redis: GET rtp_state:{user_id}
-    Redis-->>RTP: {current_rtp: 87%}
-    RTP-->>Room: HIT (coins: 50)
-    Room->>Redis: INCR jackpot_pool (by 5)
-    Room->>MySQL: INSERT fish_kills (session_id, killer_id, coins=50)
-    Room->>Room: broadcastStateChange()
-    Room-->>Client: FishKilledEvent {winner_id, coins: 50, animation: "EXPLODE"}
-    Room->>Redis: SET rtp_state:{user_id} {current_rtp: 88%}</pre></div>
+    Client-&gt;&gt;Room: shootFish(fish_id, weapon_type)
+    Room-&gt;&gt;RTP: calculateHit(user_id, fish_id, weapon)
+    RTP-&gt;&gt;Redis: GET rtp_state:{user_id}
+    Redis--&gt;&gt;RTP: {current_rtp: 87%}
+    RTP--&gt;&gt;Room: HIT (coins: 50)
+    Room-&gt;&gt;Redis: INCR jackpot_pool (by 5)
+    Room-&gt;&gt;MySQL: INSERT fish_kills (session_id, killer_id, coins=50)
+    Room-&gt;&gt;Room: broadcastStateChange()
+    Room--&gt;&gt;Client: FishKilledEvent {winner_id, coins: 50, animation: "EXPLODE"}
+    Room-&gt;&gt;Redis: SET rtp_state:{user_id} {current_rtp: 88%}</pre></div>
 <h3>10.2b Sequence Diagram（Error Path：RTP 服務降級）</h3>
 <div class="diagram-container"><pre class="mermaid">sequenceDiagram
     participant Client as Cocos Client
@@ -946,14 +946,14 @@ Controller → Service</code></pre>
     participant Redis as Redis
     participant Alert as Alerting
 
-    Client->>Room: shootFish(fish_id, weapon_type)
-    Room->>RTP: calculateHit(user_id, fish_id, weapon)
-    RTP->>Redis: GET rtp_state:{user_id}
-    Redis--xRTP: Connection Timeout (>50ms)
-    RTP->>RTP: Circuit Breaker OPEN
-    RTP-->>Room: DEGRADED_HIT (fixed_rate: 80%)
-    Room->>Alert: RTPServiceDegraded P1 Alert
-    Room-->>Client: FishKilledEvent (degraded mode, no RTP leak)
+    Client-&gt;&gt;Room: shootFish(fish_id, weapon_type)
+    Room-&gt;&gt;RTP: calculateHit(user_id, fish_id, weapon)
+    RTP-&gt;&gt;Redis: GET rtp_state:{user_id}
+    Redis--xRTP: Connection Timeout (&gt;50ms)
+    RTP-&gt;&gt;RTP: Circuit Breaker OPEN
+    RTP--&gt;&gt;Room: DEGRADED_HIT (fixed_rate: 80%)
+    Room-&gt;&gt;Alert: RTPServiceDegraded P1 Alert
+    Room--&gt;&gt;Client: FishKilledEvent (degraded mode, no RTP leak)
     Note over Alert: PagerDuty notified, SRE on-call</pre></div>
 <h3>10.3 Deployment Diagram（k8s 部署拓撲）</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
@@ -978,50 +978,50 @@ Controller → Service</code></pre>
         end
     end
 
-    Internet["Internet\n玩家 HTTPS/WSS"] --> Ingress
-    Ingress -->|/api/*| APIPod1
-    Ingress -->|/api/*| APIPod2
-    Ingress -->|ws://| GamePod1
-    Ingress -->|ws://| GamePod2
-    Ingress -->|ws://| GamePod3
-    APIPod1 --> RDS
-    GamePod1 --> RDS
-    GamePod1 --> ElastiCache
-    APIPod1 --> ElastiCache</pre></div>
+    Internet["Internet\n玩家 HTTPS/WSS"] --&gt; Ingress
+    Ingress --&gt;|/api/*| APIPod1
+    Ingress --&gt;|/api/*| APIPod2
+    Ingress --&gt;|ws://| GamePod1
+    Ingress --&gt;|ws://| GamePod2
+    Ingress --&gt;|ws://| GamePod3
+    APIPod1 --&gt; RDS
+    GamePod1 --&gt; RDS
+    GamePod1 --&gt; ElastiCache
+    APIPod1 --&gt; ElastiCache</pre></div>
 <h3>10.4 State Machine Diagram（GameSession 狀態機）</h3>
 <div class="diagram-container"><pre class="mermaid">stateDiagram-v2
-    [*] --> WAITING: Room Created
-    WAITING --> MATCHING: Player Joins
-    MATCHING --> READY: 4–6 Players Joined
-    MATCHING --> READY: 30s Timeout (Bot Fill)
-    READY --> IN_PROGRESS: Countdown 3s Complete
-    IN_PROGRESS --> JACKPOT: Jackpot Triggered
-    JACKPOT --> IN_PROGRESS: Jackpot Animation Complete
-    IN_PROGRESS --> SETTLING: Time Limit Reached
-    SETTLING --> RESULT: All Balances Updated
-    RESULT --> [*]: Session Closed
-    IN_PROGRESS --> DISCONNECTED: Player WebSocket Drop
-    DISCONNECTED --> IN_PROGRESS: Reconnect Within 30s
-    DISCONNECTED --> IN_PROGRESS: Bot Replace After 30s</pre></div>
+    [*] --&gt; WAITING: Room Created
+    WAITING --&gt; MATCHING: Player Joins
+    MATCHING --&gt; READY: 4–6 Players Joined
+    MATCHING --&gt; READY: 30s Timeout (Bot Fill)
+    READY --&gt; IN_PROGRESS: Countdown 3s Complete
+    IN_PROGRESS --&gt; JACKPOT: Jackpot Triggered
+    JACKPOT --&gt; IN_PROGRESS: Jackpot Animation Complete
+    IN_PROGRESS --&gt; SETTLING: Time Limit Reached
+    SETTLING --&gt; RESULT: All Balances Updated
+    RESULT --&gt; [*]: Session Closed
+    IN_PROGRESS --&gt; DISCONNECTED: Player WebSocket Drop
+    DISCONNECTED --&gt; IN_PROGRESS: Reconnect Within 30s
+    DISCONNECTED --&gt; IN_PROGRESS: Bot Replace After 30s</pre></div>
 <h3>10.5b Use Case Diagram</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
     Player["👤 玩家"]
     Operator["👤 運營管理員"]
 
-    Player --> UC1["帳號註冊/登入"]
-    Player --> UC2["進入競技房間"]
-    Player --> UC3["射擊/使用技能"]
-    Player --> UC4["購買鑽石/武器"]
-    Player --> UC5["訂閱 VIP"]
-    Player --> UC6["年齡驗證"]
-    Operator --> UC7["設定活動/數值"]
-    Operator --> UC8["查看 KPI Dashboard"]
-    Operator --> UC9["玩家帳號管理"]
+    Player --&gt; UC1["帳號註冊/登入"]
+    Player --&gt; UC2["進入競技房間"]
+    Player --&gt; UC3["射擊/使用技能"]
+    Player --&gt; UC4["購買鑽石/武器"]
+    Player --&gt; UC5["訂閱 VIP"]
+    Player --&gt; UC6["年齡驗證"]
+    Operator --&gt; UC7["設定活動/數值"]
+    Operator --&gt; UC8["查看 KPI Dashboard"]
+    Operator --&gt; UC9["玩家帳號管理"]
 
-    UC2 --> UC1
-    UC3 --> UC2
-    UC4 --> UC1
-    UC5 --> UC1</pre></div>
+    UC2 --&gt; UC1
+    UC3 --&gt; UC2
+    UC4 --&gt; UC1
+    UC5 --&gt; UC1</pre></div>
 <h3>10.6 Class Diagram（Domain Layer — Game BC）</h3>
 <h4>AccountService &amp; ShopService 公開介面定義</h4>
 <pre><code class="language-typescript">// ─── AccountService 公開介面 ───────────────────────────────
@@ -1126,7 +1126,7 @@ interface PaginatedResult&lt;T&gt; {
 <h4>Class Diagram（UML）</h4>
 <div class="diagram-container"><pre class="mermaid">classDiagram
     class IRTPEngine {
-        <<interface>>
+        &lt;&lt;interface&gt;&gt;
         +calculateHit(userId: string, fishId: string, weapon: Weapon): HitResult
         +getRTPState(userId: string): RTPState
     }
@@ -1170,11 +1170,11 @@ interface PaginatedResult&lt;T&gt; {
         +onEscape(): ConsolationReward[]
     }
 
-    IRTPEngine <|.. DefaultRTPEngine
-    IRTPEngine <|.. DegradedRTPEngine
-    FishPoolRoom --> IRTPEngine
-    FishPoolRoom --> JackpotService
-    Fish <|-- BossFish</pre></div>
+    IRTPEngine &lt;|.. DefaultRTPEngine
+    IRTPEngine &lt;|.. DegradedRTPEngine
+    FishPoolRoom --&gt; IRTPEngine
+    FishPoolRoom --&gt; JackpotService
+    Fish &lt;|-- BossFish</pre></div>
 <h3>10.7 Object Diagram（具體物件實例 — 一局遊戲）</h3>
 <div class="diagram-container"><pre class="mermaid">graph LR
     session1["session-001\n(GameSession)\nstatus: IN_PROGRESS\nplayer_count: 5"]
@@ -1183,11 +1183,11 @@ interface PaginatedResult&lt;T&gt; {
     boss1["boss-001\n(BossFish)\ntype: SHARK\nbase_value: 500\nhp: 3"]
     jackpot1["jackpot-001\n(JackpotEvent)\namount: 50000\nwinner: user002"]
 
-    session1 --> player1
-    session1 --> player2
-    session1 --> boss1
-    session1 --> jackpot1
-    player2 --> jackpot1</pre></div>
+    session1 --&gt; player1
+    session1 --&gt; player2
+    session1 --&gt; boss1
+    session1 --&gt; jackpot1
+    player2 --&gt; jackpot1</pre></div>
 <h3>10.8 Communication Diagram（Jackpot 觸發訊息序列）</h3>
 <div class="diagram-container"><pre class="mermaid">sequenceDiagram
     participant Room as FishPoolRoom
@@ -1196,33 +1196,33 @@ interface PaginatedResult&lt;T&gt; {
     participant Commerce as Commerce BC
     participant Analytics as Analytics
 
-    Room->>Jackpot: checkAndTrigger(sessionId, userId)
-    Jackpot->>Redis: EVALSHA lua_jackpot_lock (SETNX jackpot_lock)
-    Redis-->>Jackpot: 1 (鎖取得成功)
-    Jackpot->>Redis: GET jackpot_pool_amount
-    Redis-->>Jackpot: 50000
-    Jackpot->>Redis: SET jackpot_pool_amount 1000 (reset)
-    Jackpot-->>Room: JackpotTriggered{winner: userId, amount: 50000}
-    Room->>Commerce: JackpotTriggered Event (via Redis Pub/Sub)
-    Commerce->>MySQL: UPDATE users SET gold_balance += 50000
-    Room->>Analytics: jackpot_triggered Event
-    Room->>Room: broadcastJackpotAnimation()</pre></div>
+    Room-&gt;&gt;Jackpot: checkAndTrigger(sessionId, userId)
+    Jackpot-&gt;&gt;Redis: EVALSHA lua_jackpot_lock (SETNX jackpot_lock)
+    Redis--&gt;&gt;Jackpot: 1 (鎖取得成功)
+    Jackpot-&gt;&gt;Redis: GET jackpot_pool_amount
+    Redis--&gt;&gt;Jackpot: 50000
+    Jackpot-&gt;&gt;Redis: SET jackpot_pool_amount 1000 (reset)
+    Jackpot--&gt;&gt;Room: JackpotTriggered{winner: userId, amount: 50000}
+    Room-&gt;&gt;Commerce: JackpotTriggered Event (via Redis Pub/Sub)
+    Commerce-&gt;&gt;MySQL: UPDATE users SET gold_balance += 50000
+    Room-&gt;&gt;Analytics: jackpot_triggered Event
+    Room-&gt;&gt;Room: broadcastJackpotAnimation()</pre></div>
 <h3>10.9 Activity Diagram（IAP 購買流程）</h3>
 <div class="diagram-container"><pre class="mermaid">graph TD
-    Start([玩家點擊購買]) --> SelectProduct[選擇鑽石充值包]
-    SelectProduct --> RequestOrder[POST /orders 取得 order_id]
-    RequestOrder --> IAP[調用 IAP SDK 發起支付]
-    IAP --> IAPResult{IAP 回調}
-    IAPResult -->|成功| ValidateReceipt[POST /orders/:id/verify-receipt]
-    IAPResult -->|用戶取消| End1([結束 - 未扣費])
-    IAPResult -->|網路中斷| RetryWithSameOrderId[重試帶相同 order_id]
-    RetryWithSameOrderId --> ValidateReceipt
-    ValidateReceipt --> ServerValidate{伺服器驗證 Receipt}
-    ServerValidate -->|通過| CreditDiamonds[更新 diamond_balance]
-    ServerValidate -->|失敗| PendingRetry[訂單標記 PENDING 異步重試]
-    CreditDiamonds --> NotifyClient[回應 200 + 新鑽石餘額]
-    NotifyClient --> End2([完成])
-    PendingRetry --> End3([提示「支付處理中」])</pre></div>
+    Start([玩家點擊購買]) --&gt; SelectProduct[選擇鑽石充值包]
+    SelectProduct --&gt; RequestOrder[POST /orders 取得 order_id]
+    RequestOrder --&gt; IAP[調用 IAP SDK 發起支付]
+    IAP --&gt; IAPResult{IAP 回調}
+    IAPResult --&gt;|成功| ValidateReceipt[POST /orders/:id/verify-receipt]
+    IAPResult --&gt;|用戶取消| End1([結束 - 未扣費])
+    IAPResult --&gt;|網路中斷| RetryWithSameOrderId[重試帶相同 order_id]
+    RetryWithSameOrderId --&gt; ValidateReceipt
+    ValidateReceipt --&gt; ServerValidate{伺服器驗證 Receipt}
+    ServerValidate --&gt;|通過| CreditDiamonds[更新 diamond_balance]
+    ServerValidate --&gt;|失敗| PendingRetry[訂單標記 PENDING 異步重試]
+    CreditDiamonds --&gt; NotifyClient[回應 200 + 新鑽石餘額]
+    NotifyClient --&gt; End2([完成])
+    PendingRetry --&gt; End3([提示「支付處理中」])</pre></div>
 <h3>10.5 SLO / SLI / Error Budget</h3>
 <p><strong>SLI（量測指標）</strong></p>
 <ul><li><code>availability_sli</code> = 成功請求（2xx/3xx）/ 總請求 × 100%</li><li><code>websocket_latency_p99</code> = WebSocket 遊戲事件 99th percentile 延遲</li><li><code>rest_latency_p99</code> = REST API 回應時間 99th percentile</li><li><code>error_rate</code> = 5xx 錯誤 / 總請求 × 100%</li></ul>
