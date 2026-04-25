@@ -461,24 +461,29 @@ C4Context
 
 **REQ-ID：** US-VIP-001（對應 BRD §5.3 Should Have：VIP 訂閱，BRD O2, O3）
 
-**優先度：** P1（Should Have）｜**T-Shirt Size：M**（IAP 訂閱流 + 等級管理 + 每日補貼發放；依賴 US-SHOP-001 IAP 基礎設施）
+**優先度：** P1（Should Have）｜**T-Shirt Size：M**（鑽石扣款訂閱流 + 等級管理 + 每日補貼發放；依賴 US-SHOP-001 鑽石購買基礎設施）
 
 **User Story：**
 > 作為 **VIP 老闆（Persona B）**，
 > 我希望能 **訂閱月費 VIP 方案，獲得每日鑽石補貼和 VIP 等級光環**，
 > 以便 **彰顯遊戲中的地位，並獲得持續的回報感維持訂閱動機**。
 
+> **設計決策（align-fix 授權）：** VIP 訂閱付費管道由 IAP 外部訂閱（USD 9.99/月）改為平台內鑽石扣款（30 鑽石/月）。
+> 原因：v1 階段鑽石購買已整合 IAP，VIP 以鑽石計費可統一貨幣體系、降低 AppStore/Google Play 訂閱審核複雜度；
+> IAP 直接訂閱管道列 P2 Future Scope（對應 EDD §5.5 vip_subscriptions 及 API.md POST /v1/vip/subscriptions 實作）。
+
 **Acceptance Criteria：**
 
 | REQ-ID / AC# | Given（前提）| When（行動）| Then（結果）| 測試類型 |
 |--------------|-------------|------------|------------|---------|
-| US-VIP-001 / AC-1 | 玩家打開 VIP 訂閱頁面 | 選擇「VIP 月費方案 USD 9.99」並確認訂閱 | IAP 訂閱流程啟動；訂閱成功後 VIP 等級即時顯示（最低 VIP 1），房間內砲台顯示 VIP 光環外觀，當日鑽石補貼 5 顆立即發放 | E2E |
+| US-VIP-001 / AC-1 | 玩家打開 VIP 訂閱頁面，鑽石餘額 ≥ 30 | 選擇「VIP 月費方案（30 鑽石/月）」並確認訂閱 | 系統扣除 30 鑽石，訂閱成功後 VIP 等級即時顯示（最低 VIP 1），房間內砲台顯示 VIP 光環外觀，當日鑽石補貼 5 顆立即發放；資料庫 vip_subscriptions 寫入 diamonds_deducted=30 | E2E |
 | US-VIP-001 / AC-2 | VIP 玩家每日第一次登入 | 進入遊戲大廳 | 自動發放當日 VIP 鑽石補貼（VIP 1：5 顆/天；依等級遞增），發放紀錄存入資料庫，當天不重複發放 | Integration |
 | US-VIP-001 / AC-3 | VIP 訂閱到期未續訂 | 訂閱結束後第二天 | VIP 等級自動降為 0，VIP 光環消失，鑽石補貼停止；顯示「VIP 已到期，點此續訂保持特權」 | Integration |
 
 **邊界條件：**
 - VIP 等級上限：10 級；升級條件由數值策劃設計（累積付費金額 × 訂閱月數）
-- 訂閱退款：依 AppStore/Google Play 退款政策執行，退款後 VIP 立即降級
+- 鑽石不足時訂閱被拒，返回 INSUFFICIENT_DIAMONDS 錯誤（HTTP 402）
+- IAP 直接訂閱管道（USD 9.99/月）列 P2 Future Scope，v1 不實作
 
 ---
 
