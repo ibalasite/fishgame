@@ -19,7 +19,7 @@ Feature: 使用者帳號登入與 JWT 認證
     When 使用者提交 POST /v1/auth/login，email="player-login@example.com"，password="Valid1234!"
     Then API 回應狀態碼 200
     And 回應包含 access_token（JWT，到期時間 15 分鐘）
-    And 回應包含 refresh_token（JWT，到期時間 30 天）
+    And 回應包含 refresh_token（JWT，到期時間 7 天）
     And 資料庫 users.last_login_at 已更新為當前時間
 
   @p0 @smoke @regression @api @contract @TC-INT-ACCT-009-S
@@ -90,5 +90,5 @@ Feature: 使用者帳號登入與 JWT 認證
       | token_type    | elapsed_time | expected_status |
       | access_token  | 14 分鐘      | 200             |
       | access_token  | 16 分鐘      | 401             |
-      | refresh_token | 29 天        | 200             |
-      | refresh_token | 31 天        | 401             |
+      | refresh_token | 6 天         | 200             |
+      | refresh_token | 8 天         | 401             |
